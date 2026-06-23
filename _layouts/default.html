@@ -9,11 +9,31 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f4f4f4; }
 
-    /* --- হেডার --- */
-   .header { background: #C00000; color: white; padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-   .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
-   .logo { height: 45px; }
-   .header-icons i { font-size: 22px; margin-left: 15px; cursor: pointer; }
+    /* --- হেডার সাদা --- */
+.header { 
+  background: #fff; 
+  padding: 8px 15px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+.header-top {
+  background: #fff !important;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  width: 100%;
+}
+.header-icons i { 
+  color: #333; 
+  font-size: 24px; 
+  margin-left: 15px; 
+  cursor: pointer; 
+}
+.logo { height: 45px; width: auto; }
+.home-btn { color: #C00000; font-size: 26px; }
+.menu-btn, .search-btn { color: #333; font-size: 24px; }
 
     /* --- সাইডবার মেনু --- */
    .sidebar { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: #222; color: white; transition: 0.3s; z-index: 1001; padding-top: 60px; }
@@ -91,7 +111,7 @@
   <!-- হেডার -->
   <header class="header">
     <div class="header-top">
-      <i class="fa fa-home" onclick="window.location.href='/'"></i>
+      <i class="fa fa-home home-btn" onclick="window.location.href='/'"></i>
       <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="logo" alt="দৈনিক চালচিত্র">
       <div class="header-icons">
         <i class="fa fa-search" onclick="toggleSearch()"></i>
@@ -133,8 +153,9 @@
     <footer class="footer-main">
   <div class="footer-top">
     <div class="footer-site-name">
-  <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" style="height: 40px; width: auto;"> 
-</div>
+      <i class="fa fa-sun" style="color: #FF8C00; font-size: 32px;"></i>
+      <span>dailychalchitra.com</span>
+    </div>
 
     <div class="footer-categories">
       <a href="/category/সংবাদ">সংবাদ</a>
