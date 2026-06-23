@@ -664,21 +664,29 @@ window.addEventListener('load', function() {
 </script>
 <script>
 window.onload = function() {
-    const blogUrl = 'https://dailychalchitra.blogspot.com/feeds/posts/default?alt=json';
-    
-    fetch(blogUrl)
-      .then(response => {
-          if (!response.ok) {
-              alert("ব্লগার রেসপন্স করেনি, স্ট্যাটাস কোড: " + response.status);
-          }
-          return response.json();
-      })
+    // এখানে RSS2JSON ব্যবহার করছি যা CORS সমস্যা সমাধান করে
+    const blogUrl = 'https://dailychalchitra.blogspot.com';
+    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(blogUrl + '/feeds/posts/default');
+
+    fetch(apiUrl)
+      .then(response => response.json())
       .then(data => {
-          console.log(data); // ব্রাউজার কনসোলে ডাটা চেক করুন
-          alert("ডাটা লোড হয়েছে! পোস্ট সংখ্যা: " + data.feed.entry.length);
+          if (data.status === 'ok') {
+              const container = document.querySelector('.blog-posts');
+              container.innerHTML = ''; // নমুনা পোস্ট মুছে ফেলুন
+              data.items.forEach(item => {
+                  container.innerHTML += `
+                    <article class="post-outer">
+                        <h2 class="post-title">${item.title}</h2>
+                        <div class="post-body">${item.description.substring(0, 100)}... <a href="${item.link}">আরও পড়ুন »</a></div>
+                    </article>`;
+              });
+          } else {
+              console.error("ডেটা পাওয়া যায়নি");
+          }
       })
       .catch(error => {
-          alert("এরর হয়েছে: " + error);
+          console.error("ফেচ এরর:", error);
       });
 };
 </script>
