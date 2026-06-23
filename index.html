@@ -13,7 +13,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 
 <!-- নিচের লাইনটি style.css ফাইলকে যুক্ত করে। এই ফাইল অবশ্যই একই ফোল্ডারে রাখবেন -->
-<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <header id="my-new-header">
@@ -24,23 +23,9 @@
         </a>
     </div> 
     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; min-width: 0; flex-shrink: 0;">
-        <form action="/search" class="search-container" method="get" style="border-radius:3px!important; height:26px!important; padding:0 5px!important; display:flex!important; align-items:center!important; border:1px solid #ccc!important;">
-            <input name="q" placeholder="খুঁজুন..." style="border:none; width:100%; outline:none; font-size:12px!important; background:transparent; height:24px!important; line-height:24px!important;" type="text"/>
-            <button style="background:none; border:none; cursor:pointer; font-size:12px!important; padding:0!important; width:20px!important; height:20px!important;" type="submit">🔍</button>
-        </form>
         <div id="google_translate_element" style="font-size:11px;margin-top:3px;"></div>
     </div>
 </header>
-
-<div style="display:flex;align-items:center;background:#C00000;padding:4px 10px;gap:10px;">
-  <div id="dc-menu-trigger-top" onclick="toggleDcMenu()" style="flex-shrink:0;"><i class="fa fa-bars" style="color:#fff;"></i></div>
-  <div style="overflow:hidden;flex:1;">
-    <div id="news-ticker" style="display:inline-flex;gap:40px;white-space:nowrap;">
-      <span style="color:#FFD700;font-size:12px;">📰 সর্বশেষ পোস্ট এখানে দেখা যাবে</span>
-    </div>
-  </div>
-  <span style="background:#fff;color:#C00000;font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px;white-space:nowrap;flex-shrink:0;">🔴 LIVE</span>
-</div>
 
 <div class="yugantor-style-menu" id="jug-menu-overlay">
     <button class="menu-close-btn" id="close-menu-btn">&#215;</button>
@@ -51,44 +36,12 @@
 
     <ul class="yug-menu-grid">
         <li><a href="/">প্রচ্ছদ</a></li>
-        <!-- Blogger Label1 উইজেট এখানে স্বয়ংক্রিয়ভাবে লেবেলের তালিকা দেখাতো।
-             GitHub Pages-এ এটি অটো হবে না, তাই নিজে লেবেল/ক্যাটাগরি লিংক যুক্ত করুন, যেমন: -->
-        <li><a href="/labels/সংবাদ.html">সংবাদ</a></li>
-        <li><a href="/labels/সাহিত্য.html">সাহিত্য</a></li>
-    </ul>
 </div>
-
-<div class="container main-wrapper">
-  <main class="main-content">
-    <div class="blog-posts hfeed">
-
-      <!-- ============================================================
-           এখানে Blogger-এর b:loop values='data:posts' var='post' ছিল।
-           GitHub Pages স্ট্যাটিক হোস্টিং, তাই পোস্টগুলো অটো লোড হবে না।
-           প্রতিটি পোস্টের জন্য নিচের মতো একটি article ব্লক বসান।
-           এখানে একটি নমুনা/টেমপ্লেট ব্লক রাখা হলো — কপি করে নিজের পোস্ট লিখুন।
-           ============================================================ -->
-
-      <article class="post-outer">
-        <div class="post-thumbnail">
-          <a href="/posts/example-post.html">
-            <img alt="নমুনা পোস্ট" src="https://via.placeholder.com/600x400"/>
-          </a>
-        </div>
-        <h2 class="post-title"><a href="/posts/example-post.html">নমুনা পোস্ট শিরোনাম</a></h2>
-        <div class="post-body">
-          <span class="post-labels">
-            <a href="/labels/সংবাদ.html" rel="tag">সংবাদ</a>
-          </span>
-          এখানে পোস্টের সংক্ষিপ্ত বিবরণ (snippet) লিখুন।
-          <a class="read-more" href="/posts/example-post.html">আরও পড়ুন »</a>
-        </div>
-      </article>
-
-    </div>
-  </main>
-</div>
-
+<main style="max-width:900px;margin:20px auto;padding:0 15px;">
+  <div id="blog-posts-container">
+    <p style="text-align:center;padding:40px;color:#999;">পোস্ট লোড হচ্ছে...</p>
+  </div>
+</main>
 <footer style="background-color: #f8f8f8; padding: 30px 15px; text-align: center; border-top: 3px solid #C00000; font-family: Hind Siliguri, sans-serif; color: #333;">
 
   <div style="margin-bottom: 25px; padding-top: 5px;">
@@ -664,6 +617,50 @@ window.addEventListener('load', function() {
   setTimeout(buildDainikMeta, 800);
 });
 </script>
+<script>
+//<![CDATA[
+function loadBloggerPosts(){
+  var blogId='4135877478545229144';
+  var script=document.createElement('script');
+  script.src='https://www.blogger.com/feeds/'+blogId+'/posts/summary?alt=json-in-script&callback=showPosts&max-results=10';
+  script.onerror=function(){
+    document.getElementById('blog-posts-container').innerHTML='<p style="text-align:center;padding:40px;color:red;">পোস্ট লোড করতে সমস্যা হয়েছে। Blogger > Settings > Site feed = Full আছে কিনা চেক করেন।</p>';
+  };
+  document.head.appendChild(script);
+}
 
+window.showPosts=function(json){
+  var container=document.getElementById('blog-posts-container');
+  if(!container)return;
+  var posts=json.feed.entry;
+  if(!posts||posts.length==0){
+    container.innerHTML='<p style="text-align:center;padding:20px;">কোনো পোস্ট পাওয়া যায়নি।</p>';
+    return;
+  }
+  var html='';
+  for(var i=0;i<posts.length;i++){
+    var entry=posts[i];
+    var title=entry.title.$t;
+    var link='';
+    for(var j=0;j<entry.link.length;j++){
+      if(entry.link[j].rel=='alternate'){link=entry.link[j].href;break;}
+    }
+    var summary=entry.summary?entry.summary.$t.replace(/<[^>]*>/g,'').substring(0,150):'';
+    var date=new Date(entry.published.$t).toLocaleDateString('bn-BD');
+    var thumb=entry.media$thumbnail?entry.media$thumbnail.url.replace('s72-c','s400'):'https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png';
+    var label=entry.category?entry.category[0].term:'সংবাদ';
+
+    html+='<article style="background:#fff;margin:0 0 20px 0;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;"><a href="'+link+'" style="text-decoration:none;color:inherit;"><img src="'+thumb+'" style="width:100%;height:220px;object-fit:cover;"><div style="padding:15px;"><span style="background:#C00000;color:#fff;padding:3px 10px;border-radius:3px;font-size:12px;display:inline-block;margin-bottom:10px;">'+label+'</span><h2 style="font-size:20px;margin:0 0 10px 0;font-weight:700;line-height:1.4;color:#1a1a1a;">'+title+'</h2><p style="font-size:15px;color:#555;margin:0 0 12px 0;line-height:1.6;">'+summary+'...</p><div style="font-size:13px;color:#777;border-top:1px solid #f0f0f0;padding-top:10px;">প্রকাশ: '+date+' | <b>আরও পড়ুন »</b></div></div></a></article>';
+  }
+  container.innerHTML=html;
+}
+
+if(document.readyState=='loading'){
+  document.addEventListener('DOMContentLoaded',loadBloggerPosts);
+}else{
+  loadBloggerPosts();
+}
+//]]>
+</script>
 </body>
 </html>
