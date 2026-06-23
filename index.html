@@ -663,42 +663,35 @@ window.addEventListener('load', function() {
 });
 </script>
 <script>
-  // আপনার ব্লগের ইউআরএল
+async function loadBloggerPosts() {
   const blogUrl = 'https://dailychalchitra.blogspot.com';
-  // RSS2JSON এর মাধ্যমে ফিড কল করা
-  const feedApi = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(blogUrl + '/feeds/posts/default');
-
-  async function loadPosts() {
-    try {
-      const response = await fetch(feedApi);
-      const data = await response.json();
-      
+  const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(blogUrl + '/feeds/posts/default');
+  
+  try {
+    const response = await fetch(feedUrl);
+    const data = await response.json();
+    
+    if (data.status === 'ok') {
       const container = document.querySelector('.blog-posts');
-      if (!container) return;
-      
-      container.innerHTML = ''; // আগের নমুনা লেখা মুছে ফেলা
-
-      data.items.forEach(post => {
-        const postHTML = `
-          <article class="post-outer">
-            <div class="post-thumbnail">
-              <a href="${post.link}"><img src="${post.thumbnail}" alt="${post.title}"></a>
-            </div>
-            <h2 class="post-title"><a href="${post.link}">${post.title}</a></h2>
-            <div class="post-body">
-              ${post.description.substring(0, 150)}... 
-              <br><a class="read-more" href="${post.link}">আরও পড়ুন »</a>
-            </div>
-          </article>`;
-        container.innerHTML += postHTML;
-      });
-    } catch (error) {
-      console.error("পোস্ট লোড করতে ব্যর্থ:", error);
+      if (container) {
+        container.innerHTML = ''; // নমুনা পোস্ট মুছে ফেলা
+        data.items.forEach(post => {
+          container.innerHTML += `
+            <article class="post-outer">
+              <div class="post-thumbnail"><a href="${post.link}"><img src="${post.thumbnail}" alt="${post.title}"></a></div>
+              <h2 class="post-title"><a href="${post.link}">${post.title}</a></h2>
+              <div class="post-body">${post.description.substring(0, 150)}... <a href="${post.link}">আরও পড়ুন »</a></div>
+            </article>`;
+        });
+      }
+    } else {
+      console.error("ডেটা লোড হয়নি, ব্লগার সেটিংসে Site Feed 'Full' চেক করুন।");
     }
+  } catch (e) {
+    console.error("এরর হয়েছে:", e);
   }
-
-  loadPosts();
+}
+window.onload = loadBloggerPosts;
 </script>
-
 </body>
 </html>
