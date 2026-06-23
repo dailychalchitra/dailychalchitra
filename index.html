@@ -585,7 +585,14 @@ function googleTranslateElementInit() {
         <div id='google_translate_element' style='font-size:11px;margin-top:3px;'></div>
     </div>
 </header>
+<main style="max-width:900px;margin:20px auto;padding:0 15px;">
 
+  <!-- পোস্টগুলো এখানে লোড হবে -->
+  <div id="blog-posts-container">
+    <p style="text-align:center;padding:40px;color:#999;">পোস্ট লোড হচ্ছে...</p>
+  </div>
+
+</main>
 <div style='display:flex;align-items:center;background:#C00000;padding:4px 10px;gap:10px;'>
   <div id='dc-menu-trigger' onclick='toggleDcMenu()' style='flex-shrink:0;'><i class='fa fa-bars' style='color:#fff;'></i></div>
   <div style='overflow:hidden;flex:1;'>
@@ -1741,6 +1748,57 @@ function renderMeta(postTitle, postAuthor, category, postDate) {
 window.addEventListener('load', function() {
   setTimeout(buildDainikMeta, 800);
 });
+//]]>
+</script>
+<script>
+//<![CDATA[
+// Blogger থেকে পোস্ট লোড করার স্ক্রিপ্ট
+function loadBloggerPosts() {
+  var blogUrl = 'https://dailychalchitra.blogspot.com';
+  var feedUrl = blogUrl + '/feeds/posts/summary?alt=json&max-results=10';
+
+  fetch(feedUrl)
+  .then(res => res.json())
+  .then(data => {
+      var container = document.getElementById('blog-posts-container');
+      var posts = data.feed.entry;
+      if(!posts) {
+        container.innerHTML = '<p style="text-align:center;padding:20px;">কোনো পোস্ট পাওয়া যায়নি।</p>';
+        return;
+      }
+
+      var html = '';
+      posts.forEach(entry => {
+        var title = entry.title.$t;
+        var link = entry.link.find(l => l.rel === 'alternate').href;
+        var summary = entry.summary? entry.summary.$t : '';
+        var author = entry.author[0].name.$t;
+        var date = new Date(entry.published.$t).toLocaleDateString('bn-BD');
+        var thumb = entry.media$thumbnail? entry.media$thumbnail.url.replace('s72-c','s400') : 'https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png';
+
+        html += `
+        <article style="background:#fff;margin:0 0 20px 0;border:1px solid #eee;border-radius:8px;overflow:hidden;box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+          <a href="${link}" style="text-decoration:none;color:inherit;">
+            <img src="${thumb}" style="width:100%;height:200px;object-fit:cover;">
+            <div style="padding:15px;">
+              <h2 style="font-size:20px;color:#000;margin:0 0 10px 0;line-height:1.4;">${title}</h2>
+              <p style="font-size:15px;color:#555;margin:0 0 10px 0;line-height:1.6;">${summary.substring(0,150)}...</p>
+              <div style="font-size:13px;color:#777;">
+                <span>লেখক: ${author}</span> |
+                <span>প্রকাশ: ${date}</span>
+              </div>
+            </div>
+          </a>
+        </article>`;
+      });
+      container.innerHTML = html;
+    })
+  .catch(err => {
+      document.getElementById('blog-posts-container').innerHTML = '<p style="color:red;text-align:center;">পোস্ট লোড করতে সমস্যা হয়েছে</p>';
+      console.log(err);
+    });
+}
+document.addEventListener('DOMContentLoaded', loadBloggerPosts);
 //]]>
 </script>
 </body>
