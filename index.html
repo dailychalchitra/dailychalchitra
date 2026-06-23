@@ -662,6 +662,31 @@ window.addEventListener('load', function() {
   setTimeout(buildDainikMeta, 800);
 });
 </script>
+<script>
+async function loadBloggerPosts() {
+  const blogUrl = 'https://dailychalchitra.blogspot.com'; // আপনার সঠিক ব্লগের ইউআরএল
+  const feedUrl = `https://api.rss2json.com/v1/api.json?rss_url=${blogUrl}/feeds/posts/default`;
+  
+  try {
+    const response = await fetch(feedUrl);
+    const data = await response.json();
+    const container = document.querySelector('.blog-posts');
+    container.innerHTML = ''; // নমুনা পোস্ট মুছে ফেলা
 
+    data.items.forEach(post => {
+      const article = `
+        <article class="post-outer">
+          <div class="post-thumbnail"><a href="${post.link}"><img src="${post.thumbnail}" alt="${post.title}"></a></div>
+          <h2 class="post-title"><a href="${post.link}">${post.title}</a></h2>
+          <div class="post-body">${post.description.substring(0, 150)}... <a href="${post.link}">আরও পড়ুন »</a></div>
+        </article>`;
+      container.innerHTML += article;
+    });
+  } catch (e) {
+    console.log("পোস্ট লোড করা সম্ভব হয়নি।");
+  }
+}
+window.onload = loadBloggerPosts;
+</script>
 </body>
 </html>
