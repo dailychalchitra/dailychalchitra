@@ -561,3 +561,15 @@ a.read-more {
 #news-ticker a {
   font-size:12px;text-decoration:none;
 }
+/* ব্লগ পোস্ট কন্টেন্ট এরিয়া ঠিক করার জন্য */
+.blog-posts {
+    display: block !important;
+    min-height: 500px !important;
+    padding: 20px !important;
+    width: 100% !important;
+}
+.post-outer {
+    margin-bottom: 30px !important;
+    border-bottom: 1px solid #eee !important;
+    padding-bottom: 20px !important;
+}
