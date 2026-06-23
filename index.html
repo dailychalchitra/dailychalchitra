@@ -663,30 +663,42 @@ window.addEventListener('load', function() {
 });
 </script>
 <script>
-async function loadBloggerPosts() {
-  const blogUrl = 'https://dailychalchitra.blogspot.com'; // আপনার সঠিক ব্লগের ইউআরএল
-  const feedUrl = `https://api.rss2json.com/v1/api.json?rss_url=${blogUrl}/feeds/posts/default`;
-  
-  try {
-    const response = await fetch(feedUrl);
-    const data = await response.json();
-    const container = document.querySelector('.blog-posts');
-    container.innerHTML = ''; // নমুনা পোস্ট মুছে ফেলা
+  // আপনার ব্লগের ইউআরএল
+  const blogUrl = 'https://dailychalchitra.blogspot.com';
+  // RSS2JSON এর মাধ্যমে ফিড কল করা
+  const feedApi = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(blogUrl + '/feeds/posts/default');
 
-    data.items.forEach(post => {
-      const article = `
-        <article class="post-outer">
-          <div class="post-thumbnail"><a href="${post.link}"><img src="${post.thumbnail}" alt="${post.title}"></a></div>
-          <h2 class="post-title"><a href="${post.link}">${post.title}</a></h2>
-          <div class="post-body">${post.description.substring(0, 150)}... <a href="${post.link}">আরও পড়ুন »</a></div>
-        </article>`;
-      container.innerHTML += article;
-    });
-  } catch (e) {
-    console.log("পোস্ট লোড করা সম্ভব হয়নি।");
+  async function loadPosts() {
+    try {
+      const response = await fetch(feedApi);
+      const data = await response.json();
+      
+      const container = document.querySelector('.blog-posts');
+      if (!container) return;
+      
+      container.innerHTML = ''; // আগের নমুনা লেখা মুছে ফেলা
+
+      data.items.forEach(post => {
+        const postHTML = `
+          <article class="post-outer">
+            <div class="post-thumbnail">
+              <a href="${post.link}"><img src="${post.thumbnail}" alt="${post.title}"></a>
+            </div>
+            <h2 class="post-title"><a href="${post.link}">${post.title}</a></h2>
+            <div class="post-body">
+              ${post.description.substring(0, 150)}... 
+              <br><a class="read-more" href="${post.link}">আরও পড়ুন »</a>
+            </div>
+          </article>`;
+        container.innerHTML += postHTML;
+      });
+    } catch (error) {
+      console.error("পোস্ট লোড করতে ব্যর্থ:", error);
+    }
   }
-}
-window.onload = loadBloggerPosts;
+
+  loadPosts();
 </script>
+
 </body>
 </html>
