@@ -1,36 +1,378 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <title>দৈনিক চালচিত্র</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- হেডার অংশ -->
-    <header id="my-new-header">
-        <!-- আপনার হেডার কোড এখানে থাকবে -->
-    </header>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport"/> 
+    <meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLBgzYAsj__Mfk5oPxIQHyn-Bl__NTGkee0ESlDTQNyP_HtgTeKfSRAgi7Giuay5aBv-dGhwhR9eFp20IOlu7FuHmOtUMiph6Gl27wG0sJf3y82jTaTGiRRSsZWcLWIbobcyGFYTynyBGHz6KxR0IvfRCOUSzVEUjiHVK8y4eGsx3_gyX3k6BYWVAZ6fJO/s1200/Daily-Chalchitra-og.png" property="og:image"/> 
 
-    <!-- মূল পোস্টের জায়গা -->
-    <div class="blog-posts">
-        <article class="post-outer">
-            <h2 class="post-title">স্বাগতম আমাদের নতুন সাইটে</h2>
-            <div class="post-body">
-                এখানে আপনার ব্লগের নতুন নতুন খবর নিয়মিত আপডেট করা হবে। দয়া করে প্রতিদিন আমাদের সাথেই থাকুন।
-            </div>
-        </article>
-        
-        <article class="post-outer">
-            <h2 class="post-title">সহযোগিতার জন্য ধন্যবাদ</h2>
-            <div class="post-body">
-                দৈনিক চালচিত্র সবসময় আপনাদের সাথে আছে। সত্য প্রকাশে আমরা অবিচল।
-            </div>
-        </article>
+    <title>দৈনিক চালচিত্র</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Kalpurush&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/> 
+
+    <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+    <header id="my-new-header">
+        <div style="display: flex; align-items: center; min-width: 0; flex-shrink: 1;">
+            <a href="/" style="text-decoration: none; color: #002d62; font-size: 40px; margin-right: 15px;">🏠</a>
+            <a href="/">
+                <img alt="দৈনিক চালচিত্র" src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"/>
+            </a>
+        </div> 
+
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; min-width: 0; flex-shrink: 0;">
+            <form action="/search" class="search-container" method="get" style="border-radius:3px!important; height:26px!important; padding:0 5px!important; display:flex!important; align-items:center!important; border:1px solid #ccc!important;">
+                <input name="q" placeholder="খুঁজুন..." style="border:none; width:100%; outline:none; font-size:12px!important; background:transparent; height:24px!important; line-height:24px!important;" type="text"/>
+                <button style="background:none; border:none; cursor:pointer; font-size:12px!important; padding:0!important; width:20px!important; height:20px!important;" type="submit">🔍</button>
+            </form>
+            <div id="google_translate_element" style="font-size:11px;margin-top:3px;"></div>
+        </div>
+    </header>
+<div style="display:flex; align-items:center; background:#C00000; padding:4px 10px; gap:10px;">
+  <div id="dc-menu-trigger-top" onclick="toggleDcMenu()" style="flex-shrink:0; cursor:pointer;">
+      <i class="fa fa-bars" style="color:#fff;"></i>
+  </div>
+  <div style="overflow:hidden; flex:1;">
+    <div id="news-ticker" style="display:inline-flex; gap:40px; white-space:nowrap;">
+      <span style="color:#FFD700; font-size:12px;">📰 সর্বশেষ পোস্ট এখানে দেখা যাবে</span>
+    </div>
+  </div>
+  <span style="background:#fff; color:#C00000; font-size:11px; font-weight:700; padding:2px 8px; border-radius:3px; white-space:nowrap; flex-shrink:0;">🔴 LIVE</span>
+</div> 
+
+<div class="yugantor-style-menu" id="jug-menu-overlay">
+    <button class="menu-close-btn" id="close-menu-btn">&#215;</button>
+    <div style="text-align: center; margin: 25px 0;">
+        <img alt="দৈনিক চালচিত্র" src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" style="max-width: 170px; height: auto;"/>
+    </div> 
+    <ul class="yug-menu-grid">
+        <li><a href="/">প্রচ্ছদ</a></li>
+        <li><a href="/labels/সংবাদ.html">সংবাদ</a></li>
+        <li><a href="/labels/সাহিত্য.html">সাহিত্য</a></li>
+    </ul>
+</div> 
+
+<div class="container main-wrapper">
+  <main class="main-content">
+    <div class="blog-posts hfeed"> 
+      <article class="post-outer">
+        <div class="post-thumbnail">
+          <a href="/posts/example-post.html">
+            <img alt="নমুনা পোস্ট" src="https://via.placeholder.com/600x400"/>
+          </a>
+        </div>
+        <h2 class="post-title"><a href="/posts/example-post.html">নমুনা পোস্ট শিরোনাম</a></h2>
+        <div class="post-body">
+          <span class="post-labels"><a href="/labels/সংবাদ.html" rel="tag">সংবাদ</a></span>
+          এখানে পোস্টের সংক্ষিপ্ত বিবরণ লিখুন।
+          <a class="read-more" href="/posts/example-post.html">আরও পড়ুন »</a>
+        </div>
+      </article> 
+    </div>
+  </main>
+</div> 
+
+<footer style="background-color: #f8f8f8; padding: 30px 15px; text-align: center; border-top: 3px solid #C00000; font-family: 'Hind Siliguri', sans-serif; color: #333;"> 
+  <div style="margin-bottom: 25px;">
+    <span style="font-size: 40px; color: #ff5722; vertical-align: middle; margin-right: 10px;">☀</span> 
+    <span style="font-size: 28px; font-weight: bold; color: #800000; vertical-align: middle;">dailychalchitra.com</span>
+  </div> 
+
+  <div style="font-size: 16px; margin-bottom: 25px; line-height: 2.2; display: flex; flex-wrap: wrap; justify-content: center; max-width: 900px; margin: 0 auto;">
+    <a href="/labels/সংবাদ.html" style="color: #333; text-decoration: none; margin: 0 12px;">সংবাদ</a>
+    <a href="/labels/কিশোর-আলো.html" style="color: #333; text-decoration: none; margin: 0 12px;">কিশোর আলো</a>
+    <a href="/labels/বিজ্ঞানচিন্তা.html" style="color: #333; text-decoration: none; margin: 0 12px;">বিজ্ঞানচিন্তা</a>
+    <a href="/labels/চাকরি.html" style="color: #333; text-decoration: none; margin: 0 12px;">চাকরি</a>
+    <a href="/labels/সাহিত্য.html" style="color: #333; text-decoration: none; margin: 0 12px;">সাহিত্য</a>
+  </div>
+
+  <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px auto; max-width: 800px;"/> 
+
+  <p style="font-size: 18px; margin: 15px 0 10px 0; font-weight: 600;">অনুসরণ করুন</p>
+  <div style="margin-bottom: 25px;">
+    <a href="https://www.facebook.com/nimushamim" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" style="width: 40px; margin: 0 8px;"/></a>
+    <a href="https://www.instagram.com/shamimnimu" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" style="width: 40px; margin: 0 8px;"/></a>
+    <a href="https://www.youtube.com/@shamimnimu" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" style="width: 40px; margin: 0 8px;"/></a>
+  </div> 
+
+  <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px auto; max-width: 800px;"/> 
+
+  <div style="font-size: 14px; margin-bottom: 20px;">
+    <a href="/pages/about.html" style="margin: 0 10px; color: #555; text-decoration: none;">আমাদের সম্পর্কে</a>
+    <a href="/pages/contact.html" style="margin: 0 10px; color: #555; text-decoration: none;">যোগাযোগ</a>
+  </div>
+  <p style="font-size: 13px; color: #666;">২০১৯-২০২৬ © দৈনিক চালচিত্র কর্তৃক সর্বস্বত্ব সংরক্ষিত</p>
+  <p style="font-size: 13px; color: #666;">সম্পাদক ও প্রকাশক: <strong>শামীম নিমু</strong></p>
+</footer>
+<div id="dc-menu-trigger" onclick="toggleDcMenu()"><i class="fa fa-bars"></i></div>
+<div id="dc-overlay" onclick="toggleDcMenu()"></div>
+
+<div id="dc-side-menu">
+  <div class="dc-menu-header">
+    <img alt="দৈনিক চালচিত্র" src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"/>
+    <form action="/search" class="dc-header-search" method="get">
+      <input name="q" placeholder="সার্চ করুন..." type="text"/>
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+    <button class="dc-close-btn" onclick="toggleDcMenu()">&#215;</button>
+  </div>
+
+  <div class="dc-acc-list">
+    <div class="dc-acc-item"><a class="dc-acc-title" href="/">প্রচ্ছদ</a></div>
+    <div class="dc-acc-item"><a class="dc-acc-title" href="/labels/সর্বশেষ.html">সর্বশেষ</a></div>
+
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">▶️ বাংলাদেশ <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/রাজধানী.html">▫️রাজধানী</a>
+        <a href="/labels/জেলা.html">▫️জেলা</a>
+        <a href="/labels/পরিবেশ.html">▫️পরিবেশ</a>
+        <a href="/labels/অপরাধ.html">▫️অপরাধ</a>
+      </div>
     </div>
 
-    <!-- ফুটার অংশ -->
-    <footer>
-        <!-- আপনার ফুটার কোড এখানে থাকবে -->
-    </footer>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">▶️ বিশ্ব <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/ভারত.html">▫️ভারত</a>
+        <a href="/labels/পাকিস্তান.html">▫️পাকিস্তান</a>
+        <a href="/labels/যুক্তরাষ্ট্র.html">▫️যুক্তরাষ্ট্র</a>
+        <a href="/labels/ইউরোপ.html">▫️ইউরোপ</a>
+      </div>
+    </div>
+
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">▶️ সাহিত্য বিভাগ <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/পদ্য-কবিতা.html">🔷কবিতা</a>
+        <a href="/labels/ছোট-গল্প.html">🔷গল্প</a>
+        <a href="/labels/প্রবন্ধ-ও-নিবন্ধ.html">🔷প্রবন্ধ ও নিবন্ধ</a>
+        <a href="/labels/উপন্যাস.html">🔷উপন্যাস</a>
+      </div>
+    </div>
+
+    <a class="dc-acc-title" href="/pages/blog-page_151.html">▶️ লেখক তালিকা</a>
+  </div> 
+
+  <div class="dc-social-icons" style="padding:15px; text-align:center; border-top:1px solid #eee;">
+    <h3 style="font-size:16px; color:#C00000; margin-bottom:10px;">আমাদের সাথে যুক্ত থাকুন</h3>
+    <a href="https://www.facebook.com/nimushamim" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://wa.me/96893815016" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.youtube.com/@shamimnimu" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="https://x.com/ShamimnimuP" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+  </div>
+
+  <div style="text-align:center; font-size:12px; color:#666; line-height:1.8; padding:10px;">
+    <p>২০১৯-২০২৬ © দৈনিক চালচিত্র কর্তৃক সর্বস্বত্ব সংরক্ষিত</p>
+    <p><b>সম্পাদক ও প্রকাশক:</b> শামীম নিমু</p>
+    <p><b>G-mail:</b> nimushamim46@gmail.com</p>
+  </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
+    authDomain: "daily-chalchitra-60994.firebaseapp.com",
+    databaseURL: "https://daily-chalchitra-60994-default-rtdb.firebaseio.com",
+    projectId: "daily-chalchitra-60994"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+</script>
+/* --- গুগল ট্রান্সলেট এবং মেনু টগল --- */
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'bn',
+    includedLanguages: 'en,ar,zh-CN,fr,de,hi,ja,ko,pt,ru,es,tr,ur,it,nl,pl,sv,th,vi,id,ms,ta,bn,ne,si,my,km,ka,sw,yo,ha,zu,af,sq,hy,az,bg,ca,hr,et,gl,lv,lt,mk,sr,sl,uk,cy',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+function toggleDcMenu() {
+  document.getElementById('dc-side-menu').classList.toggle('active');
+  document.getElementById('dc-overlay').classList.toggle('active');
+  document.body.classList.toggle('dc-menu-open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // সাইডবার অ্যাকর্ডিয়ন
+  var accItems = document.querySelectorAll('#dc-side-menu .dc-acc-item > .dc-acc-title');
+  accItems.forEach(function(item) {
+    if (item.nextElementSibling && item.nextElementSibling.classList.contains('dc-acc-content')) {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        var parent = this.parentElement;
+        var siblings = parent.parentElement.querySelectorAll(':scope > .dc-acc-item');
+        siblings.forEach(function(sib) { if (sib !== parent) sib.classList.remove('active'); });
+        parent.classList.toggle('active');
+      });
+    }
+  });
+
+  // মেনু ক্লোজ বাটন
+  var closeBtn = document.getElementById('close-menu-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      document.getElementById('jug-menu-overlay').classList.remove('active');
+    });
+  }
+});
+
+/* --- নিউজ টিকার --- */
+function dcManualTicker() {
+  var ticker = document.getElementById('news-ticker');
+  if (!ticker) return;
+  var posts = [{ title: 'এখানে প্রথম পোস্টের শিরোনাম দিন', url: '/posts/example-post.html' }];
+  
+  if (posts.length > 0) {
+    var colors = ['#fff', '#90EE90', '#FFD700', '#87CEEB'];
+    var html = posts.map((p, i) => `<a href="${p.url}" style="color:${colors[i % colors.length]};margin-right:40px;">📰 <b style="color:#FFD700;">সর্বশেষ:</b> ${p.title}</a>`).join('');
+    ticker.innerHTML = html + html;
+  } else {
+    ticker.innerHTML = '<a href="/" style="color:#fff;font-size:12px;">🌟 দৈনিক চালচিত্রে আপনাকে স্বাগতম</a>';
+  }
+}
+document.addEventListener('DOMContentLoaded', dcManualTicker);
+
+/* --- লেখক প্রোফাইল সেকশন --- */
+var authorData = {
+  'শামীম নিমু': {
+    img: 'https://i.ibb.co/DHkSf7Sg/Shamim-Nimu-jpg.jpg',
+    bio: 'কবি ও কথাসাহিত্যিক মোঃ শামীম প্রামানিক... (আপনার আগের দেওয়া বায়ো এখানে থাকবে)'
+  },
+  // অন্যান্য লেখকের তথ্য এখানে একইভাবে থাকবে...
+};
+
+function showAuthorProfileOnLabelPage() {
+  var blogPosts = document.querySelector('.blog-posts');
+  if (!blogPosts) return;
+  
+  var url = decodeURIComponent(window.location.href);
+  if (url.indexOf('/labels/') === -1) return;
+  
+  var authorName = url.split('/labels/')[1].split('.html')[0].split('?')[0].trim();
+  if (authorData[authorName] && !document.querySelector('#authorProfileBox')) {
+    var data = authorData[authorName];
+    var box = `
+      <div id="authorProfileBox">
+        <style>
+          #authorProfileBox .apb-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #c00; margin: 0 auto 12px; display: block; }
+          #authorProfileBox .apb-name { margin: 0 0 10px; color: #c00; font-size: 22px; }
+          #authorProfileBox .apb-bio { font-size: 13px; line-height: 1.6; color: #333; text-align: left; }
+        </style>
+        <div style="border:2px solid #c00;padding:16px;margin:15px 0 30px;border-radius:12px;background:#fff5f5;">
+          <div style="text-align:center;">
+            ${data.img ? `<img class="apb-img" src="${data.img}">` : ''}
+            <h1 class="apb-name">${authorName}</h1>
+            <div class="apb-bio">${data.bio}</div>
+          </div>
+        </div>
+      </div>`;
+    blogPosts.insertAdjacentHTML('afterbegin', box);
+  }
+}
+document.addEventListener('DOMContentLoaded', showAuthorProfileOnLabelPage);
+/* --- লেখক প্রোফাইল ও মেটা রেন্ডারিং স্ক্রিপ্ট --- */
+<script>
+// ১. লেখক প্রোফাইল রেন্ডারার
+function showAuthorProfileOnLabelPage() {
+    var blogPosts = document.querySelector('.blog-posts');
+    if (!blogPosts) return;
+
+    var url = decodeURIComponent(window.location.href);
+    if (!url.includes('/labels/')) return;
+
+    var authorName = url.split('/labels/')[1].split('.html')[0].split('?')[0].trim();
+
+    if (authorData[authorName] && !document.getElementById('authorProfileBox')) {
+        var data = authorData[authorName];
+        var box = `
+        <div id="authorProfileBox">
+            <style>
+                #authorProfileBox .apb-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #c00; margin: 0 auto 12px; display: block; }
+                #authorProfileBox .apb-name { margin: 0 0 10px; color: #c00; font-size: 22px; }
+                #authorProfileBox .apb-bio { font-size: 13px; line-height: 1.6; color: #333; text-align: left; }
+            </style>
+            <div style="border:2px solid #c00;padding:16px;margin:15px 0 30px;border-radius:12px;background:#fff5f5;">
+                <div style="text-align:center;">
+                    ${data.img ? `<img class="apb-img" src="${data.img}">` : ''}
+                    <h1 class="apb-name">${authorName}</h1>
+                    <div class="apb-bio">${data.bio}</div>
+                </div>
+                <div style="background:#c00;color:#fff;padding:8px;border-radius:6px;text-align:center;font-weight:bold;margin-top:15px;">
+                    ${authorName} এর লেখাগুলো নিচে দেখুন
+                </div>
+            </div>
+        </div>`;
+        
+        blogPosts.insertAdjacentHTML('beforebegin', box);
+
+        // লেখকের নাম পোস্টের ভেতর থেকে লুকানো
+        var allAuthorNames = Object.keys(authorData);
+        document.querySelectorAll('.post-body').forEach(function(postBody) {
+            var firstElement = postBody.children[0];
+            if (!firstElement) return;
+            
+            allAuthorNames.forEach(function(name) {
+                var regex = new RegExp('^' + name.replace(/\./g, '\\s*.\\s*').replace(/\s+/g, '\\s*') + '\\s*[,।.]?\\s*', 'i');
+                if (regex.test(firstElement.innerText.trim())) {
+                    firstElement.innerHTML = firstElement.innerHTML.replace(regex, '');
+                    if (firstElement.innerText.trim() === '') firstElement.style.display = 'none';
+                }
+            });
+        });
+    }
+}
+
+// ২. মেটা ডেটা বিল্ডার
+function buildDainikMeta() {
+    if (!window.location.href.includes('.html')) return;
+    var postBody = document.querySelector('.post-body');
+    if (!postBody) return;
+
+    var titleEl = document.querySelector('h1.post-title, h1.entry-title, .post-title, .entry-title');
+    var postTitle = titleEl ? titleEl.innerText.trim().split('|')[0].trim() : 'শিরোনামহীন';
+    var postAuthor = titleEl && titleEl.innerText.includes('|') ? titleEl.innerText.split('|')[1].trim() : '';
+    
+    // ক্যাটাগরি ও তারিখ এখানে ম্যানুয়ালি সেট করতে পারবেন
+    renderMeta(postTitle, postAuthor, '', '');
+}
+
+function renderMeta(postTitle, postAuthor, category, postDate) {
+    var postBody = document.querySelector('.post-body');
+    if (!postBody) return;
+
+    // পুরনো মেটা থাকলে মুছে ফেলা
+    var oldMeta = document.getElementById('dainik-auto-meta');
+    if (oldMeta) oldMeta.remove();
+
+    // শিরোনাম ও অন্যান্য ডিফল্ট এলিমেন্ট লুকানো
+    document.querySelectorAll('h1.post-title, .post-title, .post-labels, .post-timestamp').forEach(el => {
+        el.style.cssText = 'display:none!important;';
+    });
+
+    var html = `
+    <div id="dainik-auto-meta" style="padding:10px 0; font-family:Hind Siliguri,sans-serif;">
+        ${category ? `<div style="color:#d50000; border-bottom:3px solid #9c27b0; display:table; margin-bottom:10px;">${category}</div>` : ''}
+        <div style="color:#1b5e20; font-size:26px; font-weight:bold; border-bottom:3px solid #ff9800; display:table; margin-bottom:5px;">${postTitle}</div>
+        ${postAuthor ? `<div style="color:#1565c0; font-size:11px; font-weight:600;">লেখক: ${postAuthor}</div>` : ''}
+    </div>`;
+    
+    postBody.insertAdjacentHTML('afterbegin', html);
+}
+
+// লোডিং টাইমিং
+window.addEventListener('load', function() {
+    setTimeout(showAuthorProfileOnLabelPage, 800);
+    setTimeout(showAuthorProfileOnLabelPage, 2000);
+    setTimeout(buildDainikMeta, 800);
+});
+</script>
 </body>
 </html>
