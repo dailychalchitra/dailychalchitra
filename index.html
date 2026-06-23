@@ -663,35 +663,24 @@ window.addEventListener('load', function() {
 });
 </script>
 <script>
-async function loadBloggerPosts() {
-  const blogUrl = 'https://dailychalchitra.blogspot.com';
-  const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(blogUrl + '/feeds/posts/default');
-  
-  try {
-    const response = await fetch(feedUrl);
-    const data = await response.json();
+window.onload = function() {
+    const blogUrl = 'https://dailychalchitra.blogspot.com/feeds/posts/default?alt=json';
     
-    if (data.status === 'ok') {
-      const container = document.querySelector('.blog-posts');
-      if (container) {
-        container.innerHTML = ''; // নমুনা পোস্ট মুছে ফেলা
-        data.items.forEach(post => {
-          container.innerHTML += `
-            <article class="post-outer">
-              <div class="post-thumbnail"><a href="${post.link}"><img src="${post.thumbnail}" alt="${post.title}"></a></div>
-              <h2 class="post-title"><a href="${post.link}">${post.title}</a></h2>
-              <div class="post-body">${post.description.substring(0, 150)}... <a href="${post.link}">আরও পড়ুন »</a></div>
-            </article>`;
-        });
-      }
-    } else {
-      console.error("ডেটা লোড হয়নি, ব্লগার সেটিংসে Site Feed 'Full' চেক করুন।");
-    }
-  } catch (e) {
-    console.error("এরর হয়েছে:", e);
-  }
-}
-window.onload = loadBloggerPosts;
+    fetch(blogUrl)
+      .then(response => {
+          if (!response.ok) {
+              alert("ব্লগার রেসপন্স করেনি, স্ট্যাটাস কোড: " + response.status);
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log(data); // ব্রাউজার কনসোলে ডাটা চেক করুন
+          alert("ডাটা লোড হয়েছে! পোস্ট সংখ্যা: " + data.feed.entry.length);
+      })
+      .catch(error => {
+          alert("এরর হয়েছে: " + error);
+      });
+};
 </script>
 </body>
 </html>
