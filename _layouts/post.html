@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<article style="max-width:800px;margin:20px auto;padding:20px;background:#fff;border-radius:8px;">
+  <img src="{{ page.image }}" style="width:100%;border-radius:8px;margin-bottom:15px;">
+  <span style="background:#C00000;color:#fff;padding:3px 10px;border-radius:3px;font-size:12px;">{{ page.category }}</span>
+  <h1 style="font-size:28px;margin:15px 0;">{{ page.title }}</h1>
+  <p style="color:#777;font-size:14px;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:15px;">
+    প্রকাশ: {{ page.date | date: "%d %B, %Y" }}
+  </p>
+  <div style="font-size:17px;line-height:1.8;">
+    {{ content }}
+  </div>
+</article>
