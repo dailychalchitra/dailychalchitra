@@ -1,0 +1,145 @@
+/* ১. সব এলিমেন্টের জন্য হার্ড লিমিট */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  position: relative !important;
+}
+
+* {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ==========================================
+   দৈনিক চালচিত্র - ফাইনাল থিম
+   ========================================== */
+body {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+    font-family: 'Noto Sans Bengali', sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    margin: 0;
+    padding: 0;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+
+/* হেডার */
+#my-new-header { 
+    height: 80px !important; 
+    background-color: #ffffff !important;
+    border-bottom: 3px solid #C00000 !important;
+    padding: 10px 20px !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: space-between !important; 
+}
+#my-new-header img {
+    max-height: 60px !important; 
+    width: auto !important;
+}
+.search-container { 
+    border: 1px solid #ddd !important;
+    border-radius: 20px !important;
+    background: #ffffff !important;
+    padding: 5px 15px !important;
+    width: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* হোমপেজ 2 কলাম গ্রিড */
+#Blog1 .blog-posts {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 20px !important;
+  padding: 20px !important;
+}
+.post-outer {
+  background: #fff !important;
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+  margin: 0 !important;
+}
+.post-outer img {
+  width: 100% !important;
+  height: 180px !important;
+  object-fit: cover !important;
+}
+.post-outer .post-title {
+  padding: 12px 15px 5px 15px !important;
+  margin: 0 !important;
+  font-size: 18px !important;
+  line-height: 1.4 !important;
+}
+.post-outer .post-title a {
+  color: #222 !important;
+  font-family: 'Hind Siliguri', sans-serif !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+.post-outer .post-body {
+  padding: 0 15px 15px 15px !important;
+  font-size: 15px !important;
+  color: #555 !important;
+}
+
+/* লেবেল কালার */
+.post-labels a[href*='সংবাদ'] {
+  background: #C00000 !important;
+  color: white !important;
+  padding: 3px 10px !important;
+  border-radius: 3px !important;
+  font-size: 12px !important;
+  display: inline-block !important;
+  margin: 2px !important;
+}
+.post-labels a[href*='সাহিত্য'] {
+  background: #004b87 !important;
+  color: white !important;
+  padding: 3px 10px !important;
+  border-radius: 3px !important;
+  font-size: 12px !important;
+  display: inline-block !important;
+  margin: 2px !important;
+}
+
+/* আরও পড়ুন */
+.read-more {
+  display: inline-block;
+  margin-top: 10px;
+  color: #1a1a2e;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* মোবাইল */
+@media only screen and (max-width: 980px) {
+  #Blog1 .blog-posts {
+    grid-template-columns: 1fr !important;
+    padding: 10px !important;
+  }
+}
+
+/* ===== HAMBURGER ICON ===== */
+#dc-menu-trigger {
+  position: absolute !important; 
+  top: 75px !important;
+  left: 8px !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  z-index: 99 !important;
+  border: none !important;
+  background: #C00000 !important;
+  color: #ffffff !important;
+  padding: 7px 9px !important;
+  line-height: 1 !important;
+  border-radius: 6px !important;
+  display: block !important;
+}
+
+/* বাকি CSS পরের ধাপে দিব */
