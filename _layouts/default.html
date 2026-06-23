@@ -91,10 +91,34 @@
 }
 
     /* --- সাইডবার মেনু --- */
-   .sidebar { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: #222; color: white; transition: 0.3s; z-index: 1001; padding-top: 60px; }
-   .sidebar.open { right: 0; }
-   .sidebar a { display: block; padding: 15px 20px; color: white; text-decoration: none; border-bottom: 1px solid #444; }
-   .sidebar.close-btn { position: absolute; top: 15px; right: 25px; font-size: 30px; }
+.sidebar { 
+  position: fixed; 
+  top: 0; 
+  right: -280px; 
+  width: 280px;
+  height: 100%;
+  z-index: 1000;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+}
+.sidebar.open { right: 0; }
+.sidebar a { 
+  display: block; 
+  padding: 12px 15px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #fff;
+}
+.sidebar a:hover { color: #C00000; }
+.sidebar .close-btn { 
+  position: absolute; 
+  top: 0; 
+  right: 25px; 
+  font-size: 36px; 
+  color: #fff;
+}
 
     /* --- লাইভ টিকার --- */
    .ticker-wrap { background: #222; color: white; padding: 8px 0; overflow: hidden; }
@@ -109,9 +133,6 @@
     /* --- মেইন কন্টেন্ট --- */
    .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
 
-    /* --- সার্চ বক্স --- */
-   .search-box { margin: 20px 0; text-align: center; }
-   .search-box input { width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
   /* --- নতুন ফুটার CSS --- */
 .footer-main { background: #fff; text-align: center; }
 .footer-top { padding: 30px 15px 10px; }
@@ -153,7 +174,7 @@
 
   <!-- সাইডবার মেনু -->
   <div class="sidebar" id="mySidebar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
     <a href="/"><i class="fa fa-home"></i> প্রচ্ছদ</a>
     <a href="/category/বাংলাদেশ"><i class="fa fa-flag"></i> বাংলাদেশ</a>
     <a href="/category/বিশ্ব"><i class="fa fa-globe"></i> বিশ্ব</a>
@@ -261,31 +282,49 @@
 </footer>
 
   <!-- জাভাস্ক্রিপ্ট -->
-  <script>
-    function openNav() { document.getElementById("mySidebar").classList.add("open"); }
-    function closeNav() { document.getElementById("mySidebar").classList.remove("open"); }
-    function toggleSearch() {
-      var x = document.getElementById("searchBox");
-      if (x.style.display === "none") { x.style.display = "block"; } else { x.style.display = "none"; }
+<script>
+// সাইডবার মেনু ওপেন/ক্লোজ
+function openMenu() {
+  document.getElementById("mySidebar").classList.add("open");
+}
+function closeMenu() {
+  document.getElementById("mySidebar").classList.remove("open");
+}
+
+// সার্চ বক্স টগল - মোবাইলের জন্য
+function toggleSearch() {
+  var x = document.getElementById("searchBox");
+  if (x.style.display === "none" || x.style.display === "") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+// সার্চ ফাংশন
+function searchNews() {
+  let input = document.getElementById("searchInput").value.toLowerCase();
+  let cards = document.getElementsByClassName("news-card");
+  for (let i = 0; i < cards.length; i++) {
+    if (cards[i].innerText.toLowerCase().includes(input)) {
+      cards[i].style.display = "";
+    } else {
+      cards[i].style.display = "none";
     }
-    function searchNews() {
-      let input = document.getElementById('searchInput').value.toLowerCase();
-      let cards = document.getElementsByClassName('news-card');
-      for (i = 0; i < cards.length; i++) {
-        if (cards[i].innerText.toLowerCase().includes(input)) {
-          cards[i].style.display = "";
-        } else {
-          cards[i].style.display = "none";
-        }
-      }
-    }
-  </script>
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'bn', includedLanguages: 'en,ar,bn', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  }
+}
+
+// গুগল ট্রান্সলেট
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'bn',
+    includedLanguages: 'en,hi,ar,bn',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
