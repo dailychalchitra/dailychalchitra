@@ -1,0 +1,15 @@
+title: দৈনিক চালচিত্র
+description: ওমান থেকে প্রকাশিত অনলাইন পত্রিকা
+baseurl: ""
+url: "https://dailychalchitra.com"
+markdown: kramdown
+theme: minima
+plugins:
+    - jekyll-feed
+
+defaults:
+    - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
