@@ -31,9 +31,64 @@
   margin-left: 15px; 
   cursor: pointer; 
 }
-.logo { height: 45px; width: auto; }
-.home-btn { color: #C00000; font-size: 26px; }
-.menu-btn, .search-btn { color: #333; font-size: 24px; }
+.logo { 
+  height: 55px; 
+  width: auto; 
+  flex-shrink: 0;
+}
+.home-btn { 
+  color: #C00000; 
+  font-size: 28px; 
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.search-box {
+  position: relative;
+  display: none;
+}
+.search-box input {
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 6px 35px 6px 12px;
+  font-size: 14px;
+  width: 150px;
+}
+.search-box i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+.menu-btn { 
+  color: #333; 
+  font-size: 26px; 
+  cursor: pointer;
+}
+/* গুগল ট্রান্সলেট স্টাইল */
+#google_translate_element { 
+  height: 26px;
+  overflow: hidden;
+}
+.goog-te-gadget {
+  font-size: 0 !important;
+}
+.goog-te-gadget .goog-te-combo {
+  margin: 0 !important;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 12px;
+  color: #333;
+}
+@media (min-width: 768px) {
+  .search-box { display: block; }
+}
 
     /* --- সাইডবার মেনু --- */
    .sidebar { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: #222; color: white; transition: 0.3s; z-index: 1001; padding-top: 60px; }
@@ -109,17 +164,22 @@
   </div>
 
   <!-- হেডার -->
-  <header class="header">
-    <div class="header-top">
-      <i class="fa fa-home home-btn" onclick="window.location.href='/'"></i>
-      <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="logo" alt="দৈনিক চালচিত্র">
-      <div class="header-icons">
-        <i class="fa fa-search" onclick="toggleSearch()"></i>
-        <i class="fa fa-language" id="google_translate_element"></i>
-        <i class="fa fa-bars" onclick="openNav()"></i>
+<header class="header">
+  <div class="header-top">
+    <i class="fa fa-home home-btn" onclick="window.location.href='/'"></i>
+    
+    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="logo" alt="দৈনিক চালচিত্র">
+    
+    <div class="header-right">
+      <div class="search-box">
+        <input type="text" placeholder="খুঁজুন...">
+        <i class="fa fa-search"></i>
       </div>
+      <div id="google_translate_element"></div>
+      <i class="fa fa-bars menu-btn" onclick="openMenu()"></i>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- লাইভ টিকার -->
   <div class="ticker-wrap">
@@ -153,7 +213,7 @@
     <footer class="footer-main">
   <div class="footer-top">
     <div class="footer-site-name">
-      <i class="fa fa-sun" style="color: #FF8C00; font-size: 32px;"></i>
+      <img src="https://i.postimg.cc/jqhfJS2v/Background-Eraser-20260624-001249785.png" alt="Sun Logo" style="height: 50px; width: auto;">
       <span>dailychalchitra.com</span>
     </div>
 
