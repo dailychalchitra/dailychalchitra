@@ -6,7 +6,10 @@ markdown: kramdown
 theme: minima
 plugins:
     - jekyll-feed
-
+collections:
+  category:
+    output: true
+    permalink: /category/:name/
 defaults:
     - scope:
       path: ""
