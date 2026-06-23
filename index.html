@@ -571,19 +571,34 @@ function googleTranslateElementInit() {
 </head>
 <body>
 <header id='my-new-header'>
-    <div style='display: flex; align-items: center; min-width: 0; flex-shrink: 1;'>
-        <a href='/' style='text-decoration: none; color: #002d62; font-size: 40px; margin-right: 15px;'>🏠</a>
-        <a href='/'>
-            <img alt='দৈনিক চালচিত্র' src='https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png'/>
-        </a>
+  <!-- উপরের বার: লোগো + হোম + গুগল ট্রান্সলেট -->
+  <div style='display:flex;align-items:center;justify-content:space-between;padding:10px 15px;max-width:1200px;margin:0 auto;background:#fff;'>
+    <a href='/' style='text-decoration:none;font-size:24px;color:#C00000;'>
+      <i class='fa fa-home'></i>
+    </a>
+    <a href='/'>
+      <img alt='দৈনিক চালচিত্র' src='https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png' style='height:50px;'/>
+    </a>
+    <div id='google_translate_element'></div>
+  </div>
+
+  <!-- নিচের বার: মেনু বাটন + নিউজ টিকার + LIVE -->
+  <div style='display:flex;align-items:center;background:#C00000;padding:8px 15px;'>
+    <!-- মেনু বাটন -->
+    <button id='dc-menu-trigger' onclick='toggleDcMenu()' style='background:#fff;border:none;padding:6px 12px;border-radius:4px;margin-right:10px;cursor:pointer;'>
+      <i class='fa fa-bars'></i> মেনু
+    </button>
+    
+    <!-- নিউজ টিকার -->
+    <div style='overflow:hidden;flex:1;'>
+      <div id='news-ticker' style='display:inline-flex;gap:40px;white-space:nowrap;color:#FFD700;font-size:13px;'>
+        <span>📢 লোড হচ্ছে...</span>
+      </div>
     </div>
-    <div style='display: flex; flex-direction: column; align-items: flex-end; gap: 8px; min-width: 0; flex-shrink: 0;'>
-        <form action='/search' class='search-container' method='get' style='border-radius:3px!important; height:26px!important; padding:0 5px!important; display:flex!important; align-items:center!important; border:1px solid #ccc!important;'>
-            <input name='q' placeholder='খুঁজুন...' style='border:none; width:100%; outline:none; font-size:12px!important; background:transparent; height:24px!important; line-height:24px!important;' type='text'/>
-            <button style='background:none; border:none; cursor:pointer; font-size:12px!important; padding:0!important; width:20px!important; height:20px!important;' type='submit'>🔍</button>
-        </form>
-        <div id='google_translate_element' style='font-size:11px;margin-top:3px;'></div>
-    </div>
+    
+    <!-- LIVE ব্যাজ -->
+    <span style='background:#fff;color:#C00000;font-size:11px;font-weight:bold;padding:4px 8px;border-radius:3px;margin-left:10px;'>● LIVE</span>
+  </div>
 </header>
 <main style="max-width:900px;margin:20px auto;padding:0 15px;">
 
@@ -593,15 +608,6 @@ function googleTranslateElementInit() {
   </div>
 
 </main>
-<div style='display:flex;align-items:center;background:#C00000;padding:4px 10px;gap:10px;'>
-  <div id='dc-menu-trigger' onclick='toggleDcMenu()' style='flex-shrink:0;'><i class='fa fa-bars' style='color:#fff;'></i></div>
-  <div style='overflow:hidden;flex:1;'>
-    <div id='news-ticker' style='display:inline-flex;gap:40px;white-space:nowrap;'>
-      <span style='color:#FFD700;font-size:12px;'>📰 লোড হচ্ছে...</span>
-    </div>
-  </div>
-  <span style='background:#fff;color:#C00000;font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px;white-space:nowrap;flex-shrink:0;'>🔴 LIVE</span>
-</div>
 <style>
 @keyframes ticker {
   0% { transform: translateX(0%); }
