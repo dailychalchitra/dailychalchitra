@@ -120,15 +120,14 @@
   color: #fff;
 }
 
-    /* --- LIVE টিকার - ফাইনাল --- */
+    /* --- LIVE টিকার - ফাইনাল ভার্সন --- */
 .ticker-container {
     background: #1a1a1a;
     height: 35px;
     overflow: hidden;
     border-bottom: 2px solid #C00000;
     position: relative;
-    display: flex;
-    align-items: center;
+    width: 100%;
 }
 .live-badge {
     background: #C00000;
@@ -141,28 +140,47 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 10;
-    animation: livePulse 2s infinite;
-}
-@keyframes livePulse {
-    0%, 100% { background: #C00000; box-shadow: 0 0 5px #C00000; }
-    50% { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
-}
-.ticker {
+    z-index: 999;
     display: flex;
-    white-space: nowrap;
-    padding-left: 70px; /* LIVE বাটনের জন্য জায়গা */
-    animation: tickerScroll 20s linear infinite;
+    align-items: center;
+    gap: 6px;
 }
-.ticker span {
+.live-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    animation: liveBlink 1s infinite;
+}
+@keyframes liveBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+.ticker-wrap {
+    height: 35px;
+    overflow: hidden;
+    margin-left: 80px; /* LIVE বাটনের জায়গা */
+}
+.ticker-move {
+    display: inline-block;
+    white-space: nowrap;
+    animation: tickerMove 15s linear infinite; /* 15s = ফাস্ট স্পিড */
+}
+.ticker-move span {
     display: inline-block;
     color: #fff;
     font-size: 14px;
     padding: 0 30px;
+    line-height: 35px;
 }
-@keyframes tickerScroll {
-    0% { transform: translateX(0); }        /* 0% থেকে শুরু */
-    100% { transform: translateX(-50%); }   /* -50% এ শেষ */
+@keyframes tickerMove {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+/* Hover এ থামবে */
+.ticker-container:hover .ticker-move {
+    animation-play-state: paused;
 }
 
     /* --- মেনু বার --- */
@@ -244,16 +262,18 @@
   <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
     <div class="live-badge">LIVE</div>
-    <div class="ticker">
-        <!-- সেট 1 -->
-        <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
-        <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
-        <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
-        
-        <!-- সেট 2 - এইটা মাস্ট, না হলে গ্যাপ পড়বেই -->
-        <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
-        <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
-        <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
+    <div class="ticker-wrap">
+        <div class="ticker-move">
+            <!-- সেট 1 -->
+            <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
+            <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
+            <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
+            
+            <!-- সেট 2 - এইটা মাস্ট, না হলে আটকাবেই -->
+            <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
+            <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
+            <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
+        </div>
     </div>
 </div>
 <!-- LIVE টিকার শেষ -->
