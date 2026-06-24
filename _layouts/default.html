@@ -794,36 +794,55 @@ a[href*="আরও"],
   display: inline-block !important;
   margin-top: 15px !important;
 }
-/* ===== ফাইনাল ফোর্স CSS - আন্তর্জাতিক ট্যাগ + হেডার মেনু ===== */
+/* ===== ডেক্সটপের জন্য বড় সাইজ ===== */
 
-/* 1. লিড নিউজের "আন্তর্জাতিক" ট্যাগ */
+/* 1. "আন্তর্জাতিক" লাল ট্যাগ - ডেক্সটপে আরও বড় */
 .category-badge,
-.lead-content .category-badge,
 span.category-badge {
-  font-size: 18px !important;
-  padding: 8px 18px !important;
+  font-size: 24px !important;
+  padding: 12px 24px !important;
   background: #d10000 !important;
   color: #ffffff !important;
   display: inline-block !important;
-  margin-bottom: 20px !important;
-  border-radius: 4px !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
+  margin-bottom: 25px !important;
+  border-radius: 6px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
 }
 
-/* 2. হেডার মেনু - প্রচ্ছদ বাংলাদেশ বিশ্ব */
+/* 2. লাল হেডার মেনু - প্রচ্ছদ বাংলাদেশ বিশ্ব */
 .main-menu li a,
-header nav ul li a,
-#main-menu li a {
-  font-size: 21px !important;
-  font-weight: 700 !important;
-  padding: 17px 24px !important;
+header nav ul li a {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  padding: 20px 30px !important;
 }
 
-/* 3. "আরও পড়ুন" লিঙ্ক */
-a[style*="color:#C00000"] {
-  font-size: 19px !important;
+/* 3. লাল মেনুবারটা উঁচু করেন */
+.main-menu,
+header nav {
+  min-height: 70px !important;
+}
+
+/* 4. "আরও পড়ুন" লিঙ্ক */
+a[style*="color:#C00000"],
+.more-link {
+  font-size: 22px !important;
   font-weight: 800 !important;
+  margin-top: 18px !important;
+  display: inline-block !important;
+}
+
+/* 5. মোবাইলের জন্য আলাদা সাইজ */
+@media only screen and (max-width: 768px) {
+  .category-badge {
+    font-size: 18px !important;
+    padding: 8px 18px !important;
+  }
+  .main-menu li a {
+    font-size: 18px !important;
+    padding: 14px 20px !important;
+  }
 }
 </style>
 </head>
