@@ -149,8 +149,7 @@
 .ticker-items {
     display: inline-block;
     white-space: nowrap;
-    padding-left: 100%;
-    animation: ticker-scroll 8s linear infinite;
+    animation: ticker-scroll 25s linear infinite;
     height: 100%;
     display: flex;
     align-items: center;
@@ -171,7 +170,7 @@
 }
 @keyframes ticker-scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); }
 }
 
     /* --- মেনু বার --- */
@@ -251,6 +250,23 @@
 </header>
 
   <!-- LIVE টিকার শুরু -->
+<div class="ticker-container">
+    <div class="live-badge">LIVE</div>
+    <div class="ticker-content">
+        <div class="ticker-items">
+            <!-- সেট 1 -->
+            <span class="news-item"><span class="square-dot"></span>ব্রেকিং: দৈনিক চালচিত্রে স্বাগত</span>
+            <span class="news-item"><span class="square-dot"></span>ওমানে অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
+            <span class="news-item"><span class="square-dot"></span>নতুন নতুন অনলাইন পত্রিকা</span>
+            
+            <!-- সেট 2 - হুবহু কপি -->
+            <span class="news-item"><span class="square-dot"></span>ব্রেকিং: দৈনিক চালচিত্রে স্বাগত</span>
+            <span class="news-item"><span class="square-dot"></span>ওমানে অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
+            <span class="news-item"><span class="square-dot"></span>নতুন নতুন অনলাইন পত্রিকা</span>
+        </div>
+    </div>
+</div>
+<!-- LIVE টিকার শেষ -->
 
   <!-- ক্যাটাগরি মেনু বার -->
   <nav class="menu-bar">
