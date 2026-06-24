@@ -233,6 +233,199 @@ body { top: 0 !important; }
   justify-content: center; 
   margin-bottom: 20px; 
 }
+/* --- হোমপেজ লেআউট --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.main-content {
+    padding: 25px 0;
+}
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #C00000;
+    display: inline-block;
+}
+
+/* 1. লিড নিউজ */
+.lead-news-section {
+    margin-bottom: 35px;
+}
+.lead-news {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 25px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.lead-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 350px;
+}
+.lead-content {
+    padding: 25px 25px 25px 0;
+}
+.category-badge {
+    background: #C00000;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+.lead-content h1 {
+    font-size: 28px;
+    line-height: 1.4;
+    margin: 0 0 15px 0;
+}
+.lead-content h1 a {
+    color: #111;
+    text-decoration: none;
+}
+.lead-content h1 a:hover {
+    color: #C00000;
+}
+.lead-excerpt {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+.post-meta {
+    font-size: 13px;
+    color: #888;
+}
+.post-meta i {
+    margin-right: 5px;
+}
+
+/* 2. কন্টেন্ট র‍্যাপ: গ্রিড + সাইডবার */
+.content-wrap {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* বামে নিউজ, ডানে সাইডবার 320px */
+    gap: 30px;
+}
+
+/* 3 কলাম নিউজ গ্রিড */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.news-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+.news-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+}
+.card-img img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+.card-content {
+    padding: 15px;
+}
+.card-content h3 {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+.card-content h3 a {
+    color: #222;
+    text-decoration: none;
+}
+.card-content h3 a:hover {
+    color: #C00000;
+}
+
+/* সাইডবার */
+.sidebar-widget {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.widget-title {
+    font-size: 18px;
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #C00000;
+}
+.popular-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.popular-posts li {
+    padding: 12px 0;
+    border-bottom: 1px dashed #eee;
+}
+.popular-posts li:last-child {
+    border-bottom: none;
+}
+.popular-posts a {
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    display: block;
+    line-height: 1.5;
+}
+.popular-posts a:hover {
+    color: #C00000;
+}
+.post-date {
+    font-size: 12px;
+    color: #999;
+    display: block;
+    margin-top: 5px;
+}
+.ad-widget img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* মোবাইল রেসপন্সিভ */
+@media (max-width: 992px) {
+    .content-wrap {
+        grid-template-columns: 1fr; /* সাইডবার নিচে চলে যাবে */
+    }
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr); /* ট্যাবলেটে 2 কলাম */
+    }
+}
+@media (max-width: 768px) {
+    .lead-news {
+        grid-template-columns: 1fr; /* লিড নিউজ মোবাইলে স্ট্যাক */
+    }
+    .lead-img img {
+        min-height: 220px;
+    }
+    .lead-content {
+        padding: 20px;
+    }
+    .lead-content h1 {
+        font-size: 22px;
+    }
+    .news-grid {
+        grid-template-columns: 1fr; /* মোবাইলে 1 কলাম */
+    }
+}
 </style>
 </head>
 <body>
