@@ -123,11 +123,12 @@
     /* --- LIVE টিকার --- */
 .ticker-container {
     background: #1a1a1a;
-    display: flex;
-    align-items: center;
     height: 35px;
     overflow: hidden;
     border-bottom: 2px solid #C00000;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 .live-badge {
     background: #C00000;
@@ -136,25 +137,24 @@
     font-weight: 700;
     padding: 0 12px;
     height: 35px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+    line-height: 35px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
     animation: pulse 2s infinite;
 }
 @keyframes pulse {
     0%, 100% { background: #C00000; }
     50% { background: #ff0000; }
 }
-.ticker-content { flex: 1; overflow: hidden; height: 100%; }
-.ticker-items {
+.ticker {
     display: inline-block;
     white-space: nowrap;
-    animation: ticker-scroll 25s linear infinite;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    padding-left: 60px; /* LIVE বাটনের জন্য জায়গা */
+    animation: ticker 12s linear infinite; /* 12s = আগের মতো ফাস্ট */
 }
-.news-item {
+.ticker span {
     display: inline-block;
     color: #fff;
     font-size: 14px;
@@ -168,9 +168,9 @@
     margin-right: 8px;
     margin-bottom: 2px;
 }
-@keyframes ticker-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
     /* --- মেনু বার --- */
@@ -252,18 +252,15 @@
   <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
     <div class="live-badge">LIVE</div>
-    <div class="ticker-content">
-        <div class="ticker-items">
-            <!-- সেট 1 -->
-            <span class="news-item"><span class="square-dot"></span>ব্রেকিং: দৈনিক চালচিত্রে স্বাগত</span>
-            <span class="news-item"><span class="square-dot"></span>ওমানে অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
-            <span class="news-item"><span class="square-dot"></span>নতুন নতুন অনলাইন পত্রিকা</span>
-            
-            <!-- সেট 2 - হুবহু কপি -->
-            <span class="news-item"><span class="square-dot"></span>ব্রেকিং: দৈনিক চালচিত্রে স্বাগত</span>
-            <span class="news-item"><span class="square-dot"></span>ওমানে অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
-            <span class="news-item"><span class="square-dot"></span>নতুন নতুন অনলাইন পত্রিকা</span>
-        </div>
+    <div class="ticker">
+        <span><span class="square-dot"></span>ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
+        <span><span class="square-dot"></span>ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
+        <span><span class="square-dot"></span>অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
+        
+        <!-- গ্যাপ ফ্রি করার জন্য একই লেখা আবার -->
+        <span><span class="square-dot"></span>ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
+        <span><span class="square-dot"></span>ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
+        <span><span class="square-dot"></span>অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
     </div>
 </div>
 <!-- LIVE টিকার শেষ -->
