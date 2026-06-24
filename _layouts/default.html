@@ -624,6 +624,87 @@ body { top: 0 !important; }
     height: 40px !important;
   }
 }
+/* ===== ডেক্সটপে মোবাইলের মতো কার্ড স্টাইল ===== */
+@media (min-width: 769px) {
+  /* 1. লিড নিউজকে কার্ড বানান */
+  .lead-news {
+    background: #fff !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    margin-bottom: 30px !important;
+    max-width: 900px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .lead-content {
+    padding: 30px 35px 35px 35px !important;
+  }
+  /* লিড নিউজের টাইটেল */
+  .lead-content h2, .lead-content h1 {
+    font-size: 32px !important;
+    line-height: 1.4 !important;
+    margin: 15px 0 !important;
+  }
+  /* লিড নিউজের লেখা */
+  .lead-content p {
+    font-size: 18px !important;
+    line-height: 1.9 !important;
+    color: #333 !important;
+  }
+  
+  /* 2. নিচের সব পোস্টকে কার্ড বানান */
+  .news-grid {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+  }
+  .news-card {
+    background: #fff !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    margin-bottom: 30px !important;
+  }
+  .card-content {
+    padding: 30px 35px 35px 35px !important;
+  }
+  .card-content h3 {
+    font-size: 26px !important;
+    line-height: 1.5 !important;
+    margin: 15px 0 !important;
+  }
+  .card-content p {
+    font-size: 17px !important;
+    line-height: 1.9 !important;
+    color: #333 !important;
+  }
+
+  /* 3. "আন্তর্জাতিক" ট্যাগ + "আরও পড়ুন" */
+  .post-category, .category-label, span[class*="category"] {
+    font-size: 16px !important;
+    padding: 6px 14px !important;
+    background: #d10000 !important;
+    color: #fff !important;
+    display: inline-block !important;
+    margin-bottom: 15px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+  }
+  .read-more, a[href*="আরও"] {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #d10000 !important;
+    display: inline-block !important;
+    margin-top: 15px !important;
+  }
+  /* তারিখ */
+  .post-date, .date {
+    font-size: 15px !important;
+    color: #666 !important;
+    margin-top: 8px !important;
+    display: block !important;
+  }
+}
 </style>
 </head>
 <body>
