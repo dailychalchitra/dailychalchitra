@@ -501,6 +501,50 @@ body { top: 0 !important; }
 .footer-site-name {
   font-size: 22px !important;
 }
+/* ===== লাস্ট ফিক্স: ডেক্সটপের জন্য ===== */
+
+/* 1. লিড নিউজের ক্যাটাগরি + আরও পড়ুন বড় করেন */
+.lead-content .category-label,
+.lead-content .post-category {
+  font-size: 14px !important;
+  padding: 4px 10px !important;
+  background: #d10000 !important;
+  color: #fff !important;
+  display: inline-block !important;
+  margin-bottom: 10px !important;
+}
+.lead-content .read-more, 
+.lead-content a[href*="আরও"] {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #d10000 !important;
+  display: inline-block !important;
+  margin-top: 10px !important;
+}
+
+/* 2. ডেক্সটপে হেডারের মেনু বড় করেন */
+@media (min-width: 769px) {
+  .header .top-nav a,
+  .header-menu a,
+  .main-menu li a {
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    padding: 12px 15px !important;
+  }
+  
+  /* লোগোর পাশের টেক্সট */
+  .header .site-title, .logo-text {
+    font-size: 24px !important;
+  }
+}
+
+/* 3. পুরোনো পোস্টের আরও পড়ুন ঠিক রাখেন */
+.card-content .read-more,
+.card-content a[href*="আরও"] {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #d10000 !important;
+}
 </style>
 </head>
 <body>
