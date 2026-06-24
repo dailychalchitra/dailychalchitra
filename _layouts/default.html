@@ -744,6 +744,56 @@ body { top: 0 !important; }
     line-height: 1.6 !important;
   }
 }
+/* ===== থিমের ডিফল্ট CSS ভাঙ্গার জন্য ফাইনাল ফোর্স CSS ===== */
+
+/* 1. লিড নিউজের "আন্তর্জাতিক" ট্যাগ - সাইজ + কালার ফোর্স */
+.post-labels a,
+.entry-category a,
+span[class*="label"],
+span[class*="category"],
+.lead-content .label {
+  font-size: 17px !important;
+  padding: 8px 16px !important;
+  background: #d10000 !important;
+  color: #ffffff !important;
+  display: inline-block !important;
+  margin-bottom: 20px !important;
+  border-radius: 4px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+}
+
+/* 2. হেডারের লাল মেনুবার - প্রচ্ছদ বাংলাদেশ বিশ্ব */
+.header-menu-wrap ul li a,
+.main-menu li a,
+#main-menu li a,
+.header .menu li a {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  padding: 16px 22px !important;
+  color: #ffffff !important;
+  line-height: 1.5 !important;
+}
+
+/* 3. হেডারের উচ্চতা বাড়ান যাতে মেনু চাপা না লাগে */
+.header .main-menu,
+.top-nav,
+#main-menu {
+  min-height: 55px !important;
+}
+
+/* 4. "আরও পড়ুন" লিঙ্কও বড় করেন */
+.post-more-link,
+a.more-link,
+a[href*="আরও"],
+.read-more {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #d10000 !important;
+  display: inline-block !important;
+  margin-top: 15px !important;
+}
 </style>
 </head>
 <body>
