@@ -17,21 +17,26 @@
 .header-top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
+    padding: 8px 15px; /* 10px থেকে 8px করলাম */
     max-width: 1200px;
     margin: 0 auto;
+    gap: 15px; /* হোম + লোগোর মাঝে গ্যাপ অ্যাড করলাম */
 }
 .home-btn {
     color: #C00000;
     font-size: 22px;
+    flex-shrink: 0;
+}
+.logo {
+    flex-shrink: 0;
 }
 .logo img {
-    height: 65px; /* লোগো বড় করলাম */
+    height: 85px; /* 65px থেকে 85px করলাম */
     width: auto;
     display: block;
 }
 .header-right {
+    margin-left: auto; /* এই লাইন অ্যাড করেন - সার্চবার ডানে যাবে */
     display: flex;
     align-items: flex-start;
 }
@@ -177,14 +182,12 @@ body { top: 0 !important; }
 
 /* মোবাইল */
 @media (max-width: 768px) {
-    .logo img { height: 50px; } /* মোবাইলেও বড় */
-    .search-box input, .translate-box select { 
-        width: 130px; 
-        font-size: 13px; 
+    .header-top {
+        gap: 10px;
+        padding: 6px 10px;
     }
-    .ticker-move span { 
-        font-size: 13px; 
-        padding: 0 20px; 
+    .logo img { 
+        height: 60px; /* মোবাইলে 60px */
     }
 }
 
