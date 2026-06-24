@@ -9,7 +9,28 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f4f4f4; }
 
-    /* --- হেডার রাইট: সার্চ + ট্রান্সলেট আইকন --- */
+    /* --- হেডার ফিক্স --- */
+.header {
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.home-btn {
+    color: #C00000;
+    font-size: 20px;
+}
+.logo img {
+    height: 45px;  /* লোগো সাইজ ফিক্স */
+    width: auto;
+    display: block;
+}
 .header-right {
     display: flex;
     align-items: center;
@@ -17,7 +38,7 @@
 }
 .search-box {
     position: relative;
-    display: block; /* display: none; ছিল, ওটা বাদ */
+    display: block;
 }
 .search-box input {
     border: 1px solid #ddd;
@@ -25,6 +46,7 @@
     padding: 6px 35px 6px 12px;
     font-size: 14px;
     width: 150px;
+    outline: none;
 }
 .search-box i {
     position: absolute;
@@ -32,8 +54,8 @@
     top: 50%;
     transform: translateY(-50%);
     color: #666;
+    font-size: 14px;
 }
-/* ট্রান্সলেট গোল আইকন */
 .translate-btn {
     width: 32px;
     height: 32px;
@@ -50,28 +72,31 @@
     background: #C00000;
     color: #fff;
 }
-/* গুগল ট্রান্সলেট পুরা হাইড */
-#google_translate_element, .goog-te-gadget {
+.menu-btn {
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+}
+/* গুগল ট্রান্সলেট হাইড */
+#google_translate_element, .goog-te-gadget, .goog-te-banner-frame {
     display: none !important;
 }
+body { top: 0 !important; }
 
-/* মোবাইলে সার্চবার দেখানোর জন্য */
+/* মোবাইলে হেডার */
 @media (max-width: 768px) {
-    .header-right {
-        width: 100%;
-        padding: 8px 10px;
-        background: #fff;
-        border-bottom: 1px solid #eee;
+    .header-top {
+        padding: 6px 10px;
     }
-    .search-box {
-        flex: 1;
-        margin-right: 10px;
+    .logo img {
+        height: 38px; /* মোবাইলে একটু ছোট */
     }
     .search-box input {
-        width: 100%;
+        width: 120px;
+        font-size: 13px;
     }
-    .logo {
-        height: 40px; /* মোবাইলে লোগো ছোট */
+    .home-btn, .menu-btn {
+        font-size: 18px;
     }
 }
 
