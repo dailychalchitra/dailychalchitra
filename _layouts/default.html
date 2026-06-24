@@ -120,7 +120,7 @@
   color: #fff;
 }
 
-    /* --- LIVE টিকার --- */
+    /* --- LIVE টিকার - ফাইনাল --- */
 .ticker-container {
     background: #1a1a1a;
     height: 35px;
@@ -130,15 +130,29 @@
     display: flex;
     align-items: center;
 }
-@keyframes pulse {
-    0%, 100% { background: #C00000; }
-    50% { background: #ff0000; }
+.live-badge {
+    background: #C00000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0 15px;
+    height: 35px;
+    line-height: 35px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    animation: livePulse 2s infinite;
+}
+@keyframes livePulse {
+    0%, 100% { background: #C00000; box-shadow: 0 0 5px #C00000; }
+    50% { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
 }
 .ticker {
-    display: inline-block;
+    display: flex;
     white-space: nowrap;
-    padding-left: 60px;
-    animation: ticker 20s linear infinite; /* 12s → 20s করেন */
+    padding-left: 70px; /* LIVE বাটনের জন্য জায়গা */
+    animation: tickerScroll 20s linear infinite;
 }
 .ticker span {
     display: inline-block;
@@ -146,17 +160,9 @@
     font-size: 14px;
     padding: 0 30px;
 }
-.square-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: #C00000;
-    margin-right: 8px;
-    vertical-align: middle;
-}
-@keyframes ticker {
-    0% { transform: translateX(0%); }      /* 100% থেকে 0% করেন */
-    100% { transform: translateX(-50%); }  /* -100% থেকে -50% করেন */
+@keyframes tickerScroll {
+    0% { transform: translateX(0); }        /* 0% থেকে শুরু */
+    100% { transform: translateX(-50%); }   /* -50% এ শেষ */
 }
 
     /* --- মেনু বার --- */
@@ -244,7 +250,7 @@
         <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
         <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
         
-        <!-- সেট 2 - এইটা মাস্ট, না হলে গ্যাপ পড়বে -->
+        <!-- সেট 2 - এইটা মাস্ট, না হলে গ্যাপ পড়বেই -->
         <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
         <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
         <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
