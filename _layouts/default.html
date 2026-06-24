@@ -545,6 +545,85 @@ body { top: 0 !important; }
   font-weight: 600 !important;
   color: #d10000 !important;
 }
+/* ===== ডেক্সটপ মোড = মোবাইল মোড ===== */
+
+/* 1. ডেক্সটপেও সব পোস্টের ফন্ট মোবাইলের মতো বড় করেন */
+@media (min-width: 769px) {
+  /* লিড নিউজ টাইটেল */
+  .lead-content h2, .lead-content h1 {
+    font-size: 28px !important;
+    line-height: 1.4 !important;
+  }
+  /* লিড নিউজের বর্ণনা */
+  .lead-content p {
+    font-size: 17px !important;
+    line-height: 1.8 !important;
+  }
+  /* লিড নিউজের "আন্তর্জাতিক" ট্যাগ */
+  .lead-content .post-category, 
+  .lead-content .category-label,
+  .lead-content span[class*="category"] {
+    font-size: 15px !important;
+    padding: 5px 12px !important;
+    background: #d10000 !important;
+    color: #fff !important;
+    display: inline-block !important;
+    margin-bottom: 12px !important;
+    border-radius: 3px !important;
+  }
+  /* লিড নিউজের "আরও পড়ুন" */
+  .lead-content .read-more, 
+  .lead-content a[href*="আরও"] {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    color: #d10000 !important;
+    display: inline-block !important;
+    margin-top: 12px !important;
+  }
+  
+  /* পুরোনো পোস্টের টাইটেল */
+  .card-content h3 {
+    font-size: 24px !important;
+    line-height: 1.5 !important;
+  }
+  /* পুরোনো পোস্টের লেখা */
+  .card-content p {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+  }
+  /* পুরোনো পোস্টের "আরও পড়ুন" */
+  .card-content .read-more,
+  .card-content a[href*="আরও"] {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #d10000 !important;
+  }
+  /* তারিখ */
+  .post-date, .card-content .date {
+    font-size: 14px !important;
+  }
+}
+
+/* 2. ডেক্সটপে হেডার মেনু বড় করেন */
+@media (min-width: 769px) {
+  .header .top-nav a,
+  .main-menu li a,
+  .header-menu a,
+  nav a {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    padding: 14px 18px !important;
+  }
+  /* লোগো টেক্সট */
+  .header .site-title, .logo-text {
+    font-size: 26px !important;
+  }
+  /* সার্চ বক্স */
+  .header input[type="text"] {
+    font-size: 15px !important;
+    height: 40px !important;
+  }
+}
 </style>
 </head>
 <body>
