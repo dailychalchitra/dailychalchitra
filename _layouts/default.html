@@ -705,6 +705,45 @@ body { top: 0 !important; }
     display: block !important;
   }
 }
+/* ===== ডেক্সটপে লাস্ট 2টা সমস্যার ফিক্স ===== */
+
+/* 1. লিড নিউজের "আন্তর্জাতিক" ট্যাগ বড় + ক্লিয়ার করেন */
+@media (min-width: 769px) {
+  .lead-content .post-category, 
+  .lead-content .category-label,
+  .lead-content span[class*="cat"],
+  .lead-content .label {
+    font-size: 16px !important;
+    padding: 7px 15px !important;
+    background: #d10000 !important;
+    color: #fff !important;
+    display: inline-block !important;
+    margin-bottom: 18px !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+  }
+}
+
+/* 2. ডেক্সটপে হেডার মেনু বড় করেন */
+@media (min-width: 769px) {
+  /* লাল মেনুবার */
+  .main-menu li a,
+  .header-menu a,
+  .top-nav a,
+  header nav ul li a {
+    font-size: 19px !important;
+    font-weight: 600 !important;
+    padding: 15px 20px !important;
+    color: #fff !important;
+  }
+  /* হেডার হাইট বাড়ান যাতে মেনু চাপা না লাগে */
+  .header .main-menu,
+  .top-nav {
+    height: auto !important;
+    line-height: 1.6 !important;
+  }
+}
 </style>
 </head>
 <body>
