@@ -11,4 +11,40 @@ layout: default
   <div style="font-size:17px;line-height:1.8;">
     {{ content }}
   </div>
+---
+layout: default
+---
+<article style="max-width:800px;margi
+  <img src="{{ page.image | relative_
+  <span style="background:#C00000;col
+  <h1 style="font-size:28px;margin:15
+  <p style="color:#777;font-size:14px
+    প্রকাশ: {{ page.date | date: "%d %B
+  </p>
+  <div style="font-size:17px;line-hei
+    {{ content }}
+  </div>
+
+  <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
+
+  <div class="post-navigation" style="display: flex; justify-content: space-between; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
+    
+    {% if page.previous.url %}
+      <a href="{{ page.previous.url | relative_url }}" style="padding: 10px 15px; background: #c62828; color: #fff; text-decoration: none; border-radius: 5px; flex: 1; text-align: center;">
+        ← পুরোনো পোস্ট
+      </a>
+    {% endif %}
+
+    <a href="{{ site.baseurl }}/" style="padding: 10px 15px; background: #333; color: #fff; text-decoration: none; border-radius: 5px; flex: 1; text-align: center;">
+      আরও পড়ুন
+    </a>
+
+    {% if page.next.url %}
+      <a href="{{ page.next.url | relative_url }}" style="padding: 10px 15px; background: #c62828; color: #fff; text-decoration: none; border-radius: 5px; flex: 1; text-align: center;">
+        নতুন পোস্ট →
+      </a>
+    {% endif %}
+
+  </div>
+</article>
 </article>
