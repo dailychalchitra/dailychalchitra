@@ -9,85 +9,70 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f4f4f4; }
 
-    /* --- হেডার সাদা --- */
-.header { 
-  background: #fff; 
-  padding: 8px 15px; 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
-}
-.header-top {
-  background: #fff !important;
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between;
-  width: 100%;
-}
-.header-icons i { 
-  color: #333; 
-  font-size: 24px; 
-  margin-left: 15px; 
-  cursor: pointer; 
-}
-.logo { 
-  height: 55px; 
-  width: auto; 
-  flex-shrink: 0;
-}
-.home-btn { 
-  color: #C00000; 
-  font-size: 28px; 
-  cursor: pointer;
-  flex-shrink: 0;
-}
+    /* --- হেডার রাইট: সার্চ + ট্রান্সলেট আইকন --- */
 .header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 .search-box {
-  position: relative;
-  display: none;
+    position: relative;
+    display: block; /* display: none; ছিল, ওটা বাদ */
 }
 .search-box input {
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  padding: 6px 35px 6px 12px;
-  font-size: 14px;
-  width: 150px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 6px 35px 6px 12px;
+    font-size: 14px;
+    width: 150px;
 }
 .search-box i {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
 }
-.menu-btn { 
-  color: #333; 
-  font-size: 26px; 
-  cursor: pointer;
+/* ট্রান্সলেট গোল আইকন */
+.translate-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
 }
-/* গুগল ট্রান্সলেট স্টাইল */
-#google_translate_element { 
-  height: 26px;
-  overflow: hidden;
+.translate-btn:hover {
+    background: #C00000;
+    color: #fff;
 }
-.goog-te-gadget {
-  font-size: 0 !important;
+/* গুগল ট্রান্সলেট পুরা হাইড */
+#google_translate_element, .goog-te-gadget {
+    display: none !important;
 }
-.goog-te-gadget .goog-te-combo {
-  margin: 0 !important;
-  padding: 4px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 12px;
-  color: #333;
-}
-@media (min-width: 768px) {
-  .search-box { display: block; }
+
+/* মোবাইলে সার্চবার দেখানোর জন্য */
+@media (max-width: 768px) {
+    .header-right {
+        width: 100%;
+        padding: 8px 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+    }
+    .search-box {
+        flex: 1;
+        margin-right: 10px;
+    }
+    .search-box input {
+        width: 100%;
+    }
+    .logo {
+        height: 40px; /* মোবাইলে লোগো ছোট */
+    }
 }
 
     /* --- সাইডবার মেনু --- */
@@ -243,21 +228,57 @@
 
   <!-- হেডার -->
 <header class="header">
-  <div class="header-top">
-    <i class="fa fa-home home-btn" onclick="window.location.href='/'"></i>
-    
-    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="logo" alt="দৈনিক চালচিত্র">
-    
-    <div class="header-right">
-      <div class="search-box">
-        <input type="text" placeholder="খুঁজুন...">
-        <i class="fa fa-search"></i>
-      </div>
-      <div id="google_translate_element"></div>
-      <i class="fa fa-bars menu-btn" onclick="openMenu()"></i>
+    <div class="header-top">
+        <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
+        <a href="/" class="logo">
+            <img src="https://i.postimg.cc/3w757FnK/logo.png" alt="দৈনিক চালচিত্র">
+        </a>
+        
+        <div class="header-right">
+            <!-- সার্চবার -->
+            <div class="search-box">
+                <input type="text" placeholder="খুঁজুন...">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <!-- গোল বিশ্ব আইকন -->
+            <div class="translate-btn" id="translateBtn" title="ভাষা পরিবর্তন">
+                🌐
+            </div>
+            
+            <!-- মেনু বাটন -->
+            <div class="menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
+
+<!-- গুগল ট্রান্সলেট হিডেন - </body> ট্যাগের ঠিক আগে বসাবেন -->
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'bn',
+        includedLanguages: 'bn,en,ar,hi,ur',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+    }, 'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+// বিশ্ব আইকনে ক্লিক করলে ট্রান্সলেট মেনু আসবে
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('translateBtn').addEventListener('click', function() {
+        var langBox = document.querySelector('.goog-te-combo');
+        if(langBox) {
+            langBox.style.display = 'block';
+            langBox.click();
+        }
+    });
+});
+</script>
 
   <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
