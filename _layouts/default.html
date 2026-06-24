@@ -426,40 +426,36 @@ body { top: 0 !important; }
         grid-template-columns: 1fr; /* মোবাইলে 1 কলাম */
     }
 }
-/* ===== ফাইনাল ফিক্স - ডেক্সটপে ছবি উপরে, লেখা নিচে ===== */
+/* ===== ফাইনাল ফিক্স - সব পোস্ট + কার্ড প্যাডিং ===== */
 
-/* ডেক্সটপ - 769px এর বড় স্ক্রিন */
+/* 1. সব ধরনের পোস্টের ছবি উপরে, লেখা নিচে করুন */
+.lead-news, .lead-article, .news-card, .card, article.post {
+  display: block !important;
+  grid-template-columns: 1fr !important;
+  flex-direction: column !important;
+}
+
+/* 2. সব পোস্টের ছবি ফুল উইডথ */
+.lead-img, .lead-image, .news-card img, .card img, .post-thumbnail img {
+  width: 100% !important;
+  display: block !important;
+  float: none !important;
+  height: auto !important;
+  margin-bottom: 0 !important;
+}
+
+/* 3. সব পোস্টের টেক্সট কার্ডে প্যাডিং দিন */
+.lead-content, .card-content, .news-content, .post-content {
+  width: 100% !important;
+  display: block !important;
+  float: none !important;
+  padding: 20px 25px 25px 25px !important;
+  background: #fff !important;
+}
+
+/* 4. ডেক্সটপের জন্য - 769px এর বড় */
 @media only screen and (min-width: 769px) {
-  /* 1. লিড নিউজের গ্রিড লেআউট ভেঙ্গে ব্লক করেন */
-  .lead-news, .lead-article {
-    display: block !important;
-    grid-template-columns: 1fr !important;
-  }
-
-  /* 2. ছবি ফুল উইডথ করেন */
-  .lead-img, .lead-image {
-    width: 100% !important;
-    display: block !important;
-    float: none !important;
-  }
-  
-  .lead-img img, .lead-image img {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 400px !important;
-    object-fit: cover !important;
-    margin-bottom: 20px !important;
-  }
-
-  /* 3. কনটেন্ট ফুল উইডথ */
-  .lead-content {
-    width: 100% !important;
-    display: block !important;
-    float: none !important;
-    padding: 0 25px 25px 25px !important;
-  }
-
-  /* 4. আন্তর্জাতিক লাল ট্যাগ বড় করেন */
+  /* আন্তর্জাতিক/ঘোষণা লাল ট্যাগ */
   .category-badge, span.category-badge {
     font-size: 26px !important;
     padding: 14px 28px !important;
@@ -471,23 +467,33 @@ body { top: 0 !important; }
     display: inline-block !important;
   }
 
-  /* 5. লাল হেডার মেনু - প্রচ্ছদ বাংলাদেশ বিশ্ব */
+  /* লাল হেডার মেনু */
   .main-menu li a, header nav ul li a {
     font-size: 28px !important;
     font-weight: 800 !important;
     padding: 24px 34px !important;
   }
 
-  /* 6. আরও পড়ুন */
-  .card-content a[style*="color:#C00000"] {
+  /* আরও পড়ুন */
+  .card-content a, a[style*="color:#C00000"] {
     font-size: 22px !important;
     font-weight: 800 !important;
     color: #C00000 !important;
   }
+  
+  /* লিড ইমেজ বড় করেন */
+  .lead-img img {
+    min-height: 450px !important;
+    object-fit: cover !important;
+  }
 }
 
-/* মোবাইল - 768px এর ছোট স্ক্রিন */
+/* 5. মোবাইলের জন্য - 768px এর ছোট */
 @media only screen and (max-width: 768px) {
+  .lead-content, .card-content {
+    padding: 15px 18px 18px 18px !important;
+  }
+  
   .category-badge, span.category-badge {
     font-size: 17px !important;
     padding: 8px 16px !important;
@@ -496,7 +502,7 @@ body { top: 0 !important; }
     font-weight: 800 !important;
   }
 
-  .card-content a[style*="color:#C00000"] {
+  .card-content a, a[style*="color:#C00000"] {
     font-size: 18px !important;
     font-weight: 700 !important;
     color: #C00000 !important;
