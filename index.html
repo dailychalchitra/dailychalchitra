@@ -24,6 +24,7 @@ title: প্রচ্ছদ
                 <span class="category-badge">{{ post.categories | first }}</span>
                 <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
+   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;margin-top:10px;display:inline-block;">আরও পড়ুন</a>
                 <div class="post-meta">
                     <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
                 </div>
@@ -50,6 +51,8 @@ title: প্রচ্ছদ
                     <div class="card-content">
                         <span class="category-badge">{{ post.categories | first }}</span>
                         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+   <p style="font-size:15px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
                         <div class="post-meta">
                             <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b" }}</span>
                         </div>
