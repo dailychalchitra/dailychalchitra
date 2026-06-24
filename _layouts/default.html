@@ -9,7 +9,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f4f4f4; }
 
-    /* --- হেডার ফিক্স --- */
+    /* --- হেডার ফিক্স - সার্চবার + ট্রান্সলেট নিচে --- */
 .header {
     background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -27,18 +27,22 @@
     font-size: 20px;
 }
 .logo img {
-    height: 45px;  /* লোগো সাইজ ফিক্স */
+    height: 45px;
     width: auto;
     display: block;
 }
 .header-right {
     display: flex;
+    align-items: flex-start;
+}
+.search-translate-wrap {
+    display: flex;
+    flex-direction: column; /* সার্চবার উপরে, আইকন নিচে */
     align-items: center;
-    gap: 12px;
+    gap: 6px;
 }
 .search-box {
     position: relative;
-    display: block;
 }
 .search-box input {
     border: 1px solid #ddd;
@@ -57,8 +61,8 @@
     font-size: 14px;
 }
 .translate-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #f1f1f1;
     border: 1px solid #ddd;
@@ -66,16 +70,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
 }
 .translate-btn:hover {
     background: #C00000;
     color: #fff;
-}
-.menu-btn {
-    font-size: 20px;
-    color: #333;
-    cursor: pointer;
 }
 /* গুগল ট্রান্সলেট হাইড */
 #google_translate_element, .goog-te-gadget, .goog-te-banner-frame {
@@ -89,13 +88,13 @@ body { top: 0 !important; }
         padding: 6px 10px;
     }
     .logo img {
-        height: 38px; /* মোবাইলে একটু ছোট */
+        height: 38px;
     }
     .search-box input {
-        width: 120px;
+        width: 110px;
         font-size: 13px;
     }
-    .home-btn, .menu-btn {
+    .home-btn {
         font-size: 18px;
     }
 }
@@ -130,7 +129,7 @@ body { top: 0 !important; }
   color: #fff;
 }
 
-    /* --- LIVE টিকার - ফাইনাল ভার্সন --- */
+    /* --- LIVE টিকার - মেনু বামে, LIVE ডানে --- */
 .ticker-container {
     background: #1a1a1a;
     height: 35px;
@@ -138,6 +137,23 @@ body { top: 0 !important; }
     border-bottom: 2px solid #C00000;
     position: relative;
     width: 100%;
+    display: flex;
+    align-items: center;
+}
+.menu-toggle {
+    background: #C00000;
+    color: #fff;
+    font-size: 18px;
+    padding: 0 12px;
+    height: 35px;
+    line-height: 35px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 .live-badge {
     background: #C00000;
@@ -148,7 +164,7 @@ body { top: 0 !important; }
     height: 35px;
     line-height: 35px;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
     z-index: 999;
     display: flex;
@@ -170,12 +186,12 @@ body { top: 0 !important; }
 .ticker-wrap {
     height: 35px;
     overflow: hidden;
-    margin-left: 80px; /* LIVE বাটনের জায়গা */
+    margin: 0 80px; /* বামে মেনু + ডানে LIVE এর জায়গা */
 }
 .ticker-move {
     display: inline-block;
     white-space: nowrap;
-    animation: tickerMove 15s linear infinite; /* 15s = ফাস্ট স্পিড */
+    animation: tickerMove 15s linear infinite;
 }
 .ticker-move span {
     display: inline-block;
@@ -188,9 +204,14 @@ body { top: 0 !important; }
     0% { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(-50%, 0, 0); }
 }
-/* Hover এ থামবে */
 .ticker-container:hover .ticker-move {
     animation-play-state: paused;
+}
+@media (max-width: 768px) {
+    .ticker-move span { 
+        font-size: 13px; 
+        padding: 0 20px; 
+    }
 }
 
     /* --- মেনু বার --- */
@@ -251,37 +272,32 @@ body { top: 0 !important; }
     <a href="/category/সাহিত্য"><i class="fa fa-book"></i> সাহিত্য</a>
   </div>
 
-  <!-- হেডার -->
-<header class="header">
-    <div class="header-top">
-        <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
-        <a href="/" class="logo">
-            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
-        </a>
-        
-        <div class="header-right">
-            <!-- সার্চবার -->
+  <div class="header-top">
+    <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
+    <a href="/" class="logo">
+        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
+    </a>
+    
+    <div class="header-right">
+        <div class="search-translate-wrap">
             <div class="search-box">
                 <input type="text" placeholder="খুঁজুন...">
                 <i class="fas fa-search"></i>
             </div>
-            
-            <!-- গোল বিশ্ব আইকন -->
             <div class="translate-btn" id="translateBtn" title="ভাষা পরিবর্তন">
                 🌐
             </div>
-            
-            <!-- মেনু বাটন -->
-            <div class="menu-btn" id="menuBtn">
-                <i class="fas fa-bars"></i>
-            </div>
         </div>
     </div>
-</header>
+</div>
 
   <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
-    <div class="live-badge">LIVE</div>
+    <!-- থ্রী ডট মেনু - বামে -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
     <div class="ticker-wrap">
         <div class="ticker-move">
             <!-- সেট 1 -->
@@ -289,12 +305,15 @@ body { top: 0 !important; }
             <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
             <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
             
-            <!-- সেট 2 - এইটা মাস্ট, না হলে আটকাবেই -->
+            <!-- সেট 2 -->
             <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
             <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
             <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
         </div>
     </div>
+    
+    <!-- LIVE বাটন - ডানে -->
+    <div class="live-badge">LIVE</div>
 </div>
 <!-- LIVE টিকার শেষ -->
 
