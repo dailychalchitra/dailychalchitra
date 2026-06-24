@@ -120,11 +120,59 @@
   color: #fff;
 }
 
-    /* --- লাইভ টিকার --- */
-   .ticker-wrap { background: #222; color: white; padding: 8px 0; overflow: hidden; }
-   .ticker { display: inline-block; white-space: nowrap; animation: ticker 20s linear infinite; }
-   .ticker span { margin: 0 30px; }
-    @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    /* --- LIVE টিকার --- */
+.ticker-container {
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    height: 35px;
+    overflow: hidden;
+    border-bottom: 2px solid #C00000;
+}
+.live-badge {
+    background: #C00000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0 12px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { background: #C00000; }
+    50% { background: #ff0000; }
+}
+.ticker-content { flex: 1; overflow: hidden; height: 100%; }
+.ticker-items {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: ticker-scroll 15s linear infinite;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.news-item {
+    display: inline-block;
+    color: #fff;
+    font-size: 14px;
+    padding: 0 30px;
+}
+.square-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: #C00000;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+@keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
 
     /* --- মেনু বার --- */
    .menu-bar { background: #8B0000; overflow-x: auto; white-space: nowrap; }
