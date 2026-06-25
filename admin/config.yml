@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/config.yml << 'EOF'
 backend:
   name: git-gateway
   branch: main
@@ -16,3 +17,11 @@ collections:
       - {label: "তারিখ", name: "date", widget: "datetime"}
       - {label: "ফিচার ছবি", name: "thumbnail", widget: "image"}
       - {label: "বিস্তারিত", name: "body", widget: "markdown"}
+EOF
+python3 -c "
+import yaml
+with open('/mnt/user-data/outputs/config.yml') as f:
+    data = yaml.safe_load(f)
+print('YAML valid ✓')
+print(data)
+"
