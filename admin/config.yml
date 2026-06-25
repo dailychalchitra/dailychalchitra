@@ -14,5 +14,5 @@ collections:
     fields:
             - {label: "শিরোনাম", name: "title", widget: "string"}
             - {label: "তারিখ", name: "date", widget: "datetime"}
-            - {label: "ফিচার ছবি", name: "thumbnail", widget: "image"}
+            - {label: "ফিচার ছবি", name: "thumbnail", widget: "image", required: false}
             - {label: "বিস্তারিত", name: "body", widget: "markdown"}
