@@ -490,16 +490,17 @@ body.no-scroll {
 }
   /* ===== Side Menu CSS ===== */
 #dc-menu-trigger {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 9999;
   background: #C00000;
   color: #fff;
   padding: 10px 12px;
-  border-radius: 4px;
   cursor: pointer;
   font-size: 20px;
+  height: 45px;
+  line-height: 25px;
+  display: inline-block;
+  border-radius: 0;
+  z-index: 10;
+  float: left;
 }
 #dc-overlay {
   position: fixed;
@@ -632,11 +633,6 @@ body.dc-menu-open { overflow: hidden; }
   border-radius: 0;
   z-index: 10;
 }
-
-@media only screen and (min-width: 769px) {
-  #dc-menu-trigger { display: none; }
-}
-</style>
 </style>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' rel='stylesheet'/>
 </head>
