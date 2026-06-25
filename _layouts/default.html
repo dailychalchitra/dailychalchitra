@@ -488,44 +488,409 @@ body.no-scroll {
         font-size: 20px;
     }
 }
-  </style>
+  /* ===== Side Menu CSS ===== */
+#dc-menu-trigger {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 9999;
+  background: #C00000;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+}
+#dc-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9998;
+  display: none;
+}
+#dc-overlay.active { display: block; }
+#dc-side-menu {
+  position: fixed;
+  top: 0;
+  left: -320px;
+  width: 300px;
+  height: 100%;
+  background: #fff;
+  z-index: 9999;
+  transition: 0.3s;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+}
+#dc-side-menu.active { left: 0; }
+.dc-menu-header {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.dc-menu-header img {
+  max-width: 150px;
+  display: block;
+  margin: 0 auto 10px;
+}
+.dc-header-search {
+  display: flex;
+  margin: 10px 0;
+}
+.dc-header-search input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+}
+.dc-header-search button {
+  background: #C00000;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
+}
+.dc-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #666;
+}
+.dc-acc-list { padding: 10px 0; }
+.dc-acc-item { border-bottom: 1px solid #f0f0f0; }
+.dc-acc-title {
+  display: block;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+}
+.dc-acc-title:hover { background: #f5f5f5; }
+.dc-acc-title i { margin-right: 8px; color: #C00000; }
+.dc-acc-title .fa-chevron-down {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 12px;
+  transition: 0.3s;
+}
+.dc-acc-content {
+  display: none;
+  background: #fafafa;
+}
+.dc-acc-content a {
+  display: block;
+  padding: 10px 20px 10px 40px;
+  color: #555;
+  text-decoration: none;
+  font-size: 15px;
+}
+.dc-acc-content a:hover { background: #f0f0f0; }
+.dc-acc-item.active > .dc-acc-content { display: block; }
+.dc-acc-item.active > .dc-acc-title .fa-chevron-down {
+  transform: rotate(180deg);
+}
+.dc-social-icons a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  background: #f0f0f0;
+  color: #333;
+  border-radius: 50%;
+  margin: 3px;
+  font-size: 16px;
+  text-align: center;
+}
+.dc-social-icons a:hover {
+  background: #C00000;
+  color: #fff;
+}
+body.dc-menu-open { overflow: hidden; }
+@media only screen and (min-width: 769px) {
+  #dc-menu-trigger { display: none; }
+}
+</style>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' rel='stylesheet'/>
 </head>
 <body>
-
-  <!-- সাইডবার মেনু -->
-  <div class="sidebar" id="mySidebar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
-
-    <div class="sidebar-header">
-        <a href="/">
-            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
-        </a>
+<!-- DAILY CHALCHITRA SIDE MENU START -->
+<div id="dc-menu-trigger" onclick="toggleDcMenu()"><i class="fa fa-bars"></i></div>
+<div id="dc-overlay" onclick="toggleDcMenu()"></div>
+<div id="dc-side-menu">
+  <div class="dc-menu-header">
+    <img alt="দৈনিক চালচিত্র" src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"/>
+    <form action="/search" class="dc-header-search" method="get">
+      <input name="q" placeholder="সার্চ করুন..." type="text"/>
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+    <button class="dc-close-btn" onclick="toggleDcMenu()">&#215;</button>
+  </div>
+  <div class="dc-acc-list">
+    <div class="dc-acc-item"><a class="dc-acc-title" href="/">প্রচ্ছদ</a></div>
+    <div class="dc-acc-item"><a class="dc-acc-title" href="/labels/সর্বশেষ.html">সর্বশেষ</a></div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">বাংলাদেশ <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/রাজধানী.html">রাজধানী</a>
+        <a href="/labels/জেলা.html">জেলা</a>
+        <a href="/labels/করোনাভাইরাস.html">করোনাভাইরাস</a>
+        <a href="/labels/পরিবেশ.html">পরিবেশ</a>
+        <a href="/labels/অপরাধ.html">অপরাধ</a>
+      </div>
     </div>
-    <hr class="sidebar-divider">
-
-    <a href="/"><i class="fa fa-home"></i> প্রচ্ছদ</a>
-    <a href="/category/বাংলাদেশ"><i class="fa fa-flag"></i> বাংলাদেশ</a>
-    <a href="/category/বিশ্ব"><i class="fa fa-globe"></i> বিশ্ব</a>
-    <a href="/category/খেলাধুলা"><i class="fa fa-futbol"></i> খেলাধুলা</a>
-    <a href="/category/বিনোদন"><i class="fa fa-film"></i> বিনোদন</a>
-    <a href="/category/প্রযুক্তি"><i class="fa fa-laptop"></i> প্রযুক্তি</a>
-    <a href="/category/সাহিত্য"><i class="fa fa-book"></i> সাহিত্য</a>
-
-    <hr class="sidebar-divider">
-        <div class="sidebar-footer">
-    <span class="follow-label">অনুসরণ করুন</span>
-    <div class="sidebar-social">
-        <a href="https://www.facebook.com/nimushamim" style="background:#1877F2;" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/shamimnimu" style="background:#E4405F;" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.youtube.com/@shamimnimu" style="background:#FF0000;" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://www.linkedin.com/in/shamim-nimu-a75964406" style="background:#0A66C2;" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://wa.me/96893815016" style="background:#25D366;" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">বিশ্ব <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/ভারত.html">ভারত</a>
+        <a href="/labels/পাকিস্তান.html">পাকিস্তান</a>
+        <a href="/labels/চীন.html">চীন</a>
+        <div class="dc-acc-item">
+          <div class="dc-acc-title">মধ্যপ্রাচ্য <i class="fa fa-chevron-down"></i></div>
+          <div class="dc-acc-content">
+            <a href="/labels/ইরান.html">ইরান</a>
+            <a href="/labels/সৌদি-আরব.html">সৌদি আরব</a>
+          </div>
+        </div>
+        <a href="/labels/যুক্তরাষ্ট্র.html">যুক্তরাষ্ট্র</a>
+        <a href="/labels/যুক্তরাজ্য.html">যুক্তরাজ্য</a>
+        <a href="/labels/এশিয়া.html">এশিয়া</a>
+        <a href="/labels/ইউরোপ.html">ইউরোপ</a>
+        <a href="/labels/আফ্রিকা.html">আফ্রিকা</a>
+        <a href="/labels/লাতিন-আমেরিকা.html">লাতিন আমেরিকা</a>
+      </div>
     </div>
-    <p>২০১৯-২০২৬ © দৈনিক চালচিত্র কর্তৃক সর্বস্বত্ব সংরক্ষিত</p>
-    <p><strong>সম্পাদক ও প্রকাশক:</strong> শামীম নিমু</p>
-    <p>G-mail: <a href="mailto:nimushamim46@gmail.com" style="color:#C00000;">nimushamim46@gmail.com</a></p>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">সংবাদ <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/দেশের-সংবাদ.html">দেশের সংবাদ</a>
+        <a href="/labels/আন্তর্জাতিক-সংবাদ.html">আন্তর্জাতিক সংবাদ</a>
+        <a href="/pages/blog-page_06.html">আবহাওয়া সংবাদ</a>
+        <a href="/labels/নিখোঁজ-সংবাদ.html">নিখোঁজ সংবাদ</a>
+        <a href="/labels/শোক-সংবাদ.html">শোক সংবাদ</a>
+        <a href="/labels/জরুরী-সংবাদ.html">জরুরী সংবাদ</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">সাহিত্য বিভাগ <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <div class="dc-acc-item">
+          <div class="dc-acc-title">কবিতা <i class="fa fa-chevron-down"></i></div>
+          <div class="dc-acc-content">
+            <a href="/labels/পদ্য-কবিতা.html">পদ্য কবিতা</a>
+            <a href="/labels/গদ্য-কবিতা.html">গদ্য কবিতা</a>
+            <a href="/labels/ছড়া-কবিতা.html">ছড়া কবিতা</a>
+            <a href="/labels/অনু-কবিতা.html">অনু কবিতা</a>
+            <a href="/labels/সনেট-কবিতা.html">সনেট কবিতা</a>
+            <a href="/labels/লিমেরিক-কবিতা.html">লিমেরিক কবিতা</a>
+          </div>
+        </div>
+        <div class="dc-acc-item">
+          <div class="dc-acc-title">গল্প <i class="fa fa-chevron-down"></i></div>
+          <div class="dc-acc-content">
+            <a href="/labels/বড়-গল্প.html">বড় গল্প</a>
+            <a href="/labels/ছোট-গল্প.html">ছোট গল্প</a>
+            <a href="/labels/অনু-গল্প.html">অনু গল্প</a>
+            <a href="/labels/সামাজিক-গল্প.html">সামাজিক গল্প</a>
+            <a href="/labels/ভালোবাসার-গল্প.html">ভালোবাসার গল্প</a>
+            <a href="/labels/জীবনমূখী-গল্প.html">জীবনমূখী গল্প</a>
+          </div>
+        </div>
+        <a href="/labels/প্রবন্ধ-ও-নিবন্ধ.html">প্রবন্ধ ও নিবন্ধ</a>
+        <a href="/labels/রম্যরচনা.html">রম্যরচনা</a>
+        <a href="/labels/কৌতুক.html">কৌতুক</a>
+        <a href="/labels/ভ্রমণ.html">ভ্রমণ</a>
+        <a href="/labels/মুক্ত-গদ্য.html">মুক্ত গদ্য</a>
+        <a href="/labels/বই-পরিচিতি.html">বই পরিচিতি</a>
+        <div class="dc-acc-item">
+          <div class="dc-acc-title">উপন্যাস <i class="fa fa-chevron-down"></i></div>
+          <div class="dc-acc-content">
+            <a href="/labels/সামাজিক-উপন্যাস.html">সামাজিক উপন্যাস</a>
+            <a href="/labels/ঐতিহাসক-উপন্যাস.html">ঐতিহাসক উপন্যাস</a>
+            <a href="/labels/মনস্তাত্ত্বিক-উপন্যাস.html">মনস্তাত্ত্বিক উপন্যাস</a>
+            <a href="/labels/রহস্য-উপন্যাস.html">রহস্য উপন্যাস</a>
+            <a href="/labels/রাজনৈতিক-উপন্যাস.html">রাজনৈতিক উপন্যাস</a>
+            <a href="/labels/রূপক-উপন্যাস.html">রূপক উপন্যাস</a>
+            <a href="/labels/পত্রোপন্যাস.html">পত্রোপন্যাস</a>
+            <a href="/labels/হাস্যরসাত্মক-উপন্যাস.html">হাস্যরসাত্মক উপন্যাস</a>
+          </div>
+        </div>
+        <div class="dc-acc-item">
+          <div class="dc-acc-title">চিঠি <i class="fa fa-chevron-down"></i></div>
+          <div class="dc-acc-content">
+            <a href="/labels/মায়ের-চিঠি.html">মায়ের চিঠি</a>
+            <a href="/labels/বাবার-চিঠি.html">বাবার চিঠি</a>
+            <a href="/labels/ভাইয়ের-চিঠি.html">ভাইয়ের চিঠি</a>
+            <a href="/labels/বোনের-চিঠি.html">বোনের চিঠি</a>
+            <a href="/labels/বন্ধুর-চিঠি.html">বন্ধুর চিঠি</a>
+            <a href="/labels/প্রেমের-চিঠি.html">প্রেমের চিঠি</a>
+            <a href="/labels/প্রবাসী-চিঠি.html">প্রবাসী চিঠি</a>
+            <a href="/labels/শেষ-চিঠি.html">শেষ চিঠি</a>
+          </div>
+        </div>
+        <a href="/labels/উক্তি.html">উক্তি</a>
+      </div>
+    </div>
+    <a class="dc-acc-title" href="/pages/blog-page_151.html">লেখক তালিকা</a>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">বিনোদন <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/গান.html">গান</a>
+        <a href="/labels/চলচ্চিত্র.html">চলচ্চিত্র</a>
+        <a href="/labels/টেলিফিলিম.html">টেলিফিলিম</a>
+        <a href="/labels/নাটক.html">নাটক</a>
+        <a href="/labels/সংলাপ.html">সংলাপ</a>
+        <a href="/labels/শিল্পকলা.html">শিল্পকলা</a>
+        <a href="/labels/বিজ্ঞাপন.html">বিজ্ঞাপন</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">শিক্ষা <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/ভর্তি.html">ভর্তি</a>
+        <a href="/labels/পরীক্ষা.html">পরীক্ষা</a>
+        <a href="/labels/বৃত্তি.html">বৃত্তি</a>
+        <a href="/labels/পড়াশোনা.html">পড়াশোনা</a>
+        <a href="/labels/উচ্চশিক্ষা.html">উচ্চশিক্ষা</a>
+        <a href="/labels/ক্যাম্পাস.html">ক্যাম্পাস</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">খেলাধুলা <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/ফুটবল.html">ফুটবল</a>
+        <a href="/labels/ক্রিকেট.html">ক্রিকেট</a>
+        <a href="/labels/হাডু-ডুডু.html">হাডু-ডুডু</a>
+        <a href="/labels/বাস্কেটবল.html">বাস্কেটবল</a>
+        <a href="/labels/ভলিবল.html">ভলিবল</a>
+        <a href="/labels/টেনিস.html">টেনিস</a>
+        <a href="/labels/ব্যাডমিন্টন.html">ব্যাডমিন্টন</a>
+        <a href="/labels/হকি.html">হকি</a>
+        <a href="/labels/বেসবল.html">বেসবল</a>
+        <a href="/labels/এ্যাথলেটিক্স.html">এ্যাথলেটিক্স</a>
+        <a href="/labels/টেবিল-টেনিস.html">টেবিল টেনিস</a>
+        <a href="/labels/রাগবি.html">রাগবি</a>
+        <a href="/labels/গলফ.html">গলফ</a>
+        <a href="/labels/সাঁতার.html">সাঁতার</a>
+        <a href="/labels/কুস্তি.html">কুস্তি</a>
+        <a href="/labels/দাবা.html">দাবা</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">জীবনযাপন <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/সুস্থতা.html">সুস্থতা</a>
+        <a href="/labels/সম্পর্ক.html">সম্পর্ক</a>
+        <a href="/labels/রূপচর্চা.html">রূপচর্চা</a>
+        <a href="/labels/গৃহসজ্জা.html">গৃহসজ্জা</a>
+        <a href="/labels/কেনাকাটা.html">কেনাকাটা</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">চাকরি <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/চাকরির-খবর.html">খবর</a>
+        <a href="/labels/নিয়োগ.html">নিয়োগ</a>
+        <a href="/labels/চাকরির-পরামর্শ.html">পরামর্শ</a>
+        <a href="/labels/সাক্ষাৎকার.html">সাক্ষাৎকার</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">বাণিজ্য <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/শেয়ারবাজার.html">শেয়ারবাজার</a>
+        <a href="/labels/ব্যাংক.html">ব্যাংক</a>
+        <a href="/labels/শিল্প.html">শিল্প</a>
+        <a href="/labels/অর্থনীতি.html">অর্থনীতি</a>
+        <a href="/labels/বিশ্ব-বাণিজ্য.html">বিশ্ব বাণিজ্য</a>
+        <a href="/labels/বিশ্লেষণ.html">বিশ্লেষণ</a>
+        <a href="/labels/মালিকানা-অর্থ.html">মালিকানা অর্থ</a>
+        <a href="/labels/উদ্যোক্তা.html">উদ্যোক্তা</a>
+        <a href="/labels/করপোরেট.html">করপোরেট</a>
+        <a href="/labels/বাজেট.html">বাজেট</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">ধর্ম বিষয়ক <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/ইসলাম.html">ইসলাম</a>
+        <a href="/labels/সনাতন.html">সনাতন</a>
+        <a href="/labels/বৌদ্ধ.html">বৌদ্ধ</a>
+        <a href="/labels/খ্রিস্টান.html">খ্রিস্টান</a>
+        <a href="/labels/ঐতিহ্যবাহী-ধর্ম.html">ঐতিহ্যবাহী/জাতিগত ধর্ম</a>
+        <a href="/labels/নাস্তিক.html">ধর্মহীন/নাস্তিক</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">বিভাগ সমূহ <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/ঢাকা.html">ঢাকা</a>
+        <a href="/labels/চট্টগ্রাম.html">চট্টগ্রাম</a>
+        <a href="/labels/রাজশাহী.html">রাজশাহী</a>
+        <a href="/labels/খুলনা.html">খুলনা</a>
+        <a href="/labels/বরিশাল.html">বরিশাল</a>
+        <a href="/labels/সিলেট.html">সিলেট</a>
+        <a href="/labels/রংপুর.html">রংপুর</a>
+        <a href="/labels/ময়মনসিংহ.html">ময়মনসিংহ</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">মতামত <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/সম্পাদকীয়.html">সম্পাদকীয়</a>
+        <a href="/labels/কলাম.html">কলাম</a>
+        <a href="/labels/সাক্ষাৎকার.html">সাক্ষাৎকার</a>
+        <a href="/labels/স্মরণ.html">স্মরণ</a>
+        <a href="/labels/প্রতিক্রিয়া.html">প্রতিক্রিয়া</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">অন্যান্য <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/আলোচনা.html">আলোচনা</a>
+        <a href="/labels/সমালোচনা.html">সমালোচনা</a>
+      </div>
+    </div>
+    <div class="dc-acc-item">
+      <div class="dc-acc-title">আরও <i class="fa fa-chevron-down"></i></div>
+      <div class="dc-acc-content">
+        <a href="/labels/গোল-টেবিল.html">গোল টেবিল</a>
+        <a href="/labels/বিশেষ-সংখ্যা.html">বিশেষ সংখ্যা</a>
+        <a href="/labels/অনলাইন-ভোট.html">অনলাইন ভোট</a>
+        <a href="/labels/প্রতিষ্ঠা-বার্ষিকী.html">প্রতিষ্ঠা বার্ষিকী</a>
+      </div>
+    </div>
+  </div>
+  <div class="dc-social-icons" style="padding:15px; text-align:center; border-top:1px solid #eee;">
+    <h3 style="font-size:16px; color:#C00000; margin-bottom:10px;">আমাদের সাথে যুক্ত থাকুন</h3>
+    <a href="https://www.facebook.com/nimushamim" target="_blank" title="Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.facebook.com/shamimnimu" target="_blank" title="Facebook Page"><i class="fab fa-facebook"></i></a>
+    <a href="https://wa.me/96893815016" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.instagram.com/shamimnimu" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com/@shamimnimu" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+    <a href="https://t.me/shamimnimu93815016" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+    <a href="https://x.com/ShamimnimuP" target="_blank" title="Twitter X"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="mailto:nimushamim46@gmail.com" target="_blank" title="Gmail"><i class="fa fa-envelope"></i></a>
+    <a href="https://www.linkedin.com/in/shamim-nimu-a75964406" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;"/>
+
+  <div style="text-align:center; font-size:12px; color:#666; line-height:1.8;">
+    <p style="margin:5px 0;">২০১৯-২০২৬ © দৈনিক চালচিত্র কর্তৃক সর্বস্বত্ব সংরক্ষিত</p>
+    <p style="margin:5px 0;"><b>সম্পাদক ও প্রকাশক:</b> শামীম নিমু</p>
+    <p style="margin:5px 0;"><b>G-mail:</b> nimushamim46@gmail.com</p>
+  </div>
 </div>
-</div>
+<!-- DAILY CHALCHITRA SIDE MENU END -->
 
   <div class="header-top">
     <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
@@ -597,15 +962,6 @@ body.no-scroll {
 
   <!-- জাভাস্ক্রিপ্ট -->
 <script>
-function openMenu() {
-  document.getElementById("mySidebar").classList.add("open");
-  document.body.classList.add("no-scroll");
-}
-function closeMenu() {
-  document.getElementById("mySidebar").classList.remove("open");
-  document.body.classList.remove("no-scroll");
-}
-
 function toggleSearch() {
   var x = document.getElementById("searchBox");
   if (x.style.display === "none" || x.style.display === "") {
@@ -644,24 +1000,6 @@ function googleTranslateElementInit() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var menuBtn = document.getElementById('menuToggle');
-    var sidebar = document.getElementById('mySidebar');
-    var closeBtn = document.getElementById('closeBtn');
-    
-    if(menuBtn && sidebar) {
-        menuBtn.addEventListener('click', function() {
-            sidebar.classList.add('open');
-            document.body.classList.add('no-scroll');
-        });
-    }
-    
-    if(closeBtn && sidebar) {
-        closeBtn.addEventListener('click', function() {
-            sidebar.classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        });
-    }
-
     var translateSelect = document.getElementById('translateSelect');
     if(translateSelect) {
         translateSelect.addEventListener('change', function() {
@@ -676,6 +1014,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// DAILY CHALCHITRA SIDE MENU JS START
+function toggleDcMenu() {
+  document.getElementById('dc-side-menu').classList.toggle('active');
+  document.getElementById('dc-overlay').classList.toggle('active');
+  document.body.classList.toggle('dc-menu-open');
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var accItems = document.querySelectorAll('#dc-side-menu .dc-acc-item > .dc-acc-title');
+  accItems.forEach(function(item) {
+    if(item.nextElementSibling && item.nextElementSibling.classList.contains('dc-acc-content')) {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        var parent = this.parentElement;
+        var siblings = parent.parentElement.querySelectorAll(':scope > .dc-acc-item');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('active');
+        });
+        parent.classList.toggle('active');
+      });
+    }
+  });
+});
+// DAILY CHALCHITRA SIDE MENU JS END
 </script>
 {% include footer.html %}
 </body>
