@@ -98,17 +98,17 @@ body { top: 0 !important; }
     z-index: 2;
 }
 .live-badge {
-    background: #C00000;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 0 12px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-    z-index: 2;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #C00000;
+  color: #fff;
+  padding: 0 12px;
+  height: 35px;
+  line-height: 35px;
+  font-weight: bold;
+  font-size: 12px;
+  z-index: 5;
 }
 .live-badge::before {
     content: '';
@@ -666,16 +666,16 @@ body.dc-menu-open { overflow: hidden; }
 
   <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
-  
   <!-- DAILY CHALCHITRA SIDE MENU TRIGG -->
-<div id="dc-menu-trigger" onclick="toggleDcMenu()">
-  <i class="fa fa-bars"></i>
-</div>
+  <div id="dc-menu-trigger" onclick="toggleDcMenu()">
+    <i class="fa fa-bars"></i>
+  </div>
 
-<div class="live-badge">LIVE</div>
+  <div class="ticker-move">
+    <span>♦ ব্রেকিং: দৈনিক চালচিত্রে...</span>
+  </div>
 
-<div class="ticker-move">
-  <span>♦ ব্রেকিং: দৈনিক চালচিত্রে...</span>
+  <div class="live-badge">LIVE</div>
 </div>
 <!-- LIVE টিকার শেষ -->
 
