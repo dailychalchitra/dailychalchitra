@@ -1,0 +1,17 @@
+backend:
+  name: github
+  repo: dailychalchitra/dailychalchitra
+  branch: main
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+collections:
+    - name: "news"
+    label: "নিউজ পোস্ট"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+            - {label: "শিরোনাম", name: "title", widget: "string"}
+            - {label: "তারিখ", name: "date", widget: "datetime"}
+            - {label: "ফিচার ছবি", name: "thumbnail", widget: "image"}
+            - {label: "বিস্তারিত", name: "body", widget: "markdown"}
