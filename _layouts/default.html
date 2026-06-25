@@ -109,6 +109,7 @@ body { top: 0 !important; }
   font-weight: bold;
   font-size: 12px;
   z-index: 5;
+animation: liveBlink 1.5s infinite;
 }
 .live-badge::before {
     content: '';
@@ -131,7 +132,7 @@ body { top: 0 !important; }
     display: inline-block;
     white-space: nowrap;
     padding-left: 100%;
-    animation: tickerMove 10s linear infinite;
+    animation: tickerMove 8s linear infinite;
 }
 .ticker-move span {
     display: inline-block;
