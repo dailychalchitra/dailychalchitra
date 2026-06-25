@@ -1,13 +1,13 @@
 backend:
   name: github
-  repo: nimushamim46/dailychalchitra-com
+  repo: dailychalchitra/dailychalchitra
   branch: main
 
-media_folder: "assets/img"
-public_folder: "/assets/img"
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 collections:
-    - name: "post"
+    - name: "news"
     label: "নিউজ পোস্ট"
     folder: "_posts"
     create: true
@@ -15,5 +15,5 @@ collections:
     fields:
             - {label: "শিরোনাম", name: "title", widget: "string"}
             - {label: "তারিখ", name: "date", widget: "datetime"}
-            - {label: "ফিচার ছবি", name: "thumbnail", widget: "image", required: false}
+            - {label: "ফিচার ছবি", name: "thumbnail", widget: "image"}
             - {label: "বিস্তারিত", name: "body", widget: "markdown"}
