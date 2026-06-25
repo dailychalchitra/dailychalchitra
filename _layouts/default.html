@@ -177,6 +177,43 @@ body { top: 0 !important; }
     font-size: 36px;
     color: #222;
 }
+.sidebar-header {
+    text-align: center;
+    padding: 20px 15px 15px;
+}
+.sidebar-header img {
+    height: 70px;
+    width: auto;
+}
+.sidebar-divider {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0 15px;
+}
+.sidebar-footer {
+    padding: 20px 15px;
+    text-align: center;
+    font-size: 13px;
+    color: #333;
+}
+.sidebar-footer .sidebar-social {
+    margin-bottom: 15px;
+}
+.sidebar-footer .sidebar-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    margin: 0 4px;
+    color: #fff !important;
+    font-size: 15px;
+}
+.sidebar-footer p {
+    margin: 5px 0;
+    line-height: 1.6;
+}
 body.no-scroll {
     overflow: hidden;
     height: 100%;
@@ -445,6 +482,14 @@ body.no-scroll {
   <!-- সাইডবার মেনু -->
   <div class="sidebar" id="mySidebar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+
+    <div class="sidebar-header">
+        <a href="/">
+            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
+        </a>
+    </div>
+    <hr class="sidebar-divider">
+
     <a href="/"><i class="fa fa-home"></i> প্রচ্ছদ</a>
     <a href="/category/বাংলাদেশ"><i class="fa fa-flag"></i> বাংলাদেশ</a>
     <a href="/category/বিশ্ব"><i class="fa fa-globe"></i> বিশ্ব</a>
@@ -452,7 +497,21 @@ body.no-scroll {
     <a href="/category/বিনোদন"><i class="fa fa-film"></i> বিনোদন</a>
     <a href="/category/প্রযুক্তি"><i class="fa fa-laptop"></i> প্রযুক্তি</a>
     <a href="/category/সাহিত্য"><i class="fa fa-book"></i> সাহিত্য</a>
-  </div>
+
+    <hr class="sidebar-divider">
+    <div class="sidebar-footer">
+        <div class="sidebar-social">
+            <a href="https://www.facebook.com/nimushamim" style="background:#1877F2;" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/shamimnimu" style="background:#E4405F;" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@shamimnimu" style="background:#FF0000;" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/shamim-nimu-a75964406" style="background:#0A66C2;" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://wa.me/96893815016" style="background:#25D366;" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>২০১৯-২০২৬ © দৈনিক চালচিত্র কর্তৃক সর্বস্বত্ব সংরক্ষিত</p>
+        <p><strong>সম্পাদক ও প্রকাশক:</strong> শামীম নিমু</p>
+        <p>G-mail: <a href="mailto:nimushamim46@gmail.com" style="color:#C00000;">nimushamim46@gmail.com</a></p>
+    </div>
+</div>
 
   <div class="header-top">
     <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
