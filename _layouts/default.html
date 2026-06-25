@@ -461,6 +461,22 @@ body .post-thumbnail img {
 
 /* 4. ডেক্সটপ - 769px এর বড় */
 @media only screen and (min-width: 769px) {
+
+  /* মূল কন্টেন্ট এলাকাকে মোবাইলের মতো একটা compact, কেন্দ্রীভূত
+     কলামে আনার জন্য max-width বসানো হলো — এটাই ডেস্কটপে কার্ড
+     পুরো স্ক্রিন জুড়ে ছড়িয়ে যাওয়া আটকাবে */
+  body .lead-news,
+  body .news-grid,
+  body main,
+  body .main-content,
+  body .container,
+  body #content,
+  body .content-area {
+    max-width: 760px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
   /* প্যাডিং */
   body .lead-content, 
   body .card-content, 
@@ -470,13 +486,15 @@ body .post-thumbnail img {
     box-sizing: border-box !important;
   }
 
-  /* লিড ইমেজ */
+  /* লিড ইমেজ - মোবাইলের মতো স্বাভাবিক অনুপাতে, আর অতিরিক্ত উঁচু না */
   body .lead-img img {
-    min-height: 380px !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 420px !important;
     object-fit: cover !important;
   }
 
-  /* শিরোনাম - normal মাপে, hover-এ লাল */
+  /* শিরোনাম - মোবাইলের মতো লাল, normal মাপে */
   body .lead-content h1 a,
   body .card-content h2 a,
   body .news-item h2 a,
@@ -485,23 +503,13 @@ body .post-thumbnail img {
   body article h2 a,
   body h1.post-title a,
   body h2.entry-title a {
-    color: #1a1a1a !important;
+    color: #C00000 !important;
     font-size: 22px !important;
     font-weight: 700 !important;
     text-decoration: none !important;
     line-height: 1.4 !important;
     display: block !important;
     margin-bottom: 8px !important;
-  }
-  body .lead-content h1 a:hover,
-  body .card-content h2 a:hover,
-  body .news-item h2 a:hover,
-  body .post-content h2 a:hover,
-  body article h1 a:hover,
-  body article h2 a:hover,
-  body h1.post-title a:hover,
-  body h2.entry-title a:hover {
-    color: #C00000 !important;
   }
 
   /* "আরও পড়ুন" - normal মাপে */
@@ -516,10 +524,6 @@ body .post-thumbnail img {
     color: #C00000 !important;
     display: inline-block !important;
     margin-top: 10px !important;
-    text-decoration: none !important;
-  }
-  body a.more-link:hover,
-  body .read-more:hover {
     text-decoration: underline !important;
   }
 
