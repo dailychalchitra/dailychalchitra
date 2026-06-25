@@ -109,19 +109,30 @@ body { top: 0 !important; }
   font-weight: bold;
   font-size: 12px;
   z-index: 5;
-animation: liveBlink 1.5s infinite;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+
 .live-badge::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: #fff;
-    border-radius: 50%;
-    animation: liveBlink 1s infinite;
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: livePulse 1.2s ease-in-out infinite;
 }
-@keyframes liveBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
+
+@keyframes livePulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.5);
+    opacity: 0.4;
+  }
 }
 .ticker-wrap {
     height: 35px;
