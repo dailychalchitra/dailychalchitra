@@ -17,10 +17,10 @@
 .header-top {
     display: flex;
     align-items: center;
-    padding: 8px 15px; /* 10px থেকে 8px করলাম */
+    padding: 8px 15px;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 15px; /* হোম + লোগোর মাঝে গ্যাপ অ্যাড করলাম */
+    gap: 15px;
 }
 .home-btn {
     color: #C00000;
@@ -31,18 +31,18 @@
     flex-shrink: 0;
 }
 .logo img {
-    height: 85px; /* 65px থেকে 85px করলাম */
+    height: 85px;
     width: auto;
     display: block;
 }
 .header-right {
-    margin-left: auto; /* এই লাইন অ্যাড করেন - সার্চবার ডানে যাবে */
+    margin-left: auto;
     display: flex;
     align-items: flex-start;
 }
 .search-translate-wrap {
     display: flex;
-    flex-direction: column; /* সার্চবার উপরে, ট্রান্সলেট নিচে */
+    flex-direction: column;
     align-items: flex-end;
     gap: 8px;
 }
@@ -69,13 +69,12 @@
     font-size: 14px;
     pointer-events: none;
 }
-/* গুগল ট্রান্সলেট হাইড */
 #google_translate_element, .goog-te-gadget, .skiptranslate {
     display: none !important;
 }
 body { top: 0 !important; }
 
-/* --- টিকার ফিক্স - কালো পর্দা বাদ --- */
+/* --- টিকার ফিক্স --- */
 .ticker-container {
     background: #1a1a1a;
     height: 35px;
@@ -89,13 +88,13 @@ body { top: 0 !important; }
     background: #C00000;
     color: #fff;
     font-size: 18px;
-    width: 45px; /* ফিক্সড width, পুরা ঢাকে না */
+    width: 45px;
     height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    flex-shrink: 0; /* ছোট হবে না */
+    flex-shrink: 0;
     z-index: 2;
 }
 .live-badge {
@@ -108,7 +107,7 @@ body { top: 0 !important; }
     display: flex;
     align-items: center;
     gap: 6px;
-    flex-shrink: 0; /* ছোট হবে না */
+    flex-shrink: 0;
     z-index: 2;
 }
 .live-badge::before {
@@ -126,12 +125,12 @@ body { top: 0 !important; }
 .ticker-wrap {
     height: 35px;
     overflow: hidden;
-    flex: 1; /* বাকি জায়গা নিবে */
+    flex: 1;
 }
 .ticker-move {
     display: inline-block;
     white-space: nowrap;
-    padding-left: 100%; /* ডান থেকে শুরু হবে */
+    padding-left: 100%;
     animation: tickerMove 18s linear infinite;
 }
 .ticker-move span {
@@ -153,7 +152,7 @@ body { top: 0 !important; }
 .sidebar {
     position: fixed;
     top: 0;
-    left: -280px; /* বাম থেকে আসবে */
+    left: -280px;
     width: 280px;
     height: 100%;
     z-index: 1000;
@@ -180,60 +179,22 @@ body { top: 0 !important; }
     color: #fff;
 }
 
-/* মোবাইল */
+/* মোবাইল - হেডার */
 @media (max-width: 768px) {
     .header-top {
         gap: 10px;
         padding: 6px 10px;
     }
-    .logo img { 
-        height: 60px; /* মোবাইলে 60px */
+    .logo img {
+        height: 60px;
     }
 }
 
-    /* --- মেনু বার --- */
-   .menu-bar { background: #8B0000; overflow-x: auto; white-space: nowrap; }
-   .menu-bar a { display: inline-block; color: white; padding: 12px 18px; text-decoration: none; font-weight: bold; }
+/* --- মেনু বার --- */
+.menu-bar { background: #8B0000; overflow-x: auto; white-space: nowrap; }
+.menu-bar a { display: inline-block; color: white; padding: 12px 18px; text-decoration: none; font-weight: bold; }
 
-    /* --- মেইন কন্টেন্ট --- */
-   .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
-
-  /* --- নতুন ফুটার CSS --- */
-.footer-main { background: #fff; text-align: center; }
-.footer-top { padding: 30px 15px 10px; }
-.footer-site-name { font-weight: bold; }
-.footer-categories { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 25px; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; }
-.footer-categories a { color: #333; text-decoration: none; font-size: 16px; }
-.footer-social { border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 20px 0; margin: 20px 0; }
-.footer-social h3 { margin-bottom: 15px; font-size: 18px; color: #333; }
-.social-icons a { font-size: 32px; margin: 0 6px; display: inline-block; }
-.fa-facebook { color: #1877F2 !important; }
-.fa-instagram { color: #E4405F !important; }
-.fa-youtube { color: #FF0000 !important; }
-.fa-linkedin { color: #0A66C2 !important; }
-.fa-whatsapp { color: #25D366 !important; }
-.fa-telegram { color: #0088cc !important; }
-.fa-x-twitter { color: #000000 !important; }
-
-/* নিচের লাল অংশ */
-.footer-bottom-red { background: #C00000; color: white; padding: 25px 15px; }
-.footer-links { margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-.footer-links a { color: white; text-decoration: none; font-size: 15px; font-weight: bold; }
-.footer-bottom-text { font-size: 14px; line-height: 1.8; }
-.footer-bottom-text strong { color: #fff; }
-.footer-bottom-text a { color: #fff; text-decoration: underline; }
-.footer-sun-logo { 
-  width: 32px; 
-  height: 32px; 
-  vertical-align: middle; 
-}
-.footer-site-name { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  margin-bottom: 20px; 
-}
-/* --- হোমপেজ লেআউট --- */
+/* --- মেইন কন্টেন্ট কন্টেইনার --- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -251,7 +212,7 @@ body { top: 0 !important; }
     display: inline-block;
 }
 
-/* 1. লিড নিউজ */
+/* 1. লিড নিউজ (সবচেয়ে উপরের বড় পোস্ট) */
 .lead-news-section {
     margin-bottom: 35px;
 }
@@ -270,6 +231,7 @@ body { top: 0 !important; }
     height: 100%;
     object-fit: cover;
     min-height: 350px;
+    display: block;
 }
 .lead-content {
     padding: 25px 25px 25px 0;
@@ -282,6 +244,7 @@ body { top: 0 !important; }
     border-radius: 3px;
     display: inline-block;
     margin-bottom: 12px;
+    font-weight: 700;
 }
 .lead-content h1 {
     font-size: 28px;
@@ -311,11 +274,11 @@ body { top: 0 !important; }
 /* 2. কন্টেন্ট র‍্যাপ: গ্রিড + সাইডবার */
 .content-wrap {
     display: grid;
-    grid-template-columns: 1fr 320px; /* বামে নিউজ, ডানে সাইডবার 320px */
+    grid-template-columns: 1fr 320px;
     gap: 30px;
 }
 
-/* 3 কলাম নিউজ গ্রিড */
+/* ৩ কলাম নিউজ গ্রিড (ডেস্কটপ) */
 .news-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -336,6 +299,7 @@ body { top: 0 !important; }
     width: 100%;
     height: 180px;
     object-fit: cover;
+    display: block;
 }
 .card-content {
     padding: 15px;
@@ -400,18 +364,57 @@ body { top: 0 !important; }
     border-radius: 5px;
 }
 
-/* মোবাইল রেসপন্সিভ */
+/* --- ফুটার --- */
+.footer-main { background: #fff; text-align: center; }
+.footer-top { padding: 30px 15px 10px; }
+.footer-site-name { font-weight: bold; }
+.footer-categories { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 25px; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.footer-categories a { color: #333; text-decoration: none; font-size: 16px; }
+.footer-social { border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 20px 0; margin: 20px 0; }
+.footer-social h3 { margin-bottom: 15px; font-size: 18px; color: #333; }
+.social-icons a { font-size: 32px; margin: 0 6px; display: inline-block; }
+.fa-facebook { color: #1877F2 !important; }
+.fa-instagram { color: #E4405F !important; }
+.fa-youtube { color: #FF0000 !important; }
+.fa-linkedin { color: #0A66C2 !important; }
+.fa-whatsapp { color: #25D366 !important; }
+.fa-telegram { color: #0088cc !important; }
+.fa-x-twitter { color: #000000 !important; }
+
+.footer-bottom-red { background: #C00000; color: white; padding: 25px 15px; }
+.footer-links { margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+.footer-links a { color: white; text-decoration: none; font-size: 15px; font-weight: bold; }
+.footer-bottom-text { font-size: 14px; line-height: 1.8; }
+.footer-bottom-text strong { color: #fff; }
+.footer-bottom-text a { color: #fff; text-decoration: underline; }
+.footer-sun-logo {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+}
+.footer-site-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* ==========================================================
+   মোবাইল রেসপন্সিভ (768px ও তার ছোট)
+   এখানেই .lead-news ও .news-grid ১ কলামে নেমে আসে,
+   ফন্ট/প্যাডিং একটু কমে
+   ========================================================== */
 @media (max-width: 992px) {
     .content-wrap {
-        grid-template-columns: 1fr; /* সাইডবার নিচে চলে যাবে */
+        grid-template-columns: 1fr;
     }
     .news-grid {
-        grid-template-columns: repeat(2, 1fr); /* ট্যাবলেটে 2 কলাম */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 @media (max-width: 768px) {
     .lead-news {
-        grid-template-columns: 1fr; /* লিড নিউজ মোবাইলে স্ট্যাক */
+        grid-template-columns: 1fr;
     }
     .lead-img img {
         min-height: 220px;
@@ -419,200 +422,20 @@ body { top: 0 !important; }
     .lead-content {
         padding: 20px;
     }
-/* ===== দৈনিক চালচিত্র - 100% ফাইনাল ফিক্স ===== */
-
-/* 1. সব পোস্ট 1 কলামে নামান */
-body .lead-news, 
-body .news-grid, 
-body .news-item, 
-body .card-news, 
-body .row, 
-body [class*="col-"] {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  float: none !important;
-  flex: 0 0 100% !important;
-  grid-template-columns: 1fr !important;
-  clear: both !important;
+    .lead-content h1 {
+        font-size: 22px;
+    }
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    .card-content h3 {
+        font-size: 16px;
+    }
+    .section-title {
+        font-size: 20px;
+    }
 }
-
-/* 2. সব কার্ডের ডিজাইন */
-body .news-item, 
-body .card-news, 
-body article.post {
-  background: #fff !important;
-  border-radius: 8px !important;
-  overflow: hidden !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-  margin-bottom: 30px !important;
-}
-
-/* 3. সব ছবি ফুল উইডথ */
-body .lead-img img, 
-body .news-item img, 
-body .card-img img, 
-body .post-thumbnail img {
-  width: 100% !important;
-  height: auto !important;
-  display: block !important;
-  margin: 0 !important;
-}
-
-/* 4. ডেক্সটপ - 769px এর বড় */
-@media only screen and (min-width: 769px) {
-
-  /* মূল কন্টেন্ট এলাকাকে মোবাইলের মতো একটা compact, কেন্দ্রীভূত
-     কলামে আনার জন্য max-width বসানো হলো — এটাই ডেস্কটপে কার্ড
-     পুরো স্ক্রিন জুড়ে ছড়িয়ে যাওয়া আটকাবে */
-  body .lead-news,
-  body .news-grid,
-  body main,
-  body .main-content,
-  body .container,
-  body #content,
-  body .content-area {
-    max-width: 760px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  /* প্যাডিং */
-  body .lead-content, 
-  body .card-content, 
-  body .news-item .content, 
-  body .post-content {
-    padding: 20px 25px 25px 25px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* লিড ইমেজ - মোবাইলের মতো স্বাভাবিক অনুপাতে, আর অতিরিক্ত উঁচু না */
-  body .lead-img img {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 420px !important;
-    object-fit: cover !important;
-  }
-
-  /* শিরোনাম - মোবাইলের মতো লাল, normal মাপে */
-  body .lead-content h1 a,
-  body .card-content h2 a,
-  body .news-item h2 a,
-  body .post-content h2 a,
-  body article h1 a,
-  body article h2 a,
-  body h1.post-title a,
-  body h2.entry-title a {
-    color: #C00000 !important;
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    text-decoration: none !important;
-    line-height: 1.4 !important;
-    display: block !important;
-    margin-bottom: 8px !important;
-  }
-
-  /* "আরও পড়ুন" - normal মাপে */
-  body .lead-content a.more-link,
-  body .card-content a.more-link,
-  body .news-item a.more-link,
-  body .post-content a.more-link,
-  body a.more-link,
-  body .read-more {
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    color: #C00000 !important;
-    display: inline-block !important;
-    margin-top: 10px !important;
-    text-decoration: underline !important;
-  }
-
-  /* তারিখ */
-  body .post-date, body time, body .entry-date {
-    font-size: 14px !important;
-    color: #666 !important;
-    margin-top: 10px !important;
-    display: block !important;
-  }
-
-  /* ক্যাটাগরি ব্যাজ - normal মাপে */
-  body .category-badge, 
-  body span.category-badge, 
-  body .post-category {
-    font-size: 13px !important;
-    padding: 6px 14px !important;
-    background: #d10000 !important;
-    color: #fff !important;
-    font-weight: 700 !important;
-    border-radius: 4px !important;
-    margin-bottom: 15px !important;
-    display: inline-block !important;
-  }
-
-  /* হেডার মেনু - normal মাপে */
-  body .main-menu li a, 
-  body .navbar-nav li a {
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    padding: 14px 18px !important;
-  }
-}
-
-/* 5. মোবাইল - 768px এর ছোট */
-@media only screen and (max-width: 768px) {
-  /* প্যাডিং কমান - গ্যাপ ফিক্স */
-  body .lead-content, 
-  body .card-content, 
-  body .news-item .content {
-    padding: 15px !important;
-  }
-
-  /* শিরোনাম লাল */
-  body .lead-content h1 a,
-  body .card-content h2 a,
-  body .news-item h2 a {
-    color: #C00000 !important;
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    line-height: 1.4 !important;
-    margin-bottom: 8px !important;
-  }
-
-  /* "আরও পড়ুন" */
-  body .lead-content a.more-link,
-  body .card-content a.more-link,
-  body .news-item a.more-link {
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    color: #C00000 !important;
-    margin-top: 12px !important;
-  }
-
-  /* ক্যাটাগরি ট্যাগ */
-  body .category-badge, 
-  body span.category-badge {
-    font-size: 17px !important;
-    padding: 8px 16px !important;
-    background: #d10000 !important;
-    color: #fff !important;
-    font-weight: 800 !important;
-    margin-bottom: 12px !important;
-  }
-
-  /* তারিখ গ্যাপ কমান */
-  body .post-date, body time {
-    font-size: 14px !important;
-    margin-top: 8px !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* মেনু */
-  body .main-menu li a {
-    font-size: 18px !important;
-    padding: 12px 16px !important;
-  }
-}
-</style>
+  </style>
 </head>
 <body>
 
@@ -633,14 +456,13 @@ body .post-thumbnail img {
     <a href="/" class="logo">
         <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
     </a>
-    
+
     <div class="header-right">
         <div class="search-translate-wrap">
             <div class="search-box">
                 <input type="text" placeholder="খুঁজুন...">
                 <i class="fas fa-search"></i>
             </div>
-            <!-- ট্রান্সলেট বক্স - সার্চবারের মতো -->
             <div class="translate-box">
                 <select id="translateSelect">
                     <option value="">ভাষা নির্বাচন</option>
@@ -657,26 +479,22 @@ body .post-thumbnail img {
 
   <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
-    <!-- থ্রী ডট মেনু - বামে -->
     <div class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
     </div>
-    
+
     <div class="ticker-wrap">
         <div class="ticker-move">
-            <!-- সেট 1 -->
             <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
             <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
             <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
-            
-            <!-- সেট 2 -->
+
             <span>🔸 ব্রেকিং: দৈনিক চালচিত্রের আনুষ্ঠানিক যাত্রা শুরু</span>
             <span>🔸 ওমানে বাংলাদেশি কমিউনিটির জন্য নতুন অনলাইন পত্রিকা</span>
             <span>🔸 অনলাইনে ইন্টারন্যাশনাল স্কুলে ভর্তি চলছে</span>
         </div>
     </div>
-    
-    <!-- LIVE বাটন - ডানে -->
+
     <div class="live-badge">LIVE</div>
 </div>
 <!-- LIVE টিকার শেষ -->
@@ -694,7 +512,6 @@ body .post-thumbnail img {
 
   <!-- মেইন কন্টেন্ট -->
   <main class="container">
-    <!-- সার্চ বক্স -->
     <div class="search-box" id="searchBox" style="display:none;">
       <input type="text" id="searchInput" onkeyup="searchNews()" placeholder="নিউজ খুঁজুন...">
     </div>
@@ -704,7 +521,6 @@ body .post-thumbnail img {
 
   <!-- জাভাস্ক্রিপ্ট -->
 <script>
-// সাইডবার মেনু ওপেন/ক্লোজ
 function openMenu() {
   document.getElementById("mySidebar").classList.add("open");
 }
@@ -712,7 +528,6 @@ function closeMenu() {
   document.getElementById("mySidebar").classList.remove("open");
 }
 
-// সার্চ বক্স টগল - মোবাইলের জন্য
 function toggleSearch() {
   var x = document.getElementById("searchBox");
   if (x.style.display === "none" || x.style.display === "") {
@@ -722,7 +537,6 @@ function toggleSearch() {
   }
 }
 
-// সার্চ ফাংশন
 function searchNews() {
   let input = document.getElementById("searchInput").value.toLowerCase();
   let cards = document.getElementsByClassName("news-card");
@@ -734,18 +548,7 @@ function searchNews() {
     }
   }
 }
-
-// গুগল ট্রান্সলেট
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'bn',
-    includedLanguages: 'en,hi,ar,bn',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false
-  }, 'google_translate_element');
-}
 </script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <!-- গুগল ট্রান্সলেট -->
 <div id="google_translate_element" style="display:none;"></div>
@@ -762,26 +565,23 @@ function googleTranslateElementInit() {
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-// মেনু ওপেন/ক্লোজ
 document.addEventListener('DOMContentLoaded', function() {
-    // থ্রী ডট মেনু ক্লিক
     var menuBtn = document.getElementById('menuToggle');
     var sidebar = document.getElementById('mySidebar');
     var closeBtn = document.getElementById('closeBtn');
-    
+
     if(menuBtn && sidebar) {
         menuBtn.addEventListener('click', function() {
             sidebar.classList.add('open');
         });
     }
-    
+
     if(closeBtn && sidebar) {
         closeBtn.addEventListener('click', function() {
             sidebar.classList.remove('open');
         });
     }
-    
-    // ট্রান্সলেট চেঞ্জ
+
     var translateSelect = document.getElementById('translateSelect');
     if(translateSelect) {
         translateSelect.addEventListener('change', function() {
