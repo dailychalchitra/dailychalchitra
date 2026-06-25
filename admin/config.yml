@@ -1,13 +1,14 @@
 backend:
-  name: github
-  repo: dailychalchitra/dailychalchitra
+  name: git-gateway
   branch: main
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
+
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
+
 collections:
-    - name: "news"
+    - name: "blog"
     label: "নিউজ পোস্ট"
-    folder: "_posts"
+    folder: "content/blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
