@@ -419,31 +419,40 @@ body { top: 0 !important; }
     .lead-content {
         padding: 20px;
     }
-/* ===== দৈনিক চালচিত্র - ফাইনাল CSS ফিক্স ===== */
+/* ===== দৈনিক চালচিত্র - 100% ফাইনাল ফিক্স ===== */
 
-/* 1. সব গ্রিড/ফ্লেক্স ভেঙ্গে 1 কলাম করুন */
-.lead-news, .news-grid, .news-item, .card-news, .post-grid, .row, .col {
+/* 1. সব পোস্ট 1 কলামে নামান */
+body .lead-news, 
+body .news-grid, 
+body .news-item, 
+body .card-news, 
+body .row, 
+body [class*="col-"] {
   display: block !important;
-  grid-template-columns: 1fr !important;
-  flex-direction: column !important;
   width: 100% !important;
+  max-width: 100% !important;
   float: none !important;
+  flex: 0 0 100% !important;
+  grid-template-columns: 1fr !important;
   clear: both !important;
 }
 
-/* 2. সব পোস্ট কার্ড স্টাইল */
-.news-grid .news-item, .news-grid article, .card-news {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin-bottom: 30px !important;
+/* 2. সব কার্ডের ডিজাইন */
+body .news-item, 
+body .card-news, 
+body article.post {
   background: #fff !important;
   border-radius: 8px !important;
   overflow: hidden !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  margin-bottom: 30px !important;
 }
 
 /* 3. সব ছবি ফুল উইডথ */
-.lead-img img, .news-item img, .card-img img, .post-thumbnail img, article img {
+body .lead-img img, 
+body .news-item img, 
+body .card-img img, 
+body .post-thumbnail img {
   width: 100% !important;
   height: auto !important;
   display: block !important;
@@ -452,26 +461,30 @@ body { top: 0 !important; }
 
 /* 4. ডেক্সটপ - 769px এর বড় */
 @media only screen and (min-width: 769px) {
-  /* কার্ডের ভিতর প্যাডিং */
-  .lead-content, .card-content, .news-item .content, .post-content {
+  /* প্যাডিং */
+  body .lead-content, 
+  body .card-content, 
+  body .news-item .content, 
+  body .post-content {
     padding: 25px 30px 30px 30px !important;
-    background: #fff !important;
     box-sizing: border-box !important;
   }
 
-  /* লিড ইমেজ বড় */
-  .lead-img img {
+  /* লিড ইমেজ */
+  body .lead-img img {
     min-height: 450px !important;
     object-fit: cover !important;
   }
 
-  /* শিরোনাম লাল + বড় */
-  .lead-content h1 a,
-  .card-content h2 a,
-  .news-item h2 a,
-  .post-content h2 a,
-  article h1 a,
-  article h2 a {
+  /* শিরোনাম লাল + বড় - থিমকে ওভাররাইড করার জন্য body দিলাম */
+  body .lead-content h1 a,
+  body .card-content h2 a,
+  body .news-item h2 a,
+  body .post-content h2 a,
+  body article h1 a,
+  body article h2 a,
+  body h1.post-title a,
+  body h2.entry-title a {
     color: #C00000 !important;
     font-size: 32px !important;
     font-weight: 700 !important;
@@ -482,97 +495,103 @@ body { top: 0 !important; }
   }
 
   /* "আরও পড়ুন" বড় + লাল */
-  .lead-content a[href*="/"],
-  .card-content a[href*="/"],
-  .news-item a[href*="/"],
-  .post-content a[href*="/"],
-  article .more-link,
-  a.more-link {
+  body .lead-content a,
+  body .card-content a,
+  body .news-item a,
+  body .post-content a,
+  body a.more-link,
+  body .read-more {
     font-size: 24px !important;
     font-weight: 800 !important;
     color: #C00000 !important;
     display: inline-block !important;
-    margin-top: 20px !important;
+    margin-top: 15px !important;
     text-decoration: underline !important;
-    line-height: 1.4 !important;
   }
 
   /* তারিখ */
-  .post-date, .news-date, .card-date, time {
+  body .post-date, body time, body .entry-date {
     font-size: 16px !important;
     color: #666 !important;
     margin-top: 10px !important;
     display: block !important;
   }
 
-  /* আন্তর্জাতিক/ঘোষণা ট্যাগ */
-  .category-badge, span.category-badge, .post-category, .cat-label {
+  /* আন্তর্জাতিক ট্যাগ */
+  body .category-badge, 
+  body span.category-badge, 
+  body .post-category {
     font-size: 26px !important;
     padding: 14px 28px !important;
     background: #d10000 !important;
     color: #fff !important;
     font-weight: 900 !important;
     border-radius: 6px !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 20px !important;
     display: inline-block !important;
-    text-transform: uppercase !important;
   }
 
-  /* লাল হেডার মেনু */
-  .main-menu li a, .navbar-nav li a, .header-menu a {
+  /* হেডার মেনু */
+  body .main-menu li a, 
+  body .navbar-nav li a {
     font-size: 28px !important;
     font-weight: 800 !important;
     padding: 24px 34px !important;
-    color: #fff !important;
   }
 }
 
 /* 5. মোবাইল - 768px এর ছোট */
 @media only screen and (max-width: 768px) {
-  /* কার্ডের প্যাডিং */
-  .lead-content, .card-content, .news-item .content, .post-content {
-    padding: 15px 18px 18px 18px !important;
+  /* প্যাডিং কমান - গ্যাপ ফিক্স */
+  body .lead-content, 
+  body .card-content, 
+  body .news-item .content {
+    padding: 15px !important;
   }
 
   /* শিরোনাম লাল */
-  .lead-content h1 a,
-  .card-content h2 a,
-  .news-item h2 a {
+  body .lead-content h1 a,
+  body .card-content h2 a,
+  body .news-item h2 a {
     color: #C00000 !important;
     font-size: 22px !important;
     font-weight: 700 !important;
     line-height: 1.4 !important;
+    margin-bottom: 8px !important;
   }
 
   /* "আরও পড়ুন" */
-  .lead-content a[href*="/"],
-  .card-content a[href*="/"],
-  .news-item a[href*="/"] {
+  body .lead-content a,
+  body .card-content a,
+  body .news-item a {
     font-size: 18px !important;
     font-weight: 700 !important;
     color: #C00000 !important;
-    margin-top: 15px !important;
+    margin-top: 12px !important;
   }
 
   /* আন্তর্জাতিক ট্যাগ */
-  .category-badge, span.category-badge {
+  body .category-badge, 
+  body span.category-badge {
     font-size: 17px !important;
     padding: 8px 16px !important;
     background: #d10000 !important;
     color: #fff !important;
     font-weight: 800 !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 12px !important;
   }
 
-  /* হেডার মেনু */
-  .main-menu li a {
+  /* তারিখ গ্যাপ কমান */
+  body .post-date, body time {
+    font-size: 14px !important;
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* মেনু */
+  body .main-menu li a {
     font-size: 18px !important;
     padding: 12px 16px !important;
-  }
-
-  /* তারিখ */
-  .post-date, .news-date {
-    font-size: 14px !important;
   }
 }
 </style>
