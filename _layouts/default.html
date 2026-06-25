@@ -459,24 +459,24 @@ body .post-thumbnail img {
   margin: 0 !important;
 }
 
-/* 4. ডেক্সটপ - 769px এর বড় */
+/* 4. ডেক্সটপ - 769px এর বড় */
 @media only screen and (min-width: 769px) {
   /* প্যাডিং */
   body .lead-content, 
   body .card-content, 
   body .news-item .content, 
   body .post-content {
-    padding: 25px 30px 30px 30px !important;
+    padding: 20px 25px 25px 25px !important;
     box-sizing: border-box !important;
   }
 
   /* লিড ইমেজ */
   body .lead-img img {
-    min-height: 450px !important;
+    min-height: 380px !important;
     object-fit: cover !important;
   }
 
-  /* শিরোনাম লাল + বড় - থিমকে ওভাররাইড করার জন্য body দিলাম */
+  /* শিরোনাম - normal মাপে, hover-এ লাল */
   body .lead-content h1 a,
   body .card-content h2 a,
   body .news-item h2 a,
@@ -485,58 +485,72 @@ body .post-thumbnail img {
   body article h2 a,
   body h1.post-title a,
   body h2.entry-title a {
-    color: #C00000 !important;
-    font-size: 32px !important;
+    color: #1a1a1a !important;
+    font-size: 22px !important;
     font-weight: 700 !important;
     text-decoration: none !important;
-    line-height: 1.3 !important;
+    line-height: 1.4 !important;
     display: block !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
+  }
+  body .lead-content h1 a:hover,
+  body .card-content h2 a:hover,
+  body .news-item h2 a:hover,
+  body .post-content h2 a:hover,
+  body article h1 a:hover,
+  body article h2 a:hover,
+  body h1.post-title a:hover,
+  body h2.entry-title a:hover {
+    color: #C00000 !important;
   }
 
-  /* "আরও পড়ুন" বড় + লাল */
-  body .lead-content a,
-  body .card-content a,
-  body .news-item a,
-  body .post-content a,
+  /* "আরও পড়ুন" - normal মাপে */
+  body .lead-content a.more-link,
+  body .card-content a.more-link,
+  body .news-item a.more-link,
+  body .post-content a.more-link,
   body a.more-link,
   body .read-more {
-    font-size: 24px !important;
-    font-weight: 800 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
     color: #C00000 !important;
     display: inline-block !important;
-    margin-top: 15px !important;
+    margin-top: 10px !important;
+    text-decoration: none !important;
+  }
+  body a.more-link:hover,
+  body .read-more:hover {
     text-decoration: underline !important;
   }
 
   /* তারিখ */
   body .post-date, body time, body .entry-date {
-    font-size: 16px !important;
+    font-size: 14px !important;
     color: #666 !important;
     margin-top: 10px !important;
     display: block !important;
   }
 
-  /* আন্তর্জাতিক ট্যাগ */
+  /* ক্যাটাগরি ব্যাজ - normal মাপে */
   body .category-badge, 
   body span.category-badge, 
   body .post-category {
-    font-size: 26px !important;
-    padding: 14px 28px !important;
+    font-size: 13px !important;
+    padding: 6px 14px !important;
     background: #d10000 !important;
     color: #fff !important;
-    font-weight: 900 !important;
-    border-radius: 6px !important;
-    margin-bottom: 20px !important;
+    font-weight: 700 !important;
+    border-radius: 4px !important;
+    margin-bottom: 15px !important;
     display: inline-block !important;
   }
 
-  /* হেডার মেনু */
+  /* হেডার মেনু - normal মাপে */
   body .main-menu li a, 
   body .navbar-nav li a {
-    font-size: 28px !important;
-    font-weight: 800 !important;
-    padding: 24px 34px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    padding: 14px 18px !important;
   }
 }
 
@@ -560,17 +574,17 @@ body .post-thumbnail img {
     margin-bottom: 8px !important;
   }
 
-  /* "আরও পড়ুন" */
-  body .lead-content a,
-  body .card-content a,
-  body .news-item a {
+  /* "আরও পড়ুন" */
+  body .lead-content a.more-link,
+  body .card-content a.more-link,
+  body .news-item a.more-link {
     font-size: 18px !important;
     font-weight: 700 !important;
     color: #C00000 !important;
     margin-top: 12px !important;
   }
 
-  /* আন্তর্জাতিক ট্যাগ */
+  /* ক্যাটাগরি ট্যাগ */
   body .category-badge, 
   body span.category-badge {
     font-size: 17px !important;
