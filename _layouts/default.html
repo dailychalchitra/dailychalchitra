@@ -160,11 +160,11 @@ body { top: 0 !important; }
     animation-play-state: paused;
 }
 
-#dc-side-menu {
+.sidebar {
     position: fixed;
     top: 0;
     left: -100%;
-    width: 100%;
+    width: 280px
     height: 100%;
     z-index: 1000;
     background-color: #EEEEEE;
@@ -172,42 +172,43 @@ body { top: 0 !important; }
     transition: 0.3s;
     padding-top: 60px;
 }
-#dc-side-menu.open { left: 0; }
-#dc-side-menu a {
+.sidebar.open { left: 0; }
+.sidebar a {
     display: block;
     padding: 12px 15px;
     text-decoration: none;
     font-size: 18px;
-    color: #C00000;
+    color: #000;
     border-bottom: 1px solid #ddd;
 }
-#dc-side-menu .close-btn {
+.sidebar a:hover { color: #C00000; }
+.sidebar .close-btn {
     position: absolute;
     top: 10px;
     right: 25px;
     font-size: 36px;
     color: #222;
 }
-#dc-side-menu .sidebar-header {
+.sidebar-header {
     text-align: center;
     padding: 15px 15px 10px;
 }
-#dc-side-menu .sidebar-header img {
+.sidebar-header img {
     height: 40px;
     width: auto;
 }
-#dc-side-menu .sidebar-divider {
+.sidebar-divider {
     border: none;
     border-top: 2px solid #ccc;
     margin: 0 15px;
 }
-#dc-side-menu .sidebar-footer {
+.sidebar-footer {
     padding: 20px 15px;
     text-align: center;
     font-size: 13px;
     color: #333;
 }
-#dc-side-menu .sidebar-footer .follow-label {
+.sidebar-footer .follow-label {
     display: inline-block;
     font-size: 15px;
     font-weight: 700;
@@ -216,10 +217,10 @@ body { top: 0 !important; }
     border-bottom: 2px solid #C00000;
     margin-bottom: 15px;
 }
-#dc-side-menu .sidebar-footer .sidebar-social {
+.sidebar-footer .sidebar-social {
     margin-bottom: 15px;
 }
-#dc-side-menu .sidebar-footer .sidebar-social a {
+.sidebar-footer .sidebar-social a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -229,12 +230,12 @@ body { top: 0 !important; }
     margin: 0 4px;
     text-decoration: none;
 }
-#dc-side-menu .sidebar-footer .sidebar-social a i {
+.sidebar-footer .sidebar-social a i {
     color: #fff;
     font-size: 15px;
     line-height: 1;
 }
-#dc-side-menu .sidebar-footer p {
+.sidebar-footer p {
     margin: 5px 0;
     line-height: 1.6;
 }
