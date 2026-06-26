@@ -1,12 +1,20 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <meta charset="UTF-8">
+    <title>Daily Chalchitra</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <h1>Daily Chalchitra</h1>
+    <div id="news-list">লোড হচ্ছে...</div>
+
+    <script>
+    fetch('/content/blog/')
+    .then(() => {
+      document.getElementById('news-list').innerHTML = 
+      '<h2><a href="/admin">নতুন নিউজ লিখুন</a></h2><p>নিউজ পাবলিশ হয়ে GitHub এ সেভ হচ্ছে। থিম সেটআপ বাকি।</p>';
+    });
+    </script>
 </body>
 </html>
