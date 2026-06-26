@@ -5,6 +5,7 @@ date: 2026-06-26 16:40:00 +0600
 categories: [সাহিত্য বিভাগ]
 tags: [কবিতা, পদ্য কবিতা]
 author: শামীম নিমু
+image: /assets/img/preyoshi.jpg
 ---
 
 ![প্রেয়সী](/assets/img/preyoshi.jpg)
