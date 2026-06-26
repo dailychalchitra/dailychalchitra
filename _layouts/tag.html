@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<div class="dc-tag-archive">
+  <h1 class="archive-title">{{ page.title }}</h1>
+  
+  <div class="post-list">
+    {% for post in site.tags[page.title] %}
+    <div class="post-item">
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <span class="post-date">{{ post.date | date: "%d %B %Y" }}</span>
+      <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
