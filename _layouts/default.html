@@ -160,7 +160,7 @@ body { top: 0 !important; }
     animation-play-state: paused;
 }
 
-.sidebar {
+#dc-side-menu {
     position: fixed;
     top: 0;
     left: -100%;
@@ -172,43 +172,42 @@ body { top: 0 !important; }
     transition: 0.3s;
     padding-top: 60px;
 }
-.sidebar.open { left: 0; }
-.sidebar a {
+#dc-side-menu.open { left: 0; }
+#dc-side-menu a {
     display: block;
     padding: 12px 15px;
     text-decoration: none;
     font-size: 18px;
-    color: #000;
+    color: #C00000;
     border-bottom: 1px solid #ddd;
 }
-.sidebar a:hover { color: #C00000; }
-.sidebar .close-btn {
+#dc-side-menu .close-btn {
     position: absolute;
     top: 10px;
     right: 25px;
     font-size: 36px;
     color: #222;
 }
-.sidebar-header {
+#dc-side-menu .sidebar-header {
     text-align: center;
     padding: 15px 15px 10px;
 }
-.sidebar-header img {
+#dc-side-menu .sidebar-header img {
     height: 40px;
     width: auto;
 }
-.sidebar-divider {
+#dc-side-menu .sidebar-divider {
     border: none;
     border-top: 2px solid #ccc;
     margin: 0 15px;
 }
-.sidebar-footer {
+#dc-side-menu .sidebar-footer {
     padding: 20px 15px;
     text-align: center;
     font-size: 13px;
     color: #333;
 }
-.sidebar-footer .follow-label {
+#dc-side-menu .sidebar-footer .follow-label {
     display: inline-block;
     font-size: 15px;
     font-weight: 700;
@@ -217,10 +216,10 @@ body { top: 0 !important; }
     border-bottom: 2px solid #C00000;
     margin-bottom: 15px;
 }
-.sidebar-footer .sidebar-social {
+#dc-side-menu .sidebar-footer .sidebar-social {
     margin-bottom: 15px;
 }
-.sidebar-footer .sidebar-social a {
+#dc-side-menu .sidebar-footer .sidebar-social a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -230,12 +229,12 @@ body { top: 0 !important; }
     margin: 0 4px;
     text-decoration: none;
 }
-.sidebar-footer .sidebar-social a i {
+#dc-side-menu .sidebar-footer .sidebar-social a i {
     color: #fff;
     font-size: 15px;
     line-height: 1;
 }
-.sidebar-footer p {
+#dc-side-menu .sidebar-footer p {
     margin: 5px 0;
     line-height: 1.6;
 }
