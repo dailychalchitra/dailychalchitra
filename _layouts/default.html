@@ -7,121 +7,131 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f4f4f4; }
-.header { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.header-top { display: flex; align-items: center; padding: 8px 15px; max-width: 1200px; margin: 0 auto; gap: 15px; }
-.home-btn { color: #C00000; font-size: 22px; flex-shrink: 0; }
-.logo { flex-shrink: 0; }
-.logo img { height: 85px; width: auto; display: block; }
-.header-right { margin-left: auto; display: flex; align-items: flex-start; }
-.search-translate-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.search-box, .translate-box { position: relative; }
-.search-box input, .translate-box select { border: 1px solid #ddd; border-radius: 20px; padding: 6px 35px 6px 12px; font-size: 14px; width: 160px; outline: none; background: #fff; appearance: none; -webkit-appearance: none; }
-.search-box i, .translate-box i { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; font-size: 14px; pointer-events: none; }
-#google_translate_element, .goog-te-gadget, .skiptranslate { display: none !important; }
-body { top: 0 !important; }
-.ticker-container { background: #1a1a1a; height: 35px; overflow: hidden; border-bottom: 2px solid #C00000; position: relative; width: 100%; display: flex; }
-.menu-toggle { background: #C00000; color: #fff; font-size: 18px; width: 45px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; z-index: 2; }
-.live-badge { position: absolute; right: 0; top: 0; background: #C00000; color: #fff; padding: 0 12px; height: 35px; line-height: 35px; font-weight: bold; font-size: 12px; z-index: 5; display: flex; align-items: center; gap: 6px; }
-.live-badge::before { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; display: inline-block; animation: livePulse 1.2s ease-in-out infinite; }
-@keyframes livePulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.4; } }
-.ticker-wrap { height: 35px; overflow: hidden; flex: 1; }
-.ticker-move { display: inline-block; white-space: nowrap; padding-left: 100%; animation: tickerMove 8s linear infinite; }
-.ticker-move span { display: inline-block; color: #fff; font-size: 14px; padding: 0 30px; line-height: 35px; }
-@keyframes tickerMove { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
-.ticker-container:hover .ticker-move { animation-play-state: paused; }
-.sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; z-index: 1000; background-color: #EEEEEE; overflow-x: hidden; transition: 0.3s; padding-top: 60px; }
-.sidebar.open { left: 0; }
-.sidebar a { display: block; padding: 12px 15px; text-decoration: none; font-size: 18px; color: #000; border-bottom: 1px solid #ddd; }
-.sidebar a:hover { color: #C00000; }
-.sidebar .close-btn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: #222; }
-.sidebar-header { text-align: center; padding: 15px 15px 10px; }
-.sidebar-header img { height: 40px; width: auto; }
-.sidebar-divider { border: none; border-top: 2px solid #ccc; margin: 0 15px; }
-.sidebar-footer { padding: 20px 15px; text-align: center; font-size: 13px; color: #333; }
-.sidebar-footer .follow-label { display: inline-block; font-size: 15px; font-weight: 700; color: #333; padding-bottom: 8px; border-bottom: 2px solid #C00000; margin-bottom: 15px; }
-.sidebar-footer .sidebar-social { margin-bottom: 15px; }
-.sidebar-footer .sidebar-social a { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; margin: 0 4px; text-decoration: none; }
-.sidebar-footer .sidebar-social a i { color: #fff; font-size: 15px; line-height: 1; }
-.sidebar-footer p { margin: 5px 0; line-height: 1.6; }
-body.no-scroll { overflow: hidden; height: 100%; }
-@media (max-width: 768px) { .header-top { gap: 10px; padding: 6px 10px; } .logo img { height: 60px; } }
-.menu-bar { background: #8B0000; overflow-x: auto; white-space: nowrap; }
-.menu-bar a { display: inline-block; color: white; padding: 12px 18px; text-decoration: none; font-weight: bold; }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-.main-content { padding: 25px 0; }
-.section-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #C00000; display: inline-block; }
-.lead-news-section { margin-bottom: 35px; }
-.lead-news { display: grid; grid-template-columns: 1fr; gap: 0; background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.lead-img img { width: 100%; height: auto; max-height: 450px; object-fit: cover; display: block; }
-.lead-content { padding: 25px; }
-.category-badge { background: #C00000; color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 3px; display: inline-block; margin-bottom: 12px; font-weight: 700; }
-.lead-content h1 { font-size: 28px; line-height: 1.4; margin: 0 0 15px 0; }
-.lead-content h1 a { color: #111; text-decoration: none; }
-.lead-content h1 a:hover { color: #C00000; }
-.lead-excerpt { color: #555; line-height: 1.7; margin-bottom: 15px; }
-.post-meta { font-size: 13px; color: #888; }
-.post-meta i { margin-right: 5px; }
-.content-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 30px; }
-.news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.news-card { background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; transition: 0.3s; }
-.news-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-3px); }
-.card-img img { width: 100%; height: 180px; object-fit: cover; display: block; }
-.card-content { padding: 15px; }
-.card-content h3 { font-size: 16px; line-height: 1.5; margin: 10px 0; }
-.card-content h3 a { color: #222; text-decoration: none; }
-.card-content h3 a:hover { color: #C00000; }
-.sidebar-widget { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 25px; }
-.widget-title { font-size: 18px; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #C00000; }
-.popular-posts { list-style: none; padding: 0; margin: 0; }
-.popular-posts li { padding: 12px 0; border-bottom: 1px dashed #eee; }
-.popular-posts li:last-child { border-bottom: none; }
-.popular-posts a { color: #333; text-decoration: none; font-size: 15px; display: block; line-height: 1.5; }
-.popular-posts a:hover { color: #C00000; }
-.post-date { font-size: 12px; color: #999; display: block; margin-top: 5px; }
-.ad-widget img { width: 100%; border-radius: 5px; }
-.fa-facebook { color: #1877F2 !important; }
-.fa-instagram { color: #E4405F !important; }
-.fa-youtube { color: #FF0000 !important; }
-.fa-linkedin { color: #0A66C2 !important; }
-.fa-whatsapp { color: #25D366 !important; }
-.fa-telegram { color: #0088cc !important; }
-.fa-x-twitter { color: #000000 !important; }
-.footer-bottom-red { background: #C00000; color: white; padding: 25px 15px; }
-.footer-links { margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-.footer-links a { color: white; text-decoration: none; font-size: 15px; font-weight: bold; }
-.footer-bottom-text { font-size: 14px; line-height: 1.8; }
-.footer-bottom-text strong { color: #fff; }
-.footer-bottom-text a { color: #fff; text-decoration: underline; }
-.footer-sun-logo { width: 32px; height: 32px; vertical-align: middle; }
-.footer-site-name { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-@media (max-width: 992px) { .content-wrap { grid-template-columns: 1fr; } .news-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 768px) { .lead-news { grid-template-columns: 1fr; } .lead-img img { min-height: 220px; } .lead-content { padding: 20px; } .lead-content h1 { font-size: 22px; } .news-grid { grid-template-columns: 1fr; } .card-content h3 { font-size: 16px; } .section-title { font-size: 20px; } }
-#dc-menu-trigger { background: #C00000; color: #fff; padding: 0 12px; cursor: pointer; font-size: 18px; height: 35px; line-height: 35px; display: inline-block; border-radius: 0; z-index: 10; float: left; }
-#dc-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998; display: none; }
-#dc-overlay.active { display: block; }
-#dc-side-menu { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background: #fff; z-index: 9999; transition: 0.3s; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
-#dc-side-menu.active { left: 0; }
-.dc-menu-header { padding: 15px; border-bottom: 1px solid #eee; position: relative; }
-.dc-menu-header img { max-width: 150px; display: block; margin: 0 auto 10px; }
-.dc-header-search { display: flex; margin: 10px 0; }
-.dc-header-search input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; }
-.dc-header-search button { background: #C00000; color: #fff; border: none; padding: 8px 12px; border-radius: 0 4px 4px 0; }
-.dc-close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 30px; cursor: pointer; color: #666; }
-.dc-acc-list { padding: 10px 0; }
-.dc-acc-item { border-bottom: 1px solid #f0f0f0; }
-.dc-acc-title { display: block; padding: 12px 20px; color: #333; text-decoration: none; font-weight: 600; font-size: 16px; cursor: pointer; position: relative; }
-.dc-acc-title:hover { background: #f5f5f5; }
-.dc-acc-title i { margin-right: 8px; color: #C00000; }
-.dc-acc-title .fa-chevron-down { position: absolute; right: 20px; top: 15px; font-size: 12px; transition: 0.3s; }
-.dc-acc-content { display: none; background: #fafafa; }
-.dc-acc-content a { display: block; padding: 10px 20px 10px 40px; color: #555; text-decoration: none; font-size: 15px; }
-.dc-acc-content a:hover { background: #f0f0f0; }
-.dc-acc-item.active > .dc-acc-content { display: block; }
-.dc-acc-item.active > .dc-acc-title .fa-chevron-down { transform: rotate(180deg); }
-.dc-social-icons a { display: inline-block; width: 35px; height: 35px; line-height: 35px; background: #f0f0f0; color: #333; border-radius: 50%; margin: 3px; font-size: 16px; text-align: center; }
-.dc-social-icons a:hover { background: #C00000; color: #fff; }
-body.dc-menu-open { overflow: hidden; }
+    body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f4f4; }
+    
+    /* --- হেডার --- */
+    .header { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .header-top { display: flex; align-items: center; padding: 8px 15px; max-width: 1200px; margin: 0 auto; gap: 15px; }
+    .home-btn { color: #C00000; font-size: 22px; flex-shrink: 0; }
+    .logo { flex-shrink: 0; }
+    .logo img { height: 85px; width: auto; display: block; }
+    .header-right { margin-left: auto; display: flex; align-items: flex-start; }
+    .search-translate-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .search-box, .translate-box { position: relative; }
+    .search-box input, .translate-box select { border: 1px solid #ddd; border-radius: 20px; padding: 6px 35px 6px 12px; font-size: 14px; width: 160px; outline: none; background: #fff; appearance: none; -webkit-appearance: none; }
+    .search-box i, .translate-box i { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; font-size: 14px; pointer-events: none; }
+    #google_translate_element, .goog-te-gadget, .skiptranslate { display: none !important; }
+    body { top: 0 !important; }
+
+    /* --- টিকার --- */
+    .ticker-container { background: #1a1a1a; height: 35px; overflow: hidden; border-bottom: 2px solid #C00000; position: relative; width: 100%; display: flex; }
+    .live-badge { position: absolute; right: 0; top: 0; background: #C00000; color: #fff; padding: 0 12px; height: 35px; line-height: 35px; font-weight: bold; font-size: 12px; z-index: 5; display: flex; align-items: center; gap: 6px; }
+    .live-badge::before { content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%; display: inline-block; animation: livePulse 1.2s ease-in-out infinite; }
+    @keyframes livePulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.4; } }
+    .ticker-wrap { height: 35px; overflow: hidden; flex: 1; }
+    .ticker-move { display: inline-block; white-space: nowrap; padding-left: 100%; animation: tickerMove 8s linear infinite; }
+    .ticker-move span { display: inline-block; color: #fff; font-size: 14px; padding: 0 30px; line-height: 35px; }
+    @keyframes tickerMove { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+    .ticker-container:hover .ticker-move { animation-play-state: paused; }
+
+    /* --- মেনু বার --- */
+    .menu-bar { background: #8B0000; overflow-x: auto; white-space: nowrap; }
+    .menu-bar a { display: inline-block; color: white; padding: 12px 18px; text-decoration: none; font-weight: bold; }
+
+    /* --- মেইন কন্টেন্ট --- */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+    .main-content { padding: 25px 0; }
+    .section-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #C00000; display: inline-block; }
+    .lead-news-section { margin-bottom: 35px; }
+    .lead-news { display: grid; grid-template-columns: 1fr; gap: 0; background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .lead-img img { width: 100%; height: auto; max-height: 450px; object-fit: cover; display: block; }
+    .lead-content { padding: 25px; }
+    .category-badge { background: #C00000; color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 3px; display: inline-block; margin-bottom: 12px; font-weight: 700; }
+    .lead-content h1 { font-size: 28px; line-height: 1.4; margin: 0 0 15px 0; }
+    .lead-content h1 a { color: #111; text-decoration: none; }
+    .lead-content h1 a:hover { color: #C00000; }
+    .lead-excerpt { color: #555; line-height: 1.7; margin-bottom: 15px; }
+    .post-meta { font-size: 13px; color: #888; }
+    .post-meta i { margin-right: 5px; }
+    .content-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 30px; }
+    .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .news-card { background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; transition: 0.3s; }
+    .news-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-3px); }
+    .card-img img { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .card-content { padding: 15px; }
+    .card-content h3 { font-size: 16px; line-height: 1.5; margin: 10px 0; }
+    .card-content h3 a { color: #222; text-decoration: none; }
+    .card-content h3 a:hover { color: #C00000; }
+
+    /* --- সাইডবার উইজেট --- */
+    .sidebar-widget { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 25px; }
+    .widget-title { font-size: 18px; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #C00000; }
+    .popular-posts { list-style: none; padding: 0; margin: 0; }
+    .popular-posts li { padding: 12px 0; border-bottom: 1px dashed #eee; }
+    .popular-posts li:last-child { border-bottom: none; }
+    .popular-posts a { color: #333; text-decoration: none; font-size: 15px; display: block; line-height: 1.5; }
+    .popular-posts a:hover { color: #C00000; }
+    .post-date { font-size: 12px; color: #999; display: block; margin-top: 5px; }
+    .ad-widget img { width: 100%; border-radius: 5px; }
+
+    /* --- ফুটার --- */
+    .fa-facebook { color: #1877F2 !important; }
+    .fa-instagram { color: #E4405F !important; }
+    .fa-youtube { color: #FF0000 !important; }
+    .fa-linkedin { color: #0A66C2 !important; }
+    .fa-whatsapp { color: #25D366 !important; }
+    .fa-telegram { color: #0088cc !important; }
+    .fa-x-twitter { color: #000000 !important; }
+    .footer-bottom-red { background: #C00000; color: white; padding: 25px 15px; }
+    .footer-links { margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .footer-links a { color: white; text-decoration: none; font-size: 15px; font-weight: bold; }
+    .footer-bottom-text { font-size: 14px; line-height: 1.8; text-align: center; }
+    .footer-bottom-text p { margin: 5px 0; }
+    .footer-bottom-text strong { color: #fff; }
+    .footer-bottom-text a { color: #fff; text-decoration: underline; }
+    .footer-sun-logo { width: 32px; height: 32px; vertical-align: middle; }
+    .footer-site-name { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+
+    /* --- রেসপন্সিভ --- */
+    @media (max-width: 992px) { .content-wrap { grid-template-columns: 1fr; } .news-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { 
+      .header-top { gap: 10px; padding: 6px 10px; } 
+      .logo img { height: 60px; } 
+      .lead-news { grid-template-columns: 1fr; } 
+      .lead-img img { min-height: 220px; } 
+      .lead-content { padding: 20px; } 
+      .lead-content h1 { font-size: 22px; } 
+      .news-grid { grid-template-columns: 1fr; } 
+      .card-content h3 { font-size: 16px; } 
+      .section-title { font-size: 20px; } 
+    }
+
+    /* --- সাইড মেনু --- */
+    #dc-menu-trigger { background: #C00000; color: #fff; padding: 0 12px; cursor: pointer; font-size: 18px; height: 35px; line-height: 35px; display: inline-block; border-radius: 0; z-index: 10; float: left; }
+    #dc-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998; display: none; }
+    #dc-overlay.active { display: block; }
+    #dc-side-menu { position: fixed; top: 0; left: -320px; width: 300px; min-height: 100%; background: #fff; z-index: 9999; transition: 0.3s; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); padding-bottom: 0; }
+    #dc-side-menu.active { left: 0; }
+    .dc-menu-header { padding: 15px; border-bottom: 1px solid #eee; position: relative; }
+    .dc-menu-header img { max-width: 150px; display: block; margin: 0 auto 10px; }
+    .dc-header-search { display: flex; margin: 10px 0; }
+    .dc-header-search input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; }
+    .dc-header-search button { background: #C00000; color: #fff; border: none; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .dc-close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 30px; cursor: pointer; color: #666; }
+    .dc-acc-list { padding: 10px 0; }
+    .dc-acc-item { border-bottom: 1px solid #f0f0f0; }
+    .dc-acc-title { display: block; padding: 12px 20px; color: #333; text-decoration: none; font-weight: 600; font-size: 16px; cursor: pointer; position: relative; }
+    .dc-acc-title:hover { background: #f5f5f5; }
+    .dc-acc-title i { margin-right: 8px; color: #C00000; }
+    .dc-acc-title .fa-chevron-down { position: absolute; right: 20px; top: 15px; font-size: 12px; transition: 0.3s; }
+    .dc-acc-content { display: none; background: #fafafa; }
+    .dc-acc-content a { display: block; padding: 10px 20px 10px 40px; color: #555; text-decoration: none; font-size: 15px; }
+    .dc-acc-content a:hover { background: #f0f0f0; }
+    .dc-acc-item.active > .dc-acc-content { display: block; }
+    .dc-acc-item.active > .dc-acc-title .fa-chevron-down { transform: rotate(180deg); }
+    .dc-social-icons a { display: inline-block; width: 35px; height: 35px; line-height: 35px; background: #f0f0f0; color: #333; border-radius: 50%; margin: 3px; font-size: 16px; text-align: center; }
+    .dc-social-icons a:hover { background: #C00000; color: #fff; }
+    body.dc-menu-open { overflow: hidden; }
   </style>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -152,9 +162,7 @@ body.dc-menu-open { overflow: hidden; }
     </div>
   </div>
 
-  <!-- LIVE টিকার শুরু -->
   <div class="ticker-container">
-    <!-- DAILY CHALCHITRA SIDE MENU TRIGGER -->
     <div id="dc-menu-trigger" onclick="toggleDcMenu()">
       <i class="fa fa-bars"></i>
     </div>
@@ -162,12 +170,9 @@ body.dc-menu-open { overflow: hidden; }
       <div class="ticker-move">
         <span>♦ ব্রেকিং: দৈনিক চালচিত্রে...</span>
       </div>
-    </div>
     <div class="live-badge">LIVE</div>
   </div>
-  <!-- LIVE টিকার শেষ -->
 
-  <!-- ক্যাটাগরি মেনু বার -->
   <nav class="menu-bar">
     <a href="/">প্রচ্ছদ</a>
     <a href="/category/বাংলাদেশ">বাংলাদেশ</a>
@@ -178,7 +183,6 @@ body.dc-menu-open { overflow: hidden; }
     <a href="/category/সাহিত্য">সাহিত্য</a>
   </nav>
 
-  <!-- মেইন কন্টেন্ট -->
   <main class="container">
     <div class="search-box" id="searchBox" style="display:none;">
       <input type="text" id="searchInput" onkeyup="searchNews()" placeholder="নিউজ খুঁজুন...">
@@ -187,7 +191,6 @@ body.dc-menu-open { overflow: hidden; }
   </main>
   <div style="clear: both;"></div>
 
-  <!-- DAILY CHALCHITRA SIDE MENU START -->
   <div id="dc-overlay" onclick="toggleDcMenu()"></div>
   <div id="dc-side-menu">
     <div class="dc-menu-header">
@@ -210,7 +213,6 @@ body.dc-menu-open { overflow: hidden; }
           <a href="/tag/পরিবেশ/">পরিবেশ</a>
           <a href="/tag/অপরাধ/">অপরাধ</a>
         </div>
-      </div>
       <div class="dc-acc-item">
         <div class="dc-acc-title">বিশ্ব <i class="fa fa-chevron-down"></i></div>
         <div class="dc-acc-content">
@@ -242,7 +244,6 @@ body.dc-menu-open { overflow: hidden; }
           <a href="/tag/শোক-সংবাদ/">শোক সংবাদ</a>
           <a href="/tag/জরুরী-সংবাদ/">জরুরী সংবাদ</a>
         </div>
-      </div>
       <div class="dc-acc-item">
         <div class="dc-acc-title">সাহিত্য বিভাগ <i class="fa fa-chevron-down"></i></div>
         <div class="dc-acc-content">
@@ -256,7 +257,6 @@ body.dc-menu-open { overflow: hidden; }
               <a href="/tag/সনেট-কবিতা/">সনেট কবিতা</a>
               <a href="/tag/লিমেরিক-কবিতা/">লিমেরিক কবিতা</a>
             </div>
-          </div>
           <div class="dc-acc-item">
             <div class="dc-acc-title">গল্প <i class="fa fa-chevron-down"></i></div>
             <div class="dc-acc-content">
@@ -302,7 +302,6 @@ body.dc-menu-open { overflow: hidden; }
           </div>
           <a href="/tag/উক্তি/">উক্তি</a>
         </div>
-      </div>
       <div class="dc-acc-item"><a class="dc-acc-title" href="/pages/blog-page_151/">লেখক তালিকা</a></div>
       <div class="dc-acc-item">
         <div class="dc-acc-title">বিনোদন <i class="fa fa-chevron-down"></i></div>
@@ -315,7 +314,6 @@ body.dc-menu-open { overflow: hidden; }
           <a href="/tag/শিল্পকলা/">শিল্পকলা</a>
           <a href="/tag/বিজ্ঞাপন/">বিজ্ঞাপন</a>
         </div>
-      </div>
       <div class="dc-acc-item">
         <div class="dc-acc-title">শিক্ষা <i class="fa fa-chevron-down"></i></div>
         <div class="dc-acc-content">
@@ -366,7 +364,6 @@ body.dc-menu-open { overflow: hidden; }
           <a href="/tag/চাকরির-পরামর্শ/">পরামর্শ</a>
           <a href="/tag/সাক্ষাৎকার/">সাক্ষাৎকার</a>
         </div>
-      </div>
       <div class="dc-acc-item">
         <div class="dc-acc-title">বাণিজ্য <i class="fa fa-chevron-down"></i></div>
         <div class="dc-acc-content">
@@ -381,7 +378,6 @@ body.dc-menu-open { overflow: hidden; }
           <a href="/tag/করপোরেট/">করপোরেট</a>
           <a href="/tag/বাজেট/">বাজেট</a>
         </div>
-      </div>
       <div class="dc-acc-item">
         <div class="dc-acc-title">ধর্ম বিষয়ক <i class="fa fa-chevron-down"></i></div>
         <div class="dc-acc-content">
@@ -515,15 +511,15 @@ body.dc-menu-open { overflow: hidden; }
     document.body.classList.toggle('dc-menu-open');
   }
   document.addEventListener('DOMContentLoaded', function() {
-    var accItems = document.querySelectorAll('#dc-side-menu .dc-acc-item > .dc-acc-title');
+    var accItems = document.querySelectorAll('#dc-side-menu.dc-acc-item >.dc-acc-title');
     accItems.forEach(function(item) {
       if(item.nextElementSibling && item.nextElementSibling.classList.contains('dc-acc-content')) {
         item.addEventListener('click', function(e) {
           e.preventDefault();
           var parent = this.parentElement;
-          var siblings = parent.parentElement.querySelectorAll(':scope > .dc-acc-item');
+          var siblings = parent.parentElement.querySelectorAll(':scope >.dc-acc-item');
           siblings.forEach(function(sib) {
-            if (sib !== parent) sib.classList.remove('active');
+            if (sib!== parent) sib.classList.remove('active');
           });
           parent.classList.toggle('active');
         });
