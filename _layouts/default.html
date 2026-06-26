@@ -943,7 +943,7 @@ body.dc-menu-open { overflow: hidden; }
       </div>
     </div>
   </div>
-
+{% include footer.html %}
 </div>
 <!-- DAILY CHALCHITRA SIDE MENU END -->
 
@@ -1009,13 +1009,13 @@ function toggleDcMenu() {
   document.body.classList.toggle('dc-menu-open');
 }
 document.addEventListener('DOMContentLoaded', function() {
-  var accItems = document.querySelectorAll('#dc-side-menu.dc-acc-item >.dc-acc-title');
+  var accItems = document.querySelectorAll('#dc-side-menu .dc-acc-item > .dc-acc-title');
   accItems.forEach(function(item) {
     if(item.nextElementSibling && item.nextElementSibling.classList.contains('dc-acc-content')) {
       item.addEventListener('click', function(e) {
         e.preventDefault();
         var parent = this.parentElement;
-        var siblings = parent.parentElement.querySelectorAll(':scope >.dc-acc-item');
+        var siblings = parent.parentElement.querySelectorAll(':scope > .dc-acc-item');
         siblings.forEach(function(sib) {
           if (sib!== parent) sib.classList.remove('active');
         });
