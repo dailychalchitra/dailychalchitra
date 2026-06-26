@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Chalchitra</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+        header { border-bottom: 2px solid #333; margin-bottom: 20px; }
+        article { margin-bottom: 30px; }
+        a { color: blue; }
+    </style>
 </head>
 <body>
     <header>
@@ -17,30 +22,36 @@
     </main>
 
     <script>
-    // Netlify CMS এর নিউজ লিস্ট দেখানোর জন্য
     async function loadNews() {
         const newsContainer = document.getElementById('news-container');
+        // এখানে আপনার GitHub ইউজারনেম বসান
+        const username = 'YOUR_GITHUB_USERNAME'; 
+        const repo = 'dailychalchitra';
+        
         try {
-            // GitHub API দিয়ে content/blog ফোল্ডারের ফাইল লিস্ট আনবে
-            const response = await fetch('https://api.github.com/repos/YOUR_GITHUB_USERNAME/dailychalchitra/contents/content/blog');
+            const response = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/content/blog`);
             const files = await response.json();
             
-            newsContainer.innerHTML = ''; // লোডিং লেখা মুছে দিবে
-            
+            if (files.message) {
+                newsContainer.innerHTML = '<p>রিপো Private করা। Settings থেকে Public করেন।</p>';
+                return;
+            }
+
+            newsContainer.innerHTML = '';
             files.reverse().forEach(file => {
                 if(file.name.endsWith('.md')) {
-                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
+                    const title = file.name.replace('.md', '').replace(/-/g, ' ').replace(/^\d{4}\s\d{2}\s\d{2}\s/, '');
                     newsContainer.innerHTML += `
                         <article>
                             <h2>${title}</h2>
-                            <p><a href="#">বিস্তারিত পড়ুন</a></p>
+                            <p>প্রকাশিত</p>
                         </article>
                         <hr>
                     `;
                 }
             });
         } catch (error) {
-            newsContainer.innerHTML = '<p>নিউজ লোড করতে সমস্যা হচ্ছে। GitHub এ content/blog ফোল্ডার চেক করুন।</p>';
+            newsContainer.innerHTML = '<p>নিউজ লোড করতে সমস্যা হচ্ছে। রিপো Public করা আছে কিনা চেক করুন।</p>';
         }
     }
     loadNews();
