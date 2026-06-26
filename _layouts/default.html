@@ -972,6 +972,7 @@ body.dc-menu-open { overflow: hidden; }
 <!-- DAILY CHALCHITRA SIDE MENU END -->
 
 {% include footer.html %}
+
   <!-- জাভাস্ক্রিপ্ট -->
 <script>
 function toggleSearch() {
@@ -1034,15 +1035,15 @@ function toggleDcMenu() {
   document.body.classList.toggle('dc-menu-open');
 }
 document.addEventListener('DOMContentLoaded', function() {
-  var accItems = document.querySelectorAll('#dc-side-menu .dc-acc-item > .dc-acc-title');
+  var accItems = document.querySelectorAll('#dc-side-menu.dc-acc-item >.dc-acc-title');
   accItems.forEach(function(item) {
     if(item.nextElementSibling && item.nextElementSibling.classList.contains('dc-acc-content')) {
       item.addEventListener('click', function(e) {
         e.preventDefault();
         var parent = this.parentElement;
-        var siblings = parent.parentElement.querySelectorAll(':scope > .dc-acc-item');
+        var siblings = parent.parentElement.querySelectorAll(':scope >.dc-acc-item');
         siblings.forEach(function(sib) {
-          if (sib !== parent) sib.classList.remove('active');
+          if (sib!== parent) sib.classList.remove('active');
         });
         parent.classList.toggle('active');
       });
@@ -1051,6 +1052,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // DAILY CHALCHITRA SIDE MENU JS END
 </script>
-{% include footer.html %}
 </body>
 </html>
