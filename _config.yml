@@ -5,16 +5,3 @@ url: "https://dailychalchitra.com"
 markdown: kramdown
 permalink: /:categories/:year/:month/:day/:title/
 
-plugins:
-    - jekyll-archives
-
-jekyll-archives:
-  enabled:
-        - categories
-        - tags
-  layouts:
-    category: archive
-    tag: archive
-  permalinks:
-    category: /category/:name/
-    tag: /labels/:name/
