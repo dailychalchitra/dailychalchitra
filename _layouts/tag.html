@@ -1,27 +1,64 @@
 ---
 layout: default
+title: ট্যাগ আর্কাইভ
+permalink: /tag/
 ---
 
 <div class="dc-tag-archive">
-  <h1 class="archive-title">{{ page.title }}</h1>
-
-  <div class="post-list">
-    {% for post in site.tags[page.tag] %}
-    <div class="post-item">
-      <a href="{{ post.url | relative_url }}">
-        {% if post.image %}
-          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="post-thumb">
-        {% endif %}
-      </a>
-      
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-      <span class="post-date">{{ post.date | date: "%d %B %Y" }} • {{ post.author }}</span>
-      <p>{{ post.content | strip_html | truncatewords: 25 }}</p>
-      <a href="{{ post.url | relative_url }}" class="read-more-btn">আরও পড়ুন →</a>
-    </div>
-    {% endfor %}
-  </div>
+  <h1 class="archive-title" id="dc-tag-title">ট্যাগ</h1>
+  <div class="post-list" id="dc-tag-posts"></div>
+  <p id="dc-tag-empty" style="display:none; color:#777; text-align:center; margin-top:30px;">এই ট্যাগে এখনো কোনো পোস্ট নেই।</p>
 </div>
+
+<script>
+  var dcAllPosts = [
+    {% for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "url": {{ post.url | relative_url | jsonify }},
+      "date": {{ post.date | date: "%d %B %Y" | jsonify }},
+      "author": {{ post.author | default: "" | jsonify }},
+      "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
+      "excerpt": {{ post.content | strip_html | truncatewords: 25 | jsonify }},
+      "tags": {{ post.tags | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  function dcNormalize(s) {
+    return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase();
+  }
+
+  var dcParams = new URLSearchParams(window.location.search);
+  var dcTagName = dcParams.get("name") || "";
+  document.getElementById("dc-tag-title").textContent = dcTagName ? dcTagName : "ট্যাগ পাওয়া যায়নি";
+
+  var dcNormTarget = dcNormalize(dcTagName);
+  var dcFiltered = dcAllPosts.filter(function (p) {
+    return (p.tags || []).some(function (t) { return dcNormalize(t) === dcNormTarget; });
+  });
+
+  var dcContainer = document.getElementById("dc-tag-posts");
+  var dcEmptyMsg = document.getElementById("dc-tag-empty");
+
+  if (dcFiltered.length === 0) {
+    dcEmptyMsg.style.display = "block";
+  } else {
+    dcFiltered.forEach(function (post) {
+      var div = document.createElement("div");
+      div.className = "post-item";
+      div.innerHTML =
+        '<a href="' + post.url + '">' +
+          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" class="post-thumb">' : '') +
+        '</a>' +
+        '<h2><a href="' + post.url + '">' + post.title + '</a></h2>' +
+        '<span class="post-date">' + post.date + ' • ' + post.author + '</span>' +
+        '<p>' + post.excerpt + '</p>' +
+        '<a href="' + post.url + '" class="read-more-btn">আরও পড়ুন →</a>';
+      dcContainer.appendChild(div);
+    });
+  }
+</script>
 
 <style>
 .dc-tag-archive { max-width: 800px; margin: 20px auto; padding: 15px; }
