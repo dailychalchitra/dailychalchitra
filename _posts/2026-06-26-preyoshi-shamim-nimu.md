@@ -3,7 +3,7 @@ layout: post
 title: "প্রেয়সী - শামীম নিমু"
 date: 2026-06-26 16:40:00 +0600
 categories: [পদ্য কবিতা]
-tags: [কবিতা, পদ্য কবিতা]
+tags: [সাহিত্য, কবিতা, পদ্য কবিতা]
 author: শামীম নিমু
 image: /assets/img/preyoshi.jpg
 ---
