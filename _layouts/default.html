@@ -1062,6 +1062,91 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // DAILY CHALCHITRA SIDE MENU JS END
 </script>
+<!-- ============================================================
+     DAILY CHALCHITRA — FIREBASE INIT (Like/Comment/Share/View)
+     এই স্ক্রিপ্টটি </body> এর ঠিক আগে, একবার যুক্ত করুন
+     ============================================================ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+// ---------- Firebase কনফিগ ----------
+const dcFirebaseConfig = {
+  apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
+  authDomain: "daily-chalchitra-60994.firebaseapp.com",
+  databaseURL: "https://daily-chalchitra-60994-default-rtdb.firebaseio.com",
+  projectId: "daily-chalchitra-60994",
+  storageBucket: "daily-chalchitra-60994.firebasestorage.app",
+  messagingSenderId: "792541060086",
+  appId: "1:792541060086:web:078fe75f16940c5d0005d7",
+  measurementId: "G-P3K494H1N5"
+};
+
+firebase.initializeApp(dcFirebaseConfig);
+const dcAuth = firebase.auth();
+const dcDB = firebase.database();
+
+// ---------- বর্তমান পোস্টের ইউনিক আইডি ----------
+function dcGetPostId() {
+  let path = window.location.pathname;
+  path = path.replace(/^\/|\/$/g, '');
+  path = path.replace(/[\.\#\$\[\]\/]/g, '_');
+  return path || 'home';
+}
+const DC_POST_ID = dcGetPostId();
+
+// ---------- ইউজার স্টেট ----------
+let dcCurrentUser = null;
+let dcIsNamedUser = false;
+
+dcAuth.onAuthStateChanged(function (user) {
+  if (user) {
+    dcCurrentUser = user;
+    dcIsNamedUser = !user.isAnonymous;
+    document.dispatchEvent(new CustomEvent('dc-auth-ready', { detail: { user: user } }));
+  } else {
+    dcAuth.signInAnonymously().catch(function (err) {
+      console.error('Anonymous sign-in failed:', err);
+    });
+  }
+});
+
+function dcSignUp(name, email, password, callback) {
+  dcAuth.createUserWithEmailAndPassword(email, password)
+    .then(function (cred) {
+      return cred.user.updateProfile({ displayName: name }).then(function () {
+        dcIsNamedUser = true;
+        dcCurrentUser = cred.user;
+        callback(null, cred.user);
+      });
+    })
+    .catch(function (err) { callback(err, null); });
+}
+
+function dcLogIn(email, password, callback) {
+  dcAuth.signInWithEmailAndPassword(email, password)
+    .then(function (cred) {
+      dcIsNamedUser = true;
+      dcCurrentUser = cred.user;
+      callback(null, cred.user);
+    })
+    .catch(function (err) { callback(err, null); });
+}
+
+function dcLogOut() {
+  dcAuth.signOut().then(function () {
+    dcAuth.signInAnonymously();
+  });
+}
+
+function dcDisplayName() {
+  if (dcCurrentUser && dcIsNamedUser) {
+    return dcCurrentUser.displayName || dcCurrentUser.email || 'পাঠক';
+  }
+  return 'অতিথি পাঠক';
+}
+</script>
 {% include footer.html %}
 </body>
 </html>
