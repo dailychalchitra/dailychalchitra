@@ -81,8 +81,7 @@ layout: default
   .dc-react-btn.dc-active .dc-react-label { color: #111; }
   .dc-react-count { font-size: 13px; color: #333; font-weight: 700; }
 
-  .dc-comment-section { padding-top: 20px; display: none; }
-  .dc-comment-section.dc-open { display: block; }
+  .dc-comment-section { padding-top: 20px; }
   .dc-comment-section h3 {
     font-size: 18px;
     margin-bottom: 14px;
@@ -213,7 +212,7 @@ layout: default
       </button>
     </div>
 
-    <div class="dc-comment-section" id="dc-comment-section">
+    <div class="dc-comment-section">
       <h3>মন্তব্য করুন</h3>
       <div class="dc-comment-form">
         <div class="dc-comment-asname">
@@ -349,10 +348,8 @@ layout: default
     loveBtn.addEventListener('click', function () { toggleReaction('loves', 'loveCount', loveBtn); });
 
     commentScrollBtn.addEventListener('click', function () {
-      var section = document.getElementById('dc-comment-section');
-      section.classList.add('dc-open');
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(function () { commentInput.focus(); }, 300);
+      commentInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      commentInput.focus();
     });
 
     shareBtn.addEventListener('click', function () {
