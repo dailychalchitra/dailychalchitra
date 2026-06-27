@@ -7,99 +7,165 @@ permalink: /author/
 <div class="dc-author-archive">
   <h1 class="archive-title" id="dc-author-title">লেখক তালিকা</h1>
 
+  <div class="author-profile" id="dc-author-profile" style="display:none;"></div>
+
   <div class="author-grid" id="dc-author-grid"></div>
   <div class="post-list" id="dc-author-posts"></div>
   <p id="dc-author-empty" style="display:none; color:#777; text-align:center; margin-top:30px;"></p>
 </div>
 
 <script>
-  var dcAllPosts = [
-    {% for post in site.posts %}
-    {
-      "title": {{ post.title | jsonify }},
-      "url": {{ post.url | relative_url | jsonify }},
-      "date": {{ post.date | date: "%d %B %Y" | jsonify }},
-      "author": {{ post.author | default: "" | jsonify }},
-      "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
-      "excerpt": {{ post.content | strip_html | truncatewords: 25 | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
-
-  function dcNormalize(s) { return (s || "").toString().trim().toLowerCase(); }
-
-  var dcParams = new URLSearchParams(window.location.search);
-  var dcAuthorName = (dcParams.get("name") || "").trim();
-
-  var dcGrid = document.getElementById("dc-author-grid");
-  var dcContainer = document.getElementById("dc-author-posts");
-  var dcEmptyMsg = document.getElementById("dc-author-empty");
-  var dcTitle = document.getElementById("dc-author-title");
-
-  if (!dcAuthorName) {
-    var dcCounts = {};
-    dcAllPosts.forEach(function (p) {
-      var name = (p.author || "").trim();
-      if (!name) return;
-      dcCounts[name] = (dcCounts[name] || 0) + 1;
-    });
-    var dcNames = Object.keys(dcCounts).sort(function (a, b) { return a.localeCompare(b, "bn"); });
-
-    if (dcNames.length === 0) {
-      dcEmptyMsg.textContent = "এখনো কোনো লেখকের তথ্য পাওয়া যায়নি।";
-      dcEmptyMsg.style.display = "block";
-    } else {
-      dcNames.forEach(function (name) {
-        var card = document.createElement("a");
-        card.href = "/author/?name=" + encodeURIComponent(name);
-        card.className = "author-card";
-        card.innerHTML =
-          '<div class="author-avatar">' + name.charAt(0) + '</div>' +
-          '<div class="author-info">' +
-            '<span class="author-name">' + name + '</span>' +
-            '<span class="author-count">' + dcCounts[name] + ' টি পোস্ট</span>' +
-          '</div>';
-        dcGrid.appendChild(card);
-      });
-    }
-  } else {
-    dcTitle.textContent = dcAuthorName;
-    dcGrid.style.display = "none";
-
-    var dcTarget = dcNormalize(dcAuthorName);
-    var dcFiltered = dcAllPosts.filter(function (p) { return dcNormalize(p.author) === dcTarget; });
-
-    if (dcFiltered.length === 0) {
-      dcEmptyMsg.textContent = "এই লেখকের কোনো পোস্ট পাওয়া যায়নি।";
-      dcEmptyMsg.style.display = "block";
-    } else {
-      dcFiltered.forEach(function (post) {
-        var div = document.createElement("div");
-        div.className = "post-item";
-        div.innerHTML =
-          '<a href="' + post.url + '">' +
-            (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" class="post-thumb">' : '') +
-          '</a>' +
-          '<h2><a href="' + post.url + '">' + post.title + '</a></h2>' +
-          '<span class="post-date">' + post.date + '</span>' +
-          '<p>' + post.excerpt + '</p>' +
-          '<a href="' + post.url + '" class="read-more-btn">আরও পড়ুন →</a>';
-        dcContainer.appendChild(div);
-      });
-    }
+var authorData = {
+  'মনিরা ইসলাম': {
+    img: 'https://i.ibb.co/9HzFdH8P/Monira-Islam.jpg',
+    bio: 'কবি ও সাহিত্যিক। দৈনিক চালচিত্রে নিয়মিত গল্প-কবিতা লেখেন। প্রকাশিত বই: ৭টি।'
+  },
+  'শামীম নিমু': {
+    img: 'https://i.ibb.co/DHkSf7Sg/Shamim-Nimu-jpg.jpg',
+    bio: 'কবি ও কথাসাহিত্যিক মোঃ শামীম প্রামানিক, যিনি শামীম নিমু নামে সমধিক পরিচিত। জন্ম: ১ জানুয়ারি ১৯৮৩, গাইবান্ধার রামচন্দ্রপুর গ্রামে। ইতিপূর্বে দুবাই এবং বর্তমানে ওমান প্রবাসী এই কবি প্রবাস জীবনের একাকীত্ব, দেশপ্রেম, প্রেম-বিরহ ও সামাজিক অসঙ্গতিকে তাঁর লেখার মূল উপজীব্য করেছেন।<br><br><b>সাহিত্যকর্ম:</b> দৈনিক চালচিত্রসহ বিভিন্ন পত্রিকায় নিয়মিত গল্প-কবিতা লিখছেন। তাঁর কবিতায় শব্দের সহজ-সরল ব্যবহার ও গভীর জীবনবোধ একইসাথে ধরা পড়ে। প্রকাশিত গ্রন্থ সংখ্যা ৬টি, যার মধ্যে উল্লেখযোগ্য \'কবিতার তিনটি শব্দ\' একক কাব্যগ্রন্থ এবং আন্তর্জাতিক যৌথ কাব্যগ্রন্থ \'দুই হাজার বছরের সর্ববৃহৎ কাব্যগ্রন্থ\'।<br><br><b>প্রকাশিত গ্রন্থসমূহ:</b><br>১. বেদনার অশ্রুজল (২০১৯) - যৌথ<br>২. কবিতার তিনটি শব্দ (২০২০) - একক<br>৩. শ্রেষ্ঠ কবির পথে নব প্রার্থী (২০২০) - যৌথ<br>৪. কোরাস (২০২১) - যৌথ কাব্যগ্রন্থ<br>৫. কোরাস (২০২১) - যৌথ গল্পগ্রন্থ<br>৬. দুই হাজার বছরের সর্ববৃহৎ কাব্যগ্রন্থ (২০২৫) - যৌথ<br><br><b>যোগাযোগ:</b> OM +96893815016 (WhatsApp)'
+  },
+  'কাজী নজরুল ইসলাম': {
+    img: 'https://upload.wikimedia.org/wikipedia/commons/1/15/Nazrul.jpg',
+    bio: 'বিদ্রোহী কবি। বাংলাদেশের জাতীয় কবি।'
+  },
+  'রবীন্দ্রনাথ ঠাকুর': {
+    img: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Rabindranath_Tagore.jpg',
+    bio: 'বিশ্বকবি। ১৯১৩ সালে সাহিত্যে নোবেল পুরস্কার লাভ করেন।'
+  },
+  'এম. এল. আর. বিপ্লব': {
+    img: 'https://i.ibb.co/99z7ZGp8/image.jpg',
+    bio: 'কবি ও সাহিত্যিক। দৈনিক চালচিত্রে নিয়মিত লিখছেন।'
+  },
+  'শামীম দিশা': {
+    img: 'https://i.ibb.co/N2xkVtVc/image.jpg',
+    bio: 'কবি ও সাহিত্যিক। দৈনিক চালচিত্রে নিয়মিত গল্প-কবিতা লেখেন।'
+  },
+  'Adv রাজিয়া আক্তার পপি': {
+    img: 'https://i.ibb.co/W4srLrrF/Adv.jpg',
+    bio: 'কবি ও সাহিত্যিক। দৈনিক চালচিত্রে নিয়মিত লিখছেন।'
+  },
+  'অর্জন চন্দ্র বিশ্বাস': {
+    img: 'https://i.ibb.co/WW6FFg4j/image.jpg',
+    bio: 'কবি ও সাহিত্যিক। দৈনিক চালচিত্রে নিয়মিত গল্প-কবিতা লেখেন।'
+  },
+  'আফরিন শিফা': {
+    img: 'https://i.ibb.co/FbmpgGxG/image.jpg',
+    bio: 'কবি ও সাহিত্যিক। দৈনিক চালচিত্রে নিয়মিত লিখছেন।'
   }
+};
+
+var dcAllPosts = [
+  {% for post in site.posts %}
+  {
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "date": {{ post.date | date: "%d %B %Y" | jsonify }},
+    "author": {{ post.author | default: "" | jsonify }},
+    "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
+    "excerpt": {{ post.content | strip_html | truncatewords: 25 | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+
+function dcNormalize(s) { return (s || "").toString().trim().toLowerCase(); }
+
+var dcParams = new URLSearchParams(window.location.search);
+var dcAuthorName = (dcParams.get("name") || "").trim();
+
+var dcProfile = document.getElementById("dc-author-profile");
+var dcGrid = document.getElementById("dc-author-grid");
+var dcContainer = document.getElementById("dc-author-posts");
+var dcEmptyMsg = document.getElementById("dc-author-empty");
+var dcTitle = document.getElementById("dc-author-title");
+
+function dcAvatarHTML(name, size) {
+  var info = authorData[name];
+  if (info && info.img) {
+    return '<img src="' + info.img + '" alt="' + name + '" class="author-avatar-img" style="width:' + size + 'px; height:' + size + 'px;">';
+  }
+  return '<div class="author-avatar" style="width:' + size + 'px; height:' + size + 'px; font-size:' + (size * 0.4) + 'px;">' + name.charAt(0) + '</div>';
+}
+
+if (!dcAuthorName) {
+  var dcCounts = {};
+  dcAllPosts.forEach(function (p) {
+    var name = (p.author || "").trim();
+    if (!name) return;
+    dcCounts[name] = (dcCounts[name] || 0) + 1;
+  });
+  var dcNames = Object.keys(dcCounts).sort(function (a, b) { return a.localeCompare(b, "bn"); });
+
+  if (dcNames.length === 0) {
+    dcEmptyMsg.textContent = "এখনো কোনো লেখকের তথ্য পাওয়া যায়নি।";
+    dcEmptyMsg.style.display = "block";
+  } else {
+    dcNames.forEach(function (name) {
+      var card = document.createElement("a");
+      card.href = "/author/?name=" + encodeURIComponent(name);
+      card.className = "author-card";
+      card.innerHTML =
+        dcAvatarHTML(name, 48) +
+        '<div class="author-info">' +
+          '<span class="author-name">' + name + '</span>' +
+          '<span class="author-count">' + dcCounts[name] + ' টি পোস্ট</span>' +
+        '</div>';
+      dcGrid.appendChild(card);
+    });
+  }
+} else {
+  dcTitle.textContent = dcAuthorName;
+  dcGrid.style.display = "none";
+
+  var dcInfo = authorData[dcAuthorName];
+  dcProfile.style.display = "flex";
+  dcProfile.innerHTML =
+    dcAvatarHTML(dcAuthorName, 110) +
+    '<div class="author-profile-text">' +
+      (dcInfo && dcInfo.bio ? '<p class="author-bio">' + dcInfo.bio + '</p>' : '<p class="author-bio" style="color:#999;">এই লেখকের সম্পর্কে এখনো বিস্তারিত তথ্য যুক্ত করা হয়নি।</p>') +
+    '</div>';
+
+  var dcTarget = dcNormalize(dcAuthorName);
+  var dcFiltered = dcAllPosts.filter(function (p) { return dcNormalize(p.author) === dcTarget; });
+
+  if (dcFiltered.length === 0) {
+    dcEmptyMsg.textContent = "এই লেখকের কোনো পোস্ট পাওয়া যায়নি।";
+    dcEmptyMsg.style.display = "block";
+  } else {
+    dcFiltered.forEach(function (post) {
+      var div = document.createElement("div");
+      div.className = "post-item";
+      div.innerHTML =
+        '<a href="' + post.url + '">' +
+          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" class="post-thumb">' : '') +
+        '</a>' +
+        '<h2><a href="' + post.url + '">' + post.title + '</a></h2>' +
+        '<span class="post-date">' + post.date + '</span>' +
+        '<p>' + post.excerpt + '</p>' +
+        '<a href="' + post.url + '" class="read-more-btn">আরও পড়ুন →</a>';
+      dcContainer.appendChild(div);
+    });
+  }
+}
 </script>
 
 <style>
 .dc-author-archive { max-width: 800px; margin: 20px auto; padding: 15px; }
 .dc-author-archive .archive-title { font-size: 28px; margin-bottom: 30px; border-bottom: 3px solid #d32f2f; padding-bottom: 10px; }
+
 .author-grid { display: flex; flex-direction: column; gap: 12px; }
 .author-card { display: flex; align-items: center; gap: 14px; padding: 14px; border: 1px solid #e5e5e5; border-radius: 10px; text-decoration: none; }
 .author-card:hover { background: #fafafa; }
-.author-avatar { width: 48px; height: 48px; border-radius: 50%; background: #d32f2f; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0; }
 .author-info { display: flex; flex-direction: column; }
 .author-name { font-size: 17px; font-weight: 600; color: #111; }
 .author-count { font-size: 13px; color: #777; }
+
+.author-avatar { border-radius: 50%; background: #d32f2f; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.author-avatar-img { border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid #d32f2f; }
+
+.author-profile { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px solid #ddd; }
+.author-profile-text { flex: 1; }
+.author-bio { color: #333; line-height: 1.9; font-size: 15px; margin: 0; }
+
 .post-item { margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid #ddd; }
 .post-thumb { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
 .post-item h2 { margin: 10px 0; }
@@ -109,4 +175,8 @@ permalink: /author/
 .post-item p { color: #333; line-height: 1.8; margin: 12px 0; }
 .read-more-btn { display: inline-block; background: #d32f2f; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px; }
 .read-more-btn:hover { background: #b71c1c; }
+
+@media (max-width: 480px) {
+  .author-profile { flex-direction: column; align-items: center; text-align: center; }
+}
 </style>
