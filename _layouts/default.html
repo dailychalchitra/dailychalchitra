@@ -670,8 +670,14 @@ body.dc-menu-open { overflow: hidden; }
     <i class="fa fa-bars"></i>
   </div>
 
-  <div class="ticker-move">
-    <span>♦ ব্রেকিং: দৈনিক চালচিত্রে...</span>
+  {% assign dc_ticker_posts = site.posts | slice: 0, 10 %}
+  <div class="ticker-move" style="animation-duration: {{ dc_ticker_posts.size | times: 6 }}s;">
+    {% for post in dc_ticker_posts %}
+      <a href="{{ post.url | relative_url }}" class="ticker-item">
+        <span class="ticker-dot" style="background:{% cycle 'dcTickerColors': '#ff5252', '#40c4ff', '#69f0ae', '#ffd740', '#b388ff' %};"></span>
+        {{ post.title }}
+      </a>
+    {% endfor %}
   </div>
 
   <div class="live-badge">LIVE</div>
