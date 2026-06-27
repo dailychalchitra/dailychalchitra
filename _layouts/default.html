@@ -1063,5 +1063,481 @@ document.addEventListener('DOMContentLoaded', function() {
 // DAILY CHALCHITRA SIDE MENU JS END
 </script>
 {% include footer.html %}
+<!-- ============================================================
+     DAILY CHALCHITRA — FIREBASE INIT (Like/Comment/Share/View)
+     এই স্ক্রিপ্টটি </body> এর ঠিক আগে, একবার যুক্ত করুন
+     ============================================================ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+// ---------- Firebase কনফিগ ----------
+const dcFirebaseConfig = {
+  apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
+  authDomain: "daily-chalchitra-60994.firebaseapp.com",
+  databaseURL: "https://daily-chalchitra-60994-default-rtdb.firebaseio.com",
+  projectId: "daily-chalchitra-60994",
+  storageBucket: "daily-chalchitra-60994.firebasestorage.app",
+  messagingSenderId: "792541060086",
+  appId: "1:792541060086:web:078fe75f16940c5d0005d7",
+  measurementId: "G-P3K494H1N5"
+};
+
+firebase.initializeApp(dcFirebaseConfig);
+const dcAuth = firebase.auth();
+const dcDB = firebase.database();
+
+// ---------- বর্তমান পোস্টের ইউনিক আইডি ----------
+function dcGetPostId() {
+  let path = window.location.pathname;
+  path = path.replace(/^\/|\/$/g, '');
+  path = path.replace(/[\.\#\$\[\]\/]/g, '_');
+  return path || 'home';
+}
+const DC_POST_ID = dcGetPostId();
+
+// ---------- ইউজার স্টেট ----------
+let dcCurrentUser = null;
+let dcIsNamedUser = false;
+
+dcAuth.onAuthStateChanged(function (user) {
+  if (user) {
+    dcCurrentUser = user;
+    dcIsNamedUser = !user.isAnonymous;
+    document.dispatchEvent(new CustomEvent('dc-auth-ready', { detail: { user: user } }));
+  } else {
+    dcAuth.signInAnonymously().catch(function (err) {
+      console.error('Anonymous sign-in failed:', err);
+    });
+  }
+});
+
+function dcSignUp(name, email, password, callback) {
+  dcAuth.createUserWithEmailAndPassword(email, password)
+    .then(function (cred) {
+      return cred.user.updateProfile({ displayName: name }).then(function () {
+        dcIsNamedUser = true;
+        dcCurrentUser = cred.user;
+        callback(null, cred.user);
+      });
+    })
+    .catch(function (err) { callback(err, null); });
+}
+
+function dcLogIn(email, password, callback) {
+  dcAuth.signInWithEmailAndPassword(email, password)
+    .then(function (cred) {
+      dcIsNamedUser = true;
+      dcCurrentUser = cred.user;
+      callback(null, cred.user);
+    })
+    .catch(function (err) { callback(err, null); });
+}
+
+function dcLogOut() {
+  dcAuth.signOut().then(function () {
+    dcAuth.signInAnonymously();
+  });
+}
+
+function dcDisplayName() {
+  if (dcCurrentUser && dcIsNamedUser) {
+    return dcCurrentUser.displayName || dcCurrentUser.email || 'পাঠক';
+  }
+  return 'অতিথি পাঠক';
+}
+</script>
+<!-- ============================================================
+     DAILY CHALCHITRA — LIKE / COMMENT / SHARE / VIEW WIDGET
+     ============================================================ -->
+
+<style>
+.dc-engage-box {
+  max-width: 760px;
+  margin: 30px auto;
+  padding: 0 15px;
+  font-family: 'SolaimanLipi', Arial, sans-serif;
+}
+.dc-engage-stats {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #666;
+}
+.dc-engage-stats span { display: flex; align-items: center; gap: 5px; }
+.dc-engage-actions {
+  display: flex;
+  gap: 10px;
+  padding: 14px 0;
+  flex-wrap: wrap;
+}
+.dc-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  color: #444;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  user-select: none;
+}
+.dc-btn:hover { background: #f7f7f7; }
+.dc-btn.dc-liked {
+  background: #C00000;
+  color: #fff;
+  border-color: #C00000;
+}
+.dc-btn svg { width: 18px; height: 18px; }
+
+.dc-comment-section { padding-top: 20px; }
+.dc-comment-section h3 {
+  font-size: 18px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #C00000;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+.dc-comment-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+.dc-comment-form textarea {
+  resize: vertical;
+  min-height: 70px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+}
+.dc-comment-form .dc-comment-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.dc-comment-asname { font-size: 13px; color: #777; }
+.dc-comment-asname a { color: #C00000; text-decoration: none; font-weight: 600; }
+.dc-comment-submit {
+  background: #C00000;
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.dc-comment-submit:disabled { opacity: 0.5; cursor: default; }
+.dc-comment-list { display: flex; flex-direction: column; gap: 14px; }
+.dc-comment-item {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.dc-comment-item .dc-c-name { font-weight: 700; font-size: 14px; color: #222; }
+.dc-comment-item .dc-c-time { font-size: 12px; color: #999; margin-left: 8px; }
+.dc-comment-item .dc-c-text { font-size: 14px; color: #444; margin-top: 4px; line-height: 1.6; white-space: pre-wrap; }
+.dc-comment-empty { font-size: 14px; color: #999; padding: 10px 0; }
+
+.dc-modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+.dc-modal-overlay.active { display: flex; }
+.dc-modal-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  width: 90%;
+  max-width: 360px;
+  position: relative;
+}
+.dc-modal-box h3 { margin-bottom: 14px; font-size: 18px; }
+.dc-modal-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.dc-modal-box button.dc-modal-submit {
+  width: 100%;
+  background: #C00000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.dc-modal-switch { text-align: center; font-size: 13px; margin-top: 10px; color: #666; }
+.dc-modal-switch a { color: #C00000; text-decoration: none; font-weight: 600; }
+.dc-modal-close {
+  position: absolute; top: 10px; right: 14px;
+  font-size: 22px; cursor: pointer; color: #999; background: none; border: none;
+}
+.dc-modal-error { color: #C00000; font-size: 13px; margin-bottom: 8px; display: none; }
+</style>
+
+<div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
+  <div class="dc-engage-stats">
+    <span>👁️ <b id="dc-view-count">0</b> বার দেখা হয়েছে</span>
+    <span>❤️ <b id="dc-like-count">0</b> লাইক</span>
+    <span>💬 <b id="dc-comment-count">0</b> মন্তব্য</span>
+  </div>
+
+  <div class="dc-engage-actions">
+    <button class="dc-btn" id="dc-like-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.8-10-9.3C.4 8.6 2 5 5.6 5c2 0 3.3 1 4.4 2.4C11.1 6 12.4 5 14.4 5 18 5 19.6 8.6 22 11.7 19.5 16.2 12 21 12 21z"/></svg>
+      <span id="dc-like-label">লাইক</span>
+    </button>
+    <button class="dc-btn" id="dc-share-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.1c-.8 0-1.5.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.6.5 1.3.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 2-.8l7 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 3 3 3s3-1.3 3-3-1.4-3.1-3-3.1z"/></svg>
+      শেয়ার
+    </button>
+  </div>
+
+  <div class="dc-comment-section">
+    <h3>মন্তব্য করুন</h3>
+    <div class="dc-comment-form">
+      <div class="dc-comment-asname">
+        মন্তব্য করছেন <b id="dc-as-name">অতিথি পাঠক</b> হিসেবে —
+        <a href="#" id="dc-open-signup">নিজের নাম দিয়ে যুক্ত হতে চান?</a>
+      </div>
+      <textarea id="dc-comment-input" placeholder="আপনার মন্তব্য লিখুন..."></textarea>
+      <div class="dc-comment-row">
+        <span></span>
+        <button class="dc-comment-submit" id="dc-comment-submit">পাঠিয়ে দিন</button>
+      </div>
+    </div>
+    <div class="dc-comment-list" id="dc-comment-list">
+      <div class="dc-comment-empty">এখনো কোনো মন্তব্য নেই — প্রথম মন্তব্যটি আপনিই করুন!</div>
+    </div>
+  </div>
+</div>
+
+<div class="dc-modal-overlay" id="dc-modal-overlay">
+  <div class="dc-modal-box">
+    <button class="dc-modal-close" id="dc-modal-close">&times;</button>
+    <div id="dc-modal-signup">
+      <h3>নতুন একাউন্ট তৈরি করুন</h3>
+      <div class="dc-modal-error" id="dc-signup-error"></div>
+      <input type="text" id="dc-signup-name" placeholder="আপনার নাম">
+      <input type="email" id="dc-signup-email" placeholder="ইমেইল">
+      <input type="password" id="dc-signup-password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)">
+      <button class="dc-modal-submit" id="dc-signup-submit">সাইন আপ করুন</button>
+      <div class="dc-modal-switch">আগেই একাউন্ট আছে? <a href="#" id="dc-switch-to-login">লগ ইন করুন</a></div>
+    </div>
+    <div id="dc-modal-login" style="display:none;">
+      <h3>লগ ইন করুন</h3>
+      <div class="dc-modal-error" id="dc-login-error"></div>
+      <input type="email" id="dc-login-email" placeholder="ইমেইল">
+      <input type="password" id="dc-login-password" placeholder="পাসওয়ার্ড">
+      <button class="dc-modal-submit" id="dc-login-submit">লগ ইন</button>
+      <div class="dc-modal-switch">একাউন্ট নেই? <a href="#" id="dc-switch-to-signup">সাইন আপ করুন</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
+  const likeCountEl = document.getElementById('dc-like-count');
+  const viewCountEl = document.getElementById('dc-view-count');
+  const commentCountEl = document.getElementById('dc-comment-count');
+  const likeBtn = document.getElementById('dc-like-btn');
+  const likeLabel = document.getElementById('dc-like-label');
+  const shareBtn = document.getElementById('dc-share-btn');
+  const commentList = document.getElementById('dc-comment-list');
+  const commentInput = document.getElementById('dc-comment-input');
+  const commentSubmit = document.getElementById('dc-comment-submit');
+  const asNameEl = document.getElementById('dc-as-name');
+
+  let hasCountedView = false;
+  let userHasLiked = false;
+
+  postRef.child('likeCount').on('value', function (snap) {
+    likeCountEl.textContent = snap.val() || 0;
+  });
+  postRef.child('viewCount').on('value', function (snap) {
+    viewCountEl.textContent = snap.val() || 0;
+  });
+  postRef.child('comments').on('value', function (snap) {
+    const data = snap.val();
+    const count = data ? Object.keys(data).length : 0;
+    commentCountEl.textContent = count;
+    renderComments(data);
+  });
+
+  function renderComments(data) {
+    if (!data) {
+      commentList.innerHTML = '<div class="dc-comment-empty">এখনো কোনো মন্তব্য নেই — প্রথম মন্তব্যটি আপনিই করুন!</div>';
+      return;
+    }
+    const items = Object.keys(data).map(function (k) { return data[k]; });
+    items.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
+    commentList.innerHTML = items.map(function (c) {
+      const date = c.time ? new Date(c.time).toLocaleDateString('bn-BD') : '';
+      return '<div class="dc-comment-item">' +
+        '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
+        '<span class="dc-c-time">' + date + '</span>' +
+        '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function dcEscape(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function countView() {
+    if (hasCountedView) return;
+    hasCountedView = true;
+    postRef.child('viewCount').transaction(function (cur) { return (cur || 0) + 1; });
+  }
+
+  function refreshLikeUI() {
+    if (!dcCurrentUser) return;
+    postRef.child('likes/' + dcCurrentUser.uid).once('value').then(function (snap) {
+      userHasLiked = !!snap.val();
+      likeBtn.classList.toggle('dc-liked', userHasLiked);
+      likeLabel.textContent = userHasLiked ? 'লাইক করেছেন' : 'লাইক';
+    });
+  }
+
+  likeBtn.addEventListener('click', function () {
+    if (!dcCurrentUser) return;
+    const likeRef = postRef.child('likes/' + dcCurrentUser.uid);
+    const countRef = postRef.child('likeCount');
+    if (userHasLiked) {
+      likeRef.remove();
+      countRef.transaction(function (cur) { return Math.max((cur || 1) - 1, 0); });
+    } else {
+      likeRef.set(true);
+      countRef.transaction(function (cur) { return (cur || 0) + 1; });
+    }
+    userHasLiked = !userHasLiked;
+    likeBtn.classList.toggle('dc-liked', userHasLiked);
+    likeLabel.textContent = userHasLiked ? 'লাইক করেছেন' : 'লাইক';
+  });
+
+  shareBtn.addEventListener('click', function () {
+    const url = window.location.href;
+    const title = document.querySelector('.dc-engage-box').dataset.postTitle || document.title;
+    postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+    if (navigator.share) {
+      navigator.share({ title: title, url: url }).catch(function () {});
+    } else {
+      navigator.clipboard.writeText(url).then(function () {
+        alert('লিংক কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
+      });
+    }
+  });
+
+  commentSubmit.addEventListener('click', function () {
+    const text = commentInput.value.trim();
+    if (!text || !dcCurrentUser) return;
+    commentSubmit.disabled = true;
+    const newRef = postRef.child('comments').push();
+    newRef.set({
+      uid: dcCurrentUser.uid,
+      name: dcDisplayName(),
+      text: text,
+      time: Date.now()
+    }).then(function () {
+      commentInput.value = '';
+      commentSubmit.disabled = false;
+    }).catch(function (err) {
+      console.error(err);
+      commentSubmit.disabled = false;
+    });
+  });
+
+  document.addEventListener('dc-auth-ready', function () {
+    asNameEl.textContent = dcDisplayName();
+    refreshLikeUI();
+    countView();
+  });
+  if (dcCurrentUser) {
+    asNameEl.textContent = dcDisplayName();
+    refreshLikeUI();
+    countView();
+  }
+
+  const overlay = document.getElementById('dc-modal-overlay');
+  const signupBox = document.getElementById('dc-modal-signup');
+  const loginBox = document.getElementById('dc-modal-login');
+
+  document.getElementById('dc-open-signup').addEventListener('click', function (e) {
+    e.preventDefault();
+    overlay.classList.add('active');
+  });
+  document.getElementById('dc-modal-close').addEventListener('click', function () {
+    overlay.classList.remove('active');
+  });
+  document.getElementById('dc-switch-to-login').addEventListener('click', function (e) {
+    e.preventDefault();
+    signupBox.style.display = 'none';
+    loginBox.style.display = 'block';
+  });
+  document.getElementById('dc-switch-to-signup').addEventListener('click', function (e) {
+    e.preventDefault();
+    loginBox.style.display = 'none';
+    signupBox.style.display = 'block';
+  });
+
+  document.getElementById('dc-signup-submit').addEventListener('click', function () {
+    const name = document.getElementById('dc-signup-name').value.trim();
+    const email = document.getElementById('dc-signup-email').value.trim();
+    const pass = document.getElementById('dc-signup-password').value;
+    const errEl = document.getElementById('dc-signup-error');
+    errEl.style.display = 'none';
+    if (!name || !email || pass.length < 6) {
+      errEl.textContent = 'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
+      errEl.style.display = 'block';
+      return;
+    }
+    dcSignUp(name, email, pass, function (err) {
+      if (err) {
+        errEl.textContent = err.message;
+        errEl.style.display = 'block';
+        return;
+      }
+      overlay.classList.remove('active');
+      asNameEl.textContent = dcDisplayName();
+      refreshLikeUI();
+    });
+  });
+
+  document.getElementById('dc-login-submit').addEventListener('click', function () {
+    const email = document.getElementById('dc-login-email').value.trim();
+    const pass = document.getElementById('dc-login-password').value;
+    const errEl = document.getElementById('dc-login-error');
+    errEl.style.display = 'none';
+    dcLogIn(email, pass, function (err) {
+      if (err) {
+        errEl.textContent = err.message;
+        errEl.style.display = 'block';
+        return;
+      }
+      overlay.classList.remove('active');
+      asNameEl.textContent = dcDisplayName();
+      refreshLikeUI();
+    });
+  });
+})();
+</script>
 </body>
 </html>
