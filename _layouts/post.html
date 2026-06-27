@@ -15,7 +15,7 @@ layout: default
   </div>
 
   <!-- ============================================================
-       DAILY CHALCHITRA — LIKE / COMMENT / SHARE / VIEW WIDGET
+       DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
        ============================================================ -->
 
   <style>
@@ -25,45 +25,64 @@ layout: default
     padding: 0 15px;
     font-family: 'SolaimanLipi', Arial, sans-serif;
   }
-  .dc-engage-stats {
+
+  .dc-view-only {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 6px;
+    color: #666;
+    font-size: 14px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+  }
+  .dc-view-only svg { width: 18px; height: 18px; fill: #888; }
+
+  .dc-reaction-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
     padding: 14px 0;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
-    font-size: 14px;
-    color: #666;
   }
-  .dc-engage-stats span { display: flex; align-items: center; gap: 5px; }
-  .dc-engage-actions {
-    display: flex;
-    border-top: 1px solid #e4e6eb;
-    border-bottom: 1px solid #e4e6eb;
-    padding: 2px 0;
-  }
-  .dc-btn {
+  .dc-react-btn {
     flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 2px;
+    border-radius: 10px;
+    transition: 0.15s;
+  }
+  .dc-react-btn:hover { background: #f5f5f5; }
+  .dc-react-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 11px 0;
-    border: none;
-    border-radius: 4px;
-    background: transparent;
-    color: #65676b;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.15s;
-    user-select: none;
+    color: #fff;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
-  .dc-btn:hover { background: #f0f2f5; }
-  .dc-btn.dc-liked { color: #1877f2; }
-  .dc-btn svg { width: 20px; height: 20px; }
+  .dc-react-btn:active .dc-react-circle { transform: scale(0.88); }
+  .dc-react-circle svg { width: 22px; height: 22px; }
+  .dc-like .dc-react-circle { background: #1877f2; }
+  .dc-love .dc-react-circle { background: #f33e58; }
+  .dc-comment .dc-react-circle { background: #29b6f6; }
+  .dc-share .dc-react-circle { background: #29b6f6; }
+  .dc-react-btn.dc-active .dc-react-circle { box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
+  .dc-react-label { font-size: 12px; color: #555; font-weight: 600; }
+  .dc-react-btn.dc-active .dc-react-label { color: #111; }
+  .dc-react-count { font-size: 13px; color: #333; font-weight: 700; }
 
-  .dc-comment-section { padding-top: 20px; }
+  .dc-comment-section { padding-top: 20px; display: none; }
+  .dc-comment-section.dc-open { display: block; }
   .dc-comment-section h3 {
     font-size: 18px;
     margin-bottom: 14px;
@@ -154,24 +173,47 @@ layout: default
   </style>
 
   <div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
-    <div class="dc-engage-stats">
-      <span>👁️ <b id="dc-view-count">0</b> বার দেখা হয়েছে</span>
-      <span>❤️ <b id="dc-like-count">0</b> লাইক</span>
-      <span>💬 <b id="dc-comment-count">0</b> মন্তব্য</span>
+
+    <div class="dc-view-only">
+      <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5zm0-8c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/></svg>
+      <b id="dc-view-count">0</b> বার দেখা হয়েছে
     </div>
 
-    <div class="dc-engage-actions">
-      <button class="dc-btn" id="dc-like-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21h2c.6 0 1-.4 1-1v-9c0-.6-.4-1-1-1H2v11zm19.8-9.3c.1-.2.2-.5.2-.7 0-1.1-.9-2-2-2h-5.4l.8-3.9c.1-.5 0-1-.3-1.4-.4-.5-1-.7-1.6-.7-.5 0-1 .2-1.3.6L7 10.3V21h11.7c.8 0 1.5-.5 1.8-1.3l1.3-7z"/></svg>
-        <span id="dc-like-label">লাইক</span>
+    <div class="dc-reaction-row">
+      <button class="dc-react-btn dc-like" id="dc-like-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21h2c.6 0 1-.4 1-1v-9c0-.6-.4-1-1-1H2v11zm19.8-9.3c.1-.2.2-.5.2-.7 0-1.1-.9-2-2-2h-5.4l.8-3.9c.1-.5 0-1-.3-1.4-.4-.5-1-.7-1.6-.7-.5 0-1 .2-1.3.6L7 10.3V21h11.7c.8 0 1.5-.5 1.8-1.3l1.3-7z"/></svg>
+        </span>
+        <span class="dc-react-label">লাইক</span>
+        <span class="dc-react-count" id="dc-like-count">0</span>
       </button>
-      <button class="dc-btn" id="dc-share-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.1c-.8 0-1.5.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.6.5 1.3.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 2-.8l7 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 3 3 3s3-1.3 3-3-1.4-3.1-3-3.1z"/></svg>
-        শেয়ার
+
+      <button class="dc-react-btn dc-love" id="dc-love-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.8-10-9.3C.4 8.6 2 5 5.6 5c2 0 3.3 1 4.4 2.4C11.1 6 12.4 5 14.4 5 18 5 19.6 8.6 22 11.7 19.5 16.2 12 21 12 21z"/></svg>
+        </span>
+        <span class="dc-react-label">ভালোলাগা</span>
+        <span class="dc-react-count" id="dc-love-count">0</span>
+      </button>
+
+      <button class="dc-react-btn dc-comment" id="dc-comment-scroll-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.2 1.1 4.2 2.9 5.7-.1.9-.5 2.4-1.5 3.9 0 0 2.5-.3 4.6-1.7C9.2 19.3 10.6 19.5 12 19.5c5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>
+        </span>
+        <span class="dc-react-label">মন্তব্য</span>
+        <span class="dc-react-count" id="dc-comment-count">0</span>
+      </button>
+
+      <button class="dc-react-btn dc-share" id="dc-share-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.1c-.8 0-1.5.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.6.5 1.3.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 2-.8l7 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 3 3 3s3-1.3 3-3-1.4-3.1-3-3.1z"/></svg>
+        </span>
+        <span class="dc-react-label">শেয়ার</span>
+        <span class="dc-react-count" id="dc-share-count">0</span>
       </button>
     </div>
 
-    <div class="dc-comment-section">
+    <div class="dc-comment-section" id="dc-comment-section">
       <h3>মন্তব্য করুন</h3>
       <div class="dc-comment-form">
         <div class="dc-comment-asname">
@@ -216,26 +258,29 @@ layout: default
   <script>
   (function () {
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
-    const likeCountEl = document.getElementById('dc-like-count');
+
     const viewCountEl = document.getElementById('dc-view-count');
+    const likeCountEl = document.getElementById('dc-like-count');
+    const loveCountEl = document.getElementById('dc-love-count');
     const commentCountEl = document.getElementById('dc-comment-count');
+    const shareCountEl = document.getElementById('dc-share-count');
+
     const likeBtn = document.getElementById('dc-like-btn');
-    const likeLabel = document.getElementById('dc-like-label');
+    const loveBtn = document.getElementById('dc-love-btn');
+    const commentScrollBtn = document.getElementById('dc-comment-scroll-btn');
     const shareBtn = document.getElementById('dc-share-btn');
+
     const commentList = document.getElementById('dc-comment-list');
     const commentInput = document.getElementById('dc-comment-input');
     const commentSubmit = document.getElementById('dc-comment-submit');
     const asNameEl = document.getElementById('dc-as-name');
 
     let hasCountedView = false;
-    let userHasLiked = false;
 
-    postRef.child('likeCount').on('value', function (snap) {
-      likeCountEl.textContent = snap.val() || 0;
-    });
-    postRef.child('viewCount').on('value', function (snap) {
-      viewCountEl.textContent = snap.val() || 0;
-    });
+    postRef.child('viewCount').on('value', function (snap) { viewCountEl.textContent = snap.val() || 0; });
+    postRef.child('likeCount').on('value', function (snap) { likeCountEl.textContent = snap.val() || 0; });
+    postRef.child('loveCount').on('value', function (snap) { loveCountEl.textContent = snap.val() || 0; });
+    postRef.child('shareCount').on('value', function (snap) { shareCountEl.textContent = snap.val() || 0; });
     postRef.child('comments').on('value', function (snap) {
       const data = snap.val();
       const count = data ? Object.keys(data).length : 0;
@@ -272,29 +317,42 @@ layout: default
       postRef.child('viewCount').transaction(function (cur) { return (cur || 0) + 1; });
     }
 
-    function refreshLikeUI() {
+    function toggleReaction(typeKey, countKey, btn) {
       if (!dcCurrentUser) return;
-      postRef.child('likes/' + dcCurrentUser.uid).once('value').then(function (snap) {
-        userHasLiked = !!snap.val();
-        likeBtn.classList.toggle('dc-liked', userHasLiked);
-        likeLabel.textContent = userHasLiked ? 'লাইক করেছেন' : 'লাইক';
+      const reactRef = postRef.child(typeKey + '/' + dcCurrentUser.uid);
+      const countRef = postRef.child(countKey);
+      reactRef.once('value').then(function (snap) {
+        const has = !!snap.val();
+        if (has) {
+          reactRef.remove();
+          countRef.transaction(function (cur) { return Math.max((cur || 1) - 1, 0); });
+          btn.classList.remove('dc-active');
+        } else {
+          reactRef.set(true);
+          countRef.transaction(function (cur) { return (cur || 0) + 1; });
+          btn.classList.add('dc-active');
+        }
       });
     }
 
-    likeBtn.addEventListener('click', function () {
+    function refreshReactionUI() {
       if (!dcCurrentUser) return;
-      const likeRef = postRef.child('likes/' + dcCurrentUser.uid);
-      const countRef = postRef.child('likeCount');
-      if (userHasLiked) {
-        likeRef.remove();
-        countRef.transaction(function (cur) { return Math.max((cur || 1) - 1, 0); });
-      } else {
-        likeRef.set(true);
-        countRef.transaction(function (cur) { return (cur || 0) + 1; });
-      }
-      userHasLiked = !userHasLiked;
-      likeBtn.classList.toggle('dc-liked', userHasLiked);
-      likeLabel.textContent = userHasLiked ? 'লাইক করেছেন' : 'লাইক';
+      postRef.child('likes/' + dcCurrentUser.uid).once('value').then(function (snap) {
+        likeBtn.classList.toggle('dc-active', !!snap.val());
+      });
+      postRef.child('loves/' + dcCurrentUser.uid).once('value').then(function (snap) {
+        loveBtn.classList.toggle('dc-active', !!snap.val());
+      });
+    }
+
+    likeBtn.addEventListener('click', function () { toggleReaction('likes', 'likeCount', likeBtn); });
+    loveBtn.addEventListener('click', function () { toggleReaction('loves', 'loveCount', loveBtn); });
+
+    commentScrollBtn.addEventListener('click', function () {
+      var section = document.getElementById('dc-comment-section');
+      section.classList.add('dc-open');
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () { commentInput.focus(); }, 300);
     });
 
     shareBtn.addEventListener('click', function () {
@@ -331,12 +389,12 @@ layout: default
 
     document.addEventListener('dc-auth-ready', function () {
       asNameEl.textContent = dcDisplayName();
-      refreshLikeUI();
+      refreshReactionUI();
       countView();
     });
     if (dcCurrentUser) {
       asNameEl.textContent = dcDisplayName();
-      refreshLikeUI();
+      refreshReactionUI();
       countView();
     }
 
@@ -381,7 +439,7 @@ layout: default
         }
         overlay.classList.remove('active');
         asNameEl.textContent = dcDisplayName();
-        refreshLikeUI();
+        refreshReactionUI();
       });
     });
 
@@ -398,7 +456,7 @@ layout: default
         }
         overlay.classList.remove('active');
         asNameEl.textContent = dcDisplayName();
-        refreshLikeUI();
+        refreshReactionUI();
       });
     });
   })();
