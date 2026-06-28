@@ -124,6 +124,12 @@ layout: default
   .dc-comment-item .dc-c-time { font-size: 12px; color: #999; margin-left: 8px; }
   .dc-comment-item .dc-c-text { font-size: 14px; color: #444; margin-top: 4px; line-height: 1.6; white-space: pre-wrap; }
   .dc-comment-empty { font-size: 14px; color: #999; padding: 10px 0; }
+  .dc-c-actions { margin-top: 8px; display: flex; gap: 14px; }
+  .dc-c-actions button {
+    background: none; border: none; padding: 0;
+    font-size: 12px; color: #C00000; font-weight: 600; cursor: pointer;
+  }
+  .dc-c-actions button:hover { text-decoration: underline; }
 
   .dc-modal-overlay {
     display: none;
@@ -292,16 +298,45 @@ layout: default
         commentList.innerHTML = '<div class="dc-comment-empty">এখনো কোনো মন্তব্য নেই — প্রথম মন্তব্যটি আপনিই করুন!</div>';
         return;
       }
-      const items = Object.keys(data).map(function (k) { return data[k]; });
+      const items = Object.keys(data).map(function (k) { return Object.assign({ _key: k }, data[k]); });
       items.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
       commentList.innerHTML = items.map(function (c) {
         const date = c.time ? new Date(c.time).toLocaleDateString('bn-BD') : '';
+        const isMine = dcCurrentUser && c.uid === dcCurrentUser.uid;
+        const editedTag = c.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
+        const actions = isMine
+          ? '<div class="dc-c-actions">' +
+              '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
+              '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>' +
+            '</div>'
+          : '';
         return '<div class="dc-comment-item">' +
           '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
-          '<span class="dc-c-time">' + date + '</span>' +
+          '<span class="dc-c-time">' + date + editedTag + '</span>' +
           '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
+          actions +
           '</div>';
       }).join('');
+
+      commentList.querySelectorAll('.dc-c-edit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const key = btn.dataset.key;
+          const itemDiv = btn.closest('.dc-comment-item');
+          const oldText = itemDiv.querySelector('.dc-c-text').textContent;
+          const newText = prompt('মন্তব্য সম্পাদনা করুন:', oldText);
+          if (newText !== null && newText.trim() !== '') {
+            postRef.child('comments/' + key).update({ text: newText.trim(), edited: true });
+          }
+        });
+      });
+      commentList.querySelectorAll('.dc-c-delete').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const key = btn.dataset.key;
+          if (confirm('মন্তব্যটি ডিলিট করতে চান?')) {
+            postRef.child('comments/' + key).remove();
+          }
+        });
+      });
     }
 
     function dcEscape(str) {
