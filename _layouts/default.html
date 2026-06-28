@@ -4,6 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | দৈনিক চালচিত্র</title>
+<title>{{ page.title }} | দৈনিক চালচিত্র</title>
+
+{% assign dc_page_title = page.title | default: "দৈনিক চালচিত্র" %}
+{% assign dc_page_desc = page.excerpt | strip_html | truncatewords: 30 | default: "বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার - দৈনিক চালচিত্র" %}
+{% if page.image %}
+  {% assign dc_page_image = page.image | absolute_url %}
+{% else %}
+  {% assign dc_page_image = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" %}
+{% endif %}
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ dc_page_title }}">
+<meta property="og:description" content="{{ dc_page_desc }}">
+<meta property="og:image" content="{{ dc_page_image }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:site_name" content="দৈনিক চালচিত্র">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ dc_page_title }}">
+<meta name="twitter:description" content="{{ dc_page_desc }}">
+<meta name="twitter:image" content="{{ dc_page_image }}">
+
+<link rel="stylesheet" href="https://cdnjs...">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
