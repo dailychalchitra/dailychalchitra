@@ -26,28 +26,17 @@ layout: default
     font-family: 'SolaimanLipi', Arial, sans-serif;
   }
 
-  .dc-view-only {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #666;
-    font-size: 14px;
-    padding: 10px 0;
-    border-top: 1px solid #eee;
-  }
-  .dc-view-only svg { width: 18px; height: 18px; fill: #888; }
-
   .dc-reaction-row {
     display: flex;
-    justify-content: space-between;
-    gap: 4px;
+    justify-content: flex-start;
+    gap: 30px;
     padding: 14px 0;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
   }
   .dc-react-btn {
-    flex: 1;
-    min-width: 0;
+    flex: 0 0 60px;
+    width: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,8 +70,18 @@ layout: default
   .dc-react-btn.dc-active .dc-react-label { color: #111; }
   .dc-react-count { font-size: 13px; color: #333; font-weight: 700; }
 
+  .dc-view-only {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #666;
+    font-size: 14px;
+    padding: 12px 0 4px;
+  }
+  .dc-view-only svg { width: 18px; height: 18px; fill: #888; }
+
   .dc-comment-section { padding-top: 20px; display: none; }
-.dc-comment-section.dc-open { display: block; }
+  .dc-comment-section.dc-open { display: block; }
   .dc-comment-section h3 {
     font-size: 18px;
     margin-bottom: 14px;
@@ -174,11 +173,6 @@ layout: default
 
   <div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
 
-    <div class="dc-view-only">
-      <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5zm0-8c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/></svg>
-      <b id="dc-view-count">0</b> বার দেখা হয়েছে
-    </div>
-
     <div class="dc-reaction-row">
       <button class="dc-react-btn dc-like" id="dc-like-btn">
         <span class="dc-react-circle">
@@ -211,6 +205,11 @@ layout: default
         <span class="dc-react-label">শেয়ার</span>
         <span class="dc-react-count" id="dc-share-count">0</span>
       </button>
+    </div>
+
+    <div class="dc-view-only">
+      <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5zm0-8c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/></svg>
+      <b id="dc-view-count">0</b> বার দেখা হয়েছে
     </div>
 
     <div class="dc-comment-section" id="dc-comment-section">
@@ -256,7 +255,7 @@ layout: default
   </div>
 
   <script>
-  (function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
 
     const viewCountEl = document.getElementById('dc-view-count');
@@ -349,11 +348,11 @@ layout: default
     loveBtn.addEventListener('click', function () { toggleReaction('loves', 'loveCount', loveBtn); });
 
     commentScrollBtn.addEventListener('click', function () {
-  var section = document.getElementById('dc-comment-section');
-  section.classList.add('dc-open');
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  setTimeout(function () { commentInput.focus(); }, 300);
-});
+      var section = document.getElementById('dc-comment-section');
+      section.classList.add('dc-open');
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () { commentInput.focus(); }, 300);
+    });
 
     shareBtn.addEventListener('click', function () {
       const url = window.location.href;
@@ -459,7 +458,7 @@ layout: default
         refreshReactionUI();
       });
     });
-  })();
+  });
   </script>
 
   <div style="margin-top:40px; padding-top:20px; border-top:1px solid #eee; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;">
