@@ -4,10 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | দৈনিক চালচিত্র</title>
-<title>{{ page.title }} | দৈনিক চালচিত্র</title>
 
-{% assign dc_page_title = page.title | default: "দৈনিক চালচিত্র" %}
 {% assign dc_page_desc = page.excerpt | strip_html | truncatewords: 30 | default: "বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার - দৈনিক চালচিত্র" %}
+{% if page.categories and page.categories.size > 0 and page.author %}
+  {% assign dc_page_title = page.categories | first | append: " | " | append: page.title | append: " | " | append: page.author %}
+{% elsif page.categories and page.categories.size > 0 %}
+  {% assign dc_page_title = page.categories | first | append: " | " | append: page.title %}
+{% else %}
+  {% assign dc_page_title = page.title | default: "দৈনিক চালচিত্র" %}
+{% endif %}
 {% if page.image %}
   {% assign dc_page_image = page.image | absolute_url %}
 {% else %}
