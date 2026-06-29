@@ -1,4 +1,3 @@
-
 ---
 layout: default
 ---
@@ -7,16 +6,13 @@ layout: default
   <span style="background:#C00000;color:white;padding:5px 10px;font-size:14px;border-radius:4px;">
     {{ page.categories | first }}
   </span>
-  <h1 style="font-size:28px;margin:15px 0 5px;line-height:1.4;">{{ page.title }}</h1>
-  {% if page.author %}<p style="font-size:16px;color:#444;font-weight:600;margin:0 0 10px;">- {{ page.author }}</p>{% endif %}
+  <h1 style="font-size:28px;margin:15px 0;line-height:1.4;">{{ page.title }}</h1>
   <p style="color:#777;font-size:14px;border-bottom:1px solid #eee;padding-bottom:10px;">
     প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
   </p>
-  <div class="dc-post-body" style="font-size:17px;line-height:1.8;margin-top:20px;">
+  <div style="font-size:17px;line-height:1.8;margin-top:20px;">
     {{ content }}
   </div>
-
-  <!-- বাকি সব অংশ (engagement widget, comment, modal, script) অপরিবর্তিত — আগের ভার্সনের মতোই থাকবে -->
   <!-- ============================================================
        DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
        ============================================================ -->
