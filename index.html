@@ -22,9 +22,9 @@ title: প্রচ্ছদ
             </a>
             <div class="lead-content">
                 <span class="category-badge">{{ post.categories | first }}</span>
-                <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
+                <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a>{% if post.author %} <span style="font-size:15px;color:#888;font-weight:400;">- {{ post.author }}</span>{% endif %}</h1>
                 <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
-   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;margin-top:10px;display:inline-block;">আরও পড়ুন</a>
+   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;margin-top:10px;display:inline-block;">আরও পড়ুন</a>
                 <div class="post-meta">
                     <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
                 </div>
@@ -33,7 +33,7 @@ title: প্রচ্ছদ
         {% endfor %}
     </section>
 
-    <!-- 2. মেইন এরিয়া: 3 কলাম গ্রিড + সাইডবার -->
+    <!-- 2. মেইন এরিয়া: 3 কলাম গ্রিড + সাইডবার -->
     <div class="content-wrap">
         
         <!-- বামে: 3 কলাম নিউজ গ্রিড -->
@@ -50,9 +50,9 @@ title: প্রচ্ছদ
                     </a>
                     <div class="card-content">
                         <span class="category-badge">{{ post.categories | first }}</span>
-                        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a>{% if post.author %} <span style="font-size:13px;color:#888;font-weight:400;">- {{ post.author }}</span>{% endif %}</h3>
    <p style="font-size:15px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
                         <div class="post-meta">
                             <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b" }}</span>
                         </div>
@@ -64,9 +64,9 @@ title: প্রচ্ছদ
 
         <!-- ডানে: সাইডবার -->
         <aside class="sidebar-area">
-            <!-- জনপ্রিয় সংবাদ -->
+            <!-- জনপ্রিয় সংবাদ -->
             <div class="sidebar-widget">
-                <h3 class="widget-title">জনপ্রিয় সংবাদ</h3>
+                <h3 class="widget-title">জনপ্রিয় সংবাদ</h3>
                 <ul class="popular-posts">
                     {% for post in site.posts limit:5 %}
                     <li>
