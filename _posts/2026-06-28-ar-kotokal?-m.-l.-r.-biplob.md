@@ -2,7 +2,7 @@
 layout: post
 title: আর কতকাল?
 date: 2026-06-28 20:00:00 +0600
-categories: [পদ্য কবিতা]
+categories: [দ্রোহী কবিতা]
 tags: [সাহিত্য বিভাগ, কবিতা, পদ্য কবিতা]
 author: এম. এল. আর. বিপ্লব
 image: /assets/img/m.l.r.biplob.jpg
