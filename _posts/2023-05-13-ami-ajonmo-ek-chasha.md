@@ -1,13 +1,12 @@
 ---
 layout: post
 title: "আমি আজন্ম এক চাষা"
-author: "Adv. রাজিয়া আক্তার পপি"
-categories: কবিতা
-date: 2023-05-13
+date: 2026-06-30 10:25:00 +0600
+categories: [কবিতা]
+tags: [সাহিত্য, কবিতা, পদ্য কবিতা]
+author: Adv. রাজিয়া আক্তার পপি
 image: /assets/img/adv-rajia-akter-popi.jpg
 ---
-
-![আমি আজন্ম এক চাষা](/assets/img/adv-rajia-akter-popi.jpg)
 
 চুরি করেছ ছন্দ, চুরি করেছ কলম,  
 চুরি করেছ ভাষা,  
