@@ -11,7 +11,7 @@ title: প্রচ্ছদ
 
     <!-- 1. লিড নিউজ সেকশন -->
     <section class="lead-news-section">
-        {% for post in site.posts limit:20 %}
+        {% for post in site.posts limit:1 %}
         <div class="lead-news">
             <a href="{{ post.url | relative_url }}" class="lead-img">
                 {% if post.image %}
