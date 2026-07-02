@@ -453,33 +453,52 @@ body.no-scroll {
     padding-bottom: 10px;
     border-bottom: 2px solid #C00000;
 }
-.popular-posts {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.popular-posts{
+    list-style:none;
+    margin:0;
+    padding:0;
 }
-.popular-posts li {
-    padding: 12px 0;
-    border-bottom: 1px dashed #eee;
+
+.popular-posts li{
+    border-bottom:1px solid #e5e5e5;
+    padding:15px 0;
 }
-.popular-posts li:last-child {
-    border-bottom: none;
+
+.popular-posts li:last-child{
+    border-bottom:none;
 }
-.popular-posts a {
-    color: #333;
-    text-decoration: none;
-    font-size: 15px;
-    display: block;
-    line-height: 1.5;
+
+.popular-posts li a{
+    display:block;
+    position:relative;
+    padding-left:20px;
+    font-size:17px;
+    line-height:1.6;
+    color:#222;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
 }
-.popular-posts a:hover {
-    color: #C00000;
+
+.popular-posts li a::before{
+    content:"●";
+    position:absolute;
+    left:0;
+    top:2px;
+    color:#C00000;
+    font-size:12px;
 }
-.post-date {
-    font-size: 12px;
-    color: #999;
-    display: block;
-    margin-top: 5px;
+
+.popular-posts li a:hover{
+    color:#C00000;
+}
+
+.post-date{
+    display:block;
+    padding-left:20px;
+    margin-top:6px;
+    font-size:13px;
+    color:#888;
 }
 .ad-widget img {
     width: 100%;
