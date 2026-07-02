@@ -4,6 +4,7 @@ baseurl: ""
 url: "https://dailychalchitra.com"
 markdown: kramdown
 permalink: /:categories/:year/:month/:day/:title/
+future: true
 kramdown:
   input: GFM
   hard_wrap: true
