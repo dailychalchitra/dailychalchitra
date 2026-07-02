@@ -3,7 +3,7 @@ layout: post
 title: "মালয়েশিয়ায় অভিবাসন অভিযান: ২৭০ বিদেশি শ্রমিক আটক, তালিকায় বাংলাদেশিও"
 date: 2026-06-24 20:22:00 +0600
 categories: আন্তর্জাতিক
-image: /assets/img/malaysia-raid-24june2026.jpg
+image: /assets/img/malaysia-raid.jpg
 tags: [আন্তর্জাতিক, সংবাদ, মালয়েশিয়া, অভিবাসী, ইমিগ্রেশন, বাংলাদেশি]
 ---
 
