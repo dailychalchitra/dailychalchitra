@@ -4,7 +4,7 @@ title: "কোটি টাকার স্বপ্ন"
 date: 2026-07-01 10:00:00 +0600
 categories: গল্প
 tags: [অনুপ্রেরণা, জীবন, প্রবাস জীবন, কোটি টাকার স্বপ্ন]
-image: /assets/img/takar-swapno.webp
+image: /assets/img/takar-swapno.jpg
 author: শামীম নিমু
 ---
 
