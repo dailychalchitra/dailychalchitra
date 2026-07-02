@@ -5,7 +5,7 @@ date: 2026-06-26 16:40:00 +0600
 categories: [পদ্য কবিতা]
 tags: [সাহিত্য, কবিতা, পদ্য কবিতা]
 author: শামীম নিমু
-image: /assets/img/preyoshi.jpg
+image: /assets/img/preyoshi-kobita.jpg
 ---
 
 চলিতে চলিতে যবে চাহিনু-
