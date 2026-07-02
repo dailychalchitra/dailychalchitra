@@ -5,7 +5,7 @@ date: 2026-06-30 10:20:00 +0600
 categories: [কবিতা]
 tags: [কবিতা, শামীমা দিশা, দ্রোহ, প্রেম]
 author: শামীমা দিশা
-image: /assets/img/shamima-disha.jpg
+image: /assets/img/sha-disha.jpg
 description: "কবিতা তুমি দ্রোহের আগুন, ভালোবাসার ফাগুন - শামীমা দিশার কবিতা।"
 ---
 
