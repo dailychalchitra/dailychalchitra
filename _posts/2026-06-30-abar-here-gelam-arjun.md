@@ -5,7 +5,7 @@ date: 2026-06-30 10:25:00 +0600
 categories: [পদ্য কবিতা]
 tags: [কবিতা, অর্জুন চন্দ্র বিশ্বাস, জীবনবোধ, স্বপ্ন, বাস্তবতা]
 author: অর্জুন চন্দ্র বিশ্বাস
-image: /assets/img/orjun-chandro-biswash.jpg
+image: /assets/img/orjun-biswash.jpg
 description: "ওকে পাওয়ার পর সবকিছু গুছিয়ে নিয়েই আসছিলাম... আবার হেরে গেলাম জীবনের কাছে - অর্জুন চন্দ্র বিশ্বাসের কবিতা।"
 ---
 
