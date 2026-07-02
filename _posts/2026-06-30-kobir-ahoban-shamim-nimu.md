@@ -5,7 +5,7 @@ date: 2026-06-30 10:35:00 +0600
 categories: [প্রতিবাদী কবিতা]
 tags: [কবিতা, শামীম নিমু, বিদ্রোহ, প্রতিবাদ, কাজী নজরুল, রবীন্দ্রনাথ]
 author: শামীম নিমু
-image: /assets/img/Protibadhi-kobita.jpg
+image: /assets/img/Pro-kobita.jpg
 description: "কবি তোমার বন্ধ ঘরের দুয়ার খোল... শামীম নিমুর প্রতিবাদী কবিতা 'কবির আহ্বান'।"
 ---
 
