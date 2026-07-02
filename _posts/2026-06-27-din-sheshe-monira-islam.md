@@ -5,7 +5,7 @@ date: 2026-06-27 18:00:00 +0400
 categories: [পদ্য কবিতা]
 tags: [মনিরা ইসলাম, সাহিত্য, কবিতা]
 author: মনিরা ইসলাম
-image: /assets/img/monira-islam.jpg
+image: /assets/img/miss-monira.jpg
 ---
 
 সমস্ত দিন শেষে যখন  
