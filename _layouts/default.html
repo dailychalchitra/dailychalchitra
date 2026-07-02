@@ -458,6 +458,48 @@ body.no-scroll {
     width: 100%;
     border-radius: 5px;
 }
+.popular-posts{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.popular-posts li{
+    padding:15px 0;
+    border-bottom:1px solid #e5e5e5;
+}
+
+.popular-posts li:last-child{
+    border-bottom:none;
+}
+
+.popular-posts a{
+    display:block;
+    position:relative;
+    padding-left:18px;
+    color:#222;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:600;
+    line-height:1.6;
+}
+
+.popular-posts a::before{
+    content:"●";
+    color:#C00000;
+    position:absolute;
+    left:0;
+    top:2px;
+    font-size:11px;
+}
+
+.post-date{
+    display:block;
+    padding-left:18px;
+    margin-top:6px;
+    color:#888;
+    font-size:13px;
+}
 
 /* --- ফুটার --- */
 .footer-bottom-red { background: #C00000; color: white; padding: 25px 15px; }
