@@ -5,7 +5,7 @@ date: 2026-06-30 10:40:00 +0600
 categories: [প্রতীকধর্মী কবিতা]
 tags: [কবিতা, রবীন্দ্রনাথ ঠাকুর, সোনার তরী, বাংলা সাহিত্য]
 author: রবীন্দ্রনাথ ঠাকুর
-image: /assets/img/robindranath-tagore.jpg
+image: /assets/img/nath-tagore.jpg
 description: "রবীন্দ্রনাথ ঠাকুরের বিখ্যাত প্রতীকধর্মী কবিতা 'সোনার তরী'।"
 ---
 
