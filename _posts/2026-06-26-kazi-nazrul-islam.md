@@ -5,7 +5,7 @@ date: 2026-06-26 08:00:00 +0600
 categories: [বিদ্রোহী কবিতা]
 tags: [কাজী নজরুল ইসলাম, বিদ্রোহী, কবিতা, সাহিত্য]
 author: কাজী নজরুল ইসলাম
-image: /assets/img/kazi-nazrul-islam.jpg
+image: /assets/img/nazrul-islam.jpg
 description: "কাজী নজরুল ইসলামের কালজয়ী কবিতা 'বিদ্রোহী'। আমি চির উন্নত শির।"
 ---
 
