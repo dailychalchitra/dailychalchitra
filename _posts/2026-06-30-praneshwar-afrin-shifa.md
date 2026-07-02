@@ -5,7 +5,7 @@ date: 2026-06-30 10:30:00 +0600
 categories: [ছোট গল্প]
 tags: [গল্প, আফরিন শিফা, বাল্য বিবাহ, নারী জাগরণ, প্রাণেশ্বর]
 author: আফরিন শিফা
-image: /assets/img/afrin-shifa.jpg
+image: /assets/img/miss-shifa.jpg
 description: "বয়স পনের ছুঁই ছুঁই... বাল্য বিবাহের মুখে দাঁড়িয়ে এক কিশোরীর ঘুরে দাঁড়ানোর গল্প 'প্রাণেশ্বর'।"
 ---
 
