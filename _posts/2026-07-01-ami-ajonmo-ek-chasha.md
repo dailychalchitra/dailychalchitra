@@ -5,7 +5,7 @@ date: 2026-07-01 10:25:00 +0600
 categories: [কবিতা, পদ্য কবিতা]
 tags: [সাহিত্য, কবিতা, পদ্য কবিতা, চাষা, কৃষক]
 author: Adv. রাজিয়া আক্তার পপি
-image: /assets/img/adv-rajia-akter-popi.jpg
+image: /assets/img/rajia-akter-popi.jpg
 ---
 
 চুরি করেছ ছন্দ, চুরি করেছ কলম,  
