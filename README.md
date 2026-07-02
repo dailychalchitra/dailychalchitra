@@ -4,4 +4,3 @@
 - 🌐 Website: https://dailychalchitra.com
 - 📰 Category: News, International, Sports, Entertainment
 - 📫 Contact: contact@dailychalchitra.com
-
