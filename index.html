@@ -118,3 +118,158 @@ title: প্রচ্ছদ
     .dc-pop-excerpt { font-size: 13px !important; }
 }
 </style>
+
+<!-- Login/Signup বাটন + Play Store/App Store সারি -->
+<div style="max-width:800px; margin:20px auto; padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+
+    <!-- বামপাশে: Login / Sign in (আধুনিক স্টাইল) -->
+    <div style="display:flex; gap:10px;">
+        <button id="dc-home-login-btn" style="background:#fff; color:#C00000; border:1.5px solid #C00000; padding:10px 22px; border-radius:24px; font-weight:600; font-size:14px; cursor:pointer; transition:0.2s;">Login</button>
+        <button id="dc-home-signup-btn" style="background:linear-gradient(135deg,#e53935,#C00000); color:#fff; border:none; padding:10px 22px; border-radius:24px; font-weight:600; font-size:14px; cursor:pointer; box-shadow:0 3px 10px rgba(192,0,0,0.25); transition:0.2s;">Sign up</button>
+    </div>
+
+    <!-- ডানপাশে: Play Store / App Store -->
+    <div style="display:flex; gap:10px;">
+        <a href="#" style="display:flex; align-items:center; gap:6px; background:#000; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none;">
+            <i class="fab fa-google-play" style="font-size:18px;"></i>
+            <span style="font-size:11px; line-height:1.2;">Get it on<br><b style="font-size:13px;">Google Play</b></span>
+        </a>
+        <a href="#" style="display:flex; align-items:center; gap:6px; background:#000; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none;">
+            <i class="fab fa-apple" style="font-size:18px;"></i>
+            <span style="font-size:11px; line-height:1.2;">Download on<br><b style="font-size:13px;">App Store</b></span>
+        </a>
+    </div>
+
+</div>
+
+<!-- Login/Signup মডাল (post.html এর মডাল থেকে কপি করা, স্টাইল আধুনিক করা) -->
+<style>
+.dc-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(3px);
+    z-index: 9999; align-items: center; justify-content: center;
+}
+.dc-modal-overlay.active { display: flex; }
+.dc-modal-box {
+    background: #fff; border-radius: 16px; padding: 30px 26px;
+    width: 90%; max-width: 380px; position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    animation: dcModalPop 0.25s ease;
+}
+@keyframes dcModalPop {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.dc-modal-box h3 { margin-bottom: 18px; font-size: 20px; font-weight:700; color:#111; }
+.dc-modal-box input {
+    width: 100%; padding: 12px 14px; margin-bottom: 12px;
+    border: 1.5px solid #e5e5e5; border-radius: 10px; font-size: 14px;
+    transition: border-color 0.2s; box-sizing: border-box;
+}
+.dc-modal-box input:focus { outline:none; border-color:#C00000; }
+.dc-modal-box button.dc-modal-submit {
+    width: 100%; background: linear-gradient(135deg,#e53935,#C00000);
+    color: #fff; border: none; padding: 13px; border-radius: 10px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(192,0,0,0.3); margin-top:4px;
+}
+.dc-modal-switch { text-align: center; font-size: 13px; margin-top: 14px; color: #777; }
+.dc-modal-switch a { color: #C00000; text-decoration: none; font-weight: 600; }
+.dc-modal-close {
+    position: absolute; top: 12px; right: 16px;
+    font-size: 24px; cursor: pointer; color: #aaa; background: none; border: none; line-height:1;
+}
+.dc-modal-close:hover { color:#555; }
+.dc-modal-error { color: #C00000; font-size: 13px; margin-bottom: 10px; display: none; }
+</style>
+
+<div class="dc-modal-overlay" id="dc-home-modal-overlay">
+    <div class="dc-modal-box">
+        <button class="dc-modal-close" id="dc-home-modal-close">&times;</button>
+        <div id="dc-home-modal-signup">
+            <h3>নতুন একাউন্ট তৈরি করুন</h3>
+            <div class="dc-modal-error" id="dc-home-signup-error"></div>
+            <input type="text" id="dc-home-signup-name" placeholder="আপনার নাম">
+            <input type="email" id="dc-home-signup-email" placeholder="ইমেইল">
+            <input type="password" id="dc-home-signup-password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)">
+            <button class="dc-modal-submit" id="dc-home-signup-submit">সাইন আপ করুন</button>
+            <div class="dc-modal-switch">আগেই একাউন্ট আছে? <a href="#" id="dc-home-switch-to-login">লগ ইন করুন</a></div>
+        </div>
+        <div id="dc-home-modal-login" style="display:none;">
+            <h3>লগ ইন করুন</h3>
+            <div class="dc-modal-error" id="dc-home-login-error"></div>
+            <input type="email" id="dc-home-login-email" placeholder="ইমেইল">
+            <input type="password" id="dc-home-login-password" placeholder="পাসওয়ার্ড">
+            <button class="dc-modal-submit" id="dc-home-login-submit">লগ ইন</button>
+            <div class="dc-modal-switch">একাউন্ট নেই? <a href="#" id="dc-home-switch-to-signup">সাইন আপ করুন</a></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var overlay = document.getElementById('dc-home-modal-overlay');
+    var signupBox = document.getElementById('dc-home-modal-signup');
+    var loginBox = document.getElementById('dc-home-modal-login');
+
+    document.getElementById('dc-home-login-btn').addEventListener('click', function () {
+        signupBox.style.display = 'none';
+        loginBox.style.display = 'block';
+        overlay.classList.add('active');
+    });
+    document.getElementById('dc-home-signup-btn').addEventListener('click', function () {
+        loginBox.style.display = 'none';
+        signupBox.style.display = 'block';
+        overlay.classList.add('active');
+    });
+    document.getElementById('dc-home-modal-close').addEventListener('click', function () {
+        overlay.classList.remove('active');
+    });
+    document.getElementById('dc-home-switch-to-login').addEventListener('click', function (e) {
+        e.preventDefault();
+        signupBox.style.display = 'none';
+        loginBox.style.display = 'block';
+    });
+    document.getElementById('dc-home-switch-to-signup').addEventListener('click', function (e) {
+        e.preventDefault();
+        loginBox.style.display = 'none';
+        signupBox.style.display = 'block';
+    });
+
+    document.getElementById('dc-home-signup-submit').addEventListener('click', function () {
+        var name = document.getElementById('dc-home-signup-name').value.trim();
+        var email = document.getElementById('dc-home-signup-email').value.trim();
+        var pass = document.getElementById('dc-home-signup-password').value;
+        var errEl = document.getElementById('dc-home-signup-error');
+        errEl.style.display = 'none';
+        if (!name || !email || pass.length < 6) {
+            errEl.textContent = 'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
+            errEl.style.display = 'block';
+            return;
+        }
+        dcSignUp(name, email, pass, function (err) {
+            if (err) {
+                errEl.textContent = err.message;
+                errEl.style.display = 'block';
+                return;
+            }
+            overlay.classList.remove('active');
+        });
+    });
+
+    document.getElementById('dc-home-login-submit').addEventListener('click', function () {
+        var email = document.getElementById('dc-home-login-email').value.trim();
+        var pass = document.getElementById('dc-home-login-password').value;
+        var errEl = document.getElementById('dc-home-login-error');
+        errEl.style.display = 'none';
+        dcLogIn(email, pass, function (err) {
+            if (err) {
+                errEl.textContent = err.message;
+                errEl.style.display = 'block';
+                return;
+            }
+            overlay.classList.remove('active');
+        });
+    });
+});
+</script>
