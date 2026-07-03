@@ -120,16 +120,16 @@ title: প্রচ্ছদ
 </style>
 
 <!-- Login/Signup বাটন + Play Store/App Store সারি -->
-<div style="max-width:800px; margin:20px auto; padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+<div class="dc-auth-app-row" style="max-width:800px; margin:20px auto; padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
 
-    <!-- বামপাশে: Login / Sign in (স্কয়ার স্টাইল) -->
-    <div style="display:flex; gap:10px;">
+    <!-- বামপাশে: Login / Sign in -->
+    <div class="dc-auth-btns" style="display:flex; gap:10px;">
         <button id="dc-home-login-btn" style="background:#fff; color:#C00000; border:1.5px solid #C00000; padding:10px 22px; border-radius:10px; font-weight:600; font-size:14px; cursor:pointer; transition:0.2s;">Login</button>
         <button id="dc-home-signup-btn" style="background:linear-gradient(135deg,#e53935,#C00000); color:#fff; border:none; padding:10px 22px; border-radius:10px; font-weight:600; font-size:14px; cursor:pointer; box-shadow:0 3px 10px rgba(192,0,0,0.25); transition:0.2s;">Sign up</button>
     </div>
 
-    <!-- ডানপাশে: Play Store / App Store (অফিশিয়াল কালার) -->
-    <div style="display:flex; gap:10px;">
+    <!-- ডানপাশে: Play Store / App Store -->
+    <div class="dc-app-btns" style="display:flex; gap:10px;">
         <a href="#" style="display:flex; align-items:center; gap:6px; background:#0F9D58; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none;">
             <i class="fab fa-google-play" style="font-size:18px;"></i>
             <span style="font-size:11px; line-height:1.2;">Get it on<br><b style="font-size:13px;">Google Play</b></span>
@@ -142,6 +142,12 @@ title: প্রচ্ছদ
 
 </div>
 
+<style>
+@media (max-width: 500px) {
+    .dc-auth-app-row { justify-content: center !important; }
+    .dc-auth-btns, .dc-app-btns { justify-content: center; width: 100%; }
+}
+</style>
 <!-- Login/Signup মডাল (post.html এর মডাল থেকে কপি করা, স্টাইল আধুনিক করা) -->
 <style>
 .dc-modal-overlay {
