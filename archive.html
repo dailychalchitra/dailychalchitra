@@ -32,4 +32,39 @@ permalink: /archive/
         {% endfor %}
     </div>
 
+    <!-- পোস্ট গ্রিডের নিচে নেভিগেশন লিংক -->
+    <div class="dc-nav-links" style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; box-sizing:border-box; width:100%; display:flex; flex-wrap:wrap; justify-content:center; row-gap:14px; column-gap:clamp(10px, 3vw, 40px);">
+
+        <a href="{{ '/' | relative_url }}" style="white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
+            নতুন পোস্ট
+        </a>
+
+        <a href="{{ '/archive/' | relative_url }}" style="white-space:nowrap; color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
+            পুরানো পোস্ট
+        </a>
+
+        <a href="{{ '/categories/' | relative_url }}" style="white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
+            বিভাগসমূহ
+        </a>
+
+        <a href="{{ '/' | relative_url }}" style="white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
+            হোম পেজ
+        </a>
+
+    </div>
+
+    <!-- জনপ্রিয় সংবাদ -->
+    <div class="popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 25px;margin:25px 0;">
+        <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 15px;">জনপ্রিয় সংবাদ</h3>
+        <ul style="list-style:none;margin:0;padding:0;">
+            {% for post in site.posts limit:5 %}
+            <li style="padding:10px 0;border-bottom:1px solid #f0f0f0;padding-left:18px;position:relative;">
+                <span style="position:absolute;left:0;color:#C00000;font-weight:bold;">•</span>
+                <a href="{{ post.url | relative_url }}" style="font-weight:600;color:#111;text-decoration:none;display:block;">{{ post.title }}</a>
+                <span style="font-size:13px;color:#888;">{{ post.date | date: "%d %B" }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </div>
