@@ -592,37 +592,33 @@ a.read-more {
 .footer-bottom strong { color: #000; }
 .footer-bottom a { color: #C00000; text-decoration: none; }
 
-/* ===== হোমপেজ নেভিগেশন বাটন ===== */
+/* ===== হোমপেজ নেভিগেশন ===== */
+
 .home-buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:15px !important;
     margin:25px 0;
 }
 
-.home-btn{
-    flex:1;
-    min-width:140px;
+.home-buttons .home-btn{
+    display:block !important;
     background:#C00000;
     color:#fff !important;
     text-decoration:none;
+    font-weight:bold;
     text-align:center;
-    font-weight:700;
-    padding:12px 18px;
+    padding:12px 20px;
     border-radius:5px;
-    transition:.3s;
+    margin:0 !important;
 }
 
-.home-btn:hover{
+.home-buttons .home-btn:hover{
     background:#990000;
 }
 
 @media (max-width:768px){
     .home-buttons{
         flex-direction:column;
-    }
-
-    .home-btn{
-        width:100%;
     }
 }
