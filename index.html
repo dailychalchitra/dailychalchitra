@@ -67,25 +67,25 @@ title: প্রচ্ছদ
     </div>
 
     <!-- 3. পোস্ট গ্রিডের নিচে নেভিগেশন লিংক -->
-<div style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; display:flex; flex-wrap:nowrap; overflow-x:auto; justify-content:center; gap:22px; -ms-overflow-style:none; scrollbar-width:none;">
+<div style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; box-sizing:border-box; width:100%; display:flex; flex-wrap:nowrap; justify-content:center; gap:clamp(14px, 4vw, 40px); overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none;">
 
-    <a href="{{ '/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:4px; font-size:16px;">
+    <a href="{{ '/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
         নতুন পোস্ট
     </a>
 
-    <a href="{{ '/archive/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+    <a href="{{ '/archive/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
         পুরানো পোস্ট
     </a>
 
-    <a href="{{ '/archive/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+    <a href="{{ '/archive/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
         সকল পোস্ট
     </a>
 
-    <a href="{{ '/categories/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+    <a href="{{ '/categories/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
         বিভাগসমূহ
     </a>
 
-    <a href="{{ '/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+    <a href="{{ '/' | relative_url }}" style="flex:0 0 auto; white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
         হোম পেজ
     </a>
 
