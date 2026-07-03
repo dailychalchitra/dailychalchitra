@@ -3,6 +3,41 @@ layout: default
 title: প্রচ্ছদ
 ---
 
+<style>
+.home-buttons {
+    text-align: center;
+    margin: 30px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+.home-btn {
+    background: #C00000;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+    transition: 0.2s;
+}
+.home-btn:hover {
+    background: #a00000;
+    transform: translateY(-2px);
+}
+@media (max-width: 600px) {
+   .home-btn {
+        padding: 7px 14px;
+        font-size: 13px;
+    }
+   .home-buttons {
+        gap: 8px;
+    }
+}
+</style>
+
 <!-- হোমপেজ কন্টেন্ট শুরু -->
 <div class="container main-content">
     
