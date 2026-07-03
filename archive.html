@@ -1,0 +1,35 @@
+---
+layout: default
+title: সকল পোস্ট
+permalink: /archive/
+---
+
+<div class="container main-content">
+
+    <h2 class="section-title">সকল পোস্ট</h2>
+
+    <div class="news-grid" style="margin-top:20px;">
+        {% for post in site.posts %}
+        <article class="news-card">
+            <a href="{{ post.url | relative_url }}" class="card-img">
+                {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                {% else %}
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                {% endif %}
+            </a>
+            <div class="card-content">
+                <span class="category-badge">{{ post.categories | first }}</span>
+                <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                {% if post.author %}<p style="font-size:13px;color:#C00000;font-weight:400;font-style:italic;margin:2px 0 6px;">লেখক: {{ post.author }}</p>{% endif %}
+                <p style="font-size:15px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+                <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+                <div class="post-meta">
+                    <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+</div>
