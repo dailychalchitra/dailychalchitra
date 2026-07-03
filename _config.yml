@@ -2,9 +2,12 @@ title: দৈনিক চালচিত্র
 description: ওমান থেকে প্রকাশিত অনলাইন পত্রিকা
 baseurl: ""
 url: "https://dailychalchitra.com"
+
 markdown: kramdown
-permalink: /:categories/:year/:month/:day/:title/
+permalink: pretty
 future: true
+
 kramdown:
   input: GFM
   hard_wrap: true
+  syntax_highlighter: rouge
