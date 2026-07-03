@@ -87,16 +87,24 @@ title: প্রচ্ছদ
 
 </div>
 
-    <!-- 4. জনপ্রিয় সংবাদ (ফুল উইথ, গ্রিডের নিচে) -->
+    <!-- 4. জনপ্রিয় সংবাদ (প্রচ্ছদসহ কার্ড স্টাইলে) -->
 <div class="popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 25px;margin-bottom:25px;">
-    <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 15px;">জনপ্রিয় সংবাদ</h3>
-    <ul style="list-style:none;margin:0;padding:0;">
+    <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 20px;">জনপ্রিয় সংবাদ</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));gap:20px;">
         {% for post in site.posts limit:5 %}
-        <li style="padding:10px 0;border-bottom:1px solid #f0f0f0;padding-left:18px;position:relative;">
-            <span style="position:absolute;left:0;color:#C00000;font-weight:bold;">•</span>
-            <a href="{{ post.url | relative_url }}" style="font-weight:600;color:#111;text-decoration:none;display:block;">{{ post.title }}</a>
-            <span style="font-size:13px;color:#888;">{{ post.date | date: "%d %B" }}</span>
-        </li>
+        <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:inherit;display:block;">
+            <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;">
+                {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width:100%;height:140px;object-fit:cover;display:block;">
+                {% else %}
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width:100%;height:140px;object-fit:cover;display:block;">
+                {% endif %}
+                <div style="padding:12px;">
+                    <h4 style="font-size:15px;font-weight:700;color:#111;margin:0 0 6px;line-height:1.4;">{{ post.title }}</h4>
+                    <span style="font-size:12px;color:#888;">{{ post.date | date: "%d %B" }}</span>
+                </div>
+            </div>
+        </a>
         {% endfor %}
-    </ul>
+    </div>
 </div>
