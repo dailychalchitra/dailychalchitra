@@ -66,30 +66,30 @@ title: প্রচ্ছদ
 
     </div>
 
-    <!-- 3. পোস্ট গ্রিডের নিচে নেভিগেশন লিংক (post.html এর একই স্টাইলে) -->
-    <div style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+    <!-- 3. পোস্ট গ্রিডের নিচে নেভিগেশন লিংক -->
+<div style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:14px; text-align:center;">
 
-        <a href="{{ '/' | relative_url }}" style="color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:2px; font-size:16px;">
-            নতুন পোস্ট
-        </a>
+    <a href="{{ '/' | relative_url }}" style="color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:4px; font-size:16px;">
+        নতুন পোস্ট
+    </a>
 
-        <a href="{{ '/archive/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:2px; font-size:16px;">
-            পুরানো পোস্ট
-        </a>
+    <a href="{{ '/archive/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+        পুরানো পোস্ট
+    </a>
 
-        <a href="{{ '/archive/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:2px; font-size:16px;">
-            সকল পোস্ট
-        </a>
+    <a href="{{ '/archive/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+        সকল পোস্ট
+    </a>
 
-        <a href="{{ '/categories/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:2px; font-size:16px;">
-            বিভাগসমূহ
-        </a>
+    <a href="{{ '/categories/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+        বিভাগসমূহ
+    </a>
 
-        <a href="{{ '/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:2px; font-size:16px;">
-            হোম পেজ
-        </a>
+    <a href="{{ '/' | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:16px;">
+        হোম পেজ
+    </a>
 
-    </div>
+</div>
 
     <!-- 4. জনপ্রিয় সংবাদ (ফুল উইথ, গ্রিডের নিচে) -->
     <div class="popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 25px;margin-bottom:25px;">
