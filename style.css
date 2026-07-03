@@ -591,34 +591,3 @@ a.read-more {
 .footer-bottom { font-size: 14px; color: #555; line-height: 1.8; }
 .footer-bottom strong { color: #000; }
 .footer-bottom a { color: #C00000; text-decoration: none; }
-
-/* ===== হোমপেজ নেভিগেশন ===== */
-
-.home-buttons{
-    display:flex !important;
-    flex-wrap:wrap !important;
-    gap:15px !important;
-    margin:25px 0;
-}
-
-.home-buttons .home-btn{
-    display:block !important;
-    background:#C00000;
-    color:#fff !important;
-    text-decoration:none;
-    font-weight:bold;
-    text-align:center;
-    padding:12px 20px;
-    border-radius:5px;
-    margin:0 !important;
-}
-
-.home-buttons .home-btn:hover{
-    background:#990000;
-}
-
-@media (max-width:768px){
-    .home-buttons{
-        flex-direction:column;
-    }
-}
