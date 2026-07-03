@@ -4,7 +4,7 @@ title: "ভয়ানক এক রাত্রি"
 date: 2026-07-03 14:30:00 +0600
 author: "শামীম নিমু"
 image: /assets/img/ a-terrible-night-shamim-nimu.jpg
-categories: [রহস্য, উপন্যাস]
+categories: [রহস্যময়ী উপন্যাস]
 tags: [থ্রিলার, রহস্যময়ী উপন্যাস, শামীম নিমু]
 ---
 
