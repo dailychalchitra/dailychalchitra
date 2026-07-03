@@ -5,6 +5,10 @@ url: "https://dailychalchitra.com"
 markdown: kramdown
 permalink: pretty
 future: true
+
+plugins:
+    - jekyll-sitemap
+
 kramdown:
   input: GFM
   hard_wrap: true
