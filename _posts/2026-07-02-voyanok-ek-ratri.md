@@ -3,7 +3,7 @@ layout: post
 title: "ভয়ানক এক রাত্রি"
 date: 2026-07-02 20:30:00 +0600
 author: "শামীম নিমু"
-image: /assets/img/terrible-night.jpg
+image: /assets/img/terrible-night-a.jpg
 categories: [রহস্য উপন্যাস]
 tags: [উপন্যাস, রহস্য উপন্যাস]
 ---
