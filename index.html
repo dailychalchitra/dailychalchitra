@@ -87,22 +87,22 @@ title: প্রচ্ছদ
 
 </div>
 
-    <!-- 4. জনপ্রিয় সংবাদ (মোবাইলে ছোট কার্ড, ডেস্কটপে বড় কার্ড) -->
+    <!-- 4. জনপ্রিয় সংবাদ (মোবাইলে আরও ছোট কার্ড, ডেস্কটপে বড় কার্ড) -->
 <div class="dc-popular-news popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 15px;margin-bottom:25px;">
     <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 20px;">জনপ্রিয় সংবাদ</h3>
-    <div class="dc-popular-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));gap:14px;">
+    <div class="dc-popular-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(105px, 1fr));gap:10px;">
         {% for post in site.posts limit:5 %}
         <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:inherit;display:block;">
-            <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;height:100%;">
+            <div style="border:1px solid #eee;border-radius:6px;overflow:hidden;height:100%;">
                 {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:90px;object-fit:cover;display:block;">
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
                 {% else %}
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:90px;object-fit:cover;display:block;">
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
                 {% endif %}
-                <div style="padding:8px;">
-                    <h4 class="dc-pop-title" style="font-size:13px;font-weight:700;color:#111;margin:0 0 5px;line-height:1.35;">{{ post.title }}</h4>
-                    <p class="dc-pop-excerpt" style="font-size:11px;color:#666;margin:0 0 5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.excerpt | strip_html | truncatewords: 12 }}</p>
-                    <span style="font-size:10px;color:#999;">{{ post.date | date: "%d %B" }}</span>
+                <div style="padding:6px;">
+                    <h4 class="dc-pop-title" style="font-size:11px;font-weight:700;color:#111;margin:0 0 3px;line-height:1.3;">{{ post.title }}</h4>
+                    <p class="dc-pop-excerpt" style="font-size:10px;color:#666;margin:0 0 3px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.excerpt | strip_html | truncatewords: 8 }}</p>
+                    <span style="font-size:9px;color:#999;">{{ post.date | date: "%d %B" }}</span>
                 </div>
             </div>
         </a>
