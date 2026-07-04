@@ -1,0 +1,22 @@
+{
+  "name": "দৈনিক চালচিত্র",
+  "short_name": "চালচিত্র",
+  "description": "বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#C00000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
