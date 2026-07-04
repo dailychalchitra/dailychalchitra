@@ -120,34 +120,41 @@ title: প্রচ্ছদ
 </style>
 
 <!-- Login/Signup বাটন + Play Store/App Store সারি -->
-<div class="dc-auth-app-row" style="max-width:800px; margin:20px auto; padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+<div class="dc-auth-app-row" style="max-width:800px; margin:15px auto; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:nowrap; gap:8px;">
 
     <!-- বামপাশে: Login / Sign in -->
-    <div class="dc-auth-btns" style="display:flex; gap:10px;">
-        <button id="dc-home-login-btn" style="background:#fff; color:#C00000; border:1.5px solid #C00000; padding:10px 22px; border-radius:10px; font-weight:600; font-size:14px; cursor:pointer; transition:0.2s;">Login</button>
-        <button id="dc-home-signup-btn" style="background:linear-gradient(135deg,#e53935,#C00000); color:#fff; border:none; padding:10px 22px; border-radius:10px; font-weight:600; font-size:14px; cursor:pointer; box-shadow:0 3px 10px rgba(192,0,0,0.25); transition:0.2s;">Sign up</button>
+    <div class="dc-auth-btns" style="display:flex; gap:6px;">
+        <button id="dc-home-login-btn" style="background:#fff; color:#C00000; border:1.5px solid #C00000; padding:7px 14px; border-radius:8px; font-weight:600; font-size:12px; cursor:pointer; white-space:nowrap;">Login</button>
+        <button id="dc-home-signup-btn" style="background:linear-gradient(135deg,#e53935,#C00000); color:#fff; border:none; padding:7px 14px; border-radius:8px; font-weight:600; font-size:12px; cursor:pointer; box-shadow:0 2px 6px rgba(192,0,0,0.25); white-space:nowrap;">Sign up</button>
     </div>
 
     <!-- ডানপাশে: Play Store / App Store -->
-    <div class="dc-app-btns" style="display:flex; gap:10px;">
-        <a href="#" style="display:flex; align-items:center; gap:6px; background:#0F9D58; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none;">
-            <i class="fab fa-google-play" style="font-size:18px;"></i>
-            <span style="font-size:11px; line-height:1.2;">Get it on<br><b style="font-size:13px;">Google Play</b></span>
+    <div class="dc-app-btns" style="display:flex; gap:6px;">
+        <a href="#" style="display:flex; align-items:center; gap:4px; background:#0F9D58; color:#fff; padding:5px 8px; border-radius:6px; text-decoration:none;">
+            <i class="fab fa-google-play" style="font-size:13px;"></i>
+            <span style="font-size:8px; line-height:1.1; white-space:nowrap;">Get it on<br><b style="font-size:9px;">Google Play</b></span>
         </a>
-        <a href="#" style="display:flex; align-items:center; gap:6px; background:#000; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none;">
-            <i class="fab fa-apple" style="font-size:18px;"></i>
-            <span style="font-size:11px; line-height:1.2;">Download on<br><b style="font-size:13px;">App Store</b></span>
+        <a href="#" style="display:flex; align-items:center; gap:4px; background:#000; color:#fff; padding:5px 8px; border-radius:6px; text-decoration:none;">
+            <i class="fab fa-apple" style="font-size:13px;"></i>
+            <span style="font-size:8px; line-height:1.1; white-space:nowrap;">Download on<br><b style="font-size:9px;">App Store</b></span>
         </a>
     </div>
 
 </div>
 
 <style>
-@media (max-width: 500px) {
-    .dc-auth-app-row { justify-content: center !important; }
-    .dc-auth-btns, .dc-app-btns { justify-content: center; width: 100%; }
+@media (min-width: 768px) {
+    .dc-auth-app-row { padding: 15px !important; gap: 15px !important; }
+    .dc-auth-btns { gap: 10px !important; }
+    .dc-auth-btns button { padding: 10px 22px !important; font-size: 14px !important; border-radius: 10px !important; }
+    .dc-app-btns { gap: 10px !important; }
+    .dc-app-btns a { padding: 8px 14px !important; gap: 6px !important; border-radius: 8px !important; }
+    .dc-app-btns i { font-size: 18px !important; }
+    .dc-app-btns span { font-size: 11px !important; }
+    .dc-app-btns span b { font-size: 13px !important; }
 }
 </style>
+
 <!-- Login/Signup মডাল (post.html এর মডাল থেকে কপি করা, স্টাইল আধুনিক করা) -->
 <style>
 .dc-modal-overlay {
