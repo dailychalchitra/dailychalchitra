@@ -1224,5 +1224,38 @@ function dcDisplayName() {
 }
 </script>
 {% include footer.html %}
+<script>
+let dcDeferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  dcDeferredPrompt = e;
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var playBtn = document.getElementById('dc-install-play');
+  var appleBtn = document.getElementById('dc-install-apple');
+
+  function handleInstall() {
+    if (dcDeferredPrompt) {
+      dcDeferredPrompt.prompt();
+      dcDeferredPrompt.userChoice.then(function() { dcDeferredPrompt = null; });
+    } else {
+      var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      if (isIOS) {
+        alert('আইফোনে ইনস্টল করতে: নিচের Share (□↑) বাটনে চাপুন, তারপর "Add to Home Screen" বেছে নিন।');
+      } else {
+        alert('আপনার ব্রাউজারের মেনু (⋮) থেকে "Install app" বা "Add to Home screen" বেছে নিন।');
+      }
+    }
+  }
+  if (playBtn) playBtn.addEventListener('click', function(e){ e.preventDefault(); handleInstall(); });
+  if (appleBtn) appleBtn.addEventListener('click', function(e){ e.preventDefault(); handleInstall(); });
+});
+</script>
 </body>
 </html>
