@@ -9,6 +9,9 @@ future: true
 plugins:
     - jekyll-sitemap
 
+exclude:
+  - admin/
+
 kramdown:
   input: GFM
   hard_wrap: true
