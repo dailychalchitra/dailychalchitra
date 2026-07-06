@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: সম্পাদকীয়
 permalink: /editorial/
 ---
