@@ -4,7 +4,7 @@ title: "ত্রেতাব বীর"
 date: 2026-07-06 07:20:00 +0600
 tags: [ছড়া-কবিতা, সাহিত্য, কবিতা, বাংলা সাহিত্য, শরৎচন্দ্র চট্টোপাধ্যায়]
 author: শরৎচন্দ্র চট্টোপাধ্যায়
-image: /assets/img/shorathchandro.jpg
+image: /assets/img/sarat-chandro.webp
 ---
 
 হুপ্-হুপ্-হুপ্  
