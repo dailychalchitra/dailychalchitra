@@ -2,7 +2,7 @@
 layout: post
 title: "ত্রেতাব বীর"
 date: 2026-07-06 07:20:00 +0600
-categories: [ছড়া কবিতা]
+categories: [ছড়া-কবিতা]
 tags: [ছড়া-কবিতা, সাহিত্য, কবিতা, বাংলা সাহিত্য, শরৎচন্দ্র চট্টোপাধ্যায়]
 author: শরৎচন্দ্র চট্টোপাধ্যায়
 image: /assets/img/sarat-chandro.webp
