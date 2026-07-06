@@ -2,6 +2,8 @@
 layout: default
 title: সম্পাদকীয়
 permalink: /editorial/
+categories:
+  - মতামত
 ---
 
 # সম্পাদকীয়
