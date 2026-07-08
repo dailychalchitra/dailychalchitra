@@ -1267,6 +1267,18 @@ document.addEventListener('DOMContentLoaded', function() {
   if (appleBtn) appleBtn.addEventListener('click', function(e){ e.preventDefault(); handleInstall(); });
 });
 </script>
+<script>
+document.addEventListener('copy', function(e) {
+    var selectedText = window.getSelection().toString();
+    if (selectedText.length > 0) {
+        var copyrightNotice = "\n\n---\nসূত্র: দৈনিক চালচিত্র (" + window.location.href + ")\n" +
+                               "© " + new Date().getFullYear() + " দৈনিক চালচিত্র — এই লেখার সর্বস্বত্ব সংরক্ষিত। " +
+                               "অনুমতি ছাড়া পুনঃপ্রকাশ কপিরাইট লঙ্ঘনের শামিল।";
+        e.clipboardData.setData('text/plain', selectedText + copyrightNotice);
+        e.preventDefault();
+    }
+});
+</script>
 </body>
 </html>
 
