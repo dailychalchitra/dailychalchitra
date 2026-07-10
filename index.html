@@ -25,7 +25,13 @@ title: প্রচ্ছদ
                 <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p style="font-size:15px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 8px;">লেখক: {{ post.author }}</p>{% endif %}
                 <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
-   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;margin-top:10px;display:inline-block;">আরও পড়ুন</a>
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+     <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
+        <i class="fa fa-plus" style="font-size:10px;"></i>
+        <span class="dc-home-follow-label">ফলো করুন</span>
+     </button>
+   </div>
                 <div class="post-meta">
                     <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
                 </div>
@@ -54,7 +60,13 @@ title: প্রচ্ছদ
                         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
    {% if post.author %}<p style="font-size:13px;color:#C00000;font-weight:400;font-style:italic;margin:2px 0 6px;">লেখক: {{ post.author }}</p>{% endif %}
    <p style="font-size:15px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-   <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+   <div style="display:flex;justify-content:space-between;align-items:center;">
+     <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:4px;background:#fff;color:#C00000;border:1.2px solid #C00000;padding:4px 10px;border-radius:14px;font-weight:600;font-size:11px;cursor:pointer;white-space:nowrap;">
+        <i class="fa fa-plus" style="font-size:9px;"></i>
+        <span class="dc-home-follow-label">ফলো করুন</span>
+     </button>
+   </div>
                         <div class="post-meta">
                             <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b" }}</span>
                         </div>
@@ -65,6 +77,65 @@ title: প্রচ্ছদ
         </div>
 
     </div>
+
+    <style>
+    .dc-home-follow-btn.dc-following {
+        background: linear-gradient(135deg,#e53935,#C00000) !important;
+        color: #fff !important;
+        border: none !important;
+    }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var followRef = dcDB.ref('site_followers');
+        var followBtns = document.querySelectorAll('.dc-home-follow-btn');
+        var isFollowing = false;
+
+        function updateAllButtons() {
+            followBtns.forEach(function (btn) {
+                var icon = btn.querySelector('i');
+                var label = btn.querySelector('.dc-home-follow-label');
+                if (isFollowing) {
+                    btn.classList.add('dc-following');
+                    icon.className = 'fa fa-check';
+                    label.textContent = 'ফলো করছেন';
+                } else {
+                    btn.classList.remove('dc-following');
+                    icon.className = 'fa fa-plus';
+                    label.textContent = 'ফলো করুন';
+                }
+            });
+        }
+
+        function refreshFollowState() {
+            if (!dcCurrentUser) return;
+            followRef.child(dcCurrentUser.uid).once('value').then(function (snap) {
+                isFollowing = !!snap.val();
+                updateAllButtons();
+            });
+        }
+
+        function handleFollowClick() {
+            if (!dcCurrentUser) return;
+            var userRef = followRef.child(dcCurrentUser.uid);
+            if (isFollowing) {
+                userRef.remove();
+            } else {
+                userRef.set(true);
+            }
+            isFollowing = !isFollowing;
+            updateAllButtons();
+        }
+
+        followBtns.forEach(function (btn) {
+            btn.addEventListener('click', handleFollowClick);
+        });
+
+        document.addEventListener('dc-auth-ready', refreshFollowState);
+        if (dcCurrentUser) refreshFollowState();
+    });
+    </script>
 
     <!-- 3. পোস্ট গ্রিডের নিচে নেভিগেশন লিংক -->
 <div class="dc-nav-links" style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; box-sizing:border-box; width:100%; display:flex; flex-wrap:wrap; justify-content:center; row-gap:14px; column-gap:clamp(10px, 3vw, 40px);">
