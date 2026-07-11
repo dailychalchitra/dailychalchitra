@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Get FCM Token</title>
+</head>
+<body>
+  <h2>Device Token জেনারেট হচ্ছে...</h2>
+  <p id="status">অনুমতি দিন</p>
+  <pre id="token"></pre>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
+      authDomain: "daily-chalchitra-60994.firebaseapp.com",
+      databaseURL: "https://daily-chalchitra-60994-default-rtdb.firebaseio.com",
+      projectId: "daily-chalchitra-60994",
+      storageBucket: "daily-chalchitra-60994.firebasestorage.app",
+      messagingSenderId: "792541060086",
+      appId: "1:792541060086:web:26234a34ba73cd3b0005d7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    const vapidKey = "BMXn4w-VGgzRAGZaKrqIxBeX0S6ap0zTCWBmQ2N_tqO6rmjZ8QYqgnnZIcX4SatmebwrOBsTnyk54zpX0u4Ycgo";
+
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        document.getElementById('status').innerText = 'অনুমতি পেয়েছি। টোকেন আনছি...';
+        getToken(messaging, {vapidKey: vapidKey}).then((currentToken) => {
+          if (currentToken) {
+            document.getElementById('status').innerText = 'এই হলো আপনার Device Token:';
+            document.getElementById('token').innerText = currentToken;
+            console.log('Device Token:', currentToken);
+          } else {
+            document.getElementById('status').innerText = 'টোকেন পাওয়া যায়নি।';
+          }
+        }).catch((err) => {
+          document.getElementById('status').innerText = 'এরর: ' + err;
+        });
+      } else {
+        document.getElementById('status').innerText = 'নোটিফিকেশনের অনুমতি দেননি।';
+      }
+    });
+  </script>
+</body>
+</html>
