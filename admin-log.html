@@ -1,0 +1,125 @@
+---
+layout: default
+title: এক্টিভিটি লগ
+permalink: /admin-log/
+---
+
+<div style="max-width:800px;margin:30px auto;padding:15px;">
+  <h1 style="font-size:24px;margin-bottom:20px;border-bottom:3px solid #C00000;padding-bottom:10px;display:inline-block;">
+    সাইট কার্যকলাপ লগ
+  </h1>
+
+  <div id="dc-log-tabs" style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+    <button class="dc-log-tab active" data-tab="copy" style="padding:8px 16px;border-radius:20px;border:1.5px solid #C00000;background:#C00000;color:#fff;cursor:pointer;font-weight:600;">কপি (<span id="dc-count-copy">0</span>)</button>
+    <button class="dc-log-tab" data-tab="comments" style="padding:8px 16px;border-radius:20px;border:1.5px solid #C00000;background:#fff;color:#C00000;cursor:pointer;font-weight:600;">কমেন্ট (<span id="dc-count-comments">0</span>)</button>
+    <button class="dc-log-tab" data-tab="followers" style="padding:8px 16px;border-radius:20px;border:1.5px solid #C00000;background:#fff;color:#C00000;cursor:pointer;font-weight:600;">ফলোয়ার (<span id="dc-count-followers">0</span>)</button>
+  </div>
+
+  <div id="dc-log-list"></div>
+</div>
+
+<style>
+.dc-log-item {
+  background:#fff;border:1px solid #eee;border-radius:10px;
+  padding:14px 16px;margin-bottom:12px;
+}
+.dc-log-item .dc-log-title { font-weight:700;color:#111;font-size:15px;margin-bottom:4px; }
+.dc-log-item .dc-log-meta { font-size:12px;color:#999;margin-bottom:6px; }
+.dc-log-item .dc-log-text { font-size:14px;color:#444;line-height:1.6;white-space:pre-wrap; }
+.dc-log-item a { color:#C00000;text-decoration:none;font-size:13px; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var tabs = document.querySelectorAll('.dc-log-tab');
+  var listEl = document.getElementById('dc-log-list');
+  var currentTab = 'copy';
+
+  function formatTime(ts) {
+    if (!ts) return '';
+    var d = new Date(ts);
+    return d.toLocaleDateString('bn-BD') + ' ' + d.toLocaleTimeString('bn-BD');
+  }
+
+  function renderCopyLogs(data) {
+    if (!data) { listEl.innerHTML = '<p style="color:#999;">কোনো কপি ইভেন্ট নেই।</p>'; return; }
+    var items = Object.values(data).sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
+    listEl.innerHTML = items.map(function (item) {
+      return '<div class="dc-log-item">' +
+        '<div class="dc-log-title">' + (item.pageTitle || 'শিরোনাম নেই') + '</div>' +
+        '<div class="dc-log-meta">' + formatTime(item.time) + ' • <a href="' + item.pageUrl + '" target="_blank">পেজ দেখুন</a></div>' +
+        '<div class="dc-log-text">' + (item.snippet || '') + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderComments(data) {
+    if (!data) { listEl.innerHTML = '<p style="color:#999;">কোনো কমেন্ট নেই।</p>'; return; }
+    var all = [];
+    Object.keys(data).forEach(function (postId) {
+      var comments = data[postId].comments;
+      if (comments) {
+        Object.values(comments).forEach(function (c) {
+          all.push(Object.assign({}, c, { postId: postId }));
+        });
+      }
+    });
+    all.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
+    if (all.length === 0) { listEl.innerHTML = '<p style="color:#999;">কোনো কমেন্ট নেই।</p>'; return; }
+    listEl.innerHTML = all.map(function (c) {
+      return '<div class="dc-log-item">' +
+        '<div class="dc-log-title">' + (c.name || 'অতিথি পাঠক') + '</div>' +
+        '<div class="dc-log-meta">' + formatTime(c.time) + ' • পোস্ট: ' + c.postId + '</div>' +
+        '<div class="dc-log-text">' + (c.text || '') + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderFollowers(data) {
+    if (!data) { listEl.innerHTML = '<p style="color:#999;">কোনো ফলোয়ার নেই।</p>'; return; }
+    var count = Object.keys(data).length;
+    listEl.innerHTML = '<div class="dc-log-item"><div class="dc-log-title">মোট ফলোয়ার: ' + count + ' জন</div></div>';
+  }
+
+  function loadTab(tab) {
+    currentTab = tab;
+    tabs.forEach(function (t) {
+      var active = t.dataset.tab === tab;
+      t.style.background = active ? '#C00000' : '#fff';
+      t.style.color = active ? '#fff' : '#C00000';
+    });
+    listEl.innerHTML = '<p style="color:#999;">লোড হচ্ছে...</p>';
+
+    if (tab === 'copy') {
+      dcDB.ref('copy_logs').once('value').then(function (snap) { renderCopyLogs(snap.val()); });
+    } else if (tab === 'comments') {
+      dcDB.ref('dc_posts').once('value').then(function (snap) { renderComments(snap.val()); });
+    } else if (tab === 'followers') {
+      dcDB.ref('site_followers').once('value').then(function (snap) { renderFollowers(snap.val()); });
+    }
+  }
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { loadTab(t.dataset.tab); });
+  });
+
+  dcDB.ref('copy_logs').once('value').then(function (snap) {
+    document.getElementById('dc-count-copy').textContent = snap.val() ? Object.keys(snap.val()).length : 0;
+  });
+  dcDB.ref('site_followers').once('value').then(function (snap) {
+    document.getElementById('dc-count-followers').textContent = snap.val() ? Object.keys(snap.val()).length : 0;
+  });
+  dcDB.ref('dc_posts').once('value').then(function (snap) {
+    var data = snap.val();
+    var count = 0;
+    if (data) {
+      Object.values(data).forEach(function (p) {
+        if (p.comments) count += Object.keys(p.comments).length;
+      });
+    }
+    document.getElementById('dc-count-comments').textContent = count;
+  });
+
+  loadTab('copy');
+});
+</script>
