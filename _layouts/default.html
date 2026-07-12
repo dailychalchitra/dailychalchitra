@@ -1276,9 +1276,17 @@ document.addEventListener('copy', function(e) {
                                "অনুমতি ছাড়া পুনঃপ্রকাশ কপিরাইট লঙ্ঘনের শামিল।";
         e.clipboardData.setData('text/plain', selectedText + copyrightNotice);
         e.preventDefault();
+
+        if (typeof dcDB !== 'undefined') {
+            dcDB.ref('copy_logs').push({
+                pageUrl: window.location.href,
+                pageTitle: document.title,
+                snippet: selectedText.substring(0, 150),
+                time: Date.now()
+            });
+        }
     }
 });
 </script>
 </body>
 </html>
-
