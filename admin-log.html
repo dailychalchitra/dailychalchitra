@@ -27,6 +27,7 @@ permalink: /admin-log/
 .dc-log-item .dc-log-meta { font-size:12px;color:#999;margin-bottom:6px; }
 .dc-log-item .dc-log-text { font-size:14px;color:#444;line-height:1.6;white-space:pre-wrap; }
 .dc-log-item a { color:#C00000;text-decoration:none;font-size:13px; }
+.dc-log-item .dc-log-user { display:inline-block;background:#fdeaea;color:#C00000;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;margin-right:6px; }
 </style>
 
 <script>
@@ -45,9 +46,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!data) { listEl.innerHTML = '<p style="color:#999;">কোনো কপি ইভেন্ট নেই।</p>'; return; }
     var items = Object.values(data).sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
     listEl.innerHTML = items.map(function (item) {
+      var userLabel = item.userName || 'অজানা/অতিথি পাঠক';
+      var uidLabel = item.userUid ? ' (UID: ' + item.userUid.substring(0, 8) + '...)' : '';
       return '<div class="dc-log-item">' +
         '<div class="dc-log-title">' + (item.pageTitle || 'শিরোনাম নেই') + '</div>' +
-        '<div class="dc-log-meta">' + formatTime(item.time) + ' • <a href="' + item.pageUrl + '" target="_blank">পেজ দেখুন</a></div>' +
+        '<div class="dc-log-meta"><span class="dc-log-user">' + userLabel + '</span>' + uidLabel + '<br>' + formatTime(item.time) + ' • <a href="' + item.pageUrl + '" target="_blank">পেজ দেখুন</a></div>' +
         '<div class="dc-log-text">' + (item.snippet || '') + '</div>' +
         '</div>';
     }).join('');
