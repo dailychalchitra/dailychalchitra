@@ -1235,39 +1235,6 @@ function dcDisplayName() {
 </script>
 {% include footer.html %}
 <script>
-let dcDeferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  dcDeferredPrompt = e;
-});
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  var playBtn = document.getElementById('dc-install-play');
-  var appleBtn = document.getElementById('dc-install-apple');
-
-  function handleInstall() {
-    if (dcDeferredPrompt) {
-      dcDeferredPrompt.prompt();
-      dcDeferredPrompt.userChoice.then(function() { dcDeferredPrompt = null; });
-    } else {
-      var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-      if (isIOS) {
-        alert('আইফোনে ইনস্টল করতে: নিচের Share (□↑) বাটনে চাপুন, তারপর "Add to Home Screen" বেছে নিন।');
-      } else {
-        alert('আপনার ব্রাউজারের মেনু (⋮) থেকে "Install app" বা "Add to Home screen" বেছে নিন।');
-      }
-    }
-  }
-  if (playBtn) playBtn.addEventListener('click', function(e){ e.preventDefault(); handleInstall(); });
-  if (appleBtn) appleBtn.addEventListener('click', function(e){ e.preventDefault(); handleInstall(); });
-});
-</script>
-<script>
 document.addEventListener('copy', function(e) {
     var selectedText = window.getSelection().toString();
     if (selectedText.length > 0) {
@@ -1278,15 +1245,23 @@ document.addEventListener('copy', function(e) {
         e.preventDefault();
 
         if (typeof dcDB !== 'undefined') {
+            var userName = 'অজানা/অতিথি পাঠক';
+            var userUid = 'N/A';
+            if (typeof dcCurrentUser !== 'undefined' && dcCurrentUser) {
+                userUid = dcCurrentUser.uid;
+                if (typeof dcIsNamedUser !== 'undefined' && dcIsNamedUser) {
+                    userName = dcCurrentUser.displayName || dcCurrentUser.email || 'নামহীন ব্যবহারকারী';
+                }
+            }
             dcDB.ref('copy_logs').push({
                 pageUrl: window.location.href,
                 pageTitle: document.title,
                 snippet: selectedText.substring(0, 150),
+                userName: userName,
+                userUid: userUid,
                 time: Date.now()
             });
         }
     }
 });
 </script>
-</body>
-</html>
