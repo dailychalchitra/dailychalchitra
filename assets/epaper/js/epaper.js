@@ -1,8 +1,8 @@
 /*
-===========================================
+==========================================
 Daily Chalchitra ePaper
-Version : 1.0
-===========================================
+Version : 2.0
+==========================================
 */
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -11,27 +11,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!container) return;
 
-    try{
+    const currentYear = new Date().getFullYear();
 
-        const response = await fetch("/assets/epaper/issues/issues.json");
+    try {
+
+        const response = await fetch(`/assets/epaper/issues/${currentYear}.json`);
+
+        if (!response.ok) {
+            throw new Error("Issue file not found");
+        }
 
         const issues = await response.json();
 
-        if(!issues.length){
+        const publishedIssues = issues.filter(issue => issue.published);
+
+        if (publishedIssues.length === 0) {
 
             container.innerHTML = `
                 <div class="dc-empty">
-                    প্রথম সংখ্যা এখনও প্রকাশিত হয়নি।
+                    এখনও কোনো ই-পেপার প্রকাশিত হয়নি।
                 </div>
             `;
 
             return;
-
         }
 
-        let html="";
+        publishedIssues.sort((a, b) => b.week - a.week);
 
-        issues.forEach(issue=>{
+        let html = "";
+
+        publishedIssues.forEach(issue => {
 
             html += `
             <div class="dc-issue-card">
@@ -52,13 +61,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
 
                     <div class="dc-pages">
-                        মোট ${issue.pages} পৃষ্ঠা
+                        ${issue.pages} পৃষ্ঠা
                     </div>
 
                     <a
                         class="dc-btn"
-                        href="${issue.viewer}">
-                        ই-পেপার পড়ুন
+                        href="${issue.pdf}"
+                        target="_blank">
+                        পড়ুন
                     </a>
 
                 </div>
@@ -74,7 +84,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
         `;
 
-    }catch(e){
+    } catch (err) {
+
+        console.error(err);
 
         container.innerHTML = `
             <div class="dc-empty">
