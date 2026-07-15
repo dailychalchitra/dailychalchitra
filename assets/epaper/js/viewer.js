@@ -1,7 +1,7 @@
 /*
 ==================================
 Daily Chalchitra ePaper Viewer
-Version 1.0
+Version : 1.1
 ==================================
 */
 
@@ -11,33 +11,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     const meta = document.getElementById("dc-meta");
     const pdf = document.getElementById("dc-pdf");
 
-    const params = new URLSearchParams(window.location.search);
+    const downloadBtn = document.getElementById("dc-download");
+    const printBtn = document.getElementById("dc-print");
 
+    const params = new URLSearchParams(window.location.search);
     const issueId = params.get("issue");
 
     if (!issueId) {
 
         title.textContent = "ই-পেপার পাওয়া যায়নি";
-
         meta.innerHTML = "";
 
         return;
 
     }
 
-    const year = issueId.substring(0,4);
+    const year = issueId.substring(0, 4);
 
-    try{
+    try {
 
         const res = await fetch(`/assets/epaper/issues/${year}.json`);
 
+        if (!res.ok) {
+            throw new Error("Issue file not found");
+        }
+
         const issues = await res.json();
 
-        const issue = issues.find(x => x.id === issueId);
+        const issue = issues.find(item => item.id === issueId);
 
-        if(!issue){
+        if (!issue) {
 
             title.textContent = "ই-পেপার পাওয়া যায়নি";
+            meta.innerHTML = "";
 
             return;
 
@@ -46,20 +52,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         title.textContent = issue.title;
 
         meta.innerHTML = `
-            <strong>প্রকাশ:</strong> ${issue.date}
-            <br>
+            <strong>প্রকাশ:</strong> ${issue.date}<br>
             <strong>পৃষ্ঠা:</strong> ${issue.pages}
         `;
 
         pdf.src = issue.pdf;
 
-    }
+        if (downloadBtn) {
 
-    catch(e){
+            downloadBtn.onclick = () => {
+                window.open(issue.pdf, "_blank");
+            };
+
+        }
+
+        if (printBtn) {
+
+            printBtn.onclick = () => {
+                window.open(issue.pdf, "_blank");
+            };
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
 
         title.textContent = "ই-পেপার লোড করা যায়নি";
 
-        console.error(e);
+        meta.innerHTML = `
+            <div class="dc-empty">
+                দুঃখিত! ই-পেপারটি লোড করা সম্ভব হচ্ছে না।
+            </div>
+        `;
 
     }
 
