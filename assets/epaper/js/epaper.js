@@ -65,11 +65,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
 
                     <a
-                        class="dc-btn"
-                        href="${issue.pdf}"
-                        target="_blank">
-                        পড়ুন
-                    </a>
+    class="dc-btn"
+    href="${issue.viewer}"
+    target="_blank">
+    পড়ুন
+</a>
 
                 </div>
 
