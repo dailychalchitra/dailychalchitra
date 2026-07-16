@@ -109,3 +109,38 @@
 }
 
 }
+
+/* =================================
+Daily Chalchitra ePaper Canvas
+================================= */
+
+
+#dc-pdf-viewer{
+
+    width:100%;
+
+    overflow:auto;
+
+    text-align:center;
+
+}
+
+
+#dc-pdf-canvas{
+
+    max-width:100%;
+
+    height:auto;
+
+}
+
+
+@media(max-width:600px){
+
+    #dc-pdf-canvas{
+
+        width:100%;
+
+    }
+
+}
