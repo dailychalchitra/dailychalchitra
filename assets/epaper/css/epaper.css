@@ -250,3 +250,60 @@ Mobile Reading Mode
 
 
 }
+
+/*
+==================================
+Daily Chalchitra Archive
+Version : 1.0
+==================================
+*/
+
+#dc-year-list{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    margin:20px 0;
+
+}
+
+.dc-year-btn{
+
+    padding:8px 16px;
+
+    border:1px solid #c00000;
+
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#c00000;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:0.25s;
+
+}
+
+.dc-year-btn:hover{
+
+    background:#c00000;
+
+    color:#ffffff;
+
+}
+
+.dc-year-btn.active{
+
+    background:#c00000;
+
+    color:#ffffff;
+
+}
