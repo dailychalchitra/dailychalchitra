@@ -21,6 +21,10 @@ window.DCViewer = {
 
     pages: [],
 
+canvas: null,
+
+context: null,
+
     initialized: false,
 
 
