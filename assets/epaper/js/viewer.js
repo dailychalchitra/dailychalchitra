@@ -1,425 +1,474 @@
 /*
 ==================================
 Daily Chalchitra ePaper Viewer
-Version : 1.2
+Version : 1.3
 ==================================
 */
 
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener(
+"DOMContentLoaded",
+async () => {
 
 
-    const title =
-    document.getElementById("dc-title");
+const title =
+document.getElementById("dc-title");
 
 
-    const meta =
-    document.getElementById("dc-meta");
+const meta =
+document.getElementById("dc-meta");
 
 
-    const pdfFrame =
-    document.getElementById("dc-pdf");
+const pdfFrame =
+document.getElementById("dc-pdf");
 
 
-    const downloadBtn =
-    document.getElementById("dc-download");
+const downloadBtn =
+document.getElementById("dc-download");
 
 
-    const printBtn =
-    document.getElementById("dc-print");
+const printBtn =
+document.getElementById("dc-print");
 
 
-    const prevBtn =
-    document.getElementById("dc-prev");
+const fullscreenBtn =
+document.getElementById("dc-fullscreen");
 
 
-    const nextBtn =
-    document.getElementById("dc-next");
+const prevBtn =
+document.getElementById("dc-prev");
 
 
-    const zoomInBtn =
-    document.getElementById("dc-zoom-in");
+const nextBtn =
+document.getElementById("dc-next");
 
 
-    const zoomOutBtn =
-    document.getElementById("dc-zoom-out");
+const zoomInBtn =
+document.getElementById("dc-zoom-in");
 
 
-    const pageInfo =
-    document.getElementById("dc-page-info");
+const zoomOutBtn =
+document.getElementById("dc-zoom-out");
 
 
+const pageInfo =
+document.getElementById("dc-page-info");
 
-    const params =
-    new URLSearchParams(
-        window.location.search
-    );
 
 
-    const issueId =
-    params.get("issue");
+const params =
+new URLSearchParams(
+window.location.search
+);
 
 
+const issueId =
+params.get("issue");
 
-    if(!issueId){
 
 
-        title.textContent =
-        "ই-পেপার পাওয়া যায়নি";
+function updatePageInfo(){
 
 
-        meta.innerHTML = "";
+if(!window.DCViewer || !pageInfo){
 
+return;
 
-        return;
+}
 
 
-    }
+pageInfo.innerHTML =
+`
+পৃষ্ঠা ${DCViewer.currentPage}
+/
+${DCViewer.totalPages}
+`;
 
+}
 
 
-    const year =
-    issueId.substring(0,4);
 
+if(!issueId){
 
 
-    function updatePageInfo(){
+title.textContent =
+"ই-পেপার পাওয়া যায়নি";
 
 
-        if(!window.DCViewer || !pageInfo){
+return;
 
-            return;
 
-        }
+}
 
 
-        pageInfo.innerHTML =
-        `
-        পৃষ্ঠা ${DCViewer.currentPage}
-        /
-        ${DCViewer.totalPages}
-        `;
 
+const year =
+issueId.substring(0,4);
 
-    }
 
 
+try{
 
 
-    try{
+const res =
+await fetch(
+`/assets/epaper/issues/${year}.json`
+);
 
 
-        const res =
-        await fetch(
-        `/assets/epaper/issues/${year}.json`
-        );
 
+if(!res.ok){
 
+throw new Error(
+"Issue file not found"
+);
 
-        if(!res.ok){
+}
 
-            throw new Error(
-                "Issue file not found"
-            );
 
-        }
 
+const issues =
+await res.json();
 
 
-        const issues =
-        await res.json();
 
+const issue =
+issues.find(
+item =>
+item.id === issueId
+);
 
 
-        const issue =
-        issues.find(
-            item =>
-            item.id === issueId
-        );
 
+if(!issue){
 
 
-        if(!issue){
+title.textContent =
+"ই-পেপার পাওয়া যায়নি";
 
 
-            title.textContent =
-            "ই-পেপার পাওয়া যায়নি";
+return;
 
 
-            return;
+}
 
 
-        }
 
+title.textContent =
+issue.title;
 
 
 
-        title.textContent =
-        issue.title;
+meta.innerHTML =
+`
+<strong>প্রকাশ:</strong>
+${issue.date}
 
+<br>
 
+<strong>পৃষ্ঠা:</strong>
+${issue.pages}
+`;
 
-        meta.innerHTML =
-        `
-        <strong>প্রকাশ:</strong>
-        ${issue.date}
-        <br>
 
-        <strong>পৃষ্ঠা:</strong>
-        ${issue.pages}
-        `;
 
 
+/*
+===========================
+PDF Load
+===========================
+*/
 
 
-        /*
-        ===========================
-        PDF Load
-        ===========================
-        */
+if(pdfFrame){
 
+pdfFrame.src =
+issue.pdf;
 
-        if(pdfFrame){
+}
 
-            pdfFrame.src =
-            issue.pdf;
 
-        }
 
+if(window.DCViewer){
 
 
-        if(window.DCViewer){
+DCViewer.init(issue);
 
 
-            DCViewer.init(issue);
+DCViewer.loadPDF();
 
 
-            DCViewer.loadPDF();
+}
 
 
-        }
 
 
+/*
+===========================
+Download
+===========================
+*/
 
 
-        /*
-        ===========================
-        Download
-        ===========================
-        */
+if(downloadBtn){
 
 
-        if(downloadBtn){
+downloadBtn.onclick =
+()=>{
 
 
-            downloadBtn.onclick =
-            () => {
+window.open(
+issue.pdf,
+"_blank"
+);
 
 
-                window.open(
-                    issue.pdf,
-                    "_blank"
-                );
+};
 
 
-            };
+}
 
 
-        }
 
 
 
+/*
+===========================
+Print
+===========================
+*/
 
-        /*
-        ===========================
-        Print
-        ===========================
-        */
 
+if(printBtn){
 
-        if(printBtn){
 
+printBtn.onclick =
+()=>{
 
-            printBtn.onclick =
-            () => {
 
+const win =
+window.open(
+issue.pdf,
+"_blank"
+);
 
-                const win =
-                window.open(
-                    issue.pdf,
-                    "_blank"
-                );
 
 
-                if(win){
+if(win){
 
 
-                    win.onload =
-                    () => {
+win.onload =
+()=>{
 
-                        win.print();
+win.print();
 
-                    };
+};
 
 
-                }
+}
 
 
-            };
+};
 
 
-        }
+}
 
 
 
 
 
-        /*
-        ===========================
-        Page Controls
-        ===========================
-        */
+/*
+===========================
+Fullscreen
+===========================
+*/
 
 
-        if(prevBtn){
+if(fullscreenBtn){
 
 
-            prevBtn.onclick =
-            () => {
+fullscreenBtn.onclick =
+()=>{
 
 
-                DCViewer.previousPage();
+const viewer =
+document.querySelector(
+".dc-viewer"
+);
 
 
-                updatePageInfo();
 
+if(!document.fullscreenElement){
 
-            };
 
+viewer.requestFullscreen();
 
-        }
 
+}
 
+else{
 
 
-        if(nextBtn){
+document.exitFullscreen();
 
 
-            nextBtn.onclick =
-            () => {
+}
 
 
-                DCViewer.nextPage();
+};
 
 
-                updatePageInfo();
+}
 
 
-            };
 
 
-        }
 
+/*
+===========================
+Page Control
+===========================
+*/
 
 
+if(prevBtn){
 
-        /*
-        ===========================
-        Zoom Controls
-        ===========================
-        */
 
+prevBtn.onclick =
+()=>{
 
-        if(zoomInBtn){
 
+DCViewer.previousPage();
 
-            zoomInBtn.onclick =
-            () => {
 
+updatePageInfo();
 
-                let zoom =
-                DCViewer.zoom + 0.1;
 
+};
 
-                DCViewer.setZoom(
-                    zoom
-                );
 
+}
 
-            };
 
 
-        }
 
+if(nextBtn){
 
 
+nextBtn.onclick =
+()=>{
 
-        if(zoomOutBtn){
 
+DCViewer.nextPage();
 
-            zoomOutBtn.onclick =
-            () => {
 
+updatePageInfo();
 
-                let zoom =
-                DCViewer.zoom - 0.1;
 
+};
 
 
-                if(zoom < 0.5){
+}
 
-                    zoom = 0.5;
 
-                }
 
 
 
-                DCViewer.setZoom(
-                    zoom
-                );
+/*
+===========================
+Zoom Control
+===========================
+*/
 
 
-            };
+if(zoomInBtn){
 
 
-        }
+zoomInBtn.onclick =
+()=>{
 
 
+DCViewer.setZoom(
+DCViewer.zoom + 0.1
+);
 
 
-        updatePageInfo();
+};
 
 
+}
 
-    }
 
 
 
-    catch(error){
 
+if(zoomOutBtn){
 
-        console.error(error);
 
+zoomOutBtn.onclick =
+()=>{
 
 
-        title.textContent =
-        "ই-পেপার লোড করা যায়নি";
+let zoom =
+DCViewer.zoom - 0.1;
 
 
 
-        meta.innerHTML =
-        `
-        <div class="dc-empty">
-            দুঃখিত! ই-পেপারটি লোড করা সম্ভব হচ্ছে না।
-        </div>
-        `;
+if(zoom < 0.5){
 
+zoom = 0.5;
 
-    }
+}
+
+
+
+DCViewer.setZoom(
+zoom
+);
+
+
+};
+
+
+}
+
+
+
+
+updatePageInfo();
+
+
+
+}
+
+
+catch(error){
+
+
+console.error(error);
+
+
+
+title.textContent =
+"ই-পেপার লোড করা যায়নি";
+
+
+
+meta.innerHTML =
+`
+<div class="dc-empty">
+দুঃখিত! ই-পেপারটি লোড করা সম্ভব হচ্ছে না।
+</div>
+`;
+
+}
 
 
 
 });
+
+
+
 
 /*
 ==================================
@@ -440,12 +489,13 @@ document.addEventListener(
 (event)=>{
 
 
-    touchStartX =
-    event.changedTouches[0].screenX;
+touchStartX =
+event.changedTouches[0].screenX;
 
 
 },
 false);
+
 
 
 
@@ -454,12 +504,11 @@ document.addEventListener(
 (event)=>{
 
 
-    touchEndX =
-    event.changedTouches[0].screenX;
+touchEndX =
+event.changedTouches[0].screenX;
 
 
-
-    handleSwipe();
+handleSwipe();
 
 
 },
@@ -472,74 +521,63 @@ false);
 function handleSwipe(){
 
 
-    const distance =
-    touchEndX - touchStartX;
+const distance =
+touchEndX - touchStartX;
 
 
 
-    if(Math.abs(distance) < 50){
+if(Math.abs(distance)<50){
 
-        return;
+return;
 
-    }
-
-
-
-
-    if(!window.DCViewer){
-
-        return;
-
-    }
+}
 
 
 
+if(!window.DCViewer){
 
+return;
 
-    if(distance < 0){
-
-
-        // Swipe Left
-
-        DCViewer.nextPage();
-
-
-    }
+}
 
 
 
-    else{
+if(distance < 0){
 
 
-        // Swipe Right
-
-        DCViewer.previousPage();
+DCViewer.nextPage();
 
 
-    }
+}
+
+else{
+
+
+DCViewer.previousPage();
+
+
+}
 
 
 
-    const pageInfo =
-    document.getElementById(
-        "dc-page-info"
-    );
+const pageInfo =
+document.getElementById(
+"dc-page-info"
+);
 
 
 
-    if(pageInfo){
+if(pageInfo){
 
 
-        pageInfo.innerHTML =
-        `
-        পৃষ্ঠা ${DCViewer.currentPage}
-        /
-        ${DCViewer.totalPages}
-        `;
+pageInfo.innerHTML =
+`
+পৃষ্ঠা ${DCViewer.currentPage}
+/
+${DCViewer.totalPages}
+`;
 
-
-    }
-
+}
 
 
 }
