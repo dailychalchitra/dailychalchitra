@@ -26,6 +26,34 @@ permalink: /epaper/viewer/
 
 </div>
 
+<div class="dc-controls">
+
+    <button id="dc-prev">
+        ⬅️ পূর্বের পৃষ্ঠা
+    </button>
+
+
+    <span id="dc-page-info">
+        পৃষ্ঠা 1
+    </span>
+
+
+    <button id="dc-next">
+        পরের পৃষ্ঠা ➡️
+    </button>
+
+
+    <button id="dc-zoom-in">
+        🔍+
+    </button>
+
+
+    <button id="dc-zoom-out">
+        🔍-
+    </button>
+
+</div>
+
 <div class="dc-pdf-box">
 
     <iframe
@@ -42,3 +70,33 @@ permalink: /epaper/viewer/
 
 <script src="/assets/epaper/lib/viewer/viewer-engine.js"></script>
 <script src="/assets/epaper/js/viewer.js"></script>
+
+.dc-controls{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:20px auto;
+
+}
+
+
+.dc-controls button{
+
+    padding:8px 14px;
+    border:none;
+    border-radius:6px;
+    background:#C00000;
+    color:white;
+    cursor:pointer;
+
+}
+
+
+#dc-page-info{
+
+    font-weight:bold;
+
+}
