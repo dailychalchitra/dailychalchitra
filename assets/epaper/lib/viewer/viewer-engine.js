@@ -98,9 +98,32 @@ window.DCViewer = {
 
 
         /*
-        PDF.js connection
-        will be added here
-        */
+=========================================
+PDF Render Container
+=========================================
+*/
+
+
+this.canvas = document.getElementById(
+    "dc-pdf-canvas"
+);
+
+
+this.context = null;
+
+
+if(this.canvas){
+
+    this.context = this.canvas.getContext(
+        "2d"
+    );
+
+
+    console.log(
+        "PDF Canvas Ready"
+    );
+
+}
 
     },
 
