@@ -1,40 +1,29 @@
 /*
 ==================================
 Daily Chalchitra ePaper Archive
-Version : 1.2
+Version : 1.3
 ==================================
 */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const yearList =
-        document.getElementById("dc-year-list");
-
-    const archiveList =
-        document.getElementById("dc-archive-list");
+    const yearList = document.getElementById("dc-year-list");
+    const archiveList = document.getElementById("dc-archive-list");
 
     if (!yearList || !archiveList) {
 
-        console.error(
-            "Archive container not found."
-        );
+        console.error("Archive container not found.");
 
         return;
 
     }
 
     const startYear = 2026;
-
-    const currentYear =
-        new Date().getFullYear();
+    const currentYear = new Date().getFullYear();
 
     let years = [];
 
-    for (
-        let year = currentYear;
-        year >= startYear;
-        year--
-    ) {
+    for (let year = currentYear; year >= startYear; year--) {
 
         years.push(year);
 
@@ -63,112 +52,122 @@ document.addEventListener("DOMContentLoaded", () => {
     ==================================
     */
 
-    async function loadArchive(year){
+    async function loadArchive(year) {
 
-        archiveList.innerHTML =
-        `
-        <div class="dc-empty">
-            লোড হচ্ছে...
-        </div>
+        /*
+        ==================================
+        Active Year Button
+        ==================================
+        */
+
+        yearList
+            .querySelectorAll(".dc-year-btn")
+            .forEach(btn => {
+
+                btn.classList.remove("active");
+
+                if (btn.dataset.year == year) {
+
+                    btn.classList.add("active");
+
+                }
+
+            });
+
+
+        archiveList.innerHTML = `
+            <div class="dc-empty">
+                লোড হচ্ছে...
+            </div>
         `;
 
-        try{
+        try {
 
-            const res =
-            await fetch(
+            const res = await fetch(
                 `/assets/epaper/issues/${year}.json`
             );
 
-            if(!res.ok){
+            if (!res.ok) {
 
-                throw new Error(
-                    "Issue file not found"
-                );
+                throw new Error("Issue file not found");
 
             }
 
-            const issues =
-                await res.json();
+            const issues = await res.json();
 
-            const published =
-                issues.filter(
-                    issue => issue.published
-                );
+            const published = issues.filter(
+                issue => issue.published
+            );
 
-            if(published.length === 0){
+            if (published.length === 0) {
 
-                archiveList.innerHTML =
-                `
-                <div class="dc-empty">
-                    এই বছরে কোনো ই-পেপার প্রকাশিত হয়নি।
-                </div>
+                archiveList.innerHTML = `
+                    <div class="dc-empty">
+                        এই বছরে কোনো ই-পেপার প্রকাশিত হয়নি।
+                    </div>
                 `;
 
                 return;
 
             }
 
-            published.sort(
-                (a,b)=>b.week-a.week
-            );
+            published.sort((a, b) => b.week - a.week);
 
             let issueHTML = "";
 
             published.forEach(issue => {
 
                 issueHTML += `
-                <div class="dc-issue-card">
+                    <div class="dc-issue-card">
 
-                    <img
-                        class="dc-cover"
-                        src="${issue.cover}"
-                        alt="${issue.title}">
+                        <img
+                            class="dc-cover"
+                            src="${issue.cover}"
+                            alt="${issue.title}">
 
-                    <div class="dc-body">
+                        <div class="dc-body">
 
-                        <div class="dc-date">
-                            ${issue.date}
+                            <div class="dc-date">
+                                ${issue.date}
+                            </div>
+
+                            <div class="dc-title">
+                                ${issue.title}
+                            </div>
+
+                            <div class="dc-pages">
+                                ${issue.pages} পৃষ্ঠা
+                            </div>
+
+                            <a
+                                class="dc-btn"
+                                href="/epaper/viewer/?issue=${issue.id}">
+                                পড়ুন
+                            </a>
+
                         </div>
-
-                        <div class="dc-title">
-                            ${issue.title}
-                        </div>
-
-                        <div class="dc-pages">
-                            ${issue.pages} পৃষ্ঠা
-                        </div>
-
-                        <a
-                            class="dc-btn"
-                            href="/epaper/viewer/?issue=${issue.id}">
-                            পড়ুন
-                        </a>
 
                     </div>
-
-                </div>
                 `;
 
             });
 
-            archiveList.innerHTML =
-            `
-            <div class="dc-issue-grid">
-                ${issueHTML}
-            </div>
+            archiveList.innerHTML = `
+                <div class="dc-issue-grid">
+                    ${issueHTML}
+                </div>
             `;
 
         }
 
-        catch(error){
+        catch (error) {
 
             console.error(error);
 
-            archiveList.innerHTML =
-            `
-            <div class="dc-empty">
-                এই বছরের আর্কাইভ পাওয়া যায়নি।
-            </div>
+            archiveList.innerHTML = `
+                <div class="dc-empty">
+                    এই বছরের আর্কাইভ পাওয়া যায়নি।
+                </div>
             `;
 
         }
@@ -183,21 +182,16 @@ document.addEventListener("DOMContentLoaded", () => {
     */
 
     yearList
-    .querySelectorAll(".dc-year-btn")
-    .forEach(button => {
+        .querySelectorAll(".dc-year-btn")
+        .forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener("click", () => {
 
-                loadArchive(
-                    button.dataset.year
-                );
+                loadArchive(button.dataset.year);
 
-            }
-        );
+            });
 
-    });
+        });
 
 
     /*
@@ -208,8 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadArchive(currentYear);
 
-    console.log(
-        "Daily Chalchitra Archive Ready"
-    );
+    console.log("Daily Chalchitra Archive Ready");
 
 });
