@@ -83,18 +83,24 @@ permalink: /epaper/viewer/
     <div class="dc-pdf-box">
 
 
-        <div id="dc-pdf-viewer">
+    <div id="dc-epaper-page">
 
 
-            <canvas id="dc-pdf-canvas">
-            </canvas>
+        <div class="dc-paper-head">
 
+            দৈনিক চালচিত্র
+
+        </div>
+
+
+        <div id="dc-post-columns">
+
+            ই-পেপার লোড হচ্ছে...
 
         </div>
 
 
     </div>
-
 
 
 </div>
@@ -104,7 +110,6 @@ permalink: /epaper/viewer/
 
 
 <style>
-
 
 .dc-controls{
 
@@ -116,7 +121,6 @@ permalink: /epaper/viewer/
     margin:20px auto;
 
 }
-
 
 
 .dc-controls button{
@@ -131,7 +135,6 @@ permalink: /epaper/viewer/
 }
 
 
-
 #dc-page-info{
 
     font-weight:bold;
@@ -140,6 +143,9 @@ permalink: /epaper/viewer/
 
 
 
+/* ==========================
+   HTML ePaper Layout
+========================== */
 
 
 .dc-pdf-box{
@@ -152,28 +158,98 @@ permalink: /epaper/viewer/
 
 
 
-#dc-pdf-viewer{
+#dc-epaper-page{
 
     width:100%;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    max-width:900px;
+    margin:20px auto;
+    background:white;
+    padding:30px;
+    box-sizing:border-box;
 
 }
 
 
 
-#dc-pdf-canvas{
+.dc-paper-head{
 
-    display:block;
-    max-width:100%;
-    height:auto;
-    margin:auto;
+    text-align:center;
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:20px;
+    border-bottom:2px solid #000;
+    padding-bottom:15px;
 
 }
 
 
+
+#dc-post-columns{
+
+    column-count:3;
+    column-gap:25px;
+    text-align:justify;
+
+}
+
+
+
+.dc-post-card{
+
+    break-inside:avoid;
+    margin-bottom:20px;
+    border-bottom:1px solid #ddd;
+    padding-bottom:15px;
+
+}
+
+
+
+.dc-post-card img{
+
+    width:100%;
+    border-radius:5px;
+
+}
+
+
+
+.dc-post-card h2{
+
+    font-size:20px;
+    margin:10px 0;
+
+}
+
+
+
+.dc-post-card p{
+
+    font-size:15px;
+    line-height:1.8;
+
+}
+
+
+
+@media(max-width:700px){
+
+
+#dc-post-columns{
+
+    column-count:1;
+
+}
+
+
+#dc-epaper-page{
+
+    padding:15px;
+
+}
+
+
+}
 
 </style>
 
