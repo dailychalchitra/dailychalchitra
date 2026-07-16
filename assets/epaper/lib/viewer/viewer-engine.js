@@ -1,13 +1,13 @@
 /*
 ======================================================
 Daily Chalchitra ePaper Viewer Engine
-Version : 1.1
+Version : 1.2
 ======================================================
 */
 
 window.DCViewer = {
 
-    version: "1.1",
+    version: "1.2",
 
     issue: null,
 
@@ -23,6 +23,12 @@ window.DCViewer = {
 
     initialized: false,
 
+
+    /*
+    ===============================
+    Viewer Initialize
+    ===============================
+    */
 
     init: function(issue){
 
@@ -45,17 +51,66 @@ window.DCViewer = {
             "Daily Chalchitra ePaper Viewer Initialized"
         );
 
+
         console.log(
             "PDF:",
             this.pdf
         );
+
 
         console.log(
             "Total Pages:",
             this.totalPages
         );
 
+
     },
+
+
+    /*
+    ===============================
+    PDF Loader Layer
+    ===============================
+    */
+
+
+    loadPDF: function(){
+
+        if(!this.issue){
+
+            console.error(
+                "No ePaper issue selected"
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "Loading PDF:"
+        );
+
+
+        console.log(
+            this.pdf
+        );
+
+
+        /*
+        PDF.js connection
+        will be added here
+        */
+
+    },
+
+
+
+    /*
+    ===============================
+    Next Page
+    ===============================
+    */
 
 
     nextPage: function(){
@@ -72,6 +127,14 @@ window.DCViewer = {
     },
 
 
+
+    /*
+    ===============================
+    Previous Page
+    ===============================
+    */
+
+
     previousPage: function(){
 
         if(this.currentPage > 1){
@@ -86,6 +149,14 @@ window.DCViewer = {
     },
 
 
+
+    /*
+    ===============================
+    Zoom Control
+    ===============================
+    */
+
+
     setZoom: function(value){
 
         this.zoom = value;
@@ -95,14 +166,27 @@ window.DCViewer = {
     },
 
 
+
+    /*
+    ===============================
+    Viewer Status
+    ===============================
+    */
+
+
     renderInfo: function(){
 
         console.log({
+
             page: this.currentPage,
+
             total: this.totalPages,
+
             zoom: this.zoom
+
         });
 
     }
+
 
 };
