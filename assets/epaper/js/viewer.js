@@ -92,3 +92,112 @@ if (window.DCViewer) {
     }
 
 });
+
+/*
+==================================
+Daily Chalchitra ePaper Controls
+Version : 1.1
+==================================
+*/
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+
+    const prevBtn = document.getElementById("dc-prev");
+
+    const nextBtn = document.getElementById("dc-next");
+
+    const zoomInBtn = document.getElementById("dc-zoom-in");
+
+    const zoomOutBtn = document.getElementById("dc-zoom-out");
+
+    const pageInfo = document.getElementById("dc-page-info");
+
+
+
+    function updatePageInfo(){
+
+        if(!window.DCViewer) return;
+
+
+        pageInfo.innerHTML =
+        `
+        পৃষ্ঠা ${DCViewer.currentPage}
+        / 
+        ${DCViewer.totalPages}
+        `;
+
+    }
+
+
+
+    if(prevBtn){
+
+        prevBtn.addEventListener("click", () => {
+
+            DCViewer.previousPage();
+
+            updatePageInfo();
+
+        });
+
+    }
+
+
+
+    if(nextBtn){
+
+        nextBtn.addEventListener("click", () => {
+
+            DCViewer.nextPage();
+
+            updatePageInfo();
+
+        });
+
+    }
+
+
+
+    if(zoomInBtn){
+
+        zoomInBtn.addEventListener("click", () => {
+
+
+            let zoom = DCViewer.zoom + 0.1;
+
+
+            DCViewer.setZoom(zoom);
+
+
+        });
+
+    }
+
+
+
+    if(zoomOutBtn){
+
+        zoomOutBtn.addEventListener("click", () => {
+
+
+            let zoom = DCViewer.zoom - 0.1;
+
+
+            if(zoom < 0.5){
+
+                zoom = 0.5;
+
+            }
+
+
+            DCViewer.setZoom(zoom);
+
+
+        });
+
+    }
+
+
+});
