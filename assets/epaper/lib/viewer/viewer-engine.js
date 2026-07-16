@@ -221,3 +221,71 @@ async loadPosts(){
 
 
 },
+
+/*
+======================================
+Build Newspaper Pages
+======================================
+*/
+
+buildPages(){
+
+    this.pages=[];
+
+    let page=[];
+
+
+    const perPage =
+    this.columnCount * 8;
+
+
+
+    this.posts.forEach(post=>{
+
+
+        page.push(post);
+
+
+
+        if(page.length >= perPage){
+
+
+            this.pages.push(page);
+
+
+            page=[];
+
+
+        }
+
+
+    });
+
+
+
+    if(page.length){
+
+
+        this.pages.push(page);
+
+
+    }
+
+
+
+    this.totalPages =
+    this.pages.length;
+
+
+
+    console.log(
+        "Total ePaper Pages:",
+        this.totalPages
+    );
+
+
+
+    this.render();
+
+
+},
