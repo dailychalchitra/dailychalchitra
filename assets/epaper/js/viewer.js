@@ -175,28 +175,16 @@ ${issue.pages}
 
 /*
 ===========================
-PDF Load
+HTML ePaper Load
 ===========================
 */
 
 
-if(pdfFrame){
-
-pdfFrame.src =
-issue.pdf;
-
-}
-
-
-
 if(window.DCViewer){
 
+    DCViewer.init(issue);
 
-DCViewer.init(issue);
-
-
-DCViewer.loadPDF();
-
+    DCViewer.start();
 
 }
 
@@ -283,20 +271,71 @@ Print
 
 if(printBtn){
 
-
 printBtn.onclick =
 ()=>{
+
+const viewer =
+document.querySelector(
+"#dc-epaper-page"
+);
+
+
+if(!viewer){
+
+alert(
+"ই-পেপার পাওয়া যায়নি।"
+);
+
+return;
+
+}
+
 
 
 const win =
 window.open(
-issue.pdf,
+"",
 "_blank"
 );
 
 
 
-if(win){
+win.document.write(
+`
+<html>
+<head>
+<title>
+দৈনিক চালচিত্র ই-পেপার
+</title>
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+}
+
+img{
+max-width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${viewer.outerHTML}
+
+</body>
+
+</html>
+`
+);
+
+
+
+win.document.close();
+
 
 
 win.onload =
@@ -305,9 +344,6 @@ win.onload =
 win.print();
 
 };
-
-
-}
 
 
 };
