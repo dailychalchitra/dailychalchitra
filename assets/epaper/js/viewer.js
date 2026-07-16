@@ -58,6 +58,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         pdf.src = issue.pdf;
 
+if (window.DCViewer) {
+    DCViewer.init(issue);
+}
         if (downloadBtn) {
 
             downloadBtn.onclick = () => {
