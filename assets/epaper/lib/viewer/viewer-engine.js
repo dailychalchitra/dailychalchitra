@@ -59,10 +59,10 @@ window.DCViewer = {
         this.loading = false;
 
         this.viewer =
-        document.getElementById("dc-pdf-viewer");
+document.getElementById("dc-epaper-page");
 
-        this.container =
-        document.getElementById("dc-pdf-viewer");
+this.container =
+document.getElementById("dc-post-columns");
 
         this.detectColumns();
 
@@ -127,5 +127,97 @@ reset(){
     this.currentPage=1;
 
     this.totalPages=0;
+
+},
+
+/*
+======================================
+Load Posts From Jekyll posts.json
+======================================
+*/
+
+async loadPosts(){
+
+    this.loading = true;
+
+    try{
+
+        const res =
+        await fetch("/posts.json");
+
+
+        if(!res.ok){
+
+            throw new Error(
+                "posts.json not found"
+            );
+
+        }
+
+
+        const allPosts =
+        await res.json();
+
+
+
+        this.posts =
+        allPosts.filter(post=>{
+
+
+            if(!post.date){
+
+                return false;
+
+            }
+
+
+            return true;
+
+
+        });
+
+
+
+        console.log(
+            "Total Posts:",
+            this.posts.length
+        );
+
+
+
+        this.buildPages();
+
+
+    }
+
+
+    catch(error){
+
+
+        console.error(
+            "Post Loading Error:",
+            error
+        );
+
+
+        const box =
+        document.getElementById(
+            "dc-post-columns"
+        );
+
+
+        if(box){
+
+            box.innerHTML =
+            "পোস্ট লোড করা সম্ভব হচ্ছে না।";
+
+        }
+
+
+    }
+
+
+    this.loading=false;
+
 
 },
