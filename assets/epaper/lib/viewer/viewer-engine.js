@@ -99,6 +99,7 @@ detectColumns(){
     }
 
 },
+
 /*
 ======================================
 Window Resize
@@ -112,6 +113,7 @@ resize(){
     this.render();
 
 },
+
 /*
 ======================================
 Reset Viewer
@@ -403,6 +405,7 @@ render(){
 
 
 },
+
 /*
 ======================================
 Update Page Information
@@ -433,7 +436,9 @@ updatePageInfo(){
     `;
 
 
-},/*
+},
+
+/*
 ======================================
 Start ePaper Engine
 ======================================
@@ -448,3 +453,46 @@ async start(){
     this.render();
 
 },
+
+    /*
+======================================
+Viewer Info
+======================================
+*/
+
+renderInfo(){
+
+    console.log({
+
+        page:
+        this.currentPage,
+
+        total:
+        this.totalPages,
+
+        zoom:
+        this.zoom
+
+    });
+
+}
+
+};
+
+/*
+======================================
+Auto Start
+======================================
+*/
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+    if(window.DCViewer){
+
+        DCViewer.start();
+
+    }
+
+});
