@@ -144,3 +144,109 @@ Daily Chalchitra ePaper Canvas
     }
 
 }
+
+/*
+==================================
+Daily Chalchitra ePaper Fullscreen
+Version : 1.0
+==================================
+*/
+
+
+.dc-viewer:fullscreen{
+
+    width:100%;
+
+    height:100%;
+
+    background:#ffffff;
+
+    padding:20px;
+
+    overflow:auto;
+
+}
+
+
+
+.dc-viewer:fullscreen .dc-pdf-box{
+
+    height:100vh;
+
+}
+
+
+
+.dc-viewer:fullscreen #dc-pdf-viewer{
+
+    height:100%;
+
+}
+
+
+
+
+
+/*
+==================================
+Mobile Reading Mode
+==================================
+*/
+
+
+@media(max-width:600px){
+
+
+.dc-viewer{
+
+    padding:10px;
+
+}
+
+
+
+#dc-title{
+
+    font-size:22px;
+
+}
+
+
+
+.dc-viewer-toolbar,
+.dc-controls{
+
+    gap:6px;
+
+}
+
+
+
+.dc-viewer-toolbar button,
+.dc-controls button{
+
+    padding:7px 10px;
+
+    font-size:14px;
+
+}
+
+
+
+.dc-pdf-box{
+
+    overflow:auto;
+
+}
+
+
+
+#dc-pdf-canvas{
+
+    max-width:none;
+
+}
+
+
+
+}
