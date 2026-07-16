@@ -209,25 +209,67 @@ Download
 ===========================
 */
 
-
 if(downloadBtn){
 
+downloadBtn.onclick = async ()=>{
 
-downloadBtn.onclick =
-()=>{
+const { jsPDF } = window.jspdf;
 
+const pdf = new jsPDF("p","mm","a4");
 
-window.open(
-issue.pdf,
-"_blank"
-);
+const pages =
+document.querySelectorAll(".dc-page");
 
+if(!pages.length){
 
-};
+alert("ই-পেপার এখনও লোড হয়নি।");
 
+return;
 
 }
 
+for(let i=0;i<pages.length;i++){
+
+const canvas =
+await html2canvas(
+pages[i],
+{
+scale:2,
+useCORS:true,
+backgroundColor:"#ffffff"
+}
+);
+
+const img =
+canvas.toDataURL("image/jpeg",1.0);
+
+const width = 210;
+
+const height =
+canvas.height * width / canvas.width;
+
+if(i>0){
+
+pdf.addPage();
+
+}
+
+pdf.addImage(
+img,
+"JPEG",
+0,
+0,
+width,
+height
+);
+
+}
+
+pdf.save(issue.id + ".pdf");
+
+};
+
+}
 
 
 
