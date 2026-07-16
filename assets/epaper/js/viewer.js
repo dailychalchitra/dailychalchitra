@@ -377,40 +377,42 @@ Fullscreen
 ===========================
 */
 
-
 if(fullscreenBtn){
 
-
-fullscreenBtn.onclick =
-()=>{
-
+fullscreenBtn.onclick = async ()=>{
 
 const viewer =
-document.querySelector(
-".dc-viewer"
-);
+document.querySelector("#dc-epaper-page");
 
+if(!viewer){
 
+alert("ই-পেপার পাওয়া যায়নি।");
+
+return;
+
+}
+
+try{
 
 if(!document.fullscreenElement){
 
+await viewer.requestFullscreen();
 
-viewer.requestFullscreen();
+}else{
 
-
-}
-
-else{
-
-
-document.exitFullscreen();
-
+await document.exitFullscreen();
 
 }
 
+}catch(error){
+
+console.error(error);
+
+alert("ফুলস্ক্রিন চালু করা যায়নি।");
+
+}
 
 };
-
 
 }
 
