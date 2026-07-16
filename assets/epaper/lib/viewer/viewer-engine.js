@@ -97,7 +97,8 @@ window.DCViewer = {
 
         }
 
-
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"/assets/epaper/lib/pdfjs/pdf.worker.min.js";
 
         this.canvas =
         document.getElementById(
