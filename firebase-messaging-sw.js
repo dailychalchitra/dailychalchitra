@@ -17,7 +17,30 @@ messaging.onBackgroundMessage(function(payload) {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: '/assets/img/sun-logo.png'
+    icon: '/assets/img/sun-logo.png',
+    data: {
+      url: '/admin-log/'
+    }
   };
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(clientList) {
+      var url = event.notification.data && event.notification.data.url ? event.notification.data.url : '/';
+      var fullUrl = self.location.origin + url;
+
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url === fullUrl && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(fullUrl);
+      }
+    })
+  );
 });
