@@ -6,80 +6,105 @@ permalink: /epaper/viewer/
 
 <link rel="stylesheet" href="/assets/epaper/css/epaper.css">
 
+
 <div class="dc-viewer">
+
 
     <h1 id="dc-title">
         ই-পেপার
     </h1>
 
+
     <div id="dc-meta"></div>
+
+
 
     <div class="dc-viewer-toolbar">
 
-    <button id="dc-download">
-        📥 ডাউনলোড
-    </button>
 
-    <button id="dc-print">
-        🖨️ প্রিন্ট
-    </button>
-
-<button id="dc-fullscreen">
-    ⛶ ফুলস্ক্রিন
-</button>
-
-</div>
-
-<div class="dc-controls">
-
-    <button id="dc-prev">
-        ⬅️ পূর্বের পৃষ্ঠা
-    </button>
+        <button id="dc-download">
+            📥 ডাউনলোড
+        </button>
 
 
-    <span id="dc-page-info">
-        পৃষ্ঠা 1
-    </span>
+        <button id="dc-print">
+            🖨️ প্রিন্ট
+        </button>
 
 
-    <button id="dc-next">
-        পরের পৃষ্ঠা ➡️
-    </button>
+        <button id="dc-fullscreen">
+            ⛶ ফুলস্ক্রিন
+        </button>
 
-
-    <button id="dc-zoom-in">
-        🔍+
-    </button>
-
-
-    <button id="dc-zoom-out">
-        🔍-
-    </button>
-
-</div>
-
-<div class="dc-pdf-box">
-
-    <div id="dc-pdf-viewer">
-
-        <canvas id="dc-pdf-canvas"></canvas>
 
     </div>
 
 
-    <iframe
-        id="dc-pdf"
-        src=""
-        width="100%"
-        height="900"
-        loading="lazy">
-    </iframe>
+
+
+    <div class="dc-controls">
+
+
+        <button id="dc-prev">
+            ⬅️ পূর্বের পৃষ্ঠা
+        </button>
+
+
+
+        <span id="dc-page-info">
+            পৃষ্ঠা 1 / 0
+        </span>
+
+
+
+        <button id="dc-next">
+            পরের পৃষ্ঠা ➡️
+        </button>
+
+
+
+        <button id="dc-zoom-in">
+            🔍+
+        </button>
+
+
+
+        <button id="dc-zoom-out">
+            🔍-
+        </button>
+
+
+    </div>
+
+
+
+
+
+    <div class="dc-pdf-box">
+
+
+        <div id="dc-pdf-viewer">
+
+
+            <canvas id="dc-pdf-canvas">
+            </canvas>
+
+
+        </div>
+
+
+    </div>
+
+
 
 </div>
 
-</div>
+
+
+
 
 <style>
+
 
 .dc-controls{
 
@@ -91,6 +116,7 @@ permalink: /epaper/viewer/
     margin:20px auto;
 
 }
+
 
 
 .dc-controls button{
@@ -105,13 +131,50 @@ permalink: /epaper/viewer/
 }
 
 
+
 #dc-page-info{
 
     font-weight:bold;
 
 }
 
+
+
+
+
+.dc-pdf-box{
+
+    width:100%;
+    overflow:hidden;
+    text-align:center;
+
+}
+
+
+
+#dc-pdf-viewer{
+
+    width:100%;
+    overflow:auto;
+
+}
+
+
+
+#dc-pdf-canvas{
+
+    max-width:100%;
+    height:auto;
+
+}
+
+
+
 </style>
+
+
+
+
 
 <script src="/assets/epaper/lib/pdfjs/pdf.min.js"></script>
 
