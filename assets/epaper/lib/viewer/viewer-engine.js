@@ -289,3 +289,162 @@ buildPages(){
 
 
 },
+
+/*
+======================================
+Render ePaper Page
+======================================
+*/
+
+render(){
+
+    const box =
+    document.getElementById(
+        "dc-post-columns"
+    );
+
+
+    if(!box){
+
+        console.error(
+            "ePaper container missing"
+        );
+
+        return;
+
+    }
+
+
+
+    box.innerHTML = "";
+
+
+
+    if(!this.pages.length){
+
+        box.innerHTML =
+        "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";
+
+        return;
+
+    }
+
+
+
+    const current =
+    this.pages[
+        this.currentPage - 1
+    ];
+
+
+
+    if(!current){
+
+        return;
+
+    }
+
+
+
+    current.forEach(post=>{
+
+
+        const card =
+        document.createElement(
+            "article"
+        );
+
+
+        card.className =
+        "dc-post-card";
+
+
+
+        card.innerHTML = `
+
+            ${
+            post.image
+            ?
+            `<img src="${post.image}" alt="${post.title}">`
+            :
+            ""
+            }
+
+
+            <h2>
+            ${post.title}
+            </h2>
+
+
+            <p>
+            ${post.excerpt || ""}
+            </p>
+
+
+            <small>
+            বিভাগ: ${post.category || "সাধারণ"}
+            |
+            লেখক: ${post.author || ""}
+            </small>
+
+
+        `;
+
+
+
+        box.appendChild(card);
+
+
+    });
+
+
+
+    this.updatePageInfo();
+
+
+},
+/*
+======================================
+Update Page Information
+======================================
+*/
+
+updatePageInfo(){
+
+    const info =
+    document.getElementById(
+        "dc-page-info"
+    );
+
+
+    if(!info){
+
+        return;
+
+    }
+
+
+
+    info.innerHTML =
+    `
+    পৃষ্ঠা ${this.currentPage}
+    /
+    ${this.totalPages}
+    `;
+
+
+},/*
+======================================
+Start ePaper Engine
+======================================
+*/
+
+async start(){
+
+    this.reset();
+
+    await this.loadPosts();
+
+    this.render();
+
+},
