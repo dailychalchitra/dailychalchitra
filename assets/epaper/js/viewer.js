@@ -201,59 +201,75 @@ if(downloadBtn){
 
 downloadBtn.onclick = async ()=>{
 
-const { jsPDF } = window.jspdf;
+const viewer =
+document.querySelector("#dc-epaper-page");
 
-const pdf = new jsPDF("p","mm","a4");
+if(!viewer){
 
-const pages =
-document.querySelectorAll(".dc-page");
-
-if(!pages.length){
-
-alert("ই-পেপার এখনও লোড হয়নি।");
+alert("ই-পেপার পাওয়া যায়নি।");
 
 return;
 
 }
 
-for(let i=0;i<pages.length;i++){
+downloadBtn.disabled = true;
+
+downloadBtn.innerHTML = "⏳ তৈরি হচ্ছে...";
+
+try{
 
 const canvas =
-await html2canvas(
-pages[i],
-{
-scale:2,
-useCORS:true,
-backgroundColor:"#ffffff"
-}
-);
+await html2canvas(viewer,{
 
-const img =
+scale:2,
+
+useCORS:true,
+
+backgroundColor:"#ffffff",
+
+scrollY:-window.scrollY
+
+});
+
+const imgData =
 canvas.toDataURL("image/jpeg",1.0);
 
-const width = 210;
+const { jsPDF } =
+window.jspdf;
 
-const height =
-canvas.height * width / canvas.width;
+const pdf =
+new jsPDF("p","mm","a4");
 
-if(i>0){
+const pageWidth =
+210;
 
-pdf.addPage();
-
-}
+const pageHeight =
+canvas.height * pageWidth / canvas.width;
 
 pdf.addImage(
-img,
+imgData,
 "JPEG",
 0,
 0,
-width,
-height
+pageWidth,
+pageHeight
 );
+
+pdf.save("dailychalchitra-epaper.pdf");
 
 }
 
-pdf.save(issue.id + ".pdf");
+catch(error){
+
+console.error(error);
+
+alert("PDF তৈরি করা যায়নি।");
+
+}
+
+downloadBtn.disabled = false;
+
+downloadBtn.innerHTML = "📥 ডাউনলোড";
 
 };
 
