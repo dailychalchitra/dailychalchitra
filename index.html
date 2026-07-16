@@ -6,8 +6,14 @@ title: প্রচ্ছদ
 <!-- হোমপেজ কন্টেন্ট শুরু -->
 <div class="container main-content">
     
-    <!-- সেকশন টাইটেল -->
-    <h2 class="section-title">সর্বশেষ সংবাদ</h2>
+    <!-- সেকশন টাইটেল + ই-পেপার বাটন -->
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <h2 class="section-title" style="margin-bottom:0;">সর্বশেষ সংবাদ</h2>
+        <a href="{{ '/epaper/' | relative_url }}" style="background:#C00000;color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:6px;">
+            <i class="fa fa-newspaper" style="font-size:13px;"></i>
+            ই-পেপার
+        </a>
+    </div>
 
     <!-- 1. লিড নিউজ সেকশন -->
     <section class="lead-news-section">
