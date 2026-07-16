@@ -1,17 +1,23 @@
 /*
 ======================================================
 Daily Chalchitra ePaper Viewer Engine
-Version : 1.2
+Version : 1.3
 ======================================================
 */
 
 window.DCViewer = {
 
-    version: "1.2",
+    version: "1.3",
 
     issue: null,
 
     pdf: null,
+
+    pdfDocument: null,
+
+    canvas: null,
+
+    context: null,
 
     currentPage: 1,
 
@@ -20,10 +26,6 @@ window.DCViewer = {
     zoom: 1,
 
     pages: [],
-
-canvas: null,
-
-context: null,
 
     initialized: false,
 
@@ -61,24 +63,17 @@ context: null,
             this.pdf
         );
 
-
-        console.log(
-            "Total Pages:",
-            this.totalPages
-        );
-
-
     },
 
 
     /*
     ===============================
-    PDF Loader Layer
+    PDF Loader Engine
     ===============================
     */
 
+    loadPDF: async function(){
 
-    loadPDF: function(){
 
         if(!this.issue){
 
@@ -91,43 +86,162 @@ context: null,
         }
 
 
-        console.log(
-            "Loading PDF:"
+
+        if(!window.pdfjsLib){
+
+            console.error(
+                "PDF.js Library not loaded"
+            );
+
+            return;
+
+        }
+
+
+
+        this.canvas =
+        document.getElementById(
+            "dc-pdf-canvas"
         );
 
 
-        console.log(
-            this.pdf
+
+        if(this.canvas){
+
+            this.context =
+            this.canvas.getContext(
+                "2d"
+            );
+
+
+            console.log(
+                "PDF Canvas Ready"
+            );
+
+        }
+
+
+
+        try{
+
+
+            const loadingTask =
+            pdfjsLib.getDocument(
+                this.pdf
+            );
+
+
+
+            this.pdfDocument =
+            await loadingTask.promise;
+
+
+
+            this.totalPages =
+            this.pdfDocument.numPages;
+
+
+
+            console.log(
+                "PDF Loaded Successfully"
+            );
+
+
+            console.log(
+                "Total Pages:",
+                this.totalPages
+            );
+
+
+            this.renderPage(
+                this.currentPage
+            );
+
+
+        }
+
+
+        catch(error){
+
+
+            console.error(
+                "PDF Load Error:",
+                error
+            );
+
+
+        }
+
+
+    },
+
+
+
+    /*
+    ===============================
+    Page Render
+    ===============================
+    */
+
+    renderPage: async function(pageNumber){
+
+
+        if(!this.pdfDocument){
+
+            return;
+
+        }
+
+
+
+        const page =
+        await this.pdfDocument.getPage(
+            pageNumber
         );
 
 
-        /*
-=========================================
-PDF Render Container
-=========================================
-*/
+
+        const viewport =
+        page.getViewport({
+
+            scale: this.zoom
+
+        });
 
 
-this.canvas = document.getElementById(
-    "dc-pdf-canvas"
-);
+
+        this.canvas.width =
+        viewport.width;
 
 
-this.context = null;
+        this.canvas.height =
+        viewport.height;
 
 
-if(this.canvas){
 
-    this.context = this.canvas.getContext(
-        "2d"
-    );
+        const renderContext = {
+
+            canvasContext:
+            this.context,
+
+            viewport:
+            viewport
+
+        };
 
 
-    console.log(
-        "PDF Canvas Ready"
-    );
 
-}
+        await page.render(
+            renderContext
+        ).promise;
+
+
+
+        console.log(
+            "Page Rendered:",
+            pageNumber
+        );
+
 
     },
 
@@ -139,17 +253,22 @@ if(this.canvas){
     ===============================
     */
 
-
     nextPage: function(){
+
 
         if(this.currentPage < this.totalPages){
 
             this.currentPage++;
 
+            this.renderPage(
+                this.currentPage
+            );
+
         }
 
 
         this.renderInfo();
+
 
     },
 
@@ -161,17 +280,22 @@ if(this.canvas){
     ===============================
     */
 
-
     previousPage: function(){
+
 
         if(this.currentPage > 1){
 
             this.currentPage--;
 
+            this.renderPage(
+                this.currentPage
+            );
+
         }
 
 
         this.renderInfo();
+
 
     },
 
@@ -183,12 +307,26 @@ if(this.canvas){
     ===============================
     */
 
-
     setZoom: function(value){
+
 
         this.zoom = value;
 
+
+        if(this.zoom < 0.5){
+
+            this.zoom = 0.5;
+
+        }
+
+
+        this.renderPage(
+            this.currentPage
+        );
+
+
         this.renderInfo();
+
 
     },
 
@@ -200,18 +338,22 @@ if(this.canvas){
     ===============================
     */
 
-
     renderInfo: function(){
+
 
         console.log({
 
-            page: this.currentPage,
+            page:
+            this.currentPage,
 
-            total: this.totalPages,
+            total:
+            this.totalPages,
 
-            zoom: this.zoom
+            zoom:
+            this.zoom
 
         });
+
 
     }
 
