@@ -420,3 +420,126 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 });
+
+/*
+==================================
+Daily Chalchitra ePaper Swipe
+Version : 1.0
+==================================
+*/
+
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+
+
+document.addEventListener(
+"touchstart",
+(event)=>{
+
+
+    touchStartX =
+    event.changedTouches[0].screenX;
+
+
+},
+false);
+
+
+
+document.addEventListener(
+"touchend",
+(event)=>{
+
+
+    touchEndX =
+    event.changedTouches[0].screenX;
+
+
+
+    handleSwipe();
+
+
+},
+false);
+
+
+
+
+
+function handleSwipe(){
+
+
+    const distance =
+    touchEndX - touchStartX;
+
+
+
+    if(Math.abs(distance) < 50){
+
+        return;
+
+    }
+
+
+
+
+    if(!window.DCViewer){
+
+        return;
+
+    }
+
+
+
+
+
+    if(distance < 0){
+
+
+        // Swipe Left
+
+        DCViewer.nextPage();
+
+
+    }
+
+
+
+    else{
+
+
+        // Swipe Right
+
+        DCViewer.previousPage();
+
+
+    }
+
+
+
+    const pageInfo =
+    document.getElementById(
+        "dc-page-info"
+    );
+
+
+
+    if(pageInfo){
+
+
+        pageInfo.innerHTML =
+        `
+        পৃষ্ঠা ${DCViewer.currentPage}
+        /
+        ${DCViewer.totalPages}
+        `;
+
+
+    }
+
+
+
+}
