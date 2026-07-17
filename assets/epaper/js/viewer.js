@@ -426,6 +426,7 @@ Page Control
 ===========================
 */
 
+console.log("Page Control Loaded");
 
 if(prevBtn){
 
@@ -528,7 +529,7 @@ zoom
 
 }
 
-
+console.log("Zoom Control Loaded");
 
 
 /*
