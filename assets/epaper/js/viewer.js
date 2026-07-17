@@ -1,14 +1,17 @@
 /*
 ==================================
 Daily Chalchitra ePaper Viewer
-Version : 1.3
+Version : 1.4
+HTML Newspaper Edition
 ==================================
 */
+
+console.log("Viewer JS Loaded");
 
 
 document.addEventListener(
 "DOMContentLoaded",
-async () => {
+async ()=>{
 
 
 const title =
@@ -17,10 +20,6 @@ document.getElementById("dc-title");
 
 const meta =
 document.getElementById("dc-meta");
-
-
-const pdfFrame =
-document.getElementById("dc-pdf");
 
 
 const downloadBtn =
@@ -69,7 +68,6 @@ params.get("issue");
 
 function updatePageInfo(){
 
-
 if(!window.DCViewer || !pageInfo){
 
 return;
@@ -90,13 +88,10 @@ ${DCViewer.totalPages}
 
 if(!issueId){
 
-
 title.textContent =
 "ই-পেপার পাওয়া যায়নি";
 
-
 return;
-
 
 }
 
@@ -120,7 +115,7 @@ await fetch(
 if(!res.ok){
 
 throw new Error(
-"Issue file not found"
+"Issue file missing"
 );
 
 }
@@ -134,21 +129,17 @@ await res.json();
 
 const issue =
 issues.find(
-item =>
-item.id === issueId
+item=>item.id===issueId
 );
 
 
 
 if(!issue){
 
-
 title.textContent =
 "ই-পেপার পাওয়া যায়নি";
 
-
 return;
-
 
 }
 
@@ -172,19 +163,18 @@ ${issue.pages}
 
 
 
-
 /*
 ===========================
-HTML ePaper Load
+HTML ePaper Start
 ===========================
 */
 
 
 if(window.DCViewer){
 
-    DCViewer.init(issue);
+DCViewer.init(issue);
 
-    DCViewer.start();
+DCViewer.start();
 
 }
 
@@ -197,65 +187,101 @@ Download
 ===========================
 */
 
+
 if(downloadBtn){
 
-downloadBtn.onclick = async ()=>{
+
+downloadBtn.onclick =
+async ()=>{
+
 
 const viewer =
-document.querySelector("#dc-epaper-page");
+document.querySelector(
+"#dc-epaper-page"
+);
+
+
 
 if(!viewer){
 
-alert("ই-পেপার পাওয়া যায়নি।");
+alert(
+"ই-পেপার পাওয়া যায়নি।"
+);
 
 return;
 
 }
 
-downloadBtn.disabled = true;
 
-downloadBtn.innerHTML = "⏳ তৈরি হচ্ছে...";
 
 try{
 
+
 const canvas =
-await html2canvas(viewer,{
+await html2canvas(
+viewer,
+{
 
 scale:2,
 
 useCORS:true,
 
-backgroundColor:"#ffffff",
+backgroundColor:"#ffffff"
 
-scrollY:-window.scrollY
+}
+);
 
-});
 
-const imgData =
-canvas.toDataURL("image/jpeg",1.0);
 
-const { jsPDF } =
+const img =
+canvas.toDataURL(
+"image/jpeg",
+1.0
+);
+
+
+
+const {jsPDF} =
 window.jspdf;
 
-const pdf =
-new jsPDF("p","mm","a4");
 
-const pageWidth =
+
+const pdf =
+new jsPDF(
+"p",
+"mm",
+"a4"
+);
+
+
+
+const width =
 210;
 
-const pageHeight =
-canvas.height * pageWidth / canvas.width;
+
+const height =
+canvas.height *
+width /
+canvas.width;
+
+
 
 pdf.addImage(
-imgData,
+img,
 "JPEG",
 0,
 0,
-pageWidth,
-pageHeight
+width,
+height
 );
 
-pdf.save("dailychalchitra-epaper.pdf");
+
+
+pdf.save(
+"dailychalchitra-epaper.pdf"
+);
+
+
 
 }
 
@@ -263,20 +289,11 @@ catch(error){
 
 console.error(error);
 
-alert("PDF তৈরি করা যায়নি।");
+alert(
+"PDF তৈরি করা যায়নি।"
+);
 
 }
-
-downloadBtn.disabled = false;
-
-downloadBtn.innerHTML = "📥 ডাউনলোড";
-
-};
-
-}
-
-
-
 
 /*
 ===========================
@@ -284,16 +301,18 @@ Print
 ===========================
 */
 
-
 if(printBtn){
+
 
 printBtn.onclick =
 ()=>{
+
 
 const viewer =
 document.querySelector(
 "#dc-epaper-page"
 );
+
 
 
 if(!viewer){
@@ -319,30 +338,41 @@ window.open(
 win.document.write(
 `
 <html>
+
 <head>
+
 <title>
 দৈনিক চালচিত্র ই-পেপার
 </title>
 
+
 <style>
 
 body{
-font-family:Arial, sans-serif;
+
+font-family:Arial,sans-serif;
+
 }
 
+
 img{
+
 max-width:100%;
+
 }
 
 </style>
 
+
 </head>
+
 
 <body>
 
 ${viewer.outerHTML}
 
 </body>
+
 
 </html>
 `
@@ -370,49 +400,77 @@ win.print();
 
 
 
-
 /*
 ===========================
 Fullscreen
 ===========================
 */
 
+
 if(fullscreenBtn){
 
-fullscreenBtn.onclick = async ()=>{
+
+fullscreenBtn.onclick =
+async ()=>{
+
 
 const viewer =
-document.querySelector("#dc-epaper-page");
+document.querySelector(
+"#dc-epaper-page"
+);
+
+
 
 if(!viewer){
 
-alert("ই-পেপার পাওয়া যায়নি।");
+alert(
+"ই-পেপার পাওয়া যায়নি।"
+);
 
 return;
 
 }
 
+
+
 try{
+
 
 if(!document.fullscreenElement){
 
+
 await viewer.requestFullscreen();
 
-}else{
+
+}
+
+else{
+
 
 await document.exitFullscreen();
 
+
 }
 
-}catch(error){
+
+}
+
+catch(error){
+
 
 console.error(error);
 
-alert("ফুলস্ক্রিন চালু করা যায়নি।");
+
+alert(
+"ফুলস্ক্রিন চালু করা যায়নি।"
+);
+
 
 }
 
+
 };
+
 
 }
 
@@ -426,44 +484,57 @@ Page Control
 ===========================
 */
 
+
 if(prevBtn){
 
-    prevBtn.onclick = ()=>{
 
-        console.log("Previous clicked");
+prevBtn.onclick =
+()=>{
 
-        if(window.DCViewer){
 
-            DCViewer.previousPage();
+if(window.DCViewer){
 
-            updatePageInfo();
 
-        }
+DCViewer.previousPage();
 
-    };
+
+updatePageInfo();
+
 
 }
+
+
+};
+
+
+}
+
 
 
 
 if(nextBtn){
 
-    nextBtn.onclick = ()=>{
 
-        console.log("Next clicked");
+nextBtn.onclick =
+()=>{
 
-        if(window.DCViewer){
 
-            DCViewer.nextPage();
+if(window.DCViewer){
 
-            updatePageInfo();
 
-        }
+DCViewer.nextPage();
 
-    };
+
+updatePageInfo();
+
 
 }
 
+
+};
+
+
+}
 
 
 
@@ -482,9 +553,15 @@ zoomInBtn.onclick =
 ()=>{
 
 
+if(window.DCViewer){
+
+
 DCViewer.setZoom(
 DCViewer.zoom + 0.1
 );
+
+
+}
 
 
 };
@@ -503,6 +580,9 @@ zoomOutBtn.onclick =
 ()=>{
 
 
+if(window.DCViewer){
+
+
 let zoom =
 DCViewer.zoom - 0.1;
 
@@ -510,7 +590,9 @@ DCViewer.zoom - 0.1;
 
 if(zoom < 0.5){
 
+
 zoom = 0.5;
+
 
 }
 
@@ -521,18 +603,21 @@ zoom
 );
 
 
+}
+
+
 };
 
 
 }
 
-console.log("Zoom Control Loaded");
+
+
 
 
 /*
 ==================================
-Daily Chalchitra ePaper Swipe
-Version : 1.0
+Swipe Control
 ==================================
 */
 
@@ -554,7 +639,6 @@ event.changedTouches[0].screenX;
 
 },
 false);
-
 
 
 
@@ -619,26 +703,22 @@ DCViewer.previousPage();
 
 
 
-const pageInfo =
-document.getElementById(
-"dc-page-info"
+updatePageInfo();
+
+
+}
+
+
+
+console.log(
+"Daily Chalchitra Viewer Ready"
 );
 
 
 
-if(pageInfo){
-
-
-pageInfo.innerHTML =
-`
-পৃষ্ঠা ${DCViewer.currentPage}
-/
-${DCViewer.totalPages}
-`;
-
-}
+});
+};
 
 
 }
-
 
