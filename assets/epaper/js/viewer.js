@@ -5,7 +5,6 @@ Version : 1.3
 ==================================
 */
 
-console.log("Viewer JS Loaded");
 
 document.addEventListener(
 "DOMContentLoaded",
@@ -433,19 +432,31 @@ if(prevBtn){
 
         console.log("Previous clicked");
 
-        console.log(
-            "DCViewer:",
-            window.DCViewer
-        );
+        if(window.DCViewer){
+
+            DCViewer.previousPage();
+
+            updatePageInfo();
+
+        }
+
+    };
+
+}
+
+
+
+if(nextBtn){
+
+    nextBtn.onclick = ()=>{
+
+        console.log("Next clicked");
 
         if(window.DCViewer){
 
-            console.log(
-                "Current Page:",
-                DCViewer.currentPage
-            );
+            DCViewer.nextPage();
 
-            DCViewer.previousPage();
+            updatePageInfo();
 
         }
 
