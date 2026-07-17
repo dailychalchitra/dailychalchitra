@@ -438,6 +438,103 @@ updatePageInfo(){
 
 },
 
+
+/*
+======================================
+Next Page
+======================================
+*/
+
+nextPage(){
+
+    if(this.currentPage < this.totalPages){
+
+        this.currentPage++;
+
+        this.render();
+
+    }
+
+
+    this.updatePageInfo();
+
+
+},
+
+
+
+/*
+======================================
+Previous Page
+======================================
+*/
+
+previousPage(){
+
+    if(this.currentPage > 1){
+
+        this.currentPage--;
+
+        this.render();
+
+    }
+
+
+    this.updatePageInfo();
+
+
+},
+
+
+
+/*
+======================================
+Zoom Control
+======================================
+*/
+
+setZoom(value){
+
+    this.zoom = value;
+
+
+    if(this.zoom < 0.5){
+
+        this.zoom = 0.5;
+
+    }
+
+
+    if(this.zoom > 2){
+
+        this.zoom = 2;
+
+    }
+
+
+
+    const page =
+    document.getElementById(
+        "dc-epaper-page"
+    );
+
+
+    if(page){
+
+        page.style.transform =
+        `scale(${this.zoom})`;
+
+
+        page.style.transformOrigin =
+        "top center";
+
+    }
+
+
+},
+
+
+
 /*
 ======================================
 Start ePaper Engine
@@ -454,7 +551,9 @@ async start(){
 
 },
 
-    /*
+
+
+/*
 ======================================
 Viewer Info
 ======================================
@@ -478,6 +577,7 @@ renderInfo(){
 }
 
 };
+
 
 /*
 ======================================
