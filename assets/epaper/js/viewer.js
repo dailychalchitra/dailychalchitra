@@ -172,11 +172,12 @@ HTML ePaper Start
 
 if(window.DCViewer){
 
-    DCViewer.init(issue);
+DCViewer.init(issue);
 
-    DCViewer.start();
+DCViewer.start();
 
 }
+
 
 
 
