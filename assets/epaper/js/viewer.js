@@ -171,8 +171,11 @@ HTML ePaper Start
 
 
 if(window.DCViewer){
-    DCViewer.init(issue);
-    DCViewer.start();
+
+DCViewer.init(issue);
+
+DCViewer.start();
+
 }
 
 
@@ -292,15 +295,30 @@ alert(
 
 }
 
+
+};
+
+
+}
+
+/*
+===========================
+Print
+===========================
+*/
+
 if(printBtn){
+
 
 printBtn.onclick =
 ()=>{
+
 
 const viewer =
 document.querySelector(
 "#dc-epaper-page"
 );
+
 
 
 if(!viewer){
@@ -326,30 +344,41 @@ window.open(
 win.document.write(
 `
 <html>
+
 <head>
+
 <title>
 দৈনিক চালচিত্র ই-পেপার
 </title>
 
+
 <style>
 
 body{
-font-family:Arial, sans-serif;
+
+font-family:Arial,sans-serif;
+
 }
 
+
 img{
+
 max-width:100%;
+
 }
 
 </style>
 
+
 </head>
+
 
 <body>
 
 ${viewer.outerHTML}
 
 </body>
+
 
 </html>
 `
@@ -694,8 +723,3 @@ console.log(
 
 
 });
-};
-
-
-}
-
