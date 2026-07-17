@@ -426,47 +426,35 @@ Page Control
 ===========================
 */
 
-
 if(prevBtn){
 
+    prevBtn.onclick = ()=>{
 
-prevBtn.onclick =
-()=>{
+        if(window.DCViewer){
 
+            DCViewer.previousPage();
 
-DCViewer.previousPage();
+        }
 
-
-updatePageInfo();
-
-
-};
-
+    };
 
 }
-
 
 
 
 if(nextBtn){
 
+    nextBtn.onclick = ()=>{
 
-nextBtn.onclick =
-()=>{
+        if(window.DCViewer){
 
+            DCViewer.nextPage();
 
-DCViewer.nextPage();
+        }
 
-
-updatePageInfo();
-
-
-};
-
+    };
 
 }
-
-
 
 
 
@@ -476,92 +464,48 @@ Zoom Control
 ===========================
 */
 
-
 if(zoomInBtn){
 
+    zoomInBtn.onclick = ()=>{
 
-zoomInBtn.onclick =
-()=>{
+        if(window.DCViewer){
 
+            DCViewer.setZoom(
+                DCViewer.zoom + 0.1
+            );
 
-DCViewer.setZoom(
-DCViewer.zoom + 0.1
-);
+        }
 
-
-};
-
+    };
 
 }
-
-
 
 
 
 if(zoomOutBtn){
 
+    zoomOutBtn.onclick = ()=>{
 
-zoomOutBtn.onclick =
-()=>{
+        if(window.DCViewer){
 
+            let zoom =
+            DCViewer.zoom - 0.1;
 
-let zoom =
-DCViewer.zoom - 0.1;
+            if(zoom < 0.5){
 
+                zoom = 0.5;
 
+            }
 
-if(zoom < 0.5){
+            DCViewer.setZoom(
+                zoom
+            );
 
-zoom = 0.5;
+        }
 
-}
-
-
-
-DCViewer.setZoom(
-zoom
-);
-
-
-};
-
+    };
 
 }
-
-
-
-
-updatePageInfo();
-
-
-
-}
-
-
-catch(error){
-
-
-console.error(error);
-
-
-
-title.textContent =
-"ই-পেপার লোড করা যায়নি";
-
-
-
-meta.innerHTML =
-`
-<div class="dc-empty">
-দুঃখিত! ই-পেপারটি লোড করা সম্ভব হচ্ছে না।
-</div>
-`;
-
-}
-
-
-
-});
 
 
 
