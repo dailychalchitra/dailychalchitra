@@ -171,12 +171,20 @@ HTML ePaper Start
 
 
 if(window.DCViewer){
+if(window.DCViewer){
+
+    console.log("DCViewer Found");
 
     DCViewer.init(issue);
 
-    DCViewer.start();
+    await DCViewer.start();
 
-    console.log("After DCViewer Start");
+    console.log("DCViewer Started");
+
+}
+else{
+
+    console.log("DCViewer Missing");
 
 }
 
