@@ -26,12 +26,6 @@ const downloadBtn =
 document.getElementById("dc-download");
 
 console.log("downloadBtn", downloadBtn);
-console.log("printBtn", printBtn);
-console.log("fullscreenBtn", fullscreenBtn);
-console.log("prevBtn", prevBtn);
-console.log("nextBtn", nextBtn);
-console.log("zoomInBtn", zoomInBtn);
-console.log("zoomOutBtn", zoomOutBtn);
 
 const printBtn =
 document.getElementById("dc-print");
