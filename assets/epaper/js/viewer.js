@@ -5,6 +5,7 @@ Version : 1.3
 ==================================
 */
 
+console.log("Viewer JS Loaded");
 
 document.addEventListener(
 "DOMContentLoaded",
