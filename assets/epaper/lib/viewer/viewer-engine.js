@@ -293,112 +293,117 @@ buildPages(){
 },
 
 /*
-======================================
+
 Render ePaper Page
-======================================
+
 */
 
 render(){
 
-    const box =
-    document.getElementById(
-        "dc-post-columns"
-    );
+const box =  
+document.getElementById(  
+    "dc-post-columns"  
+);  
 
 
-    if(!box){
+if(!box){  
 
-        console.error(
-            "ePaper container missing"
-        );
+    console.error(  
+        "ePaper container missing"  
+    );  
 
-        return;
+    return;  
 
-    }
-
-
-
-    box.innerHTML = "";
+}  
 
 
 
-    if(!this.pages.length){
-
-        box.innerHTML =
-        "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";
-
-        return;
-
-    }
+box.innerHTML = "";  
 
 
 
-    const current =
-    this.pages[
-        this.currentPage - 1
-    ];
+if(!this.pages.length){  
+
+    box.innerHTML =  
+    "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";  
+
+    return;  
+
+}  
 
 
 
-    if(!current){
-
-        return;
-
-    }
-
+const current =  
+this.pages[  
+    this.currentPage - 1  
+];  
 
 
-    current.forEach(post=>{
 
-    const card =
-    document.createElement("article");
+if(!current){  
 
-    card.className =
-    "dc-post-card";
+    return;  
 
-    card.style.cursor =
-    "pointer";
+}  
 
-    card.innerHTML = `
 
-        ${
-        post.image
-        ?
-        `<img src="${post.image}" alt="${post.title}">`
-        :
-        ""
-        }
 
-        <h2>
-        ${post.title}
-        </h2>
+current.forEach(post=>{  
 
-        <p>
-        ${post.excerpt || ""}
-        </p>
 
-        <small>
-        বিভাগ: ${post.category || "সাধারণ"}
-        |
-        লেখক: ${post.author || ""}
-        </small>
+    const card =  
+    document.createElement(  
+        "article"  
+    );  
 
-    `;
 
-    card.addEventListener("click", ()=>{
+    card.className =  
+    "dc-post-card";  
 
-        if(post.url){
 
-            window.location.href =
-            post.url;
 
-        }
+    card.innerHTML = `  
 
-    });
+        ${  
+        post.image  
+        ?  
+        `<img src="${post.image}" alt="${post.title}">`  
+        :  
+        ""  
+        }  
 
-    box.appendChild(card);
 
-});
+        <h2>  
+        ${post.title}  
+        </h2>  
+
+
+        <p>  
+        ${post.excerpt || ""}  
+        </p>  
+
+
+        <small>  
+        বিভাগ: ${post.category || "সাধারণ"}  
+        |  
+        লেখক: ${post.author || ""}  
+        </small>  
+
+
+    `;  
+
+
+
+    box.appendChild(card);  
+
+
+});  
+
+
+
+this.updatePageInfo();
+
+},
 
 
 /*
