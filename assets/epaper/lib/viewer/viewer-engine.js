@@ -350,93 +350,55 @@ render(){
 
     current.forEach(post=>{
 
+    const card =
+    document.createElement("article");
 
-        const card =
-        document.createElement(
-            "article"
-        );
+    card.className =
+    "dc-post-card";
 
+    card.style.cursor =
+    "pointer";
 
-        card.className =
-        "dc-post-card";
+    card.innerHTML = `
 
+        ${
+        post.image
+        ?
+        `<img src="${post.image}" alt="${post.title}">`
+        :
+        ""
+        }
 
+        <h2>
+        ${post.title}
+        </h2>
 
-        card.innerHTML = `
+        <p>
+        ${post.excerpt || ""}
+        </p>
 
-            ${
-            post.image
-            ?
-            `<img src="${post.image}" alt="${post.title}">`
-            :
-            ""
-            }
+        <small>
+        বিভাগ: ${post.category || "সাধারণ"}
+        |
+        লেখক: ${post.author || ""}
+        </small>
 
+    `;
 
-            <h2>
-            ${post.title}
-            </h2>
+    card.addEventListener("click", ()=>{
 
+        if(post.url){
 
-            <p>
-            ${post.excerpt || ""}
-            </p>
+            window.location.href =
+            post.url;
 
-
-            <small>
-            বিভাগ: ${post.category || "সাধারণ"}
-            |
-            লেখক: ${post.author || ""}
-            </small>
-
-
-        `;
-
-
-
-        box.appendChild(card);
-
+        }
 
     });
 
+    box.appendChild(card);
 
-
-    this.updatePageInfo();
-
-
-},
-
-/*
-======================================
-Update Page Information
-======================================
-*/
-
-updatePageInfo(){
-
-    const info =
-    document.getElementById(
-        "dc-page-info"
-    );
-
-
-    if(!info){
-
-        return;
-
-    }
-
-
-
-    info.innerHTML =
-    `
-    পৃষ্ঠা ${this.currentPage}
-    /
-    ${this.totalPages}
-    `;
-
-
-},
+});
 
 
 /*
