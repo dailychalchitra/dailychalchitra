@@ -8,77 +8,53 @@ HTML Newspaper Edition
 
 console.log("Viewer JS Loaded");
 
-
 document.addEventListener(
 "DOMContentLoaded",
 async ()=>{
 
-
 const title =
 document.getElementById("dc-title");
-
 
 const meta =
 document.getElementById("dc-meta");
 
-
 const downloadBtn =
 document.getElementById("dc-download");
-
-console.log("downloadBtn", downloadBtn);
 
 const printBtn =
 document.getElementById("dc-print");
 
-
 const fullscreenBtn =
 document.getElementById("dc-fullscreen");
-
 
 const prevBtn =
 document.getElementById("dc-prev");
 
-
 const nextBtn =
 document.getElementById("dc-next");
-
 
 const zoomInBtn =
 document.getElementById("dc-zoom-in");
 
-
 const zoomOutBtn =
 document.getElementById("dc-zoom-out");
 
-
 const pageInfo =
 document.getElementById("dc-page-info");
-
-
-console.log("prevBtn =", prevBtn);
-console.log("nextBtn =", nextBtn);
-console.log("DCViewer =", window.DCViewer);
-
 
 const params =
 new URLSearchParams(
 window.location.search
 );
 
-
 const issueId =
 params.get("issue");
-
-
 
 function updatePageInfo(){
 
 if(!window.DCViewer || !pageInfo){
-
 return;
-
 }
-
 
 pageInfo.innerHTML =
 `
@@ -89,8 +65,6 @@ ${DCViewer.totalPages}
 
 }
 
-
-
 if(!issueId){
 
 title.textContent =
@@ -100,22 +74,15 @@ return;
 
 }
 
-
-
 const year =
 issueId.substring(0,4);
 
-
-
 try{
-
 
 const res =
 await fetch(
 `/assets/epaper/issues/${year}.json`
 );
-
-
 
 if(!res.ok){
 
@@ -125,19 +92,13 @@ throw new Error(
 
 }
 
-
-
 const issues =
 await res.json();
-
-
 
 const issue =
 issues.find(
 item=>item.id===issueId
 );
-
-
 
 if(!issue){
 
@@ -148,12 +109,8 @@ return;
 
 }
 
-
-
 title.textContent =
 issue.title;
-
-
 
 meta.innerHTML =
 `
@@ -166,26 +123,19 @@ ${issue.date}
 ${issue.pages}
 `;
 
-
-
-
 /*
 ===========================
 HTML ePaper Start
 ===========================
 */
 
-
 if(window.DCViewer){
 
-    DCViewer.init(issue);
+DCViewer.init(issue);
 
-    await DCViewer.start();
+await DCViewer.start();
 
 }
-
-
-
 
 /*
 ===========================
@@ -193,20 +143,15 @@ Download
 ===========================
 */
 
-
 if(downloadBtn){
-
 
 downloadBtn.onclick =
 async ()=>{
-
 
 const viewer =
 document.querySelector(
 "#dc-epaper-page"
 );
-
-
 
 if(!viewer){
 
@@ -218,26 +163,17 @@ return;
 
 }
 
-
-
 try{
-
 
 const canvas =
 await html2canvas(
 viewer,
 {
-
 scale:2,
-
 useCORS:true,
-
 backgroundColor:"#ffffff"
-
 }
 );
-
-
 
 const img =
 canvas.toDataURL(
@@ -245,12 +181,8 @@ canvas.toDataURL(
 1.0
 );
 
-
-
-const {jsPDF} =
+const { jsPDF } =
 window.jspdf;
-
-
 
 const pdf =
 new jsPDF(
@@ -259,18 +191,12 @@ new jsPDF(
 "a4"
 );
 
-
-
-const width =
-210;
-
+const width = 210;
 
 const height =
 canvas.height *
 width /
 canvas.width;
-
-
 
 pdf.addImage(
 img,
@@ -281,16 +207,11 @@ width,
 height
 );
 
-
-
 pdf.save(
 "dailychalchitra-epaper.pdf"
 );
 
-
-
 }
-
 catch(error){
 
 console.error(error);
@@ -301,11 +222,11 @@ alert(
 
 }
 
-
 };
 
-
 }
+
+
 
 /*
 ===========================
@@ -315,17 +236,13 @@ Print
 
 if(printBtn){
 
-
 printBtn.onclick =
 ()=>{
-
 
 const viewer =
 document.querySelector(
 "#dc-epaper-page"
 );
-
-
 
 if(!viewer){
 
@@ -337,15 +254,11 @@ return;
 
 }
 
-
-
 const win =
 window.open(
 "",
 "_blank"
 );
-
-
 
 win.document.write(
 `
@@ -357,27 +270,19 @@ win.document.write(
 দৈনিক চালচিত্র ই-পেপার
 </title>
 
-
 <style>
 
 body{
-
 font-family:Arial,sans-serif;
-
 }
 
-
 img{
-
 max-width:100%;
-
 }
 
 </style>
 
-
 </head>
-
 
 <body>
 
@@ -385,16 +290,11 @@ ${viewer.outerHTML}
 
 </body>
 
-
 </html>
 `
 );
 
-
-
 win.document.close();
-
-
 
 win.onload =
 ()=>{
@@ -403,35 +303,24 @@ win.print();
 
 };
 
-
 };
 
-
 }
-
-
-
-
 /*
 ===========================
 Fullscreen
 ===========================
 */
 
-
 if(fullscreenBtn){
-
 
 fullscreenBtn.onclick =
 async ()=>{
-
 
 const viewer =
 document.querySelector(
 "#dc-epaper-page"
 );
-
-
 
 if(!viewer){
 
@@ -443,50 +332,35 @@ return;
 
 }
 
-
-
 try{
-
 
 if(!document.fullscreenElement){
 
-
 await viewer.requestFullscreen();
-
 
 }
 
 else{
 
-
 await document.exitFullscreen();
 
-
 }
-
 
 }
 
 catch(error){
 
-
 console.error(error);
-
 
 alert(
 "ফুলস্ক্রিন চালু করা যায়নি।"
 );
 
-
 }
-
 
 };
 
-
 }
-
-
 
 
 
@@ -496,22 +370,22 @@ Page Control
 ===========================
 */
 
-
 if(prevBtn){
 
-    prevBtn.onclick = ()=>{
+prevBtn.onclick =
+()=>{
 
-        console.log("Previous clicked");
+if(!window.DCViewer){
 
-        if(window.DCViewer){
+return;
 
-            DCViewer.previousPage();
+}
 
-            updatePageInfo();
+DCViewer.previousPage();
 
-        }
+updatePageInfo();
 
-    };
+};
 
 }
 
@@ -519,96 +393,76 @@ if(prevBtn){
 
 if(nextBtn){
 
-nextBtn.onclick = ()=>{
+nextBtn.onclick =
+()=>{
 
-    console.log("Next clicked");
+if(!window.DCViewer){
 
-    if(window.DCViewer){
+return;
 
-        DCViewer.nextPage();
+}
 
-    }
+DCViewer.nextPage();
+
+updatePageInfo();
 
 };
 
 }
-
-
-
-
 /*
 ===========================
 Zoom Control
 ===========================
 */
 
-
 if(zoomInBtn){
-
 
 zoomInBtn.onclick =
 ()=>{
 
+if(!window.DCViewer){
 
-if(window.DCViewer){
+return;
 
+}
 
 DCViewer.setZoom(
 DCViewer.zoom + 0.1
 );
 
-
-}
-
-
 };
 
-
 }
-
-
 
 
 
 if(zoomOutBtn){
 
-
 zoomOutBtn.onclick =
 ()=>{
 
+if(!window.DCViewer){
 
-if(window.DCViewer){
+return;
 
+}
 
 let zoom =
 DCViewer.zoom - 0.1;
 
-
-
 if(zoom < 0.5){
-
 
 zoom = 0.5;
 
-
 }
-
-
 
 DCViewer.setZoom(
 zoom
 );
 
-
-}
-
-
 };
 
-
 }
-
-
 
 
 
@@ -618,61 +472,43 @@ Swipe Control
 ==================================
 */
 
-
 let touchStartX = 0;
-
 let touchEndX = 0;
-
-
 
 document.addEventListener(
 "touchstart",
 (event)=>{
 
-
 touchStartX =
 event.changedTouches[0].screenX;
 
-
 },
-false);
-
-
+false
+);
 
 document.addEventListener(
 "touchend",
 (event)=>{
 
-
 touchEndX =
 event.changedTouches[0].screenX;
 
-
 handleSwipe();
 
-
 },
-false);
-
-
-
-
+false
+);
 
 function handleSwipe(){
-
 
 const distance =
 touchEndX - touchStartX;
 
-
-
-if(Math.abs(distance)<50){
+if(Math.abs(distance) < 50){
 
 return;
 
 }
-
-
 
 if(!window.DCViewer){
 
@@ -680,37 +516,34 @@ return;
 
 }
 
-
-
 if(distance < 0){
-
 
 DCViewer.nextPage();
 
-
 }
-
 else{
-
 
 DCViewer.previousPage();
 
-
 }
-
-
 
 updatePageInfo();
 
-
 }
-
-
 
 console.log(
 "Daily Chalchitra Viewer Ready"
 );
 
+}
 
+catch(error){
+
+console.error(error);
+
+title.textContent =
+"ই-পেপার লোড করা যায়নি";
+
+}
 
 });
