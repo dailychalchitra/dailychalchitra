@@ -10,6 +10,7 @@ permalink: /posts.json
   "url": {{ post.url | jsonify }},
   "date": "{{ post.date | date: "%Y-%m-%d" }}",
   "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }},
+  "content": {{ post.content | jsonify }},
   "image": {{ post.image | jsonify }},
   "category": {{ post.categories | first | jsonify }},
   "author": {{ post.author | jsonify }}
