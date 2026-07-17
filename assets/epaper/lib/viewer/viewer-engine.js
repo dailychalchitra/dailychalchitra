@@ -577,3 +577,21 @@ renderInfo(){
 }
 
 };
+
+/*
+======================================
+Auto Start
+======================================
+*/
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+    if(window.DCViewer){
+
+        DCViewer.start();
+
+    }
+
+});
