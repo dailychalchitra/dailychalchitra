@@ -427,44 +427,29 @@ Page Control
 ===========================
 */
 
-console.log("Page Control Loaded");
-
 if(prevBtn){
 
+    prevBtn.onclick = ()=>{
 
-prevBtn.onclick =
-()=>{
+        console.log("Previous clicked");
 
+        console.log(
+            "DCViewer:",
+            window.DCViewer
+        );
 
-DCViewer.previousPage();
+        if(window.DCViewer){
 
+            console.log(
+                "Current Page:",
+                DCViewer.currentPage
+            );
 
-updatePageInfo();
+            DCViewer.previousPage();
 
+        }
 
-};
-
-
-}
-
-
-
-
-if(nextBtn){
-
-
-nextBtn.onclick =
-()=>{
-
-
-DCViewer.nextPage();
-
-
-updatePageInfo();
-
-
-};
-
+    };
 
 }
 
