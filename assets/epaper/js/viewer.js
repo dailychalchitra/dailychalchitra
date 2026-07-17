@@ -170,12 +170,13 @@ HTML ePaper Start
 */
 
 
+if(pdfFrame){
+    pdfFrame.src = issue.pdf;
+}
+
 if(window.DCViewer){
-
-DCViewer.init(issue);
-
-DCViewer.start();
-
+    DCViewer.init(issue);
+    DCViewer.loadPDF();
 }
 
 
