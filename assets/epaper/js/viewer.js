@@ -164,12 +164,6 @@ ${issue.pages}
 
 
 
-/*
-===========================
-HTML ePaper Start
-===========================
-*/
-
 
 /*
 ===========================
@@ -500,53 +494,37 @@ Page Control
 
 
 if(prevBtn){
+if(prevBtn){
 
+prevBtn.onclick = ()=>{
 
-prevBtn.onclick =
-()=>{
+    console.log("Previous clicked");
 
+    if(window.DCViewer){
 
-if(window.DCViewer){
+        DCViewer.previousPage();
 
-
-DCViewer.previousPage();
-
-
-updatePageInfo();
-
-
-}
-
+    }
 
 };
 
-
 }
-
 
 
 
 if(nextBtn){
 
+nextBtn.onclick = ()=>{
 
-nextBtn.onclick =
-()=>{
+    console.log("Next clicked");
 
+    if(window.DCViewer){
 
-if(window.DCViewer){
+        DCViewer.nextPage();
 
-
-DCViewer.nextPage();
-
-
-updatePageInfo();
-
-
-}
-
+    }
 
 };
-
 
 }
 
