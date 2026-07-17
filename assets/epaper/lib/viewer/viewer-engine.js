@@ -455,9 +455,7 @@ nextPage(){
 
     }
 
-
     this.updatePageInfo();
-
 
 },
 
@@ -479,9 +477,7 @@ previousPage(){
 
     }
 
-
     this.updatePageInfo();
-
 
 },
 
@@ -512,7 +508,6 @@ setZoom(value){
     }
 
 
-
     const page =
     document.getElementById(
         "dc-epaper-page"
@@ -524,12 +519,10 @@ setZoom(value){
         page.style.transform =
         `scale(${this.zoom})`;
 
-
         page.style.transformOrigin =
         "top center";
 
     }
-
 
 },
 
