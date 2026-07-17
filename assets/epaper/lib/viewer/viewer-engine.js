@@ -158,15 +158,12 @@ async loadPosts(){
 
     this.loading = true;
 
-
     try{
-
 
         const res =
         await fetch(
             "/posts.json"
         );
-
 
         if(!res.ok){
 
@@ -176,51 +173,62 @@ async loadPosts(){
 
         }
 
-
         const allPosts =
         await res.json();
 
-
-
         this.posts =
-        allPosts.filter(post=>{
+        allPosts
+        .filter(post=>{
 
+            return (
+                post.date &&
+                post.content
+            );
 
-            if(!post.date){
+        })
+        .map(post=>({
 
-                return false;
+            title:
+            post.title || "",
 
-            }
+            url:
+            post.url || "",
 
+            date:
+            post.date || "",
 
-            return true;
+            excerpt:
+            post.excerpt || "",
 
+            content:
+            post.content || "",
 
-        });
+            image:
+            post.image || "",
 
+            category:
+            post.category || "সাধারণ",
 
+            author:
+            post.author || ""
+
+        }));
 
         console.log(
             "Total Posts:",
             this.posts.length
         );
 
-
-
         this.buildPages();
-
 
     }
 
-
     catch(error){
-
 
         console.error(
             "Post Load Error:",
             error
         );
-
 
         if(this.container){
 
@@ -229,12 +237,9 @@ async loadPosts(){
 
         }
 
-
     }
 
-
     this.loading = false;
-
 
 },
 
