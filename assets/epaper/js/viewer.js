@@ -621,3 +621,6 @@ ${DCViewer.totalPages}
 
 
 }
+
+
+});
