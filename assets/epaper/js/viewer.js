@@ -498,19 +498,20 @@ Page Control
 
 
 if(prevBtn){
-if(prevBtn){
 
-prevBtn.onclick = ()=>{
+    prevBtn.onclick = ()=>{
 
-    console.log("Previous clicked");
+        console.log("Previous clicked");
 
-    if(window.DCViewer){
+        if(window.DCViewer){
 
-        DCViewer.previousPage();
+            DCViewer.previousPage();
 
-    }
+            updatePageInfo();
 
-};
+        }
+
+    };
 
 }
 
