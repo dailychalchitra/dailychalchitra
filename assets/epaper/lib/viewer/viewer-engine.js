@@ -1,14 +1,14 @@
 /*
 ==========================================================
 Daily Chalchitra ePaper Engine
-Version : 2.0
+Version : 2.1 Final
 HTML Newspaper Edition
 ==========================================================
 */
 
 window.DCViewer = {
 
-    version: "2.0",
+    version: "2.1",
 
     issue: null,
 
@@ -30,47 +30,57 @@ window.DCViewer = {
 
     columnCount: 3,
 
-    pageHeight: 1450,
-
-    pageWidth: 980,
-
     loading: false,
 
-    /*
-    ======================================
-    Initialize
-    ======================================
-    */
 
-    init(issue){
+/*
+======================================
+Initialize
+======================================
+*/
 
-        this.issue = issue;
+init(issue){
 
-        this.currentPage = 1;
+    this.issue = issue;
 
-        this.totalPages = 0;
+    this.currentPage = 1;
 
-        this.zoom = 1;
+    this.totalPages = 0;
 
-        this.posts = [];
+    this.zoom = 1;
 
-        this.pages = [];
+    this.posts = [];
 
-        this.loading = false;
+    this.pages = [];
 
-        this.viewer =
-document.getElementById("dc-epaper-page");
+    this.loading = false;
 
-this.container =
-document.getElementById("dc-post-columns");
 
-        this.detectColumns();
+    this.viewer =
+    document.getElementById(
+        "dc-epaper-page"
+    );
 
-        this.initialized = true;
 
-        console.log("Daily Chalchitra ePaper v2.0");
+    this.container =
+    document.getElementById(
+        "dc-post-columns"
+    );
 
-    },
+
+    this.detectColumns();
+
+
+    this.initialized = true;
+
+
+    console.log(
+        "Daily Chalchitra ePaper Engine 2.1"
+    );
+
+},
+
+
 
 /*
 ======================================
@@ -80,29 +90,31 @@ Responsive Column Detector
 
 detectColumns(){
 
-    if(window.innerWidth<=768){
+    if(window.innerWidth <= 768){
 
-        this.columnCount=1;
+        this.columnCount = 1;
 
     }
 
-    else if(window.innerWidth<=1100){
+    else if(window.innerWidth <= 1100){
 
-        this.columnCount=2;
+        this.columnCount = 2;
 
     }
 
     else{
 
-        this.columnCount=3;
+        this.columnCount = 3;
 
     }
 
 },
 
+
+
 /*
 ======================================
-Window Resize
+Resize
 ======================================
 */
 
@@ -110,31 +122,35 @@ resize(){
 
     this.detectColumns();
 
-    this.render();
+    this.buildPages();
 
 },
 
+
+
 /*
 ======================================
-Reset Viewer
+Reset
 ======================================
 */
 
 reset(){
 
-    this.posts=[];
+    this.posts = [];
 
-    this.pages=[];
+    this.pages = [];
 
-    this.currentPage=1;
+    this.currentPage = 1;
 
-    this.totalPages=0;
+    this.totalPages = 0;
 
 },
 
+
+
 /*
 ======================================
-Load Posts From Jekyll posts.json
+Load Posts
 ======================================
 */
 
@@ -142,16 +158,20 @@ async loadPosts(){
 
     this.loading = true;
 
+
     try{
 
+
         const res =
-        await fetch("/posts.json");
+        await fetch(
+            "/posts.json"
+        );
 
 
         if(!res.ok){
 
             throw new Error(
-                "posts.json not found"
+                "posts.json missing"
             );
 
         }
@@ -197,20 +217,14 @@ async loadPosts(){
 
 
         console.error(
-            "Post Loading Error:",
+            "Post Load Error:",
             error
         );
 
 
-        const box =
-        document.getElementById(
-            "dc-post-columns"
-        );
+        if(this.container){
 
-
-        if(box){
-
-            box.innerHTML =
+            this.container.innerHTML =
             "পোস্ট লোড করা সম্ভব হচ্ছে না।";
 
         }
@@ -219,7 +233,7 @@ async loadPosts(){
     }
 
 
-    this.loading=false;
+    this.loading = false;
 
 
 },
@@ -232,9 +246,9 @@ Build Newspaper Pages
 
 buildPages(){
 
-    this.pages=[];
+    this.pages = [];
 
-    let page=[];
+    let page = [];
 
 
     const perPage =
@@ -255,7 +269,7 @@ buildPages(){
             this.pages.push(page);
 
 
-            page=[];
+            page = [];
 
 
         }
@@ -292,120 +306,196 @@ buildPages(){
 
 },
 
+
+
+
 /*
-
+======================================
 Render ePaper Page
-
+======================================
 */
 
 render(){
 
-const box =  
-document.getElementById(  
-    "dc-post-columns"  
-);  
 
-
-if(!box){  
-
-    console.error(  
-        "ePaper container missing"  
-    );  
-
-    return;  
-
-}  
+    const box =
+    document.getElementById(
+        "dc-post-columns"
+    );
 
 
 
-box.innerHTML = "";  
+    if(!box){
+
+        console.error(
+            "dc-post-columns missing"
+        );
+
+        return;
+
+    }
 
 
 
-if(!this.pages.length){  
-
-    box.innerHTML =  
-    "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";  
-
-    return;  
-
-}  
+    box.innerHTML = "";
 
 
 
-const current =  
-this.pages[  
-    this.currentPage - 1  
-];  
+    if(!this.pages.length){
+
+
+        box.innerHTML =
+        "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";
+
+
+        this.updatePageInfo();
+
+
+        return;
+
+
+    }
 
 
 
-if(!current){  
-
-    return;  
-
-}  
-
-
-
-current.forEach(post=>{  
-
-
-    const card =  
-    document.createElement(  
-        "article"  
-    );  
-
-
-    card.className =  
-    "dc-post-card";  
+    const current =
+    this.pages[
+        this.currentPage - 1
+    ];
 
 
 
-    card.innerHTML = `  
+    if(!current){
 
-        ${  
-        post.image  
-        ?  
-        `<img src="${post.image}" alt="${post.title}">`  
-        :  
-        ""  
-        }  
+        return;
 
-
-        <h2>  
-        ${post.title}  
-        </h2>  
-
-
-        <p>  
-        ${post.excerpt || ""}  
-        </p>  
-
-
-        <small>  
-        বিভাগ: ${post.category || "সাধারণ"}  
-        |  
-        লেখক: ${post.author || ""}  
-        </small>  
-
-
-    `;  
+    }
 
 
 
-    box.appendChild(card);  
+    current.forEach(post=>{
 
 
-});  
+        const card =
+        document.createElement(
+            "article"
+        );
 
 
 
-this.updatePageInfo();
+        card.className =
+        "dc-post-card";
+
+
+
+        card.innerHTML = `
+
+
+        <a href="${post.url}"
+        style="text-decoration:none;color:inherit;">
+
+
+
+            ${
+            post.image
+            ?
+            `
+            <img 
+            src="${post.image}"
+            alt="${post.title}"
+            loading="lazy">
+            `
+            :
+            ""
+            }
+
+
+
+            <h2>
+
+            ${post.title}
+
+            </h2>
+
+
+
+            <p>
+
+            ${post.excerpt || ""}
+
+            </p>
+
+
+
+            <small>
+
+            বিভাগ:
+            ${post.category || "সাধারণ"}
+
+            |
+
+            লেখক:
+            ${post.author || ""}
+
+            </small>
+
+
+        </a>
+
+
+        `;
+
+
+
+        box.appendChild(card);
+
+
+
+    });
+
+
+
+    this.updatePageInfo();
+
 
 },
 
 
+
+
+/*
+======================================
+Update Page Information
+======================================
+*/
+
+updatePageInfo(){
+
+
+    const info =
+    document.getElementById(
+        "dc-page-info"
+    );
+
+
+
+    if(!info){
+
+        return;
+
+    }
+
+
+
+    info.innerHTML =
+    `
+    পৃষ্ঠা ${this.currentPage}
+    /
+    ${this.totalPages}
+    `;
+
+
+},
 /*
 ======================================
 Next Page
@@ -414,17 +504,33 @@ Next Page
 
 nextPage(){
 
+
     if(this.currentPage < this.totalPages){
+
 
         this.currentPage++;
 
+
         this.render();
+
+
+        window.scrollTo(
+            {
+                top:0,
+                behavior:"smooth"
+            }
+        );
+
 
     }
 
+
+
     this.updatePageInfo();
 
+
 },
+
 
 
 
@@ -436,17 +542,33 @@ Previous Page
 
 previousPage(){
 
+
     if(this.currentPage > 1){
+
 
         this.currentPage--;
 
+
         this.render();
+
+
+        window.scrollTo(
+            {
+                top:0,
+                behavior:"smooth"
+            }
+        );
+
 
     }
 
+
+
     this.updatePageInfo();
 
+
 },
+
 
 
 
@@ -458,7 +580,9 @@ Zoom Control
 
 setZoom(value){
 
+
     this.zoom = value;
+
 
 
     if(this.zoom < 0.5){
@@ -468,11 +592,13 @@ setZoom(value){
     }
 
 
+
     if(this.zoom > 2){
 
         this.zoom = 2;
 
     }
+
 
 
     const page =
@@ -481,20 +607,30 @@ setZoom(value){
     );
 
 
+
     if(page){
+
 
         page.style.transform =
         `scale(${this.zoom})`;
 
+
+
         page.style.transformOrigin =
         "top center";
 
+
     }
 
+
+
+    console.log(
+        "Zoom:",
+        this.zoom
+    );
+
+
 },
-
-
-
 /*
 ======================================
 Start ePaper Engine
@@ -503,40 +639,53 @@ Start ePaper Engine
 
 async start(){
 
+
     this.reset();
+
 
     await this.loadPosts();
 
+
     this.render();
+
 
 },
 
 
 
+
 /*
 ======================================
-Viewer Info
+Viewer Information
 ======================================
 */
 
 renderInfo(){
+
 
     console.log({
 
         page:
         this.currentPage,
 
+
         total:
         this.totalPages,
+
 
         zoom:
         this.zoom
 
     });
 
+
 }
 
+
 };
+
+
+
 
 /*
 ======================================
@@ -544,14 +693,64 @@ Auto Start
 ======================================
 */
 
+
 document.addEventListener(
 "DOMContentLoaded",
 ()=>{
 
+
     if(window.DCViewer){
+
+
+        const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+
+        const issue =
+        params.get("issue");
+
+
+
+        DCViewer.init(issue);
+
+
 
         DCViewer.start();
 
+
     }
+
+
+});
+
+
+
+
+/*
+======================================
+Window Resize
+======================================
+*/
+
+
+window.addEventListener(
+"resize",
+()=>{
+
+
+    if(
+        window.DCViewer &&
+        DCViewer.initialized
+    ){
+
+
+        DCViewer.resize();
+
+
+    }
+
 
 });
