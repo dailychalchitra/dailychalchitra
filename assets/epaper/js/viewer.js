@@ -137,6 +137,7 @@ await DCViewer.start();
 
 }
 
+
 /*
 ===========================
 Download
@@ -145,87 +146,31 @@ Download
 
 if(downloadBtn){
 
-downloadBtn.onclick =
-async ()=>{
+downloadBtn.onclick = ()=>{
 
-const viewer =
-document.querySelector(
-"#dc-epaper-page"
-);
+    if(!issue.pdf){
 
-if(!viewer){
+        alert("এই ই-পেপারের PDF পাওয়া যায়নি।");
 
-alert(
-"ই-পেপার পাওয়া যায়নি।"
-);
+        return;
 
-return;
+    }
 
-}
+    const link = document.createElement("a");
 
-try{
+    link.href = issue.pdf;
 
-const canvas =
-await html2canvas(
-viewer,
-{
-scale:2,
-useCORS:true,
-backgroundColor:"#ffffff"
-}
-);
+    link.download = issue.title + ".pdf";
 
-const img =
-canvas.toDataURL(
-"image/jpeg",
-1.0
-);
+    document.body.appendChild(link);
 
-const { jsPDF } =
-window.jspdf;
+    link.click();
 
-const pdf =
-new jsPDF(
-"p",
-"mm",
-"a4"
-);
-
-const width = 210;
-
-const height =
-canvas.height *
-width /
-canvas.width;
-
-pdf.addImage(
-img,
-"JPEG",
-0,
-0,
-width,
-height
-);
-
-pdf.save(
-"dailychalchitra-epaper.pdf"
-);
-
-}
-catch(error){
-
-console.error(error);
-
-alert(
-"PDF তৈরি করা যায়নি।"
-);
-
-}
+    document.body.removeChild(link);
 
 };
 
 }
-
 
 
 /*
