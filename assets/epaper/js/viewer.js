@@ -426,35 +426,47 @@ Page Control
 ===========================
 */
 
+
 if(prevBtn){
 
-    prevBtn.onclick = ()=>{
 
-        if(window.DCViewer){
+prevBtn.onclick =
+()=>{
 
-            DCViewer.previousPage();
 
-        }
+DCViewer.previousPage();
 
-    };
+
+updatePageInfo();
+
+
+};
+
 
 }
+
 
 
 
 if(nextBtn){
 
-    nextBtn.onclick = ()=>{
 
-        if(window.DCViewer){
+nextBtn.onclick =
+()=>{
 
-            DCViewer.nextPage();
 
-        }
+DCViewer.nextPage();
 
-    };
+
+updatePageInfo();
+
+
+};
+
 
 }
+
+
 
 
 
@@ -464,46 +476,55 @@ Zoom Control
 ===========================
 */
 
+
 if(zoomInBtn){
 
-    zoomInBtn.onclick = ()=>{
 
-        if(window.DCViewer){
+zoomInBtn.onclick =
+()=>{
 
-            DCViewer.setZoom(
-                DCViewer.zoom + 0.1
-            );
 
-        }
+DCViewer.setZoom(
+DCViewer.zoom + 0.1
+);
 
-    };
+
+};
+
 
 }
 
 
 
+
+
 if(zoomOutBtn){
 
-    zoomOutBtn.onclick = ()=>{
 
-        if(window.DCViewer){
+zoomOutBtn.onclick =
+()=>{
 
-            let zoom =
-            DCViewer.zoom - 0.1;
 
-            if(zoom < 0.5){
+let zoom =
+DCViewer.zoom - 0.1;
 
-                zoom = 0.5;
 
-            }
 
-            DCViewer.setZoom(
-                zoom
-            );
+if(zoom < 0.5){
 
-        }
+zoom = 0.5;
 
-    };
+}
+
+
+
+DCViewer.setZoom(
+zoom
+);
+
+
+};
+
 
 }
 
