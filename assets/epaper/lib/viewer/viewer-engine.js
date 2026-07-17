@@ -245,6 +245,44 @@ async loadPosts(){
 
 /*
 ======================================
+Estimate Post Height
+======================================
+*/
+
+estimatePostHeight(post){
+
+    let height = 120;
+
+    if(post.image){
+
+        height += 220;
+
+    }
+
+    if(post.title){
+
+        height += Math.ceil(
+            post.title.length / 30
+        ) * 28;
+
+    }
+
+    const plainText =
+    (post.content || "")
+    .replace(/<[^>]+>/g," ")
+    .replace(/\s+/g," ");
+
+    height +=
+    Math.ceil(
+        plainText.length / 90
+    ) * 22;
+
+    return height;
+
+},
+
+/*
+======================================
 Build Newspaper Pages
 ======================================
 */
