@@ -55,6 +55,10 @@ const pageInfo =
 document.getElementById("dc-page-info");
 
 
+console.log("prevBtn =", prevBtn);
+console.log("nextBtn =", nextBtn);
+console.log("DCViewer =", window.DCViewer);
+
 
 const params =
 new URLSearchParams(
