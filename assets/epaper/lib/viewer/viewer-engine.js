@@ -322,13 +322,10 @@ Render ePaper Page
 
 render(){
 
-
     const box =
     document.getElementById(
         "dc-post-columns"
     );
-
-
 
     if(!box){
 
@@ -340,35 +337,23 @@ render(){
 
     }
 
-
-
     box.innerHTML = "";
 
-
-
     if(!this.pages.length){
-
 
         box.innerHTML =
         "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";
 
-
         this.updatePageInfo();
-
 
         return;
 
-
     }
-
-
 
     const current =
     this.pages[
         this.currentPage - 1
     ];
-
-
 
     if(!current){
 
@@ -376,36 +361,23 @@ render(){
 
     }
 
-
-
     current.forEach(post=>{
-
 
         const card =
         document.createElement(
             "article"
         );
 
-
-
         card.className =
         "dc-post-card";
 
-
-
         card.innerHTML = `
-
-
-        <a href="${post.url}"
-        style="text-decoration:none;color:inherit;">
-
-
 
             ${
             post.image
             ?
             `
-            <img 
+            <img
             src="${post.image}"
             alt="${post.title}"
             loading="lazy">
@@ -414,54 +386,37 @@ render(){
             ""
             }
 
-
-
             <h2>
 
-            ${post.title}
+                ${post.title}
 
             </h2>
 
+            <div class="dc-post-content">
 
+                ${post.content || post.excerpt || ""}
 
-            <p>
-
-            ${post.excerpt || ""}
-
-            </p>
-
-
+            </div>
 
             <small>
 
-            বিভাগ:
-            ${post.category || "সাধারণ"}
+                বিভাগ:
+                ${post.category || "সাধারণ"}
 
-            |
+                |
 
-            লেখক:
-            ${post.author || ""}
+                লেখক:
+                ${post.author || ""}
 
             </small>
 
-
-        </a>
-
-
         `;
-
-
 
         box.appendChild(card);
 
-
-
     });
 
-
-
     this.updatePageInfo();
-
 
 },
 
