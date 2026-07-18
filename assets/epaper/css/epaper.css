@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Auto v6.2
-   Fixed: No Extra Gap + Red Straight Meta + Stabak
+   Daily Chalchitra ePaper - Final Auto v6.3
+   Fixed: Stabak Single Gap + No Double Line
    ========================================================== */
 
 /* ---------- Home Page ---------- */
@@ -135,38 +135,40 @@
 }
 .dc-post-card img{ width:100%; border-radius:5px; margin-bottom:8px; }
 .dc-post-card h2{ font-size:20px; margin:10px 0 2px 0; line-height:1.3; }
-.dc-post-card small{ color:#777; }
 
-/* ---------- FINAL FIX: স্তবক + গ্যাপ কমানো ---------- */
+/* ---------- FINAL FIX: স্তবক গ্যাপ সিঙ্গেল ---------- */
 .dc-post-card p,
 #dc-epaper-page p,
 .dc-post-card .dc-post-content {
     font-size:15px !important;
-    line-height:1.55 !important; /* আগে 1.9 ছিল, এখন কমানো হলো */
+    line-height:1.6 !important;
     white-space: pre-line !important;
-    margin-bottom: 2px !important; /* আগে 16px ছিল */
-    padding-bottom: 0 !important;
+    margin: 0 !important; /* সব মার্জিন 0, তাই ডাবল হবে না */
+    padding: 0 !important;
+}
+
+/* শুধু ফাঁকা লাইনের জন্য ব্রাউজার যে গ্যাপ দেবে সেটাই থাকবে */
+#dc-epaper-page p:empty {
+    display: none !important;
 }
 
 /* শিরোনামের নিচে বিভাগ | লেখক - সোজা ও লাল */
 .dc-cat-author {
     font-size:13px !important;
-    color:#C00000 !important; /* লাল রঙ */
+    color:#C00000 !important;
     margin:2px 0 6px 0 !important;
     border-left:3px solid #C00000;
     padding-left:8px;
-    font-style: normal !important; /* বাঁকা বন্ধ, সোজা */
+    font-style: normal !important;
     font-weight:600 !important;
     white-space: normal !important;
     line-height:1.3 !important;
+    display: block !important;
 }
 
-/* নিচের ডাবল লেখা হাইড করার জন্য */
+/* নিচের ডাবল লেখা হাইড */
 .dc-post-card small {
     display: none !important;
-}
-.dc-cat-author {
-    display: block !important;
 }
 
 /* ---------- Archive ---------- */
