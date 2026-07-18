@@ -1,6 +1,6 @@
 /*
 Daily Chalchitra ePaper Viewer
-Final Auto v6.1 - Single Meta + Stabak Gap Fixed
+Final Auto v6.2 - Gap Fixed + Red Straight Meta
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                             const metaDiv = document.createElement("div");
                             metaDiv.className = "dc-cat-author";
-                            metaDiv.style.cssText = "font-size:13px; color:#555; margin:4px 0 12px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif; font-style:italic;";
+                            // FIXED: সোজা, লাল, গ্যাপ কম
+                            metaDiv.style.cssText = "font-size:13px; color:#C00000; margin:2px 0 6px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif; font-style:normal; font-weight:600; line-height:1.4;";
 
                             let cat = catName? `বিভাগ: ${catName}` : "";
                             let auth = authorName? `লেখক: ${authorName}` : "";
@@ -68,16 +69,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                     });
                 });
 
-                // ২. কবিতার স্তবক ফাঁকা লাইন ঠিক করা
+                // ২. কবিতার স্তবক - গ্যাপ কমানো ফিক্স
                 page.querySelectorAll(".dc-post-card p").forEach(p => {
                     p.style.whiteSpace = "pre-line";
-                    p.style.marginBottom = "16px";
+                    p.style.lineHeight = "1.6";
+                    p.style.marginBottom = "4px";
+                    p.style.paddingBottom = "0";
                 });
             };
 
-            setTimeout(doInject, 800);
-            setTimeout(doInject, 2000);
-            setTimeout(doInject, 4000);
+            setTimeout(doInject, 500);
+            setTimeout(doInject, 1500);
+            setTimeout(doInject, 3000);
         }catch(e){ console.log("Inject failed", e); }
     }
 
@@ -138,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
                 if(!viewer) return;
                 const win = window.open("", "_blank");
-                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.8;} img{max-width:100%;} #dc-epaper-page{padding:20px; white-space:pre-line;}</style></head><body>${viewer.outerHTML}</body></html>`);
+                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.6;} img{max-width:100%;} #dc-epaper-page{padding:20px; white-space:pre-line;}</style></head><body>${viewer.outerHTML}</body></html>`);
                 win.document.close();
                 win.onload = () => win.print();
             };
