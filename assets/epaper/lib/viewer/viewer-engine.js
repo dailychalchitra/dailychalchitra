@@ -410,6 +410,27 @@ buildPages(){
 
 
 
+/*
+======================================
+Measure Rendered Page Height
+======================================
+*/
+
+measurePageHeight(){
+
+    if(!this.viewer){
+
+        return 0;
+
+    }
+
+
+    return this.viewer.scrollHeight;
+
+
+},
+
+
 
 /*
 ======================================
@@ -517,6 +538,22 @@ render(){
 
 },
 
+
+
+/*
+======================================
+Real Height Check
+======================================
+*/
+
+const realHeight =
+this.measurePageHeight();
+
+
+console.log(
+    "Current Page Height:",
+    realHeight
+);
 
 
 
