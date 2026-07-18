@@ -281,9 +281,11 @@ estimatePostHeight(post){
 
 },
 
+
 /*
 ======================================
 Build Newspaper Pages
+Smart Page Builder Version
 ======================================
 */
 
@@ -293,20 +295,45 @@ buildPages(){
 
     let page = [];
 
-
-    const perPage =
-    this.columnCount * 8;
+    let usedHeight = 0;
 
 
+    /*
+    ==============================
+    A4 Page Height Estimate
+    ==============================
+    */
+
+    const pageHeight = 1600;
+
+
+
+    /*
+    ==============================
+    Post Height Based Pagination
+    ==============================
+    */
 
     this.posts.forEach(post=>{
 
 
-        page.push(post);
+        const postHeight =
+        this.estimatePostHeight(post);
 
 
 
-        if(page.length >= perPage){
+        /*
+        ==============================
+        Start New Page
+        ==============================
+        */
+
+
+        if(
+            usedHeight + postHeight > pageHeight
+            &&
+            page.length > 0
+        ){
 
 
             this.pages.push(page);
@@ -315,11 +342,36 @@ buildPages(){
             page = [];
 
 
+            usedHeight = 0;
+
+
         }
+
+
+
+        /*
+        ==============================
+        Add Post To Current Page
+        ==============================
+        */
+
+
+        page.push(post);
+
+
+        usedHeight += postHeight;
+
 
 
     });
 
+
+
+    /*
+    ==============================
+    Add Remaining Posts
+    ==============================
+    */
 
 
     if(page.length){
@@ -330,6 +382,13 @@ buildPages(){
 
     }
 
+
+
+    /*
+    ==============================
+    Total Pages Update
+    ==============================
+    */
 
 
     this.totalPages =
