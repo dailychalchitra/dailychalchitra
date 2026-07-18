@@ -1,11 +1,9 @@
 /*
-
-Daily Chalchitra ePaper Engine
-Final Auto v2.2 - 100% Automatic Weekly Filter
-
+  Daily Chalchitra ePaper Engine
+  Final Fixed v3.0 - Single PDF + No Double Gap
 */
 window.DCViewer = {
-    version: "2.2",
+    version: "3.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -30,7 +28,7 @@ window.DCViewer = {
         this.container = document.getElementById("dc-post-columns");
         this.detectColumns();
         this.initialized = true;
-        console.log("ePaper Engine v2.2 Ready - Issue:", issueId);
+        console.log("ePaper Engine v3.0 Ready - Issue:", issueId);
     },
 
     detectColumns(){
@@ -45,24 +43,23 @@ window.DCViewer = {
     async loadPosts(){
         this.loading = true;
         try{
-            const res = await fetch("/posts.json");
+            const res = await fetch("/posts.json?v=" + Date.now());
             if(!res.ok) throw new Error("posts.json missing");
             const allPosts = await res.json();
 
-            // 100% Auto Weekly Filter
             let filtered = allPosts;
             if(this.issue){
                 filtered = allPosts.filter(p => p.week_id === this.issue);
             }
 
-            this.posts = filtered.filter(p => p.date && p.content).map(post=>({
-                title: post.title || "",
+            this.posts = filtered.filter(p => p.date && (p.content || p.excerpt)).map(post=>({
+                title: (post.title || "").trim(),
                 url: post.url || "",
                 date: post.date || "",
                 excerpt: post.excerpt || "",
                 content: post.content || "",
                 image: post.image || "",
-                category: post.category || "সাধারণ",
+                category: post.category || post.categories?.[0] || "সাধারণ",
                 author: post.author || ""
             }));
 
@@ -70,17 +67,17 @@ window.DCViewer = {
             this.buildPages();
         }catch(error){
             console.error("Post Load Error:", error);
-            if(this.container) this.container.innerHTML = "পোস্ট লোড করা সম্ভব হচ্ছে না।";
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।</div>`;
         }
         this.loading = false;
     },
 
     estimatePostHeight(post){
-        let height = 120;
-        if(post.image) height += 220;
-        if(post.title) height += Math.ceil(post.title.length / 30) * 28;
+        let height = 100;
+        if(post.image) height += 200;
+        if(post.title) height += Math.ceil(post.title.length / 28) * 26;
         const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-        height += Math.ceil(plainText.length / 90) * 22;
+        height += Math.ceil(plainText.length / 85) * 20;
         return height;
     },
 
@@ -88,7 +85,7 @@ window.DCViewer = {
         this.pages = [];
         let page = [];
         let usedHeight = 0;
-        const pageHeight = 1600;
+        const pageHeight = 1550;
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
             if(usedHeight + postHeight > pageHeight && page.length > 0){
@@ -101,46 +98,85 @@ window.DCViewer = {
         });
         if(page.length) this.pages.push(page);
         this.totalPages = this.pages.length;
-        console.log("Total Pages:", this.totalPages);
         this.render();
     },
 
-    measurePageHeight(){ return this.viewer ? this.viewer.scrollHeight : 0; },
+    // সিঙ্গেল পোস্ট PDF - ইঞ্জিনের ভিতরেই
+    async downloadSingleCard(card, title){
+        const btn = card.querySelector(".dc-mini-pdf");
+        const old = btn? btn.innerHTML : "";
+        if(btn){ btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; btn.style.pointerEvents='none'; }
+        try{
+            const fileName = (title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,50) + ".pdf";
+            if(typeof html2pdf!== 'undefined'){
+                await html2pdf().set({
+                    margin: [10,10,10,10],
+                    filename: fileName,
+                    image: {type:'jpeg', quality:0.98},
+                    html2canvas: {scale:2, useCORS:true, backgroundColor:"#fff"},
+                    jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
+                    pagebreak: {mode:['css','legacy']}
+                }).from(card).save();
+            } else {
+                window.print();
+            }
+        } catch(e){
+            console.error(e);
+            alert("PDF তৈরি করা যায়নি।");
+        } finally {
+            if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; }
+        }
+    },
 
     render(){
         const box = document.getElementById("dc-post-columns");
         if(!box) return;
         box.innerHTML = "";
         if(!this.pages.length){
-            box.innerHTML = "এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।";
+            box.innerHTML = `<div class="dc-empty">এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।</div>`;
             this.updatePageInfo();
             return;
         }
         const current = this.pages[this.currentPage - 1];
-        if(!current || !current.length){
-            box.innerHTML = "এই পৃষ্ঠায় কোনো পোস্ট নেই।";
+        if(!current ||!current.length){
+            box.innerHTML = `<div class="dc-empty">এই পৃষ্ঠায় কোনো পোস্ট নেই।</div>`;
             return;
         }
         current.forEach(post=>{
             const card = document.createElement("article");
             card.className = "dc-post-card";
+
+            // কন্টেন্ট ক্লিন - ডাবল br এবং ফাঁকা p রিমুভ
+            let cleanContent = (post.content || post.excerpt || "")
+               .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "<br>")
+               .replace(/<p>\s*<\/p>/gi, "")
+               .replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
+
             card.innerHTML = `
-                ${post.image ? `<img src="${post.image}" alt="${post.title}" loading="lazy">` : ""}
+                <a href="javascript:void(0)" class="dc-mini-pdf" title="এই লেখার PDF"><i class="fa fa-file-pdf"></i> PDF</a>
+                ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy">` : ""}
                 <h2>${post.title}</h2>
-                <div class="dc-post-content">${post.content || post.excerpt || ""}</div>
-                <small>বিভাগ: ${post.category} | লেখক: ${post.author}</small>
+                ${(post.category || post.author)? `<div class="dc-cat-author">${post.category? 'বিভাগ: '+post.category : ''}${post.category && post.author? ' | ' : ''}${post.author? 'লেখক: '+post.author : ''}</div>` : ""}
+                <div class="dc-post-content">${cleanContent}</div>
             `;
+
+            // PDF বাটন ক্লিক
+            const pdfBtn = card.querySelector(".dc-mini-pdf");
+            pdfBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.downloadSingleCard(card, post.title);
+            });
+
             box.appendChild(card);
         });
         this.updatePageInfo();
-        const realHeight = this.measurePageHeight();
-        console.log("Current Page Height:", realHeight);
     },
 
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
         if(!info) return;
-        info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages}`;
+        info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
     },
 
     nextPage(){
@@ -162,9 +198,7 @@ window.DCViewer = {
     },
 
     setZoom(value){
-        this.zoom = value;
-        if(this.zoom < 0.5) this.zoom = 0.5;
-        if(this.zoom > 2) this.zoom = 2;
+        this.zoom = Math.max(0.5, Math.min(2, value));
         const page = document.getElementById("dc-epaper-page");
         if(page){
             page.style.transform = `scale(${this.zoom})`;
@@ -180,7 +214,7 @@ window.DCViewer = {
 };
 
 document.addEventListener("DOMContentLoaded",()=>{
-    if(window.DCViewer && !DCViewer.initialized){
+    if(window.DCViewer &&!DCViewer.initialized){
         const params = new URLSearchParams(window.location.search);
         const issue = params.get("issue");
         if(issue){
