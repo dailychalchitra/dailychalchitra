@@ -1,8 +1,6 @@
 /*
-
 Daily Chalchitra ePaper Viewer
-Final Auto v2.0 - 100% Automatic
-
+Final Auto v3.0 - With Stabak (Author) Support - 100% Automatic
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -22,6 +20,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     function updatePageInfo(){
         if(!window.DCViewer ||!pageInfo) return;
         pageInfo.innerHTML = `পৃষ্ঠা ${DCViewer.currentPage} / ${DCViewer.totalPages}`;
+    }
+
+    // স্তাবক ইনজেক্ট করার ফাংশন
+    async function injectStabak(issueId){
+        try{
+            const res = await fetch("/posts.json");
+            if(!res.ok) return;
+            const allPosts = await res.json();
+            const filtered = allPosts.filter(p => p.week_id === issueId);
+
+            // 1 সেকেন্ড পর পর চেক করবে যাতে DCViewer রেন্ডার শেষ করে
+            const interval = setInterval(() => {
+                const page = document.querySelector("#dc-epaper-page");
+                if(!page || page.innerHTML.trim() === "") return;
+
+                filtered.forEach(post => {
+                    if(!post.author) return;
+                    // যদি ইতিমধ্যে লেখক দেখানো থাকে তবে স্কিপ
+                    if(page.innerHTML.includes(post.author)) return;
+
+                    // টাইটেল খুঁজে তার নিচে লেখক বসানো
+                    const titles = page.querySelectorAll("h2, h3,.dc-post-title");
+                    titles.forEach(el => {
+                        if(el.textContent.trim() === post.title.trim()){
+                            if(el.nextElementSibling && el.nextElementSibling.classList.contains("dc-stabak")) return;
+                            const authorDiv = document.createElement("div");
+                            authorDiv.className = "dc-stabak";
+                            authorDiv.style.cssText = "font-size:14px; color:#444; margin:5px 0 12px 0; font-style:italic;";
+                            authorDiv.innerHTML = `✍️ ${post.author}`;
+                            el.insertAdjacentElement('afterend', authorDiv);
+                        }
+                    });
+                });
+            }, 1000);
+
+            // 10 সেকেন্ড পর বন্ধ
+            setTimeout(()=> clearInterval(interval), 10000);
+
+        }catch(e){ console.log("Stabak inject failed", e); }
     }
 
     if(!issueId){
@@ -47,9 +84,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             DCViewer.init(issueId);
             await DCViewer.start();
             updatePageInfo();
+            // স্তাবক লোড করা
+            injectStabak(issueId);
         }
 
-        // Download PDF
         if(downloadBtn){
             downloadBtn.onclick = async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
@@ -89,12 +127,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
         }
 
-        prevBtn?.addEventListener("click", () => { DCViewer.previousPage(); updatePageInfo(); });
-        nextBtn?.addEventListener("click", () => { DCViewer.nextPage(); updatePageInfo(); });
+        prevBtn?.addEventListener("click", () => { DCViewer.previousPage(); updatePageInfo(); setTimeout(()=>injectStabak(issueId), 500); });
+        nextBtn?.addEventListener("click", () => { DCViewer.nextPage(); updatePageInfo(); setTimeout(()=>injectStabak(issueId), 500); });
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
-        // Swipe
         let touchStartX = 0;
         document.addEventListener("touchstart", e => touchStartX = e.changedTouches[0].screenX);
         document.addEventListener("touchend", e => {
@@ -103,6 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if(Math.abs(distance) < 60) return;
             if(distance < 0) DCViewer.nextPage(); else DCViewer.previousPage();
             updatePageInfo();
+            setTimeout(()=>injectStabak(issueId), 500);
         });
 
     } catch (error){
