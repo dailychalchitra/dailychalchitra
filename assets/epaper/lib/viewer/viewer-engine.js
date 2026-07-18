@@ -1,9 +1,9 @@
 /*
   Daily Chalchitra ePaper Engine
-  Final Fixed v3.2 - 100% Working - No posts.json needed
+  Final Fixed v3.3 - Live images no longer forced through CORS (was breaking external post images)
 */
 window.DCViewer = {
-    version: "3.2",
+    version: "3.3",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -31,7 +31,7 @@ window.DCViewer = {
         this.container = document.getElementById("dc-post-columns");
         this.detectColumns();
         this.initialized = true;
-        console.log("ePaper Engine v3.2 Ready - Issue:", this.issue);
+        console.log("ePaper Engine v3.3 Ready - Issue:", this.issue);
     },
 
     detectColumns(){
@@ -106,6 +106,8 @@ window.DCViewer = {
         this.render();
     },
 
+    // এটাই একমাত্র সিঙ্গেল-পোস্ট PDF জেনারেটর। ক্লোনে crossorigin বসানো ঠিক
+    // আছে - এটা শুধু ক্যানভাসে আঁকার জন্য দরকার, লাইভ পেজে না।
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
@@ -164,7 +166,7 @@ window.DCViewer = {
               .replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="এই লেখার PDF"><i class="fa fa-file-pdf"></i> PDF</a>
-                ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" crossorigin="anonymous" onerror="this.style.display='none'">` : ""}
+                ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
                 <h2>${post.title}</h2>
                 ${(post.category || post.author)? `<div class="dc-cat-author">${post.category? 'বিভাগ: '+post.category : ''}${post.category && post.author? ' | ' : ''}${post.author? 'লেখক: '+post.author : ''}</div>` : ""}
                 <div class="dc-post-content">${cleanContent}</div>
