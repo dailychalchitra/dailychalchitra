@@ -1,6 +1,6 @@
 /*
 Daily Chalchitra ePaper Viewer
-Final Auto v3.0 - With Stabak (Author) Support - 100% Automatic
+Final Auto v5.0 - Fixed for categories[] + author
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -22,43 +22,54 @@ document.addEventListener("DOMContentLoaded", async () => {
         pageInfo.innerHTML = `পৃষ্ঠা ${DCViewer.currentPage} / ${DCViewer.totalPages}`;
     }
 
-    // স্তাবক ইনজেক্ট করার ফাংশন
-    async function injectStabak(issueId){
+    async function injectCategoryAndStabak(issueId){
         try{
-            const res = await fetch("/posts.json");
+            const res = await fetch("/assets/epaper/issues/issues.json");
             if(!res.ok) return;
-            const allPosts = await res.json();
-            const filtered = allPosts.filter(p => p.week_id === issueId);
+            const issues = await res.json();
+            const issue = issues.find(i => i.id === issueId);
+            if(!issue ||!issue.posts) return;
 
-            // 1 সেকেন্ড পর পর চেক করবে যাতে DCViewer রেন্ডার শেষ করে
-            const interval = setInterval(() => {
-                const page = document.querySelector("#dc-epaper-page");
-                if(!page || page.innerHTML.trim() === "") return;
+            const page = document.querySelector("#dc-epaper-page");
+            if(!page) return;
 
-                filtered.forEach(post => {
-                    if(!post.author) return;
-                    // যদি ইতিমধ্যে লেখক দেখানো থাকে তবে স্কিপ
-                    if(page.innerHTML.includes(post.author)) return;
+            const doInject = () => {
+                issue.posts.forEach(post => {
+                    // category can be categories array or category string
+                    let catName = "";
+                    if(post.categories && post.categories.length > 0) catName = post.categories[0];
+                    else if(post.category) catName = post.category;
 
-                    // টাইটেল খুঁজে তার নিচে লেখক বসানো
+                    let authorName = post.author || "";
+
                     const titles = page.querySelectorAll("h2, h3,.dc-post-title");
                     titles.forEach(el => {
-                        if(el.textContent.trim() === post.title.trim()){
-                            if(el.nextElementSibling && el.nextElementSibling.classList.contains("dc-stabak")) return;
-                            const authorDiv = document.createElement("div");
-                            authorDiv.className = "dc-stabak";
-                            authorDiv.style.cssText = "font-size:14px; color:#444; margin:5px 0 12px 0; font-style:italic;";
-                            authorDiv.innerHTML = `✍️ ${post.author}`;
-                            el.insertAdjacentElement('afterend', authorDiv);
+                        // টাইটেল মিললে
+                        if(el.textContent.trim() === post.title.trim() || el.textContent.trim().includes(post.title.trim().substring(0,15))){
+                            if(el.nextElementSibling && el.nextElementSibling.classList.contains("dc-cat-author")) {
+                                return; // already injected
+                            }
+                            const metaDiv = document.createElement("div");
+                            metaDiv.className = "dc-cat-author";
+                            metaDiv.style.cssText = "font-size:14px; color:#555; margin:6px 0 14px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif;";
+
+                            let cat = catName? `বিভাগ: ${catName}` : "";
+                            let auth = authorName? `লেখক: ${authorName}` : "";
+                            let sep = (cat && auth)? " | " : "";
+                            metaDiv.innerHTML = `${cat}${sep}${auth}`;
+
+                            if(cat || auth){
+                                el.insertAdjacentElement('afterend', metaDiv);
+                            }
                         }
                     });
                 });
-            }, 1000);
+            };
 
-            // 10 সেকেন্ড পর বন্ধ
-            setTimeout(()=> clearInterval(interval), 10000);
-
-        }catch(e){ console.log("Stabak inject failed", e); }
+            setTimeout(doInject, 800);
+            setTimeout(doInject, 2000);
+            setTimeout(doInject, 4000);
+        }catch(e){ console.log("Inject failed", e); }
     }
 
     if(!issueId){
@@ -84,9 +95,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             DCViewer.init(issueId);
             await DCViewer.start();
             updatePageInfo();
-            // স্তাবক লোড করা
-            injectStabak(issueId);
+            injectCategoryAndStabak(issueId);
         }
+
+        prevBtn?.addEventListener("click", () => { DCViewer.previousPage(); updatePageInfo(); setTimeout(()=>injectCategoryAndStabak(issueId), 600); });
+        nextBtn?.addEventListener("click", () => { DCViewer.nextPage(); updatePageInfo(); setTimeout(()=>injectCategoryAndStabak(issueId), 600); });
+        zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
+        zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
         if(downloadBtn){
             downloadBtn.onclick = async () => {
@@ -126,22 +141,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 try{ if(!document.fullscreenElement) await viewer.requestFullscreen(); else await document.exitFullscreen(); }catch(e){}
             };
         }
-
-        prevBtn?.addEventListener("click", () => { DCViewer.previousPage(); updatePageInfo(); setTimeout(()=>injectStabak(issueId), 500); });
-        nextBtn?.addEventListener("click", () => { DCViewer.nextPage(); updatePageInfo(); setTimeout(()=>injectStabak(issueId), 500); });
-        zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
-        zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
-
-        let touchStartX = 0;
-        document.addEventListener("touchstart", e => touchStartX = e.changedTouches[0].screenX);
-        document.addEventListener("touchend", e => {
-            const touchEndX = e.changedTouches[0].screenX;
-            const distance = touchEndX - touchStartX;
-            if(Math.abs(distance) < 60) return;
-            if(distance < 0) DCViewer.nextPage(); else DCViewer.previousPage();
-            updatePageInfo();
-            setTimeout(()=>injectStabak(issueId), 500);
-        });
 
     } catch (error){
         console.error(error);
