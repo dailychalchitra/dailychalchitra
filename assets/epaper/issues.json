@@ -9,12 +9,11 @@ permalink: /assets/epaper/issues/issues.json
   "id": {{ week.name | jsonify }},
   "year": {{ week.name | slice: 0, 4 | jsonify }},
   "week": {{ week.name | slice: 6, 2 | jsonify }},
-  "title": {{ week.name | prepend: "দৈনিক চালচিত্র – সপ্তাহ " | jsonify }},
+  "title": {{ week.name | prepend: "সপ্তাহ " | jsonify }},
   "date": "{{ week.items.first.date | date: '%d %B, %Y' }}",
   "pages": {{ week.items.size | divided_by: 6.0 | ceil }},
   "count": {{ week.items.size }},
   "viewer": {{ "/epaper/viewer/?issue=" | append: week.name | relative_url | jsonify }},
-  "pdf": "",
   "cover": {% if week.items.first.image %}{{ week.items.first.image | jsonify }}{% else %}""{% endif %},
   "posts": [
     {% for post in week.items %}
@@ -22,10 +21,11 @@ permalink: /assets/epaper/issues/issues.json
       "title": {{ post.title | jsonify }},
       "url": {{ post.url | relative_url | jsonify }},
       "author": {{ post.author | default: "দৈনিক চালচিত্র" | jsonify }},
-      "categories": {{ post.categories | jsonify }},
       "category": {% if post.categories.first %}{{ post.categories.first | jsonify }}{% else %}"সাধারণ"{% endif %},
       "image": {{ post.image | default: "" | jsonify }},
-      "date": "{{ post.date | date: '%Y-%m-%d' }}"
+      "date": "{{ post.date | date: '%Y-%m-%d' }}",
+      "content": {{ post.content | jsonify }},
+      "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 200 | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ]
