@@ -1,99 +1,45 @@
 /*
-==========================================
-Daily Chalchitra ePaper
-Version : 2.0
-==========================================
+
+Daily Chalchitra ePaper - Home
+Final Auto v2.0 - 100% Automatic
+
 */
-
 document.addEventListener("DOMContentLoaded", async () => {
-
     const container = document.getElementById("dc-issues");
-
     if (!container) return;
 
-    const currentYear = new Date().getFullYear();
-
     try {
+        const res = await fetch("/assets/epaper/issues/issues.json");
+        if (!res.ok) throw new Error("Not found");
+        const issues = await res.json();
 
-        const response = await fetch(`/assets/epaper/issues/${currentYear}.json`);
-
-        if (!response.ok) {
-            throw new Error("Issue file not found");
-        }
-
-        const issues = await response.json();
-
-        const publishedIssues = issues.filter(issue => issue.published);
-
-        if (publishedIssues.length === 0) {
-
-            container.innerHTML = `
-                <div class="dc-empty">
-                    এখনও কোনো ই-পেপার প্রকাশিত হয়নি।
-                </div>
-            `;
-
+        if (issues.length === 0) {
+            container.innerHTML = `<div class="dc-empty">এখনও কোনো ই-পেপার প্রকাশিত হয়নি।</div>`;
             return;
         }
 
-        publishedIssues.sort((a, b) => b.week - a.week);
-
-        let html = "";
-
-        publishedIssues.forEach(issue => {
-
-            html += `
-            <div class="dc-issue-card">
-
-                <img
-                    class="dc-cover"
-                    src="${issue.cover}"
-                    alt="${issue.title}">
-
-                <div class="dc-body">
-
-                    <div class="dc-date">
-                        ${issue.date}
-                    </div>
-
-                    <div class="dc-title">
-                        ${issue.title}
-                    </div>
-
-                    <div class="dc-pages">
-                        ${issue.pages} পৃষ্ঠা
-                    </div>
-
-                    <a
-    class="dc-btn"
-    href="${issue.viewer}"
-    target="_blank">
-    পড়ুন
-</a>
-
-                </div>
-
-            </div>
-            `;
-
-        });
+        // Latest 8 issues for homepage
+        const latest = issues.slice(0, 8);
 
         container.innerHTML = `
             <div class="dc-issue-grid">
-                ${html}
+            ${latest.map(issue => `
+                <div class="dc-issue-card">
+                    <div class="dc-body">
+                        <div class="dc-date">${issue.date}</div>
+                        <div class="dc-title">${issue.title}</div>
+                        <div class="dc-pages">${issue.count} টি লেখা | ${issue.pages} পৃষ্ঠা</div>
+                        <a class="dc-btn" href="${issue.viewer}">পড়ুন</a>
+                    </div>
+                </div>
+            `).join("")}
+            </div>
+            <div style="text-align:center; margin-top:30px;">
+                <a href="/epaper/archive/" class="dc-btn">সকল আর্কাইভ দেখুন</a>
             </div>
         `;
 
     } catch (err) {
-
-        console.error(err);
-
-        container.innerHTML = `
-            <div class="dc-empty">
-                ই-পেপার লোড করা যায়নি।
-            </div>
-        `;
-
+        container.innerHTML = `<div class="dc-empty">ই-পেপার লোড করা যায়নি।</div>`;
     }
-
 });
