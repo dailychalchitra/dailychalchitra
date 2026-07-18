@@ -6,12 +6,13 @@ permalink: /posts.json
 {% for post in site.posts %}
 {
   "title": {{ post.title | jsonify }},
-  "url": {{ post.url | jsonify }},
+  "url": {{ post.url | relative_url | jsonify }},
   "date": "{{ post.date | date: '%Y-%m-%d' }}",
   "week_id": "{{ post.date | date: '%Y-W%V' }}",
-  "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 200 | jsonify }},
+  "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 180 | jsonify }},
   "content": {{ post.content | jsonify }},
-  "image": {% if post.image %}{{ post.image | jsonify }}{% else %}"{{ site.baseurl }}/assets/img/default.jpg"{% endif %},
+  "image": {% if post.image %}{{ post.image | jsonify }}{% else %}"{{ '/assets/img/default.jpg' | relative_url | jsonify }}"{% endif %},
+  "categories": {{ post.categories | jsonify }},
   "category": {% if post.categories.first %}{{ post.categories.first | jsonify }}{% else %}"সাধারণ"{% endif %},
   "author": {% if post.author %}{{ post.author | jsonify }}{% else %}"দৈনিক চালচিত্র"{% endif %}
 }{% unless forloop.last %},{% endunless %}
