@@ -1,6 +1,6 @@
 /*
   Daily Chalchitra - Single Post PDF
-  Final Fixed v3.0 - HD A4 Bengali Safe
+  Final Fixed v3.1 - Pure utility module (binding handled by toolbar injector)
 */
 window.DCSinglePDF = {
   async download(selectorOrElement){
@@ -12,7 +12,7 @@ window.DCSinglePDF = {
       element = document.querySelector(".post-container") || document.querySelector(".post-body") || document.querySelector("article");
     }
     if(!element){
-      alert("পোস্ট কনটেন্ট পাওয়া যায়নি।");
+      alert("পোস্ট কনটেন্ট পাওয়া যায়নি।");
       return;
     }
 
@@ -27,7 +27,7 @@ window.DCSinglePDF = {
       const title = document.querySelector("h1")?.innerText?.trim() || "Daily-Chalchitra-Post";
       const fileName = title.replace(/[\/\\:*?"<>|]/g,'').replace(/\s+/g,'-').substring(0,60) + ".pdf";
 
-      // যদি html2pdf থাকে (আপনার আগের ফাইলে CDN আছে) - এটাই বাংলা জন্য বেস্ট
+      // যদি html2pdf থাকে - এটাই বাংলা জন্য বেস্ট
       if(typeof html2pdf !== 'undefined'){
         const opt = {
           margin:       [8, 8, 8, 8],
@@ -73,7 +73,7 @@ window.DCSinglePDF = {
 
     } catch(error){
       console.error("PDF Error:", error);
-      alert("PDF তৈরি করা যায়নি। ব্রাউজার প্রিন্ট অপশন খুলছে...");
+      alert("PDF তৈরি করা যায়নি। ব্রাউজার প্রিন্ট অপশন খুলছে...");
       window.print();
     } finally {
       if(btn){
@@ -83,14 +83,3 @@ window.DCSinglePDF = {
     }
   }
 };
-
-// Auto-bind toolbar button
-document.addEventListener("DOMContentLoaded", () => {
-  const pdfBtn = document.getElementById("dc-single-pdf-btn");
-  if(pdfBtn){
-    pdfBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.DCSinglePDF.download(".post-container");
-    });
-  }
-});
