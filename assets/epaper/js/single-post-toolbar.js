@@ -1,6 +1,6 @@
 /*
   Daily Chalchitra - Single Post Toolbar Injector
-  Final Fixed v3.2 - PDF + Print + Fullscreen Unified
+  Final Fixed v3.3 - PDF + Print + Fullscreen Unified
 */
 document.addEventListener("DOMContentLoaded", () => {
     const article = document.querySelector("article") || document.querySelector(".post-container") || document.querySelector(".post-body");
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 1. Download - আগের DCSinglePDF এর সাথে কানেক্ট
+    // 1. Download - DCSinglePDF এর সাথে কানেক্ট
     document.getElementById("dc-single-pdf-btn")?.addEventListener("click", (e) => {
         e.preventDefault();
         if (window.DCSinglePDF && typeof window.DCSinglePDF.download === 'function') {
@@ -85,6 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.innerHTML = '<i class="fa fa-expand"></i> ফুলস্ক্রিন';
         }
     });
-
-    console.log("Single Toolbar v3.2 Ready - PDF Linked");
 });
