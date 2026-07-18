@@ -1,6 +1,6 @@
 /*
 Daily Chalchitra ePaper Viewer
-Final Auto v6.2 - Gap Fixed + Red Straight Meta
+Final Auto v6.3 - Single Stabak Gap Fixed
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if(!page) return;
 
             const doInject = () => {
-                // ১. নিচের ডাবল "বিভাগ | লেখক" রিমুভ করা
+                // ১. নিচের ডাবল "বিভাগ | লেখক" রিমুভ
                 page.querySelectorAll(".dc-post-card small").forEach(el => {
                     if(el.textContent.includes("বিভাগ:") || el.textContent.includes("লেখক:")){
                         el.remove();
@@ -54,8 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                             const metaDiv = document.createElement("div");
                             metaDiv.className = "dc-cat-author";
-                            // FIXED: সোজা, লাল, গ্যাপ কম
-                            metaDiv.style.cssText = "font-size:13px; color:#C00000; margin:2px 0 6px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif; font-style:normal; font-weight:600; line-height:1.4;";
+                            metaDiv.style.cssText = "font-size:13px; color:#C00000; margin:2px 0 4px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif; font-style:normal; font-weight:600; line-height:1.2;";
 
                             let cat = catName? `বিভাগ: ${catName}` : "";
                             let auth = authorName? `লেখক: ${authorName}` : "";
@@ -69,12 +68,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     });
                 });
 
-                // ২. কবিতার স্তবক - গ্যাপ কমানো ফিক্স
+                // ২. স্তবক গ্যাপ - ডাবল গ্যাপ ফিক্স (এটাই মূল ফিক্স)
                 page.querySelectorAll(".dc-post-card p").forEach(p => {
                     p.style.whiteSpace = "pre-line";
                     p.style.lineHeight = "1.6";
-                    p.style.marginBottom = "4px";
-                    p.style.paddingBottom = "0";
+                    p.style.margin = "0"; // আগে 4px ছিল, এখন 0 - তাই ডাবল হবে না
+                    p.style.padding = "0";
                 });
             };
 
@@ -141,7 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
                 if(!viewer) return;
                 const win = window.open("", "_blank");
-                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.6;} img{max-width:100%;} #dc-epaper-page{padding:20px; white-space:pre-line;}</style></head><body>${viewer.outerHTML}</body></html>`);
+                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.6;} img{max-width:100%;} #dc-epaper-page{padding:20px; white-space:pre-line;} p{margin:0; padding:0;}</style></head><body>${viewer.outerHTML}</body></html>`);
                 win.document.close();
                 win.onload = () => win.print();
             };
