@@ -6,25 +6,25 @@ permalink: /assets/epaper/issues/issues.json
 {% assign posts_by_week = site.posts | group_by_exp: "post", "post.date | date: '%Y-W%V'" | sort: "name" | reverse %}
 {% for week in posts_by_week %}
 {
-  "id": "{{ week.name }}",
-  "year": "{{ week.name | slice: 0, 4 }}",
-  "week": "{{ week.name | slice: 6, 2 }}",
-  "title": "দৈনিক চালচিত্র – সপ্তাহ {{ week.name | slice: 6, 2 }}, {{ week.name | slice: 0, 4 }}",
+  "id": {{ week.name | jsonify }},
+  "year": {{ week.name | slice: 0, 4 | jsonify }},
+  "week": {{ week.name | slice: 6, 2 | jsonify }},
+  "title": {{ week.name | prepend: "দৈনিক চালচিত্র – সপ্তাহ " | jsonify }},
   "date": "{{ week.items.first.date | date: '%d %B, %Y' }}",
   "pages": {{ week.items.size | divided_by: 6.0 | ceil }},
   "count": {{ week.items.size }},
-  "viewer": "/epaper/viewer/?issue={{ week.name }}",
-  "pdf": "/assets/epaper/pdf/{{ week.name }}.pdf",
-  "cover": "{% if week.items.first.image %}{{ week.items.first.image }}{% endif %}",
+  "viewer": {{ "/epaper/viewer/?issue=" | append: week.name | relative_url | jsonify }},
+  "pdf": "",
+  "cover": {% if week.items.first.image %}{{ week.items.first.image | jsonify }}{% else %}""{% endif %},
   "posts": [
     {% for post in week.items %}
     {
       "title": {{ post.title | jsonify }},
-      "url": "{{ post.url | relative_url }}",
-      "author": {{ post.author | default: "" | jsonify }},
+      "url": {{ post.url | relative_url | jsonify }},
+      "author": {{ post.author | default: "দৈনিক চালচিত্র" | jsonify }},
       "categories": {{ post.categories | jsonify }},
-      "category": {% if post.categories.first %}{{ post.categories.first | jsonify }}{% else %}""{% endif %},
-      "image": "{{ post.image | default: "" }}",
+      "category": {% if post.categories.first %}{{ post.categories.first | jsonify }}{% else %}"সাধারণ"{% endif %},
+      "image": {{ post.image | default: "" | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}"
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
