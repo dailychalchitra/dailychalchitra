@@ -9,11 +9,11 @@ permalink: /posts.json
   "url": {{ post.url | jsonify }},
   "date": "{{ post.date | date: '%Y-%m-%d' }}",
   "week_id": "{{ post.date | date: '%Y-W%V' }}",
-  "excerpt": {{ post.excerpt | strip_html | strip_newlines | jsonify }},
+  "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 200 | jsonify }},
   "content": {{ post.content | jsonify }},
-  "image": {{ post.image | jsonify }},
-  "category": {{ post.categories | first | jsonify }},
-  "author": {{ post.author | jsonify }}
+  "image": {% if post.image %}{{ post.image | jsonify }}{% else %}"{{ site.baseurl }}/assets/img/default.jpg"{% endif %},
+  "category": {% if post.categories.first %}{{ post.categories.first | jsonify }}{% else %}"সাধারণ"{% endif %},
+  "author": {% if post.author %}{{ post.author | jsonify }}{% else %}"দৈনিক চালচিত্র"{% endif %}
 }{% unless forloop.last %},{% endunless %}
 {% endfor %}
 ]
