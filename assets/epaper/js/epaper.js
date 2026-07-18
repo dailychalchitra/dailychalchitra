@@ -1,6 +1,6 @@
 /*
   Daily Chalchitra ePaper - Home
-  Final Fixed v3.2 - No Download Failed + No Empty Viewer
+  Final Fixed v3.3 - Removed CORS-breaking crossorigin + fixed misleading PDF button
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("dc-issues");
@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         container.innerHTML = `
             <div class="dc-issue-grid">
             ${latest.map(issue => {
-                // cover ফিক্স - postimg এর ছবিতে crossOrigin ও fallback
+                // cover ফিক্স - crossorigin সরানো হলো (বাইরের হোস্টের ছবি CORS ছাড়া লোডই হতো না), fallback ঠিক রাখা হলো
                 const coverImg = issue.cover ? 
-                    `<img class="dc-cover" src="${issue.cover}" alt="${issue.title}" loading="lazy" crossorigin="anonymous" onerror="this.style.display='none'">` : 
-                    `<div class="dc-cover" style="background:#f3f3f3;display:flex;align-items:center;justify-content:center;height:180px;color:#C00000;font-weight:700;"><i class="fa fa-newspaper" style="font-size:32px;"></i></div>`;
+                    `<img class="dc-cover" src="${issue.cover}" alt="${issue.title}" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-cover dc-cover-fallback&quot;><i class=&quot;fa fa-newspaper&quot;></i></div>'">` : 
+                    `<div class="dc-cover dc-cover-fallback"><i class="fa fa-newspaper"></i></div>`;
 
                 // viewer লিংক ফিক্স - id encode করা
                 const viewerLink = `/epaper/viewer/?issue=${encodeURIComponent(issue.id)}`;
@@ -41,14 +41,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <div class="dc-date" style="font-size:12px;color:#888;margin-bottom:6px;">${issue.date || ''}</div>
                         <h3 class="dc-title" style="margin:0 0 6px 0;font-size:17px;line-height:1.4;">${issue.title || 'ই-পেপার'}</h3>
                         <div class="dc-pages" style="font-size:13px;color:#666;margin-bottom:14px;">${issue.count || 0} টি লেখা ${issue.pages? '| ' + issue.pages + ' পৃষ্ঠা' : ''}</div>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-                            <a class="dc-btn" href="${viewerLink}" style="background:#C00000;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
-                                <i class="fa fa-book-open"></i> পড়ুন
-                            </a>
-                            <a class="dc-btn-pdf" href="${viewerLink}" style="background:#fff;color:#C00000;border:1.2px solid #C00000;padding:7px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
-                                <i class="fa fa-file-pdf"></i> PDF
-                            </a>
-                        </div>
+                        <a class="dc-btn" href="${viewerLink}" style="background:#C00000;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
+                            <i class="fa fa-book-open"></i> পড়ুন ও PDF ডাউনলোড
+                        </a>
                     </div>
                 </div>
                 `;
