@@ -4,24 +4,25 @@ title: ই-পেপার
 permalink: /epaper/viewer/
 ---
 
-<link rel="stylesheet" href="/assets/epaper/css/epaper.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/assets/epaper/css/epaper.css?v=8.0">
 
 <div class="dc-viewer">
     <h1 id="dc-title">ই-পেপার</h1>
     <div id="dc-meta"></div>
 
     <div class="dc-viewer-toolbar">
-        <button id="dc-download">📥 ডাউনলোড</button>
-        <button id="dc-print">🖨️ প্রিন্ট</button>
-        <button id="dc-fullscreen">⛶ ফুলস্ক্রিন</button>
+        <button id="dc-download"><i class="fa fa-file-pdf"></i> পুরো ই-পেপার PDF</button>
+        <button id="dc-print"><i class="fa fa-print"></i> প্রিন্ট</button>
+        <button id="dc-fullscreen"><i class="fa fa-expand"></i> ফুলস্ক্রিন</button>
     </div>
 
     <div class="dc-controls">
-        <button id="dc-prev">⬅️ পূর্বের পৃষ্ঠা</button>
+        <button id="dc-prev"><i class="fa fa-arrow-left"></i> পূর্বের পৃষ্ঠা</button>
         <span id="dc-page-info">পৃষ্ঠা 1 / 0</span>
-        <button id="dc-next">পরের পৃষ্ঠা ➡️</button>
-        <button id="dc-zoom-in">🔍+</button>
-        <button id="dc-zoom-out">🔍-</button>
+        <button id="dc-next">পরের পৃষ্ঠা <i class="fa fa-arrow-right"></i></button>
+        <button id="dc-zoom-in"><i class="fa fa-search-plus"></i></button>
+        <button id="dc-zoom-out"><i class="fa fa-search-minus"></i></button>
     </div>
 
     <div class="dc-pdf-box">
@@ -30,9 +31,17 @@ permalink: /epaper/viewer/
             <div id="dc-post-columns">ই-পেপার লোড হচ্ছে...</div>
         </div>
     </div>
+    
+    <p style="text-align:center; font-size:13px; color:#888; margin-top:25px;">
+        <i class="fa fa-info-circle"></i> প্রতিটি লেখার ডান কোণে <b style="color:#C00000;">PDF</b> বাটনে ক্লিক করলে শুধু ওই লেখাটির PDF ডাউনলোড হবে
+    </p>
 </div>
 
-<script src="/assets/epaper/lib/viewer/viewer-engine.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="/assets/epaper/js/viewer.js"></script>
+<!-- PDF Libraries - সিঙ্গেল পোস্ট PDF এর জন্য জরুরি -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- Engine - আপনার আগের ফাইল -->
+<script src="/assets/epaper/js/epaper-engine.js?v=3.0"></script>
+<script src="/assets/epaper/js/viewer.js?v=8.0"></script>
