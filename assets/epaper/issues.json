@@ -1,16 +1,19 @@
+---
+layout: null
+permalink: /assets/epaper/issues/issues.json
+---
 [
-  {
-    "id": "2026-week-29",
-    "issue": 1,
-    "year": 2026,
-    "week": 29,
-    "title": "দৈনিক চালচিত্র – প্রথম সাপ্তাহিক সংখ্যা",
-    "date": "২০২৬-০৭-১৮",
-    "pages": 10,
-    "cover": "/assets/epaper/covers/2026/week-29.webp",
-    "pdf": "/assets/epaper/pdf/2026/week-29.pdf",
-    "viewer": "/epaper/viewer/?issue=2026-week-29",
-    "published": true
-  }
+{% assign posts_by_week = site.posts | group_by_exp: "post", "post.date | date: '%Y-W%V'" | sort: "name" | reverse %}
+{% for week in posts_by_week %}
+{
+  "id": "{{ week.name }}",
+  "year": "{{ week.name | slice: 0, 4 }}",
+  "week": "{{ week.name | slice: 6, 2 }}",
+  "title": "দৈনিক চালচিত্র – সপ্তাহ {{ week.name | slice: 6, 2 }}, {{ week.name | slice: 0, 4 }}",
+  "date": "{{ week.items.first.date | date: '%Y-%m-%d' }}",
+  "pages": {{ week.items.size | divided_by: 6.0 | ceil }},
+  "count": {{ week.items.size }},
+  "viewer": "/epaper/viewer/?issue={{ week.name }}"
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
 ]
-
