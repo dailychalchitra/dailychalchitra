@@ -1,6 +1,6 @@
 /* ========================================
    Daily Chalchitra - Single Post Toolbar
-   Final Fixed v3.0 - With PDF Download
+   Final Fixed v3.1 - Print button selector fixed
    ======================================== */
 
 .dc-single-toolbar{
@@ -53,24 +53,23 @@
 }
 
 /* PDF বাটন - প্রাইমারি লাল */
-#dc-single-pdf-btn,
-.dc-toolbar-pdf{
+#dc-single-pdf-btn{
     background:#C00000 !important;
     color:#fff !important;
     border-color:#C00000 !important;
     box-shadow:0 3px 10px rgba(192,0,0,0.22);
 }
 
-#dc-single-pdf-btn:hover,
-.dc-toolbar-pdf:hover{
+#dc-single-pdf-btn:hover{
     background:#8B0000 !important;
     border-color:#8B0000 !important;
     color:#fff !important;
     box-shadow:0 5px 14px rgba(192,0,0,0.3);
 }
 
-/* প্রিন্ট বাটন হালকা আলাদা */
-.dc-toolbar-print{
+/* প্রিন্ট বাটন হালকা আলাদা - আগে ভুল ক্লাস (.dc-toolbar-print) টার্গেট করা ছিল,
+   যেটা JS কখনো বসাতোই না। এখন আসল ID টার্গেট করা হচ্ছে। */
+#dc-single-print{
     background:#f7f7f7 !important;
 }
 
