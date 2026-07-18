@@ -1,6 +1,7 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v7.0
-   Fixed: Double Gap, Hard Wrap, Font Match
+   Daily Chalchitra ePaper - Final Fixed v8.0
+   Features: No Double Gap + Single Post PDF Download
+   Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
 /* ---------- Home Page ---------- */
@@ -152,6 +153,7 @@
     text-align:left;
     max-width:100%;
     box-sizing:border-box;
+    position:relative;
 }
 .dc-post-card img{ width:100%; border-radius:5px; margin-bottom:8px; height:auto; }
 .dc-post-card h2{ 
@@ -163,67 +165,97 @@
     color:#000;
 }
 
-/* ---------- FINAL FIX v7.0: ডাবল গ্যাপ ১০০% বন্ধ ---------- */
+/* ---------- SINGLE POST PDF BUTTON (NEW) ---------- */
+#dc-single-pdf-btn{
+    background:#C00000;
+    color:#fff;
+    border:none;
+    padding:8px 16px;
+    border-radius:20px;
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:0.2s;
+    font-family:'Noto Sans Bengali',sans-serif;
+    box-shadow:0 2px 6px rgba(192,0,0,0.2);
+}
+#dc-single-pdf-btn:hover{
+    background:#8B0000;
+    transform:translateY(-1px);
+}
+.dc-mini-pdf{
+    position:absolute;
+    top:8px;
+    right:8px;
+    background:#fff;
+    color:#C00000 !important;
+    border:1.2px solid #C00000;
+    padding:3px 8px;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:600;
+    text-decoration:none !important;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    z-index:2;
+}
+.dc-mini-pdf:hover{
+    background:#C00000;
+    color:#fff !important;
+}
 
-/* ১. সব কিছুর white-space নরমাল - pre-line একেবারে বাদ */
+/* ---------- FINAL FIX: ডাবল গ্যাপ ১০০% বন্ধ ---------- */
 .dc-post-card,
 #dc-epaper-page .dc-post-card,
 .dc-post-card p,
 #dc-epaper-page p,
 .dc-post-card .dc-post-content {
-    white-space: normal !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
+    white-space:normal !important;
+    word-break:break-word !important;
+    overflow-wrap:anywhere !important;
     box-sizing:border-box !important;
 }
-
-/* ২. প্যারাগ্রাফ স্টাইল - আপনার সাইটের মতো */
 .dc-post-card p,
 #dc-epaper-page p,
 .dc-post-card .dc-post-content {
     font-family:'Noto Sans Bengali',sans-serif !important;
     font-size:15px !important;
-    line-height:1.6 !important; /* আপনার মেইন সাইটের মতো 1.6 */
+    line-height:1.6 !important;
     color:#222 !important;
     margin:0 !important;
     padding:0 !important;
     display:block;
 }
-
-/* ৩. স্তবক গ্যাপ - শুধু 10px, ডাবল না */
 .dc-post-card p + p,
 #dc-epaper-page p + p {
     margin-top:10px !important;
 }
-
-/* ৪. hard_wrap এর <br> ফিক্স - সিঙ্গেল br কে স্পেস হিসেবে ধরা */
-.dc-post-card br {
+.dc-post-card br{
     display:inline !important;
     content:" " !important;
     margin:0 !important;
     line-height:0 !important;
 }
-/* পরপর ২টা br থাকলে সেটা হবে স্তবক গ্যাপ */
-.dc-post-card br + br {
+.dc-post-card br + br{
     display:block !important;
     margin-top:10px !important;
     content:"" !important;
 }
-.dc-post-card br + br + br {
+.dc-post-card br + br + br{
     display:none !important;
 }
-
-/* ৫. ফাঁকা p এবং শুধু &nbsp; থাকা p হাইড */
 #dc-epaper-page p:empty,
-.dc-post-card p:empty {
+.dc-post-card p:empty{
     display:none !important;
     margin:0 !important;
     padding:0 !important;
     height:0 !important;
 }
-
-/* ৬. শিরোনামের নিচে বিভাগ | লেখক */
-.dc-cat-author {
+.dc-cat-author{
     font-size:13px !important;
     color:#C00000 !important;
     margin:2px 0 8px 0 !important;
@@ -236,9 +268,7 @@
     display:block !important;
     font-family:'Noto Sans Bengali',sans-serif !important;
 }
-
-/* ৭. নিচের ডাবল small হাইড */
-.dc-post-card small {
+.dc-post-card small{
     display:none !important;
 }
 
@@ -256,6 +286,19 @@
 }
 .dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
+/* ---------- Print / PDF ---------- */
+@media print{
+    header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf, #dc-single-pdf-btn{
+        display:none !important;
+    }
+    #dc-epaper-page, .dc-viewer{
+        box-shadow:none !important;
+        border:none !important;
+        margin:0 !important;
+        padding:10px !important;
+    }
+}
+
 /* ---------- Responsive ---------- */
 @media(max-width:1100px){ #dc-post-columns{ column-count:2; } }
 @media(max-width:700px){
@@ -264,4 +307,5 @@
     #dc-epaper-page{ padding:15px; }
     .dc-viewer{ padding:10px; }
     .dc-post-card h2{ font-size:17px; }
+    .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
 }
