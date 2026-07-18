@@ -2,7 +2,7 @@
 ========================================
 Daily Chalchitra
 Single Post Toolbar Injector
-Version : 1.0
+Version : 1.1
 ========================================
 */
 
@@ -66,7 +66,74 @@ toolbar.innerHTML = `
 
 /*
 =============================
-Insert After Header Info
+Toolbar Style
+=============================
+*/
+
+
+const style =
+document.createElement(
+"style"
+);
+
+
+style.innerHTML = `
+
+
+.dc-single-toolbar{
+
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin:20px 0;
+padding:10px 0;
+
+}
+
+
+.dc-single-toolbar button{
+
+background:#C00000;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+
+}
+
+
+.dc-single-toolbar button:hover{
+
+background:#990000;
+
+}
+
+
+@media(max-width:600px){
+
+.dc-single-toolbar button{
+
+font-size:13px;
+padding:8px 12px;
+
+}
+
+}
+
+
+`;
+
+
+document.head.appendChild(style);
+
+
+
+/*
+=============================
+Insert Toolbar
 =============================
 */
 
@@ -80,10 +147,10 @@ article.querySelector(
 
 if(body){
 
-    body.parentNode.insertBefore(
-        toolbar,
-        body
-    );
+body.parentNode.insertBefore(
+toolbar,
+body
+);
 
 }
 
@@ -91,7 +158,7 @@ if(body){
 
 /*
 =============================
-Download
+Download Button
 =============================
 */
 
@@ -125,19 +192,29 @@ content
 
 }
 
+else{
 
 
-};
-
+alert(
+"PDF সিস্টেম লোড হয়নি।"
+);
 
 
 }
 
 
 
+};
+
+
+}
+
+
+
+
 /*
 =============================
-Print
+Print Button
 =============================
 */
 
@@ -156,7 +233,81 @@ print.onclick =
 ()=>{
 
 
-window.print();
+const printWindow =
+window.open(
+"",
+"_blank"
+);
+
+
+
+printWindow.document.write(
+
+`
+
+<html>
+
+<head>
+
+<title>
+দৈনিক চালচিত্র
+</title>
+
+
+<style>
+
+body{
+
+font-family:
+'SolaimanLipi',
+Arial,
+sans-serif;
+
+padding:20px;
+
+}
+
+
+img{
+
+max-width:100%;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+${article.innerHTML}
+
+
+</body>
+
+
+</html>
+
+`
+
+);
+
+
+
+printWindow.document.close();
+
+
+
+printWindow.onload =
+()=>{
+
+printWindow.print();
+
+};
 
 
 
@@ -167,9 +318,10 @@ window.print();
 
 
 
+
 /*
 =============================
-Fullscreen
+Fullscreen Button
 =============================
 */
 
@@ -211,10 +363,14 @@ await document.exitFullscreen();
 
 }
 
+
 catch(error){
 
 
-console.error(error);
+console.error(
+"Fullscreen Error:",
+error
+);
 
 
 }
@@ -224,6 +380,12 @@ console.error(error);
 
 
 }
+
+
+
+console.log(
+"Daily Chalchitra Single Post Toolbar Loaded"
+);
 
 
 
