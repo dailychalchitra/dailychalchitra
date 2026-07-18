@@ -6,260 +6,33 @@ permalink: /epaper/viewer/
 
 <link rel="stylesheet" href="/assets/epaper/css/epaper.css">
 
-
 <div class="dc-viewer">
-
-
-    <h1 id="dc-title">
-        ই-পেপার
-    </h1>
-
-
+    <h1 id="dc-title">ই-পেপার</h1>
     <div id="dc-meta"></div>
 
-
-
     <div class="dc-viewer-toolbar">
-
-
-        <button id="dc-download">
-            📥 ডাউনলোড
-        </button>
-
-
-        <button id="dc-print">
-            🖨️ প্রিন্ট
-        </button>
-
-
-        <button id="dc-fullscreen">
-            ⛶ ফুলস্ক্রিন
-        </button>
-
-
+        <button id="dc-download">📥 ডাউনলোড</button>
+        <button id="dc-print">🖨️ প্রিন্ট</button>
+        <button id="dc-fullscreen">⛶ ফুলস্ক্রিন</button>
     </div>
-
-
-
 
     <div class="dc-controls">
-
-
-        <button id="dc-prev">
-            ⬅️ পূর্বের পৃষ্ঠা
-        </button>
-
-
-
-        <span id="dc-page-info">
-            পৃষ্ঠা 1 / 0
-        </span>
-
-
-
-        <button id="dc-next">
-            পরের পৃষ্ঠা ➡️
-        </button>
-
-
-
-        <button id="dc-zoom-in">
-            🔍+
-        </button>
-
-
-
-        <button id="dc-zoom-out">
-            🔍-
-        </button>
-
-
+        <button id="dc-prev">⬅️ পূর্বের পৃষ্ঠা</button>
+        <span id="dc-page-info">পৃষ্ঠা 1 / 0</span>
+        <button id="dc-next">পরের পৃষ্ঠা ➡️</button>
+        <button id="dc-zoom-in">🔍+</button>
+        <button id="dc-zoom-out">🔍-</button>
     </div>
-
-
-
-
 
     <div class="dc-pdf-box">
-
-
-    <div id="dc-epaper-page">
-
-
-        <div class="dc-paper-head">
-
-            দৈনিক চালচিত্র
-
+        <div id="dc-epaper-page">
+            <div class="dc-paper-head">দৈনিক চালচিত্র</div>
+            <div id="dc-post-columns">ই-পেপার লোড হচ্ছে...</div>
         </div>
-
-
-        <div id="dc-post-columns">
-
-            ই-পেপার লোড হচ্ছে...
-
-        </div>
-
-
     </div>
-
-
 </div>
 
-
-
-
-
-<style>
-
-.dc-controls{
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:20px auto;
-
-}
-
-
-.dc-controls button{
-
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
-    background:#C00000;
-    color:white;
-    cursor:pointer;
-
-}
-
-
-#dc-page-info{
-
-    font-weight:bold;
-
-}
-
-
-
-/* ==========================
-   HTML ePaper Layout
-========================== */
-
-
-.dc-pdf-box{
-
-    width:100%;
-    overflow:hidden;
-    text-align:center;
-
-}
-
-
-
-#dc-epaper-page{
-
-    width:100%;
-    max-width:900px;
-    margin:20px auto;
-    background:white;
-    padding:30px;
-    box-sizing:border-box;
-
-}
-
-
-
-.dc-paper-head{
-
-    text-align:center;
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:20px;
-    border-bottom:2px solid #000;
-    padding-bottom:15px;
-
-}
-
-
-
-#dc-post-columns{
-
-    column-count:3;
-    column-gap:25px;
-    text-align:justify;
-
-}
-
-
-
-.dc-post-card{
-
-    break-inside:avoid;
-    margin-bottom:20px;
-    border-bottom:1px solid #ddd;
-    padding-bottom:15px;
-
-}
-
-
-
-.dc-post-card img{
-
-    width:100%;
-    border-radius:5px;
-
-}
-
-
-
-.dc-post-card h2{
-
-    font-size:20px;
-    margin:10px 0;
-
-}
-
-
-
-.dc-post-card p{
-
-    font-size:15px;
-    line-height:1.8;
-
-}
-
-
-
-@media(max-width:700px){
-
-
-#dc-post-columns{
-
-    column-count:1;
-
-}
-
-
-#dc-epaper-page{
-
-    padding:15px;
-
-}
-
-
-}
-
-</style>
-
-
-
-
 <script src="/assets/epaper/lib/viewer/viewer-engine.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
 <script src="/assets/epaper/js/viewer.js"></script>
