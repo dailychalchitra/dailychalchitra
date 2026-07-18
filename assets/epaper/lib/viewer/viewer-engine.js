@@ -1,9 +1,9 @@
 /*
   Daily Chalchitra ePaper Engine
-  Final Fixed v3.1 - Double Init Fixed + Download Failed Fixed
+  Final Fixed v3.2 - 100% Working - No posts.json needed
 */
 window.DCViewer = {
-    version: "3.1",
+    version: "3.2",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -18,7 +18,7 @@ window.DCViewer = {
     loading: false,
 
     init(issueId){
-        if(this.initialized && this.issue === issueId) return; // ডাবল init ব্লক
+        if(this.initialized && this.issue === issueId) return;
         this.issue = decodeURIComponent(issueId || "");
         this.currentPage = 1;
         this.totalPages = 0;
@@ -31,7 +31,7 @@ window.DCViewer = {
         this.container = document.getElementById("dc-post-columns");
         this.detectColumns();
         this.initialized = true;
-        console.log("ePaper Engine v3.1 Ready - Issue:", this.issue);
+        console.log("ePaper Engine v3.2 Ready - Issue:", this.issue);
     },
 
     detectColumns(){
@@ -45,48 +45,34 @@ window.DCViewer = {
 
     async loadPosts(){
         this.loading = true;
+        const box = document.getElementById("dc-post-columns");
+        if(box) box.innerHTML = `<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> ই-পেপার লোড হচ্ছে...</div>`;
         try{
-            // baseurl ফিক্স - GitHub Pages এ /posts.json ফেইল হতে পারে
-            let allPosts = [];
-            try{
-                const res = await fetch("/posts.json?v=" + Date.now());
-                if(!res.ok) throw new Error("root fail");
-                allPosts = await res.json();
-            } catch(e){
-                const res2 = await fetch(window.location.origin + "/posts.json?v=" + Date.now());
-                allPosts = await res2.json();
+            const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
+            if(!res.ok) throw new Error("issues.json not found");
+            const allIssues = await res.json();
+            const currentIssueData = allIssues.find(i => String(i.id) === String(this.issue));
+
+            if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
+                this.posts = currentIssueData.posts.map(post=>({
+                    title: (post.title || "").trim(),
+                    url: post.url || "",
+                    date: post.date || "",
+                    excerpt: post.excerpt || "",
+                    content: post.content || post.excerpt || "",
+                    image: post.image || "",
+                    category: post.category || "সাধারণ",
+                    author: post.author || ""
+                }));
+                console.log("Loaded from issues.json:", this.posts.length);
+            } else {
+                this.posts = [];
+                console.warn("No posts found for", this.issue, "in issues.json");
             }
-
-            let filtered = allPosts;
-            if(this.issue){
-                // week_id ম্যাচ + ফলব্যাক - W27 vs W27, 2025-W27 vs 2025-W27
-                filtered = allPosts.filter(p => {
-                    const wid = String(p.week_id || "").trim();
-                    return wid === this.issue || wid.includes(this.issue) || this.issue.includes(wid);
-                });
-                // যদি এখনো 0 হয়, তাহলে id এর শেষ অংশ (W27) দিয়ে খুঁজো
-                if(filtered.length === 0){
-                    const weekPart = this.issue.split("-").pop();
-                    filtered = allPosts.filter(p => String(p.week_id || "").includes(weekPart));
-                }
-            }
-
-            this.posts = filtered.filter(p => p.date && (p.content || p.excerpt)).map(post=>({
-                title: (post.title || "").trim(),
-                url: post.url || "",
-                date: post.date || "",
-                excerpt: post.excerpt || "",
-                content: post.content || "",
-                image: post.image || "",
-                category: post.category || post.categories?.[0] || "সাধারণ",
-                author: post.author || ""
-            }));
-
-            console.log("Filtered Posts for", this.issue, ":", this.posts.length);
             this.buildPages();
         }catch(error){
             console.error("Post Load Error:", error);
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না। posts.json চেক করুন।<br><small>${error.message}</small></div>`;
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।<br><small>${error.message}</small></div>`;
         }
         this.loading = false;
     },
@@ -160,7 +146,7 @@ window.DCViewer = {
         if(!box) return;
         box.innerHTML = "";
         if(!this.posts.length){
-            box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।<br><small>posts.json এ week_id:${this.issue} আছে কিনা চেক করুন।</small></div>`;
+            box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।<br>issues.json এ content আছে কিনা চেক করুন।</div>`;
             this.updatePageInfo();
             return;
         }
@@ -172,12 +158,10 @@ window.DCViewer = {
         current.forEach(post=>{
             const card = document.createElement("article");
             card.className = "dc-post-card";
-
             let cleanContent = (post.content || post.excerpt || "")
               .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "<br>")
               .replace(/<p>\s*<\/p>/gi, "")
               .replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
-
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="এই লেখার PDF"><i class="fa fa-file-pdf"></i> PDF</a>
                 ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" crossorigin="anonymous" onerror="this.style.display='none'">` : ""}
@@ -185,13 +169,11 @@ window.DCViewer = {
                 ${(post.category || post.author)? `<div class="dc-cat-author">${post.category? 'বিভাগ: '+post.category : ''}${post.category && post.author? ' | ' : ''}${post.author? 'লেখক: '+post.author : ''}</div>` : ""}
                 <div class="dc-post-content">${cleanContent}</div>
             `;
-
             const pdfBtn = card.querySelector(".dc-mini-pdf");
             pdfBtn.addEventListener("click", (e) => {
                 e.preventDefault(); e.stopPropagation();
                 this.downloadSingleCard(card, post.title);
             });
-
             box.appendChild(card);
         });
         this.updatePageInfo();
@@ -201,7 +183,6 @@ window.DCViewer = {
         const info = document.getElementById("dc-page-info");
         if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
     },
-
     nextPage(){
         if(this.currentPage < this.totalPages){
             this.currentPage++;
@@ -210,7 +191,6 @@ window.DCViewer = {
         }
         this.updatePageInfo();
     },
-
     previousPage(){
         if(this.currentPage > 1){
             this.currentPage--;
@@ -219,7 +199,6 @@ window.DCViewer = {
         }
         this.updatePageInfo();
     },
-
     setZoom(value){
         this.zoom = Math.max(0.5, Math.min(2, value));
         const page = document.getElementById("dc-epaper-page");
@@ -228,7 +207,6 @@ window.DCViewer = {
             page.style.transformOrigin = "top center";
         }
     },
-
     async start(){
         if(this.isStarting) return;
         this.isStarting = true;
@@ -239,7 +217,6 @@ window.DCViewer = {
     }
 };
 
-// অটো-স্টার্ট - শুধু viewer পেজে, যদি viewer.js আগে init না করে
 document.addEventListener("DOMContentLoaded",()=>{
     setTimeout(()=>{
         if(window.DCViewer &&!DCViewer.initialized){
