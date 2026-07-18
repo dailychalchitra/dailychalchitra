@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Auto v2.0
-   100% Automatic - No Edit Needed
+   Daily Chalchitra ePaper - Final Auto v6.0
+   Fixed: Stabak Gap + Single Category/Author
    ========================================================== */
 
 /* ---------- Home Page ---------- */
@@ -134,9 +134,41 @@
     text-align:left;
 }
 .dc-post-card img{ width:100%; border-radius:5px; margin-bottom:10px; }
-.dc-post-card h2{ font-size:20px; margin:10px 0; line-height:1.4; }
-.dc-post-card p{ font-size:15px; line-height:1.8; }
+.dc-post-card h2{ font-size:20px; margin:10px 0 4px 0; line-height:1.4; }
 .dc-post-card small{ color:#777; }
+
+/* ---------- FINAL FIX: স্তবক (Stanza Gap) ---------- */
+.dc-post-card p,
+#dc-epaper-page p,
+.dc-post-card .dc-post-content {
+    font-size:15px;
+    line-height:1.9;
+    white-space: pre-line !important; /* এই লাইনটাই ফাঁকা লাইন ধরে রাখবে */
+    margin-bottom: 16px !important;
+}
+
+/* শিরোনামের নিচে বিভাগ | লেখক - মূল পেজের মতো */
+.dc-cat-author {
+    font-size:13px !important;
+    color:#555 !important;
+    margin:4px 0 12px 0 !important;
+    border-left:3px solid #C00000;
+    padding-left:8px;
+    font-style: italic;
+    white-space: normal !important; /* এটাতে pre-line হবে না */
+}
+
+/* নিচের ডাবল লেখা হাইড করার জন্য */
+.dc-post-card small.dc-bottom-meta,
+.dc-post-card .post-footer-meta,
+#dc-epaper-page .dc-post-card small:last-of-type {
+    display: none !important;
+}
+
+/* যদি নিচে p এর ভেতর বিভাগ থাকে সেটা হাইড */
+.dc-post-card p:last-child:has(> span) {
+    /* safe fallback */
+}
 
 /* ---------- Archive ---------- */
 #dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
