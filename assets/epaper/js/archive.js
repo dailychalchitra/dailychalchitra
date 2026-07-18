@@ -1,207 +1,70 @@
 /*
-==================================
+
 Daily Chalchitra ePaper Archive
-Version : 1.3
-==================================
+Final Auto v2.0 - 100% Automatic
+
 */
-
-document.addEventListener("DOMContentLoaded", () => {
-
+document.addEventListener("DOMContentLoaded", async () => {
     const yearList = document.getElementById("dc-year-list");
     const archiveList = document.getElementById("dc-archive-list");
+    if (!yearList ||!archiveList) return;
 
-    if (!yearList || !archiveList) {
+    let allIssues = [];
 
-        console.error("Archive container not found.");
-
+    try {
+        const res = await fetch("/assets/epaper/issues/issues.json");
+        if (!res.ok) throw new Error("Issues not found");
+        allIssues = await res.json();
+    } catch (e) {
+        archiveList.innerHTML = `<div class="dc-empty">আর্কাইভ লোড করা যায়নি।</div>`;
         return;
-
     }
 
-    const startYear = 2026;
-    const currentYear = new Date().getFullYear();
-
-    let years = [];
-
-    for (let year = currentYear; year >= startYear; year--) {
-
-        years.push(year);
-
+    if (allIssues.length === 0) {
+        yearList.innerHTML = "";
+        archiveList.innerHTML = `<div class="dc-empty">এখনো কোনো ই-পেপার প্রকাশিত হয়নি।</div>`;
+        return;
     }
 
-    let html = "";
+    // Auto Year List from issues
+    const years = [...new Set(allIssues.map(i => i.year))].sort((a,b) => b-a);
 
-    years.forEach(year => {
+    yearList.innerHTML = years.map(year =>
+        `<button class="dc-year-btn" data-year="${year}">${year}</button>`
+    ).join("");
 
-        html += `
-            <button
-                class="dc-year-btn"
-                data-year="${year}">
-                ${year}
-            </button>
-        `;
-
-    });
-
-    yearList.innerHTML = html;
-
-
-    /*
-    ==================================
-    Load Archive by Year
-    ==================================
-    */
-
-    async function loadArchive(year) {
-
-        /*
-        ==================================
-        Active Year Button
-        ==================================
-        */
-
-        yearList
-            .querySelectorAll(".dc-year-btn")
-            .forEach(btn => {
-
-                btn.classList.remove("active");
-
-                if (btn.dataset.year == year) {
-
-                    btn.classList.add("active");
-
-                }
-
-            });
-
-
-        archiveList.innerHTML = `
-            <div class="dc-empty">
-                লোড হচ্ছে...
-            </div>
-        `;
-
-        try {
-
-            const res = await fetch(
-                `/assets/epaper/issues/${year}.json`
-            );
-
-            if (!res.ok) {
-
-                throw new Error("Issue file not found");
-
-            }
-
-            const issues = await res.json();
-
-            const published = issues.filter(
-                issue => issue.published
-            );
-
-            if (published.length === 0) {
-
-                archiveList.innerHTML = `
-                    <div class="dc-empty">
-                        এই বছরে কোনো ই-পেপার প্রকাশিত হয়নি।
-                    </div>
-                `;
-
-                return;
-
-            }
-
-            published.sort((a, b) => b.week - a.week);
-
-            let issueHTML = "";
-
-            published.forEach(issue => {
-
-                issueHTML += `
-                    <div class="dc-issue-card">
-
-                        <img
-                            class="dc-cover"
-                            src="${issue.cover}"
-                            alt="${issue.title}">
-
-                        <div class="dc-body">
-
-                            <div class="dc-date">
-                                ${issue.date}
-                            </div>
-
-                            <div class="dc-title">
-                                ${issue.title}
-                            </div>
-
-                            <div class="dc-pages">
-                                ${issue.pages} পৃষ্ঠা
-                            </div>
-
-                            <a
-                                class="dc-btn"
-                                href="/epaper/viewer/?issue=${issue.id}">
-                                পড়ুন
-                            </a>
-
-                        </div>
-
-                    </div>
-                `;
-
-            });
-
-            archiveList.innerHTML = `
-                <div class="dc-issue-grid">
-                    ${issueHTML}
-                </div>
-            `;
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            archiveList.innerHTML = `
-                <div class="dc-empty">
-                    এই বছরের আর্কাইভ পাওয়া যায়নি।
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    /*
-    ==================================
-    Year Button Events
-    ==================================
-    */
-
-    yearList
-        .querySelectorAll(".dc-year-btn")
-        .forEach(button => {
-
-            button.addEventListener("click", () => {
-
-                loadArchive(button.dataset.year);
-
-            });
-
+    function renderYear(year) {
+        yearList.querySelectorAll(".dc-year-btn").forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.year == year);
         });
 
+        const filtered = allIssues.filter(i => i.year == year).sort((a,b) => b.week - a.week);
 
-    /*
-    ==================================
-    Load Current Year Automatically
-    ==================================
-    */
+        if (filtered.length === 0) {
+            archiveList.innerHTML = `<div class="dc-empty">এই বছরে কোনো ই-পেপার প্রকাশিত হয়নি।</div>`;
+            return;
+        }
 
-    loadArchive(currentYear);
+        archiveList.innerHTML = `
+            <div class="dc-issue-grid">
+            ${filtered.map(issue => `
+                <div class="dc-issue-card">
+                    <div class="dc-body">
+                        <div class="dc-date">${issue.date}</div>
+                        <div class="dc-title">${issue.title}</div>
+                        <div class="dc-pages">${issue.count} টি লেখা | ${issue.pages} পৃষ্ঠা</div>
+                        <a class="dc-btn" href="${issue.viewer}">পড়ুন</a>
+                    </div>
+                </div>
+            `).join("")}
+            </div>
+        `;
+    }
 
-    console.log("Daily Chalchitra Archive Ready");
+    yearList.querySelectorAll(".dc-year-btn").forEach(button => {
+        button.addEventListener("click", () => renderYear(button.dataset.year));
+    });
 
+    // Load latest year automatically
+    renderYear(years[0]);
 });
