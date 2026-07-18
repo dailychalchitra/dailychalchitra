@@ -2,7 +2,8 @@
 ========================================
 Daily Chalchitra
 Single Post PDF Generator
-Version : 1.0
+Version : 2.0
+Multi Page A4 Edition
 ========================================
 */
 
@@ -10,96 +11,161 @@ Version : 1.0
 window.DCSinglePDF = {
 
 
-    async download(element){
+async download(element){
 
 
-        if(!element){
+if(!element){
 
-            alert(
-            "পোস্ট পাওয়া যায়নি।"
-            );
+alert(
+"পোস্ট পাওয়া যায়নি।"
+);
 
-            return;
+return;
 
-        }
-
-
-        try{
+}
 
 
-            const canvas =
-            await html2canvas(
-                element,
-                {
-                    scale:2,
-                    useCORS:true,
-                    backgroundColor:"#ffffff"
-                }
-            );
+
+try{
 
 
-            const img =
-            canvas.toDataURL(
-                "image/jpeg",
-                1.0
-            );
+const canvas =
+await html2canvas(
+element,
+{
+scale:2,
+useCORS:true,
+backgroundColor:"#ffffff"
+}
+);
 
 
-            const { jsPDF } =
-            window.jspdf;
+
+const imgData =
+canvas.toDataURL(
+"image/jpeg",
+0.95
+);
 
 
-            const pdf =
-            new jsPDF(
-                "p",
-                "mm",
-                "a4"
-            );
+
+const { jsPDF } =
+window.jspdf;
 
 
-            const width = 210;
+
+const pdf =
+new jsPDF(
+"p",
+"mm",
+"a4"
+);
 
 
-            const height =
-            canvas.height *
-            width /
-            canvas.width;
+
+const pageWidth = 210;
+
+const pageHeight = 297;
 
 
-            pdf.addImage(
-                img,
-                "JPEG",
-                0,
-                0,
-                width,
-                height
-            );
+
+const imgWidth =
+pageWidth;
 
 
-            pdf.save(
-                "daily-chalchitra-post.pdf"
-            );
+
+const imgHeight =
+canvas.height *
+pageWidth /
+canvas.width;
 
 
-        }
+
+let heightLeft =
+imgHeight;
 
 
-        catch(error){
+
+let position = 0;
 
 
-            console.error(
-                error
-            );
+
+pdf.addImage(
+imgData,
+"JPEG",
+0,
+position,
+imgWidth,
+imgHeight
+);
 
 
-            alert(
-            "PDF তৈরি করা যায়নি।"
-            );
+
+heightLeft -= pageHeight;
 
 
-        }
+
+while(heightLeft > 0){
 
 
-    }
+position =
+heightLeft -
+imgHeight;
+
+
+
+pdf.addPage();
+
+
+
+pdf.addImage(
+imgData,
+"JPEG",
+0,
+position,
+imgWidth,
+imgHeight
+);
+
+
+
+heightLeft -= pageHeight;
+
+
+}
+
+
+
+pdf.save(
+"daily-chalchitra-post.pdf"
+);
+
+
+
+}
+
+
+
+catch(error){
+
+
+console.error(
+"PDF Error:",
+error
+);
+
+
+
+alert(
+"PDF তৈরি করা যায়নি।"
+);
+
+
+}
+
+
+
+}
+
 
 };
