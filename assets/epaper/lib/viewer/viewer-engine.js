@@ -330,22 +330,22 @@ buildPages(){
 
 
         if(
-            usedHeight + postHeight > pageHeight
-            &&
-            page.length > 0
-        ){
+    usedHeight + postHeight > pageHeight
+    &&
+    page.length > 0
+){
+
+    this.pages.push(
+        [...page]
+    );
 
 
-            this.pages.push(page);
+    page.length = 0;
 
 
-            page = [];
+    usedHeight = 0;
 
-
-            usedHeight = 0;
-
-
-        }
+}
 
 
 
@@ -478,6 +478,15 @@ render(){
         return;
 
     }
+
+if(!current.length){
+
+    box.innerHTML =
+    "এই পৃষ্ঠায় কোনো পোস্ট নেই।";
+
+    return;
+
+}
 
     current.forEach(post=>{
 
