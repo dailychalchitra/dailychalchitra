@@ -1,6 +1,6 @@
 /*
 Daily Chalchitra ePaper Viewer
-Final Auto v5.0 - Fixed for categories[] + author
+Final Auto v6.1 - Single Meta + Stabak Gap Fixed
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -34,24 +34,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             if(!page) return;
 
             const doInject = () => {
+                // ১. নিচের ডাবল "বিভাগ | লেখক" রিমুভ করা
+                page.querySelectorAll(".dc-post-card small").forEach(el => {
+                    if(el.textContent.includes("বিভাগ:") || el.textContent.includes("লেখক:")){
+                        el.remove();
+                    }
+                });
+
                 issue.posts.forEach(post => {
-                    // category can be categories array or category string
                     let catName = "";
                     if(post.categories && post.categories.length > 0) catName = post.categories[0];
                     else if(post.category) catName = post.category;
-
                     let authorName = post.author || "";
 
                     const titles = page.querySelectorAll("h2, h3,.dc-post-title");
                     titles.forEach(el => {
-                        // টাইটেল মিললে
                         if(el.textContent.trim() === post.title.trim() || el.textContent.trim().includes(post.title.trim().substring(0,15))){
-                            if(el.nextElementSibling && el.nextElementSibling.classList.contains("dc-cat-author")) {
-                                return; // already injected
-                            }
+                            if(el.nextElementSibling && el.nextElementSibling.classList.contains("dc-cat-author")) return;
+
                             const metaDiv = document.createElement("div");
                             metaDiv.className = "dc-cat-author";
-                            metaDiv.style.cssText = "font-size:14px; color:#555; margin:6px 0 14px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif;";
+                            metaDiv.style.cssText = "font-size:13px; color:#555; margin:4px 0 12px 0; border-left:3px solid #C00000; padding-left:8px; font-family:SolaimanLipi, sans-serif; font-style:italic;";
 
                             let cat = catName? `বিভাগ: ${catName}` : "";
                             let auth = authorName? `লেখক: ${authorName}` : "";
@@ -63,6 +66,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                             }
                         }
                     });
+                });
+
+                // ২. কবিতার স্তবক ফাঁকা লাইন ঠিক করা
+                page.querySelectorAll(".dc-post-card p").forEach(p => {
+                    p.style.whiteSpace = "pre-line";
+                    p.style.marginBottom = "16px";
                 });
             };
 
@@ -129,7 +138,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
                 if(!viewer) return;
                 const win = window.open("", "_blank");
-                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.8;} img{max-width:100%;} #dc-epaper-page{padding:20px;}</style></head><body>${viewer.outerHTML}</body></html>`);
+                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.8;} img{max-width:100%;} #dc-epaper-page{padding:20px; white-space:pre-line;}</style></head><body>${viewer.outerHTML}</body></html>`);
                 win.document.close();
                 win.onload = () => win.print();
             };
