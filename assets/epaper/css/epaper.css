@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.0
-   Features: No Double Gap + Single Post PDF Download
+   Daily Chalchitra ePaper - Final Fixed v8.1
+   Features: No Double Gap + Single Post PDF Download + Cover Fallback
    Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
@@ -68,6 +68,20 @@
     font-weight:600;
 }
 .dc-cover{ width:100%; aspect-ratio:3/4; object-fit:cover; display:block; border-radius:8px 8px 0 0; }
+
+/* কভার ছবি লোড ব্যর্থ হলে (ভাঙা লিংক ইত্যাদি) এই ফলব্যাক বক্স দেখাবে */
+.dc-cover-fallback{
+    width:100%;
+    aspect-ratio:3/4;
+    background:#f3f3f3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#C00000;
+    font-size:32px;
+    border-radius:8px 8px 0 0;
+}
+
 .dc-body{ padding:16px; }
 .dc-empty{
     text-align:center;
@@ -165,7 +179,7 @@
     color:#000;
 }
 
-/* ---------- SINGLE POST PDF BUTTON (NEW) ---------- */
+/* ---------- SINGLE POST PDF BUTTON ---------- */
 #dc-single-pdf-btn{
     background:#C00000;
     color:#fff;
