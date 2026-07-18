@@ -1,6 +1,6 @@
 /*
 Daily Chalchitra ePaper Viewer
-Final Auto v6.3 - Single Stabak Gap Fixed
+Final Auto v6.4 - No Double Gap
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -68,12 +68,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                     });
                 });
 
-                // ২. স্তবক গ্যাপ - ডাবল গ্যাপ ফিক্স (এটাই মূল ফিক্স)
-                page.querySelectorAll(".dc-post-card p").forEach(p => {
-                    p.style.whiteSpace = "pre-line";
-                    p.style.lineHeight = "1.6";
-                    p.style.margin = "0"; // আগে 4px ছিল, এখন 0 - তাই ডাবল হবে না
+                // ২. ফাইনাল ফিক্স - ডাবল গ্যাপ বন্ধ (pre-line বাদ)
+                page.querySelectorAll(".dc-post-card p").forEach((p, index) => {
+                    p.style.whiteSpace = "normal";
+                    p.style.lineHeight = "1.5";
+                    p.style.margin = "0";
                     p.style.padding = "0";
+                    // প্রথম p বাদে বাকিগুলোতে 10px গ্যাপ = স্তবকের সিঙ্গেল গ্যাপ
+                    if(index > 0){
+                        p.style.marginTop = "10px";
+                    }
+                });
+
+                page.querySelectorAll(".dc-post-card br").forEach(br => {
+                    br.style.lineHeight = "1.5";
                 });
             };
 
@@ -140,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
                 if(!viewer) return;
                 const win = window.open("", "_blank");
-                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.6;} img{max-width:100%;} #dc-epaper-page{padding:20px; white-space:pre-line;} p{margin:0; padding:0;}</style></head><body>${viewer.outerHTML}</body></html>`);
+                win.document.write(`<html><head><title>${issue.title}</title><style>body{font-family:SolaimanLipi,Arial,sans-serif; line-height:1.5;} img{max-width:100%;} #dc-epaper-page{padding:20px;} p{margin:0; padding:0;} p + p{margin-top:10px;}</style></head><body>${viewer.outerHTML}</body></html>`);
                 win.document.close();
                 win.onload = () => win.print();
             };
