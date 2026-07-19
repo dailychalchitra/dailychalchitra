@@ -1,11 +1,14 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.7
+   Daily Chalchitra ePaper - Final Fixed v8.9
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
              + Fullscreen Scroll Fix + Fixed 2/3/4-Column Card Grid
-             + "সকল আর্কাইভ দেখুন" বাটন এখন কার্ডের নিচে থাকে, পাশে না
-             (আগে #dc-issues নিজেও গ্রিড হওয়ায় বাটন আলাদা কলামে চলে যেত)
+             + "সকল আর্কাইভ দেখুন" বাটন কার্ডের নিচে
              + Print/PDF now isolates only the epaper page
-             + Paper-head now uses logo image instead of text (avoids broken glyphs)
+             + Paper-head uses logo image instead of text
+             + Mobile cover ratio flattened for shorter cards
+             + Print/PDF now forces single-column layout (column-count:3
+               was breaking print pagination - first page came out
+               almost blank with content pushed to later pages)
    Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
@@ -31,10 +34,6 @@
     font-size:16px;
 }
 
-/* কার্ড গ্রিড - মোবাইলে সবসময় ২ কলাম, ট্যাবলেট/মাঝারি স্ক্রিনে ৩ কলাম,
-   বড় ডেস্কটপে ৪ কলাম। শুধু .dc-issue-grid-ই গ্রিড - #dc-issues (যেটা
-   কার্ড-গ্রিড ও "সকল আর্কাইভ দেখুন" বাটন দুটোরই প্যারেন্ট) এখন আর গ্রিড
-   না, তাই বাটনটা কার্ডের নিচে সঠিকভাবে বসবে, পাশে আলাদা কলামে না। */
 .dc-issue-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -105,6 +104,16 @@
     color:#C00000;
     font-size:32px;
     border-radius:8px 8px 0 0;
+}
+
+@media(max-width:599px){
+    .dc-cover, .dc-cover-fallback{
+        aspect-ratio:16/10 !important;
+    }
+    .dc-issue-card h3{
+        font-size:14px;
+    }
+    .dc-body{ padding:10px; }
 }
 
 .dc-body{ padding:12px; }
@@ -361,6 +370,14 @@
     body *{ visibility:hidden; }
     #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
     #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
+
+    /* মাল্টি-কলাম লেআউট প্রিন্ট পেজিনেশনের সাথে ঠিকমতো কাজ করে না -
+       প্রথম পাতা প্রায় খালি রেখে বাকি সব পরের পাতায় চলে যাচ্ছিল।
+       তাই PDF/প্রিন্টে জোর করে সিঙ্গেল-কলাম, স্ক্রিনে যথারীতি মাল্টি-কলাম। */
+    #dc-post-columns{
+        column-count:1 !important;
+        text-align:left !important;
+    }
 }
 
 /* ---------- Responsive ---------- */
