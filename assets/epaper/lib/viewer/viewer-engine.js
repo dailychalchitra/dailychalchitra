@@ -1,9 +1,10 @@
 /*
   Daily Chalchitra ePaper Engine
-  Final Fixed v3.3 - Live images no longer forced through CORS (was breaking external post images)
+  Final Fixed v3.4 - Removed duplicate auto-init (was racing with viewer.js's own init/start,
+  causing the viewer to get stuck on "লোড হচ্ছে..." for some issues depending on network timing)
 */
 window.DCViewer = {
-    version: "3.3",
+    version: "3.4",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -31,7 +32,7 @@ window.DCViewer = {
         this.container = document.getElementById("dc-post-columns");
         this.detectColumns();
         this.initialized = true;
-        console.log("ePaper Engine v3.3 Ready - Issue:", this.issue);
+        console.log("ePaper Engine v3.4 Ready - Issue:", this.issue);
     },
 
     detectColumns(){
@@ -72,7 +73,7 @@ window.DCViewer = {
             this.buildPages();
         }catch(error){
             console.error("Post Load Error:", error);
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।<br><small>${error.message}</small></div>`;
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।<br><small>${error.message}</small><br><button onclick="DCViewer.start()" style="margin-top:10px;padding:6px 14px;border:1px solid #C00000;color:#C00000;background:#fff;border-radius:6px;">আবার চেষ্টা করুন</button></div>`;
         }
         this.loading = false;
     },
@@ -106,8 +107,6 @@ window.DCViewer = {
         this.render();
     },
 
-    // এটাই একমাত্র সিঙ্গেল-পোস্ট PDF জেনারেটর। ক্লোনে crossorigin বসানো ঠিক
-    // আছে - এটা শুধু ক্যানভাসে আঁকার জন্য দরকার, লাইভ পেজে না।
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
@@ -219,18 +218,11 @@ window.DCViewer = {
     }
 };
 
-document.addEventListener("DOMContentLoaded",()=>{
-    setTimeout(()=>{
-        if(window.DCViewer &&!DCViewer.initialized){
-            const params = new URLSearchParams(window.location.search);
-            const issue = params.get("issue");
-            if(issue && document.getElementById("dc-post-columns")){
-                DCViewer.init(issue);
-                DCViewer.start();
-            }
-        }
-    }, 100);
-});
+// নোট: আগে এখানে একটা DOMContentLoaded লিসেনার ছিল যেটা নিজে থেকেই
+// DCViewer.init()/start() কল করত। কিন্তু viewer.js ইতিমধ্যেই এটা করে -
+// দুটো একসাথে চললে রেস কন্ডিশন তৈরি হয়ে মাঝে মাঝে ভিউয়ার আটকে যেত (যেটা
+// W29-তে দেখেছেন)। তাই এই ব্লকটা সম্পূর্ণ সরিয়ে দেওয়া হলো - init/start এখন
+// শুধু viewer.js থেকেই হবে।
 
 window.addEventListener("resize",()=>{
     if(window.DCViewer && DCViewer.initialized){
