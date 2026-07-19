@@ -1,6 +1,6 @@
 /*
   Daily Chalchitra ePaper Viewer
-  Final Fixed v8.3 - Prev/Next now actually change page + PDF column-layout fix
+  Final Fixed v8.4 - PDF: fixed broken Bengali heading glyphs + text cut across page breaks
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
+        // Full Issue PDF - column-layout ফ্ল্যাটেন + page-break-inside + glyph fix
         if(downloadBtn){
             downloadBtn.onclick = async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
@@ -98,13 +99,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                         columnsEl.style.columnGap = "0";
                     }
 
+                    const headEl = clone.querySelector(".dc-paper-head");
+                    if(headEl){
+                        headEl.style.breakInside = "avoid";
+                        headEl.style.pageBreakInside = "avoid";
+                    }
+                    clone.querySelectorAll(".dc-post-card").forEach(card=>{
+                        card.style.breakInside = "avoid";
+                        card.style.pageBreakInside = "avoid";
+                    });
+
                     await html2pdf().set({
                         margin: 8,
                         filename: `${issue.id}-epaper.pdf`,
                         image: {type:'jpeg', quality:0.9},
-                        html2canvas: {scale:1.5, useCORS:true, allowTaint:true, backgroundColor:"#fff"},
+                        html2canvas: {scale:2, useCORS:true, allowTaint:true, backgroundColor:"#fff", letterRendering:true},
                         jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
-                        pagebreak: {mode: ['css','legacy']}
+                        pagebreak: {mode: ['avoid-all','css','legacy']}
                     }).from(clone).save();
                 }catch(e){
                     console.error(e);
