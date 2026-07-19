@@ -1,6 +1,7 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.1
+   Daily Chalchitra ePaper - Final Fixed v8.2
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
+             + Fullscreen Scroll Fix + Mobile 2-Column Grid
    Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
@@ -145,6 +146,16 @@
     overflow-wrap:break-word;
     word-wrap:break-word;
 }
+
+/* ফুলস্ক্রিনে ক্লিক করলে আগে ভিতরের কন্টেন্ট স্ক্রল করা যাচ্ছিল না
+   (শুধু প্রথম পাতা দেখাতো, নিচে স্লাইড হতো না) - এটা ঠিক করা হলো */
+#dc-epaper-page:fullscreen,
+#dc-epaper-page:-webkit-full-screen{
+    overflow-y:auto !important;
+    max-height:100vh;
+    background:#fff;
+}
+
 .dc-paper-head{
     text-align:center;
     font-size:32px;
@@ -322,4 +333,14 @@
     .dc-viewer{ padding:10px; }
     .dc-post-card h2{ font-size:17px; }
     .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
+
+    /* হোম/আর্কাইভ পেজে কার্ড আগে ১ কলামে লিস্টের মতো দেখাতো -
+       এখন মোবাইলেও ২ কলামে পাশাপাশি সাজানো থাকবে */
+    .dc-issue-grid, #dc-issues{
+        grid-template-columns:repeat(2,1fr) !important;
+        gap:12px !important;
+    }
+    .dc-issue-card{ padding:10px; }
+    .dc-issue-card h3{ font-size:14px; }
+    .dc-issue-card .dc-btn{ font-size:11px !important; padding:6px 10px !important; }
 }
