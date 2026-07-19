@@ -112,6 +112,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     if(headEl){
                         headEl.style.breakInside = "avoid";
                         headEl.style.pageBreakInside = "avoid";
+                        // synthetic bold জটিল বাংলা যুক্তাক্ষর ভেঙে ফেলছিল -
+                        // PDF ক্লোনে normal weight ব্যবহার করা হচ্ছে, ভিজ্যুয়াল
+                        // মোটা ভাব ধরে রাখতে হালকা text-shadow ব্যবহার করা হলো
+                        headEl.style.fontWeight = "400";
+                        headEl.style.textShadow = "0.3px 0 0 currentColor, -0.3px 0 0 currentColor";
                     }
                     clone.querySelectorAll(".dc-post-card h2, .dc-post-card .dc-cat-author, .dc-post-card p").forEach(el=>{
                         el.style.breakInside = "avoid";
@@ -124,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         image: {type:'jpeg', quality:0.9},
                         html2canvas: {scale:2, useCORS:true, allowTaint:true, backgroundColor:"#fff"},
                         jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
-                        pagebreak: {mode: ['css','legacy']}
+                        pagebreak: {mode: ['css']}
                     }).from(clone).save();
                 }catch(e){
                     console.error(e);
