@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
-        // Full Issue PDF - column-layout ফ্ল্যাটেন + page-break-inside + glyph fix
+        // Full Issue PDF - ফন্ট লোড অপেক্ষা + সংযত পেজ-ব্রেক (বড় কার্ডে জোর করে না ভেঙে)
         if(downloadBtn){
             downloadBtn.onclick = async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
@@ -89,6 +89,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 downloadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
                 downloadBtn.disabled = true;
                 try{
+                    // বাংলা ফন্ট (Hind Siliguri/Noto Sans Bengali) সম্পূর্ণ লোড না
+                    // হওয়া পর্যন্ত অপেক্ষা - নাহলে html2canvas যুক্তাক্ষর ভুল আঁকে
+                    if(document.fonts && document.fonts.ready){
+                        await document.fonts.ready;
+                    }
+
                     const clone = viewer.cloneNode(true);
                     clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
                     clone.querySelectorAll("img").forEach(img=>img.setAttribute("crossorigin","anonymous"));
@@ -99,23 +105,26 @@ document.addEventListener("DOMContentLoaded", async () => {
                         columnsEl.style.columnGap = "0";
                     }
 
+                    // শুধু ছোট এলিমেন্ট (হেডিং, ক্যাটাগরি লাইন, প্রতিটা প্যারাগ্রাফ)
+                    // ভাঙা এড়ানো হবে - পুরো কার্ডে না, নাহলে বড় কার্ড জোর করে
+                    // পরের পেজে ঠেলে বিশাল ফাঁকা জায়গা তৈরি করে
                     const headEl = clone.querySelector(".dc-paper-head");
                     if(headEl){
                         headEl.style.breakInside = "avoid";
                         headEl.style.pageBreakInside = "avoid";
                     }
-                    clone.querySelectorAll(".dc-post-card").forEach(card=>{
-                        card.style.breakInside = "avoid";
-                        card.style.pageBreakInside = "avoid";
+                    clone.querySelectorAll(".dc-post-card h2, .dc-post-card .dc-cat-author, .dc-post-card p").forEach(el=>{
+                        el.style.breakInside = "avoid";
+                        el.style.pageBreakInside = "avoid";
                     });
 
                     await html2pdf().set({
                         margin: 8,
                         filename: `${issue.id}-epaper.pdf`,
                         image: {type:'jpeg', quality:0.9},
-                        html2canvas: {scale:2, useCORS:true, allowTaint:true, backgroundColor:"#fff", letterRendering:true},
+                        html2canvas: {scale:2, useCORS:true, allowTaint:true, backgroundColor:"#fff"},
                         jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
-                        pagebreak: {mode: ['avoid-all','css','legacy']}
+                        pagebreak: {mode: ['css','legacy']}
                     }).from(clone).save();
                 }catch(e){
                     console.error(e);
