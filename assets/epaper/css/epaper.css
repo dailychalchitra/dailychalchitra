@@ -1,8 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.5
+   Daily Chalchitra ePaper - Final Fixed v8.6
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
-             + Fullscreen Scroll Fix + Auto-responsive Card Grid (works
-             regardless of desktop/mobile browser mode, no fixed breakpoint)
+             + Fullscreen Scroll Fix + Fixed 2/3/4-Column Card Grid
+             (explicit column counts by breakpoint - no more auto-fill
+             ambiguity that collapsed to 1 column on some viewports)
              + Print/PDF now isolates only the epaper page
              + Paper-head now uses logo image instead of text (avoids broken glyphs)
    Font Matched: Noto Sans Bengali / Hind Siliguri
@@ -30,14 +31,25 @@
     font-size:16px;
 }
 
-/* কার্ড গ্রিড - প্রকৃত উপলব্ধ প্রস্থ অনুযায়ী স্বয়ংক্রিয়ভাবে কলাম সংখ্যা ঠিক
-   হয় (কোনো নির্দিষ্ট breakpoint-এর উপর নির্ভর করে না), তাই ডেস্কটপ/মোবাইল
-   মোড যাই হোক না কেন সবসময় একাধিক কলাম দেখাবে */
+/* কার্ড গ্রিড - মোবাইলে সবসময় ২ কলাম, ট্যাবলেট/মাঝারি স্ক্রিনে ৩ কলাম,
+   বড় ডেস্কটপে ৪ কলাম - নির্দিষ্ট সংখ্যায় বাঁধা, তাই ফলাফল অনিশ্চিত না */
 .dc-issue-grid, #dc-issues{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-    gap:16px;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
+@media(min-width:600px){
+    .dc-issue-grid, #dc-issues{
+        grid-template-columns:repeat(3,1fr);
+        gap:20px;
+    }
+}
+@media(min-width:1000px){
+    .dc-issue-grid, #dc-issues{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
 .dc-issue-card{
     background:#fff;
     border:1px solid #e5e5e5;
@@ -60,7 +72,6 @@
     margin-bottom:8px;
     line-height:1.35;
     font-family:'Hind Siliguri',sans-serif;
-    /* টাইটেল সর্বোচ্চ ২ লাইনে থামবে - কার্ড লম্বা হওয়ার একটা বড় কারণ ছিল */
     display:-webkit-box;
     -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
@@ -80,8 +91,6 @@
     font-size:14px;
     font-weight:600;
 }
-/* কভার ছবির অনুপাত লম্বাটে (3/4) থেকে ছোট (4/3) করা হলো - এটাই
-   কার্ড "বেজায় লম্বা" দেখানোর সবচেয়ে বড় কারণ ছিল */
 .dc-cover{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:8px 8px 0 0; }
 
 .dc-cover-fallback{
@@ -98,7 +107,6 @@
 
 .dc-body{ padding:12px; }
 
-/* বাটন - সব স্ক্রিনেই কম্প্যাক্ট, টেক্সট গাদাগাদি না করে দরকারে দুই লাইনে বসবে */
 .dc-btn{
     font-size:12px !important;
     padding:8px 10px !important;
