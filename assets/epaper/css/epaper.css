@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.6
+   Daily Chalchitra ePaper - Final Fixed v8.7
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
              + Fullscreen Scroll Fix + Fixed 2/3/4-Column Card Grid
-             (explicit column counts by breakpoint - no more auto-fill
-             ambiguity that collapsed to 1 column on some viewports)
+             + "সকল আর্কাইভ দেখুন" বাটন এখন কার্ডের নিচে থাকে, পাশে না
+             (আগে #dc-issues নিজেও গ্রিড হওয়ায় বাটন আলাদা কলামে চলে যেত)
              + Print/PDF now isolates only the epaper page
              + Paper-head now uses logo image instead of text (avoids broken glyphs)
    Font Matched: Noto Sans Bengali / Hind Siliguri
@@ -32,20 +32,22 @@
 }
 
 /* কার্ড গ্রিড - মোবাইলে সবসময় ২ কলাম, ট্যাবলেট/মাঝারি স্ক্রিনে ৩ কলাম,
-   বড় ডেস্কটপে ৪ কলাম - নির্দিষ্ট সংখ্যায় বাঁধা, তাই ফলাফল অনিশ্চিত না */
-.dc-issue-grid, #dc-issues{
+   বড় ডেস্কটপে ৪ কলাম। শুধু .dc-issue-grid-ই গ্রিড - #dc-issues (যেটা
+   কার্ড-গ্রিড ও "সকল আর্কাইভ দেখুন" বাটন দুটোরই প্যারেন্ট) এখন আর গ্রিড
+   না, তাই বাটনটা কার্ডের নিচে সঠিকভাবে বসবে, পাশে আলাদা কলামে না। */
+.dc-issue-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:14px;
 }
 @media(min-width:600px){
-    .dc-issue-grid, #dc-issues{
+    .dc-issue-grid{
         grid-template-columns:repeat(3,1fr);
         gap:20px;
     }
 }
 @media(min-width:1000px){
-    .dc-issue-grid, #dc-issues{
+    .dc-issue-grid{
         grid-template-columns:repeat(4,1fr);
     }
 }
