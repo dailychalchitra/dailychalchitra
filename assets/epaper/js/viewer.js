@@ -1,6 +1,9 @@
 /*
   Daily Chalchitra ePaper Viewer
-  Final Fixed v8.4 - PDF: fixed broken Bengali heading glyphs + text cut across page breaks
+  Final Fixed v8.6 - Full-issue PDF now uses native browser print (Save as PDF)
+  instead of html2canvas, because html2canvas cannot reliably render complex
+  Bengali conjunct glyphs (they came out broken/dotted no matter how it was tuned).
+  The native print path uses the browser's own font renderer, so text is always correct.
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -77,60 +80,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
-        // Full Issue PDF - ফন্ট লোড অপেক্ষা + সংযত পেজ-ব্রেক (বড় কার্ডে জোর করে না ভেঙে)
+        // Full Issue PDF - html2canvas বাদ দিয়ে ব্রাউজারের নেটিভ প্রিন্ট ব্যবহার
+        // করা হচ্ছে, কারণ html2canvas জটিল বাংলা যুক্তাক্ষর ভেঙে ফেলে। নেটিভ
+        // প্রিন্ট ব্রাউজারের আসল ফন্ট রেন্ডারার ব্যবহার করে, তাই টেক্সট কখনো
+        // ভাঙবে না। ব্যবহারকারী প্রিন্ট ডায়ালগে "Save as PDF" বেছে নেবেন।
         if(downloadBtn){
-            downloadBtn.onclick = async () => {
+            downloadBtn.onclick = () => {
                 const viewer = document.querySelector("#dc-epaper-page");
                 if(!viewer || viewer.innerHTML.includes("লোড হচ্ছে")){
                     alert("ই-পেপার এখনো লোড হচ্ছে, ২ সেকেন্ড পর চেষ্টা করুন।");
                     return;
                 }
-                const original = downloadBtn.innerHTML;
-                downloadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
-                downloadBtn.disabled = true;
-                try{
-                    // বাংলা ফন্ট (Hind Siliguri/Noto Sans Bengali) সম্পূর্ণ লোড না
-                    // হওয়া পর্যন্ত অপেক্ষা - নাহলে html2canvas যুক্তাক্ষর ভুল আঁকে
-                    if(document.fonts && document.fonts.ready){
-                        await document.fonts.ready;
-                    }
-
-                    const clone = viewer.cloneNode(true);
-                    clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
-                    clone.querySelectorAll("img").forEach(img=>img.setAttribute("crossorigin","anonymous"));
-
-                    const columnsEl = clone.querySelector("#dc-post-columns");
-                    if(columnsEl){
-                        columnsEl.style.columnCount = "1";
-                        columnsEl.style.columnGap = "0";
-                    }
-
-                    // শুধু ছোট এলিমেন্ট (হেডিং, ক্যাটাগরি লাইন, প্রতিটা প্যারাগ্রাফ)
-                    // ভাঙা এড়ানো হবে - পুরো কার্ডে না, নাহলে বড় কার্ড জোর করে
-                    // পরের পেজে ঠেলে বিশাল ফাঁকা জায়গা তৈরি করে
-                    const headEl = clone.querySelector(".dc-paper-head");
-                    if(headEl){
-                        headEl.style.breakInside = "avoid";
-                        headEl.style.pageBreakInside = "avoid";
-                    }
-                    clone.querySelectorAll(".dc-post-card h2, .dc-post-card .dc-cat-author, .dc-post-card p").forEach(el=>{
-                        el.style.breakInside = "avoid";
-                        el.style.pageBreakInside = "avoid";
-                    });
-
-                    await html2pdf().set({
-                        margin: 8,
-                        filename: `${issue.id}-epaper.pdf`,
-                        image: {type:'jpeg', quality:0.9},
-                        html2canvas: {scale:2, useCORS:true, allowTaint:true, backgroundColor:"#fff"},
-                        jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
-                        pagebreak: {mode: ['css','legacy']}
-                    }).from(clone).save();
-                }catch(e){
-                    console.error(e);
-                    alert("PDF তৈরি করা যায়নি, প্রিন্ট ব্যবহার করুন।");
-                }
-                finally{ downloadBtn.innerHTML = original; downloadBtn.disabled = false; }
+                alert("প্রিন্ট ডায়ালগ খুলবে - সেখানে প্রিন্টার হিসেবে \"Save as PDF\" বেছে নিলেই PDF ডাউনলোড হয়ে যাবে।");
+                window.print();
             };
         }
 
