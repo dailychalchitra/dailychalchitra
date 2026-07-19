@@ -1,6 +1,6 @@
 /*
   Daily Chalchitra ePaper Viewer
-  Final Fixed v8.2 - Removed dead code that duplicated epaper-engine.js's own rendering
+  Final Fixed v8.3 - Prev/Next now actually change page + PDF column-layout fix
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -22,12 +22,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         pageInfo.innerHTML = `পৃষ্ঠা ${DCViewer.currentPage} / ${DCViewer.totalPages || 1}`;
     }
 
-    // নোট: প্রতিটি কার্ডের ক্যাটাগরি/লেখক লাইন এবং মিনি PDF বাটন এখন সম্পূর্ণভাবে
-    // epaper-engine.js এর render() মেথড তৈরি করে ও বাইন্ড করে। এখানে সেটা আবার
-    // তৈরি করার দরকার নেই - আগে করলে শুধু ডুপ্লিকেট/অকার্যকর কোড চলত।
-    // শুধু একটাই দরকারি কাজ বাকি: raw পোস্ট কনটেন্টে যদি নিজে থেকেই বিভাগ/লেখক
-    // লেখা <small> ট্যাগ বেক-ইন করা থাকে, সেটা সরানো - নাহলে engine-এর তৈরি
-    // .dc-cat-author এর সাথে ডুপ্লিকেট দেখাবে।
     function cleanupDuplicateSmallTags(){
         const page = document.querySelector("#dc-epaper-page");
         if(!page) return;
@@ -62,7 +56,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             await DCViewer.start();
             updatePageInfo();
 
-            // পোস্ট রেন্ডার হওয়ার পর একবার ছোট-ট্যাগ ক্লিনআপ
             const checkLoad = setInterval(() => {
                 const cols = document.getElementById("dc-post-columns");
                 if(cols &&!cols.innerHTML.includes("লোড হচ্ছে") && cols.querySelector(".dc-post-card")){
@@ -74,15 +67,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         prevBtn?.addEventListener("click", () => {
-            setTimeout(()=>{ updatePageInfo(); cleanupDuplicateSmallTags(); }, 700);
+            if(window.DCViewer) DCViewer.previousPage();
+            setTimeout(()=>{ cleanupDuplicateSmallTags(); }, 300);
         });
         nextBtn?.addEventListener("click", () => {
-            setTimeout(()=>{ updatePageInfo(); cleanupDuplicateSmallTags(); }, 700);
+            if(window.DCViewer) DCViewer.nextPage();
+            setTimeout(()=>{ cleanupDuplicateSmallTags(); }, 300);
         });
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
-        // Full Issue PDF - Fixed
         if(downloadBtn){
             downloadBtn.onclick = async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
@@ -98,12 +92,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                     clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
                     clone.querySelectorAll("img").forEach(img=>img.setAttribute("crossorigin","anonymous"));
 
+                    const columnsEl = clone.querySelector("#dc-post-columns");
+                    if(columnsEl){
+                        columnsEl.style.columnCount = "1";
+                        columnsEl.style.columnGap = "0";
+                    }
+
                     await html2pdf().set({
-                        margin: 5,
+                        margin: 8,
                         filename: `${issue.id}-epaper.pdf`,
                         image: {type:'jpeg', quality:0.9},
                         html2canvas: {scale:1.5, useCORS:true, allowTaint:true, backgroundColor:"#fff"},
-                        jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
+                        jsPDF: {unit:'mm', format:'a4', orientation:'portrait'},
+                        pagebreak: {mode: ['css','legacy']}
                     }).from(clone).save();
                 }catch(e){
                     console.error(e);
