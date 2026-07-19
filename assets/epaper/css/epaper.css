@@ -1,7 +1,8 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.2
+   Daily Chalchitra ePaper - Final Fixed v8.3
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
              + Fullscreen Scroll Fix + Mobile 2-Column Grid
+             + Print/PDF now isolates only the epaper page
    Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
@@ -70,7 +71,6 @@
 }
 .dc-cover{ width:100%; aspect-ratio:3/4; object-fit:cover; display:block; border-radius:8px 8px 0 0; }
 
-/* কভার ছবি লোড ব্যর্থ হলে (ভাঙা লিংক ইত্যাদি) এই ফলব্যাক বক্স দেখাবে */
 .dc-cover-fallback{
     width:100%;
     aspect-ratio:3/4;
@@ -147,8 +147,6 @@
     word-wrap:break-word;
 }
 
-/* ফুলস্ক্রিনে ক্লিক করলে আগে ভিতরের কন্টেন্ট স্ক্রল করা যাচ্ছিল না
-   (শুধু প্রথম পাতা দেখাতো, নিচে স্লাইড হতো না) - এটা ঠিক করা হলো */
 #dc-epaper-page:fullscreen,
 #dc-epaper-page:-webkit-full-screen{
     overflow-y:auto !important;
@@ -322,6 +320,13 @@
         margin:0 !important;
         padding:10px !important;
     }
+
+    /* "পুরো ই-পেপার PDF" বাটন এখন window.print() ব্যবহার করে -
+       তাই প্রিন্ট/PDF-এ শুধু #dc-epaper-page (ই-পেপার পাতা) দেখাবে,
+       সাইট-হেডার/মেনু/সাইডবার/টুলবার/ফুটার সব বাদ যাবে */
+    body *{ visibility:hidden; }
+    #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
+    #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
 }
 
 /* ---------- Responsive ---------- */
@@ -334,8 +339,6 @@
     .dc-post-card h2{ font-size:17px; }
     .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
 
-    /* হোম/আর্কাইভ পেজে কার্ড আগে ১ কলামে লিস্টের মতো দেখাতো -
-       এখন মোবাইলেও ২ কলামে পাশাপাশি সাজানো থাকবে */
     .dc-issue-grid, #dc-issues{
         grid-template-columns:repeat(2,1fr) !important;
         gap:12px !important;
