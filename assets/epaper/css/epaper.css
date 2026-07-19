@@ -1,8 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.3
+   Daily Chalchitra ePaper - Final Fixed v8.4
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
              + Fullscreen Scroll Fix + Mobile 2-Column Grid
              + Print/PDF now isolates only the epaper page
+             + Paper-head now uses logo image instead of text (avoids broken glyphs)
    Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
@@ -156,13 +157,20 @@
 
 .dc-paper-head{
     text-align:center;
-    font-size:32px;
-    font-weight:bold;
     margin-bottom:20px;
     border-bottom:2px solid #000;
     padding-bottom:15px;
-    font-family:'Hind Siliguri',sans-serif;
 }
+
+/* হেডিং-এ টেক্সটের বদলে লোগো ছবি ব্যবহার হচ্ছে - ছবি কখনো ভাঙে না,
+   আগে বাংলা যুক্তাক্ষর html2canvas/PDF-এ মাঝেমাঝে ভেঙে যেত */
+.dc-paper-logo{
+    display:block;
+    max-width:220px;
+    height:auto;
+    margin:0 auto;
+}
+
 #dc-post-columns{ 
     column-count:3; 
     column-gap:25px; 
@@ -321,9 +329,6 @@
         padding:10px !important;
     }
 
-    /* "পুরো ই-পেপার PDF" বাটন এখন window.print() ব্যবহার করে -
-       তাই প্রিন্ট/PDF-এ শুধু #dc-epaper-page (ই-পেপার পাতা) দেখাবে,
-       সাইট-হেডার/মেনু/সাইডবার/টুলবার/ফুটার সব বাদ যাবে */
     body *{ visibility:hidden; }
     #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
     #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
