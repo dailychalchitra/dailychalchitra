@@ -14,6 +14,7 @@ tags:
   - হাসপাতাল
   - ভালোবাসার রোগ
   - কাল্পনিক গল্প
+  - জীবনমুখী গল্প
 author: শামীম নিমু
 image: /assets/img/seat-number.webp
 ---
