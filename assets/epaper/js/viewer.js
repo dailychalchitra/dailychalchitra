@@ -1,9 +1,11 @@
 /*
   Daily Chalchitra ePaper Viewer
-  Final Fixed v8.6 - Full-issue PDF now uses native browser print (Save as PDF)
+  Final Fixed v8.7 - Full-issue PDF uses native browser print (Save as PDF)
   instead of html2canvas, because html2canvas cannot reliably render complex
-  Bengali conjunct glyphs (they came out broken/dotted no matter how it was tuned).
-  The native print path uses the browser's own font renderer, so text is always correct.
+  Bengali conjunct glyphs. Since this button calls window.print() directly
+  (no html2canvas clone), the CSS @media print rule that reveals
+  .dc-paper-head (the logo above post content) applies automatically here -
+  no extra JS is needed for the logo to show up in the printed/PDF output.
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -80,10 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
 
-        // Full Issue PDF - html2canvas বাদ দিয়ে ব্রাউজারের নেটিভ প্রিন্ট ব্যবহার
-        // করা হচ্ছে, কারণ html2canvas জটিল বাংলা যুক্তাক্ষর ভেঙে ফেলে। নেটিভ
-        // প্রিন্ট ব্রাউজারের আসল ফন্ট রেন্ডারার ব্যবহার করে, তাই টেক্সট কখনো
-        // ভাঙবে না। ব্যবহারকারী প্রিন্ট ডায়ালগে "Save as PDF" বেছে নেবেন।
         if(downloadBtn){
             downloadBtn.onclick = () => {
                 const viewer = document.querySelector("#dc-epaper-page");
