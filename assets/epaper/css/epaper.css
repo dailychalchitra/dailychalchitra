@@ -1,10 +1,13 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.10
+   Daily Chalchitra ePaper - Final Fixed v8.12
    Features: No Double Gap + Single Post PDF Download + Cover Fallback
              + Fullscreen Scroll Fix + Fixed 2/3/4-Column Card Grid
              + "সকল আর্কাইভ দেখুন" বাটন কার্ডের নিচে
              + Print/PDF isolates only the epaper page, single-column
-             + Paper-head uses logo image instead of text
+             + Viewer: on-screen logo sits above everything (title/toolbar/
+               controls); a second logo inside #dc-epaper-page stays hidden
+               on screen and only appears in print/PDF, directly above the
+               post content - so both places show the logo correctly
              + Mobile card height reduced further (flatter cover, 1-line title)
    Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
@@ -197,18 +200,26 @@
     background:#fff;
 }
 
+/* এই হেডটা স্ক্রিনে লুকানো থাকে (উপরে আলাদা লোগো আছে বলে) - শুধু
+   প্রিন্ট/PDF-এ জেগে উঠে পোস্ট-কনটেন্টের ঠিক উপরে দেখাবে */
 .dc-paper-head{
+    display:none;
     text-align:center;
     margin-bottom:20px;
     border-bottom:2px solid #000;
     padding-bottom:15px;
+}
+@media print{
+    .dc-paper-head{
+        display:block !important;
+    }
 }
 
 .dc-paper-logo{
     display:block;
     max-width:220px;
     height:auto;
-    margin:-10px auto 0 auto;
+    margin:0 auto;
 }
 
 #dc-post-columns{ 
