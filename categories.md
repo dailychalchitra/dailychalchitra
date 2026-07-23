@@ -1,11 +1,11 @@
 ---
 layout: default
-title: বিভাগসমূহ
+title: বিভাগ সমূহ
 permalink: /categories/
 ---
 
 <div style="max-width:800px;margin:20px auto;padding:0 15px;">
-  <h1 style="text-align:center;font-size:26px;margin-bottom:25px;">বিভাগসমূহ</h1>
+  <h1 style="text-align:center;font-size:26px;margin-bottom:25px;">বিভাগ সমূহ</h1>
 
   <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
     {% assign sorted_cats = site.categories | sort %}
