@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Rebuild v9.0
-   CLEAN BUILD - Grid + Viewer + Kobita
+   Daily Chalchitra ePaper - Rebuild v9.1
+   FIX: রচনাকাল লাইন নিচে আলাদা + Kobita Date Fix
    ========================================================== */
 
 /* ---------- 1. Home & Archive Common ---------- */
@@ -53,11 +53,22 @@
 .dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000 !important; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none !important; display:flex; align-items:center; gap:4px; z-index:2; }
 .dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* ---------- 4. Kobita Fix - শুধু স্তবক ---------- */
+/* ---------- 4. Kobita Fix - v9.1 ---------- */
 .dc-post-card .dc-post-content{ font-family:'Noto Sans Bengali',sans-serif !important; font-size:15px !important; line-height:1.55 !important; color:#222 !important; }
 .dc-post-card .dc-post-content p{ margin:0 !important; padding:0 !important; }
-.kobita-pera{ display:block !important; margin:0 0 0.7em 0 !important; padding:0 !important; line-height:1.6 !important; }
-.kobita-pera br{ display:block !important; }
+.kobita-pera{ display:block !important; margin:0 0 14px 0 !important; padding:0 !important; line-height:1.8 !important; break-inside:avoid; }
+.kobita-pera br{ display:block !important; content:""; margin-bottom:2px; }
+.kobita-pera.kobita-date{
+    display:block !important;
+    margin-top:18px !important;
+    margin-bottom:0 !important;
+    text-align:right !important;
+    font-style:italic !important;
+    font-size:13px !important;
+    color:#666 !important;
+    border-top:1px dashed #ddd;
+    padding-top:6px !important;
+}
 #dc-epaper-page p:empty{ display:none !important; }
 .dc-post-card small{ display:none !important; }
 
@@ -76,6 +87,8 @@
   #dc-post-columns{ column-count:1 !important; text-align:left !important; }
   .dc-paper-head{ display:block !important; margin-bottom:5px !important; padding-bottom:5px !important; }
   .dc-paper-logo{ max-width:130px !important; margin-bottom:2px !important; }
+  .kobita-pera{ break-inside:avoid !important; margin-bottom:12px !important; }
+  .kobita-date{ break-before:auto !important; margin-top:14px !important; }
 }
 #dc-epaper-page.pdf-mode .dc-paper-head{ margin-bottom:4px !important; padding-bottom:4px !important; }
 #dc-epaper-page.pdf-mode .dc-paper-logo{ max-width:120px !important; }
