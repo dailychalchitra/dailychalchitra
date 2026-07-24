@@ -1,7 +1,7 @@
-/*
-  Daily Chalchitra - Single Post PDF
-  Final Fixed v3.1 - Pure utility module (binding handled by toolbar injector)
-*/
+/* ==========================================================
+   Daily Chalchitra - Single Post PDF - v9.0 Rebuild
+   No change needed - clean utility
+   ========================================================== */
 window.DCSinglePDF = {
   async download(selectorOrElement){
     let element = typeof selectorOrElement === 'string' 
@@ -18,6 +18,7 @@ window.DCSinglePDF = {
 
     const btn = document.querySelector("#dc-single-pdf-btn") || document.querySelector("[data-pdf-btn]");
     const originalText = btn ? btn.innerHTML : "";
+
     if(btn){
       btn.disabled = true;
       btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
@@ -27,19 +28,17 @@ window.DCSinglePDF = {
       const title = document.querySelector("h1")?.innerText?.trim() || "Daily-Chalchitra-Post";
       const fileName = title.replace(/[\/\\:*?"<>|]/g,'').replace(/\s+/g,'-').substring(0,60) + ".pdf";
 
-      // যদি html2pdf থাকে - এটাই বাংলা জন্য বেস্ট
       if(typeof html2pdf !== 'undefined'){
         const opt = {
-          margin:       [8, 8, 8, 8],
-          filename:     fileName,
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS: true, scrollY: 0, backgroundColor: "#ffffff" },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+          margin: [8, 8, 8, 8],
+          filename: fileName,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, scrollY: 0, backgroundColor: "#ffffff" },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
         await html2pdf().set(opt).from(element).save();
       } 
-      // Fallback: html2canvas + jsPDF
       else if(typeof html2canvas !== 'undefined' && window.jspdf){
         const canvas = await html2canvas(element, {
           scale: 2.5,
@@ -67,13 +66,12 @@ window.DCSinglePDF = {
         }
         pdf.save(fileName);
       } else {
-        // লাইব্রেরি না থাকলে ব্রাউজার প্রিন্ট - বাংলা ১০০% সেফ
         window.print();
       }
 
     } catch(error){
       console.error("PDF Error:", error);
-      alert("PDF তৈরি করা যায়নি। ব্রাউজার প্রিন্ট অপশন খুলছে...");
+      alert("PDF তৈরি করা যায়নি। প্রিন্ট অপশন খুলছে...");
       window.print();
     } finally {
       if(btn){
