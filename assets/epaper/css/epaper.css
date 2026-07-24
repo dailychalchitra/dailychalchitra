@@ -1,15 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.12
-   Features: No Double Gap + Single Post PDF Download + Cover Fallback
-             + Fullscreen Scroll Fix + Fixed 2/3/4-Column Card Grid
-             + "সকল আর্কাইভ দেখুন" বাটন কার্ডের নিচে
-             + Print/PDF isolates only the epaper page, single-column
-             + Viewer: on-screen logo sits above everything (title/toolbar/
-               controls); a second logo inside #dc-epaper-page stays hidden
-               on screen and only appears in print/PDF, directly above the
-               post content - so both places show the logo correctly
-             + Mobile card height reduced further (flatter cover, 1-line title)
-   Font Matched: Noto Sans Bengali / Hind Siliguri
+   Daily Chalchitra ePaper - Final Fixed v8.13
+   FIX: 4-line Kobita stanza now works in preview + PDF
    ========================================================== */
 
 /* ---------- Home Page ---------- */
@@ -33,7 +24,6 @@
     margin-bottom:35px;
     font-size:16px;
 }
-
 .dc-issue-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -50,7 +40,6 @@
         grid-template-columns:repeat(4,1fr);
     }
 }
-
 .dc-issue-card{
     background:#fff;
     border:1px solid #e5e5e5;
@@ -93,7 +82,6 @@
     font-weight:600;
 }
 .dc-cover{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:8px 8px 0 0; }
-
 .dc-cover-fallback{
     width:100%;
     aspect-ratio:4/3;
@@ -105,31 +93,20 @@
     font-size:32px;
     border-radius:8px 8px 0 0;
 }
-
 @media(max-width:599px){
-    .dc-cover, .dc-cover-fallback{
-        aspect-ratio:2/1 !important;
-    }
-    .dc-issue-card h3{
-        font-size:13px;
-        -webkit-line-clamp:1;
-    }
-    .dc-issue-card p{
-        display:none;
-    }
+    .dc-cover, .dc-cover-fallback{ aspect-ratio:2/1 !important; }
+    .dc-issue-card h3{ font-size:13px; -webkit-line-clamp:1; }
+    .dc-issue-card p{ display:none; }
     .dc-body{ padding:8px; }
     .dc-issue-card{ padding:8px; }
 }
-
 .dc-body{ padding:12px; }
-
 .dc-btn{
     font-size:12px !important;
     padding:8px 10px !important;
     line-height:1.3 !important;
     white-space:normal !important;
 }
-
 .dc-empty{
     text-align:center;
     padding:80px 20px;
@@ -177,8 +154,6 @@
     font-weight:600;
 }
 #dc-page-info{ font-weight:bold; }
-
-/* ---------- HTML ePaper Layout ---------- */
 .dc-pdf-box{ width:100%; overflow:hidden; text-align:center; }
 #dc-epaper-page{
     width:100%;
@@ -192,16 +167,12 @@
     overflow-wrap:break-word;
     word-wrap:break-word;
 }
-
 #dc-epaper-page:fullscreen,
 #dc-epaper-page:-webkit-full-screen{
     overflow-y:auto !important;
     max-height:100vh;
     background:#fff;
 }
-
-/* এই হেডটা স্ক্রিনে লুকানো থাকে (উপরে আলাদা লোগো আছে বলে) - শুধু
-   প্রিন্ট/PDF-এ জেগে উঠে পোস্ট-কনটেন্টের ঠিক উপরে দেখাবে */
 .dc-paper-head{
     display:none;
     text-align:center;
@@ -210,18 +181,14 @@
     padding-bottom:15px;
 }
 @media print{
-    .dc-paper-head{
-        display:block !important;
-    }
+    .dc-paper-head{ display:block !important; }
 }
-
 .dc-paper-logo{
     display:block;
     max-width:220px;
     height:auto;
     margin:0 auto;
 }
-
 #dc-post-columns{ 
     column-count:3; 
     column-gap:25px; 
@@ -246,8 +213,6 @@
     font-weight:700;
     color:#000;
 }
-
-/* ---------- SINGLE POST PDF BUTTON ---------- */
 #dc-single-pdf-btn{
     background:#C00000;
     color:#fff;
@@ -264,10 +229,7 @@
     font-family:'Noto Sans Bengali',sans-serif;
     box-shadow:0 2px 6px rgba(192,0,0,0.2);
 }
-#dc-single-pdf-btn:hover{
-    background:#8B0000;
-    transform:translateY(-1px);
-}
+#dc-single-pdf-btn:hover{ background:#8B0000; transform:translateY(-1px); }
 .dc-mini-pdf{
     position:absolute;
     top:8px;
@@ -285,50 +247,35 @@
     gap:4px;
     z-index:2;
 }
-.dc-mini-pdf:hover{
-    background:#C00000;
-    color:#fff !important;
-}
+.dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* ---------- FINAL FIX: ডাবল গ্যাপ ১০০% বন্ধ ---------- */
+/* ---------- FINAL FIX v8.13: কবিতার স্তবক ১০০% ঠিক ---------- */
 .dc-post-card,
 #dc-epaper-page .dc-post-card,
-.dc-post-card p,
-#dc-epaper-page p,
 .dc-post-card .dc-post-content {
     white-space:normal !important;
     word-break:break-word !important;
     overflow-wrap:anywhere !important;
     box-sizing:border-box !important;
 }
-.dc-post-card p,
-#dc-epaper-page p,
-.dc-post-card .dc-post-content {
+.dc-post-card .dc-post-content p{
     font-family:'Noto Sans Bengali',sans-serif !important;
     font-size:15px !important;
-    line-height:1.6 !important;
+    line-height:1.8 !important;
     color:#222 !important;
-    margin:0 !important;
+    margin:0 1.2em 0 !important;
     padding:0 !important;
     display:block;
 }
-.dc-post-card p + p,
-#dc-epaper-page p + p {
-    margin-top:10px !important;
+.dc-post-card .dc-post-content p:last-child{
+    margin-bottom:0 !important;
 }
-.dc-post-card br{
-    display:inline !important;
-    content:" " !important;
-    margin:0 !important;
-    line-height:0 !important;
-}
-.dc-post-card br + br{
+/* কবিতার লাইন ব্রেক - এটাই আসল ফিক্স */
+.dc-post-card .dc-post-content br{
     display:block !important;
-    margin-top:10px !important;
     content:"" !important;
-}
-.dc-post-card br + br + br{
-    display:none !important;
+    margin:0 !important;
+    line-height:1.8 !important;
 }
 #dc-epaper-page p:empty,
 .dc-post-card p:empty{
@@ -350,9 +297,7 @@
     display:block !important;
     font-family:'Noto Sans Bengali',sans-serif !important;
 }
-.dc-post-card small{
-    display:none !important;
-}
+.dc-post-card small{ display:none !important; }
 
 /* ---------- Archive ---------- */
 #dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
@@ -379,11 +324,9 @@
         margin:0 !important;
         padding:10px !important;
     }
-
     body *{ visibility:hidden; }
     #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
     #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
-
     #dc-post-columns{
         column-count:1 !important;
         text-align:left !important;
