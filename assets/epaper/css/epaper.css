@@ -1,21 +1,24 @@
 /* ==========================================================
-   Daily Chalchitra ePaper CSS
-   Clean Fixed Version
-   Part 1: Home Page + Viewer Base
+   Daily Chalchitra ePaper - Final Fixed v8.12
+   Features: No Double Gap + Single Post PDF Download + Cover Fallback
+             + Fullscreen Scroll Fix + Fixed 2/3/4-Column Card Grid
+             + "সকল আর্কাইভ দেখুন" বাটন কার্ডের নিচে
+             + Print/PDF isolates only the epaper page, single-column
+             + Viewer: on-screen logo sits above everything (title/toolbar/
+               controls); a second logo inside #dc-epaper-page stays hidden
+               on screen and only appears in print/PDF, directly above the
+               post content - so both places show the logo correctly
+             + Mobile card height reduced further (flatter cover, 1-line title)
+   Font Matched: Noto Sans Bengali / Hind Siliguri
    ========================================================== */
 
-
-/* =========================
-   HOME PAGE
-========================= */
-
+/* ---------- Home Page ---------- */
 .dc-epaper{
     max-width:1200px;
     margin:40px auto;
     padding:20px;
     box-sizing:border-box;
 }
-
 .dc-epaper-title{
     text-align:center;
     color:#C00000;
@@ -24,7 +27,6 @@
     margin-bottom:10px;
     font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif !important;
 }
-
 .dc-epaper-subtitle{
     text-align:center;
     color:#666;
@@ -32,1128 +34,369 @@
     font-size:16px;
 }
 
-
-/* Issue Grid */
-
 .dc-issue-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:14px;
 }
-
-
 @media(min-width:600px){
-
     .dc-issue-grid{
         grid-template-columns:repeat(3,1fr);
         gap:20px;
     }
-
 }
-
-
 @media(min-width:1000px){
-
     .dc-issue-grid{
         grid-template-columns:repeat(4,1fr);
     }
-
 }
 
-
-/* Issue Card */
-
 .dc-issue-card{
-
     background:#fff;
     border:1px solid #e5e5e5;
     border-radius:12px;
     padding:12px;
-
     transition:.25s;
-
-    box-shadow:
-    0 4px 12px rgba(0,0,0,.06);
-
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
     text-decoration:none;
     color:inherit;
-
     display:block;
 }
-
-
 .dc-issue-card:hover{
-
     transform:translateY(-4px);
-
-    box-shadow:
-    0 10px 22px rgba(0,0,0,.12);
-
+    box-shadow:0 10px 22px rgba(0,0,0,.12);
     border-color:#C00000;
-
 }
-
-
-.dc-cover{
-
-    width:100%;
-    aspect-ratio:4/3;
-
-    object-fit:cover;
-
-    display:block;
-
-    border-radius:8px 8px 0 0;
-
-}
-
-
-.dc-cover-fallback{
-
-    width:100%;
-    aspect-ratio:4/3;
-
-    background:#f3f3f3;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#C00000;
-
-    font-size:32px;
-
-    border-radius:8px 8px 0 0;
-
-}
-
-
-
-.dc-body{
-
-    padding:12px;
-
-}
-
-
 .dc-issue-card h3{
-
     font-size:16px;
-
     color:#111;
-
-    margin:0 0 8px;
-
+    margin-bottom:8px;
     line-height:1.35;
-
     font-family:'Hind Siliguri',sans-serif;
-
     display:-webkit-box;
-
     -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
-
     overflow:hidden;
-
 }
-
-
-
 .dc-issue-card p{
-
     color:#666;
-
     font-size:14px;
-
     margin-bottom:12px;
-
 }
-
-
-
 .dc-issue-card span{
-
     display:inline-block;
-
     background:#C00000;
-
     color:#fff;
-
     padding:8px 16px;
-
     border-radius:6px;
-
     font-size:14px;
-
     font-weight:600;
-
 }
+.dc-cover{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:8px 8px 0 0; }
 
-
-
-.dc-btn{
-
-    font-size:12px !important;
-
-    padding:8px 10px !important;
-
-    line-height:1.3 !important;
-
-    white-space:normal !important;
-
+.dc-cover-fallback{
+    width:100%;
+    aspect-ratio:4/3;
+    background:#f3f3f3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#C00000;
+    font-size:32px;
+    border-radius:8px 8px 0 0;
 }
-
-
-
-.dc-empty{
-
-    text-align:center;
-
-    padding:80px 20px;
-
-    color:#888;
-
-    border:2px dashed #ddd;
-
-    border-radius:10px;
-
-    background:#fafafa;
-
-    grid-column:1/-1;
-
-}
-
-
-
-/* Mobile Home */
 
 @media(max-width:599px){
-
-    .dc-cover,
-    .dc-cover-fallback{
-
+    .dc-cover, .dc-cover-fallback{
         aspect-ratio:2/1 !important;
-
     }
-
-
-    .dc-issue-card{
-
-        padding:8px;
-
-    }
-
-
-    .dc-body{
-
-        padding:8px;
-
-    }
-
-
     .dc-issue-card h3{
-
         font-size:13px;
-
         -webkit-line-clamp:1;
-
     }
-
-
     .dc-issue-card p{
-
         display:none;
-
     }
-
+    .dc-body{ padding:8px; }
+    .dc-issue-card{ padding:8px; }
 }
 
+.dc-body{ padding:12px; }
 
+.dc-btn{
+    font-size:12px !important;
+    padding:8px 10px !important;
+    line-height:1.3 !important;
+    white-space:normal !important;
+}
 
+.dc-empty{
+    text-align:center;
+    padding:80px 20px;
+    color:#888;
+    border:2px dashed #ddd;
+    border-radius:10px;
+    background:#fafafa;
+    grid-column:1/-1;
+}
 
-/* =========================
-   VIEWER PAGE
-========================= */
-
-
+/* ---------- Viewer Page ---------- */
 .dc-viewer{
-
     width:100%;
-
     max-width:900px;
-
     margin:30px auto;
-
     padding:20px;
-
-    background:#fff;
-
+    background:#ffffff;
     box-sizing:border-box;
-
     overflow-x:hidden;
-
 }
-
-
-
-#dc-title{
-
-    text-align:center;
-
-    color:#C00000;
-
-    font-size:32px;
-
-    margin-bottom:8px;
-
+#dc-title{ 
+    text-align:center; 
+    color:#C00000; 
+    font-size:32px; 
+    margin-bottom:8px; 
     font-family:'Hind Siliguri',sans-serif;
-
     font-weight:700;
-
 }
-
-
-
-#dc-meta{
-
-    text-align:center;
-
-    color:#333;
-
-    font-size:16px;
-
-    margin-bottom:25px;
-
-    line-height:1.6;
-
-}
-
-
-
-.dc-viewer-toolbar,
-.dc-controls{
-
+#dc-meta{ text-align:center; color:#333; font-size:16px; margin-bottom:25px; line-height:1.6; }
+.dc-viewer-toolbar, .dc-controls{
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     gap:10px;
-
     flex-wrap:wrap;
-
     margin:20px auto;
-
 }
-
-
-
-.dc-viewer-toolbar button,
-.dc-controls button{
-
+.dc-viewer-toolbar button, .dc-controls button{
     padding:8px 14px;
-
     border:none;
-
     border-radius:6px;
-
     background:#C00000;
-
     color:white;
-
     cursor:pointer;
-
     font-weight:600;
-
 }
+#dc-page-info{ font-weight:bold; }
 
-
-
-#dc-page-info{
-
-    font-weight:bold;
-
-}
-
-
-/* =========================
-   EPAPER PAGE BOX
-========================= */
-
-
-.dc-pdf-box{
-
-    width:100%;
-
-    overflow:hidden;
-
-    text-align:center;
-
-}
-
-
-
+/* ---------- HTML ePaper Layout ---------- */
+.dc-pdf-box{ width:100%; overflow:hidden; text-align:center; }
 #dc-epaper-page{
-
     width:100%;
-
     max-width:900px;
-
     margin:20px auto;
-
-    background:#fff;
-
+    background:white;
     padding:30px;
-
     box-sizing:border-box;
-
-    box-shadow:
-    0 0 20px rgba(0,0,0,.05);
-
+    box-shadow:0 0 20px rgba(0,0,0,.05);
     border:1px solid #eee;
-
     overflow-wrap:break-word;
-
     word-wrap:break-word;
-
 }
-
 
 #dc-epaper-page:fullscreen,
 #dc-epaper-page:-webkit-full-screen{
-
     overflow-y:auto !important;
-
     max-height:100vh;
-
     background:#fff;
-
 }
 
-/* ==========================================================
-   PART 2
-   Paper Header + Post Layout + PDF Button + Content Fix
-========================================================== */
-
-
-/* =========================
-   PRINT PAPER HEADER
-========================= */
-
-
-/*
-  Screen এ লুকানো থাকবে।
-  Print/PDF এ পোস্টের উপরে দেখা যাবে।
-*/
-
+/* এই হেডটা স্ক্রিনে লুকানো থাকে (উপরে আলাদা লোগো আছে বলে) - শুধু
+   প্রিন্ট/PDF-এ জেগে উঠে পোস্ট-কনটেন্টের ঠিক উপরে দেখাবে */
 .dc-paper-head{
-
     display:none;
-
     text-align:center;
-
     margin-bottom:20px;
-
     border-bottom:2px solid #000;
-
     padding-bottom:15px;
-
 }
-
-
-
 @media print{
-
     .dc-paper-head{
-
         display:block !important;
-
     }
-
 }
-
-
 
 .dc-paper-logo{
-
     display:block;
-
     max-width:220px;
-
     height:auto;
-
     margin:0 auto;
-
 }
 
-
-
-
-
-/* =========================
-   POST COLUMN LAYOUT
-========================= */
-
-
-#dc-post-columns{
-
-    column-count:3;
-
-    column-gap:25px;
-
-    text-align:justify;
-
+#dc-post-columns{ 
+    column-count:3; 
+    column-gap:25px; 
+    text-align:justify; 
 }
-
-
-
-/* =========================
-   POST CARD
-========================= */
-
-
 .dc-post-card{
-
     break-inside:avoid;
-
     margin-bottom:16px !important;
-
     border-bottom:1px solid #e5e5e5;
-
     padding-bottom:12px !important;
-
     text-align:left;
-
     max-width:100%;
-
     box-sizing:border-box;
-
     position:relative;
-
 }
-
-
-
-.dc-post-card img{
-
-    width:100%;
-
-    height:auto;
-
-    border-radius:5px;
-
-    margin-bottom:8px;
-
-}
-
-
-
-.dc-post-card h2{
-
-    font-size:19px;
-
-    margin:0 0 4px 0;
-
-    line-height:1.35;
-
-    font-family:
-    'Hind Siliguri',
-    'Noto Sans Bengali',
-    sans-serif;
-
+.dc-post-card img{ width:100%; border-radius:5px; margin-bottom:8px; height:auto; }
+.dc-post-card h2{ 
+    font-size:19px; 
+    margin:0 0 4px 0; 
+    line-height:1.35; 
+    font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif;
     font-weight:700;
-
     color:#000;
-
 }
 
-
-
-
-
-/* =========================
-   SINGLE POST PDF BUTTON
-========================= */
-
-
+/* ---------- SINGLE POST PDF BUTTON ---------- */
 #dc-single-pdf-btn{
-
     background:#C00000;
-
     color:#fff;
-
     border:none;
-
     padding:8px 16px;
-
     border-radius:20px;
-
     font-weight:600;
-
     font-size:13px;
-
     cursor:pointer;
-
     display:flex;
-
     align-items:center;
-
     gap:6px;
-
-    transition:.2s;
-
+    transition:0.2s;
     font-family:'Noto Sans Bengali',sans-serif;
-
-    box-shadow:
-    0 2px 6px rgba(192,0,0,.2);
-
+    box-shadow:0 2px 6px rgba(192,0,0,0.2);
 }
-
-
-
 #dc-single-pdf-btn:hover{
-
     background:#8B0000;
-
     transform:translateY(-1px);
-
 }
-
-
-
-
-/* ছোট PDF Button */
-
 .dc-mini-pdf{
-
     position:absolute;
-
     top:8px;
-
     right:8px;
-
-
     background:#fff;
-
     color:#C00000 !important;
-
-
     border:1.2px solid #C00000;
-
-
     padding:3px 8px;
-
-
     border-radius:12px;
-
-
     font-size:11px;
-
-
     font-weight:600;
-
-
     text-decoration:none !important;
-
-
     display:flex;
-
-
     align-items:center;
-
-
     gap:4px;
-
-
     z-index:2;
-
 }
-
-
-
 .dc-mini-pdf:hover{
-
     background:#C00000;
-
     color:#fff !important;
-
 }
 
-
-
-
-
-/* =========================
-   CONTENT CLEAN FIX
-   Double Gap Remove
-========================= */
-
-
+/* ---------- FINAL FIX: ডাবল গ্যাপ ১০০% বন্ধ ---------- */
 .dc-post-card,
 #dc-epaper-page .dc-post-card,
-.dc-post-content,
-.dc-post-card p{
-
-
-    white-space:normal !important;
-
-    word-break:break-word !important;
-
-    overflow-wrap:anywhere !important;
-
-    box-sizing:border-box !important;
-
-}
-
-
-
-
 .dc-post-card p,
-.dc-post-content{
-
-
-    font-family:
-    'Noto Sans Bengali',
-    sans-serif !important;
-
-
+#dc-epaper-page p,
+.dc-post-card .dc-post-content {
+    white-space:normal !important;
+    word-break:break-word !important;
+    overflow-wrap:anywhere !important;
+    box-sizing:border-box !important;
+}
+.dc-post-card p,
+#dc-epaper-page p,
+.dc-post-card .dc-post-content {
+    font-family:'Noto Sans Bengali',sans-serif !important;
     font-size:15px !important;
-
-
     line-height:1.6 !important;
-
-
     color:#222 !important;
-
-
     margin:0 !important;
-
-
     padding:0 !important;
-
-
     display:block;
-
-
 }
-
-
-
-
-/* Paragraph gap */
-
 .dc-post-card p + p,
-#dc-epaper-page p + p{
-
-
+#dc-epaper-page p + p {
     margin-top:10px !important;
-
-
 }
-
-
-
-
-/* BR Fix */
-
 .dc-post-card br{
-
-
     display:inline !important;
-
-
     content:" " !important;
-
-
     margin:0 !important;
-
-
     line-height:0 !important;
-
-
 }
-
-
-
 .dc-post-card br + br{
-
-
     display:block !important;
-
-
     margin-top:10px !important;
-
-
     content:"" !important;
-
-
 }
-
-
-
 .dc-post-card br + br + br{
-
-
     display:none !important;
-
-
 }
-
-
-
-
-/* Empty paragraph remove */
-
-
 #dc-epaper-page p:empty,
 .dc-post-card p:empty{
-
-
     display:none !important;
-
-
     margin:0 !important;
-
-
     padding:0 !important;
-
-
     height:0 !important;
-
-
 }
-
-
-
-
-
-/* =========================
-   CATEGORY + AUTHOR
-========================= */
-
-
 .dc-cat-author{
-
-
     font-size:13px !important;
-
-
     color:#C00000 !important;
-
-
     margin:2px 0 8px 0 !important;
-
-
     border-left:3px solid #C00000;
-
-
     padding-left:8px;
-
-
+    font-style:normal !important;
     font-weight:600 !important;
-
-
-    line-height:1.3 !important;
-
-
-    display:block !important;
-
-
-    font-family:
-    'Noto Sans Bengali',
-    sans-serif !important;
-
-
     white-space:normal !important;
-
-
+    line-height:1.3 !important;
+    display:block !important;
+    font-family:'Noto Sans Bengali',sans-serif !important;
 }
-
-
-
 .dc-post-card small{
-
-
     display:none !important;
-
-
 }
 
-/* ==========================================================
-   PART 3
-   Archive + Print/PDF + Responsive
-========================================================== */
-
-
-/* =========================
-   ARCHIVE SECTION
-========================= */
-
-
-#dc-year-list{
-
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-
-    justify-content:center;
-
-    margin:20px 0;
-
-}
-
-
-
+/* ---------- Archive ---------- */
+#dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
 .dc-year-btn{
-
     padding:8px 16px;
-
     border:1.5px solid #C00000;
-
     border-radius:20px;
-
-    background:#fff;
-
+    background:#ffffff;
     color:#C00000;
-
     cursor:pointer;
-
     font-weight:600;
-
-    transition:.25s;
-
+    transition:0.25s;
 }
+.dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
-
-
-.dc-year-btn:hover,
-.dc-year-btn.active{
-
-    background:#C00000;
-
-    color:#fff;
-
-}
-
-
-
-
-
-/* =========================
-   PRINT / PDF
-========================= */
-
-
+/* ---------- Print / PDF ---------- */
 @media print{
-
-
-    /* Hide website controls */
-
-    header,
-    #my-new-header,
-    #dc-side-menu,
-    .dc-viewer-toolbar,
-    .dc-controls,
-    .dc-mini-pdf,
-    #dc-single-pdf-btn{
-
+    header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf, #dc-single-pdf-btn{
         display:none !important;
-
     }
-
-
-
-    /* Remove page decoration */
-
-    #dc-epaper-page,
-    .dc-viewer{
-
+    #dc-epaper-page, .dc-viewer{
         box-shadow:none !important;
-
         border:none !important;
-
         margin:0 !important;
-
         padding:10px !important;
-
     }
 
-
-
-    /*
-      শুধুমাত্র ePaper content print হবে
-    */
-
-    body *{
-
-        visibility:hidden;
-
-    }
-
-
-
-    #dc-epaper-page,
-    #dc-epaper-page *{
-
-        visibility:visible;
-
-    }
-
-
-
-    #dc-epaper-page{
-
-        position:absolute;
-
-        left:0;
-
-        top:0;
-
-        width:100%;
-
-    }
-
-
-
-    /* PDF output single column */
+    body *{ visibility:hidden; }
+    #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
+    #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
 
     #dc-post-columns{
-
         column-count:1 !important;
-
         text-align:left !important;
-
     }
-
-
 }
 
-
-
-
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-
-/* Tablet */
-
-@media(max-width:1100px){
-
-
-    #dc-post-columns{
-
-        column-count:2;
-
-    }
-
-
-}
-
-
-
-/* Mobile */
-
+/* ---------- Responsive ---------- */
+@media(max-width:1100px){ #dc-post-columns{ column-count:2; } }
 @media(max-width:700px){
-
-
-    .dc-epaper{
-
-        padding:10px;
-
-    }
-
-
-
-    .dc-epaper-title{
-
-        font-size:26px;
-
-    }
-
-
-
-    .dc-viewer{
-
-        padding:10px;
-
-    }
-
-
-
-    #dc-epaper-page{
-
-        padding:15px;
-
-    }
-
-
-
-    #dc-post-columns{
-
-        column-count:1;
-
-        text-align:left;
-
-    }
-
-
-
-    .dc-post-card h2{
-
-        font-size:17px;
-
-    }
-
-
-
-    .dc-mini-pdf{
-
-        font-size:10px;
-
-        padding:2px 6px;
-
-    }
-
-
-
-}
-
-
-
-/* Extra Small Mobile */
-
-@media(max-width:420px){
-
-
-    .dc-viewer-toolbar button,
-    .dc-controls button{
-
-        font-size:12px;
-
-        padding:7px 10px;
-
-    }
-
-
-
-    #dc-title{
-
-        font-size:25px;
-
-    }
-
-
-
-    #dc-meta{
-
-        font-size:14px;
-
-    }
-
-
+    .dc-epaper-title{ font-size:26px; }
+    #dc-post-columns{ column-count:1; text-align:left; }
+    #dc-epaper-page{ padding:15px; }
+    .dc-viewer{ padding:10px; }
+    .dc-post-card h2{ font-size:17px; }
+    .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
 }
