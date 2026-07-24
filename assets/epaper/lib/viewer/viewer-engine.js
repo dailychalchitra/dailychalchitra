@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0.3
-   FIX: --- *রচনাকাল: ২৪-০৭-২৬ইং।* এই ফরম্যাটের জন্য
+   Daily Chalchitra ePaper Engine - v9.0.4
+   FIX: কবিতার শেষ ২ লাইন অন্য পেজে যাওয়া ফিক্স
    ========================================================== */
 window.DCViewer = {
-    version: "9.0.3",
+    version: "9.0.4",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -55,18 +55,28 @@ window.DCViewer = {
         this.loading = false;
     },
     estimatePostHeight(post){
-        let height = 120;
-        if(post.image) height += 180;
-        if(post.title) height += Math.ceil(post.title.length / 28) * 26;
+        let height = 140;
+        if(post.image) height += 200;
+        if(post.title) height += Math.ceil(post.title.length / 26) * 30;
         const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-        height += Math.ceil(plainText.length / 85) * 18;
+        // কবিতার জন্য হাইট বেশি ধরো
+        if(post.category && post.category.includes("কবিতা")){
+            height += Math.ceil(plainText.length / 35) * 22;
+            height += 120; // স্তবক + রচনাকাল এর জন্য
+        } else {
+            height += Math.ceil(plainText.length / 85) * 18;
+        }
         return height;
     },
     buildPages(){
         this.pages = []; let page = []; let usedHeight = 0; const pageHeight = 1550;
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
-            if(usedHeight + postHeight > pageHeight && page.length > 0){
+            const isKobita = post.category && post.category.includes("কবিতা");
+            // কবিতা হলে 60% পেজ ভরে গেলেই নতুন পেজে নাও, যাতে ভেঙে না যায়
+            if(isKobita && usedHeight > 0 && (usedHeight + postHeight > pageHeight || usedHeight > pageHeight * 0.6)){
+                this.pages.push([...page]); page = []; usedHeight = 0;
+            } else if(usedHeight + postHeight > pageHeight && page.length > 0){
                 this.pages.push([...page]); page = []; usedHeight = 0;
             }
             page.push(post); usedHeight += postHeight;
@@ -94,39 +104,24 @@ window.DCViewer = {
     },
     formatKobita(html){
         if(!html) return "";
-        // hr কে --- হিসেবে রাখো, p কে নতুন লাইনে ভাঙো
         let text = html.replace(/<hr[^>]*>/gi, "\n---\n");
         text = text.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
         text = text.replace(/<br\s*\/?>/gi, "\n");
         text = text.replace(/<[^>]+>/g, "").trim();
-        
         let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
-        let resultHtml = [];
-        let temp = [];
-
+        let resultHtml = []; let temp = [];
         lines.forEach(line=>{
-            // --- লাইন বা * রিমুভ
             let clean = line.replace(/^\*+|\*+$/g, "").replace(/^\-+|\-+$/g, "").trim();
             if(!clean) return;
-
-            // রচনাকাল লাইন পেলেই আলাদা div
             if(/রচনাকাল/i.test(clean)){
-                if(temp.length > 0){
-                    resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
-                    temp = [];
-                }
+                if(temp.length > 0){ resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`); temp = []; }
                 resultHtml.push(`<div class="kobita-pera kobita-date">${clean}</div>`);
             } else {
                 temp.push(clean);
-                if(temp.length === 4){
-                    resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
-                    temp = [];
-                }
+                if(temp.length === 4){ resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`); temp = []; }
             }
         });
-        if(temp.length > 0){
-            resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
-        }
+        if(temp.length > 0) resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
         return resultHtml.join("");
     },
     render(){
