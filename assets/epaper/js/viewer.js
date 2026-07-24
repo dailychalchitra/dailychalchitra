@@ -1,50 +1,104 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Home - v9.0 Rebuild
-   FIX: Missing </div> caused 1 column
+   Daily Chalchitra ePaper Viewer - v9.0 Rebuild
+   FINAL - Clean + Print PDF logic same
    ========================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
-    const container = document.getElementById("dc-issues");
-    if (!container) return;
+    const title = document.getElementById("dc-title");
+    const meta = document.getElementById("dc-meta");
+    const downloadBtn = document.getElementById("dc-download");
+    const printBtn = document.getElementById("dc-print");
+    const fullscreenBtn = document.getElementById("dc-fullscreen");
+    const prevBtn = document.getElementById("dc-prev");
+    const nextBtn = document.getElementById("dc-next");
+    const zoomInBtn = document.getElementById("dc-zoom-in");
+    const zoomOutBtn = document.getElementById("dc-zoom-out");
+    const pageInfo = document.getElementById("dc-page-info");
 
-    container.innerHTML = `<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> লোড হচ্ছে...</div>`;
+    const params = new URLSearchParams(window.location.search);
+    const issueId = params.get("issue");
+
+    function updatePageInfo(){
+        if(!window.DCViewer || !pageInfo) return;
+        pageInfo.innerHTML = `পৃষ্ঠা ${DCViewer.currentPage} / ${DCViewer.totalPages || 1}`;
+    }
+
+    function cleanupTags(){
+        const page = document.querySelector("#dc-epaper-page");
+        if(!page) return;
+        page.querySelectorAll(".dc-post-card small").forEach(el => el.remove());
+    }
+
+    if(!issueId){
+        if(title) title.textContent = "ই-পেপার পাওয়া যায়নি";
+        return;
+    }
 
     try {
         const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
-        if (!res.ok) throw new Error("issues.json not found");
-        let issues = await res.json();
+        if(!res.ok) throw new Error("Issues missing");
+        const issues = await res.json();
+        const issue = issues.find(item => String(item.id).trim() === String(issueId).trim());
 
-        if (!Array.isArray(issues) || issues.length === 0) {
-            container.innerHTML = `<div class="dc-empty">এখনও কোনো ই-পেপার প্রকাশিত হয়নি।</div>`;
+        if(!issue){
+            if(title) title.textContent = "ই-পেপার পাওয়া যায়নি";
             return;
         }
 
-        issues.sort((a,b) => String(b.id).localeCompare(String(a.id)));
-        const latest = issues.slice(0, 8);
+        if(title) title.textContent = issue.title;
+        if(meta) meta.innerHTML = `<strong>প্রকাশ:</strong> ${issue.date} <br><strong>মোট লেখা:</strong> ${issue.count} টি | <strong>পৃষ্ঠা:</strong> ${issue.pages}`;
 
-        container.innerHTML = `
-            <div class="dc-issue-grid">
-            ${latest.map(issue => {
-                const coverImg = issue.cover ? 
-                    `<img class="dc-cover" src="${issue.cover}" alt="${issue.title}" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-cover dc-cover-fallback&quot;><i class=&quot;fa fa-newspaper&quot;></i></div>'">` : 
-                    `<div class="dc-cover dc-cover-fallback"><i class="fa fa-newspaper"></i></div>`;
-                const viewerLink = `/epaper/viewer/?issue=${encodeURIComponent(issue.id)}`;
-                return `
-                <div class="dc-issue-card">
-                    ${coverImg}
-                    <div class="dc-body">
-                        <div style="font-size:12px;color:#888;margin-bottom:6px;">${issue.date || ''}</div>
-                        <h3 style="margin:0 0 6px 0;font-size:17px;line-height:1.4;">${issue.title || 'ই-পেপার'}</h3>
-                        <div style="font-size:13px;color:#666;margin-bottom:14px;">${issue.count || 0} টি লেখা ${issue.pages? '| ' + issue.pages + ' পৃষ্ঠা' : ''}</div>
-                        <a href="${viewerLink}" style="background:#C00000;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px;"><i class="fa fa-book-open"></i> পড়ুন ও PDF</a>
-                    </div>
-                </div>`;
-            }).join("")}
-            </div>
-            <div style="text-align:center; margin-top:30px;">
-                <a href="/epaper/archive/" style="background:#111;color:#fff;padding:10px 22px;border-radius:20px;text-decoration:none;font-size:14px;font-weight:600;display:inline-block;">সকল আর্কাইভ দেখুন →</a>
-            </div>
-        `;
-    } catch (err) {
-        container.innerHTML = `<div class="dc-empty">ই-পেপার লোড করা যায়নি।<br><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;border:1px solid #C00000;color:#C00000;background:#fff;border-radius:6px;">আবার চেষ্টা করুন</button></div>`;
+        if(window.DCViewer){
+            DCViewer.init(issueId);
+            await DCViewer.start();
+            updatePageInfo();
+
+            const checkLoad = setInterval(() => {
+                const cols = document.getElementById("dc-post-columns");
+                if(cols && !cols.innerHTML.includes("লোড হচ্ছে") && cols.querySelector(".dc-post-card")){
+                    clearInterval(checkLoad);
+                    cleanupTags();
+                }
+            }, 500);
+            setTimeout(()=>clearInterval(checkLoad), 10000);
+        }
+
+        prevBtn?.addEventListener("click", () => {
+            if(window.DCViewer) DCViewer.previousPage();
+            setTimeout(()=>{ cleanupTags(); updatePageInfo(); }, 300);
+        });
+        nextBtn?.addEventListener("click", () => {
+            if(window.DCViewer) DCViewer.nextPage();
+            setTimeout(()=>{ cleanupTags(); updatePageInfo(); }, 300);
+        });
+        zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
+        zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
+
+        if(downloadBtn){
+            downloadBtn.onclick = () => {
+                const viewer = document.querySelector("#dc-epaper-page");
+                if(!viewer || viewer.innerHTML.includes("লোড হচ্ছে")){
+                    alert("ই-পেপার এখনো লোড হচ্ছে, ২ সেকেন্ড পর চেষ্টা করুন।");
+                    return;
+                }
+                alert("প্রিন্ট ডায়ালগ খুলবে - \"Save as PDF\" বেছে নিন।");
+                window.print();
+            };
+        }
+
+        if(printBtn) printBtn.onclick = () => window.print();
+        
+        if(fullscreenBtn){
+            fullscreenBtn.onclick = async () => {
+                const viewer = document.querySelector("#dc-epaper-page");
+                try{ 
+                    if(!document.fullscreenElement) await viewer.requestFullscreen(); 
+                    else await document.exitFullscreen(); 
+                }catch(e){}
+            };
+        }
+
+    } catch (error){
+        console.error(error);
+        if(title) title.textContent = "ই-পেপার লোড করা যায়নি";
     }
 });
