@@ -343,3 +343,11 @@
     .dc-post-card h2{ font-size:17px; }
     .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
 }
+
+/* স্তবকের ফাঁকা - Final Fix */
+.dc-post-card .dc-post-content p.kobita-stanza{
+  margin-top: 1.4em !important;
+}
+.dc-post-card .dc-post-content p + p{
+  margin-top: 1.4em !important;
+}
