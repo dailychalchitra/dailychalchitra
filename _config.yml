@@ -15,4 +15,4 @@ exclude:
 
 kramdown:
   input: GFM
-  hard_wrap: false
+  hard_wrap: true
