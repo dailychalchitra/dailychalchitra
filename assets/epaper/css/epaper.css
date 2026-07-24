@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.14
-   FIX: Auto 4-line Kobita stanza for preview + PDF
+   Daily Chalchitra ePaper - Final Fixed v8.15
+   FIX: Tighter line + stanza gap
    ========================================================== */
 
 /* ---------- Home Page ---------- */
@@ -44,24 +44,26 @@
 .dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000 !important; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none !important; display:flex; align-items:center; gap:4px; z-index:2; }
 .dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* ---------- Kobita Stanza Fix v8.14 ---------- */
+/* ---------- Kobita Stanza Fix v8.15 - Tighter ---------- */
 .dc-post-card .dc-post-content{
   font-family:'Noto Sans Bengali',sans-serif !important;
   font-size:15px !important;
-  line-height:1.8 !important;
+  line-height:1.55 !important;
   color:#222 !important;
 }
-.dc-post-card .dc-post-content p{
-  margin:0 !important;
-  padding:0 !important;
-}
-/* এই ২টাই আসল ফিক্স */
+.dc-post-card .dc-post-content p{ margin:0 !important; padding:0 !important; }
 .kobita-pera{
   display:block !important;
-  margin:0 0 1.5em 0 !important;
+  margin:0 0 0.5em 0 !important;
   padding:0 !important;
-  line-height:1.8 !important;
+  line-height:1.55 !important;
   white-space:normal !important;
+}
+.kobita-pera br{
+  display:block !important;
+  content:"" !important;
+  margin:0 !important;
+  line-height:1.55 !important;
 }
 .kobita-pera:last-child{ margin-bottom:0 !important; }
 
@@ -82,7 +84,7 @@
   #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
   #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
   #dc-post-columns{ column-count:1 !important; text-align:left !important; }
-  .kobita-pera{ margin-bottom:1.5em !important; }
+  .kobita-pera{ margin-bottom:0.5em !important; line-height:1.55 !important; }
 }
 
 /* ---------- Responsive ---------- */
