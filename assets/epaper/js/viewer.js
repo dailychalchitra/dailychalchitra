@@ -1,11 +1,8 @@
 /*
   Daily Chalchitra ePaper Viewer
-  Final Fixed v8.7 - Full-issue PDF uses native browser print (Save as PDF)
-  instead of html2canvas, because html2canvas cannot reliably render complex
-  Bengali conjunct glyphs. Since this button calls window.print() directly
-  (no html2canvas clone), the CSS @media print rule that reveals
-  .dc-paper-head (the logo above post content) applies automatically here -
-  no extra JS is needed for the logo to show up in the printed/PDF output.
+  Final Fixed v8.9 - Compatible with v3.6 (Auto 4-line stanza)
+  Full-issue PDF uses native browser print (Save as PDF)
+  for perfect Bengali glyphs.
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
