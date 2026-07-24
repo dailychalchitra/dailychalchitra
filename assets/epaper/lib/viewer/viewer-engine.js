@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.1 Rebuild
-   FIX: রচনাকাল লাইন নিচে আলাদা বসবে + 4-line stanza
+   Daily Chalchitra ePaper Engine - v9.2 Rebuild
+   FIX: রচনাকাল লাইন পেজ ভেঙে এক লাইনে বসা ফিক্স
    ========================================================== */
 window.DCViewer = {
-    version: "9.1",
+    version: "9.2",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -52,13 +52,11 @@ window.DCViewer = {
         this.loading = true;
         const box = document.getElementById("dc-post-columns");
         if(box) box.innerHTML = `<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> ই-পেপার লোড হচ্ছে...</div>`;
-        
         try{
             const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
             if(!res.ok) throw new Error("issues.json not found");
             const allIssues = await res.json();
             const currentIssueData = allIssues.find(i => String(i.id).trim() === String(this.issue).trim());
-            
             if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
                 this.posts = currentIssueData.posts.map(post=>({
                     title: (post.title || "").trim(),
@@ -70,23 +68,25 @@ window.DCViewer = {
                     category: post.category || "সাধারণ",
                     author: post.author || ""
                 }));
-            } else { 
-                this.posts = []; 
-            }
+            } else { this.posts = []; }
             this.buildPages();
         }catch(error){
-            console.error("Load Error:", error);
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা যায়নি। issues.json চেক করুন।</div>`;
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা যায়নি।</div>`;
         }
         this.loading = false;
     },
 
     estimatePostHeight(post){
-        let height = 120;
-        if(post.image) height += 180;
-        if(post.title) height += Math.ceil(post.title.length / 28) * 26;
+        let height = 140;
+        if(post.image) height += 200;
+        if(post.title) height += Math.ceil(post.title.length / 26) * 28;
         const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-        height += Math.ceil(plainText.length / 85) * 18;
+        height += Math.ceil(plainText.length / 80) * 20;
+        // কবিতা হলে + রচনাকাল এর জন্য এক্সট্রা জায়গা রাখো যাতে ভেঙে না যায়
+        if(post.category && post.category.includes("কবিতা")){
+            if(/রচনাকাল|তারিখ/i.test(post.content)) height += 90;
+            height += 60;
+        }
         return height;
     },
 
@@ -94,7 +94,7 @@ window.DCViewer = {
         this.pages = [];
         let page = [];
         let usedHeight = 0;
-        const pageHeight = 1550;
+        const pageHeight = 1480;
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
             if(usedHeight + postHeight > pageHeight && page.length > 0){
@@ -136,22 +136,18 @@ window.DCViewer = {
         }
     },
 
-    // v9.1 - রচনাকাল ফিক্স সহ
     formatKobita(html){
         if(!html) return "";
         let text = html.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
         text = text.replace(/<br\s*\/?>/gi, "\n");
         text = text.replace(/<[^>]+>/g, "").trim();
         let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
-        
-        if(lines.length <= 4) return lines.join("<br>");
+        if(lines.length <= 4) return lines.map(l=>`<div class="kobita-line">${l}</div>`).join("") + `<div class="kobita-clear"></div>`;
 
         let stanzas = [];
         let temp = [];
-        
         lines.forEach(line=>{
-            // রচনাকাল / তারিখ / ইং থাকলে সেটা আলাদা ব্লকে
-            if(/রচনাকাল|তারিখ|^\d{2}-\d{4}|ইং|লেখক:|কলমে:/i.test(line)){
+            if(/রচনাকাল|^\d{2}-.*ইং|তারিখ.*\d/i.test(line)){
                 if(temp.length > 0){
                     stanzas.push({text: temp.join("<br>"), type: "pera"});
                     temp = [];
@@ -165,14 +161,11 @@ window.DCViewer = {
                 }
             }
         });
-        
-        if(temp.length > 0){
-            stanzas.push({text: temp.join("<br>"), type: "pera"});
-        }
+        if(temp.length > 0) stanzas.push({text: temp.join("<br>"), type: "pera"});
         
         return stanzas.map(s=>{
             if(s.type === "date"){
-                return `<div class="kobita-pera kobita-date">${s.text}</div>`;
+                return `<div class="kobita-pera kobita-date"><span>${s.text}</span></div><div class="kobita-clear"></div>`;
             }
             return `<div class="kobita-pera">${s.text}</div>`;
         }).join("");
@@ -196,13 +189,11 @@ window.DCViewer = {
             const card = document.createElement("article");
             card.className = "dc-post-card";
             let cleanContent = post.content || post.excerpt || "";
-            
             if(post.category && post.category.includes("কবিতা")){
                 cleanContent = this.formatKobita(cleanContent);
             } else {
                 cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
             }
-
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
                 ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
@@ -253,7 +244,6 @@ window.DCViewer = {
         this.isStarting = false;
     }
 };
-
 window.addEventListener("resize",()=>{
     if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); }
 });
