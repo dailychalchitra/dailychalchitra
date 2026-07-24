@@ -60,10 +60,7 @@ window.DCViewer = {
                     url: post.url || "",
                     date: post.date || "",
                     excerpt: post.excerpt || "",
-                    content:
-    post.excerpt ||
-    post.content ||
-    "",
+                    content: post.content || post.excerpt || "",
                     image: post.image || "",
                     category: post.category || "সাধারণ",
                     author: post.author || ""
