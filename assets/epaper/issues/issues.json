@@ -3,29 +3,30 @@ layout: null
 permalink: /assets/epaper/issues/issues.json
 ---
 [
-{% assign posts_by_week = site.posts | group_by_exp: "post", "post.date | date: '%Y-W%V'" | sort: "name" | reverse %}
+{% assign all_posts = site.posts | sort: "date" | reverse %}
+{% assign posts_by_week = all_posts | group_by_exp: "post", "post.date | date: '%Y-W%V'" | sort: "name" | reverse %}
 {% for week in posts_by_week %}
 {
   "id": {{ week.name | jsonify }},
   "year": {{ week.name | slice: 0, 4 | jsonify }},
-  "week": {{ week.name | slice: 6, 2 | jsonify }},
-  "title": {{ week.name | prepend: "সপ্তাহ " | jsonify }},
+  "week": {{ week.name | slice: 5, 2 | jsonify }},
+  "title": {{ week.name | prepend: "সপ্তাহ - " | jsonify }},
   "date": "{{ week.items.first.date | date: '%d %B, %Y' }}",
   "pages": {{ week.items.size | divided_by: 6.0 | ceil }},
   "count": {{ week.items.size }},
   "viewer": {{ "/epaper/viewer/?issue=" | append: week.name | relative_url | jsonify }},
-  "cover": {% if week.items.first.image %}{{ week.items.first.image | jsonify }}{% else %}""{% endif %},
+  "cover": {{ week.items.first.image | default: "" | jsonify }},
   "posts": [
     {% for post in week.items %}
     {
-      "title": {{ post.title | jsonify }},
+      "title": {{ post.title | strip_html | jsonify }},
       "url": {{ post.url | relative_url | jsonify }},
-      "author": {{ post.author | default: "দৈনিক চালচিত্র" | jsonify }},
-      "category": {% if post.categories.first %}{{ post.categories.first | jsonify }}{% else %}"সাধারণ"{% endif %},
+      "author": {{ post.author | default: "দৈনিক চালচিত্র" | strip_html | jsonify }},
+      "category": {{ post.categories.first | default: "সাধারণ" | jsonify }},
       "image": {{ post.image | default: "" | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
-      "content": {{ post.content | jsonify }},
-      "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 200 | jsonify }}
+      "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 180 | jsonify }},
+      "content": {{ post.content | strip_newlines | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ]
