@@ -1,10 +1,9 @@
 /*
   Daily Chalchitra ePaper Engine
-  Final Fixed v3.4 - Removed duplicate auto-init (was racing with viewer.js's own init/start,
-  causing the viewer to get stuck on "লোড হচ্ছে..." for some issues depending on network timing)
+  Final Fixed v3.5 - Stanza Fix (4-line kobita)
 */
 window.DCViewer = {
-    version: "3.4",
+    version: "3.5",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -32,7 +31,7 @@ window.DCViewer = {
         this.container = document.getElementById("dc-post-columns");
         this.detectColumns();
         this.initialized = true;
-        console.log("ePaper Engine v3.4 Ready - Issue:", this.issue);
+        console.log("ePaper Engine v3.5 Ready - Issue:", this.issue);
     },
 
     detectColumns(){
@@ -65,10 +64,8 @@ window.DCViewer = {
                     category: post.category || "সাধারণ",
                     author: post.author || ""
                 }));
-                console.log("Loaded from issues.json:", this.posts.length);
             } else {
                 this.posts = [];
-                console.warn("No posts found for", this.issue, "in issues.json");
             }
             this.buildPages();
         }catch(error){
@@ -159,10 +156,12 @@ window.DCViewer = {
         current.forEach(post=>{
             const card = document.createElement("article");
             card.className = "dc-post-card";
+            // FIXED: আগের .replace(/<br><br>/gi, "<br>") লাইনটাই ৪ লাইনের স্তবককে ৩ লাইন বানাচ্ছিল। ওটা বাদ দেওয়া হয়েছে।
             let cleanContent = (post.content || post.excerpt || "")
-              .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "<br>")
               .replace(/<p>\s*<\/p>/gi, "")
-              .replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
+              .replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "")
+              .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "</p><p class='kobita-stanza'>");
+            
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="এই লেখার PDF"><i class="fa fa-file-pdf"></i> PDF</a>
                 ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
@@ -217,12 +216,6 @@ window.DCViewer = {
         this.isStarting = false;
     }
 };
-
-// নোট: আগে এখানে একটা DOMContentLoaded লিসেনার ছিল যেটা নিজে থেকেই
-// DCViewer.init()/start() কল করত। কিন্তু viewer.js ইতিমধ্যেই এটা করে -
-// দুটো একসাথে চললে রেস কন্ডিশন তৈরি হয়ে মাঝে মাঝে ভিউয়ার আটকে যেত (যেটা
-// W29-তে দেখেছেন)। তাই এই ব্লকটা সম্পূর্ণ সরিয়ে দেওয়া হলো - init/start এখন
-// শুধু viewer.js থেকেই হবে।
 
 window.addEventListener("resize",()=>{
     if(window.DCViewer && DCViewer.initialized){
