@@ -1,353 +1,97 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.13
-   FIX: 4-line Kobita stanza now works in preview + PDF
+   Daily Chalchitra ePaper - Final Fixed v8.14
+   FIX: Auto 4-line Kobita stanza for preview + PDF
    ========================================================== */
 
 /* ---------- Home Page ---------- */
-.dc-epaper{
-    max-width:1200px;
-    margin:40px auto;
-    padding:20px;
-    box-sizing:border-box;
-}
-.dc-epaper-title{
-    text-align:center;
-    color:#C00000;
-    font-size:34px;
-    font-weight:700;
-    margin-bottom:10px;
-    font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif !important;
-}
-.dc-epaper-subtitle{
-    text-align:center;
-    color:#666;
-    margin-bottom:35px;
-    font-size:16px;
-}
-.dc-issue-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-}
-@media(min-width:600px){
-    .dc-issue-grid{
-        grid-template-columns:repeat(3,1fr);
-        gap:20px;
-    }
-}
-@media(min-width:1000px){
-    .dc-issue-grid{
-        grid-template-columns:repeat(4,1fr);
-    }
-}
-.dc-issue-card{
-    background:#fff;
-    border:1px solid #e5e5e5;
-    border-radius:12px;
-    padding:12px;
-    transition:.25s;
-    box-shadow:0 4px 12px rgba(0,0,0,.06);
-    text-decoration:none;
-    color:inherit;
-    display:block;
-}
-.dc-issue-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 10px 22px rgba(0,0,0,.12);
-    border-color:#C00000;
-}
-.dc-issue-card h3{
-    font-size:16px;
-    color:#111;
-    margin-bottom:8px;
-    line-height:1.35;
-    font-family:'Hind Siliguri',sans-serif;
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-}
-.dc-issue-card p{
-    color:#666;
-    font-size:14px;
-    margin-bottom:12px;
-}
-.dc-issue-card span{
-    display:inline-block;
-    background:#C00000;
-    color:#fff;
-    padding:8px 16px;
-    border-radius:6px;
-    font-size:14px;
-    font-weight:600;
-}
+.dc-epaper{ max-width:1200px; margin:40px auto; padding:20px; box-sizing:border-box; }
+.dc-epaper-title{ text-align:center; color:#C00000; font-size:34px; font-weight:700; margin-bottom:10px; font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif !important; }
+.dc-epaper-subtitle{ text-align:center; color:#666; margin-bottom:35px; font-size:16px; }
+.dc-issue-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+@media(min-width:600px){ .dc-issue-grid{ grid-template-columns:repeat(3,1fr); gap:20px; } }
+@media(min-width:1000px){ .dc-issue-grid{ grid-template-columns:repeat(4,1fr); } }
+.dc-issue-card{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:12px; transition:.25s; box-shadow:0 4px 12px rgba(0,0,0,.06); text-decoration:none; color:inherit; display:block; }
+.dc-issue-card:hover{ transform:translateY(-4px); box-shadow:0 10px 22px rgba(0,0,0,.12); border-color:#C00000; }
+.dc-issue-card h3{ font-size:16px; color:#111; margin-bottom:8px; line-height:1.35; font-family:'Hind Siliguri',sans-serif; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.dc-issue-card p{ color:#666; font-size:14px; margin-bottom:12px; }
+.dc-issue-card span{ display:inline-block; background:#C00000; color:#fff; padding:8px 16px; border-radius:6px; font-size:14px; font-weight:600; }
 .dc-cover{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:8px 8px 0 0; }
-.dc-cover-fallback{
-    width:100%;
-    aspect-ratio:4/3;
-    background:#f3f3f3;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#C00000;
-    font-size:32px;
-    border-radius:8px 8px 0 0;
-}
-@media(max-width:599px){
-    .dc-cover, .dc-cover-fallback{ aspect-ratio:2/1 !important; }
-    .dc-issue-card h3{ font-size:13px; -webkit-line-clamp:1; }
-    .dc-issue-card p{ display:none; }
-    .dc-body{ padding:8px; }
-    .dc-issue-card{ padding:8px; }
-}
+.dc-cover-fallback{ width:100%; aspect-ratio:4/3; background:#f3f3f3; display:flex; align-items:center; justify-content:center; color:#C00000; font-size:32px; border-radius:8px 8px 0 0; }
+@media(max-width:599px){ .dc-cover, .dc-cover-fallback{ aspect-ratio:2/1 !important; } .dc-issue-card h3{ font-size:13px; -webkit-line-clamp:1; } .dc-issue-card p{ display:none; } .dc-body{ padding:8px; } .dc-issue-card{ padding:8px; } }
 .dc-body{ padding:12px; }
-.dc-btn{
-    font-size:12px !important;
-    padding:8px 10px !important;
-    line-height:1.3 !important;
-    white-space:normal !important;
-}
-.dc-empty{
-    text-align:center;
-    padding:80px 20px;
-    color:#888;
-    border:2px dashed #ddd;
-    border-radius:10px;
-    background:#fafafa;
-    grid-column:1/-1;
-}
+.dc-btn{ font-size:12px !important; padding:8px 10px !important; line-height:1.3 !important; white-space:normal !important; }
+.dc-empty{ text-align:center; padding:80px 20px; color:#888; border:2px dashed #ddd; border-radius:10px; background:#fafafa; grid-column:1/-1; }
 
 /* ---------- Viewer Page ---------- */
-.dc-viewer{
-    width:100%;
-    max-width:900px;
-    margin:30px auto;
-    padding:20px;
-    background:#ffffff;
-    box-sizing:border-box;
-    overflow-x:hidden;
-}
-#dc-title{ 
-    text-align:center; 
-    color:#C00000; 
-    font-size:32px; 
-    margin-bottom:8px; 
-    font-family:'Hind Siliguri',sans-serif;
-    font-weight:700;
-}
+.dc-viewer{ width:100%; max-width:900px; margin:30px auto; padding:20px; background:#ffffff; box-sizing:border-box; overflow-x:hidden; }
+#dc-title{ text-align:center; color:#C00000; font-size:32px; margin-bottom:8px; font-family:'Hind Siliguri',sans-serif; font-weight:700; }
 #dc-meta{ text-align:center; color:#333; font-size:16px; margin-bottom:25px; line-height:1.6; }
-.dc-viewer-toolbar, .dc-controls{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:20px auto;
-}
-.dc-viewer-toolbar button, .dc-controls button{
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
-    background:#C00000;
-    color:white;
-    cursor:pointer;
-    font-weight:600;
-}
+.dc-viewer-toolbar, .dc-controls{ display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; margin:20px auto; }
+.dc-viewer-toolbar button, .dc-controls button{ padding:8px 14px; border:none; border-radius:6px; background:#C00000; color:white; cursor:pointer; font-weight:600; }
 #dc-page-info{ font-weight:bold; }
 .dc-pdf-box{ width:100%; overflow:hidden; text-align:center; }
-#dc-epaper-page{
-    width:100%;
-    max-width:900px;
-    margin:20px auto;
-    background:white;
-    padding:30px;
-    box-sizing:border-box;
-    box-shadow:0 0 20px rgba(0,0,0,.05);
-    border:1px solid #eee;
-    overflow-wrap:break-word;
-    word-wrap:break-word;
-}
-#dc-epaper-page:fullscreen,
-#dc-epaper-page:-webkit-full-screen{
-    overflow-y:auto !important;
-    max-height:100vh;
-    background:#fff;
-}
-.dc-paper-head{
-    display:none;
-    text-align:center;
-    margin-bottom:20px;
-    border-bottom:2px solid #000;
-    padding-bottom:15px;
-}
-@media print{
-    .dc-paper-head{ display:block !important; }
-}
-.dc-paper-logo{
-    display:block;
-    max-width:220px;
-    height:auto;
-    margin:0 auto;
-}
-#dc-post-columns{ 
-    column-count:3; 
-    column-gap:25px; 
-    text-align:justify; 
-}
-.dc-post-card{
-    break-inside:avoid;
-    margin-bottom:16px !important;
-    border-bottom:1px solid #e5e5e5;
-    padding-bottom:12px !important;
-    text-align:left;
-    max-width:100%;
-    box-sizing:border-box;
-    position:relative;
-}
+#dc-epaper-page{ width:100%; max-width:900px; margin:20px auto; background:white; padding:30px; box-sizing:border-box; box-shadow:0 0 20px rgba(0,0,0,.05); border:1px solid #eee; overflow-wrap:break-word; word-wrap:break-word; }
+#dc-epaper-page:fullscreen, #dc-epaper-page:-webkit-full-screen{ overflow-y:auto !important; max-height:100vh; background:#fff; }
+.dc-paper-head{ display:none; text-align:center; margin-bottom:20px; border-bottom:2px solid #000; padding-bottom:15px; }
+@media print{ .dc-paper-head{ display:block !important; } }
+.dc-paper-logo{ display:block; max-width:220px; height:auto; margin:0 auto; }
+#dc-post-columns{ column-count:3; column-gap:25px; text-align:justify; }
+.dc-post-card{ break-inside:avoid; margin-bottom:16px !important; border-bottom:1px solid #e5e5e5; padding-bottom:12px !important; text-align:left; max-width:100%; box-sizing:border-box; position:relative; }
 .dc-post-card img{ width:100%; border-radius:5px; margin-bottom:8px; height:auto; }
-.dc-post-card h2{ 
-    font-size:19px; 
-    margin:0 0 4px 0; 
-    line-height:1.35; 
-    font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif;
-    font-weight:700;
-    color:#000;
-}
-#dc-single-pdf-btn{
-    background:#C00000;
-    color:#fff;
-    border:none;
-    padding:8px 16px;
-    border-radius:20px;
-    font-weight:600;
-    font-size:13px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    transition:0.2s;
-    font-family:'Noto Sans Bengali',sans-serif;
-    box-shadow:0 2px 6px rgba(192,0,0,0.2);
-}
+.dc-post-card h2{ font-size:19px; margin:0 0 4px 0; line-height:1.35; font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif; font-weight:700; color:#000; }
+#dc-single-pdf-btn{ background:#C00000; color:#fff; border:none; padding:8px 16px; border-radius:20px; font-weight:600; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px; transition:0.2s; font-family:'Noto Sans Bengali',sans-serif; box-shadow:0 2px 6px rgba(192,0,0,0.2); }
 #dc-single-pdf-btn:hover{ background:#8B0000; transform:translateY(-1px); }
-.dc-mini-pdf{
-    position:absolute;
-    top:8px;
-    right:8px;
-    background:#fff;
-    color:#C00000 !important;
-    border:1.2px solid #C00000;
-    padding:3px 8px;
-    border-radius:12px;
-    font-size:11px;
-    font-weight:600;
-    text-decoration:none !important;
-    display:flex;
-    align-items:center;
-    gap:4px;
-    z-index:2;
-}
+.dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000 !important; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none !important; display:flex; align-items:center; gap:4px; z-index:2; }
 .dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* ---------- FINAL FIX v8.13: কবিতার স্তবক ১০০% ঠিক ---------- */
-.dc-post-card,
-#dc-epaper-page .dc-post-card,
-.dc-post-card .dc-post-content {
-    white-space:normal !important;
-    word-break:break-word !important;
-    overflow-wrap:anywhere !important;
-    box-sizing:border-box !important;
+/* ---------- Kobita Stanza Fix v8.14 ---------- */
+.dc-post-card .dc-post-content{
+  font-family:'Noto Sans Bengali',sans-serif !important;
+  font-size:15px !important;
+  line-height:1.8 !important;
+  color:#222 !important;
 }
 .dc-post-card .dc-post-content p{
-    font-family:'Noto Sans Bengali',sans-serif !important;
-    font-size:15px !important;
-    line-height:1.8 !important;
-    color:#222 !important;
-    margin:0 1.2em 0 !important;
-    padding:0 !important;
-    display:block;
+  margin:0 !important;
+  padding:0 !important;
 }
-.dc-post-card .dc-post-content p:last-child{
-    margin-bottom:0 !important;
+/* এই ২টাই আসল ফিক্স */
+.kobita-pera{
+  display:block !important;
+  margin:0 0 1.5em 0 !important;
+  padding:0 !important;
+  line-height:1.8 !important;
+  white-space:normal !important;
 }
-/* কবিতার লাইন ব্রেক - এটাই আসল ফিক্স */
-.dc-post-card .dc-post-content br{
-    display:block !important;
-    content:"" !important;
-    margin:0 !important;
-    line-height:1.8 !important;
-}
-#dc-epaper-page p:empty,
-.dc-post-card p:empty{
-    display:none !important;
-    margin:0 !important;
-    padding:0 !important;
-    height:0 !important;
-}
-.dc-cat-author{
-    font-size:13px !important;
-    color:#C00000 !important;
-    margin:2px 0 8px 0 !important;
-    border-left:3px solid #C00000;
-    padding-left:8px;
-    font-style:normal !important;
-    font-weight:600 !important;
-    white-space:normal !important;
-    line-height:1.3 !important;
-    display:block !important;
-    font-family:'Noto Sans Bengali',sans-serif !important;
-}
+.kobita-pera:last-child{ margin-bottom:0 !important; }
+
+#dc-epaper-page p:empty, .dc-post-card p:empty{ display:none !important; }
+.dc-cat-author{ font-size:13px !important; color:#C00000 !important; margin:2px 0 8px 0 !important; border-left:3px solid #C00000; padding-left:8px; font-weight:600 !important; display:block !important; font-family:'Noto Sans Bengali',sans-serif !important; }
 .dc-post-card small{ display:none !important; }
 
 /* ---------- Archive ---------- */
 #dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
-.dc-year-btn{
-    padding:8px 16px;
-    border:1.5px solid #C00000;
-    border-radius:20px;
-    background:#ffffff;
-    color:#C00000;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.25s;
-}
+.dc-year-btn{ padding:8px 16px; border:1.5px solid #C00000; border-radius:20px; background:#ffffff; color:#C00000; cursor:pointer; font-weight:600; transition:0.25s; }
 .dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
 /* ---------- Print / PDF ---------- */
 @media print{
-    header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf, #dc-single-pdf-btn{
-        display:none !important;
-    }
-    #dc-epaper-page, .dc-viewer{
-        box-shadow:none !important;
-        border:none !important;
-        margin:0 !important;
-        padding:10px !important;
-    }
-    body *{ visibility:hidden; }
-    #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
-    #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
-    #dc-post-columns{
-        column-count:1 !important;
-        text-align:left !important;
-    }
+  header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf, #dc-single-pdf-btn{ display:none !important; }
+  #dc-epaper-page, .dc-viewer{ box-shadow:none !important; border:none !important; margin:0 !important; padding:10px !important; }
+  body *{ visibility:hidden; }
+  #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
+  #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
+  #dc-post-columns{ column-count:1 !important; text-align:left !important; }
+  .kobita-pera{ margin-bottom:1.5em !important; }
 }
 
 /* ---------- Responsive ---------- */
 @media(max-width:1100px){ #dc-post-columns{ column-count:2; } }
 @media(max-width:700px){
-    .dc-epaper-title{ font-size:26px; }
-    #dc-post-columns{ column-count:1; text-align:left; }
-    #dc-epaper-page{ padding:15px; }
-    .dc-viewer{ padding:10px; }
-    .dc-post-card h2{ font-size:17px; }
-    .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
-}
-
-/* স্তবকের ফাঁকা - Final Fix */
-.dc-post-card .dc-post-content p.kobita-stanza{
-  margin-top: 1.4em !important;
-}
-.dc-post-card .dc-post-content p + p{
-  margin-top: 1.4em !important;
+  .dc-epaper-title{ font-size:26px; }
+  #dc-post-columns{ column-count:1; text-align:left; }
+  #dc-epaper-page{ padding:15px; }
+  .dc-viewer{ padding:10px; }
+  .dc-post-card h2{ font-size:17px; }
+  .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
 }
