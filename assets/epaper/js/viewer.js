@@ -1,8 +1,7 @@
 /*
   Daily Chalchitra ePaper Viewer
-  Final Fixed v8.9 - Compatible with v3.6 (Auto 4-line stanza)
-  Full-issue PDF uses native browser print (Save as PDF)
-  for perfect Bengali glyphs.
+  Final Fixed v8.10 - Compatible with v3.7 + v8.18
+  FIX: A4 Logo up + Grid left->right
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -70,11 +69,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         prevBtn?.addEventListener("click", () => {
             if(window.DCViewer) DCViewer.previousPage();
-            setTimeout(()=>{ cleanupDuplicateSmallTags(); }, 300);
+            setTimeout(()=>{ cleanupDuplicateSmallTags(); updatePageInfo(); }, 300);
         });
         nextBtn?.addEventListener("click", () => {
             if(window.DCViewer) DCViewer.nextPage();
-            setTimeout(()=>{ cleanupDuplicateSmallTags(); }, 300);
+            setTimeout(()=>{ cleanupDuplicateSmallTags(); updatePageInfo(); }, 300);
         });
         zoomInBtn?.addEventListener("click", () => DCViewer.setZoom(DCViewer.zoom + 0.1));
         zoomOutBtn?.addEventListener("click", () => DCViewer.setZoom(Math.max(0.5, DCViewer.zoom - 0.1)));
@@ -86,12 +85,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                     alert("ই-পেপার এখনো লোড হচ্ছে, ২ সেকেন্ড পর চেষ্টা করুন।");
                     return;
                 }
-                alert("প্রিন্ট ডায়ালগ খুলবে - সেখানে প্রিন্টার হিসেবে \"Save as PDF\" বেছে নিলেই PDF ডাউনলোড হয়ে যাবে।");
+                // v8.18 - লোগো ছোট করে প্রিন্ট
+                viewer.classList.add('pdf-mode');
+                alert("প্রিন্ট ডায়ালগ খুলবে - সেখানে \"Save as PDF\" বেছে নিলেই PDF ডাউনলোড হবে।");
                 window.print();
+                setTimeout(()=> viewer.classList.remove('pdf-mode'), 1000);
             };
         }
 
-        if(printBtn) printBtn.onclick = () => window.print();
+        if(printBtn) printBtn.onclick = () => {
+            const viewer = document.querySelector("#dc-epaper-page");
+            viewer?.classList.add('pdf-mode');
+            window.print();
+            setTimeout(()=> viewer?.classList.remove('pdf-mode'), 1000);
+        };
+        
         if(fullscreenBtn){
             fullscreenBtn.onclick = async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
