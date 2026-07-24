@@ -1,6 +1,6 @@
 /*
   Daily Chalchitra ePaper - Home
-  Final Fixed v3.3 - Removed CORS-breaking crossorigin + fixed misleading PDF button
+  Final Fixed v3.6 - Mobile small font compatible + Tight grid
 */
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("dc-issues");
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Sort by id desc (2025-W27 > 2025-W26) - সবচেয়ে নির্ভরযোগ্য
+        // Sort by id desc
         issues.sort((a,b) => String(b.id).localeCompare(String(a.id)));
 
         const latest = issues.slice(0, 8);
@@ -26,12 +26,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         container.innerHTML = `
             <div class="dc-issue-grid">
             ${latest.map(issue => {
-                // cover ফিক্স - crossorigin সরানো হলো (বাইরের হোস্টের ছবি CORS ছাড়া লোডই হতো না), fallback ঠিক রাখা হলো
                 const coverImg = issue.cover ? 
                     `<img class="dc-cover" src="${issue.cover}" alt="${issue.title}" loading="lazy" onerror="this.outerHTML='<div class=&quot;dc-cover dc-cover-fallback&quot;><i class=&quot;fa fa-newspaper&quot;></i></div>'">` : 
                     `<div class="dc-cover dc-cover-fallback"><i class="fa fa-newspaper"></i></div>`;
 
-                // viewer লিংক ফিক্স - id encode করা
                 const viewerLink = `/epaper/viewer/?issue=${encodeURIComponent(issue.id)}`;
 
                 return `
@@ -45,7 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <i class="fa fa-book-open"></i> পড়ুন ও PDF ডাউনলোড
                         </a>
                     </div>
-                </div>
                 `;
             }).join("")}
             </div>
