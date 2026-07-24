@@ -1,7 +1,7 @@
-/*
-  Daily Chalchitra ePaper - Home
-  Final Fixed v3.6 - Mobile small font compatible + Tight grid
-*/
+/* ==========================================================
+   Daily Chalchitra ePaper - Home - v9.0 Rebuild
+   FIX: Grid 1 column issue + Clean HTML
+   ========================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("dc-issues");
     if (!container) return;
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
-        if (!res.ok) throw new Error("Not found");
+        if (!res.ok) throw new Error("issues.json not found");
         let issues = await res.json();
 
         if (!Array.isArray(issues) || issues.length === 0) {
@@ -18,9 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Sort by id desc
         issues.sort((a,b) => String(b.id).localeCompare(String(a.id)));
-
         const latest = issues.slice(0, 8);
 
         container.innerHTML = `
@@ -36,14 +34,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="dc-issue-card">
                     ${coverImg}
                     <div class="dc-body">
-                        <div class="dc-date" style="font-size:12px;color:#888;margin-bottom:6px;">${issue.date || ''}</div>
-                        <h3 class="dc-title" style="margin:0 0 6px 0;font-size:17px;line-height:1.4;">${issue.title || 'ই-পেপার'}</h3>
-                        <div class="dc-pages" style="font-size:13px;color:#666;margin-bottom:14px;">${issue.count || 0} টি লেখা ${issue.pages? '| ' + issue.pages + ' পৃষ্ঠা' : ''}</div>
-                        <a class="dc-btn" href="${viewerLink}" style="background:#C00000;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
-                            <i class="fa fa-book-open"></i> পড়ুন ও PDF ডাউনলোড
+                        <div style="font-size:12px;color:#888;margin-bottom:6px;">${issue.date || ''}</div>
+                        <h3 style="margin:0 0 6px 0;font-size:17px;line-height:1.4;">${issue.title || 'ই-পেপার'}</h3>
+                        <div style="font-size:13px;color:#666;margin-bottom:14px;">${issue.count || 0} টি লেখা ${issue.pages? '| ' + issue.pages + ' পৃষ্ঠা' : ''}</div>
+                        <a href="${viewerLink}" style="background:#C00000;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
+                            <i class="fa fa-book-open"></i> পড়ুন ও PDF
                         </a>
                     </div>
-                `;
+                </div>`;
             }).join("")}
             </div>
             <div style="text-align:center; margin-top:30px;">
@@ -53,6 +51,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
         console.error(err);
-        container.innerHTML = `<div class="dc-empty">ই-পেপার লোড করা যায়নি। <br><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;border:1px solid #C00000;color:#C00000;background:#fff;border-radius:6px;">আবার চেষ্টা করুন</button></div>`;
+        container.innerHTML = `<div class="dc-empty">ই-পেপার লোড করা যায়নি।<br><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;border:1px solid #C00000;color:#C00000;background:#fff;border-radius:6px;">আবার চেষ্টা করুন</button></div>`;
     }
 });
