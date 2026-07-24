@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0.5 FINAL
-   FIX: শেষ ৩ লাইন উপরের পেজে থাকবে
+   Daily Chalchitra ePaper Engine - v9.0.4
+   FIX: কবিতার শেষ ২ লাইন অন্য পেজে যাওয়া ফিক্স - শেষ ৩ লাইন উপরের পেজে
    ========================================================== */
 window.DCViewer = {
-    version: "9.0.5",
+    version: "9.0.4",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -55,14 +55,29 @@ window.DCViewer = {
         this.loading = false;
     },
     estimatePostHeight(post){
-        return 500;
+        let height = 140;
+        if(post.image) height += 200;
+        if(post.title) height += Math.ceil(post.title.length / 26) * 30;
+        const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
+        if(post.category && post.category.includes("কবিতা")){
+            height += Math.ceil(plainText.length / 45) * 22 + 80;
+        } else {
+            height += Math.ceil(plainText.length / 85) * 18;
+        }
+        return height;
     },
     buildPages(){
-        // ফিক্স: সব লেখা এক পেজে, তাই শেষ ৩ লাইন আর নিচের পেজে যাবে না
-        this.pages = [this.posts];
-        this.totalPages = 1;
-        this.currentPage = 1;
-        this.render();
+        this.pages = []; let page = []; let usedHeight = 0; 
+        const pageHeight = 1950; // 1550 ছিল, 1950 করলাম যাতে শেষ ৩ লাইন উপরে ধরে
+        this.posts.forEach(post=>{
+            const postHeight = this.estimatePostHeight(post);
+            if(usedHeight + postHeight > pageHeight && page.length > 0){
+                this.pages.push([...page]); page = []; usedHeight = 0;
+            }
+            page.push(post); usedHeight += postHeight;
+        });
+        if(page.length) this.pages.push(page);
+        this.totalPages = this.pages.length; this.render();
     },
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
