@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0 Rebuild
-   FIX: issues.json + Kobita 4-line stanza
+   Daily Chalchitra ePaper Engine - v9.0.3
+   FIX: --- *রচনাকাল: ২৪-০৭-২৬ইং।* এই ফরম্যাটের জন্য
    ========================================================== */
 window.DCViewer = {
-    version: "9.0",
+    version: "9.0.3",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -16,73 +16,44 @@ window.DCViewer = {
     viewer: null,
     columnCount: 3,
     loading: false,
-
     init(issueId){
         if(this.initialized && this.issue === issueId) return;
         this.issue = decodeURIComponent(issueId || "");
-        this.currentPage = 1;
-        this.totalPages = 0;
-        this.zoom = 1;
-        this.posts = [];
-        this.pages = [];
-        this.loading = false;
-        this.isStarting = false;
+        this.currentPage = 1; this.totalPages = 0; this.zoom = 1;
+        this.posts = []; this.pages = []; this.loading = false; this.isStarting = false;
         this.viewer = document.getElementById("dc-epaper-page");
         this.container = document.getElementById("dc-post-columns");
-        this.detectColumns();
-        this.initialized = true;
+        this.detectColumns(); this.initialized = true;
     },
     detectColumns(){
         if(window.innerWidth <= 768) this.columnCount = 1;
         else if(window.innerWidth <= 1100) this.columnCount = 2;
         else this.columnCount = 3;
     },
-    resize(){ 
-        this.detectColumns(); 
-        this.buildPages(); 
-    },
-    reset(){ 
-        this.posts = []; 
-        this.pages = []; 
-        this.currentPage = 1; 
-        this.totalPages = 0; 
-    },
-
+    resize(){ this.detectColumns(); this.buildPages(); },
+    reset(){ this.posts = []; this.pages = []; this.currentPage = 1; this.totalPages = 0; },
     async loadPosts(){
         this.loading = true;
         const box = document.getElementById("dc-post-columns");
         if(box) box.innerHTML = `<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> ই-পেপার লোড হচ্ছে...</div>`;
-        
         try{
             const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
             if(!res.ok) throw new Error("issues.json not found");
             const allIssues = await res.json();
-            
-            // v9.0 - ID ম্যাচ ফিক্স
             const currentIssueData = allIssues.find(i => String(i.id).trim() === String(this.issue).trim());
-            
             if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
                 this.posts = currentIssueData.posts.map(post=>({
-                    title: (post.title || "").trim(),
-                    url: post.url || "",
-                    date: post.date || "",
-                    excerpt: post.excerpt || "",
-                    content: post.content || post.excerpt || "",
-                    image: post.image || "",
-                    category: post.category || "সাধারণ",
-                    author: post.author || ""
+                    title: (post.title || "").trim(), url: post.url || "", date: post.date || "",
+                    excerpt: post.excerpt || "", content: post.content || post.excerpt || "",
+                    image: post.image || "", category: post.category || "সাধারণ", author: post.author || ""
                 }));
-            } else { 
-                this.posts = []; 
-            }
+            } else { this.posts = []; }
             this.buildPages();
         }catch(error){
-            console.error("Load Error:", error);
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা যায়নি। issues.json চেক করুন।</div>`;
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা যায়নি।</div>`;
         }
         this.loading = false;
     },
-
     estimatePostHeight(post){
         let height = 120;
         if(post.image) height += 180;
@@ -91,27 +62,18 @@ window.DCViewer = {
         height += Math.ceil(plainText.length / 85) * 18;
         return height;
     },
-
     buildPages(){
-        this.pages = [];
-        let page = [];
-        let usedHeight = 0;
-        const pageHeight = 1550; // আপনার আগের ঠিক মান - চেঞ্জ করিনি
+        this.pages = []; let page = []; let usedHeight = 0; const pageHeight = 1550;
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
             if(usedHeight + postHeight > pageHeight && page.length > 0){
-                this.pages.push([...page]);
-                page = [];
-                usedHeight = 0;
+                this.pages.push([...page]); page = []; usedHeight = 0;
             }
-            page.push(post);
-            usedHeight += postHeight;
+            page.push(post); usedHeight += postHeight;
         });
         if(page.length) this.pages.push(page);
-        this.totalPages = this.pages.length;
-        this.render();
+        this.totalPages = this.pages.length; this.render();
     },
-
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
@@ -120,64 +82,68 @@ window.DCViewer = {
             const fileName = (title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
             const clone = card.cloneNode(true);
             clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
-            clone.querySelectorAll("img").forEach(img=>{
-                img.setAttribute("crossorigin","anonymous");
-                img.style.maxWidth="100%";
-            });
+            clone.querySelectorAll("img").forEach(img=>{ img.setAttribute("crossorigin","anonymous"); img.style.maxWidth="100%"; });
             await html2pdf().set({
-                margin: 10,
-                filename: fileName,
+                margin: 10, filename: fileName,
                 image: {type:'jpeg', quality:0.92},
                 html2canvas: {scale:1.6, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
                 jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
             }).from(clone).save();
-        } catch(e){
-            alert("PDF তৈরি করা যায়নি।");
-        } finally {
-            if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; }
-        }
+        } catch(e){ alert("PDF তৈরি করা যায়নি।"); }
+        finally { if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; } }
     },
-
-    // কবিতার স্তবক - শুধু এই ফাংশনটাই নতুন
     formatKobita(html){
         if(!html) return "";
-        let text = html.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
+        // hr কে --- হিসেবে রাখো, p কে নতুন লাইনে ভাঙো
+        let text = html.replace(/<hr[^>]*>/gi, "\n---\n");
+        text = text.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
         text = text.replace(/<br\s*\/?>/gi, "\n");
         text = text.replace(/<[^>]+>/g, "").trim();
+        
         let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
-        if(lines.length <= 4) return lines.join("<br>");
-        let stanzas = [];
-        for(let i=0; i<lines.length; i+=4){
-            stanzas.push(lines.slice(i, i+4).join("<br>"));
-        }
-        return stanzas.map(s=>`<div class="kobita-pera">${s}</div>`).join("");
-    },
+        let resultHtml = [];
+        let temp = [];
 
+        lines.forEach(line=>{
+            // --- লাইন বা * রিমুভ
+            let clean = line.replace(/^\*+|\*+$/g, "").replace(/^\-+|\-+$/g, "").trim();
+            if(!clean) return;
+
+            // রচনাকাল লাইন পেলেই আলাদা div
+            if(/রচনাকাল/i.test(clean)){
+                if(temp.length > 0){
+                    resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
+                    temp = [];
+                }
+                resultHtml.push(`<div class="kobita-pera kobita-date">${clean}</div>`);
+            } else {
+                temp.push(clean);
+                if(temp.length === 4){
+                    resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
+                    temp = [];
+                }
+            }
+        });
+        if(temp.length > 0){
+            resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
+        }
+        return resultHtml.join("");
+    },
     render(){
         const box = document.getElementById("dc-post-columns");
-        if(!box) return;
-        box.innerHTML = "";
+        if(!box) return; box.innerHTML = "";
         if(!this.posts.length){
             box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।</div>`;
-            this.updatePageInfo();
-            return;
+            this.updatePageInfo(); return;
         }
         const current = this.pages[this.currentPage - 1];
-        if(!current ||!current.length){
-            box.innerHTML = `<div class="dc-empty">এই পৃষ্ঠায় কোনো পোস্ট নেই।</div>`;
-            return;
-        }
+        if(!current ||!current.length){ box.innerHTML = `<div class="dc-empty">এই পৃষ্ঠায় কোনো পোস্ট নেই।</div>`; return; }
         current.forEach(post=>{
             const card = document.createElement("article");
             card.className = "dc-post-card";
             let cleanContent = post.content || post.excerpt || "";
-            
-            if(post.category && post.category.includes("কবিতা")){
-                cleanContent = this.formatKobita(cleanContent);
-            } else {
-                cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
-            }
-
+            if(post.category && post.category.includes("কবিতা")) cleanContent = this.formatKobita(cleanContent);
+            else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
                 ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
@@ -185,50 +151,22 @@ window.DCViewer = {
                 ${(post.category || post.author)? `<div class="dc-cat-author">${post.category? 'বিভাগ: '+post.category : ''}${post.category && post.author? ' | ' : ''}${post.author? 'লেখক: '+post.author : ''}</div>` : ""}
                 <div class="dc-post-content">${cleanContent}</div>
             `;
-            card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => {
-                e.preventDefault(); 
-                this.downloadSingleCard(card, post.title);
-            });
+            card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => { e.preventDefault(); this.downloadSingleCard(card, post.title); });
             box.appendChild(card);
         });
         this.updatePageInfo();
     },
-
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
         if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
     },
-    nextPage(){
-        if(this.currentPage < this.totalPages){
-            this.currentPage++;
-            this.render();
-            window.scrollTo({top:0, behavior:"smooth"});
-        }
-    },
-    previousPage(){
-        if(this.currentPage > 1){
-            this.currentPage--;
-            this.render();
-            window.scrollTo({top:0, behavior:"smooth"});
-        }
-    },
+    nextPage(){ if(this.currentPage < this.totalPages){ this.currentPage++; this.render(); window.scrollTo({top:0, behavior:"smooth"}); } },
+    previousPage(){ if(this.currentPage > 1){ this.currentPage--; this.render(); window.scrollTo({top:0, behavior:"smooth"}); } },
     setZoom(value){
         this.zoom = Math.max(0.5, Math.min(2, value));
         const page = document.getElementById("dc-epaper-page");
-        if(page){
-            page.style.transform = `scale(${this.zoom})`;
-            page.style.transformOrigin = "top center";
-        }
+        if(page){ page.style.transform = `scale(${this.zoom})`; page.style.transformOrigin = "top center"; }
     },
-    async start(){
-        if(this.isStarting) return;
-        this.isStarting = true;
-        this.reset();
-        await this.loadPosts();
-        this.isStarting = false;
-    }
+    async start(){ if(this.isStarting) return; this.isStarting = true; this.reset(); await this.loadPosts(); this.isStarting = false; }
 };
-
-window.addEventListener("resize",()=>{
-    if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); }
-});
+window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
