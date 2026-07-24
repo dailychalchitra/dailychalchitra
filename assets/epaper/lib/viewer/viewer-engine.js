@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0 Rebuild
-   FIX: issues.json + Kobita 4-line stanza
+   Daily Chalchitra ePaper Engine - v9.1 Rebuild
+   FIX: রচনাকাল লাইন নিচে আলাদা বসবে + 4-line stanza
    ========================================================== */
 window.DCViewer = {
-    version: "9.0",
+    version: "9.1",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -57,8 +57,6 @@ window.DCViewer = {
             const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
             if(!res.ok) throw new Error("issues.json not found");
             const allIssues = await res.json();
-            
-            // v9.0 - ID ম্যাচ ফিক্স
             const currentIssueData = allIssues.find(i => String(i.id).trim() === String(this.issue).trim());
             
             if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
@@ -96,7 +94,7 @@ window.DCViewer = {
         this.pages = [];
         let page = [];
         let usedHeight = 0;
-        const pageHeight = 1550; // আপনার আগের ঠিক মান - চেঞ্জ করিনি
+        const pageHeight = 1550;
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
             if(usedHeight + postHeight > pageHeight && page.length > 0){
@@ -138,19 +136,46 @@ window.DCViewer = {
         }
     },
 
-    // কবিতার স্তবক - শুধু এই ফাংশনটাই নতুন
+    // v9.1 - রচনাকাল ফিক্স সহ
     formatKobita(html){
         if(!html) return "";
         let text = html.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
         text = text.replace(/<br\s*\/?>/gi, "\n");
         text = text.replace(/<[^>]+>/g, "").trim();
         let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
+        
         if(lines.length <= 4) return lines.join("<br>");
+
         let stanzas = [];
-        for(let i=0; i<lines.length; i+=4){
-            stanzas.push(lines.slice(i, i+4).join("<br>"));
+        let temp = [];
+        
+        lines.forEach(line=>{
+            // রচনাকাল / তারিখ / ইং থাকলে সেটা আলাদা ব্লকে
+            if(/রচনাকাল|তারিখ|^\d{2}-\d{4}|ইং|লেখক:|কলমে:/i.test(line)){
+                if(temp.length > 0){
+                    stanzas.push({text: temp.join("<br>"), type: "pera"});
+                    temp = [];
+                }
+                stanzas.push({text: line, type: "date"});
+            } else {
+                temp.push(line);
+                if(temp.length === 4){
+                    stanzas.push({text: temp.join("<br>"), type: "pera"});
+                    temp = [];
+                }
+            }
+        });
+        
+        if(temp.length > 0){
+            stanzas.push({text: temp.join("<br>"), type: "pera"});
         }
-        return stanzas.map(s=>`<div class="kobita-pera">${s}</div>`).join("");
+        
+        return stanzas.map(s=>{
+            if(s.type === "date"){
+                return `<div class="kobita-pera kobita-date">${s.text}</div>`;
+            }
+            return `<div class="kobita-pera">${s.text}</div>`;
+        }).join("");
     },
 
     render(){
