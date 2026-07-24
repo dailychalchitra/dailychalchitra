@@ -15,36 +15,98 @@ title: প্রচ্ছদ
         </a>
     </div>
 
-    <!-- 1. লিড নিউজ সেকশন -->
+    <!-- 1. লিড নিউজ স্লাইডার (স্বয়ংক্রিয়ভাবে পোস্ট বদলায়) -->
     <section class="lead-news-section">
-        {% for post in site.posts limit:1 %}
-        <div class="lead-news">
-            <a href="{{ post.url | relative_url }}" class="lead-img">
-                {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                {% else %}
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
-                {% endif %}
-            </a>
-            <div class="lead-content">
-                <span class="category-badge">{{ post.categories | first }}</span>
-                <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
-                {% if post.author %}<p style="font-size:15px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 8px;">লেখক: {{ post.author }}</p>{% endif %}
-                <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
-   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
-     <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
-     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
-        <i class="fa fa-plus" style="font-size:10px;"></i>
-        <span class="dc-home-follow-label">ফলো করুন</span>
-     </button>
-   </div>
-                <div class="post-meta">
-                    <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
+        <div id="dc-lead-slider" style="position:relative;overflow:hidden;border-radius:8px;">
+            {% for post in site.posts limit:5 %}
+            <div class="dc-lead-slide{% if forloop.first %} active{% endif %}" style="{% unless forloop.first %}display:none;{% endunless %}">
+                <div class="lead-news" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                    <a href="{{ post.url | relative_url }}" class="lead-img">
+                        {% if post.image %}
+                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                        {% else %}
+                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                        {% endif %}
+                    </a>
+                    <div class="lead-content" style="padding:20px;">
+                        <span class="category-badge">{{ post.categories | first }}</span>
+                        <h1 style="font-size:24px;margin:12px 0;"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
+                        {% if post.author %}<p style="font-size:15px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 8px;">লেখক: {{ post.author }}</p>{% endif %}
+                        <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                            <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+                            <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
+                                <i class="fa fa-plus" style="font-size:10px;"></i>
+                                <span class="dc-home-follow-label">ফলো করুন</span>
+                            </button>
+                        </div>
+                        <div class="post-meta">
+                            <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
+
+            <!-- ডট ইন্ডিকেটর -->
+            <div style="display:flex;justify-content:center;gap:8px;padding:12px 0;background:#fff;">
+                {% for post in site.posts limit:5 %}
+                <span class="dc-lead-dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.index0 }}" style="width:8px;height:8px;border-radius:50%;background:{% if forloop.first %}#C00000{% else %}#ddd{% endif %};cursor:pointer;transition:0.3s;"></span>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
     </section>
+
+    <style>
+    .dc-lead-slide { animation: dcFadeIn 0.6s ease; }
+    @keyframes dcFadeIn { from { opacity:0; } to { opacity:1; } }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var slides = document.querySelectorAll('.dc-lead-slide');
+        var dots = document.querySelectorAll('.dc-lead-dot');
+        var currentIndex = 0;
+        var intervalTime = 5000; // ৫ সেকেন্ড পরপর বদলাবে
+        var sliderTimer;
+
+        function showSlide(index) {
+            slides.forEach(function (slide, i) {
+                slide.style.display = (i === index) ? 'block' : 'none';
+                if (i === index) slide.classList.add('active'); else slide.classList.remove('active');
+            });
+            dots.forEach(function (dot, i) {
+                dot.style.background = (i === index) ? '#C00000' : '#ddd';
+            });
+            currentIndex = index;
+        }
+
+        function nextSlide() {
+            var next = (currentIndex + 1) % slides.length;
+            showSlide(next);
+        }
+
+        function startAutoSlide() {
+            sliderTimer = setInterval(nextSlide, intervalTime);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(sliderTimer);
+            startAutoSlide();
+        }
+
+        dots.forEach(function (dot) {
+            dot.addEventListener('click', function () {
+                showSlide(parseInt(dot.dataset.index));
+                resetAutoSlide();
+            });
+        });
+
+        if (slides.length > 1) {
+            startAutoSlide();
+        }
+    });
+    </script>
 
     <!-- 2. মেইন এরিয়া: 3 কলাম গ্রিড -->
     <div class="content-wrap">
