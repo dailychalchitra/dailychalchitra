@@ -1,7 +1,7 @@
-/* ========================================
-   Daily Chalchitra - Single Post Toolbar
-   Final Fixed v3.1 - Print button selector fixed
-   ======================================== */
+/* ==========================================================
+   Daily Chalchitra - Single Post Toolbar - v9.0 Rebuild
+   CLEAN - No conflict with epaper.css
+   ========================================================== */
 
 .dc-single-toolbar{
     display:flex;
@@ -47,51 +47,29 @@
     box-shadow:0 2px 8px rgba(0,0,0,0.06);
 }
 
-.dc-single-toolbar button:active,
-.dc-single-toolbar a:active{
-    transform:translateY(0px);
-}
-
-/* PDF বাটন - প্রাইমারি লাল */
+/* PDF - Primary */
 #dc-single-pdf-btn{
     background:#C00000 !important;
     color:#fff !important;
     border-color:#C00000 !important;
     box-shadow:0 3px 10px rgba(192,0,0,0.22);
 }
-
 #dc-single-pdf-btn:hover{
     background:#8B0000 !important;
     border-color:#8B0000 !important;
-    color:#fff !important;
-    box-shadow:0 5px 14px rgba(192,0,0,0.3);
 }
 
-/* প্রিন্ট বাটন হালকা আলাদা - আগে ভুল ক্লাস (.dc-toolbar-print) টার্গেট করা ছিল,
-   যেটা JS কখনো বসাতোই না। এখন আসল ID টার্গেট করা হচ্ছে। */
-#dc-single-print{
-    background:#f7f7f7 !important;
-}
+#dc-single-print{ background:#f7f7f7 !important; }
 
-/* শেয়ার বাটনগুলো আইকন সাইজ */
 .dc-single-toolbar button i,
-.dc-single-toolbar a i{
-    font-size:14px;
-}
+.dc-single-toolbar a i{ font-size:14px; }
 
-/* প্রিন্ট করার সময় টুলবার হাইড */
 @media print{
-  .dc-single-toolbar{
-    display:none !important;
-  }
+  .dc-single-toolbar{ display:none !important; }
 }
 
 @media(max-width:600px){
-  .dc-single-toolbar{
-    padding:12px 8px;
-    gap:8px;
-    justify-content:space-around;
-  }
+  .dc-single-toolbar{ padding:12px 8px; gap:8px; }
   .dc-single-toolbar button,
   .dc-single-toolbar a{
     padding:9px 14px;
@@ -99,8 +77,5 @@
     flex:1 1 30%;
     min-width:90px;
   }
-  #dc-single-pdf-btn{
-    flex:1 1 100%;
-    order:-1;
-  }
+  #dc-single-pdf-btn{ flex:1 1 100%; order:-1; }
 }
