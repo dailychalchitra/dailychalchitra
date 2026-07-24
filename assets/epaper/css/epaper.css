@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Final Fixed v8.15
-   FIX: Tighter line + stanza gap
+   Daily Chalchitra ePaper - Final Fixed v8.16
+   FIX: Mobile small font + Logo up + Tight kobita
    ========================================================== */
 
 /* ---------- Home Page ---------- */
@@ -44,7 +44,7 @@
 .dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000 !important; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none !important; display:flex; align-items:center; gap:4px; z-index:2; }
 .dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* ---------- Kobita Stanza Fix v8.15 - Tighter ---------- */
+/* ---------- Kobita Stanza Fix v8.16 ---------- */
 .dc-post-card .dc-post-content{
   font-family:'Noto Sans Bengali',sans-serif !important;
   font-size:15px !important;
@@ -59,12 +59,7 @@
   line-height:1.55 !important;
   white-space:normal !important;
 }
-.kobita-pera br{
-  display:block !important;
-  content:"" !important;
-  margin:0 !important;
-  line-height:1.55 !important;
-}
+.kobita-pera br{ display:block !important; content:"" !important; margin:0 !important; line-height:1.55 !important; }
 .kobita-pera:last-child{ margin-bottom:0 !important; }
 
 #dc-epaper-page p:empty, .dc-post-card p:empty{ display:none !important; }
@@ -87,13 +82,24 @@
   .kobita-pera{ margin-bottom:0.5em !important; line-height:1.55 !important; }
 }
 
-/* ---------- Responsive ---------- */
+/* ---------- Responsive v8.16 - Mobile Font Small + Logo Up ---------- */
 @media(max-width:1100px){ #dc-post-columns{ column-count:2; } }
 @media(max-width:700px){
-  .dc-epaper-title{ font-size:26px; }
+  .dc-epaper{ padding:10px; margin:20px auto; }
+  .dc-epaper-title{ font-size:24px; }
   #dc-post-columns{ column-count:1; text-align:left; }
-  #dc-epaper-page{ padding:15px; }
-  .dc-viewer{ padding:10px; }
-  .dc-post-card h2{ font-size:17px; }
-  .dc-mini-pdf{ font-size:10px; padding:2px 6px; }
+  #dc-epaper-page{ padding:12px; }
+  .dc-viewer{ padding:8px; margin-top:10px; }
+
+  /* লোগো উপরে */
+  .dc-epaper > div:first-child{ margin-top:-70px !important; margin-bottom:15px !important; }
+  
+  /* মোবাইলে ফন্ট ছোট */
+  .dc-post-card h2{ font-size:15px !important; line-height:1.3 !important; }
+  .dc-post-card .dc-post-content{ font-size:13px !important; line-height:1.5 !important; }
+  .kobita-pera{ font-size:13px !important; line-height:1.5 !important; margin-bottom:0.4em !important; }
+  .dc-cat-author{ font-size:11px !important; }
+  .dc-mini-pdf{ font-size:9px; padding:2px 5px; top:4px; right:4px; }
+  #dc-title{ font-size:22px; }
+  #dc-meta{ font-size:13px; margin-bottom:15px; }
 }
