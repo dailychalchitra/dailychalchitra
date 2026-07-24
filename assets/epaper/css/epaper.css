@@ -46,14 +46,14 @@
     width:100% !important;
     clear:both !important;
     float:none !important;
-    margin-top:16px !important;
+    margin-top:14px !important;
     margin-bottom:0 !important;
-    text-align:right !important;
+    text-align:left !important;
     font-size:13px !important;
     font-style:italic !important;
-    color:#666 !important;
-    border-top:1px dashed #ccc !important;
-    padding-top:8px !important;
+    color:#555 !important;
+    border-top:none !important;
+    padding-top:0 !important;
 }
 #dc-epaper-page p:empty{ display:none !important; }
 .dc-post-card small{ display:none !important; }
