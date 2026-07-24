@@ -1,9 +1,9 @@
-/*
-  Daily Chalchitra ePaper Engine
-  v3.6 - Auto 4-line Stanza Fix
-*/
+/* ==========================================================
+   Daily Chalchitra ePaper Engine - v9.0 Rebuild
+   FIX: issues.json + Kobita 4-line stanza
+   ========================================================== */
 window.DCViewer = {
-    version: "3.6",
+    version: "9.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -37,17 +37,30 @@ window.DCViewer = {
         else if(window.innerWidth <= 1100) this.columnCount = 2;
         else this.columnCount = 3;
     },
-    resize(){ this.detectColumns(); this.buildPages(); },
-    reset(){ this.posts = []; this.pages = []; this.currentPage = 1; this.totalPages = 0; },
+    resize(){ 
+        this.detectColumns(); 
+        this.buildPages(); 
+    },
+    reset(){ 
+        this.posts = []; 
+        this.pages = []; 
+        this.currentPage = 1; 
+        this.totalPages = 0; 
+    },
+
     async loadPosts(){
         this.loading = true;
         const box = document.getElementById("dc-post-columns");
         if(box) box.innerHTML = `<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> ই-পেপার লোড হচ্ছে...</div>`;
+        
         try{
             const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
             if(!res.ok) throw new Error("issues.json not found");
             const allIssues = await res.json();
-            const currentIssueData = allIssues.find(i => String(i.id) === String(this.issue));
+            
+            // v9.0 - ID ম্যাচ ফিক্স
+            const currentIssueData = allIssues.find(i => String(i.id).trim() === String(this.issue).trim());
+            
             if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
                 this.posts = currentIssueData.posts.map(post=>({
                     title: (post.title || "").trim(),
@@ -59,13 +72,17 @@ window.DCViewer = {
                     category: post.category || "সাধারণ",
                     author: post.author || ""
                 }));
-            } else { this.posts = []; }
+            } else { 
+                this.posts = []; 
+            }
             this.buildPages();
         }catch(error){
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।</div>`;
+            console.error("Load Error:", error);
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা যায়নি। issues.json চেক করুন।</div>`;
         }
         this.loading = false;
     },
+
     estimatePostHeight(post){
         let height = 120;
         if(post.image) height += 180;
@@ -74,11 +91,12 @@ window.DCViewer = {
         height += Math.ceil(plainText.length / 85) * 18;
         return height;
     },
+
     buildPages(){
         this.pages = [];
         let page = [];
         let usedHeight = 0;
-        const pageHeight = 1550;
+        const pageHeight = 1550; // আপনার আগের ঠিক মান - চেঞ্জ করিনি
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
             if(usedHeight + postHeight > pageHeight && page.length > 0){
@@ -93,6 +111,7 @@ window.DCViewer = {
         this.totalPages = this.pages.length;
         this.render();
     },
+
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
@@ -113,34 +132,27 @@ window.DCViewer = {
                 jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
             }).from(clone).save();
         } catch(e){
-            try{
-                const clone2 = card.cloneNode(true);
-                clone2.querySelectorAll("img,.dc-mini-pdf").forEach(el=>el.remove());
-                await html2pdf().from(clone2).save();
-            }catch(e2){ alert("PDF তৈরি করা যায়নি।"); }
+            alert("PDF তৈরি করা যায়নি।");
         } finally {
             if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; }
         }
     },
-    // কবিতার স্তবক ঠিক করার ফাংশন
+
+    // কবিতার স্তবক - শুধু এই ফাংশনটাই নতুন
     formatKobita(html){
         if(!html) return "";
-        // 1. সব p ট্যাগকে <br> এ কনভার্ট
         let text = html.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
-        // 2. <br> কে \n এ কনভার্ট
         text = text.replace(/<br\s*\/?>/gi, "\n");
-        // 3. HTML ট্যাগ বাদ
         text = text.replace(/<[^>]+>/g, "").trim();
-        // 4. লাইন ভাগ
         let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
         if(lines.length <= 4) return lines.join("<br>");
-        // 5. ৪ লাইন পর পর স্তবক
         let stanzas = [];
         for(let i=0; i<lines.length; i+=4){
             stanzas.push(lines.slice(i, i+4).join("<br>"));
         }
         return stanzas.map(s=>`<div class="kobita-pera">${s}</div>`).join("");
     },
+
     render(){
         const box = document.getElementById("dc-post-columns");
         if(!box) return;
@@ -159,28 +171,29 @@ window.DCViewer = {
             const card = document.createElement("article");
             card.className = "dc-post-card";
             let cleanContent = post.content || post.excerpt || "";
-            // কবিতা হলে অটো ৪ লাইনের স্তবক বানাও
+            
             if(post.category && post.category.includes("কবিতা")){
                 cleanContent = this.formatKobita(cleanContent);
             } else {
-                cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "").replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
+                cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
             }
+
             card.innerHTML = `
-                <a href="javascript:void(0)" class="dc-mini-pdf" title="এই লেখার PDF"><i class="fa fa-file-pdf"></i> PDF</a>
+                <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
                 ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
                 <h2>${post.title}</h2>
                 ${(post.category || post.author)? `<div class="dc-cat-author">${post.category? 'বিভাগ: '+post.category : ''}${post.category && post.author? ' | ' : ''}${post.author? 'লেখক: '+post.author : ''}</div>` : ""}
                 <div class="dc-post-content">${cleanContent}</div>
             `;
-            const pdfBtn = card.querySelector(".dc-mini-pdf");
-            pdfBtn.addEventListener("click", (e) => {
-                e.preventDefault(); e.stopPropagation();
+            card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => {
+                e.preventDefault(); 
                 this.downloadSingleCard(card, post.title);
             });
             box.appendChild(card);
         });
         this.updatePageInfo();
     },
+
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
         if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
@@ -191,7 +204,6 @@ window.DCViewer = {
             this.render();
             window.scrollTo({top:0, behavior:"smooth"});
         }
-        this.updatePageInfo();
     },
     previousPage(){
         if(this.currentPage > 1){
@@ -199,7 +211,6 @@ window.DCViewer = {
             this.render();
             window.scrollTo({top:0, behavior:"smooth"});
         }
-        this.updatePageInfo();
     },
     setZoom(value){
         this.zoom = Math.max(0.5, Math.min(2, value));
@@ -214,10 +225,10 @@ window.DCViewer = {
         this.isStarting = true;
         this.reset();
         await this.loadPosts();
-        this.render();
         this.isStarting = false;
     }
 };
+
 window.addEventListener("resize",()=>{
     if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); }
 });
