@@ -1,9 +1,10 @@
 /*
   Daily Chalchitra ePaper Engine
-  v3.7 - PDF A4 Logo up + No orphan kobita line
+  Final Fixed v3.4 - Removed duplicate auto-init (was racing with viewer.js's own init/start,
+  causing the viewer to get stuck on "লোড হচ্ছে..." for some issues depending on network timing)
 */
 window.DCViewer = {
-    version: "3.7",
+    version: "3.4",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -31,14 +32,18 @@ window.DCViewer = {
         this.container = document.getElementById("dc-post-columns");
         this.detectColumns();
         this.initialized = true;
+        console.log("ePaper Engine v3.4 Ready - Issue:", this.issue);
     },
+
     detectColumns(){
         if(window.innerWidth <= 768) this.columnCount = 1;
         else if(window.innerWidth <= 1100) this.columnCount = 2;
         else this.columnCount = 3;
     },
+
     resize(){ this.detectColumns(); this.buildPages(); },
     reset(){ this.posts = []; this.pages = []; this.currentPage = 1; this.totalPages = 0; },
+
     async loadPosts(){
         this.loading = true;
         const box = document.getElementById("dc-post-columns");
@@ -48,6 +53,7 @@ window.DCViewer = {
             if(!res.ok) throw new Error("issues.json not found");
             const allIssues = await res.json();
             const currentIssueData = allIssues.find(i => String(i.id) === String(this.issue));
+
             if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
                 this.posts = currentIssueData.posts.map(post=>({
                     title: (post.title || "").trim(),
@@ -59,31 +65,33 @@ window.DCViewer = {
                     category: post.category || "সাধারণ",
                     author: post.author || ""
                 }));
-            } else { this.posts = []; }
+                console.log("Loaded from issues.json:", this.posts.length);
+            } else {
+                this.posts = [];
+                console.warn("No posts found for", this.issue, "in issues.json");
+            }
             this.buildPages();
         }catch(error){
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।</div>`;
+            console.error("Post Load Error:", error);
+            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা সম্ভব হচ্ছে না।<br><small>${error.message}</small><br><button onclick="DCViewer.start()" style="margin-top:10px;padding:6px 14px;border:1px solid #C00000;color:#C00000;background:#fff;border-radius:6px;">আবার চেষ্টা করুন</button></div>`;
         }
         this.loading = false;
     },
+
     estimatePostHeight(post){
-        let height = 110; // base reduced from 120
-        if(post.image) height += 160; // reduced from 180
-        if(post.title) height += Math.ceil(post.title.length / 28) * 22;
+        let height = 120;
+        if(post.image) height += 180;
+        if(post.title) height += Math.ceil(post.title.length / 28) * 26;
         const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-        // কবিতার জন্য কম height
-        if(post.category && post.category.includes("কবিতা")){
-            height += Math.ceil(plainText.length / 90) * 15;
-        } else {
-            height += Math.ceil(plainText.length / 85) * 18;
-        }
+        height += Math.ceil(plainText.length / 85) * 18;
         return height;
     },
+
     buildPages(){
         this.pages = [];
         let page = [];
         let usedHeight = 0;
-        const pageHeight = 1380; // আগে 1550 ছিল - A4 লোগো ছোট করায় 1380 করলে orphan লাইন যাবে না
+        const pageHeight = 1550;
         this.posts.forEach(post=>{
             const postHeight = this.estimatePostHeight(post);
             if(usedHeight + postHeight > pageHeight && page.length > 0){
@@ -98,6 +106,7 @@ window.DCViewer = {
         this.totalPages = this.pages.length;
         this.render();
     },
+
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
@@ -110,42 +119,35 @@ window.DCViewer = {
                 img.setAttribute("crossorigin","anonymous");
                 img.style.maxWidth="100%";
             });
+
             await html2pdf().set({
-                margin: 8,
+                margin: 10,
                 filename: fileName,
                 image: {type:'jpeg', quality:0.92},
                 html2canvas: {scale:1.6, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
                 jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
             }).from(clone).save();
+
         } catch(e){
+            console.error(e);
             try{
                 const clone2 = card.cloneNode(true);
                 clone2.querySelectorAll("img,.dc-mini-pdf").forEach(el=>el.remove());
                 await html2pdf().from(clone2).save();
-            }catch(e2){ alert("PDF তৈরি করা যায়নি।"); }
+            }catch(e2){
+                alert("PDF তৈরি করা যায়নি।");
+            }
         } finally {
             if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; }
         }
     },
-    formatKobita(html){
-        if(!html) return "";
-        let text = html.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
-        text = text.replace(/<br\s*\/?>/gi, "\n");
-        text = text.replace(/<[^>]+>/g, "").trim();
-        let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
-        if(lines.length <= 4) return lines.join("<br>");
-        let stanzas = [];
-        for(let i=0; i<lines.length; i+=4){
-            stanzas.push(lines.slice(i, i+4).join("<br>"));
-        }
-        return stanzas.map(s=>`<div class="kobita-pera">${s}</div>`).join("");
-    },
+
     render(){
         const box = document.getElementById("dc-post-columns");
         if(!box) return;
         box.innerHTML = "";
         if(!this.posts.length){
-            box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।</div>`;
+            box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।<br>issues.json এ content আছে কিনা চেক করুন।</div>`;
             this.updatePageInfo();
             return;
         }
@@ -157,12 +159,10 @@ window.DCViewer = {
         current.forEach(post=>{
             const card = document.createElement("article");
             card.className = "dc-post-card";
-            let cleanContent = post.content || post.excerpt || "";
-            if(post.category && post.category.includes("কবিতা")){
-                cleanContent = this.formatKobita(cleanContent);
-            } else {
-                cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "").replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
-            }
+            let cleanContent = (post.content || post.excerpt || "")
+              .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, "<br>")
+              .replace(/<p>\s*<\/p>/gi, "")
+              .replace(/<p>\s*(&nbsp;|\s)*\s*<\/p>/gi, "");
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="এই লেখার PDF"><i class="fa fa-file-pdf"></i> PDF</a>
                 ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
@@ -179,6 +179,7 @@ window.DCViewer = {
         });
         this.updatePageInfo();
     },
+
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
         if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
@@ -216,6 +217,15 @@ window.DCViewer = {
         this.isStarting = false;
     }
 };
+
+// নোট: আগে এখানে একটা DOMContentLoaded লিসেনার ছিল যেটা নিজে থেকেই
+// DCViewer.init()/start() কল করত। কিন্তু viewer.js ইতিমধ্যেই এটা করে -
+// দুটো একসাথে চললে রেস কন্ডিশন তৈরি হয়ে মাঝে মাঝে ভিউয়ার আটকে যেত (যেটা
+// W29-তে দেখেছেন)। তাই এই ব্লকটা সম্পূর্ণ সরিয়ে দেওয়া হলো - init/start এখন
+// শুধু viewer.js থেকেই হবে।
+
 window.addEventListener("resize",()=>{
-    if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); }
+    if(window.DCViewer && DCViewer.initialized){
+        DCViewer.resize();
+    }
 });
