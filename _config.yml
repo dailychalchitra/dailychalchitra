@@ -1,20 +1,17 @@
-title: "দৈনিক চালচিত্র"
-description: "ওমান থেকে প্রকাশিত অনলাইন পত্রিকা"
-
-url: "https://dailychalchitra.com"
+title: দৈনিক চালচিত্র
+description: ওমান থেকে প্রকাশিত অনলাইন পত্রিকা
 baseurl: ""
-
+url: "https://dailychalchitra.com"
 timezone: Asia/Muscat
-
 markdown: kramdown
 permalink: pretty
 future: true
 
 plugins:
-  - jekyll-sitemap
+        - jekyll-sitemap
 
 exclude:
-  - admin
+    - admin/
 
 kramdown:
   input: GFM
