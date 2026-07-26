@@ -66,7 +66,7 @@
   body *{ visibility:hidden; }
   #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
   #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
-  #dc-post-columns{ column-count:1 !important; text-align:left !important; }
+  #dc-post-columns{ column-count:3 !important; column-gap:25px !important; text-align:justify !important; }
   .dc-paper-head{ display:block !important; margin-bottom:5px !important; padding-bottom:5px !important; }
   .dc-paper-logo{ max-width:130px !important; margin-bottom:2px !important; }
   .kobita-pera.kobita-date{ break-inside:avoid !important; }
