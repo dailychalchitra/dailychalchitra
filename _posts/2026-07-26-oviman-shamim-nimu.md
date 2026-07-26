@@ -3,7 +3,20 @@ layout: post
 title: "অভিমান, ৫ম খন্ড পর্যন্ত"
 date: 2026-07-26 02:50:00 +0400
 categories: [গদ্য কবিতা]
-tags: [সাহিত্য, কবিতা, পদ্য কবিতা]
+tags:
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - শামীম নিমু এর লেখা পদ্য কবিতা
+    - অভিমান কবিতা
+    - অভিমান
+    - ভালোবাসার কবিতা
+    - shamim nimu er kobita
+    - oviman
+    - oviman kobita
+    - shamim nimu er lekha oviman kobita
+    - poddo kobita
+    - loves story
 author: শামীম নিমু
 image: /assets/img/oviman-nimu-shamim.webp
 ---
