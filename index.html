@@ -257,8 +257,9 @@ title: প্রচ্ছদ
 </style>
 
     <!-- 5. ক্যাটাগরি সেকশন - ধাপ ১: সংবাদ, সাহিত্য, লেখক তালিকা, বিনোদন -->
+    {% assign cat_list_1 = "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
     <div class="dc-cat-grid">
-        {% for cat in "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
+        {% for cat in cat_list_1 %}
         <div class="dc-cat-col">
             {% if cat == "লেখক তালিকা" %}
             <h3 class="dc-cat-title"><a href="{{ '/author/' | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
@@ -290,8 +291,9 @@ title: প্রচ্ছদ
     </div>
 
     <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২: শিক্ষা, খেলাধুলা, মতামত, অন্যান্য -->
+    {% assign cat_list_2 = "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
     <div class="dc-cat-grid">
-        {% for cat in "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
+        {% for cat in cat_list_2 %}
         <div class="dc-cat-col">
             <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
             {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
