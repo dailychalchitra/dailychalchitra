@@ -256,6 +256,120 @@ title: প্রচ্ছদ
 }
 </style>
 
+    <!-- 5. ক্যাটাগরি সেকশন - ধাপ ১: সংবাদ, সাহিত্য, লেখক তালিকা, বিনোদন -->
+    <div class="dc-cat-grid">
+        {% for cat in "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
+        <div class="dc-cat-col">
+            {% if cat == "লেখক তালিকা" %}
+            <h3 class="dc-cat-title"><a href="{{ '/author/' | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+            {% assign cat_posts = site.posts %}
+            {% else %}
+            <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+            {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+            {% endif %}
+
+            {% assign main_post = cat_posts | first %}
+            {% if main_post %}
+            <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                {% if main_post.image %}
+                <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                {% else %}
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                {% endif %}
+            </a>
+            <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
+            {% endif %}
+
+            <ul class="dc-cat-list">
+                {% for post in cat_posts offset:1 limit:2 %}
+                <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২: শিক্ষা, খেলাধুলা, মতামত, অন্যান্য -->
+    <div class="dc-cat-grid">
+        {% for cat in "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
+        <div class="dc-cat-col">
+            <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+            {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+
+            {% assign main_post = cat_posts | first %}
+            {% if main_post %}
+            <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                {% if main_post.image %}
+                <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                {% else %}
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                {% endif %}
+            </a>
+            <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
+            {% endif %}
+
+            <ul class="dc-cat-list">
+                {% for post in cat_posts offset:1 limit:2 %}
+                <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <style>
+    .dc-cat-grid{
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:18px;
+        margin-bottom:25px;
+    }
+    .dc-cat-col{ min-width:0; }
+    .dc-cat-title{
+        font-size:15px;
+        font-weight:700;
+        margin:0 0 12px;
+        border-bottom:3px solid #C00000;
+        padding-bottom:8px;
+    }
+    .dc-cat-title a{
+        color:#111;
+        text-decoration:none;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+    .dc-cat-title i{ color:#C00000; font-size:12px; }
+    .dc-cat-main-img img{
+        width:100%;
+        height:120px;
+        object-fit:cover;
+        border-radius:4px;
+        display:block;
+    }
+    .dc-cat-main-title{
+        font-size:14px;
+        font-weight:700;
+        line-height:1.4;
+        margin:8px 0 4px;
+    }
+    .dc-cat-main-title a{ color:#111; text-decoration:none; }
+    .dc-cat-main-title a:hover{ color:#C00000; }
+    .dc-cat-list{ list-style:none; margin:0; padding:0; }
+    .dc-cat-list li{
+        border-top:1px solid #eee;
+        padding:8px 0;
+        font-size:13px;
+        line-height:1.4;
+    }
+    .dc-cat-list a{ color:#333; text-decoration:none; }
+    .dc-cat-list a:hover{ color:#C00000; }
+
+    @media(max-width:768px){
+        .dc-cat-grid{ grid-template-columns:repeat(2,1fr); }
+    }
+    </style>
+
 <!-- Login/Signup বাটন + Play Store/App Store সারি -->
 <div class="dc-auth-app-row" style="max-width:800px; margin:2px auto; padding:0px 15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:nowrap; gap:8px;">
 
