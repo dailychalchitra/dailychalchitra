@@ -262,11 +262,20 @@ title: প্রচ্ছদ
         {% for cat in cat_list_1 %}
         <div class="dc-cat-col">
             {% if cat == "লেখক তালিকা" %}
-            <h3 class="dc-cat-title"><a href="{{ '/author/' | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
-            {% assign cat_posts = site.posts %}
+                <h3 class="dc-cat-title"><a href="{{ '/author/' | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+                {% assign cat_posts = site.posts %}
+            {% elsif cat == "সাহিত্য" %}
+                <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+                {% assign group_tags = "সাহিত্য,কবিতা,পদ্য কবিতা,গদ্য কবিতা,মুক্ত গদ্য,ছড়া কবিতা,অনু কবিতা,সনেট কবিতা,লিমেরিক কবিতা,বড় গল্প,ছোট গল্প,অনু গল্প,সামাজিক গল্প,ভালোবাসার গল্প,জীবনমুখী গল্প,সামাজিক উপন্যাস,ঐতিহাসিক উপন্যাস,মনস্তাত্ত্বিক উপন্যাস,রহস্য উপন্যাস,রাজনৈতিক উপন্যাস,রূপক উপন্যাস,পত্রোপন্যাস,হাস্যরসাত্মক উপন্যাস,মহাকাব্য,প্রবন্ধ ও নিবন্ধ,রম্যরচনা,কৌতুক,ভ্রমণ,বই পরিচিতি,উক্তি" | split: "," %}
+                {% assign cat_posts = "" | split: "" %}
+                {% for t in group_tags %}
+                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign cat_posts = cat_posts | concat: matched %}
+                {% endfor %}
+                {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
             {% else %}
-            <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
-            {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+                <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+                {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
             {% endif %}
 
             {% assign main_post = cat_posts | first %}
@@ -296,7 +305,34 @@ title: প্রচ্ছদ
         {% for cat in cat_list_2 %}
         <div class="dc-cat-col">
             <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
-            {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+
+            {% if cat == "শিক্ষা" %}
+                {% assign group_tags = "শিক্ষা,ভর্তি,পরীক্ষা,বৃত্তি,পড়াশোনা,উচ্চশিক্ষা,ক্যাম্পাস" | split: "," %}
+                {% assign cat_posts = "" | split: "" %}
+                {% for t in group_tags %}
+                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign cat_posts = cat_posts | concat: matched %}
+                {% endfor %}
+                {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
+            {% elsif cat == "মতামত" %}
+                {% assign group_tags = "মতামত,সম্পাদকীয়,কলাম,সাক্ষাৎকার,স্মরণ,প্রতিক্রিয়া" | split: "," %}
+                {% assign cat_posts = "" | split: "" %}
+                {% for t in group_tags %}
+                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign cat_posts = cat_posts | concat: matched %}
+                {% endfor %}
+                {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
+            {% elsif cat == "অন্যান্য" %}
+                {% assign group_tags = "অন্যান্য,আলোচনা,সমালোচনা" | split: "," %}
+                {% assign cat_posts = "" | split: "" %}
+                {% for t in group_tags %}
+                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign cat_posts = cat_posts | concat: matched %}
+                {% endfor %}
+                {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
+            {% else %}
+                {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+            {% endif %}
 
             {% assign main_post = cat_posts | first %}
             {% if main_post %}
@@ -368,7 +404,11 @@ title: প্রচ্ছদ
     .dc-cat-list a:hover{ color:#C00000; }
 
     @media(max-width:768px){
-        .dc-cat-grid{ grid-template-columns:repeat(2,1fr); }
+        .dc-cat-grid{ grid-template-columns:repeat(2,1fr); gap:10px; }
+        .dc-cat-title{ font-size:13px; margin-bottom:8px; padding-bottom:6px; }
+        .dc-cat-main-img img{ height:80px; }
+        .dc-cat-main-title{ font-size:12px; margin:6px 0 3px; line-height:1.3; }
+        .dc-cat-list li{ padding:6px 0; font-size:11px; line-height:1.3; }
     }
     </style>
 
