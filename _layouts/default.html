@@ -35,10 +35,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600;700;800&family=Hind+Siliguri:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Serif Bengali', serif; background: #ffffff; color:#1a1a1a; }
+    body { font-family: 'Hind Siliguri', sans-serif; font-weight: 400; background: #ffffff; color:#1a1a1a; }
 
     /* --- হেডার ফিক্স --- */
 .header {
@@ -330,8 +330,8 @@ body.no-scroll {
 }
 .section-title {
     font-size: 24px;
-    font-weight: 900;
-    font-family: 'Noto Serif Bengali', serif;
+    font-weight: 700;
+    font-family: 'Baloo Da 2', sans-serif;
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 3px solid #C00000;
@@ -376,8 +376,8 @@ body.no-scroll {
     font-size: 28px;
     line-height: 1.4;
     margin: 0 0 15px 0;
-    font-family: 'Noto Serif Bengali', serif;
-    font-weight: 900;
+    font-family: 'Baloo Da 2', sans-serif;
+    font-weight: 700;
 }
 .lead-content h1 a {
     color: #111;
@@ -436,7 +436,7 @@ body.no-scroll {
     font-size: 16px;
     line-height: 1.5;
     margin: 10px 0;
-    font-family: 'Noto Serif Bengali', serif;
+    font-family: 'Baloo Da 2', sans-serif;
     font-weight: 700;
 }
 .card-content h3 a {
@@ -710,21 +710,19 @@ body.dc-menu-open { overflow: hidden; }
   z-index: 10;
 }
 .dc-post-body {
-  font-size: 18px !important;
+  font-size: 18px;
   line-height: 1.9;
   margin-top: 10px;
-  font-family: 'Noto Serif Bengali', serif;
-  font-weight: 600;
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight: 400;
   color: #1a1a1a;
-}
-.dc-post-body p {
-  font-size: 18px !important;
-  font-family: 'Noto Serif Bengali', serif;
-  font-weight: 600;
 }
 
 .dc-post-body p {
   margin: 0 0 12px 0;
+  font-size: 18px;
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight: 400;
 }
 
 .dc-post-body h1,
@@ -732,7 +730,7 @@ body.dc-menu-open { overflow: hidden; }
 .dc-post-body h3,
 .dc-post-body h4 {
   margin: 18px 0 10px;
-  font-family: 'Noto Serif Bengali', serif;
+  font-family: 'Baloo Da 2', sans-serif;
   font-weight: 700;
 }
 
@@ -1193,4 +1191,93 @@ const dcDB = firebase.database();
 
 // ---------- বর্তমান পোস্টের ইউনিক আইডি ----------
 function dcGetPostId() {
-  let path = window.location.pathn
+  let path = window.location.pathname;
+  path = path.replace(/^\/|\/$/g, '');
+  path = path.replace(/[\.\#\$\[\]\/]/g, '_');
+  return path || 'home';
+}
+const DC_POST_ID = dcGetPostId();
+
+// ---------- ইউজার স্টেট ----------
+let dcCurrentUser = null;
+let dcIsNamedUser = false;
+
+dcAuth.onAuthStateChanged(function (user) {
+  if (user) {
+    dcCurrentUser = user;
+    dcIsNamedUser = !user.isAnonymous;
+    document.dispatchEvent(new CustomEvent('dc-auth-ready', { detail: { user: user } }));
+  } else {
+    dcAuth.signInAnonymously().catch(function (err) {
+      console.error('Anonymous sign-in failed:', err);
+    });
+  }
+});
+
+function dcSignUp(name, email, password, callback) {
+  dcAuth.createUserWithEmailAndPassword(email, password)
+    .then(function (cred) {
+      return cred.user.updateProfile({ displayName: name }).then(function () {
+        dcIsNamedUser = true;
+        dcCurrentUser = cred.user;
+        callback(null, cred.user);
+      });
+    })
+    .catch(function (err) { callback(err, null); });
+}
+
+function dcLogIn(email, password, callback) {
+  dcAuth.signInWithEmailAndPassword(email, password)
+    .then(function (cred) {
+      dcIsNamedUser = true;
+      dcCurrentUser = cred.user;
+      callback(null, cred.user);
+    })
+    .catch(function (err) { callback(err, null); });
+}
+
+function dcLogOut() {
+  dcAuth.signOut().then(function () {
+    dcAuth.signInAnonymously();
+  });
+}
+
+function dcDisplayName() {
+  if (dcCurrentUser && dcIsNamedUser) {
+    return dcCurrentUser.displayName || dcCurrentUser.email || 'পাঠক';
+  }
+  return 'অতিথি পাঠক';
+}
+</script>
+{% include footer.html %}
+<script>
+document.addEventListener('copy', function(e) {
+    var selectedText = window.getSelection().toString();
+    if (selectedText.length > 0) {
+        var copyrightNotice = "\n\n---\nসূত্র: দৈনিক চালচিত্র (" + window.location.href + ")\n" +
+                               "© " + new Date().getFullYear() + " দৈনিক চালচিত্র — এই লেখার সর্বস্বত্ব সংরক্ষিত। " +
+                               "অনুমতি ছাড়া পুনঃপ্রকাশ কপিরাইট লঙ্ঘনের শামিল।";
+        e.clipboardData.setData('text/plain', selectedText + copyrightNotice);
+        e.preventDefault();
+
+        if (typeof dcDB !== 'undefined') {
+            var userName = 'অজানা/অতিথি পাঠক';
+            var userUid = 'N/A';
+            if (typeof dcCurrentUser !== 'undefined' && dcCurrentUser) {
+                userUid = dcCurrentUser.uid;
+                if (typeof dcIsNamedUser !== 'undefined' && dcIsNamedUser) {
+                    userName = dcCurrentUser.displayName || dcCurrentUser.email || 'নামহীন ব্যবহারকারী';
+                }
+            }
+            dcDB.ref('copy_logs').push({
+                pageUrl: window.location.href,
+                pageTitle: document.title,
+                snippet: selectedText.substring(0, 150),
+                userName: userName,
+                userUid: userUid,
+                time: Date.now()
+            });
+        }
+    }
+});
+</script>
