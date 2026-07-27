@@ -67,7 +67,7 @@ title: প্রচ্ছদ
                         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
                         {% if post.author %}<p class="card-author" style="font-size:13px;color:#C00000;font-weight:400;font-style:italic;margin:2px 0 6px;">লেখক: {{ post.author }}</p>{% endif %}
                         <p class="card-excerpt" style="font-size:15px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <div class="card-actions-row" style="display:flex;justify-content:space-between;align-items:center;">
                             <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
                             <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:4px;background:#fff;color:#C00000;border:1.2px solid #C00000;padding:4px 10px;border-radius:14px;font-weight:600;font-size:11px;cursor:pointer;white-space:nowrap;">
                                 <i class="fa fa-plus" style="font-size:9px;"></i>
@@ -86,32 +86,55 @@ title: প্রচ্ছদ
     </div>
 
     <style>
-#dc-more-news-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-#dc-more-news-grid .news-card{ max-width:100%; margin:0; }
+    #dc-more-news-grid{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:15px;
+    }
+    #dc-more-news-grid .news-card{ max-width:100%; margin:0; }
 
-@media(max-width:600px){
-    #dc-more-news-grid .card-img img{
-        height:110px;
-        object-fit:cover;
+    @media(max-width:600px){
+        #dc-more-news-grid{ gap:8px; }
+        #dc-more-news-grid .card-img img{
+            height:70px !important;
+            object-fit:cover;
+        }
+        #dc-more-news-grid .card-content{
+            padding:8px !important;
+        }
+        #dc-more-news-grid .card-content .category-badge{
+            font-size:9px !important;
+            padding:2px 6px !important;
+            margin-bottom:4px !important;
+        }
+        #dc-more-news-grid .card-content h3{
+            font-size:13px !important;
+            margin:4px 0 2px !important;
+            display:-webkit-box;
+            -webkit-line-clamp:1;
+            -webkit-box-orient:vertical;
+            overflow:hidden;
+        }
+        #dc-more-news-grid .card-author{
+            font-size:10px !important;
+            margin:0 0 3px !important;
+        }
+        #dc-more-news-grid .card-excerpt{
+            font-size:11px !important;
+            margin:3px 0 !important;
+            display:-webkit-box;
+            -webkit-line-clamp:2;
+            -webkit-box-orient:vertical;
+            overflow:hidden;
+        }
+        #dc-more-news-grid .card-actions-row a{ font-size:11px !important; }
+        #dc-more-news-grid .dc-home-follow-btn{
+            font-size:9px !important;
+            padding:2px 6px !important;
+        }
+        #dc-more-news-grid .post-meta{ font-size:10px !important; margin-top:3px !important; }
     }
-    #dc-more-news-grid .card-excerpt{
-        display:-webkit-box;
-        -webkit-line-clamp:3;
-        -webkit-box-orient:vertical;
-        overflow:hidden;
-    }
-    #dc-more-news-grid .card-content h3{
-        display:-webkit-box;
-        -webkit-line-clamp:2;
-        -webkit-box-orient:vertical;
-        overflow:hidden;
-    }
-}
-</style>
+    </style>
 
     <style>
     .dc-home-follow-btn.dc-following {
