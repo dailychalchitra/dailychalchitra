@@ -46,14 +46,14 @@ title: প্রচ্ছদ
         {% endfor %}
     </section>
 
-    <!-- 2. আরও সংবাদ: ২ কলামে স্ট্যাটিক গ্রিড -->
+    <!-- 2. আরও সংবাদ: ২ কলামে স্ট্যাটিক গ্রিড, জোড় সংখ্যক পোস্ট (৮টি) - কোনো ফাঁকা ঘর থাকবে না -->
     <div class="content-wrap">
         
         <div class="news-grid-wrap">
             <h3 style="font-size:18px;color:#333;margin:0 0 15px;border-left:4px solid #C00000;padding-left:10px;">আরও সংবাদ</h3>
 
             <div id="dc-more-news-grid">
-                {% for post in site.posts offset:1 limit:9 %}
+                {% for post in site.posts offset:1 limit:8 %}
                 <article class="news-card">
                     <a href="{{ post.url | relative_url }}" class="card-img">
                         {% if post.image %}
@@ -92,25 +92,6 @@ title: প্রচ্ছদ
         gap:15px;
     }
     #dc-more-news-grid .news-card{ max-width:100%; margin:0; }
-
-    @media(max-width:600px){
-        #dc-more-news-grid{ gap:8px; }
-        #dc-more-news-grid .card-img img{ height:90px !important; }
-        #dc-more-news-grid .card-content{ padding:8px !important; }
-        #dc-more-news-grid .card-content h3{ font-size:13px !important; margin:6px 0 2px !important; -webkit-line-clamp:2; -webkit-box-orient:vertical; display:-webkit-box; overflow:hidden; }
-        #dc-more-news-grid .card-content .category-badge{ font-size:10px !important; padding:2px 6px !important; }
-        #dc-more-news-grid .card-author{ font-size:11px !important; margin:0 0 3px !important; }
-        #dc-more-news-grid .card-excerpt{
-            font-size:12px !important;
-            margin:4px 0 !important;
-            display:-webkit-box;
-            -webkit-line-clamp:2;
-            -webkit-box-orient:vertical;
-            overflow:hidden;
-        }
-        #dc-more-news-grid .post-meta{ font-size:11px !important; }
-        #dc-more-news-grid .dc-home-follow-btn{ font-size:10px !important; padding:3px 8px !important; }
-    }
     </style>
 
     <style>
@@ -374,10 +355,6 @@ title: প্রচ্ছদ
 
     @media(max-width:768px){
         .dc-cat-grid{ grid-template-columns:repeat(2,1fr); gap:10px; }
-        .dc-cat-title{ font-size:13px; margin-bottom:8px; padding-bottom:6px; }
-        .dc-cat-main-img img{ height:80px; }
-        .dc-cat-main-title{ font-size:12px; margin:6px 0 3px; line-height:1.3; }
-        .dc-cat-list li{ padding:6px 0; font-size:11px; line-height:1.3; }
     }
     </style>
 
