@@ -69,6 +69,17 @@ margin: 0;
 padding: 0;
 }
 
+/* ===== ফন্ট সামঞ্জস্য — সব ইনপুট/বাটন/মেনু/ড্রপডাউন ===== */
+input, select, textarea, button,
+.search-container input, .search-box input, .translate-box select,
+.dc-header-search input, .dc-header-search button,
+.menu-bar a, .dc-acc-title, .dc-acc-content a,
+.footer-links a, .footer-categories a, .action-btn,
+.dc-comment-submit, .dc-modal-submit, .menu-toggle,
+.yug-menu-grid li a, .popular-posts a {
+font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif !important;
+}
+
 /* হেডার */
 #my-new-header {
 height: 80px !important;
@@ -562,7 +573,7 @@ animation-play-state: paused;
 #news-ticker a {
 font-size:12px;text-decoration:none;
 }
-/* ব্লগ পোস্ট কন্টেন্ট এরিয়া ঠিক করার জন্য /
+/* ব্লগ পোস্ট কন্টেন্ট এরিয়া ঠিক করার জন্য /
 .blog-posts {
 display: block !important;
 min-height: 500px !important;
