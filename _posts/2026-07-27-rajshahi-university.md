@@ -25,6 +25,11 @@ tags:
     - ক্যাম্পাস
     - ছাত্রী নির্যাতন
     - আইন ও অপরাধ
+    - পড়াশোনা 
+    - উচ্চশিক্ষা 
+    - সম্পর্ক
+    - প্রতিক্রিয়া
+    - মতামত
     - rajshahi university 
     - ru rajshahi 
     - rajshahi district news 
@@ -44,6 +49,11 @@ tags:
     - campus 
     - student torture
     - law and crime
+    - study
+    - higher education
+    - relationship
+    - feedback
+    - opinion
 author: ডেস্ক রিপোর্ট
 image: /assets/img/rajshahi-university.webp
 ---
