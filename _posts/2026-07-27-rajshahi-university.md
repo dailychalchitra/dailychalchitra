@@ -30,6 +30,9 @@ tags:
     - সম্পর্ক
     - প্রতিক্রিয়া
     - মতামত
+    - বাংলাদেশ
+    - দেশের সংবাদ
+    - বিশেষ সংখ্যা
     - rajshahi university 
     - ru rajshahi 
     - rajshahi district news 
@@ -54,6 +57,9 @@ tags:
     - relationship
     - feedback
     - opinion
+    - bangladesh 
+    - country news 
+    - special issue
 author: ডেস্ক রিপোর্ট
 image: /assets/img/rajshahi-university.webp
 ---
