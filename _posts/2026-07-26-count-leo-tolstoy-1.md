@@ -15,12 +15,19 @@ tags:
     - বিখ্যাত উপন্যাস
     - মহা ঔপন্যাসিক
     - লিও তলস্তয়ের লেখা মহাউপন্যাস
-    - sahitto
-    - novel
-    - top novel
-    - author
-    - history
-    - count leo tolstoy
+    - শিক্ষা 
+    - literature
+    - novel 
+    - great novel 
+    - literary 
+    - historical novel 
+    - war and Peace 
+    - peace not war 
+    - russian empire 
+    - famous novels 
+    - great novelists 
+    - great novels written by leo tolstoy 
+    - education
 author: লিও তলস্তয়
 image: /assets/img/leo-tolstoy.webp
 ---
