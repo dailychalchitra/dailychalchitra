@@ -31,10 +31,11 @@
 <meta name="twitter:description" content="{{ dc_page_desc }}">
 <meta name="twitter:image" content="{{ dc_page_image }}">
 
+<link rel="stylesheet" href="https://cdnjs...">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Serif Bengali', serif; background: #ffffff; color:#1a1a1a; }
@@ -709,8 +710,8 @@ body.dc-menu-open { overflow: hidden; }
   z-index: 10;
 }
 .dc-post-body {
-  font-size: 18px;
-  line-height: 1.8;
+  font-size: 19px;
+  line-height: 1.9;
   margin-top: 10px;
   font-family: 'Noto Serif Bengali', serif;
 }
@@ -733,6 +734,7 @@ body.dc-menu-open { overflow: hidden; }
   margin: 0 0 12px 22px;
 }
 </style>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' rel='stylesheet'/>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#C00000">
@@ -1184,93 +1186,4 @@ const dcDB = firebase.database();
 
 // ---------- বর্তমান পোস্টের ইউনিক আইডি ----------
 function dcGetPostId() {
-  let path = window.location.pathname;
-  path = path.replace(/^\/|\/$/g, '');
-  path = path.replace(/[\.\#\$\[\]\/]/g, '_');
-  return path || 'home';
-}
-const DC_POST_ID = dcGetPostId();
-
-// ---------- ইউজার স্টেট ----------
-let dcCurrentUser = null;
-let dcIsNamedUser = false;
-
-dcAuth.onAuthStateChanged(function (user) {
-  if (user) {
-    dcCurrentUser = user;
-    dcIsNamedUser = !user.isAnonymous;
-    document.dispatchEvent(new CustomEvent('dc-auth-ready', { detail: { user: user } }));
-  } else {
-    dcAuth.signInAnonymously().catch(function (err) {
-      console.error('Anonymous sign-in failed:', err);
-    });
-  }
-});
-
-function dcSignUp(name, email, password, callback) {
-  dcAuth.createUserWithEmailAndPassword(email, password)
-    .then(function (cred) {
-      return cred.user.updateProfile({ displayName: name }).then(function () {
-        dcIsNamedUser = true;
-        dcCurrentUser = cred.user;
-        callback(null, cred.user);
-      });
-    })
-    .catch(function (err) { callback(err, null); });
-}
-
-function dcLogIn(email, password, callback) {
-  dcAuth.signInWithEmailAndPassword(email, password)
-    .then(function (cred) {
-      dcIsNamedUser = true;
-      dcCurrentUser = cred.user;
-      callback(null, cred.user);
-    })
-    .catch(function (err) { callback(err, null); });
-}
-
-function dcLogOut() {
-  dcAuth.signOut().then(function () {
-    dcAuth.signInAnonymously();
-  });
-}
-
-function dcDisplayName() {
-  if (dcCurrentUser && dcIsNamedUser) {
-    return dcCurrentUser.displayName || dcCurrentUser.email || 'পাঠক';
-  }
-  return 'অতিথি পাঠক';
-}
-</script>
-{% include footer.html %}
-<script>
-document.addEventListener('copy', function(e) {
-    var selectedText = window.getSelection().toString();
-    if (selectedText.length > 0) {
-        var copyrightNotice = "\n\n---\nসূত্র: দৈনিক চালচিত্র (" + window.location.href + ")\n" +
-                               "© " + new Date().getFullYear() + " দৈনিক চালচিত্র — এই লেখার সর্বস্বত্ব সংরক্ষিত। " +
-                               "অনুমতি ছাড়া পুনঃপ্রকাশ কপিরাইট লঙ্ঘনের শামিল।";
-        e.clipboardData.setData('text/plain', selectedText + copyrightNotice);
-        e.preventDefault();
-
-        if (typeof dcDB !== 'undefined') {
-            var userName = 'অজানা/অতিথি পাঠক';
-            var userUid = 'N/A';
-            if (typeof dcCurrentUser !== 'undefined' && dcCurrentUser) {
-                userUid = dcCurrentUser.uid;
-                if (typeof dcIsNamedUser !== 'undefined' && dcIsNamedUser) {
-                    userName = dcCurrentUser.displayName || dcCurrentUser.email || 'নামহীন ব্যবহারকারী';
-                }
-            }
-            dcDB.ref('copy_logs').push({
-                pageUrl: window.location.href,
-                pageTitle: document.title,
-                snippet: selectedText.substring(0, 150),
-                userName: userName,
-                userUid: userUid,
-                time: Date.now()
-            });
-        }
-    }
-});
-</script>
+  let path = window.location.pathn
