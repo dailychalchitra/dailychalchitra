@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Get FCM Token</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h2>Device Token জেনারেট হচ্ছে...</h2>
+  <p id="status">অনুমতি চাওয়া হচ্ছে...</p>
+  <pre id="token" style="word-break:break-all;background:#f5f5f5;padding:15px;"></pre>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
+      authDomain: "daily-chalchitra-60994.firebaseapp.com",
+      databaseURL: "https://daily-chalchitra-60994-default-rtdb.firebaseio.com",
+      projectId: "daily-chalchitra-60994",
+      storageBucket: "daily-chalchitra-60994.firebasestorage.app",
+      messagingSenderId: "792541060086",
+      appId: "1:792541060086:web:078fe75f16940c5d0005d7" // আপনার sw.js এর সাথে মিল রেখে ঠিক করে দিলাম
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+    const vapidKey = "BMXn4w-VGgzRAGZaKrqIxBeX0S6ap0zTCWBmQ2N_tqO6rmjZ8QYqgnnZIcX4SatmebwrOBsTnyk54zpX0u4Ycgo";
+
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        document.getElementById('status').innerText = 'অনুমতি পেয়েছি। টোকেন আনছি...';
+        getToken(messaging, {vapidKey: vapidKey}).then((currentToken) => {
+          if (currentToken) {
+            document.getElementById('status').innerText = 'টোকেন পাওয়া গেছে! এটা কপি করে ডাটাবেসে সেভ করুন:';
+            document.getElementById('token').innerText = currentToken;
+          }
+        });
+      } else {
+        document.getElementById('status').innerText = 'আপনি Block করে দিয়েছেন। তালা আইকন থেকে Allow করুন।';
+      }
+    });
+  </script>
+</body>
+</html>
