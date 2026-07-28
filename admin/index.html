@@ -1,36 +1,11 @@
----
-layout: default
----
-
 <!DOCTYPE html>
-<html lang="bn">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>দৈনিক চালচিত্র</title>
-    <style>
-        body { font-family: 'Noto Serif Bengali', serif; font-weight: 400; max-width: 800px; margin: auto; padding: 20px; background: #ffffff; }
-        header { background: #c8102e; color: white; padding: 20px; text-align: center; margin: -20px -20px 20px -20px; }
-        header h1 { margin: 0 0 10px 0; font-family: 'Noto Serif Bengali', serif; font-weight: 900; }
-        header a { color: white; background: #000; padding: 8px 15px; text-decoration: none; border-radius: 5px; }
-        article { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        article h2 { margin: 0 0 10px 0; color: #c8102e; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>দৈনিক চালচিত্র — কন্টেন্ট ম্যানেজার</title>
 </head>
 <body>
-    <header>
-        <h1>দৈনিক চালচিত্র</h1>
-        <a href="/admin">নতুন নিউজ লিখুন</a>
-    </header>
-
-    <main>
-      {% for post in site.posts limit:20 %}
-        <article>
-          <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-          <p>{{ post.date | date: "%d-%m-%Y" }} | {{ post.categories }}</p>
-          <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
-        </article>
-      {% endfor %}
-    </main>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
