@@ -1,9 +1,9 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0.4
-   FIX: কবিতার শেষ ২ লাইন অন্য পেজে যাওয়া ফিক্স - শেষ ৩ লাইন উপরের পেজে
+   Daily Chalchitra ePaper Engine - v9.0.5
+   FIX: কবিতা সঠিকভাবে শনাক্ত (category + tags উভয় দিয়ে চেক)
    ========================================================== */
 window.DCViewer = {
-    version: "9.0.4",
+    version: "9.0.5",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -45,7 +45,8 @@ window.DCViewer = {
                 this.posts = currentIssueData.posts.map(post=>({
                     title: (post.title || "").trim(), url: post.url || "", date: post.date || "",
                     excerpt: post.excerpt || "", content: post.content || post.excerpt || "",
-                    image: post.image || "", category: post.category || "সাধারণ", author: post.author || ""
+                    image: post.image || "", category: post.category || "সাধারণ", author: post.author || "",
+                    tags: post.tags || []
                 }));
             } else { this.posts = []; }
             this.buildPages();
@@ -54,12 +55,17 @@ window.DCViewer = {
         }
         this.loading = false;
     },
+    isKobita(post){
+        if(post.category && post.category.includes("কবিতা")) return true;
+        if(Array.isArray(post.tags)) return post.tags.some(t => (t||"").includes("কবিতা"));
+        return false;
+    },
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
         if(post.title) height += Math.ceil(post.title.length / 26) * 30;
         const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-        if(post.category && post.category.includes("কবিতা")){
+        if(this.isKobita(post)){
             height += Math.ceil(plainText.length / 45) * 22 + 80;
         } else {
             height += Math.ceil(plainText.length / 85) * 18;
@@ -132,7 +138,7 @@ window.DCViewer = {
             const card = document.createElement("article");
             card.className = "dc-post-card";
             let cleanContent = post.content || post.excerpt || "";
-            if(post.category && post.category.includes("কবিতা")) cleanContent = this.formatKobita(cleanContent);
+            if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
             else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
             card.innerHTML = `
                 <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
