@@ -23,6 +23,7 @@ permalink: /assets/epaper/issues/issues.json
       "url": {{ post.url | relative_url | jsonify }},
       "author": {{ post.author | default: "দৈনিক চালচিত্র" | strip_html | jsonify }},
       "category": {{ post.categories.first | default: "সাধারণ" | jsonify }},
+      "tags": {{ post.tags | jsonify }},
       "image": {{ post.image | default: "" | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
       "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 180 | jsonify }},
