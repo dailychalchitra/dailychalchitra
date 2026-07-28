@@ -8,7 +8,7 @@ public_folder: "/images/uploads"
 collections:
     - name: "blog"
     label: "নিউজ পোস্ট"
-    folder: "content/blog"
+    folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
