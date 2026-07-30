@@ -2,28 +2,11 @@
 layout: post
 title: "বিশ্বাস সেই সম্পদ"
 date: 2026-07-29 14:29:00 +0400
-categories: [গল্প]
-tags:
-    - সাহিত্য
-    - ছোট গল্প
-    - সাহিত্যিক
-    - বিশ্বাস সেই সম্পদ
-    - আমানত
-    - বিশ্বাসী মানুষ
-    - বিশ্বাস ভঙ্গকারী
-    - মাইন উদ্দিন এর লেখা গল্প
-    - শিক্ষা 
-    - literature
-    - the story
-    - literary
-    - trust is wealth
-    - deposit
-    - people of faith
-    - breach of trust
-    - story written by Main Uddin
-    - education
+categories: ["ছোট গল্প"]
+tags: [সাহিত্য, গল্প, বিশ্বাস সেই সম্পদ, আমানত, শিক্ষা, trust is wealth, story written by Main Uddin]
 author: মাইন উদ্দিন
 image: /assets/img/main-uddin-01.webp
+---
 ---
 
 কোন একদিন এক বৃদ্ধ দাদা তাঁর প্রিয় নাতিকে বললেন, 
