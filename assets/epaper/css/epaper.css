@@ -65,7 +65,7 @@
   #dc-epaper-page, .dc-viewer{ box-shadow:none !important; border:none !important; margin:0 !important; padding:8px !important; }
   body *{ visibility:hidden; }
   #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
-  #dc-epaper-page{ position:static; width:100%; }
+  #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
   #dc-post-columns{ column-count:4 !important; column-gap:18px !important; column-fill:auto !important; text-align:justify !important; }
   .dc-paper-head{ display:block !important; margin-bottom:5px !important; padding-bottom:5px !important; break-after:avoid !important; page-break-after:avoid !important; }
   .dc-paper-logo{ max-width:130px !important; margin-bottom:2px !important; }
