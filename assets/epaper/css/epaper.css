@@ -60,17 +60,7 @@
 #dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
 .dc-year-btn{ padding:8px 16px; border:1.5px solid #C00000; border-radius:20px; background:#ffffff; color:#C00000; cursor:pointer; font-weight:600; transition:0.25s; }
 .dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
-@media print{
-  header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf{ display:none !important; }
-  #dc-epaper-page, .dc-viewer{ box-shadow:none !important; border:none !important; margin:0 !important; padding:8px !important; }
-  body *{ visibility:hidden; }
-  #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
-  #dc-epaper-page{ position:static; width:100%; }
-  #dc-post-columns{ column-count:4 !important; column-gap:18px !important; column-fill:auto !important; text-align:justify !important; }
-  .dc-paper-head{ display:block !important; margin-bottom:5px !important; padding-bottom:5px !important; break-after:avoid !important; page-break-after:avoid !important; }
-  .dc-paper-logo{ max-width:130px !important; margin-bottom:2px !important; }
-  .kobita-pera.kobita-date{ break-inside:avoid !important; }
-}
+
 #dc-epaper-page.pdf-mode .dc-paper-head{ margin-bottom:4px !important; padding-bottom:4px !important; }
 #dc-epaper-page.pdf-mode .dc-paper-logo{ max-width:120px !important; }
 @media(max-width:1100px){ #dc-post-columns{ column-count:2; } }
