@@ -6,7 +6,6 @@ categories: [ছোট গল্প]
 tags:
     - সাহিত্য
     - গল্প
-    - ছোট গল্প
     - সাহিত্যিক
     - বিশ্বাস সেই সম্পদ
     - আমানত
@@ -14,16 +13,15 @@ tags:
     - বিশ্বাস ভঙ্গকারী
     - মাইন উদ্দিন এর লেখা গল্প
     - শিক্ষা 
-    - Literature
+    - literature
     - the story
-    - Short stories
-    - Literary
-    - Trust is wealth
+    - literary
+    - trust is wealth
     - deposit
-    - People of faith
+    - people of faith
     - breach of trust
-    - Story written by Main Uddin
-    - Education
+    - story written by Main Uddin
+    - education
 author: মাইন উদ্দিন
 image: /assets/img/main-uddin-01.webp
 ---
