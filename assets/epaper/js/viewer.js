@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Viewer - v9.0 Rebuild
-   FINAL - Clean + Print PDF logic same
+   Daily Chalchitra ePaper Viewer - v9.1
+   FINAL - Clean + Print PDF logic + Blank Page Fix
    ========================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
     const title = document.getElementById("dc-title");
@@ -101,4 +101,81 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error(error);
         if(title) title.textContent = "ই-পেপার লোড করা যায়নি";
     }
+});
+
+/* ==========================================================
+   PRINT FIX — প্রথম ও শেষের ফাঁকা পেজ সমস্যা সমাধান
+   বাকি সাইট (header/footer/ticker/menu ইত্যাদি) যাই থাকুক না কেন,
+   প্রিন্টের সময় শুধু #dc-epaper-page-এর একটা কপি body-র সরাসরি
+   সন্তান (direct child) বানিয়ে বাকি সব display:none করে দেওয়া হয়।
+   এতে অন্য কোনো এলিমেন্টের অদৃশ্য কিন্তু জায়গা-দখলকারী height
+   আর কোনো প্রভাব ফেলতে পারবে না।
+   ========================================================== */
+window.addEventListener("beforeprint", () => {
+    const original = document.getElementById("dc-epaper-page");
+    if (!original) return;
+
+    // পুরনো ক্লোন থাকলে সরিয়ে দিন
+    const oldClone = document.getElementById("dc-print-clone");
+    if (oldClone) oldClone.remove();
+
+    const clone = original.cloneNode(true);
+    clone.id = "dc-print-clone";
+    document.body.appendChild(clone);
+
+    let style = document.getElementById("dc-print-style");
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "dc-print-style";
+        document.head.appendChild(style);
+    }
+    style.innerHTML = `
+        @media print {
+            body > *:not(#dc-print-clone) { display: none !important; }
+
+            html, body {
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+            }
+
+            #dc-print-clone {
+                display: block !important;
+                position: static !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 8px !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            #dc-print-clone .dc-paper-head {
+                display: block !important;
+                margin-bottom: 5px !important;
+                padding-bottom: 5px !important;
+                break-after: avoid !important;
+                page-break-after: avoid !important;
+            }
+            #dc-print-clone .dc-paper-logo {
+                max-width: 130px !important;
+                margin-bottom: 2px !important;
+            }
+            #dc-print-clone .dc-mini-pdf { display: none !important; }
+
+            #dc-print-clone #dc-post-columns {
+                column-count: 4 !important;
+                column-gap: 18px !important;
+                column-fill: auto !important;
+                text-align: justify !important;
+            }
+            #dc-print-clone .kobita-pera.kobita-date { break-inside: avoid !important; }
+        }
+    `;
+});
+
+window.addEventListener("afterprint", () => {
+    const clone = document.getElementById("dc-print-clone");
+    if (clone) clone.remove();
 });
