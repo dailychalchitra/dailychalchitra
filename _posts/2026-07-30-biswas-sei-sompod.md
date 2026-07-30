@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "বিশ্বাস সেই সম্পদ"
-date: 2026-07-29 14:29:00 +0400
+date: 2026-07-30 14:29:00 +0400
 categories: ["ছোট গল্প"]
 tags: [সাহিত্য, গল্প, বিশ্বাস সেই সম্পদ, আমানত, শিক্ষা, trust is wealth, story written by Main Uddin]
 author: মাইন উদ্দিন
