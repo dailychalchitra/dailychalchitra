@@ -1,12 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0.6
-   FIX: সব পোস্ট এক পেজে, browser নিজেই পেজ ভাগ করবে
+   Daily Chalchitra ePaper Engine - v9.0.5
+   FIX: কবিতা সঠিকভাবে শনাক্ত (category + tags উভয় দিয়ে চেক)
    ========================================================== */
 window.DCViewer = {
-    version: "9.0.6",
+    version: "9.0.5",
     issue: null,
     currentPage: 1,
-    totalPages: 1,
+    totalPages: 0,
     zoom: 1,
     initialized: false,
     isStarting: false,
@@ -19,7 +19,7 @@ window.DCViewer = {
     init(issueId){
         if(this.initialized && this.issue === issueId) return;
         this.issue = decodeURIComponent(issueId || "");
-        this.currentPage = 1; this.totalPages = 1; this.zoom = 1;
+        this.currentPage = 1; this.totalPages = 0; this.zoom = 1;
         this.posts = []; this.pages = []; this.loading = false; this.isStarting = false;
         this.viewer = document.getElementById("dc-epaper-page");
         this.container = document.getElementById("dc-post-columns");
@@ -31,7 +31,7 @@ window.DCViewer = {
         else this.columnCount = 3;
     },
     resize(){ this.detectColumns(); this.buildPages(); },
-    reset(){ this.posts = []; this.pages = []; this.currentPage = 1; this.totalPages = 1; },
+    reset(){ this.posts = []; this.pages = []; this.currentPage = 1; this.totalPages = 0; },
     async loadPosts(){
         this.loading = true;
         const box = document.getElementById("dc-post-columns");
@@ -60,13 +60,30 @@ window.DCViewer = {
         if(Array.isArray(post.tags)) return post.tags.some(t => (t||"").includes("কবিতা"));
         return false;
     },
-    buildPages(){
-        this.pages = [];
-        if(this.posts.length > 0){
-            this.pages.push([...this.posts]);
+    estimatePostHeight(post){
+        let height = 140;
+        if(post.image) height += 200;
+        if(post.title) height += Math.ceil(post.title.length / 26) * 30;
+        const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
+        if(this.isKobita(post)){
+            height += Math.ceil(plainText.length / 45) * 22 + 80;
+        } else {
+            height += Math.ceil(plainText.length / 85) * 18;
         }
-        this.totalPages = this.pages.length || 1;
-        this.render();
+        return height;
+    },
+    buildPages(){
+        this.pages = []; let page = []; let usedHeight = 0; 
+        const pageHeight = 1950; // 1550 ছিল, 1950 করলাম যাতে শেষ ৩ লাইন উপরে ধরে
+        this.posts.forEach(post=>{
+            const postHeight = this.estimatePostHeight(post);
+            if(usedHeight + postHeight > pageHeight && page.length > 0){
+                this.pages.push([...page]); page = []; usedHeight = 0;
+            }
+            page.push(post); usedHeight += postHeight;
+        });
+        if(page.length) this.pages.push(page);
+        this.totalPages = this.pages.length; this.render();
     },
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
@@ -115,8 +132,8 @@ window.DCViewer = {
             box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।</div>`;
             this.updatePageInfo(); return;
         }
-        const current = this.pages[0];
-        if(!current || !current.length){ box.innerHTML = `<div class="dc-empty">এই পৃষ্ঠায় কোনো পোস্ট নেই।</div>`; return; }
+        const current = this.pages[this.currentPage - 1];
+        if(!current ||!current.length){ box.innerHTML = `<div class="dc-empty">এই পৃষ্ঠায় কোনো পোস্ট নেই।</div>`; return; }
         current.forEach(post=>{
             const card = document.createElement("article");
             card.className = "dc-post-card";
@@ -137,10 +154,10 @@ window.DCViewer = {
     },
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
-        if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages}`;
+        if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
     },
-    nextPage(){ },
-    previousPage(){ },
+    nextPage(){ if(this.currentPage < this.totalPages){ this.currentPage++; this.render(); window.scrollTo({top:0, behavior:"smooth"}); } },
+    previousPage(){ if(this.currentPage > 1){ this.currentPage--; this.render(); window.scrollTo({top:0, behavior:"smooth"}); } },
     setZoom(value){
         this.zoom = Math.max(0.5, Math.min(2, value));
         const page = document.getElementById("dc-epaper-page");
