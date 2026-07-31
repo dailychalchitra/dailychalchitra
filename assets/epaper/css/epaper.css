@@ -88,12 +88,10 @@
     border: none !important;
     min-height: 0 !important;
     height: auto !important;
-    page-break-after: avoid !important;
-    break-after: avoid !important;
   }
 
-  #dc-epaper-page * {
-    visibility: visible !important;
+  #dc-epaper-page * { 
+    visibility: visible !important; 
   }
 
   .dc-viewer {
@@ -101,19 +99,15 @@
     padding: 0 !important;
     min-height: 0 !important;
     height: auto !important;
-    page-break-after: avoid !important;
-    break-after: avoid !important;
   }
 
   #dc-post-columns {
     column-count: 4 !important;
     column-gap: 18px !important;
-    column-fill: balance !important;
+    column-fill: auto !important;
     text-align: justify !important;
     height: auto !important;
     min-height: 0 !important;
-    page-break-after: avoid !important;
-    break-after: avoid !important;
   }
 
   .dc-paper-head {
@@ -130,13 +124,6 @@
     margin-bottom: 2px !important;
   }
 
-  .dc-post-card {
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-
   .kobita-pera.kobita-date { break-inside: avoid !important; }
 
   @page {
@@ -146,10 +133,6 @@
 
   @page :first {
     margin-top: 0 !important;
-  }
-
-  @page :blank {
-    display: none !important;
   }
 }
 
