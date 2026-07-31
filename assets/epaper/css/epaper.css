@@ -133,9 +133,9 @@
   .kobita-pera.kobita-date { break-inside: avoid !important; }
 
   @page {
-    margin: 0.5cm;
-    size: A4 portrait;
-  }
+  margin: 0.3cm;
+  size: auto;
+}
 
   @page :first {
     margin-top: 0 !important;
