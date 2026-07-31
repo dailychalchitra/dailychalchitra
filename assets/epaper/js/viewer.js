@@ -29,23 +29,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function fixHeightForPrint(){
-        const viewer = document.querySelector("#dc-epaper-page");
-        if(!viewer) return { viewer: null };
-        const originalMinHeight = viewer.style.minHeight;
-        const originalHeight = viewer.style.height;
-        const contentHeight = viewer.scrollHeight;
-        viewer.style.minHeight = contentHeight + "px";
-        viewer.style.height = contentHeight + "px";
-        return { viewer, originalMinHeight, originalHeight };
-    }
+    const viewer = document.querySelector("#dc-epaper-page");
+    if(!viewer) return { viewer: null };
+    const originalMinHeight = viewer.style.minHeight;
+    const originalHeight = viewer.style.height;
+    const originalMargin = viewer.style.marginTop;
+    const contentHeight = viewer.scrollHeight;
+    viewer.style.minHeight = contentHeight + "px";
+    viewer.style.height = contentHeight + "px";
+    viewer.style.marginTop = "0px";
+    viewer.style.top = "0px";
+    return { viewer, originalMinHeight, originalHeight, originalMargin };
+}
 
-    function restoreHeightAfterPrint({ viewer, originalMinHeight, originalHeight }){
-        if(!viewer) return;
-        setTimeout(() => {
-            viewer.style.minHeight = originalMinHeight;
-            viewer.style.height = originalHeight;
-        }, 1000);
-    }
+function restoreHeightAfterPrint({ viewer, originalMinHeight, originalHeight, originalMargin }){
+    if(!viewer) return;
+    setTimeout(() => {
+        viewer.style.minHeight = originalMinHeight;
+        viewer.style.height = originalHeight;
+        viewer.style.marginTop = originalMargin;
+    }, 1000);
+}
 
     if(!issueId){
         if(title) title.textContent = "ই-পেপার পাওয়া যায়নি";
