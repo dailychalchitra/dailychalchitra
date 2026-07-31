@@ -1,8 +1,20 @@
 /* ==========================================================
    Daily Chalchitra - Single Post PDF - v9.0 Rebuild
-   No change needed - clean utility
+   FIX: টুলবার/এনগেজমেন্ট-বক্স/মডাল বাদ দিয়ে ক্লিন কনটেন্ট থেকে PDF,
+   এবং ছবি লোড হওয়া পর্যন্ত অপেক্ষা - ফাঁকা পাতার সমস্যা সমাধানে
    ========================================================== */
 window.DCSinglePDF = {
+  waitForImages(el){
+    const imgs = Array.from(el.querySelectorAll('img'));
+    return Promise.all(imgs.map(img => {
+      if(img.complete && img.naturalHeight !== 0) return Promise.resolve();
+      return new Promise(resolve => {
+        img.addEventListener('load', resolve, { once:true });
+        img.addEventListener('error', resolve, { once:true });
+        setTimeout(resolve, 3000);
+      });
+    }));
+  },
   async download(selectorOrElement){
     let element = typeof selectorOrElement === 'string' 
       ? document.querySelector(selectorOrElement) 
@@ -25,6 +37,15 @@ window.DCSinglePDF = {
     }
 
     try{
+      await this.waitForImages(element);
+
+      // ক্লোন বানিয়ে টুলবার/এনগেজমেন্ট/মডাল বাদ দেওয়া হচ্ছে
+      const clone = element.cloneNode(true);
+      clone.querySelectorAll(".dc-single-toolbar, .dc-engage-box, .dc-modal-overlay").forEach(el => el.remove());
+      clone.style.position = "static";
+      clone.style.left = "auto";
+      clone.style.top = "auto";
+
       const title = document.querySelector("h1")?.innerText?.trim() || "Daily-Chalchitra-Post";
       const fileName = title.replace(/[\/\\:*?"<>|]/g,'').replace(/\s+/g,'-').substring(0,60) + ".pdf";
 
@@ -37,10 +58,10 @@ window.DCSinglePDF = {
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
-        await html2pdf().set(opt).from(element).save();
+        await html2pdf().set(opt).from(clone).save();
       } 
       else if(typeof html2canvas !== 'undefined' && window.jspdf){
-        const canvas = await html2canvas(element, {
+        const canvas = await html2canvas(clone, {
           scale: 2.5,
           useCORS: true,
           backgroundColor: "#ffffff",
