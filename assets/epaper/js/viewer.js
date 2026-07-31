@@ -28,29 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         page.querySelectorAll(".dc-post-card small").forEach(el => el.remove());
     }
 
-    function fixHeightForPrint(){
-    const viewer = document.querySelector("#dc-epaper-page");
-    if(!viewer) return { viewer: null };
-    const originalMinHeight = viewer.style.minHeight;
-    const originalHeight = viewer.style.height;
-    const originalMargin = viewer.style.marginTop;
-    const contentHeight = viewer.scrollHeight;
-    viewer.style.minHeight = contentHeight + "px";
-    viewer.style.height = contentHeight + "px";
-    viewer.style.marginTop = "0px";
-    viewer.style.top = "0px";
-    return { viewer, originalMinHeight, originalHeight, originalMargin };
-}
-
-function restoreHeightAfterPrint({ viewer, originalMinHeight, originalHeight, originalMargin }){
-    if(!viewer) return;
-    setTimeout(() => {
-        viewer.style.minHeight = originalMinHeight;
-        viewer.style.height = originalHeight;
-        viewer.style.marginTop = originalMargin;
-    }, 1000);
-}
-
     if(!issueId){
         if(title) title.textContent = "ই-পেপার পাওয়া যায়নি";
         return;
@@ -103,31 +80,19 @@ function restoreHeightAfterPrint({ viewer, originalMinHeight, originalHeight, or
                     alert("ই-পেপার এখনো লোড হচ্ছে, ২ সেকেন্ড পর চেষ্টা করুন।");
                     return;
                 }
-                const saved = fixHeightForPrint();
                 alert("প্রিন্ট ডায়ালগ খুলবে - \"Save as PDF\" বেছে নিন।");
-                setTimeout(() => {
-                    window.print();
-                    restoreHeightAfterPrint(saved);
-                }, 300);
+                window.print();
             };
         }
 
-        if(printBtn){
-            printBtn.onclick = () => {
-                const saved = fixHeightForPrint();
-                setTimeout(() => {
-                    window.print();
-                    restoreHeightAfterPrint(saved);
-                }, 300);
-            };
-        }
-
+        if(printBtn) printBtn.onclick = () => window.print();
+        
         if(fullscreenBtn){
             fullscreenBtn.onclick = async () => {
                 const viewer = document.querySelector("#dc-epaper-page");
-                try{
-                    if(!document.fullscreenElement) await viewer.requestFullscreen();
-                    else await document.exitFullscreen();
+                try{ 
+                    if(!document.fullscreenElement) await viewer.requestFullscreen(); 
+                    else await document.exitFullscreen(); 
                 }catch(e){}
             };
         }
