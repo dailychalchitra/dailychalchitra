@@ -108,13 +108,9 @@
   #dc-post-columns {
     column-count: 4 !important;
     column-gap: 18px !important;
-    column-fill: auto !important;
+    column-fill: balance !important;
     text-align: justify !important;
-    height: auto !important;
-    min-height: 0 !important;
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-  }
+}
 
   .dc-paper-head {
     display: block !important;
