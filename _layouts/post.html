@@ -486,7 +486,8 @@ layout: default
           const form = document.getElementById('dc-reply-form-' + key);
           const ta = form.querySelector('.dc-reply-input');
           const text = ta.value.trim();
-          if (!text || !dcCurrentUser) return;
+          if (!text) return;
+          if (!dcCurrentUser) { alert('একাউন্ট লোড হচ্ছে, একটু পর আবার চেষ্টা করুন।'); return; }
           btn.disabled = true;
           postRef.child('comments/' + key + '/replies').push().set({
             uid: dcCurrentUser.uid,
@@ -498,6 +499,7 @@ layout: default
             btn.disabled = false;
           }).catch(function (err) {
             console.error(err);
+            alert('উত্তরটি পাঠানো যায়নি। কারণ: ' + err.message);
             btn.disabled = false;
           });
         });
