@@ -152,6 +152,52 @@ layout: default
   }
   .dc-c-actions button:hover { text-decoration: underline; }
 
+  /* --- রিপ্লাই ফিচার --- */
+  .dc-reply-form{
+    margin:10px 0 0 18px;
+    display:none;
+    flex-direction:column;
+    gap:8px;
+  }
+  .dc-reply-form.dc-open{ display:flex; }
+  .dc-reply-form textarea{
+    resize:vertical;
+    min-height:50px;
+    padding:8px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:13px;
+    font-family:inherit;
+  }
+  .dc-reply-submit{
+    align-self:flex-end;
+    background:#C00000;
+    color:#fff;
+    border:none;
+    padding:6px 16px;
+    border-radius:16px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .dc-reply-submit:disabled{ opacity:0.5; cursor:default; }
+  .dc-reply-list{
+    margin:10px 0 0 18px;
+    padding-left:14px;
+    border-left:2px solid #e5e5e5;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .dc-reply-item{
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:6px;
+    padding:8px 10px;
+  }
+  .dc-reply-item .dc-c-name{ font-size:13px; }
+  .dc-reply-item .dc-c-text{ font-size:13px; }
+
   .dc-modal-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -322,7 +368,14 @@ layout: default
     postRef.child('shareCount').on('value', function (snap) { shareCountEl.textContent = snap.val() || 0; });
     postRef.child('comments').on('value', function (snap) {
       const data = snap.val();
-      const count = data ? Object.keys(data).length : 0;
+      // মন্তব্য গোনার সময় রিপ্লাইগুলোও যোগ করা হচ্ছে
+      let count = 0;
+      if (data) {
+        Object.values(data).forEach(function (c) {
+          count += 1;
+          if (c.replies) count += Object.keys(c.replies).length;
+        });
+      }
       commentCountEl.textContent = count;
       renderComments(data);
     });
@@ -332,6 +385,26 @@ layout: default
       const count = data ? Object.keys(data).length : 0;
       followCountEl.textContent = count;
     });
+
+    function dcEscape(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderReplyItem(r, parentKey) {
+      const date = r.time ? new Date(r.time).toLocaleDateString('bn-BD') : '';
+      const isMine = dcCurrentUser && r.uid === dcCurrentUser.uid;
+      const actions = isMine
+        ? '<div class="dc-c-actions"><button class="dc-r-delete" data-parent="' + parentKey + '" data-key="' + r._key + '">ডিলিট</button></div>'
+        : '';
+      return '<div class="dc-reply-item">' +
+        '<span class="dc-c-name">' + dcEscape(r.name || 'অতিথি পাঠক') + '</span>' +
+        '<span class="dc-c-time">' + date + '</span>' +
+        '<div class="dc-c-text">' + dcEscape(r.text || '') + '</div>' +
+        actions +
+        '</div>';
+    }
 
     function renderComments(data) {
       if (!data) {
@@ -344,17 +417,31 @@ layout: default
         const date = c.time ? new Date(c.time).toLocaleDateString('bn-BD') : '';
         const isMine = dcCurrentUser && c.uid === dcCurrentUser.uid;
         const editedTag = c.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
-        const actions = isMine
-          ? '<div class="dc-c-actions">' +
-              '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
-              '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>' +
-            '</div>'
+        const editDeleteActions = isMine
+          ? '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
+            '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>'
           : '';
+
+        let repliesHtml = '';
+        if (c.replies) {
+          const replyItems = Object.keys(c.replies).map(function (rk) { return Object.assign({ _key: rk }, c.replies[rk]); });
+          replyItems.sort(function (a, b) { return (a.time || 0) - (b.time || 0); });
+          repliesHtml = '<div class="dc-reply-list">' + replyItems.map(function (r) { return renderReplyItem(r, c._key); }).join('') + '</div>';
+        }
+
         return '<div class="dc-comment-item">' +
           '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
           '<span class="dc-c-time">' + date + editedTag + '</span>' +
           '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
-          actions +
+          '<div class="dc-c-actions">' +
+            editDeleteActions +
+            '<button class="dc-c-reply-btn" data-key="' + c._key + '">উত্তর দিন</button>' +
+          '</div>' +
+          '<div class="dc-reply-form" id="dc-reply-form-' + c._key + '">' +
+            '<textarea class="dc-reply-input" placeholder="উত্তর লিখুন..."></textarea>' +
+            '<button class="dc-reply-submit" data-key="' + c._key + '">পাঠান</button>' +
+          '</div>' +
+          repliesHtml +
           '</div>';
       }).join('');
 
@@ -377,12 +464,55 @@ layout: default
           }
         });
       });
-    }
 
-    function dcEscape(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
+      // --- রিপ্লাই বাটন: ফর্ম খোলা/বন্ধ ---
+      commentList.querySelectorAll('.dc-c-reply-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const key = btn.dataset.key;
+          const form = document.getElementById('dc-reply-form-' + key);
+          if (!form) return;
+          form.classList.toggle('dc-open');
+          if (form.classList.contains('dc-open')) {
+            const ta = form.querySelector('.dc-reply-input');
+            setTimeout(function () { ta.focus(); }, 100);
+          }
+        });
+      });
+
+      // --- রিপ্লাই সাবমিট ---
+      commentList.querySelectorAll('.dc-reply-submit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const key = btn.dataset.key;
+          const form = document.getElementById('dc-reply-form-' + key);
+          const ta = form.querySelector('.dc-reply-input');
+          const text = ta.value.trim();
+          if (!text || !dcCurrentUser) return;
+          btn.disabled = true;
+          postRef.child('comments/' + key + '/replies').push().set({
+            uid: dcCurrentUser.uid,
+            name: dcDisplayName(),
+            text: text,
+            time: Date.now()
+          }).then(function () {
+            ta.value = '';
+            btn.disabled = false;
+          }).catch(function (err) {
+            console.error(err);
+            btn.disabled = false;
+          });
+        });
+      });
+
+      // --- রিপ্লাই ডিলিট ---
+      commentList.querySelectorAll('.dc-r-delete').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const parentKey = btn.dataset.parent;
+          const key = btn.dataset.key;
+          if (confirm('উত্তরটি ডিলিট করতে চান?')) {
+            postRef.child('comments/' + parentKey + '/replies/' + key).remove();
+          }
+        });
+      });
     }
 
     function countView() {
