@@ -1,10 +1,34 @@
 ---
 layout: post
-title: "ওয়ার এন্ড পীস -[প্রথম খণ্ড, অধ্যায়-১]"
+title:  "ওয়ার এন্ড পীস -[প্রথম খণ্ড, অধ্যায়-১]"
 date: 2026-07-30 19:51:00 +0400
-categories: ["ঐতিহাসিক মহাউপন্যাস"]
-tags: [সাহিত্য, উপন্যাস, মহাউপন্যাস, সাহিত্যিক, ঐতিহাসিক উপন্যাস, যুদ্ধ ও শান্তি, যুদ্ধ নয় শান্তি, রুশ সাম্রাজ্য, বিখ্যাত উপন্যাস, মহা ঔপন্যাসিক, লিও তলস্তয়ের লেখা মহাউপন্যাস, শিক্ষা, literature, novel, great novel, literary, historical novel, war and peace, peace not war, russian empire, famous novels, great novelists, great novels written by leo tolstoy, education]
-author: লিও তলস্তয়
+categories: [ঐতিহাসিক মহাউপন্যাস]
+tags:
+    - সাহিত্য
+    - উপন্যাস
+    - মহাউপন্যাস
+    - সাহিত্যিক
+    - ঐতিহাসিক উপন্যাস
+    - যুদ্ধ ও শান্তি
+    - যুদ্ধ নয় শান্তি
+    - রুশ সাম্রাজ্য
+    - বিখ্যাত উপন্যাস
+    - মহা ঔপন্যাসিক
+    - লিও তলস্তয়ের লেখা মহাউপন্যাস
+    - শিক্ষা 
+    - literature
+    - novel 
+    - great novel 
+    - literary 
+    - historical novel 
+    - war and Peace 
+    - peace not war 
+    - russian empire 
+    - famous novels 
+    - great novelists 
+    - great novels written by leo tolstoy 
+    - education
+author: লিও তলস্তয়
 image: /assets/img/leo-tolstoy.webp
 ---
 
