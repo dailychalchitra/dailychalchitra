@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ওয়ার এন্ড পীস -[প্রথম খণ্ড, অধ্যায়-১]"
+title: "ওয়ার এন্ড পীস -[প্রথম খণ্ড, অধ্যায়-১]"
 date: 2026-07-30 19:51:00 +0400
 categories: [ঐতিহাসিক মহাউপন্যাস]
 tags:
@@ -21,7 +21,7 @@ tags:
     - great novel 
     - literary 
     - historical novel 
-    - war and Peace 
+    - war and peace 
     - peace not war 
     - russian empire 
     - famous novels 
