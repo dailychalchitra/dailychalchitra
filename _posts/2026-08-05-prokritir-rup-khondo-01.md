@@ -2,11 +2,11 @@
 layout: post
 title: "প্রকৃতির রূপ-[খণ্ড-০১]"
 date: 2026-08-05 17:10:00 +0400
-permalink: /prokritir-rup-khondo-01/
-categories: [ছড়া কবিতা]
+categories: [বড় ছড়া কবিতা]
 tags:
     - সাহিত্য
     - কবিতা
+    - ছড়া কবিতা 
     - ছন্দ কবিতা
     - প্রকৃতির রূপ
     - দেশের কবিতা
