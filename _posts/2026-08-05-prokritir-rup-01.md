@@ -1,48 +1,48 @@
 ---
 layout: post
-title: "প্রকৃতির রূপ -[খণ্ড-০১]"
+title: "প্রকৃতির রূপ -[খণ্ড-০১]" 
 date: 2026-08-05 17:10:00 +0400
 
 categories:
-  - ছড়া কবিতা
+  - ছড়া কবিতা 
 
 tags:
-  - সাহিত্য
-  - কবিতা
-  - ছন্দ কবিতা
-  - প্রকৃতির রূপ
-  - দেশের কবিতা
-  - শিক্ষণীয় কবিতা
-  - শিশুদের ছড়া কবিতা
-  - ভবিষ্যৎ কবিতা
-  - বিখ্যাত ছড়া কবিতা
-  - প্রকৃতি বিষয়ক ছড়া কবিতা
-  - নতুন ছড়া কবিতা
-  - খণ্ড ছড়া কবিতা
-  - কবি শামীম নিমু
-  - দৈনিক চালচিত্র
-  - শিশুদের ভবিষ্যৎ
-  - আগামীর ভবিষ্যৎ
-  - শামীম নিমু এর লেখা ছড়া কবিতা
-  - literature
-  - poetry
-  - rhyme poems
-  - nature's form
-  - country poems
-  - educational poems
-  - children's rhyme poems
-  - future poems
-  - famous rhyme poems
-  - nature related rhyme poems
-  - new rhyme poems
-  - fragmented rhyme poems
-  - poet Shamim Nimu
-  - Daily Chalchitra
-  - children's future
-  - future generation
-  - rhyme poems written by Shamim Nimu
+  - সাহিত্য 
+  - কবিতা 
+  - ছন্দ কবিতা 
+  - প্রকৃতির রূপ 
+  - দেশের কবিতা 
+  - শিক্ষণীয় কবিতা 
+  - শিশুদের ছড়া কবিতা 
+  - ভবিষ্যৎ কবিতা 
+  - বিখ্যাত ছড়া কবিতা 
+  - প্রকৃতি বিষয়ক ছড়া কবিতা 
+  - নতুন ছড়া কবিতা 
+  - খণ্ড ছড়া কবিতা 
+  - কবি শামীম নিমু 
+  - দৈনিক চালচিত্র 
+  - শিশুদের ভবিষ্যৎ 
+  - আগামীর ভবিষ্যৎ 
+  - শামীম নিমু এর লেখা ছড়া কবিতা 
+  - literature 
+  - poetry 
+  - rhyme poems 
+  - natures form 
+  - country poems 
+  - educational poems 
+  - childrens rhyme poems 
+  - future poems 
+  - famous rhyme poems 
+  - nature related rhyme poems 
+  - new rhyme poems 
+  - fragmented rhyme poems 
+  - poet shamim nimu 
+  - daily chalchitra 
+  - childrens future 
+  - future generation 
+  - rhyme poems written by shamim nimu  
 
-author: "শামীম নিমু"
+author: "শামীম নিমু" 
 
 image: "/assets/img/md-shamim-pramanik.png"
 ---
