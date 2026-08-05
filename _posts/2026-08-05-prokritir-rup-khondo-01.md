@@ -27,19 +27,19 @@ tags:
     - rhyme poems 
     - poetry 
     - rhyme poems 
-    - nature's form 
+    - natures form 
     - country poems 
     - educational poems 
-    - children's rhyme poems 
+    - childrens rhyme poems 
     - future poems 
     - famous rhyme poems 
-    - nature-related rhyme poems 
+    - nature related rhyme poems 
     - new rhyme poems 
     - fragmented rhyme poems 
     - shamim nimu 
     - poet shamim nimu 
     - daily chalchitra 
-    - children's future 
+    - childrens future 
     - future of the future 
     - rhyme poems written by shamim nimu
 author: শামীম নিমু
