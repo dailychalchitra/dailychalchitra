@@ -15,7 +15,7 @@ title: প্রচ্ছদ
         </a>
     </div>
 
-    <!-- 1. লিড নিউজ সেকশন (স্থির, শুধু সর্বশেষ ১টা পোস্ট) -->
+    <!-- 1. লিড নিউজ সেকশন -->
     <section class="lead-news-section">
         {% for post in site.posts limit:1 %}
         <div class="lead-news">
@@ -31,13 +31,13 @@ title: প্রচ্ছদ
                 <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p style="font-size:15px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 8px;">লেখক: {{ post.author }}</p>{% endif %}
                 <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
-   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
-     <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
-     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
-        <i class="fa fa-plus" style="font-size:10px;"></i>
-        <span class="dc-home-follow-label">ফলো করুন</span>
-     </button>
-   </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                    <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+                    <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
+                        <i class="fa fa-plus" style="font-size:10px;"></i>
+                        <span class="dc-home-follow-label">ফলো করুন</span>
+                    </button>
+                </div>
                 <div class="post-meta">
                     <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
                 </div>
@@ -46,12 +46,10 @@ title: প্রচ্ছদ
         {% endfor %}
     </section>
 
-    <!-- 2. আরও সংবাদ: ২ কলামে স্ট্যাটিক গ্রিড, জোড় সংখ্যক পোস্ট (৮টি) - কোনো ফাঁকা ঘর থাকবে না -->
+    <!-- 2. আরও সংবাদ গ্রিড -->
     <div class="content-wrap">
-        
         <div class="news-grid-wrap">
             <h3 style="font-size:18px;color:#333;margin:0 0 15px;border-left:4px solid #C00000;padding-left:10px;">আরও সংবাদ</h3>
-
             <div id="dc-more-news-grid">
                 {% for post in site.posts offset:1 limit:8 %}
                 <article class="news-card">
@@ -82,56 +80,21 @@ title: প্রচ্ছদ
                 {% endfor %}
             </div>
         </div>
-
     </div>
 
     <style>
-    #dc-more-news-grid{
-        display:grid;
-        grid-template-columns:repeat(2,1fr);
-        gap:15px;
-    }
+    #dc-more-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
     #dc-more-news-grid .news-card{ max-width:100%; margin:0; }
-
     @media(max-width:600px){
         #dc-more-news-grid{ gap:8px; }
-        #dc-more-news-grid .card-img img{
-            height:70px !important;
-            object-fit:cover;
-        }
-        #dc-more-news-grid .card-content{
-            padding:8px !important;
-        }
-        #dc-more-news-grid .card-content .category-badge{
-            font-size:9px !important;
-            padding:2px 6px !important;
-            margin-bottom:4px !important;
-        }
-        #dc-more-news-grid .card-content h3{
-            font-size:13px !important;
-            margin:4px 0 2px !important;
-            display:-webkit-box;
-            -webkit-line-clamp:1;
-            -webkit-box-orient:vertical;
-            overflow:hidden;
-        }
-        #dc-more-news-grid .card-author{
-            font-size:10px !important;
-            margin:0 0 3px !important;
-        }
-        #dc-more-news-grid .card-excerpt{
-            font-size:11px !important;
-            margin:3px 0 !important;
-            display:-webkit-box;
-            -webkit-line-clamp:2;
-            -webkit-box-orient:vertical;
-            overflow:hidden;
-        }
+        #dc-more-news-grid .card-img img{ height:70px !important; object-fit:cover; }
+        #dc-more-news-grid .card-content{ padding:8px !important; }
+        #dc-more-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
+        #dc-more-news-grid .card-content h3{ font-size:13px !important; margin:4px 0 2px !important; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+        #dc-more-news-grid .card-author{ font-size:10px !important; margin:0 0 3px !important; }
+        #dc-more-news-grid .card-excerpt{ font-size:11px !important; margin:3px 0 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
         #dc-more-news-grid .card-actions-row a{ font-size:11px !important; }
-        #dc-more-news-grid .dc-home-follow-btn{
-            font-size:9px !important;
-            padding:2px 6px !important;
-        }
+        #dc-more-news-grid .dc-home-follow-btn{ font-size:9px !important; padding:2px 6px !important; }
         #dc-more-news-grid .post-meta{ font-size:10px !important; margin-top:3px !important; }
     }
     </style>
@@ -177,78 +140,57 @@ title: প্রচ্ছদ
         function handleFollowClick() {
             if (!dcCurrentUser) return;
             var userRef = followRef.child(dcCurrentUser.uid);
-            if (isFollowing) {
-                userRef.remove();
-            } else {
-                userRef.set(true);
-            }
+            if (isFollowing) { userRef.remove(); } else { userRef.set(true); }
             isFollowing = !isFollowing;
             updateAllButtons();
         }
 
-        followBtns.forEach(function (btn) {
-            btn.addEventListener('click', handleFollowClick);
-        });
-
+        followBtns.forEach(function (btn) { btn.addEventListener('click', handleFollowClick); });
         document.addEventListener('dc-auth-ready', refreshFollowState);
         if (dcCurrentUser) refreshFollowState();
     });
     </script>
 
-    <!-- 3. পোস্ট গ্রিডের নিচে নেভিগেশন লিংক -->
-<div class="dc-nav-links" style="margin-top:20px; padding-top:20px; border-top:1px solid #eee; box-sizing:border-box; width:100%; display:flex; flex-wrap:wrap; justify-content:center; row-gap:14px; column-gap:clamp(10px, 3vw, 40px);">
-
-    <a href="{{ '/' | relative_url }}" style="white-space:nowrap; color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
-        নতুন পোস্ট
-    </a>
-
-    <a href="{{ '/archive/' | relative_url }}" style="white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
-        পুরানো পোস্ট
-    </a>
-
-    <a href="{{ '/categories/' | relative_url }}" style="white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
-        বিভাগ সমূহ
-    </a>
-
-    <a href="{{ '/' | relative_url }}" style="white-space:nowrap; color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:4px; font-size:clamp(14px, 2vw, 19px);">
-        হোম পেজ
-    </a>
-
-</div>
-
-    <!-- 4. জনপ্রিয় সংবাদ (মোবাইলে আরও ছোট কার্ড, ডেস্কটপে বড় কার্ড) -->
-<div class="dc-popular-news popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 15px;margin-bottom:25px;">
-    <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 20px;">জনপ্রিয় সংবাদ</h3>
-    <div class="dc-popular-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(105px, 1fr));gap:10px;">
-        {% for post in site.posts limit:6 %}
-        <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:inherit;display:block;">
-            <div style="border:1px solid #eee;border-radius:6px;overflow:hidden;height:100%;">
-                {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
-                {% else %}
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
-                {% endif %}
-                <div style="padding:6px;">
-                    <h4 class="dc-pop-title" style="font-size:11px;font-weight:700;color:#111;margin:0 0 3px;line-height:1.3;">{{ post.title }}</h4>
-                    <p class="dc-pop-excerpt" style="font-size:10px;color:#666;margin:0 0 3px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.excerpt | strip_html | truncatewords: 8 }}</p>
-                    <span style="font-size:9px;color:#999;">{{ post.date | date: "%d %B" }}</span>
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+    <!-- 3. নেভিগেশন লিংক -->
+    <div class="dc-nav-links" style="margin-top:20px;padding-top:20px;border-top:1px solid #eee;box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;justify-content:center;row-gap:14px;column-gap:clamp(10px, 3vw, 40px);">
+        <a href="{{ '/' | relative_url }}" style="white-space:nowrap;color:#c62828;text-decoration:none;border-bottom:1px solid #c62828;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">নতুন পোস্ট</a>
+        <a href="{{ '/archive/' | relative_url }}" style="white-space:nowrap;color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">পুরানো পোস্ট</a>
+        <a href="{{ '/categories/' | relative_url }}" style="white-space:nowrap;color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">বিভাগ সমূহ</a>
+        <a href="{{ '/' | relative_url }}" style="white-space:nowrap;color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">হোম পেজ</a>
     </div>
-</div>
 
-<style>
-@media (min-width: 768px) {
-    .dc-popular-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; gap: 20px !important; }
-    .dc-pop-img { height: 140px !important; }
-    .dc-pop-title { font-size: 15px !important; }
-    .dc-pop-excerpt { font-size: 13px !important; }
-}
-</style>
+    <!-- 4. জনপ্রিয় সংবাদ -->
+    <div class="dc-popular-news popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 15px;margin-bottom:25px;">
+        <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 20px;">জনপ্রিয় সংবাদ</h3>
+        <div class="dc-popular-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(105px, 1fr));gap:10px;">
+            {% for post in site.posts limit:6 %}
+            <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:inherit;display:block;">
+                <div style="border:1px solid #eee;border-radius:6px;overflow:hidden;height:100%;">
+                    {% if post.image %}
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
+                    {% endif %}
+                    <div style="padding:6px;">
+                        <h4 class="dc-pop-title" style="font-size:11px;font-weight:700;color:#111;margin:0 0 3px;line-height:1.3;">{{ post.title }}</h4>
+                        <p class="dc-pop-excerpt" style="font-size:10px;color:#666;margin:0 0 3px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.excerpt | strip_html | truncatewords: 8 }}</p>
+                        <span style="font-size:9px;color:#999;">{{ post.date | date: "%d %B" }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
 
-    <!-- 5. ক্যাটাগরি সেকশন - ধাপ ১: সংবাদ, সাহিত্য, লেখক তালিকা, বিনোদন -->
+    <style>
+    @media (min-width: 768px) {
+        .dc-popular-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; gap: 20px !important; }
+        .dc-pop-img { height: 140px !important; }
+        .dc-pop-title { font-size: 15px !important; }
+        .dc-pop-excerpt { font-size: 13px !important; }
+    }
+    </style>
+    <!-- 5. ক্যাটাগরি সেকশন - ধাপ ১ -->
     {% assign cat_list_1 = "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
     <div class="dc-cat-grid">
         {% for cat in cat_list_1 %}
@@ -261,13 +203,17 @@ title: প্রচ্ছদ
                 {% assign group_tags = "সাহিত্য,কবিতা,পদ্য কবিতা,গদ্য কবিতা,মুক্ত গদ্য,ছড়া কবিতা,অনু কবিতা,সনেট কবিতা,লিমেরিক কবিতা,বড় গল্প,ছোট গল্প,অনু গল্প,সামাজিক গল্প,ভালোবাসার গল্প,জীবনমুখী গল্প,সামাজিক উপন্যাস,ঐতিহাসিক উপন্যাস,মনস্তাত্ত্বিক উপন্যাস,রহস্য উপন্যাস,রাজনৈতিক উপন্যাস,রূপক উপন্যাস,পত্রোপন্যাস,হাস্যরসাত্মক উপন্যাস,মহাকাব্য,প্রবন্ধ ও নিবন্ধ,রম্যরচনা,কৌতুক,ভ্রমণ,বই পরিচিতি,উক্তি" | split: "," %}
                 {% assign cat_posts = "" | split: "" %}
                 {% for t in group_tags %}
-                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains t" %}
+                    {% assign matched = matched_cat | concat: matched_tag %}
                     {% assign cat_posts = cat_posts | concat: matched %}
                 {% endfor %}
                 {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
             {% else %}
                 <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
-                {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+                {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains cat" %}
+                {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains cat" %}
+                {% assign cat_posts = matched_cat | concat: matched_tag | uniq | sort: "date" | reverse %}
             {% endif %}
 
             {% assign main_post = cat_posts | first %}
@@ -291,7 +237,7 @@ title: প্রচ্ছদ
         {% endfor %}
     </div>
 
-    <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২: শিক্ষা, খেলাধুলা, মতামত, অন্যান্য -->
+    <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২ -->
     {% assign cat_list_2 = "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
     <div class="dc-cat-grid">
         {% for cat in cat_list_2 %}
@@ -302,7 +248,9 @@ title: প্রচ্ছদ
                 {% assign group_tags = "শিক্ষা,ভর্তি,পরীক্ষা,বৃত্তি,পড়াশোনা,উচ্চশিক্ষা,ক্যাম্পাস" | split: "," %}
                 {% assign cat_posts = "" | split: "" %}
                 {% for t in group_tags %}
-                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains t" %}
+                    {% assign matched = matched_cat | concat: matched_tag %}
                     {% assign cat_posts = cat_posts | concat: matched %}
                 {% endfor %}
                 {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
@@ -310,7 +258,9 @@ title: প্রচ্ছদ
                 {% assign group_tags = "মতামত,সম্পাদকীয়,কলাম,সাক্ষাৎকার,স্মরণ,প্রতিক্রিয়া" | split: "," %}
                 {% assign cat_posts = "" | split: "" %}
                 {% for t in group_tags %}
-                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains t" %}
+                    {% assign matched = matched_cat | concat: matched_tag %}
                     {% assign cat_posts = cat_posts | concat: matched %}
                 {% endfor %}
                 {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
@@ -318,12 +268,16 @@ title: প্রচ্ছদ
                 {% assign group_tags = "অন্যান্য,আলোচনা,সমালোচনা" | split: "," %}
                 {% assign cat_posts = "" | split: "" %}
                 {% for t in group_tags %}
-                    {% assign matched = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
+                    {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains t" %}
+                    {% assign matched = matched_cat | concat: matched_tag %}
                     {% assign cat_posts = cat_posts | concat: matched %}
                 {% endfor %}
                 {% assign cat_posts = cat_posts | uniq | sort: "date" | reverse %}
             {% else %}
-                {% assign cat_posts = site.posts | where_exp: "post", "post.categories contains cat" %}
+                {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains cat" %}
+                {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains cat" %}
+                {% assign cat_posts = matched_cat | concat: matched_tag | uniq | sort: "date" | reverse %}
             {% endif %}
 
             {% assign main_post = cat_posts | first %}
@@ -348,53 +302,19 @@ title: প্রচ্ছদ
     </div>
 
     <style>
-    .dc-cat-grid{
-        display:grid;
-        grid-template-columns:repeat(4,1fr);
-        gap:18px;
-        margin-bottom:25px;
-    }
+    .dc-cat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:25px; }
     .dc-cat-col{ min-width:0; }
-    .dc-cat-title{
-        font-size:15px;
-        font-weight:700;
-        margin:0 0 12px;
-        border-bottom:3px solid #C00000;
-        padding-bottom:8px;
-    }
-    .dc-cat-title a{
-        color:#C00000;
-        text-decoration:none;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-    }
+    .dc-cat-title{ font-size:15px; font-weight:700; margin:0 0 12px; border-bottom:3px solid #C00000; padding-bottom:8px; }
+    .dc-cat-title a{ color:#C00000; text-decoration:none; display:flex; justify-content:space-between; align-items:center; }
     .dc-cat-title i{ color:#C00000; font-size:12px; }
-    .dc-cat-main-img img{
-        width:100%;
-        height:120px;
-        object-fit:cover;
-        border-radius:4px;
-        display:block;
-    }
-    .dc-cat-main-title{
-        font-size:14px;
-        font-weight:700;
-        line-height:1.4;
-        margin:8px 0 4px;
-    }
+    .dc-cat-main-img img{ width:100%; height:120px; object-fit:cover; border-radius:4px; display:block; }
+    .dc-cat-main-title{ font-size:14px; font-weight:700; line-height:1.4; margin:8px 0 4px; }
     .dc-cat-main-title a{ color:#111; text-decoration:none; }
     .dc-cat-main-title a:hover{ color:#C00000; }
     .dc-cat-list{ list-style:none; margin:0; padding:0; }
-    .dc-cat-list li{
-        border-top:1px solid #eee;
-        padding:8px 0;
-        font-size:13px;
-        line-height:1.4;
-    }
+    .dc-cat-list li{ border-top:1px solid #eee; padding:8px 0; font-size:13px; line-height:1.4; }
     .dc-cat-list a{ color:#333; text-decoration:none; }
     .dc-cat-list a:hover{ color:#C00000; }
-
     @media(max-width:768px){
         .dc-cat-grid{ grid-template-columns:repeat(2,1fr); gap:8px; }
         .dc-cat-title{ font-size:10px; margin-bottom:6px; padding-bottom:4px; }
@@ -404,169 +324,124 @@ title: প্রচ্ছদ
     }
     </style>
 
-<!-- Login/Signup বাটন + Play Store/App Store সারি -->
-<div class="dc-auth-app-row" style="max-width:800px; margin:2px auto; padding:0px 15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:nowrap; gap:8px;">
-
-    <!-- বামপাশে: Login / Sign in -->
-    <div class="dc-auth-btns" style="display:flex; gap:6px;">
-        <button id="dc-home-login-btn" style="background:#fff; color:#C00000; border:1.5px solid #C00000; padding:7px 14px; border-radius:8px; font-weight:600; font-size:12px; cursor:pointer; white-space:nowrap;">Login</button>
-        <button id="dc-home-signup-btn" style="background:linear-gradient(135deg,#e53935,#C00000); color:#fff; border:none; padding:7px 14px; border-radius:8px; font-weight:600; font-size:12px; cursor:pointer; box-shadow:0 2px 6px rgba(192,0,0,0.25); white-space:nowrap;">Sign up</button>
-    </div>
-
-    <!-- ডানপাশে: Play Store / App Store -->
-    <div class="dc-app-btns" style="display:flex; gap:6px;">
-        <a href="#" id="dc-install-play" style="display:flex; align-items:center; gap:4px; background:#0F9D58; color:#fff; padding:5px 8px; border-radius:6px; text-decoration:none;">
-            <i class="fab fa-google-play" style="font-size:13px;"></i>
-            <span style="font-size:8px; line-height:1.1; white-space:nowrap;">Get it on<br><b style="font-size:9px;">Google Play</b></span>
-        </a>
-        <a href="#" id="dc-install-apple" style="display:flex; align-items:center; gap:4px; background:#000; color:#fff; padding:5px 8px; border-radius:6px; text-decoration:none;">
-            <i class="fab fa-apple" style="font-size:13px;"></i>
-            <span style="font-size:8px; line-height:1.1; white-space:nowrap;">Download on<br><b style="font-size:9px;">App Store</b></span>
-        </a>
-    </div>
-
-</div>
-
-<style>
-@media (min-width: 768px) {
-    .dc-auth-app-row { padding: 15px !important; gap: 15px !important; margin: 15px auto !important; }
-    .dc-auth-btns { gap: 10px !important; }
-    .dc-auth-btns button { padding: 10px 22px !important; font-size: 14px !important; border-radius: 10px !important; }
-    .dc-app-btns { gap: 10px !important; }
-    .dc-app-btns a { padding: 8px 14px !important; gap: 6px !important; border-radius: 8px !important; }
-    .dc-app-btns i { font-size: 18px !important; }
-    .dc-app-btns span { font-size: 11px !important; }
-    .dc-app-btns span b { font-size: 13px !important; }
-}
-</style>
-<!-- Login/Signup মডাল (post.html এর মডাল থেকে কপি করা, স্টাইল আধুনিক করা) -->
-<style>
-.dc-modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55); backdrop-filter: blur(3px);
-    z-index: 9999; align-items: center; justify-content: center;
-}
-.dc-modal-overlay.active { display: flex; }
-.dc-modal-box {
-    background: #fff; border-radius: 16px; padding: 30px 26px;
-    width: 90%; max-width: 380px; position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-    animation: dcModalPop 0.25s ease;
-}
-@keyframes dcModalPop {
-    from { transform: scale(0.92); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-.dc-modal-box h3 { margin-bottom: 18px; font-size: 20px; font-weight:700; color:#111; }
-.dc-modal-box input {
-    width: 100%; padding: 12px 14px; margin-bottom: 12px;
-    border: 1.5px solid #e5e5e5; border-radius: 10px; font-size: 14px;
-    transition: border-color 0.2s; box-sizing: border-box;
-}
-.dc-modal-box input:focus { outline:none; border-color:#C00000; }
-.dc-modal-box button.dc-modal-submit {
-    width: 100%; background: linear-gradient(135deg,#e53935,#C00000);
-    color: #fff; border: none; padding: 13px; border-radius: 10px;
-    font-size: 15px; font-weight: 700; cursor: pointer;
-    box-shadow: 0 4px 12px rgba(192,0,0,0.3); margin-top:4px;
-}
-.dc-modal-switch { text-align: center; font-size: 13px; margin-top: 14px; color: #777; }
-.dc-modal-switch a { color: #C00000; text-decoration: none; font-weight: 600; }
-.dc-modal-close {
-    position: absolute; top: 12px; right: 16px;
-    font-size: 24px; cursor: pointer; color: #aaa; background: none; border: none; line-height:1;
-}
-.dc-modal-close:hover { color:#555; }
-.dc-modal-error { color: #C00000; font-size: 13px; margin-bottom: 10px; display: none; }
-</style>
-
-<div class="dc-modal-overlay" id="dc-home-modal-overlay">
-    <div class="dc-modal-box">
-        <button class="dc-modal-close" id="dc-home-modal-close">&times;</button>
-        <div id="dc-home-modal-signup">
-            <h3>নতুন একাউন্ট তৈরি করুন</h3>
-            <div class="dc-modal-error" id="dc-home-signup-error"></div>
-            <input type="text" id="dc-home-signup-name" placeholder="আপনার নাম">
-            <input type="email" id="dc-home-signup-email" placeholder="ইমেইল">
-            <input type="password" id="dc-home-signup-password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)">
-            <button class="dc-modal-submit" id="dc-home-signup-submit">সাইন আপ করুন</button>
-            <div class="dc-modal-switch">আগেই একাউন্ট আছে? <a href="#" id="dc-home-switch-to-login">লগ ইন করুন</a></div>
+    <!-- Login/Signup বাটন + Play Store/App Store -->
+    <div class="dc-auth-app-row" style="max-width:800px;margin:2px auto;padding:0px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;">
+        <div class="dc-auth-btns" style="display:flex;gap:6px;">
+            <button id="dc-home-login-btn" style="background:#fff;color:#C00000;border:1.5px solid #C00000;padding:7px 14px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">Login</button>
+            <button id="dc-home-signup-btn" style="background:linear-gradient(135deg,#e53935,#C00000);color:#fff;border:none;padding:7px 14px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer;box-shadow:0 2px 6px rgba(192,0,0,0.25);white-space:nowrap;">Sign up</button>
         </div>
-        <div id="dc-home-modal-login" style="display:none;">
-            <h3>লগ ইন করুন</h3>
-            <div class="dc-modal-error" id="dc-home-login-error"></div>
-            <input type="email" id="dc-home-login-email" placeholder="ইমেইল">
-            <input type="password" id="dc-home-login-password" placeholder="পাসওয়ার্ড">
-            <button class="dc-modal-submit" id="dc-home-login-submit">লগ ইন</button>
-            <div class="dc-modal-switch">একাউন্ট নেই? <a href="#" id="dc-home-switch-to-signup">সাইন আপ করুন</a></div>
+        <div class="dc-app-btns" style="display:flex;gap:6px;">
+            <a href="#" id="dc-install-play" style="display:flex;align-items:center;gap:4px;background:#0F9D58;color:#fff;padding:5px 8px;border-radius:6px;text-decoration:none;">
+                <i class="fab fa-google-play" style="font-size:13px;"></i>
+                <span style="font-size:8px;line-height:1.1;white-space:nowrap;">Get it on<br><b style="font-size:9px;">Google Play</b></span>
+            </a>
+            <a href="#" id="dc-install-apple" style="display:flex;align-items:center;gap:4px;background:#000;color:#fff;padding:5px 8px;border-radius:6px;text-decoration:none;">
+                <i class="fab fa-apple" style="font-size:13px;"></i>
+                <span style="font-size:8px;line-height:1.1;white-space:nowrap;">Download on<br><b style="font-size:9px;">App Store</b></span>
+            </a>
         </div>
     </div>
+
+    <style>
+    @media (min-width: 768px) {
+        .dc-auth-app-row { padding: 15px !important; gap: 15px !important; margin: 15px auto !important; }
+        .dc-auth-btns { gap: 10px !important; }
+        .dc-auth-btns button { padding: 10px 22px !important; font-size: 14px !important; border-radius: 10px !important; }
+        .dc-app-btns { gap: 10px !important; }
+        .dc-app-btns a { padding: 8px 14px !important; gap: 6px !important; border-radius: 8px !important; }
+        .dc-app-btns i { font-size: 18px !important; }
+        .dc-app-btns span { font-size: 11px !important; }
+        .dc-app-btns span b { font-size: 13px !important; }
+    }
+    </style>
+
+    <style>
+    .dc-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(3px); z-index:9999; align-items:center; justify-content:center; }
+    .dc-modal-overlay.active { display:flex; }
+    .dc-modal-box { background:#fff; border-radius:16px; padding:30px 26px; width:90%; max-width:380px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.25); animation:dcModalPop 0.25s ease; }
+    @keyframes dcModalPop { from { transform:scale(0.92); opacity:0; } to { transform:scale(1); opacity:1; } }
+    .dc-modal-box h3 { margin-bottom:18px; font-size:20px; font-weight:700; color:#111; }
+    .dc-modal-box input { width:100%; padding:12px 14px; margin-bottom:12px; border:1.5px solid #e5e5e5; border-radius:10px; font-size:14px; transition:border-color 0.2s; box-sizing:border-box; }
+    .dc-modal-box input:focus { outline:none; border-color:#C00000; }
+    .dc-modal-box button.dc-modal-submit { width:100%; background:linear-gradient(135deg,#e53935,#C00000); color:#fff; border:none; padding:13px; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(192,0,0,0.3); margin-top:4px; }
+    .dc-modal-switch { text-align:center; font-size:13px; margin-top:14px; color:#777; }
+    .dc-modal-switch a { color:#C00000; text-decoration:none; font-weight:600; }
+    .dc-modal-close { position:absolute; top:12px; right:16px; font-size:24px; cursor:pointer; color:#aaa; background:none; border:none; line-height:1; }
+    .dc-modal-close:hover { color:#555; }
+    .dc-modal-error { color:#C00000; font-size:13px; margin-bottom:10px; display:none; }
+    </style>
+
+    <div class="dc-modal-overlay" id="dc-home-modal-overlay">
+        <div class="dc-modal-box">
+            <button class="dc-modal-close" id="dc-home-modal-close">&times;</button>
+            <div id="dc-home-modal-signup">
+                <h3>নতুন একাউন্ট তৈরি করুন</h3>
+                <div class="dc-modal-error" id="dc-home-signup-error"></div>
+                <input type="text" id="dc-home-signup-name" placeholder="আপনার নাম">
+                <input type="email" id="dc-home-signup-email" placeholder="ইমেইল">
+                <input type="password" id="dc-home-signup-password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)">
+                <button class="dc-modal-submit" id="dc-home-signup-submit">সাইন আপ করুন</button>
+                <div class="dc-modal-switch">আগেই একাউন্ট আছে? <a href="#" id="dc-home-switch-to-login">লগ ইন করুন</a></div>
+            </div>
+            <div id="dc-home-modal-login" style="display:none;">
+                <h3>লগ ইন করুন</h3>
+                <div class="dc-modal-error" id="dc-home-login-error"></div>
+                <input type="email" id="dc-home-login-email" placeholder="ইমেইল">
+                <input type="password" id="dc-home-login-password" placeholder="পাসওয়ার্ড">
+                <button class="dc-modal-submit" id="dc-home-login-submit">লগ ইন</button>
+                <div class="dc-modal-switch">একাউন্ট নেই? <a href="#" id="dc-home-switch-to-signup">সাইন আপ করুন</a></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var overlay = document.getElementById('dc-home-modal-overlay');
+        var signupBox = document.getElementById('dc-home-modal-signup');
+        var loginBox = document.getElementById('dc-home-modal-login');
+
+        document.getElementById('dc-home-login-btn').addEventListener('click', function () {
+            signupBox.style.display = 'none'; loginBox.style.display = 'block'; overlay.classList.add('active');
+        });
+        document.getElementById('dc-home-signup-btn').addEventListener('click', function () {
+            loginBox.style.display = 'none'; signupBox.style.display = 'block'; overlay.classList.add('active');
+        });
+        document.getElementById('dc-home-modal-close').addEventListener('click', function () {
+            overlay.classList.remove('active');
+        });
+        document.getElementById('dc-home-switch-to-login').addEventListener('click', function (e) {
+            e.preventDefault(); signupBox.style.display = 'none'; loginBox.style.display = 'block';
+        });
+        document.getElementById('dc-home-switch-to-signup').addEventListener('click', function (e) {
+            e.preventDefault(); loginBox.style.display = 'none'; signupBox.style.display = 'block';
+        });
+        document.getElementById('dc-home-signup-submit').addEventListener('click', function () {
+            var name = document.getElementById('dc-home-signup-name').value.trim();
+            var email = document.getElementById('dc-home-signup-email').value.trim();
+            var pass = document.getElementById('dc-home-signup-password').value;
+            var errEl = document.getElementById('dc-home-signup-error');
+            errEl.style.display = 'none';
+            if (!name || !email || pass.length < 6) {
+                errEl.textContent = 'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
+                errEl.style.display = 'block'; return;
+            }
+            dcSignUp(name, email, pass, function (err) {
+                if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
+                overlay.classList.remove('active');
+            });
+        });
+        document.getElementById('dc-home-login-submit').addEventListener('click', function () {
+            var email = document.getElementById('dc-home-login-email').value.trim();
+            var pass = document.getElementById('dc-home-login-password').value;
+            var errEl = document.getElementById('dc-home-login-error');
+            errEl.style.display = 'none';
+            dcLogIn(email, pass, function (err) {
+                if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
+                overlay.classList.remove('active');
+            });
+        });
+    });
+    </script>
+
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var overlay = document.getElementById('dc-home-modal-overlay');
-    var signupBox = document.getElementById('dc-home-modal-signup');
-    var loginBox = document.getElementById('dc-home-modal-login');
-
-    document.getElementById('dc-home-login-btn').addEventListener('click', function () {
-        signupBox.style.display = 'none';
-        loginBox.style.display = 'block';
-        overlay.classList.add('active');
-    });
-    document.getElementById('dc-home-signup-btn').addEventListener('click', function () {
-        loginBox.style.display = 'none';
-        signupBox.style.display = 'block';
-        overlay.classList.add('active');
-    });
-    document.getElementById('dc-home-modal-close').addEventListener('click', function () {
-        overlay.classList.remove('active');
-    });
-    document.getElementById('dc-home-switch-to-login').addEventListener('click', function (e) {
-        e.preventDefault();
-        signupBox.style.display = 'none';
-        loginBox.style.display = 'block';
-    });
-    document.getElementById('dc-home-switch-to-signup').addEventListener('click', function (e) {
-        e.preventDefault();
-        loginBox.style.display = 'none';
-        signupBox.style.display = 'block';
-    });
-
-    document.getElementById('dc-home-signup-submit').addEventListener('click', function () {
-        var name = document.getElementById('dc-home-signup-name').value.trim();
-        var email = document.getElementById('dc-home-signup-email').value.trim();
-        var pass = document.getElementById('dc-home-signup-password').value;
-        var errEl = document.getElementById('dc-home-signup-error');
-        errEl.style.display = 'none';
-        if (!name || !email || pass.length < 6) {
-            errEl.textContent = 'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
-            errEl.style.display = 'block';
-            return;
-        }
-        dcSignUp(name, email, pass, function (err) {
-            if (err) {
-                errEl.textContent = err.message;
-                errEl.style.display = 'block';
-                return;
-            }
-            overlay.classList.remove('active');
-        });
-    });
-
-    document.getElementById('dc-home-login-submit').addEventListener('click', function () {
-        var email = document.getElementById('dc-home-login-email').value.trim();
-        var pass = document.getElementById('dc-home-login-password').value;
-        var errEl = document.getElementById('dc-home-login-error');
-        errEl.style.display = 'none';
-        dcLogIn(email, pass, function (err) {
-            if (err) {
-                errEl.textContent = err.message;
-                errEl.style.display = 'block';
-                return;
-            }
-            overlay.classList.remove('active');
-        });
-    });
-});
-</script>
+<!-- হোমপেজ কন্টেন্ট শেষ -->
