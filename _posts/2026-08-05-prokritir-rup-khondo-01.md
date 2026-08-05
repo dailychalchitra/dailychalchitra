@@ -5,7 +5,6 @@ date: 2026-08-05 17:10:00 +0400
 categories: [ছড়া কবিতা]
 tags:
     - সাহিত্য
-    - ছড়া কবিতা
     - কবিতা
     - ছন্দ কবিতা
     - প্রকৃতির রূপ
@@ -17,14 +16,12 @@ tags:
     - প্রকৃতি বিষয়ক ছড়া কবিতা
     - নতুন ছড়া কবিতা
     - খণ্ড ছড়া কবিতা
-    - শামীম নিমু 
     - কবি শামীম নিমু
     - দৈনিক চালচিত্র 
     - শিশুদের ভবিষ্যৎ
     - আগামীর ভবিষ্যৎ
     - শামীম নিমু এর লেখা ছড়া কবিতা
     - literature 
-    - rhyme poems 
     - poetry 
     - rhyme poems 
     - natures form 
@@ -36,7 +33,6 @@ tags:
     - nature related rhyme poems 
     - new rhyme poems 
     - fragmented rhyme poems 
-    - shamim nimu 
     - poet shamim nimu 
     - daily chalchitra 
     - childrens future 
