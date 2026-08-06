@@ -37,7 +37,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Serif Bengali', serif; background: #ffffff; color:#1a1a1a; }
+    body {
+      font-family: 'Noto Serif Bengali', serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.15px;
+    }
 
     /* --- হেডার ফিক্স --- */
 .header {
@@ -143,7 +150,6 @@ body { top: 0 !important; }
   align-items: center;
   gap: 6px;
 }
-
 .live-badge::before {
   content: '';
   width: 8px;
@@ -153,16 +159,9 @@ body { top: 0 !important; }
   display: inline-block;
   animation: livePulse 1.2s ease-in-out infinite;
 }
-
 @keyframes livePulse {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% { 
-    transform: scale(1.5);
-    opacity: 0.4;
-  }
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.4; }
 }
 .ticker-wrap {
     height: 35px;
@@ -223,7 +222,7 @@ body { top: 0 !important; }
     position: fixed;
     top: 0;
     left: -100%;
-    width: 280px
+    width: 280px;
     height: 100%;
     z-index: 1000;
     background-color: #EEEEEE;
@@ -305,13 +304,8 @@ body.no-scroll {
 
 /* মোবাইল - হেডার */
 @media (max-width: 768px) {
-    .header-top {
-        gap: 10px;
-        padding: 6px 10px;
-    }
-    .logo img {
-        height: 60px;
-    }
+    .header-top { gap: 10px; padding: 6px 10px; }
+    .logo img { height: 60px; }
 }
 
 /* --- মেনু বার --- */
@@ -319,14 +313,8 @@ body.no-scroll {
 .menu-bar a { display: inline-block; color: white; padding: 12px 18px; text-decoration: none; font-weight: bold; }
 
 /* --- মেইন কন্টেন্ট কন্টেইনার --- */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-.main-content {
-    padding: 25px 0;
-}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+.main-content { padding: 25px 0; }
 .section-title {
     font-size: 24px;
     font-weight: 900;
@@ -337,10 +325,8 @@ body.no-scroll {
     display: inline-block;
 }
 
-/* 1. লিড নিউজ (সবচেয়ে উপরের বড় পোস্ট) */
-.lead-news-section {
-    margin-bottom: 35px;
-}
+/* 1. লিড নিউজ */
+.lead-news-section { margin-bottom: 35px; }
 .lead-news {
     display: grid;
     grid-template-columns: 1fr;
@@ -358,9 +344,7 @@ body.no-scroll {
     object-fit: cover;
     display: block;
 }
-.lead-content {
-    padding: 25px;
-}
+.lead-content { padding: 25px; }
 .category-badge {
     background: #C00000;
     color: #fff;
@@ -378,34 +362,20 @@ body.no-scroll {
     font-family: 'Noto Serif Bengali', serif;
     font-weight: 900;
 }
-.lead-content h1 a {
-    color: #111;
-    text-decoration: none;
-}
-.lead-content h1 a:hover {
-    color: #C00000;
-}
-.lead-excerpt {
-    color: #555;
-    line-height: 1.7;
-    margin-bottom: 15px;
-}
-.post-meta {
-    font-size: 13px;
-    color: #888;
-}
-.post-meta i {
-    margin-right: 5px;
-}
+.lead-content h1 a { color: #111; text-decoration: none; }
+.lead-content h1 a:hover { color: #C00000; }
+.lead-excerpt { color: #555; line-height: 1.7; margin-bottom: 15px; }
+.post-meta { font-size: 13px; color: #888; }
+.post-meta i { margin-right: 5px; }
 
-/* 2. কন্টেন্ট র‍্যাপ: গ্রিড + সাইডবার */
+/* 2. কন্টেন্ট র‍্যাপ */
 .content-wrap {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 30px;
 }
 
-/* ৩ কলাম নিউজ গ্রিড (ডেস্কটপ) */
+/* নিউজ গ্রিড */
 .news-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -428,9 +398,7 @@ body.no-scroll {
     object-fit: cover;
     display: block;
 }
-.card-content {
-    padding: 15px;
-}
+.card-content { padding: 15px; }
 .card-content h3 {
     font-size: 16px;
     line-height: 1.5;
@@ -438,13 +406,8 @@ body.no-scroll {
     font-family: 'Noto Serif Bengali', serif;
     font-weight: 700;
 }
-.card-content h3 a {
-    color: #222;
-    text-decoration: none;
-}
-.card-content h3 a:hover {
-    color: #C00000;
-}
+.card-content h3 a { color: #222; text-decoration: none; }
+.card-content h3 a:hover { color: #C00000; }
 
 /* সাইডবার */
 .sidebar-widget {
@@ -460,52 +423,34 @@ body.no-scroll {
     padding-bottom: 10px;
     border-bottom: 2px solid #C00000;
 }
-
-.ad-widget img {
-    width: 100%;
-    border-radius: 5px;
+.ad-widget img { width: 100%; border-radius: 5px; }
+.popular-posts { list-style: none; margin: 0; padding: 0; }
+.popular-posts li { padding: 15px 0; border-bottom: 1px solid #e5e5e5; }
+.popular-posts li:last-child { border-bottom: none; }
+.popular-posts a {
+    display: block;
+    position: relative;
+    padding-left: 18px;
+    color: #222;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.6;
 }
-.popular-posts{
-    list-style:none;
-    margin:0;
-    padding:0;
+.popular-posts a::before {
+    content: "●";
+    color: #C00000;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 11px;
 }
-
-.popular-posts li{
-    padding:15px 0;
-    border-bottom:1px solid #e5e5e5;
-}
-
-.popular-posts li:last-child{
-    border-bottom:none;
-}
-
-.popular-posts a{
-    display:block;
-    position:relative;
-    padding-left:18px;
-    color:#222;
-    text-decoration:none;
-    font-size:16px;
-    font-weight:600;
-    line-height:1.6;
-}
-
-.popular-posts a::before{
-    content:"●";
-    color:#C00000;
-    position:absolute;
-    left:0;
-    top:2px;
-    font-size:11px;
-}
-
-.post-date{
-    display:block;
-    padding-left:18px;
-    margin-top:6px;
-    color:#888;
-    font-size:13px;
+.post-date {
+    display: block;
+    padding-left: 18px;
+    margin-top: 6px;
+    color: #888;
+    font-size: 13px;
 }
 
 /* --- ফুটার --- */
@@ -515,185 +460,25 @@ body.no-scroll {
 .footer-bottom-text { font-size: 14px; line-height: 1.8; }
 .footer-bottom-text strong { color: #fff; }
 .footer-bottom-text a { color: #fff; text-decoration: underline; }
-.footer-sun-logo {
-  width: 32px;
-  height: 32px;
-  vertical-align: middle;
-}
-.footer-site-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
+.footer-sun-logo { width: 32px; height: 32px; vertical-align: middle; }
+.footer-site-name { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
 
-/* ==========================================================
-   মোবাইল রেসপন্সিভ (768px ও তার ছোট)
-   এখানেই .lead-news ও .news-grid ১ কলামে নেমে আসে,
-   ফন্ট/প্যাডিং একটু কমে
-   ========================================================== */
+/* মোবাইল রেসপন্সিভ */
 @media (max-width: 992px) {
-    .content-wrap {
-        grid-template-columns: 1fr;
-    }
-    .news-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .content-wrap { grid-template-columns: 1fr; }
+    .news-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
-    .lead-news {
-        grid-template-columns: 1fr;
-    }
-    .lead-img img {
-        min-height: 220px;
-    }
-    .lead-content {
-        padding: 20px;
-    }
-    .lead-content h1 {
-        font-size: 22px;
-    }
-    .news-grid {
-        grid-template-columns: 1fr;
-    }
-    .card-content h3 {
-        font-size: 16px;
-    }
-    .section-title {
-        font-size: 20px;
-    }
+    .lead-news { grid-template-columns: 1fr; }
+    .lead-img img { min-height: 220px; }
+    .lead-content { padding: 20px; }
+    .lead-content h1 { font-size: 22px; }
+    .news-grid { grid-template-columns: 1fr; }
+    .card-content h3 { font-size: 16px; }
+    .section-title { font-size: 20px; }
 }
-/* ===== Side Menu Trigger Button ===== */
-#dc-menu-trigger {
-  background: #C00000;
-  color: #fff;
-  padding: 0 12px;
-  cursor: pointer;
-  font-size: 18px;
-  height: 35px;
-  line-height: 35px;
-  display: inline-block;
-  border-radius: 0;
-  z-index: 10;
-  float: left;
-}
-#dc-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 9998;
-  display: none;
-}
-#dc-overlay.active { display: block; }
-#dc-side-menu {
-  position: fixed;
-  top: 0;
-  left: -320px;
-  width: 300px;
-  height: 100%;
-  background: #fff;
-  z-index: 9999;
-  transition: 0.3s;
-  overflow-y: auto;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-}
-#dc-side-menu.active { left: 0; }
-.dc-menu-header {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-  position: relative;
-}
-.dc-menu-header img {
-  max-width: 150px;
-  display: block;
-  margin: 0 auto 10px;
-}
-.dc-header-search {
-  display: flex;
-  margin: 10px 0;
-}
-.dc-header-search input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px 0 0 4px;
-}
-.dc-header-search button {
-  background: #C00000;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 0 4px 4px 0;
-}
-.dc-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
-  color: #666;
-}
-.dc-acc-list { padding: 10px 0; }
-.dc-acc-item { border-bottom: 1px solid #f0f0f0; }
-.dc-acc-title {
-  display: block;
-  padding: 12px 20px;
-  color: #333;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  position: relative;
-}
-.dc-acc-title:hover { background: #f5f5f5; }
-.dc-acc-title i { margin-right: 8px; color: #C00000; }
-.dc-acc-title .fa-chevron-down {
-  position: absolute;
-  right: 20px;
-  top: 15px;
-  font-size: 12px;
-  transition: 0.3s;
-}
-.dc-acc-content {
-  display: none;
-  background: #fafafa;
-}
-.dc-acc-content a {
-  display: block;
-  padding: 10px 20px 10px 40px;
-  color: #555;
-  text-decoration: none;
-  font-size: 15px;
-}
-.dc-acc-content a:hover { background: #f0f0f0; }
-.dc-acc-item.active > .dc-acc-content { display: block; }
-.dc-acc-item.active > .dc-acc-title .fa-chevron-down {
-  transform: rotate(180deg);
-}
-.dc-social-icons a {
-  display: inline-block;
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
-  background: #f0f0f0;
-  color: #333;
-  border-radius: 50%;
-  margin: 3px;
-  font-size: 16px;
-  text-align: center;
-}
-.dc-social-icons a:hover {
-  background: #C00000;
-  color: #fff;
-}
-body.dc-menu-open { overflow: hidden; }
 
-/* নতুন মেনু বাটন LIVE টিকারের বামপাশে */
+/* ===== Side Menu ===== */
 #dc-menu-trigger {
   position: relative;
   float: left;
@@ -708,17 +493,66 @@ body.dc-menu-open { overflow: hidden; }
   border-radius: 0;
   z-index: 10;
 }
+#dc-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); z-index: 9998; display: none;
+}
+#dc-overlay.active { display: block; }
+#dc-side-menu {
+  position: fixed; top: 0; left: -320px; width: 300px; height: 100%;
+  background: #fff; z-index: 9999; transition: 0.3s;
+  overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+}
+#dc-side-menu.active { left: 0; }
+.dc-menu-header { padding: 15px; border-bottom: 1px solid #eee; position: relative; }
+.dc-menu-header img { max-width: 150px; display: block; margin: 0 auto 10px; }
+.dc-header-search { display: flex; margin: 10px 0; }
+.dc-header-search input {
+  flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px 0 0 4px;
+}
+.dc-header-search button {
+  background: #C00000; color: #fff; border: none;
+  padding: 8px 12px; border-radius: 0 4px 4px 0;
+}
+.dc-close-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: none; border: none; font-size: 30px; cursor: pointer; color: #666;
+}
+.dc-acc-list { padding: 10px 0; }
+.dc-acc-item { border-bottom: 1px solid #f0f0f0; }
+.dc-acc-title {
+  display: block; padding: 12px 20px; color: #333; text-decoration: none;
+  font-weight: 600; font-size: 16px; cursor: pointer; position: relative;
+}
+.dc-acc-title:hover { background: #f5f5f5; }
+.dc-acc-title i { margin-right: 8px; color: #C00000; }
+.dc-acc-title .fa-chevron-down {
+  position: absolute; right: 20px; top: 15px; font-size: 12px; transition: 0.3s;
+}
+.dc-acc-content { display: none; background: #fafafa; }
+.dc-acc-content a {
+  display: block; padding: 10px 20px 10px 40px; color: #555; text-decoration: none; font-size: 15px;
+}
+.dc-acc-content a:hover { background: #f0f0f0; }
+.dc-acc-item.active > .dc-acc-content { display: block; }
+.dc-acc-item.active > .dc-acc-title .fa-chevron-down { transform: rotate(180deg); }
+.dc-social-icons a {
+  display: inline-block; width: 35px; height: 35px; line-height: 35px;
+  background: #f0f0f0; color: #333; border-radius: 50%; margin: 3px; font-size: 16px; text-align: center;
+}
+.dc-social-icons a:hover { background: #C00000; color: #fff; }
+body.dc-menu-open { overflow: hidden; }
+
+/* ===== পোস্ট বডি ===== */
 .dc-post-body {
-  font-size: 18px;
-  line-height: 1.8;
+  font-size: 19px;
+  line-height: 2.0;
   margin-top: 10px;
   font-family: 'Noto Serif Bengali', serif;
+  font-weight: 400;
+  letter-spacing: 0.15px;
 }
-
-.dc-post-body p {
-  margin: 0 0 12px 0;
-}
-
+.dc-post-body p { margin: 0 0 12px 0; }
 .dc-post-body h1,
 .dc-post-body h2,
 .dc-post-body h3,
@@ -727,13 +561,37 @@ body.dc-menu-open { overflow: hidden; }
   font-family: 'Noto Serif Bengali', serif;
   font-weight: 700;
 }
-
 .dc-post-body ul,
-.dc-post-body ol {
-  margin: 0 0 12px 22px;
+.dc-post-body ol { margin: 0 0 12px 22px; }
+
+/* ===== স্তবক গ্যাপ ===== */
+.kobita-pera {
+  display: block !important;
+  margin: 0 0 14px 0 !important;
+  padding: 0 !important;
+  line-height: 1.9 !important;
 }
-</style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+.kobita-pera br {
+  display: block !important;
+  content: "";
+  margin-bottom: 2px;
+}
+.kobita-pera.kobita-date {
+  display: block !important;
+  width: 100% !important;
+  clear: both !important;
+  float: none !important;
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+  text-align: left !important;
+  font-size: 13px !important;
+  font-style: italic !important;
+  color: #555 !important;
+  border-top: none !important;
+  padding-top: 0 !important;
+}
+  </style>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#C00000">
 
@@ -753,15 +611,14 @@ body.dc-menu-open { overflow: hidden; }
     <a href="/" class="logo">
         <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
     </a>
-
     <div class="header-right">
         <div class="search-translate-wrap">
             <form action="/search/" method="get" class="search-box">
-    <input type="text" name="q" placeholder="খুঁজুন..." required>
-    <button type="submit" style="background:none; border:none; padding:0; cursor:pointer;">
-        <i class="fas fa-search"></i>
-    </button>
-</form>
+              <input type="text" name="q" placeholder="খুঁজুন..." required>
+              <button type="submit" style="background:none; border:none; padding:0; cursor:pointer;">
+                  <i class="fas fa-search"></i>
+              </button>
+            </form>
             <div class="translate-box">
                 <select id="translateSelect">
                     <option value="">ভাষা নির্বাচন</option>
@@ -776,13 +633,11 @@ body.dc-menu-open { overflow: hidden; }
     </div>
 </div>
 
-  <!-- LIVE টিকার শুরু -->
+<!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
-  <!-- DAILY CHALCHITRA SIDE MENU TRIGG -->
   <div id="dc-menu-trigger" onclick="toggleDcMenu()">
     <i class="fa fa-bars"></i>
   </div>
-
   {% assign dc_ticker_posts = site.posts | slice: 0, 10 %}
   <div class="ticker-move" style="animation-duration: {{ dc_ticker_posts.size | times: 3 }}s;">
     {% for post in dc_ticker_posts %}
@@ -791,12 +646,11 @@ body.dc-menu-open { overflow: hidden; }
       </a>
     {% endfor %}
   </div>
-
   <div class="live-badge">LIVE</div>
 </div>
 <!-- LIVE টিকার শেষ -->
 
-  <!-- ক্যাটাগরি মেনু বার -->
+<!-- ক্যাটাগরি মেনু বার -->
 <nav class="menu-bar">
   <a href="/">প্রচ্ছদ</a>
   <a href="/tag/?name=বাংলাদেশ">বাংলাদেশ</a>
@@ -807,15 +661,15 @@ body.dc-menu-open { overflow: hidden; }
   <a href="/tag/?name=সাহিত্য">সাহিত্য</a>
 </nav>
 
-  <!-- মেইন কন্টেন্ট -->
-  <main class="container">
-    <div class="search-box" id="searchBox" style="display:none;">
-      <input type="text" id="searchInput" onkeyup="searchNews()" placeholder="নিউজ খুঁজুন...">
-    </div>
-
-    {{ content }}
-  </main>
+<!-- মেইন কন্টেন্ট -->
+<main class="container">
+  <div class="search-box" id="searchBox" style="display:none;">
+    <input type="text" id="searchInput" onkeyup="searchNews()" placeholder="নিউজ খুঁজুন...">
+  </div>
+  {{ content }}
+</main>
 <div style="clear: both;"></div>
+
 <!-- DAILY CHALCHITRA SIDE MENU START -->
 <div id="dc-overlay" onclick="toggleDcMenu()"></div>
 <div id="dc-side-menu">
@@ -883,7 +737,7 @@ body.dc-menu-open { overflow: hidden; }
             <a href="/tag/?name=পদ্য-কবিতা">পদ্য কবিতা</a>
             <a href="/tag/?name=গদ্য-কবিতা">গদ্য কবিতা</a>
             <a href="/tag/?name=মুক্ত-গদ্য">মুক্ত গদ্য</a>
-            <a href="/tag/?name=ছড়া-কবিতা">ছড়া কবিতা</a>
+            <a href="/tag/?name=ছড়া-কবিতা">ছড়া কবিতা</a>
             <a href="/tag/?name=অনু-কবিতা">অনু কবিতা</a>
             <a href="/tag/?name=সনেট-কবিতা">সনেট কবিতা</a>
             <a href="/tag/?name=লিমেরিক-কবিতা">লিমেরিক কবিতা</a>
@@ -913,24 +767,12 @@ body.dc-menu-open { overflow: hidden; }
             <a href="/tag/?name=হাস্যরসাত্মক-উপন্যাস">হাস্যরসাত্মক উপন্যাস</a>
           </div>
         </div>
-<div class="dc-acc-item">
-  <a class="dc-acc-title" href="/tag/?name=প্রবন্ধ-ও-নিবন্ধ">প্রবন্ধ ও নিবন্ধ</a>
-</div>
-<div class="dc-acc-item">
-  <a class="dc-acc-title" href="/tag/?name=রম্যরচনা">রম্যরচনা</a>
-</div>
-<div class="dc-acc-item">
-  <a class="dc-acc-title" href="/tag/?name=কৌতুক">কৌতুক</a>
-</div>
-<div class="dc-acc-item">
-  <a class="dc-acc-title" href="/tag/?name=ভ্রমণ">ভ্রমণ</a>
-</div>
-<div class="dc-acc-item">
-  <a class="dc-acc-title" href="/tag/?name=বই-পরিচিতি">বই পরিচিতি</a>
-</div>
-<div class="dc-acc-item">
-  <a class="dc-acc-title" href="/tag/?name=উক্তি">উক্তি</a>
-</div>
+        <div class="dc-acc-item"><a class="dc-acc-title" href="/tag/?name=প্রবন্ধ-ও-নিবন্ধ">প্রবন্ধ ও নিবন্ধ</a></div>
+        <div class="dc-acc-item"><a class="dc-acc-title" href="/tag/?name=রম্যরচনা">রম্যরচনা</a></div>
+        <div class="dc-acc-item"><a class="dc-acc-title" href="/tag/?name=কৌতুক">কৌতুক</a></div>
+        <div class="dc-acc-item"><a class="dc-acc-title" href="/tag/?name=ভ্রমণ">ভ্রমণ</a></div>
+        <div class="dc-acc-item"><a class="dc-acc-title" href="/tag/?name=বই-পরিচিতি">বই পরিচিতি</a></div>
+        <div class="dc-acc-item"><a class="dc-acc-title" href="/tag/?name=উক্তি">উক্তি</a></div>
         <div class="dc-acc-item">
           <div class="dc-acc-title">চিঠি <i class="fa fa-chevron-down"></i></div>
           <div class="dc-acc-content">
@@ -1078,7 +920,7 @@ body.dc-menu-open { overflow: hidden; }
 </div>
 <!-- DAILY CHALCHITRA SIDE MENU END -->
 
-  <!-- জাভাস্ক্রিপ্ট -->
+<!-- জাভাস্ক্রিপ্ট -->
 <script>
 function toggleSearch() {
   var x = document.getElementById("searchBox");
@@ -1088,7 +930,6 @@ function toggleSearch() {
     x.style.display = "none";
   }
 }
-
 function searchNews() {
   let input = document.getElementById("searchInput").value.toLowerCase();
   let cards = document.getElementsByClassName("news-card");
@@ -1104,7 +945,6 @@ function searchNews() {
 
 <!-- গুগল ট্রান্সলেট -->
 <div id="google_translate_element" style="display:none;"></div>
-
 <script type="text/javascript">
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
@@ -1133,7 +973,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// DAILY CHALCHITRA SIDE MENU JS START
 function toggleDcMenu() {
   document.getElementById('dc-side-menu').classList.toggle('active');
   document.getElementById('dc-overlay').classList.toggle('active');
@@ -1148,25 +987,20 @@ document.addEventListener('DOMContentLoaded', function() {
         var parent = this.parentElement;
         var siblings = parent.parentElement.querySelectorAll(':scope > .dc-acc-item');
         siblings.forEach(function(sib) {
-          if (sib!== parent) sib.classList.remove('active');
+          if (sib !== parent) sib.classList.remove('active');
         });
         parent.classList.toggle('active');
       });
     }
   });
 });
-// DAILY CHALCHITRA SIDE MENU JS END
 </script>
-<!-- ============================================================
-     DAILY CHALCHITRA — FIREBASE INIT (Like/Comment/Share/View)
-     এই স্ক্রিপ্টটি </body> এর ঠিক আগে, একবার যুক্ত করুন
-     ============================================================ -->
+
+<!-- Firebase Init -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <script>
-// ---------- Firebase কনফিগ ----------
 const dcFirebaseConfig = {
   apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
   authDomain: "daily-chalchitra-60994.firebaseapp.com",
@@ -1177,12 +1011,10 @@ const dcFirebaseConfig = {
   appId: "1:792541060086:web:078fe75f16940c5d0005d7",
   measurementId: "G-P3K494H1N5"
 };
-
 firebase.initializeApp(dcFirebaseConfig);
 const dcAuth = firebase.auth();
 const dcDB = firebase.database();
 
-// ---------- বর্তমান পোস্টের ইউনিক আইডি ----------
 function dcGetPostId() {
   let path = window.location.pathname;
   path = path.replace(/^\/|\/$/g, '');
@@ -1191,7 +1023,6 @@ function dcGetPostId() {
 }
 const DC_POST_ID = dcGetPostId();
 
-// ---------- ইউজার স্টেট ----------
 let dcCurrentUser = null;
 let dcIsNamedUser = false;
 
@@ -1242,7 +1073,9 @@ function dcDisplayName() {
   return 'অতিথি পাঠক';
 }
 </script>
+
 {% include footer.html %}
+
 <script>
 document.addEventListener('copy', function(e) {
     var selectedText = window.getSelection().toString();
@@ -1274,5 +1107,6 @@ document.addEventListener('copy', function(e) {
     }
 });
 </script>
-  
-  
+
+</body>
+</html>
