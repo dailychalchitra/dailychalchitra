@@ -18,8 +18,8 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/jekyll-build-pages@v1
         with:
-          source: ./
-          destination: ./_site_site
+          source:./
+          destination:./_site
       - uses: actions/upload-pages-artifact@v3
   deploy:
     environment:
