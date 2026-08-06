@@ -2,6 +2,7 @@
 layout: page
 title: আমাদের সম্পর্কে
 permalink: /about/
+image: /assets/img/dailychalchitra.com.webp
 ---
 
 
