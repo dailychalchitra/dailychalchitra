@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "আমাদের সম্পর্কে"
-permalink: about
+permalink: /about/
 
 image: /assets/img/dailychalchitra.com.webp
 ---
