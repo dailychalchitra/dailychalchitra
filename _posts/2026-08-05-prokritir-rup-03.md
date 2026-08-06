@@ -45,7 +45,7 @@ tags:
 
 author: "শামীম নিমু"
 
-image: /assets/img/md-shamim-pramanik.png
+image: /assets/img/shamim-nimu-1.webp
 ---
 
 একটি শিশু দেখছে বহুদূরে
