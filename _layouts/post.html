@@ -2,40 +2,70 @@
 layout: default
 ---
 <article style="max-width:800px;margin:20px auto;padding:15px;">
-  <div style="position:relative;overflow:hidden;border-radius:8px;margin-bottom:15px;">
-    <img src="{{ page.image | relative_url }}" style="width:100%;display:block;">
-    <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.85);font-weight:300;font-size:9px;letter-spacing:0.5px;pointer-events:none;user-select:none;text-shadow:0 1px 3px rgba(0,0,0,0.6);">
-        দৈনিক চালচিত্র | dailychalchitra.com
-    </div>
-</div>
+  <img src="{{ page.image | relative_url }}" style="width:100%;border-radius:8px;margin-bottom:15px;">
   <span style="background:#C00000;color:white;padding:5px 10px;font-size:14px;border-radius:4px;">
     {{ page.categories | first }}
   </span>
   <h1 style="font-size:28px;margin:15px 0 2px;line-height:1.4;">
     <span style="display:inline-block;border-bottom:2px solid #ccc;padding-bottom:4px;">{{ page.title }}</span>
   </h1>
-  {% if page.author %}<p style="font-size:14px;color:#C00000;font-weight:400;margin:0;">লেখক: {{ page.author }}</p>{% endif %}
-  <p style="color:#777;font-size:10px;border-bottom:1px solid #eee;padding-bottom:8px;margin:2px 0 0;">
-  প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
-</p>
-  <div class="dc-post-body">
-  {{ content }}
-</div>
+  {% if page.author %}<p style="font-size:16px;color:#C00000;font-weight:400;font-style:normal;margin:0 0 2px;">লেখক: {{ page.author }}</p>{% endif %}
+  <p style="color:#777;font-size:13px;border-bottom:1px solid #eee;padding-bottom:8px;margin:2px 0 0;">
+    প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
+  </p>
+  <div style="font-size:17px;line-height:1.8;margin-top:10px;">
+    {{ content }}
+  </div>
+
+  {% if page.author %}
+  <div style="margin:30px 0 20px;padding:20px;background:#f9f9f9;border-radius:8px;border-left:4px solid #C00000;">
+    <h3 style="font-size:18px;color:#C00000;margin:0 0 15px;padding-bottom:10px;border-bottom:2px solid #eee;">
+      <i class="fa fa-user" style="margin-right:8px;"></i>{{ page.author }}-এর আরও লেখা
+    </h3>
+    <ul style="list-style:none;margin:0;padding:0;">
+      {% assign author_posts = site.posts | where: "author", page.author %}
+      {% assign other_posts = "" | split: "" %}
+      {% for post in author_posts %}
+        {% unless post.url == page.url %}
+          {% assign other_posts = other_posts | push: post %}
+        {% endunless %}
+      {% endfor %}
+      {% if other_posts.size > 0 %}
+        {% for post in other_posts %}
+        <li style="padding:10px 0;border-bottom:1px solid #eee;">
+          <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:#222;font-size:16px;font-weight:600;line-height:1.5;display:block;">
+            {{ post.title }}
+          </a>
+          <span style="font-size:12px;color:#999;margin-top:4px;display:block;">
+            <i class="far fa-clock"></i> {{ post.date | date: "%d %B, %Y" }}
+            {% if post.categories %}
+            &nbsp;|&nbsp;
+            <span style="background:#C00000;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;">{{ post.categories | first }}</span>
+            {% endif %}
+          </span>
+        </li>
+        {% endfor %}
+      {% else %}
+        <li style="padding:10px 0;color:#888;font-size:15px;">এই লেখকের আর কোনো লেখা এখনো প্রকাশিত হয়নি।</li>
+      {% endif %}
+    </ul>
+  </div>
+  {% endif %}
+
   <!-- ============================================================
-       DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / FOLLOW / VIEW WIDGET
+       DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
        ============================================================ -->
 
   <style>
-.dc-post-body p { margin-bottom: 8px; font-size: 18px; font-weight: 400; font-family: 'Noto Serif Bengali', serif; }
-.dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
-.dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
+  .dc-post-body p { margin-bottom: 1em; }
+  .dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; }
+  .dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
   .dc-engage-box {
     max-width: 760px;
     margin: 30px auto;
     padding: 0;
-    font-family: 'Noto Serif Bengali', serif;
+    font-family: 'SolaimanLipi', Arial, sans-serif;
   }
-
   .dc-reaction-row {
     display: flex;
     justify-content: flex-start;
@@ -78,19 +108,16 @@ layout: default
   .dc-love .dc-react-circle { background: #f33e58; }
   .dc-comment .dc-react-circle { background: #29b6f6; }
   .dc-share .dc-react-circle { background: #29b6f6; }
-  .dc-follow .dc-react-circle { background: #C00000; }
   .dc-react-btn.dc-active .dc-react-circle { box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
   .dc-react-label { font-size: 12px; color: #555; font-weight: 600; }
   .dc-react-btn.dc-active .dc-react-label { color: #111; }
   .dc-react-count { font-size: 13px; color: #333; font-weight: 700; }
-
   @media (max-width: 420px) {
     .dc-reaction-row { gap: 4px; justify-content: flex-start; margin-left: -8px; margin-right: 0; }
     .dc-react-btn { padding: 6px 6px; min-width: 0; flex: 0 0 auto; }
     .dc-react-circle { width: 38px; height: 38px; }
     .dc-react-label { font-size: 11px; }
   }
-
   .dc-view-only {
     display: flex;
     align-items: center;
@@ -100,7 +127,6 @@ layout: default
     padding: 12px 0 4px;
   }
   .dc-view-only svg { width: 18px; height: 18px; fill: #888; }
-
   .dc-comment-section { padding-top: 20px; display: none; }
   .dc-comment-section.dc-open { display: block; }
   .dc-comment-section h3 {
@@ -151,53 +177,6 @@ layout: default
     font-size: 12px; color: #C00000; font-weight: 600; cursor: pointer;
   }
   .dc-c-actions button:hover { text-decoration: underline; }
-
-  /* --- রিপ্লাই ফিচার --- */
-  .dc-reply-form{
-    margin:10px 0 0 18px;
-    display:none;
-    flex-direction:column;
-    gap:8px;
-  }
-  .dc-reply-form.dc-open{ display:flex; }
-  .dc-reply-form textarea{
-    resize:vertical;
-    min-height:50px;
-    padding:8px;
-    border:1px solid #ddd;
-    border-radius:6px;
-    font-size:13px;
-    font-family:inherit;
-  }
-  .dc-reply-submit{
-    align-self:flex-end;
-    background:#C00000;
-    color:#fff;
-    border:none;
-    padding:6px 16px;
-    border-radius:16px;
-    font-size:13px;
-    font-weight:600;
-    cursor:pointer;
-  }
-  .dc-reply-submit:disabled{ opacity:0.5; cursor:default; }
-  .dc-reply-list{
-    margin:10px 0 0 18px;
-    padding-left:14px;
-    border-left:2px solid #e5e5e5;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .dc-reply-item{
-    background:#fff;
-    border:1px solid #eee;
-    border-radius:6px;
-    padding:8px 10px;
-  }
-  .dc-reply-item .dc-c-name{ font-size:13px; }
-  .dc-reply-item .dc-c-text{ font-size:13px; }
-
   .dc-modal-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -245,7 +224,6 @@ layout: default
   </style>
 
   <div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
-
     <div class="dc-reaction-row">
       <button class="dc-react-btn dc-like" id="dc-like-btn">
         <span class="dc-react-circle">
@@ -254,7 +232,6 @@ layout: default
         <span class="dc-react-label">লাইক</span>
         <span class="dc-react-count" id="dc-like-count">0</span>
       </button>
-
       <button class="dc-react-btn dc-love" id="dc-love-btn">
         <span class="dc-react-circle">
           <svg viewBox="0 0 32 29.6" fill="currentColor"><path d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.3C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.6 0 8.4c0 6.4 7.4 11.7 16 21.2 8.6-9.5 16-14.8 16-21.2C32 3.6 28.2 0 23.6 0z"/></svg>
@@ -262,7 +239,6 @@ layout: default
         <span class="dc-react-label">ভালোলাগা</span>
         <span class="dc-react-count" id="dc-love-count">0</span>
       </button>
-
       <button class="dc-react-btn dc-comment" id="dc-comment-scroll-btn">
         <span class="dc-react-circle">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.2 1.1 4.2 2.9 5.7-.1.9-.5 2.4-1.5 3.9 0 0 2.5-.3 4.6-1.7C9.2 19.3 10.6 19.5 12 19.5c5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>
@@ -270,21 +246,12 @@ layout: default
         <span class="dc-react-label">মন্তব্য</span>
         <span class="dc-react-count" id="dc-comment-count">0</span>
       </button>
-
       <button class="dc-react-btn dc-share" id="dc-share-btn">
         <span class="dc-react-circle">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.1c-.8 0-1.5.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.6.5 1.3.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 2-.8l7 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 3 3 3s3-1.3 3-3-1.4-3.1-3-3.1z"/></svg>
         </span>
         <span class="dc-react-label">শেয়ার</span>
         <span class="dc-react-count" id="dc-share-count">0</span>
-      </button>
-
-      <button class="dc-react-btn dc-follow" id="dc-follow-btn">
-        <span class="dc-react-circle">
-          <svg viewBox="0 0 24 24" fill="currentColor" id="dc-follow-svg"><path d="M15 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>
-        </span>
-        <span class="dc-react-label" id="dc-follow-label">ফলো</span>
-        <span class="dc-react-count" id="dc-follow-count">0</span>
       </button>
     </div>
 
@@ -338,29 +305,20 @@ layout: default
   <script>
   document.addEventListener('DOMContentLoaded', function () {
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
-    const followRef = dcDB.ref('site_followers');
-
     const viewCountEl = document.getElementById('dc-view-count');
     const likeCountEl = document.getElementById('dc-like-count');
     const loveCountEl = document.getElementById('dc-love-count');
     const commentCountEl = document.getElementById('dc-comment-count');
     const shareCountEl = document.getElementById('dc-share-count');
-    const followCountEl = document.getElementById('dc-follow-count');
-    const followLabelEl = document.getElementById('dc-follow-label');
-
     const likeBtn = document.getElementById('dc-like-btn');
     const loveBtn = document.getElementById('dc-love-btn');
     const commentScrollBtn = document.getElementById('dc-comment-scroll-btn');
     const shareBtn = document.getElementById('dc-share-btn');
-    const followBtn = document.getElementById('dc-follow-btn');
-
     const commentList = document.getElementById('dc-comment-list');
     const commentInput = document.getElementById('dc-comment-input');
     const commentSubmit = document.getElementById('dc-comment-submit');
     const asNameEl = document.getElementById('dc-as-name');
-
     let hasCountedView = false;
-    let isFollowing = false;
 
     postRef.child('viewCount').on('value', function (snap) { viewCountEl.textContent = snap.val() || 0; });
     postRef.child('likeCount').on('value', function (snap) { likeCountEl.textContent = snap.val() || 0; });
@@ -368,43 +326,10 @@ layout: default
     postRef.child('shareCount').on('value', function (snap) { shareCountEl.textContent = snap.val() || 0; });
     postRef.child('comments').on('value', function (snap) {
       const data = snap.val();
-      // মন্তব্য গোনার সময় রিপ্লাইগুলোও যোগ করা হচ্ছে
-      let count = 0;
-      if (data) {
-        Object.values(data).forEach(function (c) {
-          count += 1;
-          if (c.replies) count += Object.keys(c.replies).length;
-        });
-      }
+      const count = data ? Object.keys(data).length : 0;
       commentCountEl.textContent = count;
       renderComments(data);
     });
-
-    followRef.on('value', function (snap) {
-      const data = snap.val();
-      const count = data ? Object.keys(data).length : 0;
-      followCountEl.textContent = count;
-    });
-
-    function dcEscape(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    function renderReplyItem(r, parentKey) {
-      const date = r.time ? new Date(r.time).toLocaleDateString('bn-BD') : '';
-      const isMine = dcCurrentUser && r.uid === dcCurrentUser.uid;
-      const actions = isMine
-        ? '<div class="dc-c-actions"><button class="dc-r-delete" data-parent="' + parentKey + '" data-key="' + r._key + '">ডিলিট</button></div>'
-        : '';
-      return '<div class="dc-reply-item">' +
-        '<span class="dc-c-name">' + dcEscape(r.name || 'অতিথি পাঠক') + '</span>' +
-        '<span class="dc-c-time">' + date + '</span>' +
-        '<div class="dc-c-text">' + dcEscape(r.text || '') + '</div>' +
-        actions +
-        '</div>';
-    }
 
     function renderComments(data) {
       if (!data) {
@@ -417,32 +342,17 @@ layout: default
         const date = c.time ? new Date(c.time).toLocaleDateString('bn-BD') : '';
         const isMine = dcCurrentUser && c.uid === dcCurrentUser.uid;
         const editedTag = c.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
-        const editDeleteActions = isMine
-          ? '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
-            '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>'
+        const actions = isMine
+          ? '<div class="dc-c-actions">' +
+              '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
+              '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>' +
+            '</div>'
           : '';
-
-        let repliesHtml = '';
-        if (c.replies) {
-          const replyItems = Object.keys(c.replies).map(function (rk) { return Object.assign({ _key: rk }, c.replies[rk]); });
-          replyItems.sort(function (a, b) { return (a.time || 0) - (b.time || 0); });
-          repliesHtml = '<div class="dc-reply-list">' + replyItems.map(function (r) { return renderReplyItem(r, c._key); }).join('') + '</div>';
-        }
-
         return '<div class="dc-comment-item">' +
           '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
           '<span class="dc-c-time">' + date + editedTag + '</span>' +
           '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
-          '<div class="dc-c-actions">' +
-            editDeleteActions +
-            '<button class="dc-c-reply-btn" data-key="' + c._key + '">উত্তর দিন</button>' +
-          '</div>' +
-          '<div class="dc-reply-form" id="dc-reply-form-' + c._key + '">' +
-            '<textarea class="dc-reply-input" placeholder="উত্তর লিখুন..."></textarea>' +
-            '<button class="dc-reply-submit" data-key="' + c._key + '">পাঠান</button>' +
-          '</div>' +
-          repliesHtml +
-          '</div>';
+          actions + '</div>';
       }).join('');
 
       commentList.querySelectorAll('.dc-c-edit').forEach(function (btn) {
@@ -464,57 +374,12 @@ layout: default
           }
         });
       });
+    }
 
-      // --- রিপ্লাই বাটন: ফর্ম খোলা/বন্ধ ---
-      commentList.querySelectorAll('.dc-c-reply-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const key = btn.dataset.key;
-          const form = document.getElementById('dc-reply-form-' + key);
-          if (!form) return;
-          form.classList.toggle('dc-open');
-          if (form.classList.contains('dc-open')) {
-            const ta = form.querySelector('.dc-reply-input');
-            setTimeout(function () { ta.focus(); }, 100);
-          }
-        });
-      });
-
-      // --- রিপ্লাই সাবমিট ---
-      commentList.querySelectorAll('.dc-reply-submit').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const key = btn.dataset.key;
-          const form = document.getElementById('dc-reply-form-' + key);
-          const ta = form.querySelector('.dc-reply-input');
-          const text = ta.value.trim();
-          if (!text) return;
-          if (!dcCurrentUser) { alert('একাউন্ট লোড হচ্ছে, একটু পর আবার চেষ্টা করুন।'); return; }
-          btn.disabled = true;
-          postRef.child('comments/' + key + '/replies').push().set({
-            uid: dcCurrentUser.uid,
-            name: dcDisplayName(),
-            text: text,
-            time: Date.now()
-          }).then(function () {
-            ta.value = '';
-            btn.disabled = false;
-          }).catch(function (err) {
-            console.error(err);
-            alert('উত্তরটি পাঠানো যায়নি। কারণ: ' + err.message);
-            btn.disabled = false;
-          });
-        });
-      });
-
-      // --- রিপ্লাই ডিলিট ---
-      commentList.querySelectorAll('.dc-r-delete').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const parentKey = btn.dataset.parent;
-          const key = btn.dataset.key;
-          if (confirm('উত্তরটি ডিলিট করতে চান?')) {
-            postRef.child('comments/' + parentKey + '/replies/' + key).remove();
-          }
-        });
-      });
+    function dcEscape(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
     }
 
     function countView() {
@@ -549,31 +414,10 @@ layout: default
       postRef.child('loves/' + dcCurrentUser.uid).once('value').then(function (snap) {
         loveBtn.classList.toggle('dc-active', !!snap.val());
       });
-      followRef.child(dcCurrentUser.uid).once('value').then(function (snap) {
-        isFollowing = !!snap.val();
-        updateFollowUI();
-      });
-    }
-
-    function updateFollowUI() {
-      followBtn.classList.toggle('dc-active', isFollowing);
-      followLabelEl.textContent = isFollowing ? 'ফলো করছেন' : 'ফলো';
     }
 
     likeBtn.addEventListener('click', function () { toggleReaction('likes', 'likeCount', likeBtn); });
     loveBtn.addEventListener('click', function () { toggleReaction('loves', 'loveCount', loveBtn); });
-
-    followBtn.addEventListener('click', function () {
-      if (!dcCurrentUser) return;
-      const userRef = followRef.child(dcCurrentUser.uid);
-      if (isFollowing) {
-        userRef.remove();
-      } else {
-        userRef.set(true);
-      }
-      isFollowing = !isFollowing;
-      updateFollowUI();
-    });
 
     commentScrollBtn.addEventListener('click', function () {
       var section = document.getElementById('dc-comment-section');
@@ -689,31 +533,23 @@ layout: default
   });
   </script>
 
-  <div style="margin-top:40px; padding-top:20px; border-top:1px solid #eee; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;">
-    
-    <a href="{{ site.baseurl }}/" style="color:#c62828; text-decoration:none; border-bottom:1px solid #c62828; padding-bottom:2px; font-size:16px;">
+  <div style="margin-top:40px;padding-top:20px;border-top:1px solid #eee;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+    <a href="{{ site.baseurl }}/" style="color:#c62828;text-decoration:none;border-bottom:1px solid #c62828;padding-bottom:2px;font-size:16px;">
       আরও পড়ুন
     </a>
-
     {% if page.next.url %}
-      <a href="{{ page.next.url | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:2px; font-size:16px;">
+      <a href="{{ page.next.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">
         নতুন পোস্ট
       </a>
     {% else %}
-      <span style="color:#999; border-bottom:1px solid #999; padding-bottom:2px; font-size:16px;">
-        নতুন পোস্ট
-      </span>
+      <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">নতুন পোস্ট</span>
     {% endif %}
-
     {% if page.previous.url %}
-      <a href="{{ page.previous.url | relative_url }}" style="color:#333; text-decoration:none; border-bottom:1px solid #333; padding-bottom:2px; font-size:16px;">
+      <a href="{{ page.previous.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">
         পুরোনো পোস্ট
       </a>
     {% else %}
-      <span style="color:#999; border-bottom:1px solid #999; padding-bottom:2px; font-size:16px;">
-        পুরোনো পোস্ট
-      </span>
+      <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">পুরোনো পোস্ট</span>
     {% endif %}
-
   </div>
 </article>
