@@ -2,9 +2,9 @@
 layout: page
 title: "আমাদের সম্পর্কে"
 permalink: /about/
-
-image: /assets/img/dailychalchitra.com.webp
 ---
+
+![দৈনিক চালচিত্র](/assets/img/dailychalchitra.com.webp)
 
 **দৈনিক চালচিত্র**
 এটি একটি বাংলা সাহিত্য ও সমসাময়িক চিন্তাচর্চার অনলাইন প্ল্যাটফর্ম।
