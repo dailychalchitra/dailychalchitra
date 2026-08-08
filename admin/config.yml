@@ -1,27 +1,27 @@
 backend:
-  name: github
-  repo: dailychalchitra/dailychalchitra
-  branch: main
+ name: github
+ repo: dailychalchitra/dailychalchitra
+ branch: main
 publish_mode: simple
 media_folder: "assets/img"
 public_folder: "/assets/img"
 collections:
-  - name: authors
-    label: উরকপ ভরাপস্জাং
-    folder: _authors
-    create: true
-    fields:
-      - {label: কপুজারন উদ্ড, কপুজারন, widget: string}
-  - name: blog
-    label: ভারাধ কেজ
-    folder: _posts
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - {label: ਦরাস্জ়,  name: title, widget: string}
-      - {label: ভরারাত, name: date, widget: datetime, format: "DD/MM/YYYY hh:mm i", picker_utc: false}
-      - {label: অতনব যূ�  জ঺, কপুজারন, widget: image}
-      - {label: কপুজারন, name: author, widget: relation, collection: authors, value_field: title, display_fields: [title], search_fields: [title]}
-      - {label: আকগ হি꧁সন, name: categories, widget: select, options: ["পরাঔ কব মইঈক্টীড দ�নাতাত", "যঅন্য়"]}
-      - {label: লনা পাওক্টী঄, name: tags, widget: select, multiple: true, allow_add: true, create: true, options: ["ࠦ�ুকেসফ ", "ࠦ�ান", "ওকঅক" ]}
-      - {label: যঈকঅ঍ক��, name: body, widget: text}
+ - name: authors
+ label: Authors
+ folder: _authors
+ create: true
+ fields:
+ - {label: Name, name: title, widget: string}
+ - name: blog
+ label: Blog
+ folder: _posts
+ create: true
+ slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+ fields:
+ - {label: Title, name: title, widget: string}
+ - {label: Date, name: date, widget: datetime}
+ - {label: Image, name: thumbnail, widget: image}
+ - {label: Author, name: author, widget: relation, collection: authors, value_field: title, display_fields: [title], search_fields: [title]}
+ - {label: Category, name: categories, widget: select, options: ["Bangladesh", "World"]}
+ - {label: SubCat, name: tags, widget: select, multiple: true, allow_add: true, create: true, options: ["Latest"]}
+ - {label: Body, name: body, widget: text}
