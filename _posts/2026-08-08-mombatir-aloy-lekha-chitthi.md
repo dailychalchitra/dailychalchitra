@@ -6,10 +6,10 @@ image: /assets/img/mombatir-aloy-lekha-chithi-1.webp
 author: "শামীম নিমু "
 categories:
   - প্রবন্ধ ও নিবন্ধ
-  - সাহিত্য বিভাগ
-  - শিক্ষা
 tags:
   - আন্তর্জাতিক
+  - সাহিত্য বিভাগ
+  - শিক্ষা
   - অপরাধ
   - প্রতিক্রিয়া
   - আলোচনা
