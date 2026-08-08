@@ -49,19 +49,13 @@ collections:
         public_folder: "/assets/img"
         required: false
 
-            - label: "লেখক"
+      - label: "লেখক"
         name: "author"
         widget: "relation"
         collection: "authors"
         value_field: "title"
         display_fields: ["title"]
         search_fields: ["title"]
-        required: false
-
-      - label: "লেখক (যদি তালিকায় না থাকে এখানে লিখুন)"
-        name: "author_custom"
-        widget: "string"
-        required: false
 
       - label: "মূল ক্যাটাগরি"
         name: "categories"
