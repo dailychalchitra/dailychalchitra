@@ -2,26 +2,152 @@ backend:
   name: github
   repo: dailychalchitra/dailychalchitra
   branch: main
-publish_mode: simple
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+publish_mode: editorial_workflow
+
 media_folder: "assets/img"
 public_folder: "/assets/img"
+
 collections:
-    - name: authors
-    label: লেখক তালিকা
-    folder: _authors
+
+  - name: "authors"
+    label: "লেখক তালিকা"
+    folder: "_authors"
     create: true
+    slug: "{{slug}}"
     fields:
-            - {label: লেখকের নাম, name: title, widget: string}
-    - name: blog
-    label: নিউজ পোস্ট
-    folder: _posts
+      - {label: "লেখকের নাম", name: "title", widget: "string"}
+      - {label: "পরিচিতি", name: "bio", widget: "text", required: false}
+      - {label: "ছবি", name: "image", widget: "image", required: false}
+
+  - name: "blog"
+    label: "নিউজ পোস্ট"
+    folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "{{slug}}"
     fields:
-            - {label: শিরোনাম, name: title, widget: string}
-            - {label: তারিখ, name: date, widget: datetime, format: "DD/MM/YYYY hh:mm A", picker_utc: false}
-            - {label: ফিচার ছবি, name: thumbnail, widget: image}
-            - {label: লেখক, name: author, widget: relation, collection: authors, value_field: title, display_fields: [title], search_fields: [title]}
-            - {label: মূল ক্যাটাগরি, name: categories, widget: select, options: ["বাংলাদেশ", "বিশ্ব", "সাহিত্য বিভাগ", "বিনোদন"]}
-            - {label: সাব ক্যাটাগরি - নতুন Tag লিখে Enter, name: tags, widget: select, multiple: true, allow_add: true, create: true, options: ["সর্বশেষ", "গল্প", "কবিতা"]}
-            - {label: বিস্তারিত - শুধু লেখা, name: body, widget: text}
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+
+      - label: "শিরোনাম"
+        name: "title"
+        widget: "string"
+
+      - label: "তারিখ ও সময়"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm:ss ZZ"
+        date_format: "DD/MM/YYYY"
+        time_format: "hh:mm A"
+        picker_utc: false
+
+      - label: "ফিচার ছবি"
+        name: "image"
+        widget: "image"
+        media_folder: "/assets/img"
+        public_folder: "/assets/img"
+        required: false
+
+      - label: "লেখক"
+        name: "author"
+        widget: "relation"
+        collection: "authors"
+        value_field: "title"
+        display_fields: ["title"]
+        search_fields: ["title"]
+
+      - label: "মূল ক্যাটাগরি"
+        name: "categories"
+        widget: "select"
+        multiple: true
+        options:
+          - "বাংলাদেশ"
+          - "বিশ্ব"
+          - "সংবাদ"
+          - "সাহিত্য বিভাগ"
+          - "বিনোদন"
+          - "শিক্ষা"
+          - "খেলাধুলা"
+          - "প্রযুক্তি"
+          - "মতামত"
+          - "প্রবাস"
+          - "ধর্ম বিষয়ক"
+          - "বাণিজ্য"
+          - "জীবনযাপন"
+          - "অন্যান্য"
+          - "কবিতা"
+          - "পদ্য কবিতা"
+          - "গদ্য কবিতা"
+          - "ছড়া কবিতা"
+          - "দ্রোহী কবিতা"
+          - "পদ্য কবিতা"
+          - "অনু কবিতা"
+          - "সনেট কবিতা"
+          - "গল্প"
+          - "ছোট গল্প"
+          - "বড় গল্প"
+          - "উপন্যাস"
+          - "প্রবন্ধ ও নিবন্ধ"
+          - "ভ্রমণ"
+          - "কৌতুক"
+          - "রম্যরচনা"
+
+      - label: "সাব ক্যাটাগরি / ট্যাগ"
+        name: "tags"
+        widget: "select"
+        multiple: true
+        options:
+          - "সর্বশেষ"
+          - "সাহিত্য"
+          - "কবিতা"
+          - "পদ্য কবিতা"
+          - "গদ্য কবিতা"
+          - "ছড়া কবিতা"
+          - "দ্রোহী কবিতা"
+          - "অনু কবিতা"
+          - "সনেট কবিতা"
+          - "লিমেরিক কবিতা"
+          - "গল্প"
+          - "ছোট গল্প"
+          - "বড় গল্প"
+          - "অনু গল্প"
+          - "সামাজিক গল্প"
+          - "ভালোবাসার গল্প"
+          - "জীবনমুখী গল্প"
+          - "উপন্যাস"
+          - "প্রবন্ধ ও নিবন্ধ"
+          - "রম্যরচনা"
+          - "কৌতুক"
+          - "ভ্রমণ"
+          - "বই পরিচিতি"
+          - "উক্তি"
+          - "সংবাদ"
+          - "বাংলাদেশ"
+          - "বিশ্ব"
+          - "খেলাধুলা"
+          - "ফুটবল"
+          - "ক্রিকেট"
+          - "বিনোদন"
+          - "গান"
+          - "চলচ্চিত্র"
+          - "নাটক"
+          - "প্রযুক্তি"
+          - "শিক্ষা"
+          - "মতামত"
+          - "সম্পাদকীয়"
+          - "কলাম"
+          - "প্রবাস"
+          - "ইসলাম"
+          - "সনাতন"
+          - "অর্থনীতি"
+          - "চাকরি"
+          - "পরিবেশ"
+
+      - label: "বিস্তারিত লেখা"
+        name: "body"
+        widget: "markdown"
+        editor_components: []
+        modes: ["raw", "rich_text"]
+        sanitize_pattern: ""
