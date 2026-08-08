@@ -15,6 +15,6 @@ collections:
             - {label: "Date", name: "date", widget: "datetime"}
             - {label: "Thumbnail", name: "thumbnail", widget: "image"}
             - {label: "Author", name: "author", widget: "string", required: false}
-            - {label: "Category", name: "categories", widget: "select", options: ["Bangladesh", "World", "Sahitya"]}
-            - {label: "Tags", name: "tags", widget: "select", multiple: true, allow_add: true, options: ["Latest", "Kobita"]}
+            - {label: "Category", name: "categories", widget: "select", options: ["Bangladesh", "World"]}
+            - {label: "Tags", name: "tags", widget: "select", multiple: true, options: ["Latest"]}
             - {label: "Body", name: "body", widget: "markdown"}
