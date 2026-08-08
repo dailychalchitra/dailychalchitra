@@ -5,18 +5,18 @@ backend:
 media_folder: "assets/img"
 public_folder: "/assets/img"
 collections:
-    - name: "blog"
+  - name: "blog"
     label: "নিউজ পোস্ট"
     folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-            - {label: "শিরোনাম", name: "title", widget: "string"}
-            - {label: "তারিখ", name: "date", widget: "datetime"}
-            - {label: "ফিচার ছবি", name: "thumbnail", widget: "image"}
-            - {label: "লেখক", name: "author", widget: "string", required: false}
-            - {label: "মূল ক্যাটাগরি", name: "categories", widget: "select", options: ["বাংলাদেশ", "বিশ্ব", "সাহিত্য বিভাগ", "বিনোদন", "শিক্ষা", "খেলাধুলা"]}
-            - {label: "সাব ক্যাটাগরি", name: "tags", widget: "select", multiple: true, allow_add: true, options: ["সর্বশেষ", "কবিতা", "গল্প", "উপন্যাস"]}
-            - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-            - {label: "SEO Description", name: "description", widget: "text", required: false}
-            - {label: "বিস্তারিত", name: "body", widget: "markdown"}
+      - {label: "শিরোনাম", name: "title", widget: "string"}
+      - {label: "তারিখ", name: "date", widget: "datetime"}
+      - {label: "ফিচার ছবি", name: "thumbnail", widget: "image"}
+      - {label: "লেখক", name: "author", widget: "string", required: false}
+      - {label: "মূল ক্যাটাগরি", name: "categories", widget: "select", options: ["বাংলাদেশ", "বিশ্ব", "সাহিত্য বিভাগ", "বিনোদন", "শিক্ষা", "খেলাধুলা"]}
+      - {label: "সাব ক্যাটাগরি", name: "tags", widget: "select", multiple: true, allow_add: true, options: ["সর্বশেষ", "কবিতা", "গল্প", "উপন্যাস"]}
+      - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
+      - {label: "SEO Description", name: "description", widget: "text", required: false}
+      - {label: "বিস্তারিত", name: "body", widget: "markdown"}
