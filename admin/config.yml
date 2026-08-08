@@ -5,16 +5,11 @@ backend:
 media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
 collections:
-    - name: "blog"
-    label: "News Post"
+  - name: "blog"
+    label: "Blog"
     folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-            - {label: "Title", name: "title", widget: "string"}
-            - {label: "Date", name: "date", widget: "datetime"}
-            - {label: "Thumbnail", name: "thumbnail", widget: "image"}
-            - {label: "Author", name: "author", widget: "string", required: false}
-            - {label: "Category", name: "categories", widget: "select", options: ["Bangladesh", "World"]}
-            - {label: "Tags", name: "tags", widget: "select", multiple: true, options: ["Latest"]}
-            - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
