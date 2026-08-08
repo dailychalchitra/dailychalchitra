@@ -6,22 +6,22 @@ publish_mode: simple
 media_folder: "assets/img"
 public_folder: "/assets/img"
 collections:
-  - name: authors
+    - name: authors
     label: Authors
     folder: _authors
     create: true
     fields:
-      - {label: Name, name: title, widget: string}
-  - name: blog
+            - {label: Name, name: title, widget: string}
+    - name: blog
     label: Blog
     folder: _posts
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - {label: Title, name: title, widget: string}
-      - {label: Date, name: date, widget: datetime}
-      - {label: Image, name: thumbnail, widget: image}
-      - {label: Author, name: author, widget: relation, collection: authors, value_field: title, display_fields: [title], search_fields: [title]}
-      - {label: Category, name: categories, widget: select, options: ["Bangladesh", "World"]}
-      - {label: SubCat New Allowed, name: tags, widget: select, multiple: true, allow_add: true, create: true, options: ["Latest"]}
-      - {label: Body Plain No Format, name: body, widget: text}
+            - {label: Title, name: title, widget: string}
+            - {label: Date, name: date, widget: datetime}
+            - {label: Image, name: thumbnail, widget: image}
+            - {label: Author, name: author, widget: relation, collection: authors, value_field: title, display_fields: [title], search_fields: [title]}
+            - {label: Category, name: categories, widget: select, options: ["Bangladesh", "World"]}
+            - {label: SubCat New Allowed, name: tags, widget: select, multiple: true, allow_add: true, create: true, options: ["Latest"]}
+            - {label: Body Plain No Format, name: body, widget: text}
