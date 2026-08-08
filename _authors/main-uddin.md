@@ -1,5 +1,5 @@
 ---
-title: main-uddin
+title: মাইন উদ্দিন
 bio: |-2
      ---
      title: মাইন উদ্দিন
