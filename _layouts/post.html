@@ -17,41 +17,6 @@ layout: default
     {{ content }}
   </div>
 
-  {% if page.author %}
-  <div style="margin:30px 0 20px;padding:20px;background:#f9f9f9;border-radius:8px;border-left:4px solid #C00000;">
-    <h3 style="font-size:18px;color:#C00000;margin:0 0 15px;padding-bottom:10px;border-bottom:2px solid #eee;">
-      <i class="fa fa-user" style="margin-right:8px;"></i>{{ page.author }}-এর আরও লেখা
-    </h3>
-    <ul style="list-style:none;margin:0;padding:0;">
-      {% assign author_posts = site.posts | where: "author", page.author %}
-      {% assign other_posts = "" | split: "" %}
-      {% for post in author_posts %}
-        {% unless post.url == page.url %}
-          {% assign other_posts = other_posts | push: post %}
-        {% endunless %}
-      {% endfor %}
-      {% if other_posts.size > 0 %}
-        {% for post in other_posts %}
-        <li style="padding:10px 0;border-bottom:1px solid #eee;">
-          <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:#222;font-size:16px;font-weight:600;line-height:1.5;display:block;">
-            {{ post.title }}
-          </a>
-          <span style="font-size:12px;color:#999;margin-top:4px;display:block;">
-            <i class="far fa-clock"></i> {{ post.date | date: "%d %B, %Y" }}
-            {% if post.categories %}
-            &nbsp;|&nbsp;
-            <span style="background:#C00000;color:#fff;padding:2px 7px;border-radius:3px;font-size:11px;">{{ post.categories | first }}</span>
-            {% endif %}
-          </span>
-        </li>
-        {% endfor %}
-      {% else %}
-        <li style="padding:10px 0;color:#888;font-size:15px;">এই লেখকের আর কোনো লেখা এখনো প্রকাশিত হয়নি।</li>
-      {% endif %}
-    </ul>
-  </div>
-  {% endif %}
-
   <!-- ============================================================
        DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
        ============================================================ -->
@@ -221,6 +186,59 @@ layout: default
     font-size: 22px; cursor: pointer; color: #999; background: none; border: none;
   }
   .dc-modal-error { color: #C00000; font-size: 13px; margin-bottom: 8px; display: none; }
+
+  /* লেখকের অন্য লেখা — দুই কলাম */
+  .dc-author-posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .dc-author-post-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+  }
+  .dc-author-post-item:nth-child(odd) {
+    border-right: none;
+  }
+  .dc-author-post-dot {
+    color: #C00000;
+    font-size: 10px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .dc-author-post-info { flex: 1; min-width: 0; }
+  .dc-author-post-cat {
+    display: inline-block;
+    background: #C00000;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .dc-author-post-title {
+    display: block;
+    color: #222;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .dc-author-post-title:hover { color: #C00000; }
+  .dc-author-post-date {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-top: 3px;
+  }
+  @media (max-width: 500px) {
+    .dc-author-posts-grid { grid-template-columns: 1fr; }
+    .dc-author-post-item:nth-child(odd) { border-right: none; }
+  }
   </style>
 
   <div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
@@ -278,6 +296,38 @@ layout: default
       </div>
     </div>
   </div>
+
+  <!-- লেখকের অন্য লেখা -->
+  {% if page.author %}
+  {% assign author_posts = site.posts | where: "author", page.author %}
+  {% assign other_posts = "" | split: "" %}
+  {% for post in author_posts %}
+    {% unless post.url == page.url %}
+      {% assign other_posts = other_posts | push: post %}
+    {% endunless %}
+  {% endfor %}
+  {% if other_posts.size > 0 %}
+  <div style="margin:28px 0 20px;padding:20px;background:#f9f9f9;border-radius:8px;">
+    <h3 style="font-size:17px;color:#C00000;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #eee;">
+      <i class="fa fa-user" style="margin-right:7px;"></i>{{ page.author }}-এর আরও লেখা
+    </h3>
+    <div class="dc-author-posts-grid">
+      {% for post in other_posts %}
+      <div class="dc-author-post-item">
+        <span class="dc-author-post-dot">●</span>
+        <div class="dc-author-post-info">
+          {% if post.categories %}
+          <span class="dc-author-post-cat">{{ post.categories | first }}</span>
+          {% endif %}
+          <a href="{{ post.url | relative_url }}" class="dc-author-post-title">{{ post.title }}</a>
+          <span class="dc-author-post-date"><i class="far fa-clock"></i> {{ post.date | date: "%d %B, %Y" }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
 
   <div class="dc-modal-overlay" id="dc-modal-overlay">
     <div class="dc-modal-box">
@@ -474,21 +524,16 @@ layout: default
     const loginBox = document.getElementById('dc-modal-login');
 
     document.getElementById('dc-open-signup').addEventListener('click', function (e) {
-      e.preventDefault();
-      overlay.classList.add('active');
+      e.preventDefault(); overlay.classList.add('active');
     });
     document.getElementById('dc-modal-close').addEventListener('click', function () {
       overlay.classList.remove('active');
     });
     document.getElementById('dc-switch-to-login').addEventListener('click', function (e) {
-      e.preventDefault();
-      signupBox.style.display = 'none';
-      loginBox.style.display = 'block';
+      e.preventDefault(); signupBox.style.display = 'none'; loginBox.style.display = 'block';
     });
     document.getElementById('dc-switch-to-signup').addEventListener('click', function (e) {
-      e.preventDefault();
-      loginBox.style.display = 'none';
-      signupBox.style.display = 'block';
+      e.preventDefault(); loginBox.style.display = 'none'; signupBox.style.display = 'block';
     });
 
     document.getElementById('dc-signup-submit').addEventListener('click', function () {
@@ -499,15 +544,10 @@ layout: default
       errEl.style.display = 'none';
       if (!name || !email || pass.length < 6) {
         errEl.textContent = 'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
-        errEl.style.display = 'block';
-        return;
+        errEl.style.display = 'block'; return;
       }
       dcSignUp(name, email, pass, function (err) {
-        if (err) {
-          errEl.textContent = err.message;
-          errEl.style.display = 'block';
-          return;
-        }
+        if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
         overlay.classList.remove('active');
         asNameEl.textContent = dcDisplayName();
         refreshReactionUI();
@@ -520,11 +560,7 @@ layout: default
       const errEl = document.getElementById('dc-login-error');
       errEl.style.display = 'none';
       dcLogIn(email, pass, function (err) {
-        if (err) {
-          errEl.textContent = err.message;
-          errEl.style.display = 'block';
-          return;
-        }
+        if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
         overlay.classList.remove('active');
         asNameEl.textContent = dcDisplayName();
         refreshReactionUI();
@@ -534,20 +570,14 @@ layout: default
   </script>
 
   <div style="margin-top:40px;padding-top:20px;border-top:1px solid #eee;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-    <a href="{{ site.baseurl }}/" style="color:#c62828;text-decoration:none;border-bottom:1px solid #c62828;padding-bottom:2px;font-size:16px;">
-      আরও পড়ুন
-    </a>
+    <a href="{{ site.baseurl }}/" style="color:#c62828;text-decoration:none;border-bottom:1px solid #c62828;padding-bottom:2px;font-size:16px;">আরও পড়ুন</a>
     {% if page.next.url %}
-      <a href="{{ page.next.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">
-        নতুন পোস্ট
-      </a>
+      <a href="{{ page.next.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">নতুন পোস্ট</a>
     {% else %}
       <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">নতুন পোস্ট</span>
     {% endif %}
     {% if page.previous.url %}
-      <a href="{{ page.previous.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">
-        পুরোনো পোস্ট
-      </a>
+      <a href="{{ page.previous.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">পুরোনো পোস্ট</a>
     {% else %}
       <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">পুরোনো পোস্ট</span>
     {% endif %}
