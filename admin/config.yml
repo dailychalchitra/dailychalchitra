@@ -214,11 +214,6 @@ collections:
                     - "বিশেষ সংখ্যা"
                     - "অনলাইন ভোট"
                     - "প্রতিষ্ঠা বার্ষিকী"
-
-      - label: "বিস্তারিত লেখা"
+            - label: "বিস্তারিত লেখা"
         name: "body"
         widget: "markdown"
-        editor_components: []
-        modes: ["raw", "rich_text"]
-        sanitize_pattern: ""
-        
