@@ -2,8 +2,9 @@ backend:
   name: github
   repo: dailychalchitra/dailychalchitra
   branch: main
-media_folder: assets/img
-public_folder: /assets/img
+publish_mode: simple
+media_folder: "assets/img"
+public_folder: "/assets/img"
 collections:
   - name: blog
     label: নিউজ পোস্ট
@@ -14,6 +15,6 @@ collections:
       - {label: শিরোনাম, name: title, widget: string}
       - {label: তারিখ, name: date, widget: datetime}
       - {label: ফিচার ছবি, name: thumbnail, widget: image}
-      - {label: লেখক, name: author, widget: string, required: false}
-      - {label: ক্যাটাগরি, name: categories, widget: select, options: [বাংলাদেশ, বিশ্ব, সাহিত্য, বিনোদন]}
+      - {label: লেখক, name: author, widget: string}
+      - {label: মূল ক্যাটাগরি, name: categories, widget: select, options: ["বাংলাদেশ", "বিশ্ব", "সাহিত্য বিভাগ", "বিনোদন"]}
       - {label: বিস্তারিত, name: body, widget: markdown}
