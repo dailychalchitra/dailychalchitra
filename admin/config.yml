@@ -1,20 +1,27 @@
 backend:
-  name: github
-  repo: dailychalchitra/dailychalchitra
-  branch: main
+ name: github
+ repo: dailychalchitra/dailychalchitra
+ branch: main
 publish_mode: simple
 media_folder: "assets/img"
 public_folder: "/assets/img"
 collections:
-  - name: blog
-    label: নিউজ পোস্ট
-    folder: _posts
-    create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    fields:
-      - {label: শিরোনাম, name: title, widget: string}
-      - {label: তারিখ, name: date, widget: datetime}
-      - {label: ফিচার ছবি, name: thumbnail, widget: image}
-      - {label: লেখক, name: author, widget: string}
-      - {label: মূল ক্যাটাগরি, name: categories, widget: select, options: ["বাংলাদেশ", "বিশ্ব", "সাহিত্য বিভাগ", "বিনোদন"]}
-      - {label: বিস্তারিত, name: body, widget: markdown}
+ - name: authors
+ label: লেখক তালিকা
+ folder: _authors
+ create: true
+ fields:
+ - {label: লেখকের নাম, name: title, widget: string}
+ - name: blog
+ label: নিউজ পোস্ট
+ folder: _posts
+ create: true
+ slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+ fields:
+ - {label: শিরোনাম, name: title, widget: string}
+ - {label: তারিখ, name: date, widget: datetime, format: "DD/MM/YYYY hh:mm A", picker_utc: false}
+ - {label: ফিচার ছবি, name: thumbnail, widget: image}
+ - {label: লেখক, name: author, widget: relation, collection: authors, value_field: title, display_fields: [title], search_fields: [title]}
+ - {label: মূল ক্যাটাগরি, name: categories, widget: select, options: ["বাংলাদেশ", "বিশ্ব", "সাহিত্য বিভাগ", "বিনোদন"]}
+ - {label: সাব ক্যাটাগরি, name: tags, widget: select, multiple: true, allow_add: true, create: true, options: ["সর্বশেষ", "গল্প", "কবিতা"]}
+ - {label: বিস্তারিত, name: body, widget: text}
