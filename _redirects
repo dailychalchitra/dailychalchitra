@@ -1,0 +1,8 @@
+# পুরনো Blogger Label গুলোকে নতুন Tag পেজে পাঠাও
+/search/label/পরিবেশ  /tag.html?tag=পরিবেশ  301
+/search/label/আলোচনা  /tag.html?tag=আলোচনা  301
+/search/label/শিক্ষাঙ্গন  /tag.html?tag=শিক্ষাঙ্গন  301
+/search/label/বিনোদন  /tag.html?tag=বিনোদন  301
+/search/label/ইসলামিক আদর্শ  /tag.html?tag=ইসলামিক আদর্শ  301
+/search/label/*  /tag.html  301
+/2026/05/adv.html  /  301
