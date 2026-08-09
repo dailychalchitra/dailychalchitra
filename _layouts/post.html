@@ -2,6 +2,12 @@
 layout: default
 ---
 <article style="max-width:800px;margin:20px auto;padding:15px;">
+  <div style="text-align:right;margin-bottom:12px;">
+  <a href="{{ '/epaper/' | relative_url }}" style="background:#C00000;color:#fff;padding:7px 16px;border-radius:6px;text-decoration:none;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
+    <i class="fa fa-newspaper" style="font-size:12px;"></i>
+    ই-পেপার
+  </a>
+</div>
   <img src="{{ page.image | relative_url }}" style="width:100%;border-radius:8px;margin-bottom:15px;">
   <span style="background:#C00000;color:white;padding:5px 10px;font-size:14px;border-radius:4px;">
     {{ page.categories | first }}
