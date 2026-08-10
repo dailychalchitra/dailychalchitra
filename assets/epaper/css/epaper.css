@@ -61,17 +61,167 @@
 .dc-year-btn{ padding:8px 16px; border:1.5px solid #C00000; border-radius:20px; background:#ffffff; color:#C00000; cursor:pointer; font-weight:600; transition:0.25s; }
 .dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
-@media print{
-     header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf{ display:none !important; }
-     #dc-epaper-page, .dc-viewer{ box-shadow:none !important; border:none !important; margin:0 !important; padding:8px !important; }
-     body *{ visibility:hidden; }
-     #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
-     #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; }
-     #dc-post-columns{ column-count:4 !important; column-gap:18px !important; column-fill:auto !important; text-align:justify !important; }
-     .dc-paper-head{ display:block !important; margin-bottom:5px !important; padding-bottom:5px !important; break-after:avoid !important; page-break-after:avoid !important; }
-     .dc-paper-logo{ max-width:130px !important; margin-bottom:2px !important; }
-     .kobita-pera.kobita-date{ break-inside:avoid !important; }
-   }
+@media print {
+  /* হেডার/মেনু/টুলবার লুকানো */
+  header, #my-new-header, #dc-side-menu,
+  .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf,
+  .menu-bar, .ticker-container, .footer-bottom-red {
+    display: none !important;
+  }
+
+  /* html/body রিসেট */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    visibility: hidden;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  /* শুধু ই-পেপার পেজ দেখানো */
+  #dc-epaper-page {
+    visibility: visible !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    box-shadow: none !important;
+    border: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: #fff !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  #dc-epaper-page * { visibility: visible !important; }
+
+  .dc-viewer {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* আধুনিক পেপার হেড */
+  .dc-paper-head {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 8px !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .dc-paper-logo {
+    display: block !important;
+    max-width: 160px !important;
+    margin: 0 auto 6px !important;
+  }
+
+  /* লোগোর নিচে চিকন লাল লাইন */
+  .dc-paper-head::after {
+    content: '' !important;
+    display: block !important;
+    width: 100% !important;
+    height: 2.5px !important;
+    background: #C00000 !important;
+    margin: 6px 0 10px !important;
+  }
+
+  /* লেখক ছবি + প্রচ্ছদ ছবি পাশাপাশি */
+  .dc-post-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .dc-post-card-header {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dc-post-card-header img {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+  }
+
+  .dc-post-card-cover {
+    flex: 1 !important;
+    max-height: 80px !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
+  }
+
+  /* শিরোনাম/লেখক/তারিখের উপরে ধূসর লাইন */
+  .dc-post-card-meta {
+    border-top: 1px solid #ccc !important;
+    padding-top: 6px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dc-post-card-meta h2 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    margin: 0 0 2px !important;
+    color: #111 !important;
+  }
+
+  .dc-post-card-meta .dc-cat-author {
+    font-size: 11px !important;
+    color: #555 !important;
+    margin: 0 0 2px !important;
+  }
+
+  .dc-post-card-meta .dc-post-date {
+    font-size: 10px !important;
+    color: #888 !important;
+  }
+
+  /* কলাম — ছোট লেখা ১ কলাম, বড় লেখা ৪ কলাম */
+  #dc-post-columns {
+    column-gap: 16px !important;
+    column-fill: balance !important;
+    text-align: justify !important;
+    height: auto !important;
+    min-height: 0 !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* লেখার দৈর্ঘ্য অনুযায়ী কলাম */
+  #dc-post-columns.dc-short {
+    column-count: 1 !important;
+  }
+
+  #dc-post-columns.dc-long {
+    column-count: 4 !important;
+  }
+
+  .dc-post-content {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+  }
+
+  .kobita-pera { break-inside: avoid !important; }
+  .kobita-pera.kobita-date { break-inside: avoid !important; }
+
+  @page {
+    margin: 0.4cm;
+    size: A4 portrait;
+  }
+
+  @page :blank { display: none !important; }
+}
 
 #dc-epaper-page.pdf-mode .dc-paper-head{ margin-bottom:4px !important; padding-bottom:4px !important; }
 #dc-epaper-page.pdf-mode .dc-paper-logo{ max-width:120px !important; }
