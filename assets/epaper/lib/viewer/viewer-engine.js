@@ -126,32 +126,62 @@ window.DCViewer = {
         return resultHtml.join("");
     },
     render(){
-        const box = document.getElementById("dc-post-columns");
-        if(!box) return; box.innerHTML = "";
-        if(!this.posts.length){
-            box.innerHTML = `<div class="dc-empty">এই সপ্তাহে (${this.issue}) কোনো পোস্ট পাওয়া যায়নি।</div>`;
-            this.updatePageInfo(); return;
-        }
-        const current = this.pages[this.currentPage - 1];
-        if(!current ||!current.length){ box.innerHTML = `<div class="dc-empty">এই পৃষ্ঠায় কোনো পোস্ট নেই।</div>`; return; }
-        current.forEach(post=>{
-            const card = document.createElement("article");
-            card.className = "dc-post-card";
-            let cleanContent = post.content || post.excerpt || "";
-            if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
-            else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
-            card.innerHTML = `
-                <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
-                ${post.image? `<img src="${post.image}" alt="${post.title}" loading="lazy" onerror="this.style.display='none'">` : ""}
+    const box = document.getElementById("dc-post-columns");
+    if(!box) return; box.innerHTML = "";
+    if(!this.posts.length){
+        box.innerHTML = `<div class="dc-empty">এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।</div>`;
+        this.updatePageInfo(); return;
+    }
+    const current = this.pages[0];
+    if(!current || !current.length){
+        box.innerHTML = `<div class="dc-empty">পোস্ট নেই।</div>`; return;
+    }
+
+    // মোট কনটেন্ট দৈর্ঘ্য মেপে কলাম ক্লাস সেট
+    const totalLength = current.reduce((sum, p) =>
+        sum + (p.content || p.excerpt || "").replace(/<[^>]+>/g,'').length, 0);
+    box.classList.remove('dc-short', 'dc-long');
+    box.classList.add(totalLength < 800 ? 'dc-short' : 'dc-long');
+
+    current.forEach(post => {
+        const card = document.createElement("article");
+        card.className = "dc-post-card";
+        let cleanContent = post.content || post.excerpt || "";
+        if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
+        else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
+
+        // লেখকের ছবি ও প্রচ্ছদ ছবি
+        const authorImg = post.authorImage
+            ? `<img src="${post.authorImage}" alt="${post.author}" class="dc-post-card-author-img">`
+            : '';
+        const coverImg = post.image
+            ? `<img src="${post.image}" alt="${post.title}" class="dc-post-card-cover">`
+            : '';
+
+        card.innerHTML = `
+            <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
+            <div class="dc-post-card-header">
+                ${authorImg}
+                ${coverImg}
+            </div>
+            <div class="dc-post-card-meta">
                 <h2>${post.title}</h2>
-                ${(post.category || post.author)? `<div class="dc-cat-author">${post.category? 'বিভাগ: '+post.category : ''}${post.category && post.author? ' | ' : ''}${post.author? 'লেখক: '+post.author : ''}</div>` : ""}
-                <div class="dc-post-content">${cleanContent}</div>
-            `;
-            card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => { e.preventDefault(); this.downloadSingleCard(card, post.title); });
-            box.appendChild(card);
+                <div class="dc-cat-author">
+                    ${post.category ? post.category : ''}
+                    ${post.author ? ' | লেখক: ' + post.author : ''}
+                </div>
+                ${post.date ? `<div class="dc-post-date">${post.date}</div>` : ''}
+            </div>
+            <div class="dc-post-content">${cleanContent}</div>
+        `;
+        card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => {
+            e.preventDefault();
+            this.downloadSingleCard(card, post.title);
         });
-        this.updatePageInfo();
-    },
+        box.appendChild(card);
+    });
+    this.updatePageInfo();
+},
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
         if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
