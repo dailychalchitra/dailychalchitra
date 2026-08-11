@@ -1,7 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - Rebuild v9.2.0
-   FIX: প্রিন্ট/PDF এ সম্পূর্ণ সপ্তাহের সবগুলো পাতা আলাদা page-break সহ
-   FIX: মোবাইল-স্ক্রিন মিডিয়া কোয়েরি প্রিন্টে যাতে লিক না করে (screen and)
+   Daily Chalchitra ePaper - Rebuild v10.0
+   FIX: Screen-only media queries + PDF capture support
    ========================================================== */
 .dc-epaper{ max-width:1200px; margin:40px auto; padding:20px; box-sizing:border-box; }
 .dc-epaper-title{ text-align:center; color:#C00000; font-size:34px; font-weight:900; margin-bottom:10px; font-family:'Noto Serif Bengali',serif !important; }
@@ -24,237 +23,52 @@
 #dc-meta{ text-align:center; color:#333; font-size:16px; margin-bottom:25px; line-height:1.6; }
 .dc-viewer-toolbar, .dc-controls{ display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; margin:20px auto; }
 .dc-viewer-toolbar button, .dc-controls button{ padding:8px 14px; border:none; border-radius:6px; background:#C00000; color:white; cursor:pointer; font-weight:600; }
+.dc-viewer-toolbar button:disabled{ opacity:0.6; cursor:not-allowed; }
 #dc-page-info{ font-weight:bold; }
 .dc-pdf-box{ width:100%; overflow:hidden; text-align:center; }
 #dc-epaper-page{ width:100%; max-width:900px; margin:20px auto; background:white; padding:30px; box-sizing:border-box; box-shadow:0 0 20px rgba(0,0,0,.05); border:1px solid #eee; }
-.dc-paper-head{ display:none; text-align:center; margin-bottom:8px !important; border-bottom:1.5px solid #000; padding-bottom:8px !important; }
-.dc-paper-logo{ display:block; max-width:160px !important; height:auto; margin:0 auto 4px auto !important; }
-#dc-post-columns{ column-count:3; column-gap:25px; text-align:justify; }
-.dc-post-card{ break-inside:avoid; page-break-inside:avoid; margin-bottom:10px !important; border-bottom:1px solid #e5e5e5; padding-bottom:8px !important; text-align:left; box-sizing:border-box; position:relative; background:#fff; }
-.dc-post-card img{ width:100%; border-radius:5px; margin-bottom:6px; height:auto; }
-.dc-post-card h2{ font-size:19px; margin:0 0 2px 0; line-height:1.25; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
-.dc-cat-author{ font-size:13px !important; color:#C00000 !important; margin:1px 0 4px 0 !important; border-left:3px solid #C00000; padding-left:8px; font-weight:600 !important; display:block !important; font-family:'Noto Sans Bengali',sans-serif !important; }
-.dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000 !important; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none !important; display:flex; align-items:center; gap:4px; z-index:2; }
-.dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* Kobita - GAP কমানো */
-.dc-post-card .dc-post-content{ font-family:'Noto Serif Bengali',serif !important; font-weight:400 !important; font-size:15px !important; line-height:1.4 !important; color:#222 !important; }
-.dc-post-card .dc-post-content p{ margin:0 !important; padding:0 !important; }
-.kobita-pera{ display:block !important; margin:0 0 4px 0 !important; padding:0 !important; line-height:1.35 !important; }
-.kobita-pera br{ display:block !important; content:""; margin-bottom:1px; }
-.kobita-pera.kobita-date{
-    display:block !important;
-    width:100% !important;
-    clear:both !important;
-    float:none !important;
-    margin-top:4px !important;
-    margin-bottom:0 !important;
-    text-align:left !important;
-    font-size:13px !important;
-    font-style:italic !important;
-    color:#555 !important;
-    border-top:none !important;
-    padding-top:0 !important;
-}
-#dc-epaper-page p:empty{ display:none !important; }
-.dc-post-card small{ display:none !important; }
+.dc-paper-head{ text-align:center; margin-bottom:8px; border-bottom:1.5px solid #000; padding-bottom:8px; }
+.dc-paper-logo{ display:block; max-width:160px; height:auto; margin:0 auto 6px auto; }
+.dc-paper-head-info{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; font-size:13px; color:#333; font-weight:600; }
+
+#dc-post-columns{ column-count:3; column-gap:25px; text-align:justify; }
+@media screen and (max-width:1100px){ #dc-post-columns{ column-count:2; } }
+@media screen and (max-width:700px){ #dc-post-columns{ column-count:1; text-align:left; } }
+
+.dc-post-card{ break-inside:avoid; page-break-inside:avoid; margin-bottom:10px; border-bottom:1px solid #e5e5e5; padding-bottom:8px; text-align:left; box-sizing:border-box; position:relative; background:#fff; }
+.dc-post-card-header{ display:flex; gap:10px; align-items:flex-start; margin-bottom:6px; }
+.dc-post-card-author-img{ width:50px; height:50px; object-fit:cover; border-radius:50%; flex-shrink:0; }
+.dc-post-card-cover{ width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:5px; display:block; }
+.dc-post-card h2{ font-size:17px; margin:0 0 2px 0; line-height:1.25; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+.dc-cat-author{ font-size:12px; color:#C00000; margin:1px 0 4px 0; border-left:3px solid #C00000; padding-left:8px; font-weight:600; display:block; font-family:'Noto Sans Bengali',sans-serif; }
+.dc-post-date{ font-size:11px; color:#888; margin-bottom:4px; }
+.dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none; display:flex; align-items:center; gap:4px; z-index:2; }
+.dc-mini-pdf:hover{ background:#C00000; color:#fff; }
+
+.dc-post-card .dc-post-content{ font-family:'Noto Serif Bengali',serif; font-weight:400; font-size:14px; line-height:1.4; color:#222; }
+.dc-post-card .dc-post-content p{ margin:0 0 6px 0; padding:0; }
+.kobita-pera{ display:block; margin:0 0 4px 0; padding:0; line-height:1.35; }
+.kobita-pera.kobita-date{ display:block; width:100%; margin-top:4px; text-align:left; font-size:12px; font-style:italic; color:#555; }
+#dc-epaper-page p:empty{ display:none; }
+.dc-post-card small{ display:none; }
+
 #dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
 .dc-year-btn{ padding:8px 16px; border:1.5px solid #C00000; border-radius:20px; background:#ffffff; color:#C00000; cursor:pointer; font-weight:600; transition:0.25s; }
 .dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
-/* ==========================================================
-   প্রিন্ট / PDF — সম্পূর্ণ সপ্তাহ একাধিক পাতায় (যুগান্তর-স্টাইল)
-   dc-print-flow অবস্থায় renderPrintAll() প্রতিটা ভার্চুয়াল পেজকে
-   .dc-print-page হিসেবে বসায়, প্রতিটার পর ফোর্সড page-break
-   ========================================================== */
-@media print {
-  header, #my-new-header, #dc-side-menu,
-  .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf,
-  .menu-bar, .ticker-container, .footer-bottom-red {
-    display: none !important;
-  }
+/* অফস্ক্রিন PDF ক্যাপচার পেজ */
+.dc-capture-page{ width:800px; background:#fff; padding:25px; box-sizing:border-box; }
+.dc-capture-page .dc-post-content{ font-size:13px !important; }
 
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: auto !important;
-    min-height: 0 !important;
-    visibility: hidden;
-    overflow: visible !important;
-    background: #fff !important;
-  }
-
-  #dc-epaper-page {
-    visibility: visible !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 12px !important;
-    box-shadow: none !important;
-    border: none !important;
-    height: auto !important;
-    min-height: 0 !important;
-    background: #fff !important;
-  }
-
-  #dc-epaper-page * { visibility: visible !important; }
-
-  .dc-viewer {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: auto !important;
-    min-height: 0 !important;
-  }
-
-  .dc-paper-head {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 8px !important;
-    break-inside: avoid !important;
-  }
-
-  .dc-paper-logo {
-    display: block !important;
-    max-width: 160px !important;
-    margin: 0 auto 6px !important;
-  }
-
-  .dc-paper-head::after {
-    content: '' !important;
-    display: block !important;
-    width: 100% !important;
-    height: 2.5px !important;
-    background: #C00000 !important;
-    margin: 6px 0 10px !important;
-  }
-
-  .dc-post-card {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-
-  .dc-post-card-header {
-    display: flex !important;
-    gap: 10px !important;
-    align-items: flex-start !important;
-    margin-bottom: 8px !important;
-  }
-
-  .dc-post-card-header img {
-    width: 60px !important;
-    height: 60px !important;
-    object-fit: cover !important;
-    border-radius: 50% !important;
-    flex-shrink: 0 !important;
-  }
-
-  .dc-post-card-cover {
-    flex: 1 !important;
-    max-height: 80px !important;
-    object-fit: cover !important;
-    border-radius: 4px !important;
-  }
-
-  .dc-post-card-meta {
-    border-top: 1px solid #ccc !important;
-    padding-top: 6px !important;
-    margin-bottom: 8px !important;
-  }
-
-  .dc-post-card-meta h2 {
-    font-size: 14px !important;
-    font-weight: 700 !important;
-    margin: 0 0 2px !important;
-    color: #111 !important;
-  }
-
-  .dc-post-card-meta .dc-cat-author {
-    font-size: 11px !important;
-    color: #555 !important;
-    margin: 0 0 2px !important;
-  }
-
-  .dc-post-card-meta .dc-post-date {
-    font-size: 10px !important;
-    color: #888 !important;
-  }
-
-  .dc-post-content {
-    font-size: 11px !important;
-    line-height: 1.6 !important;
-  }
-
-  .kobita-pera { break-inside: avoid !important; }
-  .kobita-pera.kobita-date { break-inside: avoid !important; }
-
-  /* বাইরের কন্টেইনার নিজে কলাম করবে না — প্রতিটা .dc-print-page নিজে কলাম করবে */
-  #dc-post-columns {
-    display: block !important;
-    column-count: auto !important;
-    height: auto !important;
-    min-height: 0 !important;
-  }
-
-  .dc-print-page {
-    column-gap: 16px !important;
-    column-fill: balance !important;
-    text-align: justify !important;
-    break-after: page !important;
-    page-break-after: always !important;
-  }
-
-  .dc-print-page:last-child {
-    break-after: auto !important;
-    page-break-after: auto !important;
-  }
-
-  .dc-print-page.dc-short { column-count: 1 !important; }
-  .dc-print-page.dc-long  { column-count: 4 !important; }
-
-  .dc-print-page-head {
-    font-size: 11px !important;
-    color: #666 !important;
-    text-align: center !important;
-    border-bottom: 1px solid #ccc !important;
-    padding-bottom: 4px !important;
-    margin-bottom: 8px !important;
-    break-after: avoid !important;
-  }
-
-  .dc-print-pagenum {
-    display: block !important;
-    text-align: center !important;
-    font-size: 10px !important;
-    color: #999 !important;
-    margin-top: 6px !important;
-    break-before: avoid !important;
-  }
-
-  @page {
-    margin: 0.4cm;
-    size: A4 portrait;
-  }
-
-  @page :blank { display: none !important; }
-}
-
-#dc-epaper-page.pdf-mode .dc-paper-head{ margin-bottom:4px !important; padding-bottom:4px !important; }
-#dc-epaper-page.pdf-mode .dc-paper-logo{ max-width:120px !important; }
-
-@media screen and (max-width:1100px){ #dc-post-columns{ column-count:2; } }
 @media screen and (max-width:700px){
   .dc-epaper{ padding:10px; margin:20px auto; }
   .dc-epaper-title{ font-size:24px; }
-  #dc-post-columns{ column-count:1; text-align:left; }
   #dc-epaper-page{ padding:12px; }
   .dc-viewer{ padding:8px; margin-top:10px; }
-  .dc-post-card h2{ font-size:16px !important; }
-  .dc-post-card .dc-post-content{ font-size:14px !important; }
-  .kobita-pera{ font-size:14px !important; }
+  .dc-post-card h2{ font-size:16px; }
+  .dc-post-card .dc-post-content{ font-size:14px; }
+  .kobita-pera{ font-size:14px; }
   #dc-title{ font-size:22px; }
 }
 @media screen and (max-width:599px){
@@ -263,4 +77,13 @@
   .dc-issue-card p{ display:none; }
   .dc-body{ padding:8px 0 0 0; }
   .dc-issue-card{ padding:8px; }
+}
+
+@media print{
+  header, #my-new-header, #dc-side-menu, .dc-viewer-toolbar, .dc-controls,
+  .dc-mini-pdf, .menu-bar, .ticker-container, .footer-bottom-red{ display:none !important; }
+  body *{ visibility:hidden; }
+  #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
+  #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; margin:0; padding:12px; box-shadow:none; border:none; }
+  @page{ margin:0.4cm; size:A4 portrait; }
 }
