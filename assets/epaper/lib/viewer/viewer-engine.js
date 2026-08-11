@@ -1,8 +1,8 @@
 /* ==========================================================
    Daily Chalchitra ePaper Engine - v12.0
-   FIX: ডাউনলোড PDF-এ সবসময় ৪ কলাম (আগের ডাইনামিক কলাম লজিক বাদ)
-   FIX: ছোট লেখা একা পাতা না নিয়ে আগের পাতার সাথে জুড়ে যাবে
-   FIX: মিনি PDF ডাউনলোডে সম্পূর্ণ সাদা পাতার বাগ (DOM attach সমস্যা)
+   FIX: "পুরো ই-পেপার PDF" এখন সবসময় ৪-কলাম ম্যানুয়াল গ্রিডে রেন্ডার হয়
+        (CSS column-count বাদ - html2canvas এ অনির্ভরযোগ্য ছিল)
+   FIX: ফাঁকা সাদা পেজ বাগ - ক্যাপচার wrapper পজিশনিং বদলানো হয়েছে
    ========================================================== */
 window.DCViewer = {
     version: "12.0",
@@ -79,29 +79,29 @@ window.DCViewer = {
         return height;
     },
 
-    // পাতা বিভাজন: টার্গেট উচ্চতা পার হলে নতুন পাতা শুরু হয়, কিন্তু বাকি অংশ
-    // (থেকে শেষ পর্যন্ত) যদি অল্প হয় তাহলে নতুন পাতা না বানিয়ে বর্তমান পাতাতেই
-    // জুড়ে দেওয়া হয় - এতে কোনো পাতা একা একটা ছোট লেখা নিয়ে ফাঁকা থাকে না।
+    /* ===== অন-স্ক্রিন রিডিং পেজিনেশন (আগের মতোই - এতে হাত দেওয়া হয়নি) ===== */
     buildPages(){
         this.pages = [];
         if(!this.posts.length){ this.totalPages = 0; this.currentPage = 1; this.render(); return; }
 
         const idealPageHeight = 1950;
         const heights = this.posts.map(p => this.estimatePostHeight(p));
+        const totalHeight = heights.reduce((a,b)=>a+b, 0);
+
+        let pageCount = Math.max(1, Math.round(totalHeight / idealPageHeight));
+        const targetHeight = totalHeight / pageCount;
 
         let page = [], used = 0;
         for(let i = 0; i < this.posts.length; i++){
+            const post = this.posts[i];
             const h = heights[i];
-            const wouldOverflow = used > 0 && (used + h > idealPageHeight);
-            if(wouldOverflow){
-                const remaining = heights.slice(i).reduce((a,b)=>a+b, 0);
-                if(remaining >= idealPageHeight * 0.45){
-                    this.pages.push([...page]);
-                    page = []; used = 0;
-                }
-                // অন্যথায়: বাকি অংশ কম, তাই বর্তমান পাতাতেই জুড়ে দেওয়া হচ্ছে
+            const remainingPagesNeeded = pageCount - this.pages.length;
+
+            if(used + h > targetHeight && page.length > 0 && remainingPagesNeeded > 1){
+                this.pages.push([...page]);
+                page = []; used = 0;
             }
-            page.push(this.posts[i]);
+            page.push(post);
             used += h;
         }
         if(page.length) this.pages.push(page);
@@ -158,44 +158,23 @@ window.DCViewer = {
         `;
     },
 
-    // একক লেখার PDF - এখন ক্লোনটাকে ডকুমেন্টে (অদৃশ্যভাবে) যোগ করে,
-    // ছবি লোড হওয়া নিশ্চিত করে, তারপর ক্যাপচার করে - তাই সাদা পাতা আর আসবে না
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
         if(btn){ btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; btn.style.pointerEvents='none'; }
-
-        const wrapper = document.createElement("div");
-        wrapper.style.position = "fixed";
-        wrapper.style.left = "-9999px";
-        wrapper.style.top = "0";
-        wrapper.style.width = "800px";
-        wrapper.style.background = "#ffffff";
-        document.body.appendChild(wrapper);
-
         try{
             const fileName = (title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
             const clone = card.cloneNode(true);
             clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
             clone.querySelectorAll("img").forEach(img=>{ img.setAttribute("crossorigin","anonymous"); img.style.maxWidth="100%"; });
-            wrapper.appendChild(clone);
-
-            await this.waitForImages(clone);
-            await new Promise(r => setTimeout(r, 150));
-
             await html2pdf().set({
                 margin: 10, filename: fileName,
                 image: {type:'jpeg', quality:0.92},
                 html2canvas: {scale:1.6, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
                 jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
             }).from(clone).save();
-        } catch(e){
-            console.error(e);
-            alert("PDF তৈরি করা যায়নি।");
-        } finally {
-            wrapper.remove();
-            if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; }
-        }
+        } catch(e){ alert("PDF তৈরি করা যায়নি।"); }
+        finally { if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; } }
     },
 
     render(){
@@ -209,6 +188,17 @@ window.DCViewer = {
         if(!current || !current.length){
             box.innerHTML = `<div class="dc-empty">পোস্ট নেই।</div>`; return;
         }
+
+        const totalLength = current.reduce((sum, p) =>
+            sum + (p.content || p.excerpt || "").replace(/<[^>]+>/g,'').length, 0);
+
+        let cols = this.columnCount;
+        if(current.length === 1) cols = 1;
+        else if(current.length === 2) cols = Math.min(cols, 2);
+        if(totalLength < 900) cols = 1;
+
+        box.style.columnCount = cols;
+        box.classList.toggle('dc-short-page', totalLength < 900 || current.length === 1);
 
         current.forEach(post => {
             const card = document.createElement("article");
@@ -239,24 +229,72 @@ window.DCViewer = {
     waitForImages(el){
         const imgs = el.querySelectorAll("img");
         return Promise.all(Array.from(imgs).map(img=>{
-            if(img.complete) return Promise.resolve();
+            if(img.complete && img.naturalWidth > 0) return Promise.resolve();
             return new Promise(resolve=>{
-                img.addEventListener("load", resolve);
-                img.addEventListener("error", resolve);
+                const done = ()=>resolve();
+                img.addEventListener("load", done, {once:true});
+                img.addEventListener("error", ()=>{ img.remove(); resolve(); }, {once:true});
+                setTimeout(()=>{ if(!img.complete){ img.remove(); } resolve(); }, 4000);
             });
         }));
     },
 
-    // পুরো সপ্তাহের PDF - প্রতিটা পাতা এখন সবসময় ৪ কলামে ক্যাপচার হয়
+    /* ==========================================================
+       পোস্টগুলোকে ক্রম ঠিক রেখে "কলাম" এ ভাগ করে - প্রতিটা কলামের
+       উচ্চতা সর্বোচ্চ targetColHeight পর্যন্ত ভরে তারপর পরের কলামে যায়।
+       ছোট লেখা হলে তার নিচেই পরের লেখা বসে যাবে (ফাঁকা জায়গা থাকবে না)।
+       ========================================================== */
+    splitIntoColumns(posts, heights, targetColHeight){
+        const columns = [];
+        let cur = [], curH = 0;
+        for(let i = 0; i < posts.length; i++){
+            const h = heights[i];
+            if(cur.length && curH + h > targetColHeight){
+                columns.push(cur);
+                cur = []; curH = 0;
+            }
+            cur.push(posts[i]);
+            curH += h;
+        }
+        if(cur.length) columns.push(cur);
+        return columns;
+    },
+
+    // পুরো সপ্তাহের সব লেখা সবসময় ৪-কলাম গ্রিডে ভাগ করে, যতগুলো পেজ প্রয়োজন ততগুলো তৈরি করে
+    buildPrintPages(){
+        const heights = this.posts.map(p => this.estimatePostHeight(p));
+        const targetColHeight = 1550; // একটা কলামের সর্বোচ্চ ধারণক্ষমতা (px)
+        const columns = this.splitIntoColumns(this.posts, heights, targetColHeight);
+
+        const printPages = [];
+        for(let i = 0; i < columns.length; i += 4){
+            printPages.push(columns.slice(i, i + 4)); // প্রতিটা পেজে সর্বোচ্চ ৪টা কলাম
+        }
+        if(printPages.length === 0 && this.posts.length){
+            printPages.push([this.posts]);
+        }
+        return printPages;
+    },
+
+    // পুরো সপ্তাহের সব পাতা ক্যাপচার করে একটাই multi-page PDF বানায় - সবসময় ৪-কলাম লেআউটে
     async generateFullPDF(issueMeta){
-        if(!this.pages.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
+        if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
 
+        const printPages = this.buildPrintPages();
+        if(!printPages.length){ alert("দেখানোর মতো কোনো লেখা পাওয়া যায়নি।"); return; }
+
+        const captureWidth = 1000;
+        const host = document.createElement("div");
+        host.style.position = "absolute";
+        host.style.top = "0"; host.style.left = "0";
+        host.style.width = "0"; host.style.height = "0";
+        host.style.overflow = "hidden";
+        document.body.appendChild(host);
+
         const wrapper = document.createElement("div");
-        wrapper.style.position = "fixed";
-        wrapper.style.left = "-9999px";
-        wrapper.style.top = "0";
-        document.body.appendChild(wrapper);
+        wrapper.style.width = captureWidth + "px";
+        host.appendChild(wrapper);
 
         try{
             const { jsPDF } = window.jspdf;
@@ -264,9 +302,10 @@ window.DCViewer = {
             const pageWidthMM = pdf.internal.pageSize.getWidth();
             const pageHeightMM = pdf.internal.pageSize.getHeight();
 
-            for(let i = 0; i < this.pages.length; i++){
+            for(let i = 0; i < printPages.length; i++){
                 const pageEl = document.createElement("div");
                 pageEl.className = "dc-capture-page";
+                pageEl.style.width = captureWidth + "px";
 
                 const headHTML = `
                     <div class="dc-paper-head">
@@ -274,27 +313,54 @@ window.DCViewer = {
                         <div class="dc-paper-head-info">
                             <span>সংখ্যা: ${issueMeta?.week || ""}</span>
                             <span>${issueMeta?.date || ""}</span>
-                            <span>পৃষ্ঠা ${i+1} / ${this.pages.length}</span>
+                            <span>পৃষ্ঠা ${i+1} / ${printPages.length}</span>
                         </div>
                     </div>`;
 
-                const columnsHTML = `<div id="dc-print-columns" style="column-count:4;column-gap:18px;text-align:justify;">
-                    ${this.pages[i].map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
-                </div>`;
+                const cols = printPages[i];
+                const colsHTML = cols.map(colPosts => `
+                    <div class="dc-print-col">
+                        ${colPosts.map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
+                    </div>
+                `).join("");
 
-                pageEl.innerHTML = headHTML + columnsHTML;
+                pageEl.innerHTML = headHTML + `<div class="dc-print-columns">${colsHTML}</div>`;
                 wrapper.innerHTML = "";
                 wrapper.appendChild(pageEl);
 
                 await this.waitForImages(pageEl);
-                await new Promise(r => setTimeout(r, 150));
+                await new Promise(r => setTimeout(r, 250));
 
-                const canvas = await html2canvas(pageEl, { scale:2, useCORS:true, backgroundColor:"#ffffff" });
+                const canvas = await html2canvas(pageEl, {
+                    scale: 2, useCORS: true, allowTaint: true,
+                    backgroundColor: "#ffffff", width: captureWidth,
+                    windowWidth: captureWidth
+                });
+
+                if(!canvas || canvas.width === 0 || canvas.height === 0){
+                    console.warn("পেজ", i+1, "ক্যাপচার ব্যর্থ হয়েছে, বাদ দেওয়া হচ্ছে।");
+                    continue;
+                }
+
                 const imgData = canvas.toDataURL("image/jpeg", 0.95);
-                const imgHeightMM = Math.min(canvas.height * pageWidthMM / canvas.width, pageHeightMM);
+                const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
 
                 if(i > 0) pdf.addPage();
-                pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
+
+                if(imgHeightMM <= pageHeightMM){
+                    pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
+                } else {
+                    let heightLeftMM = imgHeightMM;
+                    let positionMM = 0;
+                    let first = true;
+                    while(heightLeftMM > 0){
+                        if(!first) pdf.addPage();
+                        pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
+                        heightLeftMM -= pageHeightMM;
+                        positionMM -= pageHeightMM;
+                        first = false;
+                    }
+                }
             }
 
             const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-') + ".pdf";
@@ -304,7 +370,7 @@ window.DCViewer = {
             console.error(e);
             alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
         } finally {
-            wrapper.remove();
+            host.remove();
         }
     }
 };
