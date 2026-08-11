@@ -1,10 +1,11 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v11.0
-   FIX: ব্যালেন্সড পেজ বিভাজন - কোনো পাতা যেন ফাঁকা না লাগে
-   FIX: লেখা কম থাকলে কলাম সংখ্যা কমে গিয়ে পাতা পূর্ণ দেখায়
+   Daily Chalchitra ePaper Engine - v12.0
+   FIX: ডাউনলোড PDF-এ সবসময় ৪ কলাম (আগের ডাইনামিক কলাম লজিক বাদ)
+   FIX: ছোট লেখা একা পাতা না নিয়ে আগের পাতার সাথে জুড়ে যাবে
+   FIX: মিনি PDF ডাউনলোডে সম্পূর্ণ সাদা পাতার বাগ (DOM attach সমস্যা)
    ========================================================== */
 window.DCViewer = {
-    version: "11.0",
+    version: "12.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -78,28 +79,29 @@ window.DCViewer = {
         return height;
     },
 
+    // পাতা বিভাজন: টার্গেট উচ্চতা পার হলে নতুন পাতা শুরু হয়, কিন্তু বাকি অংশ
+    // (থেকে শেষ পর্যন্ত) যদি অল্প হয় তাহলে নতুন পাতা না বানিয়ে বর্তমান পাতাতেই
+    // জুড়ে দেওয়া হয় - এতে কোনো পাতা একা একটা ছোট লেখা নিয়ে ফাঁকা থাকে না।
     buildPages(){
         this.pages = [];
         if(!this.posts.length){ this.totalPages = 0; this.currentPage = 1; this.render(); return; }
 
         const idealPageHeight = 1950;
         const heights = this.posts.map(p => this.estimatePostHeight(p));
-        const totalHeight = heights.reduce((a,b)=>a+b, 0);
-
-        let pageCount = Math.max(1, Math.round(totalHeight / idealPageHeight));
-        const targetHeight = totalHeight / pageCount;
 
         let page = [], used = 0;
         for(let i = 0; i < this.posts.length; i++){
-            const post = this.posts[i];
             const h = heights[i];
-            const remainingPagesNeeded = pageCount - this.pages.length;
-
-            if(used + h > targetHeight && page.length > 0 && remainingPagesNeeded > 1){
-                this.pages.push([...page]);
-                page = []; used = 0;
+            const wouldOverflow = used > 0 && (used + h > idealPageHeight);
+            if(wouldOverflow){
+                const remaining = heights.slice(i).reduce((a,b)=>a+b, 0);
+                if(remaining >= idealPageHeight * 0.45){
+                    this.pages.push([...page]);
+                    page = []; used = 0;
+                }
+                // অন্যথায়: বাকি অংশ কম, তাই বর্তমান পাতাতেই জুড়ে দেওয়া হচ্ছে
             }
-            page.push(post);
+            page.push(this.posts[i]);
             used += h;
         }
         if(page.length) this.pages.push(page);
@@ -156,23 +158,44 @@ window.DCViewer = {
         `;
     },
 
+    // একক লেখার PDF - এখন ক্লোনটাকে ডকুমেন্টে (অদৃশ্যভাবে) যোগ করে,
+    // ছবি লোড হওয়া নিশ্চিত করে, তারপর ক্যাপচার করে - তাই সাদা পাতা আর আসবে না
     async downloadSingleCard(card, title){
         const btn = card.querySelector(".dc-mini-pdf");
         const old = btn? btn.innerHTML : "";
         if(btn){ btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; btn.style.pointerEvents='none'; }
+
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "fixed";
+        wrapper.style.left = "-9999px";
+        wrapper.style.top = "0";
+        wrapper.style.width = "800px";
+        wrapper.style.background = "#ffffff";
+        document.body.appendChild(wrapper);
+
         try{
             const fileName = (title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
             const clone = card.cloneNode(true);
             clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
             clone.querySelectorAll("img").forEach(img=>{ img.setAttribute("crossorigin","anonymous"); img.style.maxWidth="100%"; });
+            wrapper.appendChild(clone);
+
+            await this.waitForImages(clone);
+            await new Promise(r => setTimeout(r, 150));
+
             await html2pdf().set({
                 margin: 10, filename: fileName,
                 image: {type:'jpeg', quality:0.92},
                 html2canvas: {scale:1.6, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
                 jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
             }).from(clone).save();
-        } catch(e){ alert("PDF তৈরি করা যায়নি।"); }
-        finally { if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; } }
+        } catch(e){
+            console.error(e);
+            alert("PDF তৈরি করা যায়নি।");
+        } finally {
+            wrapper.remove();
+            if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; }
+        }
     },
 
     render(){
@@ -186,17 +209,6 @@ window.DCViewer = {
         if(!current || !current.length){
             box.innerHTML = `<div class="dc-empty">পোস্ট নেই।</div>`; return;
         }
-
-        const totalLength = current.reduce((sum, p) =>
-            sum + (p.content || p.excerpt || "").replace(/<[^>]+>/g,'').length, 0);
-
-        let cols = this.columnCount;
-        if(current.length === 1) cols = 1;
-        else if(current.length === 2) cols = Math.min(cols, 2);
-        if(totalLength < 900) cols = 1;
-
-        box.style.columnCount = cols;
-        box.classList.toggle('dc-short-page', totalLength < 900 || current.length === 1);
 
         current.forEach(post => {
             const card = document.createElement("article");
@@ -235,6 +247,7 @@ window.DCViewer = {
         }));
     },
 
+    // পুরো সপ্তাহের PDF - প্রতিটা পাতা এখন সবসময় ৪ কলামে ক্যাপচার হয়
     async generateFullPDF(issueMeta){
         if(!this.pages.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
@@ -265,8 +278,7 @@ window.DCViewer = {
                         </div>
                     </div>`;
 
-                const pageColCount = this.pages[i].length === 1 ? 1 : (this.pages[i].length === 2 ? 2 : 3);
-                const columnsHTML = `<div id="dc-print-columns" style="column-count:${pageColCount};column-gap:25px;text-align:justify;">
+                const columnsHTML = `<div id="dc-print-columns" style="column-count:4;column-gap:18px;text-align:justify;">
                     ${this.pages[i].map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
                 </div>`;
 
