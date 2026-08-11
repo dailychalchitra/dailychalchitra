@@ -1,198 +1,204 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v9.0.5
-   FIX: কবিতা সঠিকভাবে শনাক্ত (category + tags উভয় দিয়ে চেক)
+   Daily Chalchitra ePaper Engine - যুগান্তর স্টাইল
    ========================================================== */
 window.DCViewer = {
-    version: "9.0.5",
-    issue: null,
-    currentPage: 1,
-    totalPages: 0,
-    zoom: 1,
-    initialized: false,
-    isStarting: false,
-    posts: [],
-    pages: [],
-    container: null,
-    viewer: null,
-    columnCount: 3,
-    loading: false,
+    version:"9.1.0",
+    issue:null, currentPage:1, totalPages:1, zoom:1,
+    initialized:false, isStarting:false,
+    posts:[], pages:[],
+    container:null, viewer:null,
+    loading:false,
+
     init(issueId){
-        if(this.initialized && this.issue === issueId) return;
-        this.issue = decodeURIComponent(issueId || "");
-        this.currentPage = 1; this.totalPages = 0; this.zoom = 1;
-        this.posts = []; this.pages = []; this.loading = false; this.isStarting = false;
+        if(this.initialized && this.issue===issueId) return;
+        this.issue = decodeURIComponent(issueId||"");
+        this.currentPage=1; this.totalPages=1; this.zoom=1;
+        this.posts=[]; this.pages=[]; this.loading=false; this.isStarting=false;
         this.viewer = document.getElementById("dc-epaper-page");
         this.container = document.getElementById("dc-post-columns");
-        this.detectColumns(); this.initialized = true;
+        this.initialized=true;
     },
-    detectColumns(){
-        if(window.innerWidth <= 768) this.columnCount = 1;
-        else if(window.innerWidth <= 1100) this.columnCount = 2;
-        else this.columnCount = 3;
+
+    reset(){
+        this.posts=[]; this.pages=[];
+        this.currentPage=1; this.totalPages=1;
     },
-    resize(){ this.detectColumns(); this.buildPages(); },
-    reset(){ this.posts = []; this.pages = []; this.currentPage = 1; this.totalPages = 0; },
-    async loadPosts(){
-        this.loading = true;
-        const box = document.getElementById("dc-post-columns");
-        if(box) box.innerHTML = `<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> ই-পেপার লোড হচ্ছে...</div>`;
-        try{
-            const res = await fetch("/assets/epaper/issues/issues.json?v=" + Date.now());
-            if(!res.ok) throw new Error("issues.json not found");
-            const allIssues = await res.json();
-            const currentIssueData = allIssues.find(i => String(i.id).trim() === String(this.issue).trim());
-            if(currentIssueData && currentIssueData.posts && currentIssueData.posts.length > 0){
-                this.posts = currentIssueData.posts.map(post=>({
-                    title: (post.title || "").trim(), url: post.url || "", date: post.date || "",
-                    excerpt: post.excerpt || "", content: post.content || post.excerpt || "",
-                    image: post.image || "", category: post.category || "সাধারণ", author: post.author || "",
-                    tags: post.tags || []
-                }));
-            } else { this.posts = []; }
-            this.buildPages();
-        }catch(error){
-            if(this.container) this.container.innerHTML = `<div class="dc-empty">পোস্ট লোড করা যায়নি।</div>`;
-        }
-        this.loading = false;
-    },
+
     isKobita(post){
-        if(post.category && post.category.includes("কবিতা")) return true;
-        if(Array.isArray(post.tags)) return post.tags.some(t => (t||"").includes("কবিতা"));
+        if(post.category&&post.category.includes("কবিতা")) return true;
+        if(Array.isArray(post.tags)) return post.tags.some(t=>(t||"").includes("কবিতা"));
         return false;
     },
-    estimatePostHeight(post){
-        let height = 140;
-        if(post.image) height += 200;
-        if(post.title) height += Math.ceil(post.title.length / 26) * 30;
-        const plainText = (post.content || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-        if(this.isKobita(post)){
-            height += Math.ceil(plainText.length / 45) * 22 + 80;
-        } else {
-            height += Math.ceil(plainText.length / 85) * 18;
-        }
-        return height;
-    },
-    buildPages(){
-        this.pages = []; let page = []; let usedHeight = 0; 
-        const pageHeight = 1950; // 1550 ছিল, 1950 করলাম যাতে শেষ ৩ লাইন উপরে ধরে
-        this.posts.forEach(post=>{
-            const postHeight = this.estimatePostHeight(post);
-            if(usedHeight + postHeight > pageHeight && page.length > 0){
-                this.pages.push([...page]); page = []; usedHeight = 0;
-            }
-            page.push(post); usedHeight += postHeight;
-        });
-        if(page.length) this.pages.push(page);
-        this.totalPages = this.pages.length; this.render();
-    },
-    async downloadSingleCard(card, title){
-        const btn = card.querySelector(".dc-mini-pdf");
-        const old = btn? btn.innerHTML : "";
-        if(btn){ btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; btn.style.pointerEvents='none'; }
-        try{
-            const fileName = (title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
-            const clone = card.cloneNode(true);
-            clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
-            clone.querySelectorAll("img").forEach(img=>{ img.setAttribute("crossorigin","anonymous"); img.style.maxWidth="100%"; });
-            await html2pdf().set({
-                margin: 10, filename: fileName,
-                image: {type:'jpeg', quality:0.92},
-                html2canvas: {scale:1.6, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
-                jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
-            }).from(clone).save();
-        } catch(e){ alert("PDF তৈরি করা যায়নি।"); }
-        finally { if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; } }
-    },
+
     formatKobita(html){
         if(!html) return "";
-        let text = html.replace(/<hr[^>]*>/gi, "\n---\n");
-        text = text.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
-        text = text.replace(/<br\s*\/?>/gi, "\n");
-        text = text.replace(/<[^>]+>/g, "").trim();
+        let text = html.replace(/<hr[^>]*>/gi,"\n---\n");
+        text = text.replace(/<\/p>\s*<p[^>]*>/gi,"\n\n")
+                   .replace(/<p[^>]*>/gi,"").replace(/<\/p>/gi,"");
+        text = text.replace(/<br\s*\/?>/gi,"\n");
+        text = text.replace(/<[^>]+>/g,"").trim();
         let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
-        let resultHtml = []; let temp = [];
+        let result=[]; let temp=[];
         lines.forEach(line=>{
-            let clean = line.replace(/^\*+|\*+$/g, "").replace(/^\-+|\-+$/g, "").trim();
+            let clean = line.replace(/^\*+|\*+$/g,"").replace(/^\-+|\-+$/g,"").trim();
             if(!clean) return;
-            if(/রচনাকাল/i.test(clean)){
-                if(temp.length > 0){ resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`); temp = []; }
-                resultHtml.push(`<div class="kobita-pera kobita-date">${clean}</div>`);
+            if(/রচনাকাল|প্রকাশকাল|সংযোজন|প্রথম প্রকাশ|ছাতক|বর্তমানে|দোহা/i.test(clean)){
+                if(temp.length>0){ result.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`); temp=[]; }
+                result.push(`<div class="kobita-pera kobita-date">${clean}</div>`);
             } else {
                 temp.push(clean);
-                if(temp.length === 4){ resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`); temp = []; }
+                if(temp.length===4){ result.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`); temp=[]; }
             }
         });
-        if(temp.length > 0) resultHtml.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
-        return resultHtml.join("");
+        if(temp.length>0) result.push(`<div class="kobita-pera">${temp.join("<br>")}</div>`);
+        return result.join("");
     },
+
+    buildPages(){
+        this.pages=[];
+        if(this.posts.length>0) this.pages.push([...this.posts]);
+        this.totalPages = this.pages.length||1;
+        this.render();
+    },
+
     render(){
-    const box = document.getElementById("dc-post-columns");
-    if(!box) return; box.innerHTML = "";
-    if(!this.posts.length){
-        box.innerHTML = `<div class="dc-empty">এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।</div>`;
-        this.updatePageInfo(); return;
-    }
-    const current = this.pages[0];
-    if(!current || !current.length){
-        box.innerHTML = `<div class="dc-empty">পোস্ট নেই।</div>`; return;
-    }
+        const box = document.getElementById("dc-post-columns");
+        if(!box) return;
+        box.innerHTML="";
+        if(!this.posts.length){
+            box.innerHTML=`<div class="dc-empty">এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।</div>`;
+            this.updatePageInfo(); return;
+        }
+        const current = this.pages[0];
+        if(!current||!current.length){
+            box.innerHTML=`<div class="dc-empty">পোস্ট নেই।</div>`; return;
+        }
 
-    // মোট কনটেন্ট দৈর্ঘ্য মেপে কলাম ক্লাস সেট
-    const totalLength = current.reduce((sum, p) =>
-        sum + (p.content || p.excerpt || "").replace(/<[^>]+>/g,'').length, 0);
-    box.classList.remove('dc-short', 'dc-long');
-    box.classList.add(totalLength < 800 ? 'dc-short' : 'dc-long');
+        // বিভাজক রেখা যুক্ত করা
+        const divider = document.createElement("div");
+        divider.className="dc-section-divider";
+        box.before(divider);
 
-    current.forEach(post => {
-        const card = document.createElement("article");
-        card.className = "dc-post-card";
-        let cleanContent = post.content || post.excerpt || "";
-        if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
-        else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
+        current.forEach(post=>{
+            const card = document.createElement("article");
+            card.className="dc-post-card";
 
-        // লেখকের ছবি ও প্রচ্ছদ ছবি
-        const authorImg = post.authorImage
-            ? `<img src="${post.authorImage}" alt="${post.author}" class="dc-post-card-author-img">`
-            : '';
-        const coverImg = post.image
-            ? `<img src="${post.image}" alt="${post.title}" class="dc-post-card-cover">`
-            : '';
+            let cleanContent = post.content||post.excerpt||"";
+            if(this.isKobita(post)) cleanContent=this.formatKobita(cleanContent);
+            else {
+                cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi,"");
+                cleanContent = cleanContent.replace(/<img[^>]*>/gi,"");
+            }
 
-        card.innerHTML = `
-            <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
-            <div class="dc-post-card-header">
-                ${authorImg}
-                ${coverImg}
-            </div>
-            <div class="dc-post-card-meta">
-                <h2>${post.title}</h2>
-                <div class="dc-cat-author">
-                    ${post.category ? post.category : ''}
-                    ${post.author ? ' | লেখক: ' + post.author : ''}
+            const coverHtml = post.image
+                ? `<img src="${post.image}" alt="${post.title}" class="dc-card-cover" onerror="this.style.display='none'">`
+                : "";
+
+            const authorImg = post.authorImage
+                ? `<img src="${post.authorImage}" alt="${post.author}" class="dc-card-author-img" onerror="this.style.display='none'">`
+                : "";
+
+            const dateStr = post.date
+                ? new Date(post.date).toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'})
+                : "";
+
+            card.innerHTML=`
+                <a href="javascript:void(0)" class="dc-mini-pdf" title="PDF"><i class="fa fa-file-pdf"></i> PDF</a>
+                ${post.category ? `<span class="dc-card-category">${post.category}</span>` : ""}
+                <h3 class="dc-card-title">${post.title}</h3>
+                <div class="dc-card-author-line">
+                    ${authorImg}
+                    ${post.author ? `<span class="dc-card-author-name">✍ ${post.author}</span>` : ""}
                 </div>
-                ${post.date ? `<div class="dc-post-date">${post.date}</div>` : ''}
-            </div>
-            <div class="dc-post-content">${cleanContent}</div>
-        `;
-        card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => {
-            e.preventDefault();
-            this.downloadSingleCard(card, post.title);
+                ${coverHtml}
+                ${dateStr ? `<div class="dc-card-date">📅 ${dateStr}</div>` : ""}
+                <div class="dc-card-content">${cleanContent}</div>
+            `;
+
+            card.querySelector(".dc-mini-pdf").addEventListener("click",(e)=>{
+                e.preventDefault();
+                this.downloadSingleCard(card, post.title);
+            });
+            box.appendChild(card);
         });
-        box.appendChild(card);
-    });
-    this.updatePageInfo();
-},
+        this.updatePageInfo();
+    },
+
+    async downloadSingleCard(card, title){
+        const btn = card.querySelector(".dc-mini-pdf");
+        const old = btn?btn.innerHTML:"";
+        if(btn){ btn.innerHTML='<i class="fa fa-spinner fa-spin"></i>'; btn.style.pointerEvents='none'; }
+        try{
+            const fileName = (title||'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40)+".pdf";
+            const clone = card.cloneNode(true);
+            clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
+            clone.querySelectorAll("img").forEach(img=>{
+                img.setAttribute("crossorigin","anonymous");
+                img.style.maxWidth="100%";
+            });
+            await html2pdf().set({
+                margin:8, filename:fileName,
+                image:{type:'jpeg',quality:0.92},
+                html2canvas:{scale:1.6,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false},
+                jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+            }).from(clone).save();
+        }catch(e){ alert("PDF তৈরি করা যায়নি।"); }
+        finally{ if(btn){ btn.innerHTML=old; btn.style.pointerEvents='auto'; } }
+    },
+
     updatePageInfo(){
         const info = document.getElementById("dc-page-info");
-        if(info) info.innerHTML = `পৃষ্ঠা ${this.currentPage} / ${this.totalPages || 1}`;
+        if(info) info.innerHTML=`পৃষ্ঠা ${this.currentPage} / ${this.totalPages}`;
     },
-    nextPage(){ if(this.currentPage < this.totalPages){ this.currentPage++; this.render(); window.scrollTo({top:0, behavior:"smooth"}); } },
-    previousPage(){ if(this.currentPage > 1){ this.currentPage--; this.render(); window.scrollTo({top:0, behavior:"smooth"}); } },
+
+    nextPage(){ },
+    previousPage(){ },
+
     setZoom(value){
-        this.zoom = Math.max(0.5, Math.min(2, value));
+        this.zoom = Math.max(0.5,Math.min(2,value));
         const page = document.getElementById("dc-epaper-page");
-        if(page){ page.style.transform = `scale(${this.zoom})`; page.style.transformOrigin = "top center"; }
+        if(page){ page.style.transform=`scale(${this.zoom})`; page.style.transformOrigin="top center"; }
     },
-    async start(){ if(this.isStarting) return; this.isStarting = true; this.reset(); await this.loadPosts(); this.isStarting = false; }
+
+    async loadPosts(){
+        this.loading=true;
+        const box = document.getElementById("dc-post-columns");
+        if(box) box.innerHTML=`<div class="dc-empty"><i class="fa fa-spinner fa-spin"></i> লোড হচ্ছে...</div>`;
+        try{
+            const res = await fetch("/assets/epaper/issues/issues.json?v="+Date.now());
+            if(!res.ok) throw new Error("issues.json not found");
+            const allIssues = await res.json();
+            const issue = allIssues.find(i=>String(i.id).trim()===String(this.issue).trim());
+            if(issue&&issue.posts&&issue.posts.length>0){
+                this.posts = issue.posts.map(post=>({
+                    title:(post.title||"").trim(),
+                    url:post.url||"",
+                    date:post.date||"",
+                    excerpt:post.excerpt||"",
+                    content:post.content||post.excerpt||"",
+                    image:post.image||"",
+                    authorImage:post.authorImage||"",
+                    category:post.category||"",
+                    author:post.author||"",
+                    tags:post.tags||[]
+                }));
+            } else { this.posts=[]; }
+            this.buildPages();
+        }catch(err){
+            if(this.container) this.container.innerHTML=`<div class="dc-empty">পোস্ট লোড করা যায়নি।</div>`;
+        }
+        this.loading=false;
+    },
+
+    async start(){
+        if(this.isStarting) return;
+        this.isStarting=true;
+        this.reset();
+        await this.loadPosts();
+        this.isStarting=false;
+    }
 };
-window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
+
+window.addEventListener("resize",()=>{
+    if(window.DCViewer&&DCViewer.initialized) DCViewer.render();
+});
