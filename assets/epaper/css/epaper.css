@@ -1,346 +1,246 @@
 /* ==========================================================
-   Daily Chalchitra ePaper CSS - যুগান্তর স্টাইল
+   Daily Chalchitra ePaper - Rebuild v9.0.4 GAP FIX
+   FIX: লেখা ও স্তবকের গ্যাপ কমানো - শেষ ৩ লাইন উপরে তোলা
    ========================================================== */
+.dc-epaper{ max-width:1200px; margin:40px auto; padding:20px; box-sizing:border-box; }
+.dc-epaper-title{ text-align:center; color:#C00000; font-size:34px; font-weight:900; margin-bottom:10px; font-family:'Noto Serif Bengali',serif !important; }
+.dc-epaper-subtitle{ text-align:center; color:#666; margin-bottom:35px; font-size:16px; }
+#dc-issues, #dc-archive-list{ display:block; width:100%; }
+.dc-issue-grid{ display:grid !important; grid-template-columns:repeat(2,1fr); gap:14px; width:100%; }
+@media(min-width:600px){ .dc-issue-grid{ grid-template-columns:repeat(3,1fr); gap:20px; } }
+@media(min-width:1000px){ .dc-issue-grid{ grid-template-columns:repeat(4,1fr); } }
+.dc-issue-card{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:12px; transition:.25s; box-shadow:0 4px 12px rgba(0,0,0,.06); text-decoration:none; color:inherit; display:flex; flex-direction:column; }
+.dc-issue-card:hover{ transform:translateY(-4px); box-shadow:0 10px 22px rgba(0,0,0,.12); border-color:#C00000; }
+.dc-issue-card h3{ font-size:16px; color:#111; margin-bottom:8px; line-height:1.35; font-family:'Noto Serif Bengali',serif; font-weight:700; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:42px; }
+.dc-issue-card p{ color:#666; font-size:14px; margin-bottom:12px; flex-grow:1; }
+.dc-issue-card span{ display:inline-block; background:#C00000; color:#fff; padding:8px 16px; border-radius:6px; font-size:14px; font-weight:600; text-align:center; }
+.dc-cover{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:8px; }
+.dc-cover-fallback{ width:100%; aspect-ratio:4/3; background:#f3f3f3; display:flex; align-items:center; justify-content:center; color:#C00000; font-size:32px; border-radius:8px; }
+.dc-body{ padding:12px 0 0 0; }
+.dc-empty{ text-align:center; padding:80px 20px; color:#888; border:2px dashed #ddd; border-radius:10px; background:#fafafa; grid-column:1/-1; }
+.dc-viewer{ width:100%; max-width:900px; margin:30px auto; padding:20px; background:#ffffff; box-sizing:border-box; overflow-x:hidden; }
+#dc-title{ text-align:center; color:#C00000; font-size:32px; margin-bottom:8px; font-family:'Noto Serif Bengali',serif; font-weight:900; }
+#dc-meta{ text-align:center; color:#333; font-size:16px; margin-bottom:25px; line-height:1.6; }
+.dc-viewer-toolbar, .dc-controls{ display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; margin:20px auto; }
+.dc-viewer-toolbar button, .dc-controls button{ padding:8px 14px; border:none; border-radius:6px; background:#C00000; color:white; cursor:pointer; font-weight:600; }
+#dc-page-info{ font-weight:bold; }
+.dc-pdf-box{ width:100%; overflow:hidden; text-align:center; }
+#dc-epaper-page{ width:100%; max-width:900px; margin:20px auto; background:white; padding:30px; box-sizing:border-box; box-shadow:0 0 20px rgba(0,0,0,.05); border:1px solid #eee; }
+.dc-paper-head{ display:none; text-align:center; margin-bottom:8px !important; border-bottom:1.5px solid #000; padding-bottom:8px !important; }
+.dc-paper-logo{ display:block; max-width:160px !important; height:auto; margin:0 auto 4px auto !important; }
+#dc-post-columns{ column-count:3; column-gap:25px; text-align:justify; }
+.dc-post-card{ break-inside:avoid; page-break-inside:avoid; margin-bottom:10px !important; border-bottom:1px solid #e5e5e5; padding-bottom:8px !important; text-align:left; box-sizing:border-box; position:relative; background:#fff; }
+.dc-post-card img{ width:100%; border-radius:5px; margin-bottom:6px; height:auto; }
+.dc-post-card h2{ font-size:19px; margin:0 0 2px 0; line-height:1.25; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+.dc-cat-author{ font-size:13px !important; color:#C00000 !important; margin:1px 0 4px 0 !important; border-left:3px solid #C00000; padding-left:8px; font-weight:600 !important; display:block !important; font-family:'Noto Sans Bengali',sans-serif !important; }
+.dc-mini-pdf{ position:absolute; top:8px; right:8px; background:#fff; color:#C00000 !important; border:1.2px solid #C00000; padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600; text-decoration:none !important; display:flex; align-items:center; gap:4px; z-index:2; }
+.dc-mini-pdf:hover{ background:#C00000; color:#fff !important; }
 
-/* ===== ই-পেপার ইন্ডেক্স পেজ ===== */
-.dc-epaper { max-width:1200px; margin:0 auto; padding:20px 15px; }
-.dc-epaper-title { font-size:28px; font-weight:900; color:#111; margin:0; }
-.dc-epaper-subtitle { color:#666; font-size:15px; margin:8px 0 25px; text-align:center; }
+/* Kobita - GAP কমানো */
+.dc-post-card .dc-post-content{ font-family:'Noto Serif Bengali',serif !important; font-weight:400 !important; font-size:15px !important; line-height:1.4 !important; color:#222 !important; }
+.dc-post-card .dc-post-content p{ margin:0 !important; padding:0 !important; }
+.kobita-pera{ display:block !important; margin:0 0 4px 0 !important; padding:0 !important; line-height:1.35 !important; }
+.kobita-pera br{ display:block !important; content:""; margin-bottom:1px; }
+.kobita-pera.kobita-date{
+    display:block !important;
+    width:100% !important;
+    clear:both !important;
+    float:none !important;
+    margin-top:4px !important;
+    margin-bottom:0 !important;
+    text-align:left !important;
+    font-size:13px !important;
+    font-style:italic !important;
+    color:#555 !important;
+    border-top:none !important;
+    padding-top:0 !important;
+}
+#dc-epaper-page p:empty{ display:none !important; }
+.dc-post-card small{ display:none !important; }
+#dc-year-list{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
+.dc-year-btn{ padding:8px 16px; border:1.5px solid #C00000; border-radius:20px; background:#ffffff; color:#C00000; cursor:pointer; font-weight:600; transition:0.25s; }
+.dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
-.dc-issue-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
-  gap:22px;
-  margin-top:20px;
-}
-.dc-issue-card {
-  background:#fff;
-  border:1px solid #e5e5e5;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,0.06);
-  transition:0.2s;
-}
-.dc-issue-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.12); transform:translateY(-3px); }
-.dc-issue-cover { width:100%; height:180px; object-fit:cover; display:block; }
-.dc-issue-info { padding:14px 16px; }
-.dc-issue-title { font-size:16px; font-weight:700; color:#111; margin:0 0 6px; }
-.dc-issue-meta { font-size:13px; color:#888; margin-bottom:12px; }
-.dc-issue-btn {
-  display:inline-block;
-  background:#C00000;
-  color:#fff;
-  padding:8px 18px;
-  border-radius:5px;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-}
-.dc-issue-btn:hover { background:#8B0000; }
-.dc-empty { text-align:center; padding:40px; color:#888; font-size:16px; }
-
-/* ===== ভিউয়ার পেজ ===== */
-.dc-viewer { max-width:1000px; margin:0 auto; padding:20px 15px; }
-.dc-viewer-toolbar {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:16px 0;
-  padding:12px 0;
-  border-bottom:1px solid #eee;
-}
-.dc-viewer-toolbar button {
-  background:#C00000;
-  color:#fff;
-  border:none;
-  padding:9px 18px;
-  border-radius:5px;
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-}
-.dc-viewer-toolbar button:hover { background:#8B0000; }
-.dc-controls {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:10px 0 18px;
-}
-.dc-controls button {
-  background:#fff;
-  border:1px solid #ddd;
-  padding:7px 14px;
-  border-radius:5px;
-  font-size:14px;
-  cursor:pointer;
-  color:#333;
-}
-.dc-controls button:hover { background:#f5f5f5; border-color:#C00000; color:#C00000; }
-#dc-page-info { font-size:14px; color:#555; font-weight:600; }
-
-/* ===== ই-পেপার পেজ (যুগান্তর স্টাইল) ===== */
-.dc-pdf-box {
-  background:#f0f0f0;
-  padding:20px;
-  border-radius:8px;
-  margin-top:10px;
-}
-
-#dc-epaper-page {
-  background:#fff;
-  width:100%;
-  max-width:920px;
-  margin:0 auto;
-  padding:20px 24px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.15);
-  font-family:'Noto Serif Bengali', 'SolaimanLipi', serif;
-  position:relative;
-}
-
-/* পেজ হেড — লোগো + লাল লাইন */
-.dc-paper-head {
-  text-align:center;
-  border-bottom:3px solid #C00000;
-  padding-bottom:10px;
-  margin-bottom:14px;
-}
-.dc-paper-logo {
-  max-width:200px;
-  height:auto;
-  display:block;
-  margin:0 auto 6px;
-}
-.dc-paper-head-info {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:11px;
-  color:#555;
-  margin-top:6px;
-}
-
-/* বিভাজন রেখা */
-.dc-section-divider {
-  width:100%;
-  height:2px;
-  background:linear-gradient(to right, #C00000, #8B0000, #C00000);
-  margin:10px 0;
-}
-
-/* পোস্ট কলাম */
-#dc-post-columns {
-  column-count:4;
-  column-gap:18px;
-  column-rule:1px solid #ddd;
-  column-fill:auto;
-  text-align:justify;
-}
-@media(max-width:768px){
-  #dc-post-columns { column-count:2; }
-}
-@media(max-width:480px){
-  #dc-post-columns { column-count:1; }
-}
-
-/* পোস্ট কার্ড */
-.dc-post-card {
-  break-inside:avoid;
-  page-break-inside:avoid;
-  margin-bottom:16px;
-  padding-bottom:14px;
-  border-bottom:1px solid #e5e5e5;
-  position:relative;
-}
-.dc-post-card:last-child { border-bottom:none; }
-
-/* কার্ড হেড — ক্যাটাগরি + শিরোনাম */
-.dc-card-category {
-  font-size:10px;
-  font-weight:700;
-  color:#fff;
-  background:#C00000;
-  padding:2px 7px;
-  border-radius:2px;
-  display:inline-block;
-  margin-bottom:5px;
-  letter-spacing:0.3px;
-}
-.dc-card-title {
-  font-size:13.5px;
-  font-weight:700;
-  line-height:1.45;
-  margin:0 0 5px;
-  color:#111;
-  border-bottom:1.5px solid #ddd;
-  padding-bottom:5px;
-}
-.dc-card-author-line {
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:6px;
-}
-.dc-card-author-img {
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  object-fit:cover;
-  flex-shrink:0;
-  border:1px solid #ddd;
-}
-.dc-card-author-name {
-  font-size:10px;
-  color:#C00000;
-  font-weight:600;
-}
-.dc-card-cover {
-  width:100%;
-  height:80px;
-  object-fit:cover;
-  border-radius:3px;
-  display:block;
-  margin-bottom:6px;
-}
-.dc-card-date {
-  font-size:10px;
-  color:#999;
-  margin-bottom:5px;
-}
-.dc-card-content {
-  font-size:11.5px;
-  line-height:1.65;
-  color:#222;
-}
-.dc-card-content p { margin:0 0 4px; }
-
-/* কবিতা */
-.kobita-pera {
-  display:block;
-  margin:0 0 8px;
-  font-size:11.5px;
-  line-height:1.7;
-}
-.kobita-pera.kobita-date {
-  font-size:10px;
-  color:#777;
-  font-style:italic;
-  margin-top:6px;
-}
-
-/* মিনি PDF বাটন */
-.dc-mini-pdf {
-  position:absolute;
-  top:0;
-  right:0;
-  background:#C00000;
-  color:#fff;
-  font-size:9px;
-  padding:2px 6px;
-  border-radius:3px;
-  text-decoration:none;
-  font-weight:700;
-  cursor:pointer;
-}
-.dc-mini-pdf:hover { background:#8B0000; }
-
-/* ===== প্রিন্ট স্টাইল ===== */
 @media print {
+  /* হেডার/মেনু/টুলবার লুকানো */
   header, #my-new-header, #dc-side-menu,
   .dc-viewer-toolbar, .dc-controls, .dc-mini-pdf,
-  .menu-bar, .ticker-container, .footer-bottom-red,
-  nav, aside, .header, .dc-pdf-box > *:not(#dc-epaper-page) {
-    display:none !important;
+  .menu-bar, .ticker-container, .footer-bottom-red {
+    display: none !important;
   }
 
+  /* html/body রিসেট */
   html, body {
-    margin:0 !important;
-    padding:0 !important;
-    height:auto !important;
-    min-height:0 !important;
-    visibility:hidden;
-    overflow:visible !important;
-    background:#fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    visibility: hidden;
+    overflow: visible !important;
+    background: #fff !important;
   }
 
-  .dc-pdf-box {
-    background:#fff !important;
-    padding:0 !important;
-  }
-
+  /* শুধু ই-পেপার পেজ দেখানো */
   #dc-epaper-page {
-    visibility:visible !important;
-    position:absolute !important;
-    left:0 !important;
-    top:0 !important;
-    width:100% !important;
-    max-width:100% !important;
-    margin:0 !important;
-    padding:0.4cm !important;
-    box-shadow:none !important;
-    border:none !important;
-    height:auto !important;
-    min-height:0 !important;
-    background:#fff !important;
-    page-break-after:avoid !important;
-    break-after:avoid !important;
+    visibility: visible !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    box-shadow: none !important;
+    border: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: #fff !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 
-  #dc-epaper-page * { visibility:visible !important; }
+  #dc-epaper-page * { visibility: visible !important; }
 
+  .dc-viewer {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* আধুনিক পেপার হেড */
   .dc-paper-head {
-    text-align:center !important;
-    border-bottom:3px solid #C00000 !important;
-    padding-bottom:8px !important;
-    margin-bottom:10px !important;
-    break-after:avoid !important;
-    page-break-after:avoid !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 8px !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
   }
 
   .dc-paper-logo {
-    max-width:180px !important;
-    display:block !important;
-    margin:0 auto 4px !important;
+    display: block !important;
+    max-width: 160px !important;
+    margin: 0 auto 6px !important;
   }
 
-  .dc-section-divider {
-    height:2px !important;
-    background:#C00000 !important;
-    margin:6px 0 !important;
+  /* লোগোর নিচে চিকন লাল লাইন */
+  .dc-paper-head::after {
+    content: '' !important;
+    display: block !important;
+    width: 100% !important;
+    height: 2.5px !important;
+    background: #C00000 !important;
+    margin: 6px 0 10px !important;
   }
 
-  #dc-post-columns {
-    column-count:4 !important;
-    column-gap:14px !important;
-    column-rule:1px solid #ddd !important;
-    column-fill:balance !important;
-    text-align:justify !important;
-    height:auto !important;
-    min-height:0 !important;
-    page-break-after:avoid !important;
-    break-after:avoid !important;
-  }
-
+  /* লেখক ছবি + প্রচ্ছদ ছবি পাশাপাশি */
   .dc-post-card {
-    break-inside:avoid !important;
-    page-break-inside:avoid !important;
-    margin-bottom:10px !important;
-    padding-bottom:8px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
-  .dc-card-title { font-size:12px !important; }
-  .dc-card-content { font-size:10px !important; line-height:1.6 !important; }
-  .dc-card-cover { height:60px !important; }
-  .kobita-pera { font-size:10px !important; line-height:1.6 !important; }
-  .kobita-pera.kobita-date { break-inside:avoid !important; }
+  .dc-post-card-header {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dc-post-card-header img {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+  }
+
+  .dc-post-card-cover {
+    flex: 1 !important;
+    max-height: 80px !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
+  }
+
+  /* শিরোনাম/লেখক/তারিখের উপরে ধূসর লাইন */
+  .dc-post-card-meta {
+    border-top: 1px solid #ccc !important;
+    padding-top: 6px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dc-post-card-meta h2 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    margin: 0 0 2px !important;
+    color: #111 !important;
+  }
+
+  .dc-post-card-meta .dc-cat-author {
+    font-size: 11px !important;
+    color: #555 !important;
+    margin: 0 0 2px !important;
+  }
+
+  .dc-post-card-meta .dc-post-date {
+    font-size: 10px !important;
+    color: #888 !important;
+  }
+
+  /* কলাম — ছোট লেখা ১ কলাম, বড় লেখা ৪ কলাম */
+  #dc-post-columns {
+    column-gap: 16px !important;
+    column-fill: balance !important;
+    text-align: justify !important;
+    height: auto !important;
+    min-height: 0 !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* লেখার দৈর্ঘ্য অনুযায়ী কলাম */
+  #dc-post-columns.dc-short {
+    column-count: 1 !important;
+  }
+
+  #dc-post-columns.dc-long {
+    column-count: 4 !important;
+  }
+
+  .dc-post-content {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+  }
+
+  .kobita-pera { break-inside: avoid !important; }
+  .kobita-pera.kobita-date { break-inside: avoid !important; }
 
   @page {
-    margin:0.5cm;
-    size:A4 portrait;
+    margin: 0.4cm;
+    size: A4 portrait;
   }
 
-  @page :blank { display:none !important; }
+  @page :blank { display: none !important; }
+}
+
+#dc-epaper-page.pdf-mode .dc-paper-head{ margin-bottom:4px !important; padding-bottom:4px !important; }
+#dc-epaper-page.pdf-mode .dc-paper-logo{ max-width:120px !important; }
+@media(max-width:1100px){ #dc-post-columns{ column-count:2; } }
+@media(max-width:700px){
+  .dc-epaper{ padding:10px; margin:20px auto; }
+  .dc-epaper-title{ font-size:24px; }
+  #dc-post-columns{ column-count:1; text-align:left; }
+  #dc-epaper-page{ padding:12px; }
+  .dc-viewer{ padding:8px; margin-top:10px; }
+  .dc-post-card h2{ font-size:16px !important; }
+  .dc-post-card .dc-post-content{ font-size:14px !important; }
+  .kobita-pera{ font-size:14px !important; }
+  #dc-title{ font-size:22px; }
+}
+@media(max-width:599px){
+  .dc-cover, .dc-cover-fallback{ aspect-ratio:2/1 !important; }
+  .dc-issue-card h3{ font-size:13px; -webkit-line-clamp:1; min-height:auto; }
+  .dc-issue-card p{ display:none; }
+  .dc-body{ padding:8px 0 0 0; }
+  .dc-issue-card{ padding:8px; }
 }
