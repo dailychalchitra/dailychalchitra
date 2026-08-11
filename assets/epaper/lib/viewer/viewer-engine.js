@@ -1,9 +1,10 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v10.0
-   FIX: currentPage বাগ + সম্পূর্ণ সপ্তাহের PDF জেনারেশন
+   Daily Chalchitra ePaper Engine - v11.0
+   FIX: ব্যালেন্সড পেজ বিভাজন - কোনো পাতা যেন ফাঁকা না লাগে
+   FIX: লেখা কম থাকলে কলাম সংখ্যা কমে গিয়ে পাতা পূর্ণ দেখায়
    ========================================================== */
 window.DCViewer = {
-    version: "10.0",
+    version: "11.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -76,19 +77,35 @@ window.DCViewer = {
         }
         return height;
     },
+
     buildPages(){
-        this.pages = []; let page = []; let usedHeight = 0;
-        const pageHeight = 1950;
-        this.posts.forEach(post=>{
-            const postHeight = this.estimatePostHeight(post);
-            if(usedHeight + postHeight > pageHeight && page.length > 0){
-                this.pages.push([...page]); page = []; usedHeight = 0;
+        this.pages = [];
+        if(!this.posts.length){ this.totalPages = 0; this.currentPage = 1; this.render(); return; }
+
+        const idealPageHeight = 1950;
+        const heights = this.posts.map(p => this.estimatePostHeight(p));
+        const totalHeight = heights.reduce((a,b)=>a+b, 0);
+
+        let pageCount = Math.max(1, Math.round(totalHeight / idealPageHeight));
+        const targetHeight = totalHeight / pageCount;
+
+        let page = [], used = 0;
+        for(let i = 0; i < this.posts.length; i++){
+            const post = this.posts[i];
+            const h = heights[i];
+            const remainingPagesNeeded = pageCount - this.pages.length;
+
+            if(used + h > targetHeight && page.length > 0 && remainingPagesNeeded > 1){
+                this.pages.push([...page]);
+                page = []; used = 0;
             }
-            page.push(post); usedHeight += postHeight;
-        });
+            page.push(post);
+            used += h;
+        }
         if(page.length) this.pages.push(page);
+
         this.totalPages = this.pages.length;
-        if(this.currentPage > this.totalPages) this.currentPage = 1;
+        if(this.currentPage > this.totalPages || this.currentPage < 1) this.currentPage = 1;
         this.render();
     },
 
@@ -115,7 +132,6 @@ window.DCViewer = {
         return resultHtml.join("");
     },
 
-    // একটা পোস্টের কার্ড HTML বানায় — render() ও PDF ক্যাপচার দুই জায়গায় ব্যবহৃত হয়
     buildCardHTML(post, withPdfBtn){
         let cleanContent = post.content || post.excerpt || "";
         if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
@@ -166,7 +182,6 @@ window.DCViewer = {
             box.innerHTML = `<div class="dc-empty">এই সপ্তাহে কোনো পোস্ট পাওয়া যায়নি।</div>`;
             this.updatePageInfo(); return;
         }
-        // বাগ ফিক্স: আগে সবসময় pages[0] দেখাতো, এখন currentPage অনুযায়ী দেখাবে
         const current = this.pages[this.currentPage - 1];
         if(!current || !current.length){
             box.innerHTML = `<div class="dc-empty">পোস্ট নেই।</div>`; return;
@@ -174,8 +189,14 @@ window.DCViewer = {
 
         const totalLength = current.reduce((sum, p) =>
             sum + (p.content || p.excerpt || "").replace(/<[^>]+>/g,'').length, 0);
-        box.classList.remove('dc-short', 'dc-long');
-        box.classList.add(totalLength < 800 ? 'dc-short' : 'dc-long');
+
+        let cols = this.columnCount;
+        if(current.length === 1) cols = 1;
+        else if(current.length === 2) cols = Math.min(cols, 2);
+        if(totalLength < 900) cols = 1;
+
+        box.style.columnCount = cols;
+        box.classList.toggle('dc-short-page', totalLength < 900 || current.length === 1);
 
         current.forEach(post => {
             const card = document.createElement("article");
@@ -214,7 +235,6 @@ window.DCViewer = {
         }));
     },
 
-    // পুরো সপ্তাহের সব পাতা ক্যাপচার করে একটাই multi-page PDF বানায়
     async generateFullPDF(issueMeta){
         if(!this.pages.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
@@ -245,7 +265,8 @@ window.DCViewer = {
                         </div>
                     </div>`;
 
-                const columnsHTML = `<div id="dc-print-columns" style="column-count:3;column-gap:25px;text-align:justify;">
+                const pageColCount = this.pages[i].length === 1 ? 1 : (this.pages[i].length === 2 ? 2 : 3);
+                const columnsHTML = `<div id="dc-print-columns" style="column-count:${pageColCount};column-gap:25px;text-align:justify;">
                     ${this.pages[i].map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
                 </div>`;
 
@@ -254,7 +275,7 @@ window.DCViewer = {
                 wrapper.appendChild(pageEl);
 
                 await this.waitForImages(pageEl);
-                await new Promise(r => setTimeout(r, 150)); // রিফ্লো নিশ্চিত করা
+                await new Promise(r => setTimeout(r, 150));
 
                 const canvas = await html2canvas(pageEl, { scale:2, useCORS:true, backgroundColor:"#ffffff" });
                 const imgData = canvas.toDataURL("image/jpeg", 0.95);
