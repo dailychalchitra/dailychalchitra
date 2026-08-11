@@ -1,5 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Viewer - v9.1.0
+   Daily Chalchitra ePaper Viewer - v10.0
+   FIX: ডাউনলোড বাটন এখন html2canvas+jsPDF দিয়ে সব পাতা ক্যাপচার করে
    ========================================================== */
 document.addEventListener("DOMContentLoaded", async ()=>{
     const title = document.getElementById("dc-title");
@@ -16,32 +17,11 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     const params = new URLSearchParams(window.location.search);
     const issueId = params.get("issue");
 
+    let currentIssueMeta = null;
+
     function updatePageInfo(){
         if(!window.DCViewer||!pageInfo) return;
         pageInfo.innerHTML=`পৃষ্ঠা ${DCViewer.currentPage} / ${DCViewer.totalPages||1}`;
-    }
-
-    function fixHeightForPrint(){
-        const viewer = document.querySelector("#dc-epaper-page");
-        if(!viewer) return {viewer:null};
-        const orig_minH = viewer.style.minHeight;
-        const orig_H = viewer.style.height;
-        const orig_mT = viewer.style.marginTop;
-        const h = viewer.scrollHeight;
-        viewer.style.minHeight = h+"px";
-        viewer.style.height = h+"px";
-        viewer.style.marginTop = "0px";
-        viewer.style.top = "0px";
-        return {viewer, orig_minH, orig_H, orig_mT};
-    }
-
-    function restoreAfterPrint({viewer, orig_minH, orig_H, orig_mT}){
-        if(!viewer) return;
-        setTimeout(()=>{
-            viewer.style.minHeight = orig_minH;
-            viewer.style.height = orig_H;
-            viewer.style.marginTop = orig_mT;
-        },1000);
     }
 
     if(!issueId){
@@ -60,10 +40,11 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             return;
         }
 
+        currentIssueMeta = issue;
+
         if(title) title.textContent = issue.title||"ই-পেপার";
         if(meta) meta.innerHTML=`<strong>প্রকাশ:</strong> ${issue.date} &nbsp;|&nbsp; <strong>মোট লেখা:</strong> ${issue.count} টি`;
 
-        // পেপার হেডে তারিখ/সংখ্যা তথ্য যুক্ত
         const headInfo = document.querySelector(".dc-paper-head-info");
         if(headInfo){
             headInfo.innerHTML=`
@@ -90,23 +71,24 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         zoomInBtn?.addEventListener("click",()=>DCViewer.setZoom((DCViewer.zoom||1)+0.1));
         zoomOutBtn?.addEventListener("click",()=>DCViewer.setZoom(Math.max(0.5,(DCViewer.zoom||1)-0.1)));
 
+        // "পুরো ই-পেপার PDF" — এখন সব পাতা html2canvas দিয়ে ক্যাপচার হয়ে একটাই PDF হবে
         if(downloadBtn){
-            downloadBtn.onclick=()=>{
-                const viewer = document.querySelector("#dc-epaper-page");
-                if(!viewer||viewer.innerHTML.includes("লোড হচ্ছে")){
+            downloadBtn.onclick = async ()=>{
+                if(!window.DCViewer || !DCViewer.pages.length){
                     alert("ই-পেপার লোড হচ্ছে, একটু পর চেষ্টা করুন।"); return;
                 }
-                const saved = fixHeightForPrint();
-                alert("প্রিন্ট ডায়ালগ খুলবে — \"Save as PDF\" বেছে নিন।");
-                setTimeout(()=>{ window.print(); restoreAfterPrint(saved); },300);
+                const orig = downloadBtn.innerHTML;
+                downloadBtn.disabled = true;
+                downloadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
+                await DCViewer.generateFullPDF(currentIssueMeta);
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = orig;
             };
         }
 
+        // "প্রিন্ট" — শুধু বর্তমান পাতা ব্রাউজার প্রিন্ট ডায়ালগে
         if(printBtn){
-            printBtn.onclick=()=>{
-                const saved = fixHeightForPrint();
-                setTimeout(()=>{ window.print(); restoreAfterPrint(saved); },300);
-            };
+            printBtn.onclick = ()=>{ window.print(); };
         }
 
         if(fullscreenBtn){
