@@ -1,6 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Viewer - v10.0
-   FIX: ডাউনলোড বাটন এখন html2canvas+jsPDF দিয়ে সব পাতা ক্যাপচার করে
+   Daily Chalchitra ePaper Viewer - v11.0
+   ADDED: Issue dropdown + Page dropdown (Jugantor style navigation)
    ========================================================== */
 document.addEventListener("DOMContentLoaded", async ()=>{
     const title = document.getElementById("dc-title");
@@ -14,6 +14,16 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     const zoomOutBtn = document.getElementById("dc-zoom-out");
     const pageInfo = document.getElementById("dc-page-info");
 
+    const issueDropdown = document.getElementById("dc-issue-dropdown");
+    const issueBtn = document.getElementById("dc-issue-btn");
+    const issueLabel = document.getElementById("dc-issue-label");
+    const issueMenu = document.getElementById("dc-issue-menu");
+
+    const pageDropdown = document.getElementById("dc-page-dropdown");
+    const pageBtn = document.getElementById("dc-page-btn");
+    const pageMenu = document.getElementById("dc-page-menu");
+    const bottomAllPagesBtn = document.getElementById("dc-bottom-allpages");
+
     const params = new URLSearchParams(window.location.search);
     const issueId = params.get("issue");
 
@@ -22,6 +32,63 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     function updatePageInfo(){
         if(!window.DCViewer||!pageInfo) return;
         pageInfo.innerHTML=`পৃষ্ঠা ${DCViewer.currentPage} / ${DCViewer.totalPages||1}`;
+        buildPageMenu();
+    }
+
+    // ===== ড্রপডাউন খোলা/বন্ধ করার সাধারণ লজিক =====
+    function closeAllDropdowns(){
+        issueDropdown?.classList.remove("open");
+        pageDropdown?.classList.remove("open");
+    }
+    issueBtn?.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        const wasOpen = issueDropdown.classList.contains("open");
+        closeAllDropdowns();
+        if(!wasOpen) issueDropdown.classList.add("open");
+    });
+    pageBtn?.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        const wasOpen = pageDropdown.classList.contains("open");
+        closeAllDropdowns();
+        if(!wasOpen) pageDropdown.classList.add("open");
+    });
+    document.addEventListener("click", ()=> closeAllDropdowns());
+
+    bottomAllPagesBtn?.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        closeAllDropdowns();
+        pageDropdown.classList.add("open");
+        pageDropdown.scrollIntoView({behavior:"smooth", block:"center"});
+    });
+
+    // ===== "সকল পাতা" ড্রপডাউন লিস্ট বানানো =====
+    function buildPageMenu(){
+        if(!pageMenu || !window.DCViewer || !DCViewer.pages) return;
+        if(!DCViewer.pages.length){
+            pageMenu.innerHTML = `<div class="dc-dd-loading">কোনো পাতা পাওয়া যায়নি।</div>`;
+            return;
+        }
+        pageMenu.innerHTML = DCViewer.pages.map((p, idx)=>{
+            const pageNum = idx + 1;
+            const isActive = pageNum === DCViewer.currentPage;
+            const firstTitle = (p[0] && p[0].title) ? p[0].title : "";
+            return `<button type="button" class="dc-dd-item ${isActive?'active':''}" data-page="${pageNum}">
+                পৃষ্ঠা ${pageNum}${firstTitle ? ' — ' + firstTitle : ''}
+                <span>${p.length} টি লেখা</span>
+            </button>`;
+        }).join("");
+
+        pageMenu.querySelectorAll(".dc-dd-item").forEach(item=>{
+            item.addEventListener("click", ()=>{
+                const num = parseInt(item.dataset.page, 10);
+                if(!num || !window.DCViewer) return;
+                DCViewer.currentPage = num;
+                DCViewer.render();
+                updatePageInfo();
+                closeAllDropdowns();
+                window.scrollTo({top:0, behavior:"smooth"});
+            });
+        });
     }
 
     if(!issueId){
@@ -44,6 +111,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
         if(title) title.textContent = issue.title||"ই-পেপার";
         if(meta) meta.innerHTML=`<strong>প্রকাশ:</strong> ${issue.date} &nbsp;|&nbsp; <strong>মোট লেখা:</strong> ${issue.count} টি`;
+        if(issueLabel) issueLabel.textContent = issue.title || "সংখ্যা নির্বাচন";
 
         const headInfo = document.querySelector(".dc-paper-head-info");
         if(headInfo){
@@ -52,6 +120,18 @@ document.addEventListener("DOMContentLoaded", async ()=>{
                 <span>${issue.date}</span>
                 <span>মোট লেখা: ${issue.count}</span>
             `;
+        }
+
+        // ===== ইস্যু ড্রপডাউন পপুলেট =====
+        if(issueMenu){
+            const sortedIssues = [...issues].sort((a,b)=> String(b.id).localeCompare(String(a.id)));
+            issueMenu.innerHTML = sortedIssues.map(iss=>{
+                const isActive = String(iss.id) === String(issue.id);
+                return `<a href="/epaper/viewer/?issue=${encodeURIComponent(iss.id)}" class="dc-dd-item ${isActive?'active':''}">
+                    ${iss.title || iss.id}
+                    <span>${iss.date || ''}</span>
+                </a>`;
+            }).join("");
         }
 
         if(window.DCViewer){
@@ -71,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         zoomInBtn?.addEventListener("click",()=>DCViewer.setZoom((DCViewer.zoom||1)+0.1));
         zoomOutBtn?.addEventListener("click",()=>DCViewer.setZoom(Math.max(0.5,(DCViewer.zoom||1)-0.1)));
 
-        // "পুরো ই-পেপার PDF" — এখন সব পাতা html2canvas দিয়ে ক্যাপচার হয়ে একটাই PDF হবে
+        // "পুরো ই-পেপার PDF"
         if(downloadBtn){
             downloadBtn.onclick = async ()=>{
                 if(!window.DCViewer || !DCViewer.pages.length){
@@ -86,7 +166,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             };
         }
 
-        // "প্রিন্ট" — শুধু বর্তমান পাতা ব্রাউজার প্রিন্ট ডায়ালগে
         if(printBtn){
             printBtn.onclick = ()=>{ window.print(); };
         }
