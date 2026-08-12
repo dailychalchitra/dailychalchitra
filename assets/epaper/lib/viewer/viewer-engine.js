@@ -1,12 +1,11 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v14.0
-   FIX: প্রিন্ট-কলাম এখন সবসময় ফিক্সড width (224px) - লেখা বড়/ছোট
-        যাই হোক না কেন, কলামের সাইজ সবসময় সমান থাকবে
-   FIX: প্রিন্ট বাটনে zoom-transform বাদ দেওয়া হয় - "খালি পেজ" বাগ ফিক্স
-   FIX: সিঙ্গেল-পোস্ট PDF এখন বেশি রেজোলিউশনে (স্পষ্ট) তৈরি হয়
+   Daily Chalchitra ePaper Engine - v15.0
+   FIX: তিনটা PDF বাটনই (পুরো সপ্তাহ, বর্তমান পাতা, সিঙ্গেল পোস্ট)
+        এখন একই নির্ভরযোগ্য html2canvas+jsPDF পদ্ধতি ব্যবহার করে
+   REMOVED: window.print() এবং html2pdf.js নির্ভরতা (অনির্ভরযোগ্য ছিল)
    ========================================================== */
 window.DCViewer = {
-    version: "14.0",
+    version: "15.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -68,7 +67,6 @@ window.DCViewer = {
         return false;
     },
 
-    // ===== অন-স্ক্রিন রিডিং এর জন্য height হিসাব (অপরিবর্তিত) =====
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
@@ -82,9 +80,6 @@ window.DCViewer = {
         return height;
     },
 
-    // ===== প্রিন্ট/PDF (ফিক্সড ২২৪px কলাম) এর জন্য height হিসাব =====
-    // ইচ্ছাকৃতভাবে একটু রক্ষণশীল (কম chars-per-line ধরা) - বেশি লেখা একটা
-    // কলামে গুঁজে overflow/ফাঁকা-পেজ হওয়ার চেয়ে একটু বেশি পেজ হওয়া ভালো
     estimatePrintHeight(post){
         let height = 120;
         if(post.image) height += 160;
@@ -103,7 +98,6 @@ window.DCViewer = {
         return height;
     },
 
-    /* ===== অন-স্ক্রিন রিডিং পেজিনেশন (আগের মতোই - অপরিবর্তিত) ===== */
     buildPages(){
         this.pages = [];
         if(!this.posts.length){ this.totalPages = 0; this.currentPage = 1; this.render(); return; }
@@ -182,25 +176,6 @@ window.DCViewer = {
         `;
     },
 
-    async downloadSingleCard(card, title){
-        const btn = card.querySelector(".dc-mini-pdf");
-        const old = btn? btn.innerHTML : "";
-        if(btn){ btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; btn.style.pointerEvents='none'; }
-        try{
-            const fileName = (title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
-            const clone = card.cloneNode(true);
-            clone.querySelectorAll(".dc-mini-pdf").forEach(b=>b.remove());
-            clone.querySelectorAll("img").forEach(img=>{ img.setAttribute("crossorigin","anonymous"); img.style.maxWidth="100%"; });
-            await html2pdf().set({
-                margin: 10, filename: fileName,
-                image: {type:'jpeg', quality:0.97},
-                html2canvas: {scale:2.4, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
-                jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
-            }).from(clone).save();
-        } catch(e){ alert("PDF তৈরি করা যায়নি।"); }
-        finally { if(btn){ btn.innerHTML = old; btn.style.pointerEvents='auto'; } }
-    },
-
     render(){
         const box = document.getElementById("dc-post-columns");
         if(!box) return; box.innerHTML = "";
@@ -228,9 +203,18 @@ window.DCViewer = {
             const card = document.createElement("article");
             card.className = "dc-post-card";
             card.innerHTML = this.buildCardHTML(post, true);
-            card.querySelector(".dc-mini-pdf").addEventListener("click", (e) => {
+            const btn = card.querySelector(".dc-mini-pdf");
+            btn.addEventListener("click", async (e) => {
                 e.preventDefault();
-                this.downloadSingleCard(card, post.title);
+                const old = btn.innerHTML;
+                btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+                btn.style.pointerEvents = 'none';
+                try{
+                    await this.downloadSinglePostPDF(post);
+                } finally {
+                    btn.innerHTML = old;
+                    btn.style.pointerEvents = 'auto';
+                }
             });
             box.appendChild(card);
         });
@@ -296,10 +280,11 @@ window.DCViewer = {
         return columns;
     },
 
-    buildPrintPages(){
-        const heights = this.posts.map(p => this.estimatePrintHeight(p));
+    buildPrintPages(posts){
+        const source = posts || this.posts;
+        const heights = source.map(p => this.estimatePrintHeight(p));
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
-        const safeColHeight = 1100; // ফিক্সড ২২৪px কলামের জন্য নিরাপদ সর্বোচ্চ উচ্চতা (px)
+        const safeColHeight = 1100;
 
         let pageCount = Math.max(1, Math.ceil(totalHeight / (safeColHeight * 4)));
         let numColumns = pageCount * 4;
@@ -313,25 +298,28 @@ window.DCViewer = {
             guard++;
         }
 
-        const columns = this.splitIntoColumns(this.posts, heights, maxColHeight);
+        const columns = this.splitIntoColumns(source, heights, maxColHeight);
         const printPages = [];
         for(let i = 0; i < columns.length; i += 4){
             printPages.push(columns.slice(i, i + 4));
         }
-        if(printPages.length === 0 && this.posts.length){
-            printPages.push([this.posts]);
+        if(printPages.length === 0 && source.length){
+            printPages.push([source]);
         }
         return printPages;
     },
 
-    async generateFullPDF(issueMeta){
-        if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
-        if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
+    /* ==========================================================
+       মূল, একক, নির্ভরযোগ্য PDF-ক্যাপচার ইঞ্জিন - তিনটা বাটনই এটা ব্যবহার করে
+       ========================================================== */
+    async capturePagesToPDF(printPages, issueMeta, fileName, opts = {}){
+        if(!printPages.length) return false;
+        if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
-        const printPages = this.buildPrintPages();
-        if(!printPages.length){ alert("দেখানোর মতো কোনো লেখা পাওয়া যায়নি।"); return; }
+        const captureWidth = opts.captureWidth || 1000;
+        const colWidth = opts.colWidth || 224;
+        const showHeader = opts.showHeader !== false;
 
-        const captureWidth = 1000;
         const host = document.createElement("div");
         host.style.position = "absolute";
         host.style.top = "0"; host.style.left = "0";
@@ -343,18 +331,20 @@ window.DCViewer = {
         wrapper.style.width = captureWidth + "px";
         host.appendChild(wrapper);
 
+        let success = true;
         try{
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF("p", "mm", "a4");
             const pageWidthMM = pdf.internal.pageSize.getWidth();
             const pageHeightMM = pdf.internal.pageSize.getHeight();
+            let addedAnyPage = false;
 
             for(let i = 0; i < printPages.length; i++){
                 const pageEl = document.createElement("div");
                 pageEl.className = "dc-capture-page";
                 pageEl.style.width = captureWidth + "px";
 
-                const headHTML = `
+                const headHTML = showHeader ? `
                     <div class="dc-paper-head">
                         <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dc-paper-logo" crossorigin="anonymous">
                         <div class="dc-paper-head-info">
@@ -362,11 +352,14 @@ window.DCViewer = {
                             <span>${issueMeta?.date || ""}</span>
                             <span>পৃষ্ঠা ${i+1} / ${printPages.length}</span>
                         </div>
+                    </div>` : `
+                    <div class="dc-paper-head">
+                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dc-paper-logo" crossorigin="anonymous">
                     </div>`;
 
                 const cols = printPages[i];
                 const colsHTML = cols.map(colPosts => `
-                    <div class="dc-print-col">
+                    <div class="dc-print-col" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
                         ${colPosts.map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
                     </div>
                 `).join("");
@@ -392,7 +385,8 @@ window.DCViewer = {
                 const imgData = canvas.toDataURL("image/jpeg", 0.95);
                 const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
 
-                if(i > 0) pdf.addPage();
+                if(addedAnyPage) pdf.addPage();
+                addedAnyPage = true;
 
                 if(imgHeightMM <= pageHeightMM){
                     pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
@@ -401,7 +395,7 @@ window.DCViewer = {
                     let positionMM = 0;
                     let first = true;
                     while(heightLeftMM > 0){
-                        if(!first) pdf.addPage();
+                        if(!first){ pdf.addPage(); }
                         pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
                         heightLeftMM -= pageHeightMM;
                         positionMM -= pageHeightMM;
@@ -410,15 +404,45 @@ window.DCViewer = {
                 }
             }
 
-            const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-') + ".pdf";
-            pdf.save(fileName);
+            if(!addedAnyPage){
+                alert("দেখানোর মতো কনটেন্ট পাওয়া যায়নি।");
+                success = false;
+            } else {
+                pdf.save(fileName + ".pdf");
+            }
 
         } catch(e){
             console.error(e);
             alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+            success = false;
         } finally {
             host.remove();
         }
+        return success;
+    },
+
+    // বাটন ১: "পুরো ই-পেপার PDF" - পুরো সপ্তাহ, ৪-কলাম
+    async generateFullPDF(issueMeta){
+        if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
+        const printPages = this.buildPrintPages(this.posts);
+        const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-');
+        await this.capturePagesToPDF(printPages, issueMeta, fileName, { captureWidth: 1000, colWidth: 224, showHeader: true });
+    },
+
+    // বাটন ২: "এই পাতার PDF" - শুধু বর্তমান অন-স্ক্রিন পাতাটার লেখাগুলো, ৪-কলাম
+    async downloadCurrentPagePDF(issueMeta){
+        const current = this.pages[this.currentPage - 1];
+        if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
+        const printPages = this.buildPrintPages(current);
+        const fileName = (issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage;
+        await this.capturePagesToPDF(printPages, issueMeta, fileName.replace(/\s+/g,'-'), { captureWidth: 1000, colWidth: 224, showHeader: true });
+    },
+
+    // বাটন ৩: শুধু একটা লেখার PDF - এক কলাম, চওড়া, সহজপাঠ্য
+    async downloadSinglePostPDF(post){
+        const printPages = [[[post]]];
+        const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
+        await this.capturePagesToPDF(printPages, null, fileName, { captureWidth: 800, colWidth: 720, showHeader: false });
     }
 };
 window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
