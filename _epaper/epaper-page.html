@@ -1,0 +1,960 @@
+---
+layout: default
+title: "ই-পেপার পৃষ্ঠা"
+permalink: /_epaper/epaper-page.html
+---
+
+<div class="dc-epaper dc-single-page">
+
+  <div class="dc-viewer">
+
+    <!-- =========================
+         Page Header
+         ========================= -->
+
+    <div class="dc-viewer-heading">
+      <h1 id="dc-page-title">দৈনিক চালচিত্র</h1>
+
+      <div id="dc-page-meta">
+        ই-পেপার
+      </div>
+    </div>
+
+
+    <!-- =========================
+         Navigation
+         ========================= -->
+
+    <div class="dc-topbar">
+
+      <div class="dc-dropdown">
+
+        <button
+          type="button"
+          class="dc-dropdown-btn"
+          id="dc-issue-select-btn"
+        >
+          <span id="dc-selected-issue">
+            সংখ্যা নির্বাচন
+          </span>
+
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+
+        <div
+          class="dc-dropdown-menu"
+          id="dc-issue-menu"
+        >
+          <div class="dc-dd-loading">
+            সংখ্যা লোড হচ্ছে...
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="dc-dropdown">
+
+        <button
+          type="button"
+          class="dc-dropdown-btn"
+          id="dc-page-select-btn"
+        >
+          <span id="dc-selected-page">
+            পৃষ্ঠা নির্বাচন
+          </span>
+
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+
+        <div
+          class="dc-dropdown-menu"
+          id="dc-page-menu"
+        >
+          <div class="dc-dd-loading">
+            পৃষ্ঠা লোড হচ্ছে...
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         Page Controls
+         ========================= -->
+
+    <div class="dc-viewer-toolbar">
+
+      <button
+        type="button"
+        id="dc-page-first"
+      >
+        <i class="fa-solid fa-angles-left"></i>
+        প্রথম
+      </button>
+
+      <button
+        type="button"
+        id="dc-page-prev"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+        আগের
+      </button>
+
+      <span id="dc-current-page-info">
+        পৃষ্ঠা —
+      </span>
+
+      <button
+        type="button"
+        id="dc-page-next"
+      >
+        পরের
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+      <button
+        type="button"
+        id="dc-page-last"
+      >
+        শেষ
+        <i class="fa-solid fa-angles-right"></i>
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         Zoom Controls
+         ========================= -->
+
+    <div class="dc-controls">
+
+      <button
+        type="button"
+        id="dc-page-zoom-out"
+      >
+        <i class="fa-solid fa-minus"></i>
+      </button>
+
+      <button
+        type="button"
+        id="dc-page-zoom-reset"
+      >
+        100%
+      </button>
+
+      <button
+        type="button"
+        id="dc-page-zoom-in"
+      >
+        <i class="fa-solid fa-plus"></i>
+      </button>
+
+      <button
+        type="button"
+        id="dc-page-print"
+      >
+        <i class="fa-solid fa-print"></i>
+        প্রিন্ট
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         Main Page
+         ========================= -->
+
+    <div class="dc-pdf-box">
+
+      <article
+        id="dc-epaper-page"
+        class="dc-epaper-single-render"
+      >
+
+        <header class="dc-paper-head">
+
+          <img
+            class="dc-paper-logo"
+            src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
+            alt="দৈনিক চালচিত্র"
+          >
+
+          <div class="dc-paper-head-info">
+
+            <span id="dc-paper-date">
+            </span>
+
+            <span id="dc-paper-edition">
+            </span>
+
+            <span id="dc-paper-page-number">
+            </span>
+
+          </div>
+
+        </header>
+
+
+        <!--
+          JavaScript এখানে নির্দিষ্ট
+          পৃষ্ঠার কনটেন্ট বসাবে।
+        -->
+
+        <div
+          id="dc-post-columns"
+          class="dc-post-columns"
+        >
+
+          <div class="dc-empty">
+
+            <i
+              class="fa-regular fa-newspaper"
+              style="font-size:32px;"
+            ></i>
+
+            <div style="margin-top:12px;">
+              ই-পেপার পৃষ্ঠা লোড হচ্ছে...
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- =========================
+         Bottom Controls
+         ========================= -->
+
+    <div class="dc-viewer-toolbar">
+
+      <button
+        type="button"
+        id="dc-bottom-prev"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+        আগের পৃষ্ঠা
+      </button>
+
+      <button
+        type="button"
+        id="dc-bottom-next"
+      >
+        পরের পৃষ্ঠা
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="dc-bottom-allpages"
+      id="dc-back-issues"
+    >
+      <i class="fa-solid fa-newspaper"></i>
+      ই-পেপার সংখ্যাসমূহ
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+(function () {
+
+  'use strict';
+
+
+  /* ==========================================================
+     URL utilities
+     ========================================================== */
+
+  function getParam(name) {
+
+    try {
+
+      var params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      return params.get(name);
+
+    } catch (error) {
+
+      return null;
+
+    }
+
+  }
+
+
+  function getPageNumber() {
+
+    return (
+      getParam('page') ||
+      getParam('p') ||
+      '1'
+    );
+
+  }
+
+
+  function getIssue() {
+
+    return (
+      getParam('issue') ||
+      getParam('date') ||
+      ''
+    );
+
+  }
+
+
+  /* ==========================================================
+     Safe text setter
+     ========================================================== */
+
+  function setText(id, value) {
+
+    var element =
+      document.getElementById(id);
+
+    if (!element) {
+      return;
+    }
+
+    element.textContent =
+      value || '';
+
+  }
+
+
+  /* ==========================================================
+     Update page information
+     ========================================================== */
+
+  function updatePageInformation() {
+
+    var issue =
+      getIssue();
+
+    var page =
+      getPageNumber();
+
+
+    setText(
+      'dc-selected-issue',
+      issue || 'সংখ্যা নির্বাচন'
+    );
+
+
+    setText(
+      'dc-selected-page',
+      'পৃষ্ঠা ' + page
+    );
+
+
+    setText(
+      'dc-current-page-info',
+      'পৃষ্ঠা ' + page
+    );
+
+
+    setText(
+      'dc-paper-page-number',
+      'পৃষ্ঠা ' + page
+    );
+
+
+    if (issue) {
+
+      setText(
+        'dc-paper-date',
+        issue
+      );
+
+    }
+
+
+    document.title =
+      'পৃষ্ঠা ' +
+      page +
+      ' | ' +
+      (issue || 'ই-পেপার') +
+      ' | দৈনিক চালচিত্র';
+
+  }
+
+
+  /* ==========================================================
+     Page navigation
+     ========================================================== */
+
+  function goToPage(page) {
+
+    var issue =
+      getIssue();
+
+    var target =
+      '/_epaper/epaper-page.html?page=' +
+      encodeURIComponent(page);
+
+    if (issue) {
+
+      target +=
+        '&issue=' +
+        encodeURIComponent(issue);
+
+    }
+
+    window.location.href =
+      target;
+
+  }
+
+
+  function previousPage() {
+
+    var current =
+      parseInt(
+        getPageNumber(),
+        10
+      ) || 1;
+
+    if (current > 1) {
+
+      goToPage(
+        current - 1
+      );
+
+    }
+
+  }
+
+
+  function nextPage() {
+
+    var current =
+      parseInt(
+        getPageNumber(),
+        10
+      ) || 1;
+
+    goToPage(
+      current + 1
+    );
+
+  }
+
+
+  function firstPage() {
+
+    goToPage(1);
+
+  }
+
+
+  function lastPage() {
+
+    /*
+     * যদি epaper-core.js
+     * শেষ পৃষ্ঠা নির্ধারণ করে,
+     * সেটি ব্যবহার করা হবে।
+     */
+
+    var last =
+      window.DC_Epaper_Last_Page ||
+      window.dcEpaperLastPage ||
+      null;
+
+
+    if (
+      typeof last === 'number' &&
+      last > 0
+    ) {
+
+      goToPage(last);
+
+      return;
+
+    }
+
+
+    /*
+     * শেষ পৃষ্ঠা জানা না থাকলে
+     * viewer-এর function ব্যবহার।
+     */
+
+    var functions = [
+      'dcLastPage',
+      'lastEpaperPage',
+      'dcGoLastPage'
+    ];
+
+
+    for (
+      var i = 0;
+      i < functions.length;
+      i++
+    ) {
+
+      if (
+        typeof window[
+          functions[i]
+        ] === 'function'
+      ) {
+
+        try {
+
+          window[
+            functions[i]
+          ]();
+
+          return;
+
+        } catch (error) {
+
+          console.error(
+            error
+          );
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     Zoom
+     ========================================================== */
+
+  function callZoom(
+    names
+  ) {
+
+    for (
+      var i = 0;
+      i < names.length;
+      i++
+    ) {
+
+      var fn =
+        window[
+          names[i]
+        ];
+
+      if (
+        typeof fn ===
+        'function'
+      ) {
+
+        try {
+
+          fn();
+
+          return true;
+
+        } catch (error) {
+
+          console.error(
+            'Zoom error:',
+            error
+          );
+
+        }
+
+      }
+
+    }
+
+    return false;
+
+  }
+
+
+  /* ==========================================================
+     Print
+     ========================================================== */
+
+  function printPage() {
+
+    if (
+      typeof window.dcPrintPage ===
+      'function'
+    ) {
+
+      window.dcPrintPage();
+
+      return;
+
+    }
+
+
+    if (
+      typeof window.printEpaperPage ===
+      'function'
+    ) {
+
+      window.printEpaperPage();
+
+      return;
+
+    }
+
+
+    window.print();
+
+  }
+
+
+  /* ==========================================================
+     Button binding
+     ========================================================== */
+
+  function bind(id, callback) {
+
+    var element =
+      document.getElementById(id);
+
+    if (!element) {
+      return;
+    }
+
+    if (
+      element.getAttribute(
+        'data-dc-bound'
+      ) === 'true'
+    ) {
+      return;
+    }
+
+    element.setAttribute(
+      'data-dc-bound',
+      'true'
+    );
+
+    element.addEventListener(
+      'click',
+      function (event) {
+
+        event.preventDefault();
+
+        callback();
+
+      }
+    );
+
+  }
+
+
+  /* ==========================================================
+     Bind all controls
+     ========================================================== */
+
+  function bindControls() {
+
+    bind(
+      'dc-page-first',
+      firstPage
+    );
+
+
+    bind(
+      'dc-page-prev',
+      previousPage
+    );
+
+
+    bind(
+      'dc-page-next',
+      nextPage
+    );
+
+
+    bind(
+      'dc-page-last',
+      lastPage
+    );
+
+
+    bind(
+      'dc-bottom-prev',
+      previousPage
+    );
+
+
+    bind(
+      'dc-bottom-next',
+      nextPage
+    );
+
+
+    bind(
+      'dc-page-zoom-in',
+      function () {
+
+        callZoom([
+          'dcZoomIn',
+          'zoomInEpaper',
+          'dcViewerZoomIn'
+        ]);
+
+      }
+    );
+
+
+    bind(
+      'dc-page-zoom-out',
+      function () {
+
+        callZoom([
+          'dcZoomOut',
+          'zoomOutEpaper',
+          'dcViewerZoomOut'
+        ]);
+
+      }
+    );
+
+
+    bind(
+      'dc-page-zoom-reset',
+      function () {
+
+        callZoom([
+          'dcZoomReset',
+          'resetEpaperZoom',
+          'dcViewerZoomReset'
+        ]);
+
+      }
+    );
+
+
+    bind(
+      'dc-page-print',
+      printPage
+    );
+
+
+    bind(
+      'dc-back-issues',
+      function () {
+
+        window.location.href =
+          '/_epaper/epaper-home.html';
+
+      }
+    );
+
+  }
+
+
+  /* ==========================================================
+     Load selected page through existing viewer
+     ========================================================== */
+
+  function initializeViewer() {
+
+    var functions = [
+      'dcLoadEpaperPage',
+      'loadEpaperPage',
+      'dcRenderEpaperPage',
+      'renderEpaperPage',
+      'dcInitViewer',
+      'initEpaperViewer',
+      'initializeEpaperViewer'
+    ];
+
+
+    var page =
+      getPageNumber();
+
+    var issue =
+      getIssue();
+
+
+    for (
+      var i = 0;
+      i < functions.length;
+      i++
+    ) {
+
+      var fn =
+        window[
+          functions[i]
+        ];
+
+
+      if (
+        typeof fn ===
+        'function'
+      ) {
+
+        try {
+
+          /*
+           * প্রথমে issue/page arguments দিয়ে
+           * function চালানোর চেষ্টা।
+           */
+
+          fn(
+            issue,
+            page
+          );
+
+          return true;
+
+        } catch (error) {
+
+          /*
+           * কিছু পুরোনো function
+           * কোনো argument নেয় না।
+           */
+
+          try {
+
+            fn();
+
+            return true;
+
+          } catch (secondError) {
+
+            console.error(
+              'ePaper viewer error:',
+              secondError
+            );
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+    return false;
+
+  }
+
+
+  /* ==========================================================
+     Keyboard navigation
+     ========================================================== */
+
+  function keyboardNavigation() {
+
+    if (
+      window.__dcSinglePageKeyboard
+    ) {
+      return;
+    }
+
+    window.__dcSinglePageKeyboard =
+      true;
+
+
+    document.addEventListener(
+      'keydown',
+      function (event) {
+
+        /*
+         * Input/textarea-তে টাইপ করলে
+         * navigation চলবে না।
+         */
+
+        var tag =
+          event.target &&
+          event.target.tagName
+            ? event.target.tagName
+            : '';
+
+
+        if (
+          tag === 'INPUT' ||
+          tag === 'TEXTAREA' ||
+          tag === 'SELECT'
+        ) {
+          return;
+        }
+
+
+        if (
+          event.key === 'ArrowLeft'
+        ) {
+
+          previousPage();
+
+        }
+
+
+        if (
+          event.key === 'ArrowRight'
+        ) {
+
+          nextPage();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* ==========================================================
+     Initialization
+     ========================================================== */
+
+  function initialize() {
+
+    updatePageInformation();
+
+    bindControls();
+
+    keyboardNavigation();
+
+    initializeViewer();
+
+  }
+
+
+  /* ==========================================================
+     DOM Ready
+     ========================================================== */
+
+  if (
+    document.readyState ===
+    'loading'
+  ) {
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      initialize,
+      {
+        once: true
+      }
+    );
+
+  } else {
+
+    initialize();
+
+  }
+
+})();
+</script>
