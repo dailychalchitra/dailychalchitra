@@ -1,0 +1,743 @@
+---
+layout: default
+---
+
+<div class="dc-viewer" id="dc-issue-viewer">
+
+  <!-- ই-পেপার শিরোনাম -->
+  <h1 id="dc-title">দৈনিক চালচিত্র ই-পেপার</h1>
+
+  <div id="dc-meta">
+    <span id="dc-issue-date">সংখ্যা লোড হচ্ছে...</span>
+  </div>
+
+  <!-- সংখ্যা / তারিখ / পৃষ্ঠা নির্বাচন -->
+  <div class="dc-topbar">
+
+    <div class="dc-dropdown" id="dc-issue-dropdown">
+      <button type="button" class="dc-dropdown-btn">
+        <span id="dc-issue-selected">সংখ্যা নির্বাচন করুন</span>
+        <i class="fa fa-caret-down"></i>
+      </button>
+
+      <div class="dc-dropdown-menu" id="dc-issue-menu">
+        <div class="dc-dd-loading">
+          সংখ্যা লোড হচ্ছে...
+        </div>
+      </div>
+    </div>
+
+    <div class="dc-dropdown" id="dc-page-dropdown">
+      <button type="button" class="dc-dropdown-btn">
+        <span id="dc-page-selected">পৃষ্ঠা নির্বাচন করুন</span>
+        <i class="fa fa-caret-down"></i>
+      </button>
+
+      <div class="dc-dropdown-menu" id="dc-page-menu">
+        <div class="dc-dd-loading">
+          পৃষ্ঠা লোড হচ্ছে...
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ভিউয়ার কন্ট্রোল -->
+  <div class="dc-viewer-toolbar">
+
+    <button type="button" id="dc-prev-page">
+      <i class="fa fa-chevron-left"></i>
+      আগের পৃষ্ঠা
+    </button>
+
+    <span id="dc-page-info">
+      পৃষ্ঠা —
+    </span>
+
+    <button type="button" id="dc-next-page">
+      পরের পৃষ্ঠা
+      <i class="fa fa-chevron-right"></i>
+    </button>
+
+  </div>
+
+  <!-- Zoom / Print -->
+  <div class="dc-controls">
+
+    <button type="button" id="dc-zoom-out">
+      <i class="fa fa-minus"></i>
+      ছোট
+    </button>
+
+    <button type="button" id="dc-zoom-reset">
+      <i class="fa fa-expand"></i>
+      স্বাভাবিক
+    </button>
+
+    <button type="button" id="dc-zoom-in">
+      <i class="fa fa-plus"></i>
+      বড়
+    </button>
+
+    <button type="button" id="dc-print-page">
+      <i class="fa fa-print"></i>
+      প্রিন্ট
+    </button>
+
+  </div>
+
+  <!-- মূল ই-পেপার পৃষ্ঠা -->
+  <div class="dc-pdf-box">
+
+    <div id="dc-epaper-page">
+
+      <!-- পত্রিকার হেডার -->
+      <div class="dc-paper-head">
+
+        <img
+          class="dc-paper-logo"
+          src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
+          alt="দৈনিক চালচিত্র"
+        >
+
+        <div class="dc-paper-head-info">
+          <span id="dc-paper-date"></span>
+          <span id="dc-paper-edition"></span>
+          <span id="dc-paper-page"></span>
+        </div>
+
+      </div>
+
+      <!-- সংবাদ কলাম -->
+      <div id="dc-post-columns">
+
+        <div class="dc-empty" id="dc-paper-loading">
+          <i class="fa fa-spinner fa-spin"></i>
+          <br>
+          ই-পেপার লোড হচ্ছে...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- সব পৃষ্ঠা -->
+  <button
+    type="button"
+    class="dc-bottom-allpages"
+    id="dc-all-pages"
+  >
+    <i class="fa fa-newspaper"></i>
+    সব পৃষ্ঠা দেখুন
+  </button>
+
+</div>
+
+
+<!-- ==============================
+     ISSUE PAGE SCRIPT
+     ============================== -->
+
+<script>
+
+(function () {
+
+  "use strict";
+
+  /*
+   * এই পেজের মূল কাজ:
+   *
+   * ১. URL থেকে issue/date শনাক্ত করা
+   * ২. epaper-data.js থেকে সংখ্যার তথ্য নেওয়া
+   * ৩. epaper-core.js দিয়ে ডেটা প্রস্তুত করা
+   * ৪. epaper-viewer.js দিয়ে পৃষ্ঠা দেখানো
+   *
+   * ফাইলগুলো আলাদা রাখা হয়েছে যাতে
+   * ভবিষ্যতে ই-পেপারের ডিজাইন পরিবর্তন করতে
+   * মূল ডেটা বা viewer logic পরিবর্তন করতে না হয়।
+   */
+
+
+  /* --------------------------------
+     DOM READY
+     -------------------------------- */
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    /*
+     * প্রয়োজনীয় element
+     */
+
+    var issueViewer = document.getElementById("dc-issue-viewer");
+
+    if (!issueViewer) {
+      return;
+    }
+
+
+    /* --------------------------------
+       URL PARAMETERS
+       -------------------------------- */
+
+    var params = new URLSearchParams(window.location.search);
+
+    var issueParam = params.get("issue");
+    var dateParam = params.get("date");
+    var pageParam = params.get("page");
+
+
+    /*
+     * যদি URL-এ issue না থাকে,
+     * তাহলে pathname থেকে শেষ অংশ নেওয়ার চেষ্টা।
+     */
+
+    if (!issueParam) {
+
+      var pathParts = window.location.pathname
+        .split("/")
+        .filter(function (item) {
+          return item.trim() !== "";
+        });
+
+      if (pathParts.length > 1) {
+        issueParam = pathParts[pathParts.length - 1];
+      }
+
+    }
+
+
+    /* --------------------------------
+       DEFAULT ISSUE
+       -------------------------------- */
+
+    /*
+     * issueParam না পাওয়া গেলে
+     * epaper-data.js-এর default issue ব্যবহার করা হবে।
+     */
+
+    var defaultIssue = null;
+
+    if (
+      window.DC_EPaperData &&
+      typeof window.DC_EPaperData.getDefaultIssue === "function"
+    ) {
+
+      defaultIssue =
+        window.DC_EPaperData.getDefaultIssue();
+
+    }
+
+
+    /* --------------------------------
+       ISSUE DATA
+       -------------------------------- */
+
+    var issue = null;
+
+    if (
+      window.DC_EPaperData &&
+      typeof window.DC_EPaperData.getIssue === "function"
+    ) {
+
+      if (issueParam) {
+
+        issue =
+          window.DC_EPaperData.getIssue(issueParam);
+
+      }
+
+      if (!issue && dateParam) {
+
+        issue =
+          window.DC_EPaperData.getIssueByDate(dateParam);
+
+      }
+
+      if (!issue) {
+        issue = defaultIssue;
+      }
+
+    }
+
+
+    /* --------------------------------
+       ISSUE NOT FOUND
+       -------------------------------- */
+
+    if (!issue) {
+
+      var loadingBox =
+        document.getElementById("dc-paper-loading");
+
+      if (loadingBox) {
+
+        loadingBox.innerHTML =
+          '<i class="fa fa-newspaper"></i>' +
+          '<br>' +
+          'এই ই-পেপারের কোনো সংখ্যা পাওয়া যায়নি।';
+
+      }
+
+      return;
+
+    }
+
+
+    /* --------------------------------
+       PAGE TITLE
+       -------------------------------- */
+
+    if (issue.title) {
+
+      document.title =
+        issue.title +
+        " | ই-পেপার | দৈনিক চালচিত্র";
+
+    }
+
+
+    /* --------------------------------
+       ISSUE INFORMATION
+       -------------------------------- */
+
+    var titleElement =
+      document.getElementById("dc-title");
+
+    var dateElement =
+      document.getElementById("dc-issue-date");
+
+    var paperDate =
+      document.getElementById("dc-paper-date");
+
+    var paperEdition =
+      document.getElementById("dc-paper-edition");
+
+    var paperPage =
+      document.getElementById("dc-paper-page");
+
+
+    if (titleElement) {
+
+      titleElement.textContent =
+        issue.title ||
+        "দৈনিক চালচিত্র ই-পেপার";
+
+    }
+
+
+    if (dateElement) {
+
+      dateElement.textContent =
+        issue.date ||
+        "";
+
+    }
+
+
+    if (paperDate) {
+
+      paperDate.textContent =
+        issue.date ||
+        "";
+
+    }
+
+
+    if (paperEdition) {
+
+      paperEdition.textContent =
+        issue.edition ||
+        "অনলাইন সংস্করণ";
+
+    }
+
+
+    /* --------------------------------
+       VIEWER INITIALIZATION
+       -------------------------------- */
+
+    /*
+     * epaper-viewer.js যদি নিজের
+     * initialization function দেয়,
+     * তাহলে সেটি ব্যবহার করা হবে।
+     */
+
+    if (
+      window.DCEPaperViewer &&
+      typeof window.DCEPaperViewer.init === "function"
+    ) {
+
+      window.DCEPaperViewer.init({
+        issue: issue,
+        page: pageParam
+      });
+
+    }
+
+
+    /*
+     * বিকল্প API:
+     * পুরনো viewer structure থাকলেও
+     * compatibility বজায় থাকবে।
+     */
+
+    else if (
+      window.DCEPaperViewer &&
+      typeof window.DCEPaperViewer.loadIssue === "function"
+    ) {
+
+      window.DCEPaperViewer.loadIssue(
+        issue,
+        pageParam
+      );
+
+    }
+
+
+    /* --------------------------------
+       ISSUE DROPDOWN
+       -------------------------------- */
+
+    var issueMenu =
+      document.getElementById("dc-issue-menu");
+
+    var issueSelected =
+      document.getElementById("dc-issue-selected");
+
+
+    if (
+      issueMenu &&
+      window.DC_EPaperData
+    ) {
+
+      var issues = [];
+
+      if (
+        typeof window.DC_EPaperData.getIssues === "function"
+      ) {
+
+        issues =
+          window.DC_EPaperData.getIssues();
+
+      }
+
+
+      if (issues && issues.length) {
+
+        issueMenu.innerHTML = "";
+
+
+        issues.forEach(function (item) {
+
+          var button =
+            document.createElement("button");
+
+          button.type = "button";
+
+          button.className =
+            "dc-dd-item";
+
+
+          button.innerHTML =
+            "<span>" +
+            (item.title || item.date || "সংখ্যা") +
+            "</span>" +
+            (
+              item.date
+                ? "<span>" + item.date + "</span>"
+                : ""
+            );
+
+
+          if (
+            item.id === issue.id ||
+            item.slug === issue.slug
+          ) {
+
+            button.classList.add("active");
+
+            if (issueSelected) {
+
+              issueSelected.textContent =
+                item.title ||
+                item.date ||
+                "সংখ্যা";
+
+            }
+
+          }
+
+
+          button.addEventListener(
+            "click",
+            function () {
+
+              var selectedId =
+                item.id ||
+                item.slug ||
+                item.date;
+
+              window.location.href =
+                "?issue=" +
+                encodeURIComponent(selectedId);
+
+            }
+          );
+
+
+          issueMenu.appendChild(button);
+
+        });
+
+      }
+
+    }
+
+
+    /* --------------------------------
+       DROPDOWN TOGGLE
+       -------------------------------- */
+
+    var dropdowns =
+      document.querySelectorAll(
+        ".dc-dropdown"
+      );
+
+
+    dropdowns.forEach(function (dropdown) {
+
+      var btn =
+        dropdown.querySelector(
+          ".dc-dropdown-btn"
+        );
+
+      if (!btn) {
+        return;
+      }
+
+
+      btn.addEventListener(
+        "click",
+        function (event) {
+
+          event.stopPropagation();
+
+
+          dropdowns.forEach(function (other) {
+
+            if (other !== dropdown) {
+
+              other.classList.remove("open");
+
+            }
+
+          });
+
+
+          dropdown.classList.toggle("open");
+
+        }
+      );
+
+    });
+
+
+    /*
+     * বাইরে click করলে dropdown বন্ধ
+     */
+
+    document.addEventListener(
+      "click",
+      function () {
+
+        dropdowns.forEach(function (dropdown) {
+
+          dropdown.classList.remove("open");
+
+        });
+
+      }
+    );
+
+
+    /* --------------------------------
+       PRINT
+       -------------------------------- */
+
+    var printButton =
+      document.getElementById("dc-print-page");
+
+
+    if (printButton) {
+
+      printButton.addEventListener(
+        "click",
+        function () {
+
+          window.print();
+
+        }
+      );
+
+    }
+
+
+    /* --------------------------------
+       ZOOM
+       -------------------------------- */
+
+    var paper =
+      document.getElementById(
+        "dc-epaper-page"
+      );
+
+    var zoomIn =
+      document.getElementById(
+        "dc-zoom-in"
+      );
+
+    var zoomOut =
+      document.getElementById(
+        "dc-zoom-out"
+      );
+
+    var zoomReset =
+      document.getElementById(
+        "dc-zoom-reset"
+      );
+
+
+    var zoom =
+      1;
+
+
+    function applyZoom() {
+
+      if (!paper) {
+        return;
+      }
+
+      paper.style.transform =
+        "scale(" + zoom + ")";
+
+      paper.style.transformOrigin =
+        "top center";
+
+
+      /*
+       * zoom করলে নিচে অতিরিক্ত জায়গা
+       * তৈরি করা হচ্ছে যাতে content কাটা না যায়।
+       */
+
+      paper.style.marginBottom =
+        (
+          Math.max(0, zoom - 1) *
+          paper.offsetHeight
+        ) + "px";
+
+    }
+
+
+    if (zoomIn) {
+
+      zoomIn.addEventListener(
+        "click",
+        function () {
+
+          zoom =
+            Math.min(
+              2,
+              +(zoom + 0.1).toFixed(2)
+            );
+
+          applyZoom();
+
+        }
+      );
+
+    }
+
+
+    if (zoomOut) {
+
+      zoomOut.addEventListener(
+        "click",
+        function () {
+
+          zoom =
+            Math.max(
+              0.5,
+              +(zoom - 0.1).toFixed(2)
+            );
+
+          applyZoom();
+
+        }
+      );
+
+    }
+
+
+    if (zoomReset) {
+
+      zoomReset.addEventListener(
+        "click",
+        function () {
+
+          zoom = 1;
+
+          applyZoom();
+
+        }
+      );
+
+    }
+
+
+    /* --------------------------------
+       ALL PAGES
+       -------------------------------- */
+
+    var allPages =
+      document.getElementById(
+        "dc-all-pages"
+      );
+
+
+    if (allPages) {
+
+      allPages.addEventListener(
+        "click",
+        function () {
+
+          if (
+            issue &&
+            issue.id
+          ) {
+
+            window.location.href =
+              "/_epaper/epaper-home.html?issue=" +
+              encodeURIComponent(issue.id);
+
+          }
+
+          else {
+
+            window.location.href =
+              "/_epaper/epaper-home.html";
+
+          }
+
+        }
+      );
+
+    }
+
+
+  });
+
+})();
+
+</script>
