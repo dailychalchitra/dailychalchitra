@@ -1,0 +1,474 @@
+---
+layout: default
+---
+
+<div class="dc-epaper" id="dc-epaper-archive">
+
+  <h1 class="dc-epaper-title">ই-পেপার আর্কাইভ</h1>
+
+  <p class="dc-epaper-subtitle">
+    দৈনিক চালচিত্রের পূর্ববর্তী সকল ই-পেপার সংখ্যা
+  </p>
+
+  <!-- বছর নির্বাচন -->
+  <div id="dc-year-list">
+    <button type="button" class="dc-year-btn active" data-year="all">
+      সকল সংখ্যা
+    </button>
+  </div>
+
+  <!-- আর্কাইভ -->
+  <div id="dc-archive-list">
+    <div class="dc-empty">
+      <i class="fa fa-spinner fa-spin"></i>
+      <br>
+      ই-পেপার আর্কাইভ লোড হচ্ছে...
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+(function () {
+
+  "use strict";
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    var archive =
+      document.getElementById("dc-archive-list");
+
+    var yearList =
+      document.getElementById("dc-year-list");
+
+
+    if (!archive) {
+      return;
+    }
+
+
+    /* ==========================================
+       DATA SOURCE
+       ========================================== */
+
+    var issues = [];
+
+    if (
+      window.DC_EPaperData &&
+      typeof window.DC_EPaperData.getIssues === "function"
+    ) {
+
+      issues =
+        window.DC_EPaperData.getIssues() || [];
+
+    }
+
+
+    /* ==========================================
+       DATA না থাকলে
+       ========================================== */
+
+    if (!issues.length) {
+
+      archive.innerHTML =
+        '<div class="dc-empty">' +
+          '<i class="fa fa-newspaper"></i>' +
+          '<br>' +
+          'বর্তমানে কোনো ই-পেপার সংখ্যা পাওয়া যায়নি।' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    /* ==========================================
+       DATE → YEAR
+       ========================================== */
+
+    function getYear(issue) {
+
+      if (!issue) {
+        return "";
+      }
+
+
+      if (issue.year) {
+        return String(issue.year);
+      }
+
+
+      if (issue.date) {
+
+        var match =
+          String(issue.date).match(/\d{4}/);
+
+        if (match) {
+          return match[0];
+        }
+
+      }
+
+
+      if (issue.published) {
+
+        var publishedMatch =
+          String(issue.published).match(/\d{4}/);
+
+        if (publishedMatch) {
+          return publishedMatch[0];
+        }
+
+      }
+
+
+      return "";
+
+    }
+
+
+    /* ==========================================
+       YEAR LIST
+       ========================================== */
+
+    var years = {};
+
+    issues.forEach(function (issue) {
+
+      var year =
+        getYear(issue);
+
+      if (year) {
+        years[year] = true;
+      }
+
+    });
+
+
+    Object.keys(years)
+      .sort(function (a, b) {
+        return Number(b) - Number(a);
+      })
+      .forEach(function (year) {
+
+        var button =
+          document.createElement("button");
+
+        button.type = "button";
+
+        button.className =
+          "dc-year-btn";
+
+        button.setAttribute(
+          "data-year",
+          year
+        );
+
+        button.textContent =
+          year;
+
+        yearList.appendChild(button);
+
+      });
+
+
+    /* ==========================================
+       SORT
+       ========================================== */
+
+    function getTime(issue) {
+
+      if (!issue) {
+        return 0;
+      }
+
+
+      var value =
+        issue.date ||
+        issue.published ||
+        issue.timestamp ||
+        "";
+
+
+      var time =
+        Date.parse(value);
+
+
+      return isNaN(time)
+        ? 0
+        : time;
+
+    }
+
+
+    issues.sort(function (a, b) {
+
+      return getTime(b) - getTime(a);
+
+    });
+
+
+    /* ==========================================
+       RENDER
+       ========================================== */
+
+    function renderIssues(filterYear) {
+
+      archive.innerHTML = "";
+
+
+      var filtered =
+        issues.filter(function (issue) {
+
+          if (
+            !filterYear ||
+            filterYear === "all"
+          ) {
+            return true;
+          }
+
+          return getYear(issue) ===
+            String(filterYear);
+
+        });
+
+
+      if (!filtered.length) {
+
+        archive.innerHTML =
+          '<div class="dc-empty">' +
+            '<i class="fa fa-calendar-times"></i>' +
+            '<br>' +
+            'এই বছরের কোনো ই-পেপার পাওয়া যায়নি।' +
+          '</div>';
+
+        return;
+
+      }
+
+
+      var grid =
+        document.createElement("div");
+
+      grid.className =
+        "dc-issue-grid";
+
+
+      filtered.forEach(function (issue) {
+
+        var card =
+          document.createElement("a");
+
+        card.className =
+          "dc-issue-card";
+
+
+        /* ======================================
+           LINK
+           ====================================== */
+
+        var issueId =
+          issue.id ||
+          issue.slug ||
+          issue.date;
+
+
+        card.href =
+          "/_epaper/issue.html?issue=" +
+          encodeURIComponent(issueId);
+
+
+        /* ======================================
+           COVER
+           ====================================== */
+
+        if (issue.cover || issue.image) {
+
+          var image =
+            document.createElement("img");
+
+          image.className =
+            "dc-cover";
+
+          image.src =
+            issue.cover ||
+            issue.image;
+
+          image.alt =
+            issue.title ||
+            "ই-পেপার";
+
+          image.loading =
+            "lazy";
+
+
+          image.onerror =
+            function () {
+
+              var fallback =
+                document.createElement("div");
+
+              fallback.className =
+                "dc-cover-fallback";
+
+              fallback.innerHTML =
+                '<i class="fa fa-newspaper"></i>';
+
+              image.replaceWith(
+                fallback
+              );
+
+            };
+
+
+          card.appendChild(image);
+
+        }
+
+        else {
+
+          var fallback =
+            document.createElement("div");
+
+          fallback.className =
+            "dc-cover-fallback";
+
+          fallback.innerHTML =
+            '<i class="fa fa-newspaper"></i>';
+
+          card.appendChild(
+            fallback
+          );
+
+        }
+
+
+        /* ======================================
+           BODY
+           ====================================== */
+
+        var body =
+          document.createElement("div");
+
+        body.className =
+          "dc-body";
+
+
+        var title =
+          document.createElement("h3");
+
+        title.textContent =
+          issue.title ||
+          "দৈনিক চালচিত্র ই-পেপার";
+
+
+        body.appendChild(
+          title
+        );
+
+
+        var description =
+          document.createElement("p");
+
+        description.textContent =
+          issue.date ||
+          issue.description ||
+          "";
+
+
+        body.appendChild(
+          description
+        );
+
+
+        var open =
+          document.createElement("span");
+
+        open.innerHTML =
+          '<i class="fa fa-book-open"></i> ' +
+          'ই-পেপার পড়ুন';
+
+
+        body.appendChild(
+          open
+        );
+
+
+        card.appendChild(
+          body
+        );
+
+
+        grid.appendChild(
+          card
+        );
+
+      });
+
+
+      archive.appendChild(
+        grid
+      );
+
+    }
+
+
+    /* ==========================================
+       YEAR BUTTON EVENTS
+       ========================================== */
+
+    yearList
+      .querySelectorAll(".dc-year-btn")
+      .forEach(function (button) {
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            yearList
+              .querySelectorAll(".dc-year-btn")
+              .forEach(function (item) {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              });
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            renderIssues(
+              button.getAttribute(
+                "data-year"
+              )
+            );
+
+          }
+        );
+
+      });
+
+
+    /* ==========================================
+       INITIAL RENDER
+       ========================================== */
+
+    renderIssues("all");
+
+
+    /* ==========================================
+       PAGE TITLE
+       ========================================== */
+
+    document.title =
+      "ই-পেপার আর্কাইভ | দৈনিক চালচিত্র";
+
+  });
+
+})();
+</script>
