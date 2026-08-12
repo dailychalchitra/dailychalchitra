@@ -368,8 +368,8 @@ window.DCViewer = {
                 wrapper.innerHTML = "";
                 wrapper.appendChild(pageEl);
 
-                await this.waitForImages(pageEl);
-                await new Promise(r => setTimeout(r, 250));
+               await this.waitForImages(pageEl);
+await new Promise(r => setTimeout(r, 800));
 
                 const canvas = await html2canvas(pageEl, {
                     scale: 2, useCORS: true, allowTaint: true,
@@ -378,9 +378,18 @@ window.DCViewer = {
                 });
 
                 if(!canvas || canvas.width === 0 || canvas.height === 0){
-                    console.warn("পেজ", i+1, "ক্যাপচার ব্যর্থ হয়েছে, বাদ দেওয়া হচ্ছে।");
-                    continue;
-                }
+    console.warn("পেজ", i+1, "আবার চেষ্টা করছি...");
+    await new Promise(r => setTimeout(r, 500));
+    canvas = await html2canvas(pageEl, {
+        scale: 2, useCORS: true, allowTaint: true,
+        backgroundColor: "#ffffff", width: captureWidth,
+        windowWidth: captureWidth
+    });
+    if(!canvas || canvas.width === 0 || canvas.height === 0){
+        console.warn("পেজ", i+1, "এবারও ব্যর্থ, বাদ দেওয়া হচ্ছে।");
+        continue;
+    }
+}
 
                 const imgData = canvas.toDataURL("image/jpeg", 0.95);
                 const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
@@ -423,20 +432,20 @@ window.DCViewer = {
 
     // বাটন ১: "পুরো ই-পেপার PDF" - পুরো সপ্তাহ, ৪-কলাম
     async generateFullPDF(issueMeta){
-        if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
-        const printPages = this.buildPrintPages(this.posts);
-        const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-');
-        await this.capturePagesToPDF(printPages, issueMeta, fileName, { captureWidth: 1000, colWidth: 224, showHeader: true });
-    },
+    if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
+    const printPages = this.buildPrintPages(this.posts);
+    const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-');
+    await this.capturePagesToPDF(printPages, issueMeta, fileName, { captureWidth: 980, colWidth: 230, showHeader: true });
+},
 
     // বাটন ২: "এই পাতার PDF" - শুধু বর্তমান অন-স্ক্রিন পাতাটার লেখাগুলো, ৪-কলাম
     async downloadCurrentPagePDF(issueMeta){
-        const current = this.pages[this.currentPage - 1];
-        if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
-        const printPages = this.buildPrintPages(current);
-        const fileName = (issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage;
-        await this.capturePagesToPDF(printPages, issueMeta, fileName.replace(/\s+/g,'-'), { captureWidth: 1000, colWidth: 224, showHeader: true });
-    },
+    const current = this.pages[this.currentPage - 1];
+    if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
+    const printPages = this.buildPrintPages(current);
+    const fileName = (issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage;
+    await this.capturePagesToPDF(printPages, issueMeta, fileName.replace(/\s+/g,'-'), { captureWidth: 980, colWidth: 230, showHeader: true });
+},
 
     // বাটন ৩: শুধু একটা লেখার PDF - এক কলাম, চওড়া, সহজপাঠ্য
     async downloadSinglePostPDF(post){
