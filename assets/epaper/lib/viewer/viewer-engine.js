@@ -371,7 +371,11 @@ window.DCViewer = {
                await this.waitForImages(pageEl);
 await new Promise(r => setTimeout(r, 800));
 
-                const canvas = await html2canvas(pageEl, {
+                await document.fonts.ready;
+await new Promise(r => setTimeout(r, 300));
+const canvas = await html2canvas(pageEl, {
+   
+               const canvas = await html2canvas(pageEl, {
                     scale: 2, useCORS: true, allowTaint: true,
                     backgroundColor: "#ffffff", width: captureWidth,
                     windowWidth: captureWidth
