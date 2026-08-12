@@ -1,11 +1,14 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v12.0
-   FIX: "পুরো ই-পেপার PDF" এখন সবসময় ৪-কলাম ম্যানুয়াল গ্রিডে রেন্ডার হয়
-        (CSS column-count বাদ - html2canvas এ অনির্ভরযোগ্য ছিল)
-   FIX: ফাঁকা সাদা পেজ বাগ - ক্যাপচার wrapper পজিশনিং বদলানো হয়েছে
+   Daily Chalchitra ePaper Engine - v13.0
+   FIX: কবিতার height এখন লাইনসংখ্যা দিয়ে হিসাব হয় (অক্ষরসংখ্যা না) -
+        আগে ভুল হিসাবে একটা কলাম অতিরিক্ত লম্বা হয়ে যাচ্ছিল
+   FIX: ৪-কলাম গ্লোবালি ব্যালেন্স করা হয় যাতে সবগুলো কলাম প্রায়
+        সমান উচ্চতার হয় (নাহলে স্লাইসের সময় শুধু একটা কলাম দেখা যেত)
+   FIX: প্রতিটা প্রিন্ট-পেজ যেন একটা A4 পেজের মধ্যেই আঁটে সেই
+        হিসেবে height limit টাইট করা হয়েছে
    ========================================================== */
 window.DCViewer = {
-    version: "12.0",
+    version: "13.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -66,6 +69,8 @@ window.DCViewer = {
         if(Array.isArray(post.tags)) return post.tags.some(t => (t||"").includes("কবিতা"));
         return false;
     },
+
+    // ===== অন-স্ক্রিন রিডিং এর জন্য height হিসাব (আগের মতোই) =====
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
@@ -79,7 +84,28 @@ window.DCViewer = {
         return height;
     },
 
-    /* ===== অন-স্ক্রিন রিডিং পেজিনেশন (আগের মতোই - এতে হাত দেওয়া হয়নি) ===== */
+    // ===== প্রিন্ট/PDF (সংকীর্ণ ৪-কলাম) এর জন্য নির্ভুল height হিসাব =====
+    estimatePrintHeight(post){
+        let height = 120;
+        if(post.image) height += 165;
+        if(post.title) height += Math.ceil(post.title.length / 20) * 24;
+
+        const raw = post.content || post.excerpt || "";
+        if(this.isKobita(post)){
+            // কবিতায় লাইনসংখ্যা গুনে হিসাব - অক্ষরসংখ্যা দিয়ে না (এটাই আগের বাগের কারণ ছিল)
+            const brCount = (raw.match(/<br\s*\/?>/gi) || []).length;
+            const pCount = (raw.match(/<\/p>\s*<p[^>]*>/gi) || []).length;
+            const lineCount = Math.max(brCount + pCount + 1, 3);
+            height += lineCount * 23 + 50;
+        } else {
+            const plainText = raw.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
+            // প্রিন্ট কলাম সংকীর্ণ (~230px), তাই প্রতি লাইনে কম অক্ষর ধরা হচ্ছে
+            height += Math.ceil(plainText.length / 68) * 17;
+        }
+        return height;
+    },
+
+    /* ===== অন-স্ক্রিন রিডিং পেজিনেশন (আগের মতোই - অপরিবর্তিত) ===== */
     buildPages(){
         this.pages = [];
         if(!this.posts.length){ this.totalPages = 0; this.currentPage = 1; this.render(); return; }
@@ -231,25 +257,40 @@ window.DCViewer = {
         return Promise.all(Array.from(imgs).map(img=>{
             if(img.complete && img.naturalWidth > 0) return Promise.resolve();
             return new Promise(resolve=>{
-                const done = ()=>resolve();
-                img.addEventListener("load", done, {once:true});
+                img.addEventListener("load", ()=>resolve(), {once:true});
                 img.addEventListener("error", ()=>{ img.remove(); resolve(); }, {once:true});
                 setTimeout(()=>{ if(!img.complete){ img.remove(); } resolve(); }, 4000);
             });
         }));
     },
 
-    /* ==========================================================
-       পোস্টগুলোকে ক্রম ঠিক রেখে "কলাম" এ ভাগ করে - প্রতিটা কলামের
-       উচ্চতা সর্বোচ্চ targetColHeight পর্যন্ত ভরে তারপর পরের কলামে যায়।
-       ছোট লেখা হলে তার নিচেই পরের লেখা বসে যাবে (ফাঁকা জায়গা থাকবে না)।
-       ========================================================== */
-    splitIntoColumns(posts, heights, targetColHeight){
+    // নির্দিষ্ট সংখ্যক কলামের মধ্যে (order ঠিক রেখে) posts ভাগ করলে
+    // সর্বনিম্ন যে "সর্বোচ্চ কলাম-height" দরকার সেটা বাইনারি সার্চ দিয়ে বের করে -
+    // এতে সবগুলো কলাম প্রায় সমান উচ্চতার হয় (ব্যালেন্সড)
+    minimalMaxColumnHeight(heights, numColumns){
+        let lo = Math.max(...heights, 1);
+        let hi = heights.reduce((a,b)=>a+b, 0) || lo;
+        const feasible = (limit) => {
+            let cols = 1, cur = 0;
+            for(const h of heights){
+                if(cur > 0 && cur + h > limit){ cols++; cur = 0; }
+                cur += h;
+            }
+            return cols <= numColumns;
+        };
+        while(lo < hi){
+            const mid = Math.floor((lo + hi) / 2);
+            if(feasible(mid)) hi = mid; else lo = mid + 1;
+        }
+        return lo;
+    },
+
+    splitIntoColumns(posts, heights, maxColHeight){
         const columns = [];
         let cur = [], curH = 0;
         for(let i = 0; i < posts.length; i++){
             const h = heights[i];
-            if(cur.length && curH + h > targetColHeight){
+            if(cur.length && curH + h > maxColHeight){
                 columns.push(cur);
                 cur = []; curH = 0;
             }
@@ -260,15 +301,32 @@ window.DCViewer = {
         return columns;
     },
 
-    // পুরো সপ্তাহের সব লেখা সবসময় ৪-কলাম গ্রিডে ভাগ করে, যতগুলো পেজ প্রয়োজন ততগুলো তৈরি করে
+    // পুরো সপ্তাহের সব লেখা সবসময় ৪-কলাম গ্রিডে ভাগ করে - গ্লোবালি ব্যালেন্স করে
+    // (যাতে একটা কলাম বেশি লম্বা আর বাকিগুলো ছোট না হয়ে যায়), এবং প্রতিটা পেজ
+    // যেন একটা A4 পেজের মধ্যেই আঁটে সেটা নিশ্চিত করে
     buildPrintPages(){
-        const heights = this.posts.map(p => this.estimatePostHeight(p));
-        const targetColHeight = 1550; // একটা কলামের সর্বোচ্চ ধারণক্ষমতা (px)
-        const columns = this.splitIntoColumns(this.posts, heights, targetColHeight);
+        const heights = this.posts.map(p => this.estimatePrintHeight(p));
+        const totalHeight = heights.reduce((a,b)=>a+b, 0);
+        const safeColHeight = 1180; // একটা A4 প্রিন্ট-পেজে একটা কলামের নিরাপদ সর্বোচ্চ উচ্চতা (px)
 
+        let pageCount = Math.max(1, Math.ceil(totalHeight / (safeColHeight * 4)));
+        let numColumns = pageCount * 4;
+        let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
+
+        // ব্যালেন্স করার পরও যদি কোনো কলাম নিরাপদ সীমার চেয়ে লম্বা হয়ে যায় -
+        // পেজ সংখ্যা বাড়িয়ে আবার ব্যালেন্স করা হচ্ছে
+        let guard = 0;
+        while(maxColHeight > safeColHeight && guard < 20){
+            pageCount++;
+            numColumns = pageCount * 4;
+            maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
+            guard++;
+        }
+
+        const columns = this.splitIntoColumns(this.posts, heights, maxColHeight);
         const printPages = [];
         for(let i = 0; i < columns.length; i += 4){
-            printPages.push(columns.slice(i, i + 4)); // প্রতিটা পেজে সর্বোচ্চ ৪টা কলাম
+            printPages.push(columns.slice(i, i + 4));
         }
         if(printPages.length === 0 && this.posts.length){
             printPages.push([this.posts]);
@@ -350,6 +408,7 @@ window.DCViewer = {
                 if(imgHeightMM <= pageHeightMM){
                     pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
                 } else {
+                    // ব্যতিক্রমী ক্ষেত্রে (যেমন একাই খুব লম্বা একটা লেখা) - সেফটি ফলব্যাক
                     let heightLeftMM = imgHeightMM;
                     let positionMM = 0;
                     let first = true;
