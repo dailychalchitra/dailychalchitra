@@ -1,14 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v13.0
-   FIX: কবিতার height এখন লাইনসংখ্যা দিয়ে হিসাব হয় (অক্ষরসংখ্যা না) -
-        আগে ভুল হিসাবে একটা কলাম অতিরিক্ত লম্বা হয়ে যাচ্ছিল
-   FIX: ৪-কলাম গ্লোবালি ব্যালেন্স করা হয় যাতে সবগুলো কলাম প্রায়
-        সমান উচ্চতার হয় (নাহলে স্লাইসের সময় শুধু একটা কলাম দেখা যেত)
-   FIX: প্রতিটা প্রিন্ট-পেজ যেন একটা A4 পেজের মধ্যেই আঁটে সেই
-        হিসেবে height limit টাইট করা হয়েছে
+   Daily Chalchitra ePaper Engine - v14.0
+   FIX: প্রিন্ট-কলাম এখন সবসময় ফিক্সড width (224px) - লেখা বড়/ছোট
+        যাই হোক না কেন, কলামের সাইজ সবসময় সমান থাকবে
+   FIX: প্রিন্ট বাটনে zoom-transform বাদ দেওয়া হয় - "খালি পেজ" বাগ ফিক্স
+   FIX: সিঙ্গেল-পোস্ট PDF এখন বেশি রেজোলিউশনে (স্পষ্ট) তৈরি হয়
    ========================================================== */
 window.DCViewer = {
-    version: "13.0",
+    version: "14.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -70,7 +68,7 @@ window.DCViewer = {
         return false;
     },
 
-    // ===== অন-স্ক্রিন রিডিং এর জন্য height হিসাব (আগের মতোই) =====
+    // ===== অন-স্ক্রিন রিডিং এর জন্য height হিসাব (অপরিবর্তিত) =====
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
@@ -84,23 +82,23 @@ window.DCViewer = {
         return height;
     },
 
-    // ===== প্রিন্ট/PDF (সংকীর্ণ ৪-কলাম) এর জন্য নির্ভুল height হিসাব =====
+    // ===== প্রিন্ট/PDF (ফিক্সড ২২৪px কলাম) এর জন্য height হিসাব =====
+    // ইচ্ছাকৃতভাবে একটু রক্ষণশীল (কম chars-per-line ধরা) - বেশি লেখা একটা
+    // কলামে গুঁজে overflow/ফাঁকা-পেজ হওয়ার চেয়ে একটু বেশি পেজ হওয়া ভালো
     estimatePrintHeight(post){
         let height = 120;
-        if(post.image) height += 165;
-        if(post.title) height += Math.ceil(post.title.length / 20) * 24;
+        if(post.image) height += 160;
+        if(post.title) height += Math.ceil(post.title.length / 18) * 24;
 
         const raw = post.content || post.excerpt || "";
         if(this.isKobita(post)){
-            // কবিতায় লাইনসংখ্যা গুনে হিসাব - অক্ষরসংখ্যা দিয়ে না (এটাই আগের বাগের কারণ ছিল)
             const brCount = (raw.match(/<br\s*\/?>/gi) || []).length;
             const pCount = (raw.match(/<\/p>\s*<p[^>]*>/gi) || []).length;
             const lineCount = Math.max(brCount + pCount + 1, 3);
-            height += lineCount * 23 + 50;
+            height += lineCount * 24 + 50;
         } else {
             const plainText = raw.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-            // প্রিন্ট কলাম সংকীর্ণ (~230px), তাই প্রতি লাইনে কম অক্ষর ধরা হচ্ছে
-            height += Math.ceil(plainText.length / 68) * 17;
+            height += Math.ceil(plainText.length / 34) * 18;
         }
         return height;
     },
@@ -195,8 +193,8 @@ window.DCViewer = {
             clone.querySelectorAll("img").forEach(img=>{ img.setAttribute("crossorigin","anonymous"); img.style.maxWidth="100%"; });
             await html2pdf().set({
                 margin: 10, filename: fileName,
-                image: {type:'jpeg', quality:0.92},
-                html2canvas: {scale:1.6, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
+                image: {type:'jpeg', quality:0.97},
+                html2canvas: {scale:2.4, useCORS:true, allowTaint:true, backgroundColor:"#fff", logging:false},
                 jsPDF: {unit:'mm', format:'a4', orientation:'portrait'}
             }).from(clone).save();
         } catch(e){ alert("PDF তৈরি করা যায়নি।"); }
@@ -264,9 +262,6 @@ window.DCViewer = {
         }));
     },
 
-    // নির্দিষ্ট সংখ্যক কলামের মধ্যে (order ঠিক রেখে) posts ভাগ করলে
-    // সর্বনিম্ন যে "সর্বোচ্চ কলাম-height" দরকার সেটা বাইনারি সার্চ দিয়ে বের করে -
-    // এতে সবগুলো কলাম প্রায় সমান উচ্চতার হয় (ব্যালেন্সড)
     minimalMaxColumnHeight(heights, numColumns){
         let lo = Math.max(...heights, 1);
         let hi = heights.reduce((a,b)=>a+b, 0) || lo;
@@ -301,22 +296,17 @@ window.DCViewer = {
         return columns;
     },
 
-    // পুরো সপ্তাহের সব লেখা সবসময় ৪-কলাম গ্রিডে ভাগ করে - গ্লোবালি ব্যালেন্স করে
-    // (যাতে একটা কলাম বেশি লম্বা আর বাকিগুলো ছোট না হয়ে যায়), এবং প্রতিটা পেজ
-    // যেন একটা A4 পেজের মধ্যেই আঁটে সেটা নিশ্চিত করে
     buildPrintPages(){
         const heights = this.posts.map(p => this.estimatePrintHeight(p));
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
-        const safeColHeight = 1180; // একটা A4 প্রিন্ট-পেজে একটা কলামের নিরাপদ সর্বোচ্চ উচ্চতা (px)
+        const safeColHeight = 1100; // ফিক্সড ২২৪px কলামের জন্য নিরাপদ সর্বোচ্চ উচ্চতা (px)
 
         let pageCount = Math.max(1, Math.ceil(totalHeight / (safeColHeight * 4)));
         let numColumns = pageCount * 4;
         let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
 
-        // ব্যালেন্স করার পরও যদি কোনো কলাম নিরাপদ সীমার চেয়ে লম্বা হয়ে যায় -
-        // পেজ সংখ্যা বাড়িয়ে আবার ব্যালেন্স করা হচ্ছে
         let guard = 0;
-        while(maxColHeight > safeColHeight && guard < 20){
+        while(maxColHeight > safeColHeight && guard < 25){
             pageCount++;
             numColumns = pageCount * 4;
             maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
@@ -334,7 +324,6 @@ window.DCViewer = {
         return printPages;
     },
 
-    // পুরো সপ্তাহের সব পাতা ক্যাপচার করে একটাই multi-page PDF বানায় - সবসময় ৪-কলাম লেআউটে
     async generateFullPDF(issueMeta){
         if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
@@ -408,7 +397,6 @@ window.DCViewer = {
                 if(imgHeightMM <= pageHeightMM){
                     pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
                 } else {
-                    // ব্যতিক্রমী ক্ষেত্রে (যেমন একাই খুব লম্বা একটা লেখা) - সেফটি ফলব্যাক
                     let heightLeftMM = imgHeightMM;
                     let positionMM = 0;
                     let first = true;
