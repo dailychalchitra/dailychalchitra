@@ -1,11 +1,13 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v15.0
-   FIX: তিনটা PDF বাটনই (পুরো সপ্তাহ, বর্তমান পাতা, সিঙ্গেল পোস্ট)
-        এখন একই নির্ভরযোগ্য html2canvas+jsPDF পদ্ধতি ব্যবহার করে
-   REMOVED: window.print() এবং html2pdf.js নির্ভরতা (অনির্ভরযোগ্য ছিল)
+   Daily Chalchitra ePaper Engine - v16.0
+   FIX: অস্বাভাবিক লম্বা লেখা (মহাকাব্য/উপন্যাসের বড় অংশ) এখন
+        ৪-কলাম গ্রিডে জোর করে ঢোকানো হয় না - নিজের একটা পূর্ণ-চওড়া
+        পেজে আলাদা বসে, যাতে বাকি কলাম ফাঁকা থেকে "ভুতুড়ে পেজ" না হয়
+   FIX: সিঙ্গেল-পোস্ট PDF এখন কনটেন্টের length অনুযায়ী কাস্টম পেজ-সাইজ
+        ব্যবহার করে - ছোট লেখায় অকারণে ফাঁকা A4 পেজ থাকবে না
    ========================================================== */
 window.DCViewer = {
-    version: "15.0",
+    version: "16.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -93,7 +95,7 @@ window.DCViewer = {
             height += lineCount * 24 + 50;
         } else {
             const plainText = raw.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-            height += Math.ceil(plainText.length / 34) * 18;
+            height += Math.ceil(plainText.length / 42) * 18;
         }
         return height;
     },
@@ -280,9 +282,10 @@ window.DCViewer = {
         return columns;
     },
 
-    buildPrintPages(posts){
-        const source = posts || this.posts;
-        const heights = source.map(p => this.estimatePrintHeight(p));
+    // সাধারণ (ছোট/মাঝারি) লেখাগুলোকে ৪-কলাম ব্যালেন্সড গ্রিড পেজে ভাগ করে
+    buildGridPages(posts){
+        if(!posts.length) return [];
+        const heights = posts.map(p => this.estimatePrintHeight(p));
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
         const safeColHeight = 1100;
 
@@ -291,42 +294,98 @@ window.DCViewer = {
         let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
 
         let guard = 0;
-        while(maxColHeight > safeColHeight && guard < 25){
+        while(maxColHeight > safeColHeight && guard < 15){
             pageCount++;
             numColumns = pageCount * 4;
             maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
             guard++;
         }
 
-        const columns = this.splitIntoColumns(source, heights, maxColHeight);
-        const printPages = [];
+        const columns = this.splitIntoColumns(posts, heights, maxColHeight);
+        const gridPages = [];
         for(let i = 0; i < columns.length; i += 4){
-            printPages.push(columns.slice(i, i + 4));
+            gridPages.push({ type: 'grid', cols: columns.slice(i, i + 4) });
         }
+        return gridPages;
+    },
+
+    // মূল ফাংশন: সাধারণ লেখা ৪-কলামে, অস্বাভাবিক লম্বা লেখা (মহাকাব্য/বড়
+    // উপন্যাস অংশ ইত্যাদি) তার নিজের পূর্ণ-চওড়া আলাদা পেজে - ক্রম ঠিক রেখে
+    buildPrintPages(posts){
+        const source = posts && posts.length ? posts : this.posts;
+        if(!source.length) return [];
+
+        const megaThreshold = 2200; // এর চেয়ে লম্বা লেখা একা একটা পেজ পাবে
+        const printPages = [];
+        let batch = [];
+
+        const flushBatch = () => {
+            if(!batch.length) return;
+            this.buildGridPages(batch).forEach(p => printPages.push(p));
+            batch = [];
+        };
+
+        source.forEach(post => {
+            const h = this.estimatePrintHeight(post);
+            if(h > megaThreshold){
+                flushBatch();
+                printPages.push({ type: 'wide', post });
+            } else {
+                batch.push(post);
+            }
+        });
+        flushBatch();
+
         if(printPages.length === 0 && source.length){
-            printPages.push([source]);
+            printPages.push({ type: 'wide', post: source[0] });
         }
         return printPages;
     },
 
     /* ==========================================================
-       মূল, একক, নির্ভরযোগ্য PDF-ক্যাপচার ইঞ্জিন - তিনটা বাটনই এটা ব্যবহার করে
+       একটা পেজ-এলিমেন্ট html2canvas দিয়ে ক্যাপচার করে ক্যানভাস রিটার্ন করে
        ========================================================== */
-    async capturePagesToPDF(printPages, issueMeta, fileName, opts = {}){
+    async captureElement(pageEl, wrapper, captureWidth){
+        wrapper.innerHTML = "";
+        wrapper.appendChild(pageEl);
+        await this.waitForImages(pageEl);
+        await new Promise(r => setTimeout(r, 220));
+        return html2canvas(pageEl, {
+            scale: 2, useCORS: true, allowTaint: true,
+            backgroundColor: "#ffffff", width: captureWidth, windowWidth: captureWidth
+        });
+    },
+
+    buildHeadHTML(issueMeta, pageNum, totalPages, showHeader){
+        if(!showHeader){
+            return `<div class="dc-paper-head"><img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dc-paper-logo" crossorigin="anonymous"></div>`;
+        }
+        return `
+            <div class="dc-paper-head">
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dc-paper-logo" crossorigin="anonymous">
+                <div class="dc-paper-head-info">
+                    <span>সংখ্যা: ${issueMeta?.week || ""}</span>
+                    <span>${issueMeta?.date || ""}</span>
+                    <span>পৃষ্ঠা ${pageNum} / ${totalPages}</span>
+                </div>
+            </div>`;
+    },
+
+    /* ==========================================================
+       একাধিক পেজ (grid বা wide) ক্যাপচার করে একটাই multi-page A4 PDF বানায়
+       ========================================================== */
+    async capturePagesToPDF(printPages, issueMeta, fileName){
         if(!printPages.length) return false;
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
-        const captureWidth = opts.captureWidth || 1000;
-        const colWidth = opts.colWidth || 224;
-        const showHeader = opts.showHeader !== false;
+        const captureWidth = 1000;
+        const gridColWidth = 224;
+        const wideColWidth = 900;
 
         const host = document.createElement("div");
-        host.style.position = "absolute";
-        host.style.top = "0"; host.style.left = "0";
-        host.style.width = "0"; host.style.height = "0";
-        host.style.overflow = "hidden";
+        host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
+        host.style.width = "0"; host.style.height = "0"; host.style.overflow = "hidden";
         document.body.appendChild(host);
-
         const wrapper = document.createElement("div");
         wrapper.style.width = captureWidth + "px";
         host.appendChild(wrapper);
@@ -340,45 +399,30 @@ window.DCViewer = {
             let addedAnyPage = false;
 
             for(let i = 0; i < printPages.length; i++){
+                const pg = printPages[i];
                 const pageEl = document.createElement("div");
                 pageEl.className = "dc-capture-page";
                 pageEl.style.width = captureWidth + "px";
 
-                const headHTML = showHeader ? `
-                    <div class="dc-paper-head">
-                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dc-paper-logo" crossorigin="anonymous">
-                        <div class="dc-paper-head-info">
-                            <span>সংখ্যা: ${issueMeta?.week || ""}</span>
-                            <span>${issueMeta?.date || ""}</span>
-                            <span>পৃষ্ঠা ${i+1} / ${printPages.length}</span>
-                        </div>
-                    </div>` : `
-                    <div class="dc-paper-head">
-                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dc-paper-logo" crossorigin="anonymous">
+                const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length, true);
+                let colsHTML;
+                if(pg.type === 'wide'){
+                    colsHTML = `<div class="dc-print-col" style="flex:0 0 ${wideColWidth}px;width:${wideColWidth}px;">
+                        <article class="dc-post-card">${this.buildCardHTML(pg.post, false)}</article>
                     </div>`;
+                } else {
+                    colsHTML = pg.cols.map(colPosts => `
+                        <div class="dc-print-col" style="flex:0 0 ${gridColWidth}px;width:${gridColWidth}px;">
+                            ${colPosts.map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
+                        </div>
+                    `).join("");
+                }
 
-                const cols = printPages[i];
-                const colsHTML = cols.map(colPosts => `
-                    <div class="dc-print-col" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
-                        ${colPosts.map(post => `<article class="dc-post-card">${this.buildCardHTML(post, false)}</article>`).join("")}
-                    </div>
-                `).join("");
+                pageEl.innerHTML = headHTML + `<div class="dc-print-columns" style="justify-content:${pg.type==='wide'?'flex-start':'flex-start'};">${colsHTML}</div>`;
 
-                pageEl.innerHTML = headHTML + `<div class="dc-print-columns">${colsHTML}</div>`;
-                wrapper.innerHTML = "";
-                wrapper.appendChild(pageEl);
-
-                await this.waitForImages(pageEl);
-                await new Promise(r => setTimeout(r, 250));
-
-                const canvas = await html2canvas(pageEl, {
-                    scale: 2, useCORS: true, allowTaint: true,
-                    backgroundColor: "#ffffff", width: captureWidth,
-                    windowWidth: captureWidth
-                });
-
+                const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
                 if(!canvas || canvas.width === 0 || canvas.height === 0){
-                    console.warn("পেজ", i+1, "ক্যাপচার ব্যর্থ হয়েছে, বাদ দেওয়া হচ্ছে।");
+                    console.warn("পেজ", i+1, "ক্যাপচার ব্যর্থ, বাদ দেওয়া হচ্ছে।");
                     continue;
                 }
 
@@ -391,15 +435,11 @@ window.DCViewer = {
                 if(imgHeightMM <= pageHeightMM){
                     pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
                 } else {
-                    let heightLeftMM = imgHeightMM;
-                    let positionMM = 0;
-                    let first = true;
+                    let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
                     while(heightLeftMM > 0){
-                        if(!first){ pdf.addPage(); }
+                        if(!first) pdf.addPage();
                         pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
-                        heightLeftMM -= pageHeightMM;
-                        positionMM -= pageHeightMM;
-                        first = false;
+                        heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
                     }
                 }
             }
@@ -410,7 +450,6 @@ window.DCViewer = {
             } else {
                 pdf.save(fileName + ".pdf");
             }
-
         } catch(e){
             console.error(e);
             alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
@@ -421,28 +460,82 @@ window.DCViewer = {
         return success;
     },
 
-    // বাটন ১: "পুরো ই-পেপার PDF" - পুরো সপ্তাহ, ৪-কলাম
+    // বাটন ১: "পুরো ই-পেপার PDF"
     async generateFullPDF(issueMeta){
         if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         const printPages = this.buildPrintPages(this.posts);
         const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-');
-        await this.capturePagesToPDF(printPages, issueMeta, fileName, { captureWidth: 1000, colWidth: 224, showHeader: true });
+        await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
-    // বাটন ২: "এই পাতার PDF" - শুধু বর্তমান অন-স্ক্রিন পাতাটার লেখাগুলো, ৪-কলাম
+    // বাটন ২: "এই পাতার PDF"
     async downloadCurrentPagePDF(issueMeta){
         const current = this.pages[this.currentPage - 1];
         if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
         const printPages = this.buildPrintPages(current);
-        const fileName = (issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage;
-        await this.capturePagesToPDF(printPages, issueMeta, fileName.replace(/\s+/g,'-'), { captureWidth: 1000, colWidth: 224, showHeader: true });
+        const fileName = ((issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage).replace(/\s+/g,'-');
+        await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
-    // বাটন ৩: শুধু একটা লেখার PDF - এক কলাম, চওড়া, সহজপাঠ্য
+    // বাটন ৩: শুধু একটা লেখার PDF - কাস্টম পেজ-সাইজ (কনটেন্ট অনুযায়ী ফিট, ফাঁকা পেজ নেই)
     async downloadSinglePostPDF(post){
-        const printPages = [[[post]]];
-        const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
-        await this.capturePagesToPDF(printPages, null, fileName, { captureWidth: 800, colWidth: 720, showHeader: false });
+        if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
+
+        const captureWidth = 800;
+        const host = document.createElement("div");
+        host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
+        host.style.width = "0"; host.style.height = "0"; host.style.overflow = "hidden";
+        document.body.appendChild(host);
+        const wrapper = document.createElement("div");
+        wrapper.style.width = captureWidth + "px";
+        host.appendChild(wrapper);
+
+        try{
+            const pageEl = document.createElement("div");
+            pageEl.className = "dc-capture-page";
+            pageEl.style.width = captureWidth + "px";
+            pageEl.innerHTML = this.buildHeadHTML(null, 1, 1, false) +
+                `<div class="dc-print-columns"><div class="dc-print-col" style="flex:0 0 720px;width:720px;">
+                    <article class="dc-post-card">${this.buildCardHTML(post, false)}</article>
+                </div></div>`;
+
+            const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
+            if(!canvas || canvas.width === 0 || canvas.height === 0){
+                alert("PDF তৈরি করা যায়নি।"); return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const imgData = canvas.toDataURL("image/jpeg", 0.97);
+
+            // কনটেন্ট অনুযায়ী পেজের সাইজ - A4 প্রস্থ কিন্তু height কনটেন্ট-ফিট
+            const pageWidthMM = 210;
+            let contentHeightMM = canvas.height * pageWidthMM / canvas.width;
+            const maxHeightMM = 297 * 4; // অস্বাভাবিক লম্বা হলে সর্বোচ্চ ৪ পাতার সমান
+
+            if(contentHeightMM <= maxHeightMM){
+                const pdf = new jsPDF({ unit: 'mm', format: [pageWidthMM, Math.max(contentHeightMM, 40)], orientation: 'portrait' });
+                pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, contentHeightMM);
+                const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
+                pdf.save(fileName);
+            } else {
+                // খুব লম্বা লেখা - স্বাভাবিক A4 পেজে ভাগ করে সেভ
+                const pdf = new jsPDF("p", "mm", "a4");
+                const pageHeightMM = pdf.internal.pageSize.getHeight();
+                let heightLeftMM = contentHeightMM, positionMM = 0, first = true;
+                while(heightLeftMM > 0){
+                    if(!first) pdf.addPage();
+                    pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, contentHeightMM);
+                    heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
+                }
+                const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
+                pdf.save(fileName);
+            }
+        } catch(e){
+            console.error(e);
+            alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+        } finally {
+            host.remove();
+        }
     }
 };
 window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
