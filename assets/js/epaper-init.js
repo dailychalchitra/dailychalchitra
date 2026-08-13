@@ -1,814 +1,1528 @@
 /* ==========================================================
    Daily Chalchitra ePaper
    epaper-init.js
-   Version: 1.0
+   Version: 2.0
 
    কাজ:
-   - ePaper সেকশনের সব JavaScript module-এর initialization
-   - epaper-data.js / epaper-core.js / epaper-viewer.js
-     একসঙ্গে সমন্বয় করা
-   - DOM প্রস্তুত হওয়ার পর ePaper চালু করা
-   - Dropdown, issue, viewer এবং page navigation-এর
-     initialization trigger করা
-   - আগের function থাকলে সেটিকে ব্যবহার করা
-   - কোনো function না থাকলে error না দিয়ে graceful fallback
+   - সব ePaper module সমন্বয়
+   - Core data load
+   - Viewer initialization
+   - URL issue নির্বাচন
+   - প্রথম page প্রদর্শন
+   - Page navigation controls
+   - Dropdown
+   - Keyboard
+   - Responsive handling
    ========================================================== */
 
 (function () {
-  'use strict';
 
-  /* ----------------------------------------------------------
-     Global namespace
-     ---------------------------------------------------------- */
-
-  window.DailyChalchitraEPaper =
-    window.DailyChalchitraEPaper || {};
-
-  var DC = window.DailyChalchitraEPaper;
+    'use strict';
 
 
-  /* ----------------------------------------------------------
-     Configuration
-     ---------------------------------------------------------- */
+    /* ======================================================
+       Global Namespace
+       ====================================================== */
 
-  DC.config = DC.config || {
-
-    /* ePaper মূল পেজ */
-    homePage: '/_epaper/epaper-home.html',
-
-    /* Data file */
-    dataFile: '/assets/js/epaper-data.js',
-
-    /* Core module */
-    coreFile: '/assets/js/epaper-core.js',
-
-    /* Viewer module */
-    viewerFile: '/assets/js/epaper-viewer.js',
-
-    /* CSS */
-    cssFile: '/assets/css/epaper.css',
-
-    /* Debug mode */
-    debug: false
-
-  };
+    window.DailyChalchitraEPaper =
+        window.DailyChalchitraEPaper || {};
 
 
-  /* ----------------------------------------------------------
-     Debug helper
-     ---------------------------------------------------------- */
-
-  DC.log = function () {
-
-    if (!DC.config.debug) {
-      return;
-    }
-
-    if (window.console && console.log) {
-      console.log.apply(console, arguments);
-    }
-
-  };
+    var DC =
+        window.DailyChalchitraEPaper;
 
 
-  /* ----------------------------------------------------------
-     Error helper
-     ---------------------------------------------------------- */
+    /* ======================================================
+       Configuration
+       ====================================================== */
 
-  DC.error = function () {
-
-    if (window.console && console.error) {
-      console.error.apply(console, arguments);
-    }
-
-  };
+    DC.config =
+        DC.config || {};
 
 
-  /* ----------------------------------------------------------
-     CSS loader
-     ---------------------------------------------------------- */
+    DC.config = Object.assign(
 
-  DC.loadCSS = function () {
+        {
 
-    var href = DC.config.cssFile;
+            homePage:
+                '/_epaper/epaper-home.html',
 
-    if (!href) {
-      return;
-    }
+            dataFile:
+                '/assets/epaper/issues/issues.json',
 
-    var existing = document.querySelector(
-      'link[data-dc-epaper-css="true"]'
+            cssFile:
+                '/assets/css/epaper.css',
+
+            debug:
+                false
+
+        },
+
+        DC.config
+
     );
 
-    if (existing) {
-      return;
-    }
 
-    var links = document.querySelectorAll(
-      'link[rel="stylesheet"]'
-    );
+    /* ======================================================
+       Debug
+       ====================================================== */
 
-    for (var i = 0; i < links.length; i++) {
+    DC.log =
+        function () {
 
-      if (
-        links[i].href &&
-        links[i].href.indexOf('epaper.css') !== -1
-      ) {
-        return;
-      }
+            if (
+                !DC.config.debug
+            ) {
 
-    }
+                return;
 
-    var link = document.createElement('link');
+            }
 
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = href;
-    link.setAttribute(
-      'data-dc-epaper-css',
-      'true'
-    );
 
-    document.head.appendChild(link);
+            if (
+                window.console &&
+                console.log
+            ) {
 
-    DC.log(
-      'Daily Chalchitra ePaper CSS loaded:',
-      href
-    );
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Generic function caller
-     ---------------------------------------------------------- */
-
-  DC.callIfExists = function (names, args) {
-
-    if (!Array.isArray(names)) {
-      names = [names];
-    }
-
-    args = args || [];
-
-    for (var i = 0; i < names.length; i++) {
-
-      var name = names[i];
-
-      try {
-
-        if (
-          typeof window[name] === 'function'
-        ) {
-
-          DC.log(
-            'Calling ePaper function:',
-            name
-          );
-
-          return window[name].apply(
-            window,
-            args
-          );
-
-        }
-
-      } catch (error) {
-
-        DC.error(
-          'ePaper function error:',
-          name,
-          error
-        );
-
-      }
-
-    }
-
-    return null;
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Detect ePaper page
-     ---------------------------------------------------------- */
-
-  DC.isEPaperPage = function () {
-
-    var path =
-      window.location.pathname || '';
-
-    var body =
-      document.body;
-
-    if (
-      path.indexOf('/_epaper/') === 0
-    ) {
-      return true;
-    }
-
-    if (
-      document.getElementById(
-        'dc-epaper-page'
-      )
-    ) {
-      return true;
-    }
-
-    if (
-      document.getElementById(
-        'dc-issues'
-      )
-    ) {
-      return true;
-    }
-
-    if (
-      document.getElementById(
-        'dc-archive-list'
-      )
-    ) {
-      return true;
-    }
-
-    if (
-      body &&
-      body.classList &&
-      body.classList.contains(
-        'dc-epaper-page'
-      )
-    ) {
-      return true;
-    }
-
-    return false;
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Prepare page
-     ---------------------------------------------------------- */
-
-  DC.preparePage = function () {
-
-    if (!document.body) {
-      return;
-    }
-
-    document.body.classList.add(
-      'dc-epaper-ready'
-    );
-
-    DC.log(
-      'Daily Chalchitra ePaper page prepared.'
-    );
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Initialize data
-     ---------------------------------------------------------- */
-
-  DC.initData = function () {
-
-    /*
-      epaper-data.js সাধারণত global data অথবা
-      data-related function তৈরি করবে।
-
-      এখানে বিভিন্ন সম্ভাব্য function name
-      support করা হয়েছে।
-    */
-
-    var result = DC.callIfExists(
-      [
-        'dcInitEpaperData',
-        'initEpaperData',
-        'dcLoadEpaperData',
-        'loadEpaperData'
-      ]
-    );
-
-    return result;
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Initialize core
-     ---------------------------------------------------------- */
-
-  DC.initCore = function () {
-
-    var result = DC.callIfExists(
-      [
-        'dcInitEpaper',
-        'initEpaper',
-        'dcEpaperInit',
-        'initializeEpaper'
-      ]
-    );
-
-    return result;
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Initialize issue/archive section
-     ---------------------------------------------------------- */
-
-  DC.initIssues = function () {
-
-    var result = DC.callIfExists(
-      [
-        'dcRenderIssues',
-        'renderEpaperIssues',
-        'dcLoadIssues',
-        'loadEpaperIssues',
-        'dcInitIssues',
-        'initEpaperIssues'
-      ]
-    );
-
-    return result;
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Initialize viewer
-     ---------------------------------------------------------- */
-
-  DC.initViewer = function () {
-
-    var result = DC.callIfExists(
-      [
-        'dcInitViewer',
-        'initEpaperViewer',
-        'dcEpaperViewerInit',
-        'initializeEpaperViewer'
-      ]
-    );
-
-    return result;
-
-  };
-
-
-  /* ----------------------------------------------------------
-     Initialize dropdowns
-     ---------------------------------------------------------- */
-
-  DC.initDropdowns = function () {
-
-    var dropdowns =
-      document.querySelectorAll(
-        '.dc-dropdown'
-      );
-
-    if (!dropdowns.length) {
-      return;
-    }
-
-    dropdowns.forEach(function (dropdown) {
-
-      var button =
-        dropdown.querySelector(
-          '.dc-dropdown-btn'
-        );
-
-      if (!button) {
-        return;
-      }
-
-      /*
-        Duplicate listener prevent করার জন্য
-        data attribute ব্যবহার করা হচ্ছে।
-      */
-
-      if (
-        button.getAttribute(
-          'data-dc-dropdown-ready'
-        ) === 'true'
-      ) {
-        return;
-      }
-
-      button.setAttribute(
-        'data-dc-dropdown-ready',
-        'true'
-      );
-
-      button.addEventListener(
-        'click',
-        function (event) {
-
-          event.preventDefault();
-          event.stopPropagation();
-
-          /*
-            অন্য dropdown বন্ধ করা
-          */
-
-          document
-            .querySelectorAll(
-              '.dc-dropdown.open'
-            )
-            .forEach(function (other) {
-
-              if (other !== dropdown) {
-                other.classList.remove(
-                  'open'
+                console.log.apply(
+                    console,
+                    arguments
                 );
-              }
 
-            });
+            }
 
-          dropdown.classList.toggle(
-            'open'
-          );
-
-        }
-      );
-
-    });
+        };
 
 
-    /*
-      Dropdown-এর বাইরে click করলে
-      menu বন্ধ হবে।
-    */
-
-    if (
-      !document.body.getAttribute(
-        'data-dc-dropdown-document-ready'
-      )
-    ) {
-
-      document.body.setAttribute(
-        'data-dc-dropdown-document-ready',
-        'true'
-      );
-
-      document.addEventListener(
-        'click',
+    DC.error =
         function () {
 
-          document
-            .querySelectorAll(
-              '.dc-dropdown.open'
-            )
-            .forEach(function (dropdown) {
+            if (
+                window.console &&
+                console.error
+            ) {
 
-              dropdown.classList.remove(
-                'open'
-              );
+                console.error.apply(
+                    console,
+                    arguments
+                );
 
-            });
+            }
 
-        }
-      );
-
-    }
-
-  };
+        };
 
 
-  /* ----------------------------------------------------------
-     Close dropdown after selection
-     ---------------------------------------------------------- */
+    /* ======================================================
+       CSS Loader
+       ====================================================== */
 
-  DC.initDropdownItems = function () {
-
-    var items =
-      document.querySelectorAll(
-        '.dc-dd-item'
-      );
-
-    if (!items.length) {
-      return;
-    }
-
-    items.forEach(function (item) {
-
-      if (
-        item.getAttribute(
-          'data-dc-dd-item-ready'
-        ) === 'true'
-      ) {
-        return;
-      }
-
-      item.setAttribute(
-        'data-dc-dd-item-ready',
-        'true'
-      );
-
-      item.addEventListener(
-        'click',
+    DC.loadCSS =
         function () {
 
-          var parent =
-            item.closest(
-              '.dc-dropdown'
+            var href =
+                DC.config.cssFile;
+
+
+            if (
+                !href
+            ) {
+
+                return;
+
+            }
+
+
+            var existing =
+                document.querySelector(
+                    'link[data-dc-epaper-css="true"]'
+                );
+
+
+            if (
+                existing
+            ) {
+
+                return;
+
+            }
+
+
+            var links =
+                document.querySelectorAll(
+                    'link[rel="stylesheet"]'
+                );
+
+
+            for (
+                var i = 0;
+                i < links.length;
+                i++
+            ) {
+
+                if (
+                    links[i].href &&
+                    links[i].href.indexOf(
+                        'epaper.css'
+                    ) !== -1
+                ) {
+
+                    return;
+
+                }
+
+            }
+
+
+            var link =
+                document.createElement(
+                    'link'
+                );
+
+
+            link.rel =
+                'stylesheet';
+
+
+            link.type =
+                'text/css';
+
+
+            link.href =
+                href;
+
+
+            link.setAttribute(
+                'data-dc-epaper-css',
+                'true'
             );
 
-          if (parent) {
-            parent.classList.remove(
-              'open'
+
+            document.head.appendChild(
+                link
             );
-          }
 
-        }
-      );
-
-    });
-
-  };
+        };
 
 
-  /* ----------------------------------------------------------
-     Escape key
-     ---------------------------------------------------------- */
+    /* ======================================================
+       Prepare Page
+       ====================================================== */
 
-  DC.initEscapeHandler = function () {
+    DC.preparePage =
+        function () {
 
-    if (
-      document.body.getAttribute(
-        'data-dc-epaper-escape-ready'
-      )
-    ) {
-      return;
-    }
+            if (
+                !document.body
+            ) {
 
-    document.body.setAttribute(
-      'data-dc-epaper-escape-ready',
-      'true'
-    );
+                return;
 
-    document.addEventListener(
-      'keydown',
-      function (event) {
-
-        if (
-          event.key === 'Escape' ||
-          event.keyCode === 27
-        ) {
-
-          document
-            .querySelectorAll(
-              '.dc-dropdown.open'
-            )
-            .forEach(function (dropdown) {
-
-              dropdown.classList.remove(
-                'open'
-              );
-
-            });
-
-        }
-
-      }
-    );
-
-  };
+            }
 
 
-  /* ----------------------------------------------------------
-     Prevent accidental horizontal overflow
-     ---------------------------------------------------------- */
+            document.body.classList.add(
+                'dc-epaper-ready'
+            );
 
-  DC.fixOverflow = function () {
-
-    var page =
-      document.getElementById(
-        'dc-epaper-page'
-      );
-
-    if (!page) {
-      return;
-    }
-
-    page.style.boxSizing =
-      'border-box';
-
-  };
+        };
 
 
-  /* ----------------------------------------------------------
-     Viewer page resize event
-     ---------------------------------------------------------- */
+    /* ======================================================
+       Detect ePaper Page
+       ====================================================== */
 
-  DC.initResizeHandler = function () {
+    DC.isEPaperPage =
+        function () {
 
-    if (
-      window.__dcEpaperResizeReady
-    ) {
-      return;
-    }
+            var path =
+                window.location.pathname ||
+                '';
 
-    window.__dcEpaperResizeReady =
-      true;
 
-    var timer = null;
+            var body =
+                document.body;
 
-    window.addEventListener(
-      'resize',
-      function () {
 
-        clearTimeout(timer);
+            if (
+                path.indexOf(
+                    '/_epaper/'
+                ) === 0
+            ) {
 
-        timer = setTimeout(
-          function () {
+                return true;
+
+            }
+
+
+            if (
+                document.getElementById(
+                    'dc-epaper-page'
+                )
+            ) {
+
+                return true;
+
+            }
+
+
+            if (
+                document.getElementById(
+                    'dc-issues'
+                )
+            ) {
+
+                return true;
+
+            }
+
+
+            if (
+                document.getElementById(
+                    'dc-archive-list'
+                )
+            ) {
+
+                return true;
+
+            }
+
+
+            if (
+                body &&
+                body.classList &&
+                body.classList.contains(
+                    'dc-epaper-page'
+                )
+            ) {
+
+                return true;
+
+            }
+
+
+            return false;
+
+        };
+
+
+    /* ======================================================
+       Initialize Core
+       ====================================================== */
+
+    DC.initCore =
+        function () {
+
+            if (
+                !window.DailyChalchitraEPaper ||
+                typeof
+                window.DailyChalchitraEPaper.init !==
+                'function'
+            ) {
+
+                return Promise.reject(
+                    new Error(
+                        'E-Paper Core পাওয়া যায়নি।'
+                    )
+                );
+
+            }
+
+
+            return window.DailyChalchitraEPaper
+                .init(
+                    {
+                        dataUrl:
+                            DC.config.dataFile
+                    }
+                );
+
+        };
+
+
+    /* ======================================================
+       Initialize Viewer
+       ====================================================== */
+
+    DC.initViewer =
+        function () {
+
+            if (
+                !window.DailyChalchitraEPaperViewer
+            ) {
+
+                DC.error(
+                    'E-Paper Viewer পাওয়া যায়নি।'
+                );
+
+                return false;
+
+            }
+
+
+            if (
+                typeof
+                window.DailyChalchitraEPaperViewer.init !==
+                'function'
+            ) {
+
+                DC.error(
+                    'E-Paper Viewer init function পাওয়া যায়নি।'
+                );
+
+                return false;
+
+            }
+
+
+            window.DailyChalchitraEPaperViewer.init();
+
+
+            return true;
+
+        };
+
+
+    /* ======================================================
+       Initialize Issue Controls
+       ====================================================== */
+
+    DC.initIssues =
+        function () {
+
+            var core =
+                window.DailyChalchitraEPaper;
+
+
+            if (
+                !core
+            ) {
+
+                return;
+
+            }
+
 
             /*
-              Viewer-এর নিজস্ব resize function
-              থাকলে সেটি চালানো হবে।
-            */
+             * Issue selector
+             */
 
-            DC.callIfExists(
-              [
-                'dcViewerResize',
-                'resizeEpaperViewer',
-                'dcResizeViewer'
-              ]
+            var selectors =
+                document.querySelectorAll(
+                    '[data-epaper-issue]'
+                );
+
+
+            selectors.forEach(
+                function (
+                    element
+                ) {
+
+                    if (
+                        element.getAttribute(
+                            'data-dc-issue-ready'
+                        ) === 'true'
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    element.setAttribute(
+                        'data-dc-issue-ready',
+                        'true'
+                    );
+
+
+                    element.addEventListener(
+                        'click',
+                        function (
+                            event
+                        ) {
+
+                            event.preventDefault();
+
+
+                            var issue =
+                                element.getAttribute(
+                                    'data-epaper-issue'
+                                );
+
+
+                            if (
+                                issue
+                            ) {
+
+                                core.selectIssue(
+                                    issue
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
             );
 
-          },
-          150
-        );
-
-      }
-    );
-
-  };
+        };
 
 
-  /* ----------------------------------------------------------
-     Main initialization
-     ---------------------------------------------------------- */
+    /* ======================================================
+       Initialize Navigation Buttons
+       ====================================================== */
 
-  DC.init = function () {
-
-    if (
-      DC._initialized
-    ) {
-      DC.log(
-        'ePaper already initialized.'
-      );
-
-      return;
-    }
-
-    DC._initialized = true;
-
-    DC.log(
-      'Initializing Daily Chalchitra ePaper...'
-    );
-
-
-    /*
-      CSS
-    */
-
-    DC.loadCSS();
-
-
-    /*
-      Basic page preparation
-    */
-
-    DC.preparePage();
-
-
-    /*
-      Data
-    */
-
-    DC.initData();
-
-
-    /*
-      Core
-    */
-
-    DC.initCore();
-
-
-    /*
-      Issue/archive
-    */
-
-    DC.initIssues();
-
-
-    /*
-      Viewer
-    */
-
-    DC.initViewer();
-
-
-    /*
-      Dropdown
-    */
-
-    DC.initDropdowns();
-
-    DC.initDropdownItems();
-
-
-    /*
-      Keyboard
-    */
-
-    DC.initEscapeHandler();
-
-
-    /*
-      Responsive
-    */
-
-    DC.initResizeHandler();
-
-
-    /*
-      Overflow
-    */
-
-    DC.fixOverflow();
-
-
-    /*
-      Custom event
-    */
-
-    document.dispatchEvent(
-      new CustomEvent(
-        'dc-epaper-ready',
-        {
-          detail: {
-            namespace: DC
-          }
-        }
-      )
-    );
-
-
-    DC.log(
-      'Daily Chalchitra ePaper initialized successfully.'
-    );
-
-  };
-
-
-  /* ----------------------------------------------------------
-     DOM Ready
-     ---------------------------------------------------------- */
-
-  function start() {
-
-    if (
-      document.readyState ===
-      'loading'
-    ) {
-
-      document.addEventListener(
-        'DOMContentLoaded',
+    DC.initNavigation =
         function () {
-          DC.init();
-        },
-        {
-          once: true
+
+            var core =
+                window.DailyChalchitraEPaper;
+
+
+            if (
+                !core
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Next
+             */
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-next]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-nav-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-nav-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                core.nextPage();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            /*
+             * Previous
+             */
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-prev]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-nav-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-nav-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                core.previousPage();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            /*
+             * First
+             */
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-first]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-nav-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-nav-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                core.firstPage();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            /*
+             * Last
+             */
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-last]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-nav-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-nav-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                core.lastPage();
+
+                            }
+                        );
+
+                    }
+                );
+
+        };
+
+
+    /* ======================================================
+       Initialize Zoom Controls
+       ====================================================== */
+
+    DC.initZoomControls =
+        function () {
+
+            var viewer =
+                window.DailyChalchitraEPaperViewer;
+
+
+            if (
+                !viewer
+            ) {
+
+                return;
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-zoom-in]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-zoom-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-zoom-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                viewer.zoomIn();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-zoom-out]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-zoom-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-zoom-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                viewer.zoomOut();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-fit]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-zoom-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-zoom-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                viewer.fitToScreen();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    '[data-epaper-fullscreen]'
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        if (
+                            button.getAttribute(
+                                'data-dc-fullscreen-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        button.setAttribute(
+                            'data-dc-fullscreen-ready',
+                            'true'
+                        );
+
+
+                        button.addEventListener(
+                            'click',
+                            function (
+                                event
+                            ) {
+
+                                event.preventDefault();
+
+                                viewer.toggleFullscreen();
+
+                            }
+                        );
+
+                    }
+                );
+
+        };
+
+
+    /* ======================================================
+       Dropdown
+       ====================================================== */
+
+    DC.initDropdowns =
+        function () {
+
+            var dropdowns =
+                document.querySelectorAll(
+                    '.dc-dropdown'
+                );
+
+
+            if (
+                !dropdowns.length
+            ) {
+
+                return;
+
+            }
+
+
+            dropdowns.forEach(
+                function (
+                    dropdown
+                ) {
+
+                    var button =
+                        dropdown.querySelector(
+                            '.dc-dropdown-btn'
+                        );
+
+
+                    if (
+                        !button
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    if (
+                        button.getAttribute(
+                            'data-dc-dropdown-ready'
+                        ) === 'true'
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    button.setAttribute(
+                        'data-dc-dropdown-ready',
+                        'true'
+                    );
+
+
+                    button.addEventListener(
+                        'click',
+                        function (
+                            event
+                        ) {
+
+                            event.preventDefault();
+
+                            event.stopPropagation();
+
+
+                            document
+                                .querySelectorAll(
+                                    '.dc-dropdown.open'
+                                )
+                                .forEach(
+                                    function (
+                                        other
+                                    ) {
+
+                                        if (
+                                            other !==
+                                            dropdown
+                                        ) {
+
+                                            other.classList.remove(
+                                                'open'
+                                            );
+
+                                        }
+
+                                    }
+                                );
+
+
+                            dropdown.classList.toggle(
+                                'open'
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            if (
+                !document.body.getAttribute(
+                    'data-dc-dropdown-document-ready'
+                )
+            ) {
+
+                document.body.setAttribute(
+                    'data-dc-dropdown-document-ready',
+                    'true'
+                );
+
+
+                document.addEventListener(
+                    'click',
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                '.dc-dropdown.open'
+                            )
+                            .forEach(
+                                function (
+                                    dropdown
+                                ) {
+
+                                    dropdown.classList.remove(
+                                        'open'
+                                    );
+
+                                }
+                            );
+
+                    }
+                );
+
+            }
+
+        };
+
+
+    /* ======================================================
+       Dropdown Items
+       ====================================================== */
+
+    DC.initDropdownItems =
+        function () {
+
+            document
+                .querySelectorAll(
+                    '.dc-dd-item'
+                )
+                .forEach(
+                    function (
+                        item
+                    ) {
+
+                        if (
+                            item.getAttribute(
+                                'data-dc-dd-item-ready'
+                            ) === 'true'
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        item.setAttribute(
+                            'data-dc-dd-item-ready',
+                            'true'
+                        );
+
+
+                        item.addEventListener(
+                            'click',
+                            function () {
+
+                                var parent =
+                                    item.closest(
+                                        '.dc-dropdown'
+                                    );
+
+
+                                if (
+                                    parent
+                                ) {
+
+                                    parent.classList.remove(
+                                        'open'
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+        };
+
+
+    /* ======================================================
+       Escape Handler
+       ====================================================== */
+
+    DC.initEscapeHandler =
+        function () {
+
+            if (
+                document.body.getAttribute(
+                    'data-dc-epaper-escape-ready'
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            document.body.setAttribute(
+                'data-dc-epaper-escape-ready',
+                'true'
+            );
+
+
+            document.addEventListener(
+                'keydown',
+                function (
+                    event
+                ) {
+
+                    if (
+                        event.key === 'Escape' ||
+                        event.keyCode === 27
+                    ) {
+
+                        document
+                            .querySelectorAll(
+                                '.dc-dropdown.open'
+                            )
+                            .forEach(
+                                function (
+                                    dropdown
+                                ) {
+
+                                    dropdown.classList.remove(
+                                        'open'
+                                    );
+
+                                }
+                            );
+
+                    }
+
+                }
+            );
+
+        };
+
+
+    /* ======================================================
+       Page Status UI
+       ====================================================== */
+
+    DC.initPageStatus =
+        function () {
+
+            document.addEventListener(
+                'dc:epaper-page-change',
+                function (
+                    event
+                ) {
+
+                    if (
+                        !event.detail
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    var current =
+                        Number(
+                            event.detail.pageNumber
+                        ) || 1;
+
+
+                    var total =
+                        Number(
+                            event.detail.totalPages
+                        ) || 0;
+
+
+                    document
+                        .querySelectorAll(
+                            '[data-epaper-page-indicator]'
+                        )
+                        .forEach(
+                            function (
+                                element
+                            ) {
+
+                                element.textContent =
+                                    'পৃষ্ঠা ' +
+                                    current +
+                                    ' / ' +
+                                    total;
+
+                            }
+                        );
+
+
+                }
+            );
+
+        };
+
+
+    /* ======================================================
+       Overflow
+       ====================================================== */
+
+    DC.fixOverflow =
+        function () {
+
+            var page =
+                document.getElementById(
+                    'dc-epaper-page'
+                );
+
+
+            if (
+                !page
+            ) {
+
+                return;
+
+            }
+
+
+            page.style.boxSizing =
+                'border-box';
+
+        };
+
+
+    /* ======================================================
+       Resize
+       ====================================================== */
+
+    DC.initResizeHandler =
+        function () {
+
+            if (
+                window.__dcEpaperResizeReady
+            ) {
+
+                return;
+
+            }
+
+
+            window.__dcEpaperResizeReady =
+                true;
+
+
+            var timer =
+                null;
+
+
+            window.addEventListener(
+                'resize',
+                function () {
+
+                    clearTimeout(
+                        timer
+                    );
+
+
+                    timer =
+                        setTimeout(
+                            function () {
+
+                                var viewer =
+                                    window.DailyChalchitraEPaperViewer;
+
+
+                                if (
+                                    viewer &&
+                                    typeof viewer.fitToScreen ===
+                                    'function'
+                                ) {
+
+                                    if (
+                                        viewer.state.scale <=
+                                        1.01
+                                    ) {
+
+                                        viewer.fitToScreen();
+
+                                    }
+
+                                }
+
+                            },
+                            150
+                        );
+
+                }
+            );
+
+        };
+
+
+    /* ======================================================
+       Start Reader
+       ====================================================== */
+
+    DC.startReader =
+        function () {
+
+            var core =
+                window.DailyChalchitraEPaper;
+
+
+            if (
+                !core
+            ) {
+
+                return false;
+
+            }
+
+
+            /*
+             * URL:
+             *
+             * /epaper/viewer/?issue=2026-W32
+             *
+             */
+
+            if (
+                core.selectIssueFromUrl()
+            ) {
+
+                return true;
+
+            }
+
+
+            /*
+             * Restore last position.
+             */
+
+            return core.restoreLastPosition();
+
+        };
+
+
+    /* ======================================================
+       Main Initialization
+       ====================================================== */
+
+    DC.init =
+        async function () {
+
+            if (
+                DC._initialized
+            ) {
+
+                return DC._initPromise;
+
+            }
+
+
+            DC._initialized =
+                true;
+
+
+            DC._initPromise =
+                (async function () {
+
+                    try {
+
+                        DC.loadCSS();
+
+                        DC.preparePage();
+
+
+                        /*
+                         * Core first.
+                         */
+
+                        await DC.initCore();
+
+
+                        /*
+                         * Viewer second.
+                         *
+                         * Important:
+                         * Core-এর page event miss না করার
+                         * জন্য Viewer data selection-এর
+                         * আগে initialize হচ্ছে।
+                         */
+
+                        DC.initViewer();
+
+
+                        /*
+                         * UI controls
+                         */
+
+                        DC.initIssues();
+
+                        DC.initNavigation();
+
+                        DC.initZoomControls();
+
+                        DC.initDropdowns();
+
+                        DC.initDropdownItems();
+
+                        DC.initEscapeHandler();
+
+                        DC.initPageStatus();
+
+                        DC.initResizeHandler();
+
+                        DC.fixOverflow();
+
+
+                        /*
+                         * Now select issue/page.
+                         */
+
+                        DC.startReader();
+
+
+                        /*
+                         * Final ready event.
+                         */
+
+                        document.dispatchEvent(
+                            new CustomEvent(
+                                'dc-epaper-ready',
+                                {
+                                    detail: {
+                                        namespace:
+                                            DC,
+
+                                        core:
+                                            window.DailyChalchitraEPaper,
+
+                                        viewer:
+                                            window.DailyChalchitraEPaperViewer
+                                    }
+                                }
+                            )
+                        );
+
+
+                        DC.log(
+                            'Daily Chalchitra ePaper initialized successfully.'
+                        );
+
+
+                        return true;
+
+
+                    } catch (error) {
+
+                        DC.error(
+                            'Daily Chalchitra ePaper initialization failed:',
+                            error
+                        );
+
+
+                        document.dispatchEvent(
+                            new CustomEvent(
+                                'dc:epaper-error',
+                                {
+                                    detail: {
+                                        error:
+                                            error
+                                    }
+                                }
+                            )
+                        );
+
+
+                        return false;
+
+                    }
+
+                })();
+
+
+            return DC._initPromise;
+
+        };
+
+
+    /* ======================================================
+       Public Namespace
+       ====================================================== */
+
+    window.DailyChalchitraEPaper =
+        DC;
+
+
+    /* ======================================================
+       Start
+       ====================================================== */
+
+    function start() {
+
+        if (
+            document.readyState ===
+            'loading'
+        ) {
+
+            document.addEventListener(
+                'DOMContentLoaded',
+                function () {
+
+                    DC.init();
+
+                },
+                {
+                    once:
+                        true
+                }
+            );
+
+        } else {
+
+            DC.init();
+
         }
-      );
-
-    } else {
-
-      DC.init();
 
     }
 
-  }
 
-
-  /* ----------------------------------------------------------
-     Public API
-     ---------------------------------------------------------- */
-
-  window.DailyChalchitraEPaper =
-    DC;
-
-
-  /*
-    Start
-  */
-
-  start();
+    start();
 
 
 })();
