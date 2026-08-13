@@ -1,107 +1,232 @@
 /* ==========================================================
    Daily Chalchitra ePaper
    epaper-loader.js
-   Final module loader
+   Version: 2.0
+
+   কাজ:
+   - ePaper module loading
+   - Core → Viewer → Print → Init ক্রমে load
+   - Duplicate script loading প্রতিরোধ
+   - সব module load হওয়ার পরে initialization event
    ========================================================== */
 
 (function (window, document) {
-  "use strict";
 
-  function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-      const existing = document.querySelector(
-        'script[src="' + src + '"]'
-      );
+    'use strict';
 
-      if (existing) {
-        resolve();
-        return;
-      }
 
-      const script = document.createElement("script");
+    /* ------------------------------------------------------
+       Script Loader
+       ------------------------------------------------------ */
 
-      script.src = src;
-      script.async = false;
+    function loadScript(src) {
 
-      script.onload = function () {
-        resolve();
-      };
+        return new Promise(function (resolve, reject) {
 
-      script.onerror = function () {
-        reject(
-          new Error(
-            "ePaper script load failed: " + src
-          )
-        );
-      };
+            var existing =
+                document.querySelector(
+                    'script[data-dc-epaper-src="' + src + '"]'
+                );
 
-      document.head.appendChild(script);
-    });
-  }
+            if (existing) {
 
-  async function init() {
-    /*
-     * Data প্রথমে
-     */
-    await loadScript(
-      "/assets/js/epaper-data.js"
-    );
+                if (
+                    existing.getAttribute(
+                        'data-dc-epaper-loaded'
+                    ) === 'true'
+                ) {
+                    resolve();
+                    return;
+                }
 
-    /*
-     * Core
-     */
-    await loadScript(
-      "/assets/js/epaper-core.js"
-    );
+                existing.addEventListener(
+                    'load',
+                    function () {
+                        resolve();
+                    },
+                    {
+                        once: true
+                    }
+                );
 
-    /*
-     * Viewer
-     */
-    await loadScript(
-      "/assets/js/epaper-viewer.js"
-    );
+                existing.addEventListener(
+                    'error',
+                    function () {
+                        reject(
+                            new Error(
+                                'ePaper script load failed: ' + src
+                            )
+                        );
+                    },
+                    {
+                        once: true
+                    }
+                );
 
-    /*
-     * Print
-     */
-    await loadScript(
-      "/assets/js/epaper-print.js"
-    );
+                return;
+            }
 
-    /*
-     * Init ফাইল আগে থেকেই থাকলে
-     * সেটিকে আবার load করা হবে না।
-     */
-    const initScript =
-      document.querySelector(
-        'script[src="/assets/js/epaper-init.js"]'
-      );
 
-    if (!initScript) {
-      await loadScript(
-        "/assets/js/epaper-init.js"
-      );
+            var script =
+                document.createElement('script');
+
+            script.src = src;
+            script.async = false;
+
+            script.setAttribute(
+                'data-dc-epaper-src',
+                src
+            );
+
+            script.onload = function () {
+
+                script.setAttribute(
+                    'data-dc-epaper-loaded',
+                    'true'
+                );
+
+                resolve();
+
+            };
+
+            script.onerror = function () {
+
+                reject(
+                    new Error(
+                        'ePaper script load failed: ' + src
+                    )
+                );
+
+            };
+
+            document.head.appendChild(script);
+
+        });
+
     }
 
-    document.dispatchEvent(
-      new CustomEvent(
-        "dc:epaper-modules-loaded"
-      )
-    );
-  }
 
-  window.DCEpaperLoader = {
-    init: init
-  };
+    /* ------------------------------------------------------
+       Main Loader
+       ------------------------------------------------------ */
 
-  if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      init,
-      { once: true }
-    );
-  } else {
-    init();
-  }
+    async function init() {
+
+        if (
+            window.__DC_EPaperLoaderStarted
+        ) {
+            return;
+        }
+
+        window.__DC_EPaperLoaderStarted =
+            true;
+
+
+        try {
+
+            /*
+             * Core
+             */
+
+            await loadScript(
+                '/assets/js/epaper-core.js'
+            );
+
+
+            /*
+             * Viewer
+             */
+
+            await loadScript(
+                '/assets/js/epaper-viewer.js'
+            );
+
+
+            /*
+             * Print
+             */
+
+            await loadScript(
+                '/assets/js/epaper-print.js'
+            );
+
+
+            /*
+             * Init
+             */
+
+            await loadScript(
+                '/assets/js/epaper-init.js'
+            );
+
+
+            /*
+             * All modules loaded
+             */
+
+            document.dispatchEvent(
+                new CustomEvent(
+                    'dc:epaper-modules-loaded'
+                )
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                '[Daily Chalchitra ePaper] Module loading failed:',
+                error
+            );
+
+
+            document.dispatchEvent(
+                new CustomEvent(
+                    'dc:epaper-modules-error',
+                    {
+                        detail: {
+                            error: error
+                        }
+                    }
+                )
+            );
+
+        }
+
+    }
+
+
+    /* ------------------------------------------------------
+       Public API
+       ------------------------------------------------------ */
+
+    window.DCEpaperLoader = {
+
+        init: init
+
+    };
+
+
+    /* ------------------------------------------------------
+       DOM Ready
+       ------------------------------------------------------ */
+
+    if (
+        document.readyState === 'loading'
+    ) {
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            init,
+            {
+                once: true
+            }
+        );
+
+    } else {
+
+        init();
+
+    }
+
 
 })(window, document);
