@@ -3,88 +3,145 @@
  * Version: 2.0
  *
  * কাজ:
- * - পুরোনো issues.json ব্যবহার করা
- * - সপ্তাহভিত্তিক issue শনাক্ত করা
- * - Edition / Issue নির্বাচন
- * - Date / Issue নির্বাচন
- * - Post থেকে page তৈরি
- * - বর্তমান page সংরক্ষণ
- * - Previous / Next navigation
- * - Viewer-এর সঙ্গে event-based যোগাযোগ
- *
- * গুরুত্বপূর্ণ:
- * এই module কোনো নতুন data file তৈরি বা
- * assets/epaper/issues/issues.json পরিবর্তন করে না।
+ *  - /assets/epaper/issues/issues.json থেকে E-Paper data load
+ *  - Weekly issue নির্বাচন
+ *  - Issue-এর posts-কে pages হিসেবে ব্যবহার
+ *  - বর্তমান page নির্বাচন
+ *  - Previous / Next page
+ *  - LocalStorage-এ reader position সংরক্ষণ
+ *  - Viewer-এর জন্য dc:epaper-page-change event পাঠানো
  */
 
 (function (window, document) {
+
     'use strict';
+
+
+    /* ======================================================
+     * GLOBAL OBJECT
+     * ====================================================== */
 
     const DC_EPAPER = {
 
+        /* ==================================================
+         * CONFIG
+         * ================================================== */
+
         config: {
-            dataUrl: '/assets/epaper/issues/issues.json',
-            storageKey: 'dc_epaper_reader_state_v2',
-            defaultPage: 1,
-            postsPerPage: 6
+
+            dataUrl:
+                '/assets/epaper/issues/issues.json',
+
+            storageKey:
+                'dc_epaper_reader_state',
+
+            defaultPage:
+                1
+
         },
+
+
+        /* ==================================================
+         * STATE
+         * ================================================== */
 
         state: {
-            data: [],
-            issues: [],
-            editions: [],
-            currentEdition: null,
-            currentDate: null,
-            currentIssue: null,
-            pages: [],
-            currentPage: 1,
-            initialized: false
+
+            data:
+                null,
+
+            issues:
+                [],
+
+            currentIssue:
+                null,
+
+            pages:
+                [],
+
+            currentPage:
+                1,
+
+            ready:
+                false,
+
+            loading:
+                false
+
         },
 
-        /* =====================================================
+
+        /* ==================================================
          * INITIALIZATION
-         * ===================================================== */
+         * ================================================== */
 
         init: function (options) {
 
-            options = options || {};
+            options =
+                options || {};
+
 
             if (options.dataUrl) {
+
                 this.config.dataUrl =
                     options.dataUrl;
+
             }
+
 
             if (options.storageKey) {
+
                 this.config.storageKey =
                     options.storageKey;
+
             }
 
-            if (options.postsPerPage) {
-                this.config.postsPerPage =
-                    Number(options.postsPerPage) || 6;
-            }
 
             this.restoreState();
 
+
             return this.loadData();
+
         },
 
-        /* =====================================================
-         * DATA LOAD
-         * ===================================================== */
+
+        /* ==================================================
+         * LOAD DATA
+         * ================================================== */
 
         loadData: function () {
 
-            const self = this;
+            const self =
+                this;
+
+
+            if (this.state.loading) {
+
+                return Promise.resolve(
+                    this.state.data
+                );
+
+            }
+
+
+            this.state.loading =
+                true;
+
 
             return fetch(
                 this.config.dataUrl,
                 {
                     method: 'GET',
-                    credentials: 'same-origin',
-                    cache: 'no-cache',
+
+                    credentials:
+                        'same-origin',
+
+                    cache:
+                        'no-cache',
+
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept':
+                            'application/json'
                     }
                 }
             )
@@ -92,535 +149,572 @@
             .then(function (response) {
 
                 if (!response.ok) {
+
                     throw new Error(
                         'E-Paper data load failed: HTTP ' +
                         response.status
                     );
+
                 }
 
+
                 return response.json();
+
             })
 
             .then(function (data) {
 
-                self.state.data = data;
+                if (!Array.isArray(data)) {
+
+                    throw new Error(
+                        'Invalid E-Paper issue data.'
+                    );
+
+                }
+
+
+                self.state.data =
+                    data;
+
 
                 self.normalizeData();
 
-                self.state.initialized = true;
+
+                self.state.ready =
+                    true;
+
+                self.state.loading =
+                    false;
+
 
                 self.dispatch(
                     'dc:epaper-ready',
                     {
-                        data: self.state.data,
-                        issues: self.state.issues,
-                        editions: self.state.editions
+                        data:
+                            self.state.data,
+
+                        issues:
+                            self.state.issues
                     }
                 );
 
+
                 /*
-                 * আগের reader position থাকলে
-                 * সেটি restore করার চেষ্টা।
+                 * Saved issue restore
                  */
 
                 self.restoreLastPosition();
 
+
                 return self.state.data;
+
             })
 
             .catch(function (error) {
+
+                self.state.loading =
+                    false;
+
+                self.state.ready =
+                    false;
+
 
                 console.error(
                     '[Daily Chalchitra E-Paper]',
                     error
                 );
 
+
                 self.dispatch(
                     'dc:epaper-error',
                     {
-                        error: error
+                        error:
+                            error
                     }
                 );
 
-                return Promise.reject(error);
+
+                throw error;
+
             });
+
         },
 
-        /* =====================================================
+
+        /* ==================================================
          * NORMALIZE DATA
-         * ===================================================== */
+         * ================================================== */
 
         normalizeData: function () {
 
-            let data = this.state.data;
+            const source =
+                Array.isArray(
+                    this.state.data
+                )
+                    ? this.state.data
+                    : [];
 
-            /*
-             * issues.json বর্তমানে সরাসরি array।
-             * তবে ভবিষ্যতে object হলেও support করবে।
-             */
 
-            if (Array.isArray(data)) {
-
-                this.state.issues =
-                    data.slice();
-
-            } else if (
-                data &&
-                Array.isArray(data.issues)
-            ) {
-
-                this.state.issues =
-                    data.issues.slice();
-
-            } else if (
-                data &&
-                Array.isArray(data.editions)
-            ) {
-
-                this.state.issues =
-                    data.editions.slice();
-
-            } else {
-
-                this.state.issues = [];
-            }
-
-            /*
-             * পুরোনো architecture-এর compatibility-এর
-             * জন্য editions-এও issue রাখা হচ্ছে।
-             */
-
-            this.state.editions =
-                this.state.issues.map(
+            this.state.issues =
+                source.map(
                     function (issue) {
 
-                        return {
-                            id:
-                                issue.id ||
-                                issue.slug ||
-                                '',
+                        issue =
+                            issue || {};
 
-                            name:
-                                issue.title ||
-                                issue.name ||
-                                'ই-পেপার',
+
+                        const posts =
+                            Array.isArray(
+                                issue.posts
+                            )
+                                ? issue.posts
+                                : [];
+
+
+                        return {
+
+                            id:
+                                String(
+                                    issue.id ||
+                                    ''
+                                ),
+
+                            year:
+                                String(
+                                    issue.year ||
+                                    ''
+                                ),
+
+                            week:
+                                String(
+                                    issue.week ||
+                                    ''
+                                ),
 
                             title:
                                 issue.title ||
-                                issue.name ||
                                 'ই-পেপার',
 
-                            dates: [
-                                issue
-                            ]
+                            date:
+                                issue.date ||
+                                '',
+
+                            displayDate:
+                                issue.displayDate ||
+                                issue.date ||
+                                '',
+
+                            pages:
+                                Number(
+                                    issue.pages
+                                ) ||
+                                posts.length,
+
+                            count:
+                                Number(
+                                    issue.count
+                                ) ||
+                                posts.length,
+
+                            viewer:
+                                issue.viewer ||
+                                '',
+
+                            cover:
+                                issue.cover ||
+                                '',
+
+                            posts:
+                                posts.map(
+                                    function (
+                                        post,
+                                        index
+                                    ) {
+
+                                        post =
+                                            post ||
+                                            {};
+
+
+                                        return {
+
+                                            number:
+                                                Number(
+                                                    post.number
+                                                ) ||
+                                                index + 1,
+
+                                            title:
+                                                post.title ||
+                                                (
+                                                    'পৃষ্ঠা ' +
+                                                    (
+                                                        index +
+                                                        1
+                                                    )
+                                                ),
+
+                                            url:
+                                                post.url ||
+                                                '',
+
+                                            author:
+                                                post.author ||
+                                                'দৈনিক চালচিত্র',
+
+                                            category:
+                                                post.category ||
+                                                'সাধারণ',
+
+                                            tags:
+                                                Array.isArray(
+                                                    post.tags
+                                                )
+                                                    ? post.tags
+                                                    : [],
+
+                                            image:
+                                                post.image ||
+                                                post.imageUrl ||
+                                                post.src ||
+                                                '',
+
+                                            date:
+                                                post.date ||
+                                                issue.date ||
+                                                '',
+
+                                            excerpt:
+                                                post.excerpt ||
+                                                '',
+
+                                            content:
+                                                post.content ||
+                                                ''
+
+                                        };
+
+                                    }
+                                )
+
                         };
+
                     }
                 );
 
+
             return this.state.issues;
+
         },
 
-        /* =====================================================
+
+        /* ==================================================
          * ISSUES
-         * ===================================================== */
+         * ================================================== */
 
         getIssues: function () {
 
             return this.state.issues.slice();
+
         },
+
+
+        getEditions: function () {
+
+            /*
+             * Backward compatibility.
+             *
+             * পুরোনো code যদি getEditions()
+             * ব্যবহার করে, তাহলে weekly issues
+             * return করবে।
+             */
+
+            return this.getIssues();
+
+        },
+
 
         getIssue: function (issueId) {
 
             if (!issueId) {
+
                 return null;
+
             }
 
-            const wanted =
-                String(issueId);
 
             return this.state.issues.find(
                 function (issue) {
 
                     return String(
-                        issue.id ||
-                        issue.slug ||
-                        ''
-                    ) === wanted;
+                        issue.id
+                    ) === String(
+                        issueId
+                    );
 
                 }
             ) || null;
+
         },
 
-        selectIssue: function (issueId) {
-
-            const issue =
-                this.getIssue(issueId);
-
-            if (!issue) {
-                return false;
-            }
-
-            this.state.currentIssue =
-                issue;
-
-            this.state.currentEdition =
-                issue;
-
-            this.state.currentDate =
-                issue;
-
-            this.state.pages =
-                this.extractPages(issue);
-
-            this.state.currentPage =
-                this.getSavedPage(
-                    this.getCurrentIssueId()
-                ) ||
-                this.config.defaultPage;
-
-            if (
-                this.state.currentPage >
-                this.state.pages.length
-            ) {
-                this.state.currentPage =
-                    this.state.pages.length ||
-                    1;
-            }
-
-            this.saveState();
-
-            this.dispatch(
-                'dc:epaper-issue-change',
-                {
-                    issue: issue,
-                    pages: this.state.pages
-                }
-            );
-
-            /*
-             * প্রথম page automatically পাঠানো।
-             */
-
-            if (this.state.pages.length) {
-
-                this.dispatch(
-                    'dc:epaper-page-change',
-                    {
-                        page:
-                            this.getCurrentPage(),
-
-                        pageNumber:
-                            this.state.currentPage,
-
-                        totalPages:
-                            this.state.pages.length,
-
-                        issue:
-                            issue
-                    }
-                );
-            }
-
-            return true;
-        },
-
-        /* =====================================================
-         * EDITION COMPATIBILITY
-         * ===================================================== */
-
-        getEditions: function () {
-
-            return this.state.editions.slice();
-        },
 
         getEdition: function (editionId) {
 
             return this.getIssue(
                 editionId
             );
+
         },
 
-        selectEdition: function (editionId) {
+
+        /* ==================================================
+         * SELECT ISSUE
+         * ================================================== */
+
+        selectIssue: function (issueId) {
+
+            const issue =
+                this.getIssue(
+                    issueId
+                );
+
+
+            if (!issue) {
+
+                return false;
+
+            }
+
+
+            this.state.currentIssue =
+                issue;
+
+
+            this.state.pages =
+                this.extractPages(
+                    issue
+                );
+
+
+            this.state.currentPage =
+                this.getSavedPage(
+                    issue.id
+                ) ||
+                this.config.defaultPage;
+
+
+            if (
+                this.state.currentPage <
+                1
+            ) {
+
+                this.state.currentPage =
+                    1;
+
+            }
+
+
+            if (
+                this.state.currentPage >
+                this.state.pages.length
+            ) {
+
+                this.state.currentPage =
+                    this.state.pages.length ||
+                    1;
+
+            }
+
+
+            this.saveState();
+
+
+            this.dispatch(
+                'dc:epaper-issue-change',
+                {
+                    issue:
+                        issue,
+
+                    pages:
+                        this.state.pages
+                }
+            );
+
+
+            /*
+             * Immediately show current page
+             */
+
+            this.dispatchCurrentPage();
+
+
+            return true;
+
+        },
+
+
+        /* ==================================================
+         * SELECT EDITION
+         * ================================================== */
+
+        selectEdition: function (
+            editionId
+        ) {
 
             return this.selectIssue(
                 editionId
             );
+
         },
 
-        /* =====================================================
-         * DATE COMPATIBILITY
-         * ===================================================== */
 
-        getDates: function () {
+        /* ==================================================
+         * EXTRACT PAGES
+         * ================================================== */
 
-            if (
-                !this.state.currentIssue
-            ) {
-                return [];
-            }
-
-            return [
-                this.state.currentIssue
-            ];
-        },
-
-        getDate: function (dateValue) {
-
-            return this.getIssue(
-                dateValue
-            );
-        },
-
-        selectDate: function (dateValue) {
-
-            return this.selectIssue(
-                dateValue
-            );
-        },
-
-        /* =====================================================
-         * PAGE EXTRACTION
-         * ===================================================== */
-
-        extractPages: function (issue) {
+        extractPages: function (
+            issue
+        ) {
 
             if (!issue) {
+
                 return [];
+
             }
 
-            /*
-             * যদি issue-এর নিজস্ব pages থাকে
-             */
 
-            if (
-                Array.isArray(issue.pages)
-            ) {
-
-                return issue.pages.map(
-                    this.normalizePage.bind(this)
-                );
-            }
-
-            /*
-             * issues.json-এর বর্তমান format:
-             *
-             * pages = মোট page সংখ্যা
-             * posts = article list
-             */
-
-            if (
-                Array.isArray(issue.posts)
-            ) {
-
-                return this.createPagesFromPosts(
+            const posts =
+                Array.isArray(
                     issue.posts
-                );
-            }
+                )
+                    ? issue.posts
+                    : [];
 
-            return [];
-        },
 
-        /* =====================================================
-         * CREATE PAGES FROM POSTS
-         * ===================================================== */
+            return posts.map(
+                function (
+                    post,
+                    index
+                ) {
 
-        createPagesFromPosts: function (
-            posts
-        ) {
+                    post =
+                        post ||
+                        {};
 
-            const perPage =
-                this.config.postsPerPage;
 
-            const pages = [];
+                    return {
 
-            for (
-                let i = 0;
-                i < posts.length;
-                i += perPage
-            ) {
+                        number:
+                            Number(
+                                post.number
+                            ) ||
+                            index + 1,
 
-                const pagePosts =
-                    posts.slice(
-                        i,
-                        i + perPage
-                    );
+                        title:
+                            post.title ||
+                            (
+                                'পৃষ্ঠা ' +
+                                (
+                                    index +
+                                    1
+                                )
+                            ),
 
-                pages.push({
+                        image:
+                            post.image ||
+                            post.imageUrl ||
+                            post.src ||
+                            '',
 
-                    number:
-                        pages.length + 1,
+                        thumbnail:
+                            post.image ||
+                            post.thumbnail ||
+                            post.thumb ||
+                            '',
 
-                    title:
-                        'পৃষ্ঠা ' +
-                        (pages.length + 1),
+                        url:
+                            post.url ||
+                            '',
 
-                    posts:
-                        pagePosts,
+                        author:
+                            post.author ||
+                            'দৈনিক চালচিত্র',
 
-                    /*
-                     * যদি কোনো post-এর image থাকে,
-                     * প্রথম image-কে preview হিসেবে
-                     * ব্যবহার করা হবে।
-                     */
+                        category:
+                            post.category ||
+                            'সাধারণ',
 
-                    image:
-                        this.getPagePreviewImage(
-                            pagePosts
-                        ),
+                        tags:
+                            Array.isArray(
+                                post.tags
+                            )
+                                ? post.tags
+                                : [],
 
-                    thumbnail:
-                        this.getPagePreviewImage(
-                            pagePosts
-                        ),
+                        date:
+                            post.date ||
+                            issue.date ||
+                            '',
 
-                    pdf: '',
+                        excerpt:
+                            post.excerpt ||
+                            '',
 
-                    url: ''
-                });
-            }
+                        content:
+                            post.content ||
+                            '',
 
-            return pages;
-        },
+                        width:
+                            Number(
+                                post.width
+                            ) ||
+                            0,
 
-        /* =====================================================
-         * PAGE PREVIEW IMAGE
-         * ===================================================== */
+                        height:
+                            Number(
+                                post.height
+                            ) ||
+                            0
 
-        getPagePreviewImage: function (
-            posts
-        ) {
+                    };
 
-            if (
-                !Array.isArray(posts)
-            ) {
-                return '';
-            }
-
-            for (
-                let i = 0;
-                i < posts.length;
-                i++
-            ) {
-
-                const post =
-                    posts[i] || {};
-
-                if (post.image) {
-                    return post.image;
                 }
-            }
+            );
 
-            return '';
         },
 
-        /* =====================================================
-         * NORMALIZE PAGE
-         * ===================================================== */
 
-        normalizePage: function (
-            page,
-            index
-        ) {
-
-            if (
-                typeof page === 'string'
-            ) {
-
-                return {
-                    number:
-                        index + 1,
-
-                    title:
-                        'পৃষ্ঠা ' +
-                        (index + 1),
-
-                    image:
-                        page,
-
-                    thumbnail:
-                        page,
-
-                    pdf: '',
-                    url: ''
-                };
-            }
-
-            page =
-                page || {};
-
-            return {
-
-                number:
-                    Number(
-                        page.number
-                    ) ||
-                    Number(
-                        page.page
-                    ) ||
-                    index + 1,
-
-                title:
-                    page.title ||
-                    page.name ||
-                    'পৃষ্ঠা ' +
-                    (index + 1),
-
-                image:
-                    page.image ||
-                    page.imageUrl ||
-                    page.src ||
-                    '',
-
-                thumbnail:
-                    page.thumbnail ||
-                    page.thumb ||
-                    page.image ||
-                    page.imageUrl ||
-                    '',
-
-                pdf:
-                    page.pdf ||
-                    page.pdfUrl ||
-                    '',
-
-                url:
-                    page.url ||
-                    '',
-
-                posts:
-                    Array.isArray(
-                        page.posts
-                    )
-                        ? page.posts
-                        : [],
-
-                width:
-                    Number(
-                        page.width
-                    ) || 0,
-
-                height:
-                    Number(
-                        page.height
-                    ) || 0
-            };
-        },
-
-        /* =====================================================
-         * PAGES
-         * ===================================================== */
+        /* ==================================================
+         * GET PAGES
+         * ================================================== */
 
         getPages: function () {
 
             return this.state.pages.slice();
+
         },
+
 
         getPage: function (
             pageNumber
         ) {
 
             const number =
-                Number(pageNumber);
+                Number(
+                    pageNumber
+                );
+
+
+            if (
+                !Number.isFinite(
+                    number
+                )
+            ) {
+
+                return null;
+
+            }
+
 
             return this.state.pages.find(
                 function (page) {
@@ -631,48 +725,76 @@
 
                 }
             ) || null;
+
         },
+
 
         getCurrentPage: function () {
 
             return this.getPage(
                 this.state.currentPage
             );
+
         },
 
-        /* =====================================================
-         * PAGE NAVIGATION
-         * ===================================================== */
+
+        getCurrentIssue: function () {
+
+            return this.state.currentIssue;
+
+        },
+
+
+        /* ==================================================
+         * GO TO PAGE
+         * ================================================== */
 
         goToPage: function (
             pageNumber
         ) {
 
             const number =
-                Number(pageNumber);
+                Number(
+                    pageNumber
+                );
+
 
             if (
-                !Number.isFinite(number)
+                !Number.isFinite(
+                    number
+                )
             ) {
+
                 return false;
+
             }
+
 
             const page =
-                this.getPage(number);
+                this.getPage(
+                    number
+                );
+
 
             if (!page) {
+
                 return false;
+
             }
+
 
             this.state.currentPage =
                 number;
 
+
             this.saveState();
+
 
             this.dispatch(
                 'dc:epaper-page-change',
                 {
-                    page: page,
+                    page:
+                        page,
 
                     pageNumber:
                         number,
@@ -685,100 +807,293 @@
                 }
             );
 
+
             return true;
+
         },
+
+
+        /* ==================================================
+         * DISPATCH CURRENT PAGE
+         * ================================================== */
+
+        dispatchCurrentPage: function () {
+
+            const page =
+                this.getCurrentPage();
+
+
+            if (!page) {
+
+                return false;
+
+            }
+
+
+            this.dispatch(
+                'dc:epaper-page-change',
+                {
+                    page:
+                        page,
+
+                    pageNumber:
+                        this.state.currentPage,
+
+                    totalPages:
+                        this.state.pages.length,
+
+                    issue:
+                        this.state.currentIssue
+                }
+            );
+
+
+            return true;
+
+        },
+
+
+        /* ==================================================
+         * NEXT PAGE
+         * ================================================== */
 
         nextPage: function () {
 
             const next =
-                this.state.currentPage + 1;
+                this.state.currentPage +
+                1;
+
 
             if (
                 next >
                 this.state.pages.length
             ) {
+
                 return false;
+
             }
+
 
             return this.goToPage(
                 next
             );
+
         },
+
+
+        /* ==================================================
+         * PREVIOUS PAGE
+         * ================================================== */
 
         previousPage: function () {
 
             const previous =
-                this.state.currentPage - 1;
+                this.state.currentPage -
+                1;
 
-            if (previous < 1) {
+
+            if (
+                previous <
+                1
+            ) {
+
                 return false;
+
             }
+
 
             return this.goToPage(
                 previous
             );
+
         },
+
+
+        /* ==================================================
+         * FIRST PAGE
+         * ================================================== */
 
         firstPage: function () {
 
-            return this.goToPage(1);
+            return this.goToPage(
+                1
+            );
+
         },
+
+
+        /* ==================================================
+         * LAST PAGE
+         * ================================================== */
 
         lastPage: function () {
 
             if (
                 !this.state.pages.length
             ) {
+
                 return false;
+
             }
+
 
             return this.goToPage(
                 this.state.pages.length
             );
+
         },
 
-        /* =====================================================
-         * CURRENT ISSUE
-         * ===================================================== */
+
+        /* ==================================================
+         * CURRENT ISSUE ID
+         * ================================================== */
 
         getCurrentIssueId: function () {
 
             if (
                 !this.state.currentIssue
             ) {
+
                 return '';
+
             }
+
 
             return String(
                 this.state.currentIssue.id ||
-                this.state.currentIssue.slug ||
                 ''
             );
+
         },
+
 
         getCurrentEditionId: function () {
 
             return this.getCurrentIssueId();
+
         },
+
+
+        /* ==================================================
+         * CURRENT DATE
+         * ================================================== */
 
         getCurrentDateValue: function () {
 
             if (
                 !this.state.currentIssue
             ) {
+
                 return '';
+
             }
 
+
             return String(
-                this.state.currentIssue.id ||
                 this.state.currentIssue.date ||
+                this.state.currentIssue.id ||
                 ''
             );
+
         },
 
-        /* =====================================================
-         * STORAGE
-         * ===================================================== */
+
+        /* ==================================================
+         * DATE COMPATIBILITY
+         * ================================================== */
+
+        getDates: function () {
+
+            if (
+                !this.state.currentIssue
+            ) {
+
+                return [];
+
+            }
+
+
+            return [
+                this.state.currentIssue
+            ];
+
+        },
+
+
+        getDate: function (
+            dateValue
+        ) {
+
+            if (
+                !dateValue
+            ) {
+
+                return null;
+
+            }
+
+
+            if (
+                this.state.currentIssue &&
+                (
+                    String(
+                        this.state.currentIssue.id
+                    ) ===
+                    String(
+                        dateValue
+                    ) ||
+
+                    String(
+                        this.state.currentIssue.date
+                    ) ===
+                    String(
+                        dateValue
+                    )
+                )
+            ) {
+
+                return this.state.currentIssue;
+
+            }
+
+
+            return null;
+
+        },
+
+
+        selectDate: function (
+            dateValue
+        ) {
+
+            /*
+             * New structure-এ issue-ই
+             * date container।
+             */
+
+            const issue =
+                this.getIssue(
+                    dateValue
+                );
+
+
+            if (!issue) {
+
+                return false;
+
+            }
+
+
+            return this.selectIssue(
+                issue.id
+            );
+
+        },
+
+
+        /* ==================================================
+         * LOCAL STORAGE
+         * ================================================== */
 
         saveState: function () {
 
@@ -790,29 +1105,35 @@
                         this.getCurrentIssueId(),
 
                     edition:
-                        this.getCurrentEditionId(),
+                        this.getCurrentIssueId(),
 
                     date:
                         this.getCurrentDateValue(),
 
                     page:
                         this.state.currentPage
+
                 };
+
 
                 window.localStorage.setItem(
                     this.config.storageKey,
-                    JSON.stringify(saved)
+                    JSON.stringify(
+                        saved
+                    )
                 );
 
             } catch (error) {
 
                 console.warn(
-                    '[Daily Chalchitra E-Paper] ' +
-                    'State save failed.',
+                    '[Daily Chalchitra E-Paper] State save failed.',
                     error
                 );
+
             }
+
         },
+
 
         restoreState: function () {
 
@@ -823,50 +1144,75 @@
                         this.config.storageKey
                     );
 
+
                 if (!raw) {
+
                     return null;
+
                 }
 
+
                 const saved =
-                    JSON.parse(raw);
+                    JSON.parse(
+                        raw
+                    );
+
 
                 if (
                     !saved ||
-                    typeof saved !== 'object'
+                    typeof saved !==
+                    'object'
                 ) {
+
                     return null;
+
                 }
+
 
                 this.state._savedIssue =
                     saved.issue ||
                     saved.edition ||
                     '';
 
+
                 this.state._savedEdition =
                     saved.edition ||
+                    saved.issue ||
                     '';
+
 
                 this.state._savedDate =
                     saved.date ||
                     '';
 
+
                 this.state.currentPage =
-                    Number(saved.page) ||
+                    Number(
+                        saved.page
+                    ) ||
                     this.config.defaultPage;
+
 
                 return saved;
 
             } catch (error) {
 
                 console.warn(
-                    '[Daily Chalchitra E-Paper] ' +
-                    'State restore failed.',
+                    '[Daily Chalchitra E-Paper] State restore failed.',
                     error
                 );
 
+
                 return null;
+
             }
+
         },
+
+
+        /* ==================================================
+         * SAVED PAGE
+         * ================================================== */
 
         getSavedPage: function (
             issueId
@@ -879,12 +1225,19 @@
                         this.config.storageKey
                     );
 
+
                 if (!raw) {
+
                     return 0;
+
                 }
 
+
                 const saved =
-                    JSON.parse(raw);
+                    JSON.parse(
+                        raw
+                    );
+
 
                 if (
                     String(
@@ -892,49 +1245,182 @@
                         saved.edition ||
                         ''
                     ) ===
-                    String(issueId || '')
+                    String(
+                        issueId ||
+                        ''
+                    )
                 ) {
 
                     return Number(
                         saved.page
                     ) || 0;
+
                 }
 
             } catch (error) {
 
                 return 0;
+
             }
 
+
             return 0;
+
         },
 
-        /* =====================================================
+
+        /* ==================================================
          * RESTORE LAST POSITION
-         * ===================================================== */
+         * ================================================== */
 
         restoreLastPosition: function () {
 
             if (
                 !this.state.issues.length
             ) {
+
                 return false;
+
             }
+
 
             const savedIssue =
-                this.state._savedIssue;
+                this.state._savedIssue ||
+                this.state._savedEdition ||
+                '';
 
-            if (!savedIssue) {
-                return false;
+
+            if (savedIssue) {
+
+                if (
+                    this.selectIssue(
+                        savedIssue
+                    )
+                ) {
+
+                    return true;
+
+                }
+
             }
 
+
+            /*
+             * কোনো saved issue না থাকলে
+             * সর্বশেষ issue নির্বাচন করা হবে।
+             */
+
+            const latestIssue =
+                this.state.issues[0];
+
+
+            if (!latestIssue) {
+
+                return false;
+
+            }
+
+
             return this.selectIssue(
-                savedIssue
+                latestIssue.id
             );
+
         },
 
-        /* =====================================================
-         * EVENT SYSTEM
-         * ===================================================== */
+
+        /* ==================================================
+         * FORMAT DATE
+         * ================================================== */
+
+        formatDate: function (
+            dateValue
+        ) {
+
+            if (!dateValue) {
+
+                return '';
+
+            }
+
+
+            const date =
+                new Date(
+                    dateValue
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return String(
+                    dateValue
+                );
+
+            }
+
+
+            try {
+
+                return new Intl.DateTimeFormat(
+                    'bn-BD',
+                    {
+                        year:
+                            'numeric',
+
+                        month:
+                            'long',
+
+                        day:
+                            'numeric'
+                    }
+                ).format(
+                    date
+                );
+
+            } catch (error) {
+
+                return String(
+                    dateValue
+                );
+
+            }
+
+        },
+
+
+        /* ==================================================
+         * ESCAPE HTML
+         * ================================================== */
+
+        escapeHtml: function (
+            value
+        ) {
+
+            const div =
+                document.createElement(
+                    'div'
+                );
+
+
+            div.textContent =
+                value == null
+                    ? ''
+                    : String(
+                        value
+                    );
+
+
+            return div.innerHTML;
+
+        },
+
+
+        /* ==================================================
+         * EVENT
+         * ================================================== */
 
         dispatch: function (
             eventName,
@@ -948,7 +1434,8 @@
                         eventName,
                         {
                             detail:
-                                detail || {}
+                                detail ||
+                                {}
                         }
                     )
                 );
@@ -956,126 +1443,18 @@
             } catch (error) {
 
                 console.error(
-                    '[Daily Chalchitra E-Paper] ' +
-                    'Event error:',
+                    '[Daily Chalchitra E-Paper] Event error:',
                     error
                 );
+
             }
+
         },
 
-        /* =====================================================
-         * ISSUE SEARCH
-         * ===================================================== */
 
-        findIssueByQuery: function (
-            query
-        ) {
-
-            if (!query) {
-                return null;
-            }
-
-            const wanted =
-                String(query)
-                .toLowerCase()
-                .trim();
-
-            return this.state.issues.find(
-                function (issue) {
-
-                    const id =
-                        String(
-                            issue.id || ''
-                        ).toLowerCase();
-
-                    const title =
-                        String(
-                            issue.title || ''
-                        ).toLowerCase();
-
-                    const date =
-                        String(
-                            issue.date || ''
-                        ).toLowerCase();
-
-                    return (
-                        id === wanted ||
-                        title === wanted ||
-                        date === wanted
-                    );
-                }
-            ) || null;
-        },
-
-        /* =====================================================
-         * DATE FORMAT
-         * ===================================================== */
-
-        formatDate: function (
-            dateValue
-        ) {
-
-            if (!dateValue) {
-                return '';
-            }
-
-            const date =
-                new Date(dateValue);
-
-            if (
-                Number.isNaN(
-                    date.getTime()
-                )
-            ) {
-
-                return String(
-                    dateValue
-                );
-            }
-
-            try {
-
-                return new Intl.DateTimeFormat(
-                    'bn-BD',
-                    {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    }
-                ).format(date);
-
-            } catch (error) {
-
-                return String(
-                    dateValue
-                );
-            }
-        },
-
-        /* =====================================================
-         * HTML ESCAPE
-         * ===================================================== */
-
-        escapeHtml: function (
-            value
-        ) {
-
-            const div =
-                document.createElement(
-                    'div'
-                );
-
-            div.textContent =
-                value == null
-                    ? ''
-                    : String(value);
-
-            return div.innerHTML;
-        },
-
-        /* =====================================================
+        /* ==================================================
          * DEBUG
-         * ===================================================== */
+         * ================================================== */
 
         debug: function () {
 
@@ -1090,17 +1469,28 @@
                 issues:
                     this.state.issues,
 
+                currentIssue:
+                    this.state.currentIssue,
+
                 pages:
-                    this.state.pages
+                    this.state.pages,
+
+                currentPage:
+                    this.state.currentPage
+
             };
+
         }
+
     };
 
-    /*
-     * Global API
-     */
+
+    /* ======================================================
+     * GLOBAL EXPORT
+     * ====================================================== */
 
     window.DailyChalchitraEPaper =
         DC_EPAPER;
+
 
 })(window, document);
