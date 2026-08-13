@@ -497,7 +497,7 @@ window.DCViewer = {
                     pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
                 } else {
                     let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
-                    while(heightLeftMM > 0){
+                    while(heightLeftMM > pageHeightMM * 0.08){
                         if(!first) pdf.addPage();
                         pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
                         heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
@@ -580,7 +580,7 @@ window.DCViewer = {
                 const pdf = new jsPDF("p", "mm", "a4");
                 const pageHeightMM = pdf.internal.pageSize.getHeight();
                 let heightLeftMM = contentHeightMM, positionMM = 0, first = true;
-                while(heightLeftMM > 0){
+                while(heightLeftMM > pageHeightMM * 0.08){
                     if(!first) pdf.addPage();
                     pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, contentHeightMM);
                     heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
