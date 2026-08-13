@@ -1,7 +1,6 @@
 /* ==========================================================
-   Daily Chalchitra ePaper - v11.0
-   ADDED: Topbar dropdowns (issue + page list) - Jugantor style
-   FIX: Balanced pages + dynamic column count so no page looks empty
+   Daily Chalchitra ePaper - v14.0
+   FIX: ফিক্সড-width প্রিন্ট কলাম + প্রিন্ট-transform রিসেট
    ========================================================== */
 .dc-epaper{ max-width:1200px; margin:40px auto; padding:20px; box-sizing:border-box; }
 .dc-epaper-title{ text-align:center; color:#C00000; font-size:34px; font-weight:900; margin-bottom:10px; font-family:'Noto Serif Bengali',serif !important; }
@@ -23,7 +22,6 @@
 #dc-title{ text-align:center; color:#C00000; font-size:32px; margin-bottom:8px; font-family:'Noto Serif Bengali',serif; font-weight:900; }
 #dc-meta{ text-align:center; color:#333; font-size:16px; margin-bottom:18px; line-height:1.6; }
 
-/* ===== Topbar: Issue dropdown + Page dropdown (Jugantor style) ===== */
 .dc-topbar{
   display:flex; justify-content:center; align-items:stretch; gap:10px;
   flex-wrap:wrap; margin:0 auto 14px auto; max-width:700px;
@@ -71,7 +69,6 @@
 @media screen and (max-width:1100px){ #dc-post-columns{ column-count:2; } }
 @media screen and (max-width:700px){ #dc-post-columns{ column-count:1; text-align:left; } }
 
-/* কম লেখার পাতা - পাতা যাতে ফাঁকা না লাগে তাই লেখা বড় ও পূর্ণ দেখায় */
 #dc-post-columns.dc-short-page{ column-count:1 !important; }
 #dc-post-columns.dc-short-page .dc-post-content{ font-size:17px; line-height:1.75; }
 #dc-post-columns.dc-short-page h2{ font-size:21px; }
@@ -98,7 +95,6 @@
 .dc-year-btn{ padding:8px 16px; border:1.5px solid #C00000; border-radius:20px; background:#ffffff; color:#C00000; cursor:pointer; font-weight:600; transition:0.25s; }
 .dc-year-btn:hover, .dc-year-btn.active{ background:#C00000; color:#ffffff; }
 
-/* নিচের "সকল পাতা" বার - জুগান্তর স্টাইল */
 .dc-bottom-allpages{
   display:block; width:100%; max-width:900px; margin:20px auto 0 auto;
   background:#C00000; color:#fff; border:none; padding:14px; border-radius:8px;
@@ -107,9 +103,16 @@
 }
 .dc-bottom-allpages:hover{ background:#8B0000; }
 
-/* অফস্ক্রিন PDF ক্যাপচার পেজ */
-.dc-capture-page{ width:800px; background:#fff; padding:25px; box-sizing:border-box; }
-.dc-capture-page .dc-post-content{ font-size:13px !important; }
+/* ===== অফস্ক্রিন PDF ক্যাপচার পেজ - ফিক্সড-width ৪-কলাম গ্রিড ===== */
+.dc-capture-page{ width:1000px; background:#fff; padding:25px; box-sizing:border-box; }
+.dc-print-columns{ display:flex; align-items:flex-start; }
+.dc-print-col{
+  flex:0 0 224px; width:224px; box-sizing:border-box; padding:0 12px;
+}
+.dc-print-col:not(:first-child){ border-left:1px solid #ccc; }
+.dc-capture-page .dc-post-content{ font-size:12px !important; line-height:1.5 !important; }
+.dc-capture-page .dc-post-card h2{ font-size:14px !important; }
+.dc-capture-page .dc-post-card-cover{ aspect-ratio:16/10; }
 
 @media screen and (max-width:700px){
   .dc-epaper{ padding:10px; margin:20px auto; }
@@ -136,6 +139,10 @@
   .dc-bottom-allpages, .dc-mini-pdf, .menu-bar, .ticker-container, .footer-bottom-red{ display:none !important; }
   body *{ visibility:hidden; }
   #dc-epaper-page, #dc-epaper-page *{ visibility:visible; }
-  #dc-epaper-page{ position:absolute; left:0; top:0; width:100%; margin:0; padding:12px; box-shadow:none; border:none; }
+  #dc-epaper-page{
+    position:absolute; left:0; top:0; width:100%; margin:0; padding:12px;
+    box-shadow:none; border:none;
+    transform:none !important; /* zoom করা থাকলেও প্রিন্টে বাদ - "খালি পেজ" বাগ ফিক্স */
+  }
   @page{ margin:0.4cm; size:A4 portrait; }
 }
