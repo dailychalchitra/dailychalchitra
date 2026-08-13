@@ -1,13 +1,15 @@
 /*
  * দৈনিক চালচিত্র — E-Paper Core
- * New standalone module
+ * Compatible with:
+ * /assets/epaper/issues/issues.json
+ *
  * কাজ:
- *  - ই-পেপার ডেটা লোড
- *  - Edition নির্বাচন
- *  - Date নির্বাচন
- *  - Page তালিকা তৈরি
- *  - Reader-এর জন্য বর্তমান পেজ সংরক্ষণ
- *  - Navigation event পরিচালনা
+ * - issues.json থেকে সপ্তাহ/Issue লোড
+ * - Issue নির্বাচন
+ * - Posts → E-Paper pages তৈরি
+ * - Previous / Next Page
+ * - Page state সংরক্ষণ
+ * - Viewer-এর সঙ্গে event communication
  */
 
 (function (window, document) {
@@ -16,25 +18,29 @@
     const DC_EPAPER = {
 
         config: {
-            dataUrl: '/_epaper/epaper-data.json',
+            dataUrl: '/assets/epaper/issues/issues.json',
             storageKey: 'dc_epaper_reader_state',
+            postsPerPage: 6,
             defaultPage: 1
         },
 
         state: {
-            data: null,
+            data: [],
             editions: [],
             currentEdition: null,
             currentDate: null,
             pages: [],
-            currentPage: 1
+            currentPage: 1,
+            _savedEdition: '',
+            _savedDate: ''
         },
 
-        /* -------------------------------------------------
-         * Initialization
-         * ------------------------------------------------- */
+        /* =================================================
+         * INITIALIZATION
+         * ================================================= */
 
         init: function (options) {
+
             options = options || {};
 
             if (options.dataUrl) {
@@ -45,16 +51,22 @@
                 this.config.storageKey = options.storageKey;
             }
 
+            if (options.postsPerPage) {
+                this.config.postsPerPage =
+                    Number(options.postsPerPage) || 6;
+            }
+
             this.restoreState();
 
             return this.loadData();
         },
 
-        /* -------------------------------------------------
-         * Data
-         * ------------------------------------------------- */
+        /* =================================================
+         * LOAD ISSUES.JSON
+         * ================================================= */
 
         loadData: function () {
+
             const self = this;
 
             return fetch(this.config.dataUrl, {
@@ -62,32 +74,47 @@
                 credentials: 'same-origin',
                 cache: 'no-cache'
             })
+
             .then(function (response) {
+
                 if (!response.ok) {
                     throw new Error(
-                        'E-Paper data load failed: HTTP ' + response.status
+                        'E-Paper data load failed: HTTP ' +
+                        response.status
                     );
                 }
 
                 return response.json();
             })
+
             .then(function (data) {
 
-                if (!data || typeof data !== 'object') {
-                    throw new Error('Invalid E-Paper data.');
+                if (!Array.isArray(data)) {
+                    throw new Error(
+                        'Invalid E-Paper issues.json format.'
+                    );
                 }
 
                 self.state.data = data;
 
                 self.normalizeData();
 
-                self.dispatch('dc:epaper-ready', {
-                    data: self.state.data,
-                    editions: self.state.editions
-                });
+                self.dispatch(
+                    'dc:epaper-ready',
+                    {
+                        data: self.state.data,
+                        editions: self.state.editions
+                    }
+                );
+
+                /*
+                 * আগের অবস্থান থাকলে restore
+                 */
+                self.restoreLastPosition();
 
                 return self.state.data;
             })
+
             .catch(function (error) {
 
                 console.error(
@@ -95,59 +122,88 @@
                     error
                 );
 
-                self.dispatch('dc:epaper-error', {
-                    error: error
-                });
+                self.dispatch(
+                    'dc:epaper-error',
+                    {
+                        error: error
+                    }
+                );
 
                 throw error;
             });
         },
 
-        /* -------------------------------------------------
-         * Normalize JSON
-         * ------------------------------------------------- */
+        /* =================================================
+         * NORMALIZE ISSUES
+         * ================================================= */
 
         normalizeData: function () {
 
-            const data = this.state.data;
+            const source =
+                Array.isArray(this.state.data)
+                    ? this.state.data
+                    : [];
 
-            if (Array.isArray(data.editions)) {
-                this.state.editions = data.editions;
-            } else if (Array.isArray(data)) {
-                this.state.editions = data;
-            } else {
-                this.state.editions = [];
-            }
+            this.state.editions =
+                source.map(function (issue, index) {
 
-            this.state.editions = this.state.editions.map(
-                function (edition) {
+                    issue = issue || {};
 
-                    edition = edition || {};
+                    const id =
+                        issue.id ||
+                        issue.slug ||
+                        ('issue-' + index);
 
-                    let dates = [];
-
-                    if (Array.isArray(edition.dates)) {
-                        dates = edition.dates;
-                    }
+                    const posts =
+                        Array.isArray(issue.posts)
+                            ? issue.posts
+                            : [];
 
                     return {
-                        id: edition.id || edition.slug || '',
-                        name: edition.name ||
-                              edition.title ||
-                              'ই-পেপার',
-                        dates: dates
+                        id: String(id),
+
+                        name:
+                            issue.title ||
+                            ('ই-পেপার ' + (index + 1)),
+
+                        title:
+                            issue.title ||
+                            ('ই-পেপার ' + (index + 1)),
+
+                        year:
+                            issue.year || '',
+
+                        week:
+                            issue.week || '',
+
+                        date:
+                            issue.date || '',
+
+                        cover:
+                            issue.cover || '',
+
+                        count:
+                            Number(issue.count) ||
+                            posts.length,
+
+                        viewer:
+                            issue.viewer || '',
+
+                        posts: posts,
+
+                        raw: issue
                     };
-                }
-            );
+                });
 
             return this.state.editions;
         },
 
-        /* -------------------------------------------------
-         * Editions
-         * ------------------------------------------------- */
+        /* =================================================
+         * EDITIONS / ISSUES
+         * ================================================= */
 
         getEditions: function () {
+
             return this.state.editions.slice();
         },
 
@@ -157,35 +213,90 @@
                 return null;
             }
 
-            return this.state.editions.find(function (edition) {
-                return String(edition.id) === String(editionId);
-            }) || null;
+            return this.state.editions.find(
+                function (edition) {
+
+                    return String(edition.id) ===
+                           String(editionId);
+                }
+            ) || null;
         },
 
         selectEdition: function (editionId) {
 
-            const edition = this.getEdition(editionId);
+            const edition =
+                this.getEdition(editionId);
 
             if (!edition) {
                 return false;
             }
 
-            this.state.currentEdition = edition;
-            this.state.currentDate = null;
-            this.state.pages = [];
+            this.state.currentEdition =
+                edition;
+
+            this.state.currentDate =
+                edition.date || '';
+
+            /*
+             * Issue-এর posts থেকে pages তৈরি
+             */
+            this.state.pages =
+                this.createPages(
+                    edition.posts || []
+                );
+
+            const savedPage =
+                this.getSavedPage(
+                    edition.id,
+                    this.getCurrentDateValue()
+                );
+
+            this.state.currentPage =
+                savedPage || this.config.defaultPage;
+
+            if (
+                this.state.currentPage >
+                this.state.pages.length
+            ) {
+                this.state.currentPage = 1;
+            }
 
             this.saveState();
 
-            this.dispatch('dc:epaper-edition-change', {
-                edition: edition
-            });
+            this.dispatch(
+                'dc:epaper-edition-change',
+                {
+                    edition: edition,
+                    pages: this.state.pages
+                }
+            );
+
+            /*
+             * প্রথম পৃষ্ঠা Viewer-কে পাঠানো
+             */
+            if (this.state.pages.length) {
+
+                this.dispatch(
+                    'dc:epaper-page-change',
+                    {
+                        page:
+                            this.getCurrentPage(),
+
+                        pageNumber:
+                            this.state.currentPage,
+
+                        totalPages:
+                            this.state.pages.length
+                    }
+                );
+            }
 
             return true;
         },
 
-        /* -------------------------------------------------
-         * Dates
-         * ------------------------------------------------- */
+        /* =================================================
+         * DATE
+         * ================================================= */
 
         getDates: function () {
 
@@ -193,66 +304,152 @@
                 return [];
             }
 
-            return Array.isArray(this.state.currentEdition.dates)
-                ? this.state.currentEdition.dates.slice()
-                : [];
+            return [
+                {
+                    id:
+                        this.state.currentEdition.id,
+
+                    date:
+                        this.state.currentEdition.date,
+
+                    title:
+                        this.state.currentEdition.title
+                }
+            ];
         },
 
         getDate: function (dateValue) {
 
-            const dates = this.getDates();
+            if (!this.state.currentEdition) {
+                return null;
+            }
 
-            return dates.find(function (item) {
+            if (
+                String(
+                    this.state.currentEdition.id
+                ) === String(dateValue)
+            ) {
+                return this.state.currentEdition;
+            }
 
-                if (typeof item === 'string') {
-                    return item === dateValue;
-                }
+            if (
+                String(
+                    this.state.currentEdition.date
+                ) === String(dateValue)
+            ) {
+                return this.state.currentEdition;
+            }
 
-                if (!item) {
-                    return false;
-                }
-
-                return String(item.id || item.date || item.value) ===
-                       String(dateValue);
-
-            }) || null;
+            return null;
         },
 
         selectDate: function (dateValue) {
 
-            const dateItem = this.getDate(dateValue);
+            const edition =
+                this.getDate(dateValue);
 
-            if (!dateItem) {
+            if (!edition) {
                 return false;
             }
 
-            this.state.currentDate = dateItem;
+            this.state.currentDate =
+                edition.date || dateValue;
 
-            this.state.pages = this.extractPages(dateItem);
+            this.state.pages =
+                this.createPages(
+                    edition.posts || []
+                );
 
             this.state.currentPage =
                 this.getSavedPage(
-                    this.getCurrentEditionId(),
+                    edition.id,
                     this.getCurrentDateValue()
-                ) || this.config.defaultPage;
+                ) ||
+                this.config.defaultPage;
 
-            if (this.state.currentPage > this.state.pages.length) {
+            if (
+                this.state.currentPage >
+                this.state.pages.length
+            ) {
                 this.state.currentPage = 1;
             }
 
             this.saveState();
 
-            this.dispatch('dc:epaper-date-change', {
-                date: dateItem,
-                pages: this.state.pages
-            });
+            this.dispatch(
+                'dc:epaper-date-change',
+                {
+                    date: edition,
+                    pages: this.state.pages
+                }
+            );
 
             return true;
         },
 
-        /* -------------------------------------------------
-         * Pages
-         * ------------------------------------------------- */
+        /* =================================================
+         * POSTS → PAGES
+         * ================================================= */
+
+        createPages: function (posts) {
+
+            if (!Array.isArray(posts)) {
+                return [];
+            }
+
+            const perPage =
+                Math.max(
+                    1,
+                    Number(
+                        this.config.postsPerPage
+                    ) || 6
+                );
+
+            const pages = [];
+
+            for (
+                let i = 0;
+                i < posts.length;
+                i += perPage
+            ) {
+
+                const pagePosts =
+                    posts.slice(
+                        i,
+                        i + perPage
+                    );
+
+                pages.push({
+
+                    number:
+                        pages.length + 1,
+
+                    title:
+                        'পৃষ্ঠা ' +
+                        (pages.length + 1),
+
+                    image:
+                        '',
+
+                    thumbnail:
+                        '',
+
+                    pdf:
+                        '',
+
+                    posts:
+                        pagePosts,
+
+                    start:
+                        i,
+
+                    end:
+                        i + pagePosts.length
+                });
+            }
+
+            return pages;
+        },
 
         extractPages: function (dateItem) {
 
@@ -260,128 +457,98 @@
                 return [];
             }
 
-            let pages = [];
-
-            if (Array.isArray(dateItem.pages)) {
-                pages = dateItem.pages;
-            } else if (
-                dateItem.pages &&
-                typeof dateItem.pages === 'object'
+            if (
+                Array.isArray(
+                    dateItem.pages
+                )
             ) {
-                pages = Object.keys(dateItem.pages).map(
-                    function (key) {
-                        return dateItem.pages[key];
-                    }
-                );
+                return dateItem.pages;
             }
 
-            return pages.map(function (page, index) {
-
-                if (typeof page === 'string') {
-                    return {
-                        number: index + 1,
-                        title: 'পৃষ্ঠা ' + (index + 1),
-                        image: page
-                    };
-                }
-
-                page = page || {};
-
-                return {
-                    number:
-                        Number(page.number) ||
-                        Number(page.page) ||
-                        index + 1,
-
-                    title:
-                        page.title ||
-                        page.name ||
-                        'পৃষ্ঠা ' + (index + 1),
-
-                    image:
-                        page.image ||
-                        page.imageUrl ||
-                        page.src ||
-                        '',
-
-                    thumbnail:
-                        page.thumbnail ||
-                        page.thumb ||
-                        page.image ||
-                        page.imageUrl ||
-                        '',
-
-                    pdf:
-                        page.pdf ||
-                        page.pdfUrl ||
-                        '',
-
-                    url:
-                        page.url ||
-                        '',
-
-                    width:
-                        Number(page.width) || 0,
-
-                    height:
-                        Number(page.height) || 0
-                };
-            });
+            return this.createPages(
+                dateItem.posts || []
+            );
         },
 
         getPages: function () {
+
             return this.state.pages.slice();
         },
 
         getPage: function (pageNumber) {
 
-            const number = Number(pageNumber);
+            const number =
+                Number(pageNumber);
 
-            return this.state.pages.find(function (page) {
-                return Number(page.number) === number;
-            }) || null;
+            return this.state.pages.find(
+                function (page) {
+
+                    return Number(
+                        page.number
+                    ) === number;
+                }
+            ) || null;
         },
 
         getCurrentPage: function () {
-            return this.getPage(this.state.currentPage);
+
+            return this.getPage(
+                this.state.currentPage
+            );
         },
 
-        /* -------------------------------------------------
-         * Page Navigation
-         * ------------------------------------------------- */
+        /* =================================================
+         * PAGE NAVIGATION
+         * ================================================= */
 
         goToPage: function (pageNumber) {
 
-            const number = Number(pageNumber);
+            const number =
+                Number(pageNumber);
 
-            if (!Number.isFinite(number)) {
+            if (
+                !Number.isFinite(number)
+            ) {
                 return false;
             }
 
-            const page = this.getPage(number);
+            const page =
+                this.getPage(number);
 
             if (!page) {
                 return false;
             }
 
-            this.state.currentPage = number;
+            this.state.currentPage =
+                number;
 
             this.saveState();
 
-            this.dispatch('dc:epaper-page-change', {
-                page: page,
-                pageNumber: number,
-                totalPages: this.state.pages.length
-            });
+            this.dispatch(
+                'dc:epaper-page-change',
+                {
+                    page: page,
+
+                    pageNumber:
+                        number,
+
+                    totalPages:
+                        this.state.pages.length
+                }
+            );
 
             return true;
         },
 
         nextPage: function () {
 
-            const next = this.state.currentPage + 1;
+            const next =
+                this.state.currentPage + 1;
 
-            if (next > this.state.pages.length) {
+            if (
+                next >
+                this.state.pages.length
+            ) {
                 return false;
             }
 
@@ -390,22 +557,28 @@
 
         previousPage: function () {
 
-            const previous = this.state.currentPage - 1;
+            const previous =
+                this.state.currentPage - 1;
 
             if (previous < 1) {
                 return false;
             }
 
-            return this.goToPage(previous);
+            return this.goToPage(
+                previous
+            );
         },
 
         firstPage: function () {
+
             return this.goToPage(1);
         },
 
         lastPage: function () {
 
-            if (!this.state.pages.length) {
+            if (
+                !this.state.pages.length
+            ) {
                 return false;
             }
 
@@ -414,48 +587,49 @@
             );
         },
 
-        /* -------------------------------------------------
-         * Current Values
-         * ------------------------------------------------- */
+        /* =================================================
+         * CURRENT VALUES
+         * ================================================= */
 
         getCurrentEditionId: function () {
 
-            if (!this.state.currentEdition) {
+            if (
+                !this.state.currentEdition
+            ) {
                 return '';
             }
 
-            return String(this.state.currentEdition.id || '');
+            return String(
+                this.state.currentEdition.id || ''
+            );
         },
 
         getCurrentDateValue: function () {
 
-            const date = this.state.currentDate;
-
-            if (!date) {
+            if (
+                !this.state.currentEdition
+            ) {
                 return '';
             }
 
-            if (typeof date === 'string') {
-                return date;
-            }
-
             return String(
-                date.id ||
-                date.date ||
-                date.value ||
+                this.state.currentEdition.date ||
+                this.state.currentDate ||
+                this.state.currentEdition.id ||
                 ''
             );
         },
 
-        /* -------------------------------------------------
-         * Reader State
-         * ------------------------------------------------- */
+        /* =================================================
+         * LOCAL STORAGE
+         * ================================================= */
 
         saveState: function () {
 
             try {
 
                 const saved = {
+
                     edition:
                         this.getCurrentEditionId(),
 
@@ -474,7 +648,8 @@
             } catch (error) {
 
                 console.warn(
-                    '[Daily Chalchitra E-Paper] State save failed.',
+                    '[Daily Chalchitra E-Paper] ' +
+                    'State save failed.',
                     error
                 );
             }
@@ -493,9 +668,13 @@
                     return null;
                 }
 
-                const saved = JSON.parse(raw);
+                const saved =
+                    JSON.parse(raw);
 
-                if (!saved || typeof saved !== 'object') {
+                if (
+                    !saved ||
+                    typeof saved !== 'object'
+                ) {
                     return null;
                 }
 
@@ -514,7 +693,8 @@
             } catch (error) {
 
                 console.warn(
-                    '[Daily Chalchitra E-Paper] State restore failed.',
+                    '[Daily Chalchitra E-Paper] ' +
+                    'State restore failed.',
                     error
                 );
 
@@ -522,7 +702,10 @@
             }
         },
 
-        getSavedPage: function (editionId, dateValue) {
+        getSavedPage: function (
+            editionId,
+            dateValue
+        ) {
 
             try {
 
@@ -535,60 +718,82 @@
                     return 0;
                 }
 
-                const saved = JSON.parse(raw);
+                const saved =
+                    JSON.parse(raw);
 
                 if (
-                    String(saved.edition || '') ===
-                        String(editionId || '') &&
-                    String(saved.date || '') ===
-                        String(dateValue || '')
+                    String(
+                        saved.edition || ''
+                    ) ===
+                    String(
+                        editionId || ''
+                    ) &&
+                    String(
+                        saved.date || ''
+                    ) ===
+                    String(
+                        dateValue || ''
+                    )
                 ) {
-                    return Number(saved.page) || 0;
+
+                    return (
+                        Number(saved.page) || 0
+                    );
                 }
 
             } catch (error) {
+
                 return 0;
             }
 
             return 0;
         },
 
-        /* -------------------------------------------------
-         * Restore Last Reader Position
-         * ------------------------------------------------- */
+        /* =================================================
+         * RESTORE LAST POSITION
+         * ================================================= */
 
         restoreLastPosition: function () {
 
-            if (!this.state.editions.length) {
+            if (
+                !this.state.editions.length
+            ) {
                 return false;
             }
 
-            const editionId =
+            let editionId =
                 this.state._savedEdition;
 
-            const dateValue =
-                this.state._savedDate;
-
+            /*
+             * আগে কোনো state না থাকলে
+             * সর্বশেষ issue নির্বাচন হবে।
+             */
             if (!editionId) {
+
+                editionId =
+                    this.state.editions[0].id;
+            }
+
+            const selected =
+                this.selectEdition(
+                    editionId
+                );
+
+            if (!selected) {
                 return false;
             }
 
-            if (!this.selectEdition(editionId)) {
-                return false;
-            }
-
-            if (!dateValue) {
-                return true;
-            }
-
-            return this.selectDate(dateValue);
+            return true;
         },
 
-        /* -------------------------------------------------
-         * Event System
-         * ------------------------------------------------- */
+        /* =================================================
+         * EVENT SYSTEM
+         * ================================================= */
 
-        dispatch: function (eventName, detail) {
+        dispatch: function (
+            eventName,
+            detail
+        ) {
 
             try {
 
@@ -596,7 +801,8 @@
                     new CustomEvent(
                         eventName,
                         {
-                            detail: detail || {}
+                            detail:
+                                detail || {}
                         }
                     )
                 );
@@ -604,17 +810,20 @@
             } catch (error) {
 
                 console.error(
-                    '[Daily Chalchitra E-Paper] Event error:',
+                    '[Daily Chalchitra E-Paper] ' +
+                    'Event error:',
                     error
                 );
             }
         },
 
-        /* -------------------------------------------------
-         * Utility
-         * ------------------------------------------------- */
+        /* =================================================
+         * DATE FORMAT
+         * ================================================= */
 
-        formatDate: function (dateValue) {
+        formatDate: function (
+            dateValue
+        ) {
 
             if (!dateValue) {
                 return '';
@@ -623,8 +832,14 @@
             const date =
                 new Date(dateValue);
 
-            if (Number.isNaN(date.getTime())) {
-                return String(dateValue);
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return String(
+                    dateValue
+                );
             }
 
             try {
@@ -640,34 +855,52 @@
 
             } catch (error) {
 
-                return String(dateValue);
+                return String(
+                    dateValue
+                );
             }
         },
+
+        /* =================================================
+         * HTML ESCAPE
+         * ================================================= */
 
         escapeHtml: function (value) {
 
             const div =
-                document.createElement('div');
+                document.createElement(
+                    'div'
+                );
 
             div.textContent =
-                value == null ? '' : String(value);
+                value == null
+                    ? ''
+                    : String(value);
 
             return div.innerHTML;
         },
 
-        /* -------------------------------------------------
-         * Debug
-         * ------------------------------------------------- */
+        /* =================================================
+         * DEBUG
+         * ================================================= */
 
         debug: function () {
 
             return {
-                config: this.config,
-                state: this.state
+
+                config:
+                    this.config,
+
+                state:
+                    this.state
             };
         }
     };
 
-    window.DailyChalchitraEPaper = DC_EPAPER;
+    /*
+     * Global API
+     */
+    window.DailyChalchitraEPaper =
+        DC_EPAPER;
 
 })(window, document);
