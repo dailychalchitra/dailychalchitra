@@ -1,6 +1,7 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Viewer - v11.0
-   ADDED: Issue dropdown + Page dropdown (Jugantor style navigation)
+   Daily Chalchitra ePaper Viewer - v15.0
+   FIX: "প্রিন্ট" বাটন এখন window.print() না করে বর্তমান পাতার
+        PDF ডাউনলোড করে (একই নির্ভরযোগ্য পদ্ধতিতে)
    ========================================================== */
 document.addEventListener("DOMContentLoaded", async ()=>{
     const title = document.getElementById("dc-title");
@@ -35,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         buildPageMenu();
     }
 
-    // ===== ড্রপডাউন খোলা/বন্ধ করার সাধারণ লজিক =====
     function closeAllDropdowns(){
         issueDropdown?.classList.remove("open");
         pageDropdown?.classList.remove("open");
@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         pageDropdown.scrollIntoView({behavior:"smooth", block:"center"});
     });
 
-    // ===== "সকল পাতা" ড্রপডাউন লিস্ট বানানো =====
     function buildPageMenu(){
         if(!pageMenu || !window.DCViewer || !DCViewer.pages) return;
         if(!DCViewer.pages.length){
@@ -122,7 +121,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             `;
         }
 
-        // ===== ইস্যু ড্রপডাউন পপুলেট =====
         if(issueMenu){
             const sortedIssues = [...issues].sort((a,b)=> String(b.id).localeCompare(String(a.id)));
             issueMenu.innerHTML = sortedIssues.map(iss=>{
@@ -151,10 +149,9 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         zoomInBtn?.addEventListener("click",()=>DCViewer.setZoom((DCViewer.zoom||1)+0.1));
         zoomOutBtn?.addEventListener("click",()=>DCViewer.setZoom(Math.max(0.5,(DCViewer.zoom||1)-0.1)));
 
-        // "পুরো ই-পেপার PDF"
         if(downloadBtn){
             downloadBtn.onclick = async ()=>{
-                if(!window.DCViewer || !DCViewer.pages.length){
+                if(!window.DCViewer || !DCViewer.posts.length){
                     alert("ই-পেপার লোড হচ্ছে, একটু পর চেষ্টা করুন।"); return;
                 }
                 const orig = downloadBtn.innerHTML;
@@ -166,8 +163,19 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             };
         }
 
+        // আগে window.print() করত - এখন বর্তমান পাতার PDF ডাউনলোড করে (নির্ভরযোগ্য)
         if(printBtn){
-            printBtn.onclick = ()=>{ window.print(); };
+            printBtn.onclick = async ()=>{
+                if(!window.DCViewer || !DCViewer.pages.length){
+                    alert("ই-পেপার লোড হচ্ছে, একটু পর চেষ্টা করুন।"); return;
+                }
+                const orig = printBtn.innerHTML;
+                printBtn.disabled = true;
+                printBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
+                await DCViewer.downloadCurrentPagePDF(currentIssueMeta);
+                printBtn.disabled = false;
+                printBtn.innerHTML = orig;
+            };
         }
 
         if(fullscreenBtn){
