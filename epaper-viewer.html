@@ -5,11 +5,29 @@ permalink: /epaper/viewer/
 ---
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="/assets/epaper/css/epaper.css?v=9.1">
+<link rel="stylesheet" href="/assets/epaper/css/epaper.css?v=11.0">
 
 <div class="dc-viewer">
     <h1 id="dc-title">ই-পেপার</h1>
     <div id="dc-meta"></div>
+
+    <div class="dc-topbar">
+        <div class="dc-dropdown" id="dc-issue-dropdown">
+            <button class="dc-dropdown-btn" id="dc-issue-btn" type="button">
+                <span id="dc-issue-label">সংখ্যা নির্বাচন</span> <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dc-dropdown-menu" id="dc-issue-menu">
+                <div class="dc-dd-loading"><i class="fa fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+            </div>
+        </div>
+
+        <div class="dc-dropdown" id="dc-page-dropdown">
+            <button class="dc-dropdown-btn" id="dc-page-btn" type="button">
+                <i class="fa fa-file-lines"></i> সকল পাতা <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dc-dropdown-menu dc-page-menu" id="dc-page-menu"></div>
+        </div>
+    </div>
 
     <div class="dc-viewer-toolbar">
         <button id="dc-download"><i class="fa fa-file-pdf"></i> পুরো ই-পেপার PDF</button>
@@ -36,6 +54,10 @@ permalink: /epaper/viewer/
         </div>
     </div>
 
+    <button class="dc-bottom-allpages" id="dc-bottom-allpages" type="button">
+        <i class="fa fa-th-large"></i> সকল পাতা
+    </button>
+
     <p style="text-align:center;font-size:13px;color:#888;margin-top:25px;">
         <i class="fa fa-info-circle"></i>
         প্রতিটি লেখার ডান কোণে <b style="color:#C00000;">PDF</b> বাটনে ক্লিক করলে শুধু ওই লেখাটির PDF ডাউনলোড হবে
@@ -45,5 +67,5 @@ permalink: /epaper/viewer/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="/assets/epaper/lib/viewer/viewer-engine.js?v=9.1"></script>
-<script src="/assets/epaper/js/viewer.js?v=9.1"></script>
+<script src="/assets/epaper/lib/viewer/viewer-engine.js?v=11.0"></script>
+<script src="/assets/epaper/js/viewer.js?v=11.0"></script>
