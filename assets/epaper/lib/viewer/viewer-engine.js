@@ -1,11 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v17.0
-   FIX: PDF ক্যাপচারের স্টাইল এখন সম্পূর্ণ self-contained (বাইরের
-        epaper.css এর উপর নির্ভর করে না) - CSS ক্যাশ/মিসম্যাচ থেকে
-        হওয়া width বাগ স্থায়ীভাবে দূর করার জন্য
+   Daily Chalchitra ePaper Engine - v18.0
+   FIX: সবসময় ৪-কলাম - লম্বা লেখাও আর গোটা পেজ দখল করবে না,
+        বরং প্যারাগ্রাফ/স্তবক অনুযায়ী কলাম ভরে পরের কলাম/পেজে
+        চালিয়ে যাবে (বাস্তব পত্রিকার "চলবে..." পদ্ধতির মতো) -
+        একই পাতার বাকি কলাম তখন অন্য লেখায় ভরে থাকবে
    ========================================================== */
 window.DCViewer = {
-    version: "17.0",
+    version: "18.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -67,6 +68,7 @@ window.DCViewer = {
         return false;
     },
 
+    /* ===== অন-স্ক্রিন রিডিং এর জন্য height হিসাব (অপরিবর্তিত) ===== */
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
@@ -76,24 +78,6 @@ window.DCViewer = {
             height += Math.ceil(plainText.length / 45) * 22 + 80;
         } else {
             height += Math.ceil(plainText.length / 85) * 18;
-        }
-        return height;
-    },
-
-    estimatePrintHeight(post){
-        let height = 120;
-        if(post.image) height += 160;
-        if(post.title) height += Math.ceil(post.title.length / 18) * 24;
-
-        const raw = post.content || post.excerpt || "";
-        if(this.isKobita(post)){
-            const brCount = (raw.match(/<br\s*\/?>/gi) || []).length;
-            const pCount = (raw.match(/<\/p>\s*<p[^>]*>/gi) || []).length;
-            const lineCount = Math.max(brCount + pCount + 1, 3);
-            height += lineCount * 24 + 50;
-        } else {
-            const plainText = raw.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-            height += Math.ceil(plainText.length / 42) * 18;
         }
         return height;
     },
@@ -246,6 +230,81 @@ window.DCViewer = {
         }));
     },
 
+    /* ==========================================================
+       প্রিন্ট/PDF-এর জন্য প্রতিটা পোস্টকে "চাংক" এ ভাঙা হয় -
+       একটা হেডার-চাংক (ছবি+টাইটেল+মেটা) + একাধিক প্যারাগ্রাফ/স্তবক-চাংক।
+       এভাবে ভাঙলে একটা লম্বা লেখা এক কলামে যতটুকু ধরে ততটুকু বসে,
+       বাকিটা পরের কলামে/পেজে চলে যায় - বাস্তব পত্রিকার মতো।
+       ========================================================== */
+    estimateHeaderChunkHeight(post){
+        let h = 40;
+        if(post.image) h += 160;
+        if(post.title) h += Math.ceil(post.title.length / 18) * 24;
+        return h;
+    },
+    buildHeaderChunkHTML(post){
+        const coverImg = post.image
+            ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
+            : '';
+        return `<div class="dcp-art-start">
+            <div class="dcp-card-header">${coverImg}</div>
+            <h2>${post.title}</h2>
+            <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
+            ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
+        </div>`;
+    },
+
+    getProseParagraphChunks(html){
+        let cleaned = (html || "").replace(/<p>\s*<\/p>/gi, "");
+        const parts = cleaned.split(/(?=<p[^>]*>)/i).map(s=>s.trim()).filter(Boolean);
+        const list = parts.length ? parts : (cleaned.trim() ? [cleaned] : []);
+        return list.map(p => {
+            const plain = p.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
+            const height = Math.max(24, Math.ceil(plain.length / 34) * 18);
+            return { html: `<div class="dcp-content">${p}</div>`, height };
+        });
+    },
+
+    getKobitaChunks(html){
+        if(!html) return [];
+        let text = html.replace(/<hr[^>]*>/gi, "\n---\n");
+        text = text.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
+        text = text.replace(/<br\s*\/?>/gi, "\n");
+        text = text.replace(/<[^>]+>/g, "").trim();
+        let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
+        const chunks = []; let temp = [];
+        const flush = () => {
+            if(temp.length){
+                chunks.push({
+                    html: `<div class="dcp-content"><div class="dcp-kobita">${temp.join("<br>")}</div></div>`,
+                    height: temp.length * 24 + 20
+                });
+                temp = [];
+            }
+        };
+        lines.forEach(line=>{
+            let clean = line.replace(/^\*+|\*+$/g, "").replace(/^\-+|\-+$/g, "").trim();
+            if(!clean) return;
+            if(/রচনাকাল/i.test(clean)){
+                flush();
+                chunks.push({ html: `<div class="dcp-content"><div class="dcp-kobita dcp-kobita-date">${clean}</div></div>`, height: 30 });
+            } else {
+                temp.push(clean);
+                if(temp.length === 4) flush();
+            }
+        });
+        flush();
+        return chunks;
+    },
+
+    splitPostIntoChunks(post){
+        const chunks = [{ html: this.buildHeaderChunkHTML(post), height: this.estimateHeaderChunkHeight(post) }];
+        const raw = post.content || post.excerpt || "";
+        const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
+        bodyChunks.forEach(c => chunks.push(c));
+        return chunks;
+    },
+
     minimalMaxColumnHeight(heights, numColumns){
         let lo = Math.max(...heights, 1);
         let hi = heights.reduce((a,b)=>a+b, 0) || lo;
@@ -264,25 +323,31 @@ window.DCViewer = {
         return lo;
     },
 
-    splitIntoColumns(posts, heights, maxColHeight){
+    splitChunksIntoColumns(chunks, heights, maxColHeight){
         const columns = [];
         let cur = [], curH = 0;
-        for(let i = 0; i < posts.length; i++){
+        for(let i = 0; i < chunks.length; i++){
             const h = heights[i];
             if(cur.length && curH + h > maxColHeight){
                 columns.push(cur);
                 cur = []; curH = 0;
             }
-            cur.push(posts[i]);
+            cur.push(chunks[i]);
             curH += h;
         }
         if(cur.length) columns.push(cur);
         return columns;
     },
 
+    // পোস্টগুলোকে চাংকে ভেঙে সবসময় ৪-কলাম গ্রিড পেজে ভাগ করে -
+    // কোনো লেখা যত লম্বাই হোক, নিজের গোটা পেজ দখল করবে না
     buildGridPages(posts){
         if(!posts.length) return [];
-        const heights = posts.map(p => this.estimatePrintHeight(p));
+        const chunks = [];
+        posts.forEach(p => chunks.push(...this.splitPostIntoChunks(p)));
+        if(!chunks.length) return [];
+
+        const heights = chunks.map(c => c.height);
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
         const safeColHeight = 1100;
 
@@ -291,14 +356,14 @@ window.DCViewer = {
         let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
 
         let guard = 0;
-        while(maxColHeight > safeColHeight && guard < 15){
+        while(maxColHeight > safeColHeight && guard < 20){
             pageCount++;
             numColumns = pageCount * 4;
             maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
             guard++;
         }
 
-        const columns = this.splitIntoColumns(posts, heights, maxColHeight);
+        const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
         const gridPages = [];
         for(let i = 0; i < columns.length; i += 4){
             gridPages.push({ type: 'grid', cols: columns.slice(i, i + 4) });
@@ -308,40 +373,9 @@ window.DCViewer = {
 
     buildPrintPages(posts){
         const source = posts && posts.length ? posts : this.posts;
-        if(!source.length) return [];
-
-        const megaThreshold = 2200;
-        const printPages = [];
-        let batch = [];
-
-        const flushBatch = () => {
-            if(!batch.length) return;
-            this.buildGridPages(batch).forEach(p => printPages.push(p));
-            batch = [];
-        };
-
-        source.forEach(post => {
-            const h = this.estimatePrintHeight(post);
-            if(h > megaThreshold){
-                flushBatch();
-                printPages.push({ type: 'wide', post });
-            } else {
-                batch.push(post);
-            }
-        });
-        flushBatch();
-
-        if(printPages.length === 0 && source.length){
-            printPages.push({ type: 'wide', post: source[0] });
-        }
-        return printPages;
+        return this.buildGridPages(source);
     },
 
-    /* ==========================================================
-       PDF ক্যাপচারের জন্য সম্পূর্ণ self-contained CSS - বাইরের
-       epaper.css এর সাথে কোনো সংঘর্ষ বা ক্যাশ-মিসম্যাচ সমস্যা যাতে
-       না হয় তার জন্য প্রতিটা ক্যাপচার-পেজে এই স্টাইলই সরাসরি বসে
-       ========================================================== */
     getPrintStyleTag(){
         return `<style>
             .dcp-page{ font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; background:#fff; box-sizing:border-box; }
@@ -351,10 +385,11 @@ window.DCViewer = {
             .dcp-columns{ display:flex !important; align-items:flex-start; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #ccc; }
-            .dcp-card{ break-inside:avoid; margin-bottom:10px; border-bottom:1px solid #e5e5e5; padding-bottom:8px; text-align:left; box-sizing:border-box; position:relative; background:#fff; }
+            .dcp-art-start{ border-top:1px solid #e5e5e5; padding-top:8px; margin-top:8px; }
+            .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
             .dcp-cover{ width:100%; max-width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:5px; display:block; }
-            .dcp-card h2{ font-size:14px; margin:0 0 2px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+            .dcp-art-start h2{ font-size:14px; margin:0 0 2px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
             .dcp-cat-author{ font-size:11px; color:#C00000; margin:1px 0 4px 0; border-left:3px solid #C00000; padding-left:6px; font-weight:600; }
             .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
             .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
@@ -365,45 +400,15 @@ window.DCViewer = {
     },
 
     buildCaptureCardHTML(post){
+        // সিঙ্গেল-পোস্ট ডাউনলোডের জন্য (পুরো পোস্ট একসাথে, চাংক ভাঙা হয় না)
         let cleanContent = post.content || post.excerpt || "";
         if(this.isKobita(post)){
-            cleanContent = this.formatKobitaScoped(cleanContent);
+            const stanzas = this.getKobitaChunks(cleanContent).map(c=>c.html).join("");
+            cleanContent = stanzas;
         } else {
-            cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
+            cleanContent = `<div class="dcp-content">${cleanContent.replace(/<p>\s*<\/p>/gi, "")}</div>`;
         }
-        const coverImg = post.image
-            ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
-            : '';
-        return `
-            <div class="dcp-card-header">${coverImg}</div>
-            <h2>${post.title}</h2>
-            <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
-            ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
-            <div class="dcp-content">${cleanContent}</div>
-        `;
-    },
-
-    formatKobitaScoped(html){
-        if(!html) return "";
-        let text = html.replace(/<hr[^>]*>/gi, "\n---\n");
-        text = text.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
-        text = text.replace(/<br\s*\/?>/gi, "\n");
-        text = text.replace(/<[^>]+>/g, "").trim();
-        let lines = text.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
-        let resultHtml = []; let temp = [];
-        lines.forEach(line=>{
-            let clean = line.replace(/^\*+|\*+$/g, "").replace(/^\-+|\-+$/g, "").trim();
-            if(!clean) return;
-            if(/রচনাকাল/i.test(clean)){
-                if(temp.length > 0){ resultHtml.push(`<div class="dcp-kobita">${temp.join("<br>")}</div>`); temp = []; }
-                resultHtml.push(`<div class="dcp-kobita dcp-kobita-date">${clean}</div>`);
-            } else {
-                temp.push(clean);
-                if(temp.length === 4){ resultHtml.push(`<div class="dcp-kobita">${temp.join("<br>")}</div>`); temp = []; }
-            }
-        });
-        if(temp.length > 0) resultHtml.push(`<div class="dcp-kobita">${temp.join("<br>")}</div>`);
-        return resultHtml.join("");
+        return this.buildHeaderChunkHTML(post) + cleanContent;
     },
 
     async captureElement(pageEl, wrapper, captureWidth){
@@ -437,10 +442,9 @@ window.DCViewer = {
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
         const captureWidth = 1000;
-        const innerWidth = captureWidth - 50; // 25px padding দুই পাশে
+        const innerWidth = captureWidth - 50;
         const gap = 16;
         const gridColWidth = Math.floor((innerWidth - gap*3) / 4);
-        const wideColWidth = innerWidth;
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -465,18 +469,11 @@ window.DCViewer = {
                 pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
 
                 const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length, true);
-                let colsHTML;
-                if(pg.type === 'wide'){
-                    colsHTML = `<div class="dcp-col" style="flex:0 0 ${wideColWidth}px;width:${wideColWidth}px;">
-                        <article class="dcp-card">${this.buildCaptureCardHTML(pg.post)}</article>
-                    </div>`;
-                } else {
-                    colsHTML = pg.cols.map(colPosts => `
-                        <div class="dcp-col" style="flex:0 0 ${gridColWidth}px;width:${gridColWidth}px;">
-                            ${colPosts.map(post => `<article class="dcp-card">${this.buildCaptureCardHTML(post)}</article>`).join("")}
-                        </div>
-                    `).join("");
-                }
+                const colsHTML = pg.cols.map(colChunks => `
+                    <div class="dcp-col" style="flex:0 0 ${gridColWidth}px;width:${gridColWidth}px;">
+                        ${colChunks.map(c => c.html).join("")}
+                    </div>
+                `).join("");
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
                     `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>`;
@@ -536,6 +533,7 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
+    // সিঙ্গেল-পোস্ট PDF - পুরো লেখাটা একসাথে (চাংক ভাঙা হয় না), কাস্টম পেজ-সাইজ
     async downloadSinglePostPDF(post){
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
 
@@ -556,7 +554,7 @@ window.DCViewer = {
             pageEl.innerHTML = this.getPrintStyleTag() +
                 this.buildHeadHTML(null, 1, 1, false) +
                 `<div class="dcp-columns"><div class="dcp-col" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
-                    <article class="dcp-card">${this.buildCaptureCardHTML(post)}</article>
+                    ${this.buildCaptureCardHTML(post)}
                 </div></div>`;
 
             const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
