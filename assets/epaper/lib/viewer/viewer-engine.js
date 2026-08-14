@@ -1,12 +1,14 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v18.0
-   FIX: সবসময় ৪-কলাম - লম্বা লেখাও আর গোটা পেজ দখল করবে না,
-        বরং প্যারাগ্রাফ/স্তবক অনুযায়ী কলাম ভরে পরের কলাম/পেজে
-        চালিয়ে যাবে (বাস্তব পত্রিকার "চলবে..." পদ্ধতির মতো) -
-        একই পাতার বাকি কলাম তখন অন্য লেখায় ভরে থাকবে
+   Daily Chalchitra ePaper Engine - v19.0
+   FIX: হেডার (ছবি+টাইটেল) কখনো একা কলামে ঝুলে থাকবে না -
+        প্রথম প্যারাগ্রাফের সাথেই আটকে থাকে
+   FIX: নতুন কলামে কনটেন্ট চালিয়ে গেলে ছোট্ট "(চলছে)" লেবেল দেখায়
+   FIX: সিঙ্গেল-পোস্ট PDF এখন একই ৪-কলাম ইঞ্জিন ব্যবহার করে -
+        লেখা ছোট হলে স্বয়ংক্রিয়ভাবে কম কলামে, বড় হলে একাধিক
+        পাতায় "চলছে" সহ ছড়িয়ে বসবে
    ========================================================== */
 window.DCViewer = {
-    version: "18.0",
+    version: "19.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -232,9 +234,8 @@ window.DCViewer = {
 
     /* ==========================================================
        প্রিন্ট/PDF-এর জন্য প্রতিটা পোস্টকে "চাংক" এ ভাঙা হয় -
-       একটা হেডার-চাংক (ছবি+টাইটেল+মেটা) + একাধিক প্যারাগ্রাফ/স্তবক-চাংক।
-       এভাবে ভাঙলে একটা লম্বা লেখা এক কলামে যতটুকু ধরে ততটুকু বসে,
-       বাকিটা পরের কলামে/পেজে চলে যায় - বাস্তব পত্রিকার মতো।
+       হেডার (ছবি+টাইটেল) সবসময় প্রথম প্যারাগ্রাফের সাথে আটকানো থাকে,
+       আর নতুন কলামে চালিয়ে গেলে "(চলছে)" লেবেল দেখায়।
        ========================================================== */
     estimateHeaderChunkHeight(post){
         let h = 40;
@@ -297,32 +298,31 @@ window.DCViewer = {
         return chunks;
     },
 
+    // হেডার প্রথম প্যারাগ্রাফের সাথে জোড়া, বাকি প্যারাগ্রাফে "(চলছে)" লেবেল
     splitPostIntoChunks(post){
-    const raw = post.content || post.excerpt || "";
-    const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
-    const headerHTML = this.buildHeaderChunkHTML(post);
-    const headerHeight = this.estimateHeaderChunkHeight(post);
+        const raw = post.content || post.excerpt || "";
+        const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
+        const headerHTML = this.buildHeaderChunkHTML(post);
+        const headerHeight = this.estimateHeaderChunkHeight(post);
 
-    // হেডার কখনো একা কলামে ঝুলে থাকবে না - প্রথম প্যারাগ্রাফের সাথেই আটকে থাকবে
-    if(bodyChunks.length){
-        bodyChunks[0] = {
-            html: headerHTML + bodyChunks[0].html,
-            height: headerHeight + bodyChunks[0].height
-        };
-    } else {
-        bodyChunks.push({ html: headerHTML, height: headerHeight });
-    }
+        if(bodyChunks.length){
+            bodyChunks[0] = {
+                html: headerHTML + bodyChunks[0].html,
+                height: headerHeight + bodyChunks[0].height
+            };
+        } else {
+            bodyChunks.push({ html: headerHTML, height: headerHeight });
+        }
 
-    // দ্বিতীয় চাংক থেকে - নতুন কলামে গেলে বোঝানোর জন্য ছোট্ট "চলছে" লেবেল
-    for(let i = 1; i < bodyChunks.length; i++){
-        bodyChunks[i] = {
-            html: `<div class="dcp-continued">— ${post.title} (চলছে) —</div>` + bodyChunks[i].html,
-            height: bodyChunks[i].height + 22
-        };
-    }
+        for(let i = 1; i < bodyChunks.length; i++){
+            bodyChunks[i] = {
+                html: `<div class="dcp-continued">— ${post.title} (চলছে) —</div>` + bodyChunks[i].html,
+                height: bodyChunks[i].height + 22
+            };
+        }
 
-    return bodyChunks;
-},
+        return bodyChunks;
+    },
 
     minimalMaxColumnHeight(heights, numColumns){
         let lo = Math.max(...heights, 1);
@@ -358,8 +358,8 @@ window.DCViewer = {
         return columns;
     },
 
-    // পোস্টগুলোকে চাংকে ভেঙে সবসময় ৪-কলাম গ্রিড পেজে ভাগ করে -
-    // কোনো লেখা যত লম্বাই হোক, নিজের গোটা পেজ দখল করবে না
+    // পোস্টগুলোকে চাংকে ভেঙে সবসময় ৪-কলাম গ্রিড পেজে ভাগ করে - লেখা ছোট
+    // হলে স্বয়ংক্রিয়ভাবে কম কলামে, বড় হলে একাধিক পেজে "চলছে" সহ ছড়ায়
     buildGridPages(posts){
         if(!posts.length) return [];
         const chunks = [];
@@ -413,22 +413,10 @@ window.DCViewer = {
             .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
             .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
             .dcp-content p{ margin:0 0 6px 0; padding:0; }
-            .dcp-continued{ font-size:10.5px; font-style:italic; color:#888; margin-bottom:4px; }
             .dcp-kobita{ display:block; margin:0 0 4px 0; line-height:1.4; }
             .dcp-kobita-date{ display:block; margin-top:4px; font-size:11px; font-style:italic; color:#555; }
+            .dcp-continued{ font-size:10.5px; font-style:italic; color:#888; margin-bottom:4px; }
         </style>`;
-    },
-
-    buildCaptureCardHTML(post){
-        // সিঙ্গেল-পোস্ট ডাউনলোডের জন্য (পুরো পোস্ট একসাথে, চাংক ভাঙা হয় না)
-        let cleanContent = post.content || post.excerpt || "";
-        if(this.isKobita(post)){
-            const stanzas = this.getKobitaChunks(cleanContent).map(c=>c.html).join("");
-            cleanContent = stanzas;
-        } else {
-            cleanContent = `<div class="dcp-content">${cleanContent.replace(/<p>\s*<\/p>/gi, "")}</div>`;
-        }
-        return this.buildHeaderChunkHTML(post) + cleanContent;
     },
 
     async captureElement(pageEl, wrapper, captureWidth){
@@ -442,10 +430,7 @@ window.DCViewer = {
         });
     },
 
-    buildHeadHTML(issueMeta, pageNum, totalPages, showHeader){
-        if(!showHeader){
-            return `<div class="dcp-head"><img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-logo" crossorigin="anonymous"></div>`;
-        }
+    buildHeadHTML(issueMeta, pageNum, totalPages){
         return `
             <div class="dcp-head">
                 <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-logo" crossorigin="anonymous">
@@ -488,7 +473,7 @@ window.DCViewer = {
                 pageEl.className = "dcp-page";
                 pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
 
-                const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length, true);
+                const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length);
                 const colsHTML = pg.cols.map(colChunks => `
                     <div class="dcp-col" style="flex:0 0 ${gridColWidth}px;width:${gridColWidth}px;">
                         ${colChunks.map(c => c.html).join("")}
@@ -538,6 +523,7 @@ window.DCViewer = {
         return success;
     },
 
+    // বাটন ১: "পুরো ই-পেপার PDF"
     async generateFullPDF(issueMeta){
         if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         const printPages = this.buildPrintPages(this.posts);
@@ -545,6 +531,7 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
+    // বাটন ২: "এই পাতার PDF"
     async downloadCurrentPagePDF(issueMeta){
         const current = this.pages[this.currentPage - 1];
         if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
@@ -553,64 +540,13 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
-    // সিঙ্গেল-পোস্ট PDF - পুরো লেখাটা একসাথে (চাংক ভাঙা হয় না), কাস্টম পেজ-সাইজ
+    // বাটন ৩: সিঙ্গেল-পোস্ট PDF - এখন একই ৪-কলাম ইঞ্জিন, ছোট লেখা কম
+    // কলামে, বড় লেখা "(চলছে)" সহ একাধিক পাতায় স্বয়ংক্রিয়ভাবে ছড়াবে
     async downloadSinglePostPDF(post){
-        if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
-
-        const captureWidth = 800;
-        const colWidth = captureWidth - 50;
-        const host = document.createElement("div");
-        host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
-        host.style.width = "0"; host.style.height = "0"; host.style.overflow = "hidden";
-        document.body.appendChild(host);
-        const wrapper = document.createElement("div");
-        wrapper.style.width = captureWidth + "px";
-        host.appendChild(wrapper);
-
-        try{
-            const pageEl = document.createElement("div");
-            pageEl.className = "dcp-page";
-            pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
-            pageEl.innerHTML = this.getPrintStyleTag() +
-                this.buildHeadHTML(null, 1, 1, false) +
-                `<div class="dcp-columns"><div class="dcp-col" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
-                    ${this.buildCaptureCardHTML(post)}
-                </div></div>`;
-
-            const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
-            if(!canvas || canvas.width === 0 || canvas.height === 0){
-                alert("PDF তৈরি করা যায়নি।"); return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            const imgData = canvas.toDataURL("image/jpeg", 0.97);
-            const pageWidthMM = 210;
-            let contentHeightMM = canvas.height * pageWidthMM / canvas.width;
-            const maxHeightMM = 297 * 4;
-
-            const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40) + ".pdf";
-
-            if(contentHeightMM <= maxHeightMM){
-                const pdf = new jsPDF({ unit: 'mm', format: [pageWidthMM, Math.max(contentHeightMM, 40)], orientation: 'portrait' });
-                pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, contentHeightMM);
-                pdf.save(fileName);
-            } else {
-                const pdf = new jsPDF("p", "mm", "a4");
-                const pageHeightMM = pdf.internal.pageSize.getHeight();
-                let heightLeftMM = contentHeightMM, positionMM = 0, first = true;
-                while(heightLeftMM > pageHeightMM * 0.08){
-                    if(!first) pdf.addPage();
-                    pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, contentHeightMM);
-                    heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
-                }
-                pdf.save(fileName);
-            }
-        } catch(e){
-            console.error(e);
-            alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
-        } finally {
-            host.remove();
-        }
+        if(!post){ return; }
+        const printPages = this.buildPrintPages([post]);
+        const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
+        await this.capturePagesToPDF(printPages, null, fileName);
     }
 };
 window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
