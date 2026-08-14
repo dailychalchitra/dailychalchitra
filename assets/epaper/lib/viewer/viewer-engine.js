@@ -298,31 +298,25 @@ window.DCViewer = {
         return chunks;
     },
 
-    // হেডার প্রথম প্যারাগ্রাফের সাথে জোড়া, বাকি প্যারাগ্রাফে "(চলছে)" লেবেল
     splitPostIntoChunks(post){
-        const raw = post.content || post.excerpt || "";
-        const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
-        const headerHTML = this.buildHeaderChunkHTML(post);
-        const headerHeight = this.estimateHeaderChunkHeight(post);
+    const raw = post.content || post.excerpt || "";
+    const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
+    const headerHTML = this.buildHeaderChunkHTML(post);
+    const headerHeight = this.estimateHeaderChunkHeight(post);
 
-        if(bodyChunks.length){
-            bodyChunks[0] = {
-                html: headerHTML + bodyChunks[0].html,
-                height: headerHeight + bodyChunks[0].height
-            };
-        } else {
-            bodyChunks.push({ html: headerHTML, height: headerHeight });
-        }
+    if(bodyChunks.length){
+        bodyChunks[0] = {
+            html: headerHTML + bodyChunks[0].html,
+            height: headerHeight + bodyChunks[0].height
+        };
+    } else {
+        bodyChunks.push({ html: headerHTML, height: headerHeight });
+    }
 
-        for(let i = 1; i < bodyChunks.length; i++){
-            bodyChunks[i] = {
-                html: `<div class="dcp-continued">— ${post.title} (চলছে) —</div>` + bodyChunks[i].html,
-                height: bodyChunks[i].height + 22
-            };
-        }
-
-        return bodyChunks;
-    },
+    // পোস্ট ও প্রথম-চাংক কিনা তা সাথে রাখা হচ্ছে - লেবেল বসবে রেন্ডারের সময়,
+    // কলাম ভাগ হওয়ার পর, শুধু সত্যিকারের কলাম-লাফের ক্ষেত্রেই
+    return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
+},
 
     minimalMaxColumnHeight(heights, numColumns){
         let lo = Math.max(...heights, 1);
@@ -383,6 +377,20 @@ window.DCViewer = {
         }
 
         const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
+        const gridPages = [];
+       const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
+
+        // প্রতিটা কলামের প্রথম চাংক যদি তার পোস্টের প্রথম চাংক না হয়,
+        // তার মানে এটা আগের কলাম থেকে চালিয়ে আসা - তখনই "(চলছে)" লেবেল বসবে
+        columns.forEach(col => {
+            if(col.length && !col[0].isPostFirst){
+                col[0] = {
+                    ...col[0],
+                    html: `<div class="dcp-continued">— ${col[0].post.title} (চলছে) —</div>` + col[0].html
+                };
+            }
+        });
+
         const gridPages = [];
         for(let i = 0; i < columns.length; i += 4){
             gridPages.push({ type: 'grid', cols: columns.slice(i, i + 4) });
