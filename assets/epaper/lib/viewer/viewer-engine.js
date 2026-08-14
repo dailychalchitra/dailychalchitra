@@ -1,14 +1,13 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v19.0
-   FIX: হেডার (ছবি+টাইটেল) কখনো একা কলামে ঝুলে থাকবে না -
-        প্রথম প্যারাগ্রাফের সাথেই আটকে থাকে
-   FIX: নতুন কলামে কনটেন্ট চালিয়ে গেলে ছোট্ট "(চলছে)" লেবেল দেখায়
-   FIX: সিঙ্গেল-পোস্ট PDF এখন একই ৪-কলাম ইঞ্জিন ব্যবহার করে -
-        লেখা ছোট হলে স্বয়ংক্রিয়ভাবে কম কলামে, বড় হলে একাধিক
-        পাতায় "চলছে" সহ ছড়িয়ে বসবে
+   Daily Chalchitra ePaper Engine - v19.1
+   FIX: buildGridPages() এ duplicate "const columns" ডিক্লেয়ারেশন
+        বাগ ঠিক করা হয়েছে (সিনট্যাক্স এরর - পুরো ফাইল ভেঙে দিচ্ছিল)
+   FIX: হেডার (ছবি+টাইটেল) কখনো একা কলামে ঝুলে থাকবে না
+   FIX: শুধু আসল কলাম-লাফের ক্ষেত্রেই "(চলছে)" লেবেল দেখাবে
+   FIX: সিঙ্গেল-পোস্ট PDF একই ৪-কলাম ইঞ্জিন ব্যবহার করে
    ========================================================== */
 window.DCViewer = {
-    version: "19.0",
+    version: "19.1",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -70,7 +69,6 @@ window.DCViewer = {
         return false;
     },
 
-    /* ===== অন-স্ক্রিন রিডিং এর জন্য height হিসাব (অপরিবর্তিত) ===== */
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
@@ -232,11 +230,6 @@ window.DCViewer = {
         }));
     },
 
-    /* ==========================================================
-       প্রিন্ট/PDF-এর জন্য প্রতিটা পোস্টকে "চাংক" এ ভাঙা হয় -
-       হেডার (ছবি+টাইটেল) সবসময় প্রথম প্যারাগ্রাফের সাথে আটকানো থাকে,
-       আর নতুন কলামে চালিয়ে গেলে "(চলছে)" লেবেল দেখায়।
-       ========================================================== */
     estimateHeaderChunkHeight(post){
         let h = 40;
         if(post.image) h += 160;
@@ -299,24 +292,22 @@ window.DCViewer = {
     },
 
     splitPostIntoChunks(post){
-    const raw = post.content || post.excerpt || "";
-    const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
-    const headerHTML = this.buildHeaderChunkHTML(post);
-    const headerHeight = this.estimateHeaderChunkHeight(post);
+        const raw = post.content || post.excerpt || "";
+        const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
+        const headerHTML = this.buildHeaderChunkHTML(post);
+        const headerHeight = this.estimateHeaderChunkHeight(post);
 
-    if(bodyChunks.length){
-        bodyChunks[0] = {
-            html: headerHTML + bodyChunks[0].html,
-            height: headerHeight + bodyChunks[0].height
-        };
-    } else {
-        bodyChunks.push({ html: headerHTML, height: headerHeight });
-    }
+        if(bodyChunks.length){
+            bodyChunks[0] = {
+                html: headerHTML + bodyChunks[0].html,
+                height: headerHeight + bodyChunks[0].height
+            };
+        } else {
+            bodyChunks.push({ html: headerHTML, height: headerHeight });
+        }
 
-    // পোস্ট ও প্রথম-চাংক কিনা তা সাথে রাখা হচ্ছে - লেবেল বসবে রেন্ডারের সময়,
-    // কলাম ভাগ হওয়ার পর, শুধু সত্যিকারের কলাম-লাফের ক্ষেত্রেই
-    return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
-},
+        return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
+    },
 
     minimalMaxColumnHeight(heights, numColumns){
         let lo = Math.max(...heights, 1);
@@ -352,8 +343,6 @@ window.DCViewer = {
         return columns;
     },
 
-    // পোস্টগুলোকে চাংকে ভেঙে সবসময় ৪-কলাম গ্রিড পেজে ভাগ করে - লেখা ছোট
-    // হলে স্বয়ংক্রিয়ভাবে কম কলামে, বড় হলে একাধিক পেজে "চলছে" সহ ছড়ায়
     buildGridPages(posts){
         if(!posts.length) return [];
         const chunks = [];
@@ -377,8 +366,6 @@ window.DCViewer = {
         }
 
         const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
-        const gridPages = [];
-       const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
 
         // প্রতিটা কলামের প্রথম চাংক যদি তার পোস্টের প্রথম চাংক না হয়,
         // তার মানে এটা আগের কলাম থেকে চালিয়ে আসা - তখনই "(চলছে)" লেবেল বসবে
@@ -531,7 +518,6 @@ window.DCViewer = {
         return success;
     },
 
-    // বাটন ১: "পুরো ই-পেপার PDF"
     async generateFullPDF(issueMeta){
         if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
         const printPages = this.buildPrintPages(this.posts);
@@ -539,7 +525,6 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
-    // বাটন ২: "এই পাতার PDF"
     async downloadCurrentPagePDF(issueMeta){
         const current = this.pages[this.currentPage - 1];
         if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
@@ -548,8 +533,6 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
-    // বাটন ৩: সিঙ্গেল-পোস্ট PDF - এখন একই ৪-কলাম ইঞ্জিন, ছোট লেখা কম
-    // কলামে, বড় লেখা "(চলছে)" সহ একাধিক পাতায় স্বয়ংক্রিয়ভাবে ছড়াবে
     async downloadSinglePostPDF(post){
         if(!post){ return; }
         const printPages = this.buildPrintPages([post]);
