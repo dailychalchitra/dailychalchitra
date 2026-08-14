@@ -298,12 +298,31 @@ window.DCViewer = {
     },
 
     splitPostIntoChunks(post){
-        const chunks = [{ html: this.buildHeaderChunkHTML(post), height: this.estimateHeaderChunkHeight(post) }];
-        const raw = post.content || post.excerpt || "";
-        const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
-        bodyChunks.forEach(c => chunks.push(c));
-        return chunks;
-    },
+    const raw = post.content || post.excerpt || "";
+    const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
+    const headerHTML = this.buildHeaderChunkHTML(post);
+    const headerHeight = this.estimateHeaderChunkHeight(post);
+
+    // হেডার কখনো একা কলামে ঝুলে থাকবে না - প্রথম প্যারাগ্রাফের সাথেই আটকে থাকবে
+    if(bodyChunks.length){
+        bodyChunks[0] = {
+            html: headerHTML + bodyChunks[0].html,
+            height: headerHeight + bodyChunks[0].height
+        };
+    } else {
+        bodyChunks.push({ html: headerHTML, height: headerHeight });
+    }
+
+    // দ্বিতীয় চাংক থেকে - নতুন কলামে গেলে বোঝানোর জন্য ছোট্ট "চলছে" লেবেল
+    for(let i = 1; i < bodyChunks.length; i++){
+        bodyChunks[i] = {
+            html: `<div class="dcp-continued">— ${post.title} (চলছে) —</div>` + bodyChunks[i].html,
+            height: bodyChunks[i].height + 22
+        };
+    }
+
+    return bodyChunks;
+},
 
     minimalMaxColumnHeight(heights, numColumns){
         let lo = Math.max(...heights, 1);
@@ -394,6 +413,7 @@ window.DCViewer = {
             .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
             .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
             .dcp-content p{ margin:0 0 6px 0; padding:0; }
+            .dcp-continued{ font-size:10.5px; font-style:italic; color:#888; margin-bottom:4px; }
             .dcp-kobita{ display:block; margin:0 0 4px 0; line-height:1.4; }
             .dcp-kobita-date{ display:block; margin-top:4px; font-size:11px; font-style:italic; color:#555; }
         </style>`;
