@@ -1,12 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v20.0
-   FIX: কলাম ব্যালেন্সিং এখন পেজ-ভিত্তিক (আগে গ্লোবাল ছিল) - প্রথমে
-        কনটেন্ট প্রায়-সমান পেজ-গ্রুপে ভাগ হয়, তারপর প্রতিটা পেজের
-        নিজস্ব ৪টা কলাম আলাদাভাবে ব্যালেন্স করা হয় - ফলে কোনো একটা
-        কলাম শেষ হয়ে নিচে ফাঁকা থাকতে থাকতে অন্য কলাম চালু থাকবে না
+   Daily Chalchitra ePaper Engine - v21.0
+   FIX: আর অক্ষরসংখ্যা দিয়ে height "অনুমান" করা হয় না - প্রতিটা
+        চাংক আসল ব্রাউজারে রেন্ডার করে তার প্রকৃত height মাপা হয়,
+        তারপর সেই নির্ভুল সংখ্যা দিয়ে কলাম ভাগ করা হয়। এতে
+        page-ভেতরে বা page-এর মাঝে আর কোনো ভারসাম্যহীনতা থাকবে না।
    ========================================================== */
 window.DCViewer = {
-    version: "20.0",
+    version: "21.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -229,12 +229,6 @@ window.DCViewer = {
         }));
     },
 
-    estimateHeaderChunkHeight(post){
-        let h = 40;
-        if(post.image) h += 160;
-        if(post.title) h += Math.ceil(post.title.length / 18) * 24;
-        return h;
-    },
     buildHeaderChunkHTML(post){
         const coverImg = post.image
             ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
@@ -251,11 +245,7 @@ window.DCViewer = {
         let cleaned = (html || "").replace(/<p>\s*<\/p>/gi, "");
         const parts = cleaned.split(/(?=<p[^>]*>)/i).map(s=>s.trim()).filter(Boolean);
         const list = parts.length ? parts : (cleaned.trim() ? [cleaned] : []);
-        return list.map(p => {
-            const plain = p.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-            const height = Math.max(24, Math.ceil(plain.length / 34) * 18);
-            return { html: `<div class="dcp-content">${p}</div>`, height };
-        });
+        return list.map(p => ({ html: `<div class="dcp-content">${p}</div>`, height: 0 }));
     },
 
     getKobitaChunks(html){
@@ -268,10 +258,7 @@ window.DCViewer = {
         const chunks = []; let temp = [];
         const flush = () => {
             if(temp.length){
-                chunks.push({
-                    html: `<div class="dcp-content"><div class="dcp-kobita">${temp.join("<br>")}</div></div>`,
-                    height: temp.length * 24 + 20
-                });
+                chunks.push({ html: `<div class="dcp-content"><div class="dcp-kobita">${temp.join("<br>")}</div></div>`, height: 0 });
                 temp = [];
             }
         };
@@ -280,7 +267,7 @@ window.DCViewer = {
             if(!clean) return;
             if(/রচনাকাল/i.test(clean)){
                 flush();
-                chunks.push({ html: `<div class="dcp-content"><div class="dcp-kobita dcp-kobita-date">${clean}</div></div>`, height: 30 });
+                chunks.push({ html: `<div class="dcp-content"><div class="dcp-kobita dcp-kobita-date">${clean}</div></div>`, height: 0 });
             } else {
                 temp.push(clean);
                 if(temp.length === 4) flush();
@@ -294,18 +281,35 @@ window.DCViewer = {
         const raw = post.content || post.excerpt || "";
         const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
         const headerHTML = this.buildHeaderChunkHTML(post);
-        const headerHeight = this.estimateHeaderChunkHeight(post);
 
         if(bodyChunks.length){
-            bodyChunks[0] = {
-                html: headerHTML + bodyChunks[0].html,
-                height: headerHeight + bodyChunks[0].height
-            };
+            bodyChunks[0] = { html: headerHTML + bodyChunks[0].html, height: 0 };
         } else {
-            bodyChunks.push({ html: headerHTML, height: headerHeight });
+            bodyChunks.push({ html: headerHTML, height: 0 });
         }
 
         return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
+    },
+
+    // প্রতিটা চাংক আসল ব্রাউজারে (এই একই কলাম-width এ) রেন্ডার করে
+    // তার প্রকৃত height মাপা হয় - অনুমান না, সরাসরি মাপ
+    async measureChunkHeights(chunks, colWidth){
+        const host = document.createElement("div");
+        host.style.position = "absolute"; host.style.left = "-99999px"; host.style.top = "0";
+        host.style.width = colWidth + "px"; host.style.visibility = "hidden";
+        document.body.appendChild(host);
+        host.innerHTML = this.getPrintStyleTag();
+
+        const measureDiv = document.createElement("div");
+        measureDiv.className = "dcp-col";
+        measureDiv.style.cssText = `width:${colWidth}px;box-sizing:border-box;`;
+        host.appendChild(measureDiv);
+
+        for(const chunk of chunks){
+            measureDiv.innerHTML = chunk.html;
+            chunk.height = measureDiv.offsetHeight || 40;
+        }
+        host.remove();
     },
 
     minimalMaxColumnHeight(heights, numColumns){
@@ -342,80 +346,59 @@ window.DCViewer = {
         return columns;
     },
 
-    // চাংকগুলোকে প্রায়-সমান "পেজ-গ্রুপে" ভাগ করে (order ঠিক রেখে) -
-    // অন-স্ক্রিন buildPages()-এর মতোই একই কৌশল, শুধু chunk-লেভেলে
-    splitChunksByTargetHeight(chunks, heights, targetHeight, pageCount){
-        const groups = [];
-        let cur = [], curH = 0;
-        for(let i = 0; i < chunks.length; i++){
-            const h = heights[i];
-            const remaining = pageCount - groups.length;
-            if(cur.length && curH + h > targetHeight && remaining > 1){
-                groups.push(cur);
-                cur = []; curH = 0;
-            }
-            cur.push(chunks[i]);
-            curH += h;
-        }
-        if(cur.length) groups.push(cur);
-        return groups;
+    getGridColWidth(){
+        const captureWidth = 1000, innerWidth = captureWidth - 50, gap = 16;
+        return Math.floor((innerWidth - gap * 3) / 4);
     },
 
-    // প্রতিটা পেজ-গ্রুপের নিজস্ব ৪টা কলাম আলাদাভাবে ব্যালেন্স করে বানায় -
-    // এতে একটা পেজের ভেতরের সব কলাম কাছাকাছি উচ্চতার হয়, কোনোটা
-    // আগেভাগে শেষ হয়ে নিচে ফাঁকা থাকবে না
-    buildGridPages(posts){
-        if(!posts.length) return [];
-        const chunks = [];
-        posts.forEach(p => chunks.push(...this.splitPostIntoChunks(p)));
+    // মাপা (measured) height দিয়ে সবগুলো কলাম একসাথে গ্লোবালি ব্যালেন্স
+    // করে ৪-কলাম পেজে ভাগ করে - height নির্ভুল হওয়ায় এখন এই একক-ধাপের
+    // পদ্ধতিই সবচেয়ে নির্ভরযোগ্য ফলাফল দেয়
+    layoutGridPages(chunks){
         if(!chunks.length) return [];
-
         const heights = chunks.map(c => c.height);
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
-        const safeColHeight = 1100;
+        const safeColHeight = 1150;
 
         let pageCount = Math.max(1, Math.ceil(totalHeight / (safeColHeight * 4)));
-        let pageGroups = this.splitChunksByTargetHeight(chunks, heights, totalHeight / pageCount, pageCount);
+        let numColumns = pageCount * 4;
+        let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
 
-        // কোনো পেজ-গ্রুপ যদি ৪-কলামেও নিরাপদ সীমার বেশি হয়ে যায়,
-        // পেজ সংখ্যা বাড়িয়ে আবার ভাগ করা হচ্ছে
         let guard = 0;
-        while(guard < 15){
-            const overflow = pageGroups.some(g => {
-                const gh = g.map(c => c.height);
-                return this.minimalMaxColumnHeight(gh, 4) > safeColHeight;
-            });
-            if(!overflow) break;
+        while(maxColHeight > safeColHeight && guard < 20){
             pageCount++;
-            pageGroups = this.splitChunksByTargetHeight(chunks, heights, totalHeight / pageCount, pageCount);
+            numColumns = pageCount * 4;
+            maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
             guard++;
         }
 
-        const gridPages = pageGroups.filter(g => g.length).map(g => {
-            const gh = g.map(c => c.height);
-            const maxColHeight = this.minimalMaxColumnHeight(gh, 4);
-            const cols = this.splitChunksIntoColumns(g, gh, maxColHeight);
+        const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
 
-            // প্রতিটা কলামের প্রথম চাংক যদি তার পোস্টের প্রথম চাংক না হয়,
-            // তার মানে এটা আগের কলাম থেকে চালিয়ে আসা - তখনই "(চলছে)" লেবেল
-            cols.forEach(col => {
-                if(col.length && !col[0].isPostFirst){
-                    col[0] = {
-                        ...col[0],
-                        html: `<div class="dcp-continued">— ${col[0].post.title} (চলছে) —</div>` + col[0].html
-                    };
-                }
-            });
-
-            return { type: 'grid', cols };
+        columns.forEach(col => {
+            if(col.length && !col[0].isPostFirst){
+                col[0] = {
+                    ...col[0],
+                    html: `<div class="dcp-continued">— ${col[0].post.title} (চলছে) —</div>` + col[0].html
+                };
+            }
         });
 
+        const gridPages = [];
+        for(let i = 0; i < columns.length; i += 4){
+            gridPages.push({ type: 'grid', cols: columns.slice(i, i + 4) });
+        }
         return gridPages;
     },
 
-    buildPrintPages(posts){
+    async buildPrintPages(posts){
         const source = posts && posts.length ? posts : this.posts;
-        return this.buildGridPages(source);
+        if(!source.length) return [];
+        const chunks = [];
+        source.forEach(p => chunks.push(...this.splitPostIntoChunks(p)));
+        if(!chunks.length) return [];
+
+        await this.measureChunkHeights(chunks, this.getGridColWidth());
+        return this.layoutGridPages(chunks);
     },
 
     getPrintStyleTag(){
@@ -470,9 +453,8 @@ window.DCViewer = {
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
         const captureWidth = 1000;
-        const innerWidth = captureWidth - 50;
         const gap = 16;
-        const gridColWidth = Math.floor((innerWidth - gap*3) / 4);
+        const gridColWidth = this.getGridColWidth();
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -548,7 +530,7 @@ window.DCViewer = {
 
     async generateFullPDF(issueMeta){
         if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
-        const printPages = this.buildPrintPages(this.posts);
+        const printPages = await this.buildPrintPages(this.posts);
         const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-');
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
@@ -556,14 +538,14 @@ window.DCViewer = {
     async downloadCurrentPagePDF(issueMeta){
         const current = this.pages[this.currentPage - 1];
         if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
-        const printPages = this.buildPrintPages(current);
+        const printPages = await this.buildPrintPages(current);
         const fileName = ((issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage).replace(/\s+/g,'-');
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
     async downloadSinglePostPDF(post){
         if(!post){ return; }
-        const printPages = this.buildPrintPages([post]);
+        const printPages = await this.buildPrintPages([post]);
         const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
         await this.capturePagesToPDF(printPages, null, fileName);
     }
