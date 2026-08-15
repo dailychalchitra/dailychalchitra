@@ -1,13 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v19.1
-   FIX: buildGridPages() এ duplicate "const columns" ডিক্লেয়ারেশন
-        বাগ ঠিক করা হয়েছে (সিনট্যাক্স এরর - পুরো ফাইল ভেঙে দিচ্ছিল)
-   FIX: হেডার (ছবি+টাইটেল) কখনো একা কলামে ঝুলে থাকবে না
-   FIX: শুধু আসল কলাম-লাফের ক্ষেত্রেই "(চলছে)" লেবেল দেখাবে
-   FIX: সিঙ্গেল-পোস্ট PDF একই ৪-কলাম ইঞ্জিন ব্যবহার করে
+   Daily Chalchitra ePaper Engine - v20.0
+   FIX: কলাম ব্যালেন্সিং এখন পেজ-ভিত্তিক (আগে গ্লোবাল ছিল) - প্রথমে
+        কনটেন্ট প্রায়-সমান পেজ-গ্রুপে ভাগ হয়, তারপর প্রতিটা পেজের
+        নিজস্ব ৪টা কলাম আলাদাভাবে ব্যালেন্স করা হয় - ফলে কোনো একটা
+        কলাম শেষ হয়ে নিচে ফাঁকা থাকতে থাকতে অন্য কলাম চালু থাকবে না
    ========================================================== */
 window.DCViewer = {
-    version: "19.1",
+    version: "20.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -343,6 +342,28 @@ window.DCViewer = {
         return columns;
     },
 
+    // চাংকগুলোকে প্রায়-সমান "পেজ-গ্রুপে" ভাগ করে (order ঠিক রেখে) -
+    // অন-স্ক্রিন buildPages()-এর মতোই একই কৌশল, শুধু chunk-লেভেলে
+    splitChunksByTargetHeight(chunks, heights, targetHeight, pageCount){
+        const groups = [];
+        let cur = [], curH = 0;
+        for(let i = 0; i < chunks.length; i++){
+            const h = heights[i];
+            const remaining = pageCount - groups.length;
+            if(cur.length && curH + h > targetHeight && remaining > 1){
+                groups.push(cur);
+                cur = []; curH = 0;
+            }
+            cur.push(chunks[i]);
+            curH += h;
+        }
+        if(cur.length) groups.push(cur);
+        return groups;
+    },
+
+    // প্রতিটা পেজ-গ্রুপের নিজস্ব ৪টা কলাম আলাদাভাবে ব্যালেন্স করে বানায় -
+    // এতে একটা পেজের ভেতরের সব কলাম কাছাকাছি উচ্চতার হয়, কোনোটা
+    // আগেভাগে শেষ হয়ে নিচে ফাঁকা থাকবে না
     buildGridPages(posts){
         if(!posts.length) return [];
         const chunks = [];
@@ -354,34 +375,41 @@ window.DCViewer = {
         const safeColHeight = 1100;
 
         let pageCount = Math.max(1, Math.ceil(totalHeight / (safeColHeight * 4)));
-        let numColumns = pageCount * 4;
-        let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
+        let pageGroups = this.splitChunksByTargetHeight(chunks, heights, totalHeight / pageCount, pageCount);
 
+        // কোনো পেজ-গ্রুপ যদি ৪-কলামেও নিরাপদ সীমার বেশি হয়ে যায়,
+        // পেজ সংখ্যা বাড়িয়ে আবার ভাগ করা হচ্ছে
         let guard = 0;
-        while(maxColHeight > safeColHeight && guard < 20){
+        while(guard < 15){
+            const overflow = pageGroups.some(g => {
+                const gh = g.map(c => c.height);
+                return this.minimalMaxColumnHeight(gh, 4) > safeColHeight;
+            });
+            if(!overflow) break;
             pageCount++;
-            numColumns = pageCount * 4;
-            maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
+            pageGroups = this.splitChunksByTargetHeight(chunks, heights, totalHeight / pageCount, pageCount);
             guard++;
         }
 
-        const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
+        const gridPages = pageGroups.filter(g => g.length).map(g => {
+            const gh = g.map(c => c.height);
+            const maxColHeight = this.minimalMaxColumnHeight(gh, 4);
+            const cols = this.splitChunksIntoColumns(g, gh, maxColHeight);
 
-        // প্রতিটা কলামের প্রথম চাংক যদি তার পোস্টের প্রথম চাংক না হয়,
-        // তার মানে এটা আগের কলাম থেকে চালিয়ে আসা - তখনই "(চলছে)" লেবেল বসবে
-        columns.forEach(col => {
-            if(col.length && !col[0].isPostFirst){
-                col[0] = {
-                    ...col[0],
-                    html: `<div class="dcp-continued">— ${col[0].post.title} (চলছে) —</div>` + col[0].html
-                };
-            }
+            // প্রতিটা কলামের প্রথম চাংক যদি তার পোস্টের প্রথম চাংক না হয়,
+            // তার মানে এটা আগের কলাম থেকে চালিয়ে আসা - তখনই "(চলছে)" লেবেল
+            cols.forEach(col => {
+                if(col.length && !col[0].isPostFirst){
+                    col[0] = {
+                        ...col[0],
+                        html: `<div class="dcp-continued">— ${col[0].post.title} (চলছে) —</div>` + col[0].html
+                    };
+                }
+            });
+
+            return { type: 'grid', cols };
         });
 
-        const gridPages = [];
-        for(let i = 0; i < columns.length; i += 4){
-            gridPages.push({ type: 'grid', cols: columns.slice(i, i + 4) });
-        }
         return gridPages;
     },
 
