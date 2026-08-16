@@ -42,7 +42,7 @@ tags:
   - timeless poems written by kaykobad
   - daily chalchitra
 
-author: কায়কোবাদ
+author: 'কায়কোবাদ'
 
 image: /assets/img/kaykobad.webp
 ---
