@@ -246,6 +246,25 @@ layout: default
     .dc-author-post-item { padding: 8px 6px !important; }
     .dc-author-post-title { font-size: 13px !important; }
   }
+
+  /* রিপ্লাই সিস্টেম */
+  .dc-reply-list{
+    margin-top:10px; margin-left:18px; padding-left:12px;
+    border-left:2px solid #eee; display:flex; flex-direction:column; gap:10px;
+  }
+  .dc-reply-item{ background:#fff; border:1px solid #eee; border-radius:6px; padding:8px 10px; }
+  .dc-reply-item .dc-c-name{ font-size:13px; }
+  .dc-reply-item .dc-c-text{ font-size:13px; }
+  .dc-reply-form{ display:none; margin-top:8px; flex-direction:column; gap:8px; }
+  .dc-reply-form.dc-open{ display:flex; }
+  .dc-reply-form textarea{
+    min-height:50px; padding:8px; border:1px solid #ddd; border-radius:6px;
+    font-size:13px; font-family:inherit; resize:vertical;
+  }
+  .dc-reply-form button{
+    align-self:flex-end; background:#C00000; color:#fff; border:none;
+    padding:6px 16px; border-radius:16px; font-size:13px; font-weight:600; cursor:pointer;
+  }
   </style>
 
   <div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
@@ -383,10 +402,44 @@ layout: default
     postRef.child('shareCount').on('value', function (snap) { shareCountEl.textContent = snap.val() || 0; });
     postRef.child('comments').on('value', function (snap) {
       const data = snap.val();
-      const count = data ? Object.keys(data).length : 0;
+      let count = 0;
+      if (data) {
+        Object.keys(data).forEach(function (k) {
+          count += 1;
+          if (data[k].replies) count += Object.keys(data[k].replies).length;
+        });
+      }
       commentCountEl.textContent = count;
       renderComments(data);
     });
+
+    function dcEscape(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderReplies(commentKey, repliesData) {
+      if (!repliesData) return '';
+      const items = Object.keys(repliesData).map(function (k) { return Object.assign({ _key: k }, repliesData[k]); });
+      items.sort(function (a, b) { return (a.time || 0) - (b.time || 0); });
+      return '<div class="dc-reply-list">' + items.map(function (r) {
+        const date = r.time ? new Date(r.time).toLocaleDateString('bn-BD') : '';
+        const isMine = dcCurrentUser && r.uid === dcCurrentUser.uid;
+        const editedTag = r.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
+        const actions = isMine
+          ? '<div class="dc-c-actions">' +
+              '<button class="dc-r-edit" data-ckey="' + commentKey + '" data-rkey="' + r._key + '">এডিট</button>' +
+              '<button class="dc-r-delete" data-ckey="' + commentKey + '" data-rkey="' + r._key + '">ডিলিট</button>' +
+            '</div>'
+          : '';
+        return '<div class="dc-reply-item">' +
+          '<span class="dc-c-name">' + dcEscape(r.name || 'অতিথি পাঠক') + '</span>' +
+          '<span class="dc-c-time">' + date + editedTag + '</span>' +
+          '<div class="dc-c-text">' + dcEscape(r.text || '') + '</div>' +
+          actions + '</div>';
+      }).join('') + '</div>';
+    }
 
     function renderComments(data) {
       if (!data) {
@@ -399,18 +452,59 @@ layout: default
         const date = c.time ? new Date(c.time).toLocaleDateString('bn-BD') : '';
         const isMine = dcCurrentUser && c.uid === dcCurrentUser.uid;
         const editedTag = c.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
-        const actions = isMine
-          ? '<div class="dc-c-actions">' +
-              '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
-              '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>' +
-            '</div>'
+        const ownActions = isMine
+          ? '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
+            '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>'
           : '';
         return '<div class="dc-comment-item">' +
           '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
           '<span class="dc-c-time">' + date + editedTag + '</span>' +
           '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
-          actions + '</div>';
+          '<div class="dc-c-actions">' +
+            '<button class="dc-c-reply-btn" data-key="' + c._key + '">জবাব দিন</button>' +
+            ownActions +
+          '</div>' +
+          '<div class="dc-reply-form" id="dc-reply-form-' + c._key + '">' +
+            '<textarea placeholder="আপনার জবাব লিখুন..."></textarea>' +
+            '<button class="dc-reply-submit" data-key="' + c._key + '">জবাব পাঠান</button>' +
+          '</div>' +
+          renderReplies(c._key, c.replies) +
+          '</div>';
       }).join('');
+
+      commentList.querySelectorAll('.dc-c-reply-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const form = document.getElementById('dc-reply-form-' + btn.dataset.key);
+          form.classList.toggle('dc-open');
+          if (form.classList.contains('dc-open')) form.querySelector('textarea').focus();
+        });
+      });
+
+      commentList.querySelectorAll('.dc-reply-submit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!dcCurrentUser) { alert('জবাব দিতে হলে আগে লগ ইন বা নাম দিয়ে যুক্ত হন।'); return; }
+          const commentKey = btn.dataset.key;
+          const form = document.getElementById('dc-reply-form-' + commentKey);
+          const textarea = form.querySelector('textarea');
+          const text = textarea.value.trim();
+          if (!text) return;
+          btn.disabled = true;
+          const newRef = postRef.child('comments/' + commentKey + '/replies').push();
+          newRef.set({
+            uid: dcCurrentUser.uid,
+            name: dcDisplayName(),
+            text: text,
+            time: Date.now()
+          }).then(function () {
+            textarea.value = '';
+            btn.disabled = false;
+            form.classList.remove('dc-open');
+          }).catch(function (err) {
+            console.error(err);
+            btn.disabled = false;
+          });
+        });
+      });
 
       commentList.querySelectorAll('.dc-c-edit').forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -431,12 +525,26 @@ layout: default
           }
         });
       });
-    }
 
-    function dcEscape(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
+      commentList.querySelectorAll('.dc-r-edit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const ckey = btn.dataset.ckey, rkey = btn.dataset.rkey;
+          const itemDiv = btn.closest('.dc-reply-item');
+          const oldText = itemDiv.querySelector('.dc-c-text').textContent;
+          const newText = prompt('জবাব সম্পাদনা করুন:', oldText);
+          if (newText !== null && newText.trim() !== '') {
+            postRef.child('comments/' + ckey + '/replies/' + rkey).update({ text: newText.trim(), edited: true });
+          }
+        });
+      });
+      commentList.querySelectorAll('.dc-r-delete').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const ckey = btn.dataset.ckey, rkey = btn.dataset.rkey;
+          if (confirm('জবাবটি ডিলিট করতে চান?')) {
+            postRef.child('comments/' + ckey + '/replies/' + rkey).remove();
+          }
+        });
+      });
     }
 
     function countView() {
@@ -590,4 +698,3 @@ layout: default
     {% endif %}
   </div>
 </article>
-
