@@ -8,8 +8,9 @@ permalink: pretty
 future: true
 
 plugins:
-  - jekyll-seo-tag
-  - jekyll-sitemap
+    - jekyll-seo-tag
+    - jekyll-sitemap
+    - jekyll-redirect-from
 
 webmaster_verifications:
   google: O6AQ_cAwG8RoU5yHbkg7QvLF8daax_FglyiF2XMinBg
