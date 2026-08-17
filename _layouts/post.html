@@ -21,12 +21,14 @@ layout: default
   </p>
 
   <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
+  <!-- href গুলো JS দিয়ে রানটাইমে বসানো হয় (window.location.href থেকে) -->
+  <!-- যাতে site.url ভুল থাকলেও ফেসবুক শেয়ার সঠিক লিংকেই যায় -->
   <div class="dc-social-share-top">
     <span class="dc-social-label">শেয়ার করুন:</span>
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url | url_encode }}&amp;text={{ page.title | url_encode }}" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
-    <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://t.me/share/url?url={{ page.url | absolute_url | url_encode }}&amp;text={{ page.title | url_encode }}" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
+    <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
+    <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
     <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
   </div>
 
@@ -665,7 +667,21 @@ layout: default
       countView();
     }
 
-    // পোস্টের উপরের সোশ্যাল শেয়ার আইকন - লিংক কপি বাটন
+    // পোস্টের উপরের সোশ্যাল আইকনগুলোর href রানটাইমে বসানো -
+    // window.location.href সবসময় সঠিক থাকে, site.url ভুল থাকলেও প্রভাব পড়ে না
+    (function setupTopSocialLinks(){
+      const curUrl = encodeURIComponent(window.location.href);
+      const curTitle = encodeURIComponent(document.title);
+      const fbLink = document.getElementById('dc-top-fb');
+      const twLink = document.getElementById('dc-top-tw');
+      const waLink = document.getElementById('dc-top-wa');
+      const tgLink = document.getElementById('dc-top-tg');
+      if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + curUrl;
+      if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
+      if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
+      if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
+    })();
+
     const socialCopyBtn = document.getElementById('dc-social-copy-btn');
     if (socialCopyBtn) {
       socialCopyBtn.addEventListener('click', function () {
