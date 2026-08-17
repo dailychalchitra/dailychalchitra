@@ -62,8 +62,8 @@ overflow-x: auto !important;
 body {
 background-color: #ffffff !important;
 color: #222222 !important;
-font-family: 'Noto Sans Bengali', sans-serif !important;
-font-size: 16px !important;
+font-family: 'Noto Serif Bengali', serif !important;
+font-size: 17px !important;
 line-height: 1.6 !important;
 margin: 0;
 padding: 0;
@@ -426,7 +426,7 @@ flex-shrink: 0 !important;
 
 /* 1. টাইটেল */
 .post-title, .entry-title, h1.post-title, h2.post-title, h3.post-title {
-font-family: 'Noto Sans Bengali', sans-serif !important;
+font-family: 'Noto Serif Bengali', serif !important;
 font-size: 27px !important;
 line-height: 1.4 !important;
 font-weight: 700 !important;
@@ -454,8 +454,8 @@ margin-top: 0 !important;
 
 /* 4. বডি টেক্সট */
 .post-body, .entry-content, .post-body p, .entry-content p, .post-body div {
-font-family: 'Noto Sans Bengali', sans-serif !important;
-font-size: 17px !important;
+font-family: 'Noto Serif Bengali', serif !important;
+font-size: 18px !important;
 line-height: 1.8 !important;
 color: #333 !important;
 font-weight: 400 !important;
