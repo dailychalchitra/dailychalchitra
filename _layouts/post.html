@@ -323,7 +323,7 @@ layout: default
     </div>
   </div>
 
-  <!-- লেখকের অন্য লেখা -->
+<!-- লেখকের অন্য লেখা -->
   {% if page.author %}
   {% assign author_posts = site.posts | where: "author", page.author %}
   {% assign other_posts = "" | split: "" %}
@@ -332,11 +332,12 @@ layout: default
       {% assign other_posts = other_posts | push: post %}
     {% endunless %}
   {% endfor %}
-  {% if other_posts.size > 0 %}
   <div style="margin:28px 0 20px;padding:20px;background:#f9f9f9;border-radius:8px;">
     <h3 style="font-size:17px;color:#C00000;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #eee;">
       <i class="fa fa-user" style="margin-right:7px;"></i>{{ page.author }}-এর আরও লেখা
+      <span style="font-size:13px;color:#888;font-weight:400;">({{ other_posts.size }} টি)</span>
     </h3>
+    {% if other_posts.size > 0 %}
     <div class="dc-author-posts-grid">
       {% for post in other_posts %}
       <div class="dc-author-post-item">
@@ -351,8 +352,10 @@ layout: default
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <p style="font-size:14px;color:#999;margin:0;">এই লেখকের আর কোনো লেখা নেই।</p>
+    {% endif %}
   </div>
-  {% endif %}
   {% endif %}
 
   <div class="dc-modal-overlay" id="dc-modal-overlay">
