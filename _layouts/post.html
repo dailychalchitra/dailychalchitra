@@ -23,7 +23,7 @@ layout: default
   <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
   <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
   <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
-  <div class="dc-social-share-top" data-share-url="{{ page.url | absolute_url }}" data-share-title="{{ page.title }}">
+  <div class="dc-social-share-top">
     <span class="dc-social-label">শেয়ার করুন:</span>
     <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
     <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
@@ -667,16 +667,12 @@ layout: default
       countView();
     }
 
-    // পোস্টের উপরের সোশ্যাল আইকনগুলোর href - Jekyll-এর কাঁচা page.url থেকে
-    // ঠিক একবারই encode করা হচ্ছে (window.location.href ব্যবহার করা হচ্ছে না,
-    // কারণ সেটা আগে থেকেই এনকোডেড থাকতে পারে - ডাবল-এনকোডিং এড়ানোর জন্য)
+    // পোস্টের উপরের সোশ্যাল আইকনগুলো - এখন নিচের কাজ-করা শেয়ার বাটনের
+    // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
+    // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
     (function setupTopSocialLinks(){
-      const box = document.querySelector('.dc-social-share-top');
-      if (!box) return;
-      const rawUrl = box.dataset.shareUrl || window.location.href;
-      const rawTitle = box.dataset.shareTitle || document.title;
-      const curUrl = encodeURIComponent(rawUrl);
-      const curTitle = encodeURIComponent(rawTitle);
+      const curUrl = encodeURIComponent(window.location.href);
+      const curTitle = encodeURIComponent(document.title);
       const fbLink = document.getElementById('dc-top-fb');
       const twLink = document.getElementById('dc-top-tw');
       const waLink = document.getElementById('dc-top-wa');
@@ -685,6 +681,16 @@ layout: default
       if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
       if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
       if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
+
+      // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও এখন গুনতি হবে
+      [fbLink, twLink, waLink, tgLink].forEach(function(link){
+        if (!link) return;
+        link.addEventListener('click', function(){
+          if (typeof postRef !== 'undefined') {
+            postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+          }
+        });
+      });
     })();
 
     const socialCopyBtn = document.getElementById('dc-social-copy-btn');
