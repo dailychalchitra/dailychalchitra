@@ -671,7 +671,15 @@ layout: default
     // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
     // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
     (function setupTopSocialLinks(){
-      const curUrl = encodeURIComponent(window.location.href);
+      let rawUrl = window.location.href;
+      let curUrl;
+      try {
+        // আগে থেকে percent-encoded থাকলে ডাবল-এনকোডিং এড়াতে প্রথমে ডিকোড করে,
+        // তারপর ঠিক একবারই এনকোড করা হচ্ছে
+        curUrl = encodeURIComponent(decodeURIComponent(rawUrl));
+      } catch (e) {
+        curUrl = encodeURIComponent(rawUrl);
+      }
       const curTitle = encodeURIComponent(document.title);
       const fbLink = document.getElementById('dc-top-fb');
       const twLink = document.getElementById('dc-top-tw');
