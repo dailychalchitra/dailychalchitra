@@ -21,9 +21,9 @@ layout: default
   </p>
 
   <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
-  <!-- href গুলো JS দিয়ে রানটাইমে বসানো হয় (window.location.href থেকে) -->
-  <!-- যাতে site.url ভুল থাকলেও ফেসবুক শেয়ার সঠিক লিংকেই যায় -->
-  <div class="dc-social-share-top">
+  <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
+  <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
+  <div class="dc-social-share-top" data-share-url="{{ page.url | absolute_url }}" data-share-title="{{ page.title }}">
     <span class="dc-social-label">শেয়ার করুন:</span>
     <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
     <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
@@ -667,11 +667,16 @@ layout: default
       countView();
     }
 
-    // পোস্টের উপরের সোশ্যাল আইকনগুলোর href রানটাইমে বসানো -
-    // window.location.href সবসময় সঠিক থাকে, site.url ভুল থাকলেও প্রভাব পড়ে না
+    // পোস্টের উপরের সোশ্যাল আইকনগুলোর href - Jekyll-এর কাঁচা page.url থেকে
+    // ঠিক একবারই encode করা হচ্ছে (window.location.href ব্যবহার করা হচ্ছে না,
+    // কারণ সেটা আগে থেকেই এনকোডেড থাকতে পারে - ডাবল-এনকোডিং এড়ানোর জন্য)
     (function setupTopSocialLinks(){
-      const curUrl = encodeURIComponent(window.location.href);
-      const curTitle = encodeURIComponent(document.title);
+      const box = document.querySelector('.dc-social-share-top');
+      if (!box) return;
+      const rawUrl = box.dataset.shareUrl || window.location.href;
+      const rawTitle = box.dataset.shareTitle || document.title;
+      const curUrl = encodeURIComponent(rawUrl);
+      const curTitle = encodeURIComponent(rawTitle);
       const fbLink = document.getElementById('dc-top-fb');
       const twLink = document.getElementById('dc-top-tw');
       const waLink = document.getElementById('dc-top-wa');
