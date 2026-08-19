@@ -672,14 +672,21 @@ layout: default
     // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
     (function setupTopSocialLinks(){
       let rawUrl = window.location.href;
-      let curUrl;
-      try {
-        // আগে থেকে percent-encoded থাকলে ডাবল-এনকোডিং এড়াতে প্রথমে ডিকোড করে,
-        // তারপর ঠিক একবারই এনকোড করা হচ্ছে
-        curUrl = encodeURIComponent(decodeURIComponent(rawUrl));
-      } catch (e) {
-        curUrl = encodeURIComponent(rawUrl);
+
+      // নেস্টেড (একাধিক স্তরের) ক্যাটাগরি/সাব-ক্যাটাগরিযুক্ত পোস্টের URL-এ
+      // একাধিকবার এনকোডিং থাকতে পারে - তাই আর কোনো %XX প্যাটার্ন না
+      // থাকা পর্যন্ত বারবার ডিকোড করে, তারপর ঠিক একবারই এনকোড করা হচ্ছে
+      let decoded = rawUrl;
+      for (let i = 0; i < 5; i++) {
+        try {
+          const next = decodeURIComponent(decoded);
+          if (next === decoded) break;
+          decoded = next;
+        } catch (e) {
+          break; // ভাঙা/malformed অংশ পেলে যেটুকু ডিকোড হয়েছে তা নিয়েই থামা
+        }
       }
+      const curUrl = encodeURIComponent(decoded);
       const curTitle = encodeURIComponent(document.title);
       const fbLink = document.getElementById('dc-top-fb');
       const twLink = document.getElementById('dc-top-tw');
