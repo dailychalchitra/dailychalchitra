@@ -20,30 +20,24 @@ layout: default
     প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
   </p>
 
-  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
-  <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
-  <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
+  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে (Jekyll Native URL) -->
   <div class="dc-social-share-top">
     <span class="dc-social-label">শেয়ার করুন:</span>
-    <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
-    <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
-    <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
-    <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | uri_escape }}" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url | uri_escape }}&text={{ page.title | uri_escape }}" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://api.whatsapp.com/send?text={{ page.title | uri_escape }}%20{{ page.url | absolute_url | uri_escape }}" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://t.me/share/url?url={{ page.url | absolute_url | uri_escape }}&text={{ page.title | uri_escape }}" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
     <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
   </div>
 
   <div class="dc-post-body">
     {{ content }}
-</div>
-
-  <!-- ============================================================
-       DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
-       ============================================================ -->
+  </div>
 
   <style>
-.dc-post-body p { margin-bottom: 8px; font-size: 19px; font-weight: 400; font-family: 'Noto Serif Bengali', serif; }
-.dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
-.dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
+  .dc-post-body p { margin-bottom: 8px; font-size: 19px; font-weight: 400; font-family: 'Noto Serif Bengali', serif; }
+  .dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
+  .dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
 
   .dc-social-share-top{
     display:flex; align-items:center; gap:8px; margin:12px 0 6px; flex-wrap:wrap;
@@ -667,15 +661,17 @@ layout: default
       countView();
     }
 
-    <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
-<div class="dc-social-share-top">
-  <span class="dc-social-label">শেয়ার করুন:</span>
-  <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | uri_escape }}" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
-  <a href="https://twitter.com/intent/tweet?url={{ page.url | absolute_url | uri_escape }}&text={{ page.title | uri_escape }}" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
-  <a href="https://api.whatsapp.com/send?text={{ page.title | uri_escape }}%20{{ page.url | absolute_url | uri_escape }}" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
-  <a href="https://t.me/share/url?url={{ page.url | absolute_url | uri_escape }}&text={{ page.title | uri_escape }}" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
-  <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
-</div>
+    // সোশ্যাল আইকনগুলোতে ক্লিক করলে শেয়ার কাউন্টার বাড়ানো
+    ['dc-top-fb', 'dc-top-tw', 'dc-top-wa', 'dc-top-tg'].forEach(function(id){
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('click', function(){
+          if (typeof postRef !== 'undefined') {
+            postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+          }
+        });
+      }
+    });
 
     const socialCopyBtn = document.getElementById('dc-social-copy-btn');
     if (socialCopyBtn) {
