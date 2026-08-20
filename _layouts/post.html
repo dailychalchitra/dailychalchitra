@@ -667,32 +667,46 @@ layout: default
       countView();
     }
 
-    // পোস্টের উপরের সোশ্যাল আইকনগুলোর শেয়ার লিঙ্ক সেটআপ
-(function setupTopSocialLinks(){
-  // ব্রাউজারের নিজস্ব সঠিক URL নেওয়া হচ্ছে
-  const curUrl = encodeURIComponent(window.location.href);
-  const curTitle = encodeURIComponent(document.title);
+    // পোস্টের উপরের সোশ্যাল আইকনগুলো - এখন নিচের কাজ-করা শেয়ার বাটনের
+    // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
+    // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
+    (function setupTopSocialLinks(){
+      let rawUrl = window.location.href;
 
-  const fbLink = document.getElementById('dc-top-fb');
-  const twLink = document.getElementById('dc-top-tw');
-  const waLink = document.getElementById('dc-top-wa');
-  const tgLink = document.getElementById('dc-top-tg');
-
-  if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + curUrl;
-  if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
-  if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
-  if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
-
-  // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও গুনতি হবে
-  [fbLink, twLink, waLink, tgLink].forEach(function(link){
-    if (!link) return;
-    link.addEventListener('click', function(){
-      if (typeof postRef !== 'undefined') {
-        postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+      // নেস্টেড (একাধিক স্তরের) ক্যাটাগরি/সাব-ক্যাটাগরিযুক্ত পোস্টের URL-এ
+      // একাধিকবার এনকোডিং থাকতে পারে - তাই আর কোনো %XX প্যাটার্ন না
+      // থাকা পর্যন্ত বারবার ডিকোড করে, তারপর ঠিক একবারই এনকোড করা হচ্ছে
+      let decoded = rawUrl;
+      for (let i = 0; i < 5; i++) {
+        try {
+          const next = decodeURIComponent(decoded);
+          if (next === decoded) break;
+          decoded = next;
+        } catch (e) {
+          break; // ভাঙা/malformed অংশ পেলে যেটুকু ডিকোড হয়েছে তা নিয়েই থামা
+        }
       }
-    });
-  });
-})();
+      const curUrl = encodeURIComponent(decoded);
+      const curTitle = encodeURIComponent(document.title);
+      const fbLink = document.getElementById('dc-top-fb');
+      const twLink = document.getElementById('dc-top-tw');
+      const waLink = document.getElementById('dc-top-wa');
+      const tgLink = document.getElementById('dc-top-tg');
+      if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + curUrl;
+      if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
+      if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
+      if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
+
+      // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও এখন গুনতি হবে
+      [fbLink, twLink, waLink, tgLink].forEach(function(link){
+        if (!link) return;
+        link.addEventListener('click', function(){
+          if (typeof postRef !== 'undefined') {
+            postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+          }
+        });
+      });
+    })();
 
     const socialCopyBtn = document.getElementById('dc-social-copy-btn');
     if (socialCopyBtn) {
