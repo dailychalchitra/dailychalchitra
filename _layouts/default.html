@@ -23,8 +23,791 @@
 <meta property="og:title" content="{{ dc_page_title }}">
 <meta property="og:description" content="{{ dc_page_desc }}">
 <meta property="og:image" content="{{ dc_page_image }}">
-<meta property="og:url" content="{{ page.url | absolute_url | url_encode }}">
+---
+layout: default
+---
+<article style="max-width:800px;margin:20px auto;padding:15px;">
+  <div style="text-align:right;margin-bottom:12px;">
+  <a href="{{ '/epaper/' | relative_url }}" style="background:#C00000;color:#fff;padding:7px 16px;border-radius:6px;text-decoration:none;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
+    <i class="fa fa-newspaper" style="font-size:12px;"></i>
+    ই-পেপার
+  </a>
+</div>
+  <img src="{{ page.image | relative_url }}" style="width:100%;border-radius:8px;margin-bottom:15px;">
+  <span style="background:#C00000;color:white;padding:5px 10px;font-size:14px;border-radius:4px;">
+    {{ page.categories | first }}
+  </span>
+  <h1 style="font-size:28px;margin:15px 0 2px;line-height:1.4;">
+    <span style="display:inline-block;border-bottom:2px solid #ccc;padding-bottom:4px;">{{ page.title }}</span>
+  </h1>
+  {% if page.author %}<p style="font-size:16px;color:#C00000;font-weight:400;font-style:normal;margin:0 0 2px;">লেখক: {{ page.author }}</p>{% endif %}
+  <p style="color:#777;font-size:12px;border-bottom:1px solid #eee;padding-bottom:8px;margin:2px 0 0;">
+    প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
+  </p>
 
+  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
+  <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
+  <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
+  <div class="dc-social-share-top">
+    <span class="dc-social-label">শেয়ার করুন:</span>
+    <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
+    <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
+    <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
+  </div>
+
+  <div class="dc-post-body">
+    {{ content }}
+</div>
+
+  <!-- ============================================================
+       DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
+       ============================================================ -->
+
+  <style>
+.dc-post-body p { margin-bottom: 8px; font-size: 19px; font-weight: 400; font-family: 'Noto Serif Bengali', serif; }
+.dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
+.dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
+
+  .dc-social-share-top{
+    display:flex; align-items:center; gap:8px; margin:12px 0 6px; flex-wrap:wrap;
+  }
+  .dc-social-label{ font-size:13px; color:#666; margin-right:2px; }
+  .dc-social-icon{
+    width:32px; height:32px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; color:#fff; font-size:14px; text-decoration:none;
+    border:none; cursor:pointer; transition:transform .15s;
+  }
+  .dc-social-icon:hover{ transform:scale(1.08); }
+  .dc-social-fb{ background:#1877f2; }
+  .dc-social-tw{ background:#000; }
+  .dc-social-wa{ background:#25D366; }
+  .dc-social-tg{ background:#229ED9; }
+  .dc-social-copy{ background:#777; }
+
+  .dc-engage-box {
+    max-width: 760px;
+    margin: 30px auto;
+    padding: 0;
+    font-family: 'Noto Serif Bengali', serif;
+  }
+  .dc-reaction-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0;
+    padding: 14px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-left: -8px;
+  }
+  .dc-react-btn {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 10px;
+    transition: 0.15s;
+  }
+  .dc-react-btn:hover { background: #f5f5f5; }
+  .dc-react-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .dc-react-btn:active .dc-react-circle { transform: scale(0.88); }
+  .dc-react-circle svg { width: 22px; height: 22px; }
+  .dc-like .dc-react-circle { background: #1877f2; }
+  .dc-love .dc-react-circle { background: #f33e58; }
+  .dc-comment .dc-react-circle { background: #29b6f6; }
+  .dc-share .dc-react-circle { background: #29b6f6; }
+  .dc-react-btn.dc-active .dc-react-circle { box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
+  .dc-react-label { font-size: 12px; color: #555; font-weight: 600; }
+  .dc-react-btn.dc-active .dc-react-label { color: #111; }
+  .dc-react-count { font-size: 13px; color: #333; font-weight: 700; }
+  @media (max-width: 420px) {
+    .dc-reaction-row { gap: 4px; justify-content: flex-start; margin-left: -8px; margin-right: 0; }
+    .dc-react-btn { padding: 6px 6px; min-width: 0; flex: 0 0 auto; }
+    .dc-react-circle { width: 38px; height: 38px; }
+    .dc-react-label { font-size: 11px; }
+  }
+  .dc-view-only {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #666;
+    font-size: 14px;
+    padding: 12px 0 4px;
+  }
+  .dc-view-only svg { width: 18px; height: 18px; fill: #888; }
+  .dc-comment-section { padding-top: 20px; display: none; }
+  .dc-comment-section.dc-open { display: block; }
+  .dc-comment-section h3 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    border-bottom: 2px solid #C00000;
+    display: inline-block;
+    padding-bottom: 6px;
+  }
+  .dc-comment-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+  .dc-comment-form textarea {
+    resize: vertical;
+    min-height: 70px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .dc-comment-form .dc-comment-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .dc-comment-asname { font-size: 13px; color: #777; }
+  .dc-comment-asname a { color: #C00000; text-decoration: none; font-weight: 600; }
+  .dc-comment-submit {
+    background: #C00000;
+    color: #fff;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .dc-comment-submit:disabled { opacity: 0.5; cursor: default; }
+  .dc-comment-list { display: flex; flex-direction: column; gap: 14px; }
+  .dc-comment-item {
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .dc-comment-item .dc-c-name { font-weight: 700; font-size: 14px; color: #222; }
+  .dc-comment-item .dc-c-time { font-size: 12px; color: #999; margin-left: 8px; }
+  .dc-comment-item .dc-c-text { font-size: 14px; color: #444; margin-top: 4px; line-height: 1.6; white-space: pre-wrap; }
+  .dc-comment-empty { font-size: 14px; color: #999; padding: 10px 0; }
+  .dc-c-actions { margin-top: 8px; display: flex; gap: 14px; }
+  .dc-c-actions button {
+    background: none; border: none; padding: 0;
+    font-size: 12px; color: #C00000; font-weight: 600; cursor: pointer;
+  }
+  .dc-c-actions button:hover { text-decoration: underline; }
+  .dc-modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+  .dc-modal-overlay.active { display: flex; }
+  .dc-modal-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    width: 90%;
+    max-width: 360px;
+    position: relative;
+  }
+  .dc-modal-box h3 { margin-bottom: 14px; font-size: 18px; }
+  .dc-modal-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .dc-modal-box button.dc-modal-submit {
+    width: 100%;
+    background: #C00000;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .dc-modal-switch { text-align: center; font-size: 13px; margin-top: 10px; color: #666; }
+  .dc-modal-switch a { color: #C00000; text-decoration: none; font-weight: 600; }
+  .dc-modal-close {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 22px; cursor: pointer; color: #999; background: none; border: none;
+  }
+  .dc-modal-error { color: #C00000; font-size: 13px; margin-bottom: 8px; display: none; }
+
+  /* লেখকের অন্য লেখা — দুই কলাম */
+  .dc-author-posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .dc-author-post-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+  }
+  .dc-author-post-item:nth-child(odd) {
+    border-right: none;
+  }
+  .dc-author-post-dot {
+    color: #C00000;
+    font-size: 10px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .dc-author-post-info { flex: 1; min-width: 0; }
+  .dc-author-post-cat {
+    display: inline-block;
+    background: #C00000;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .dc-author-post-title {
+    display: block;
+    color: #222;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .dc-author-post-title:hover { color: #C00000; }
+  .dc-author-post-date {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-top: 3px;
+  }
+  @media (max-width: 500px) {
+    .dc-author-posts-grid { grid-template-columns: 1fr 1fr !important; gap: 0 !important; }
+    .dc-author-post-item { padding: 8px 6px !important; }
+    .dc-author-post-title { font-size: 13px !important; }
+  }
+
+  /* রিপ্লাই সিস্টেম */
+  .dc-reply-list{
+    margin-top:10px; margin-left:18px; padding-left:12px;
+    border-left:2px solid #eee; display:flex; flex-direction:column; gap:10px;
+  }
+  .dc-reply-item{ background:#fff; border:1px solid #eee; border-radius:6px; padding:8px 10px; }
+  .dc-reply-item .dc-c-name{ font-size:13px; }
+  .dc-reply-item .dc-c-text{ font-size:13px; }
+  .dc-reply-form{ display:none; margin-top:8px; flex-direction:column; gap:8px; }
+  .dc-reply-form.dc-open{ display:flex; }
+  .dc-reply-form textarea{
+    min-height:50px; padding:8px; border:1px solid #ddd; border-radius:6px;
+    font-size:13px; font-family:inherit; resize:vertical;
+  }
+  .dc-reply-form button{
+    align-self:flex-end; background:#C00000; color:#fff; border:none;
+    padding:6px 16px; border-radius:16px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+  </style>
+
+  <div class="dc-engage-box" data-post-title="{{ page.title }}" data-post-url="{{ page.url }}">
+    <div class="dc-reaction-row">
+      <button class="dc-react-btn dc-like" id="dc-like-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21h2c.6 0 1-.4 1-1v-9c0-.6-.4-1-1-1H2v11zm19.8-9.3c.1-.2.2-.5.2-.7 0-1.1-.9-2-2-2h-5.4l.8-3.9c.1-.5 0-1-.3-1.4-.4-.5-1-.7-1.6-.7-.5 0-1 .2-1.3.6L7 10.3V21h11.7c.8 0 1.5-.5 1.8-1.3l1.3-7z"/></svg>
+        </span>
+        <span class="dc-react-label">লাইক</span>
+        <span class="dc-react-count" id="dc-like-count">0</span>
+      </button>
+      <button class="dc-react-btn dc-love" id="dc-love-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 32 29.6" fill="currentColor"><path d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.3C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.6 0 8.4c0 6.4 7.4 11.7 16 21.2 8.6-9.5 16-14.8 16-21.2C32 3.6 28.2 0 23.6 0z"/></svg>
+        </span>
+        <span class="dc-react-label">ভালোলাগা</span>
+        <span class="dc-react-count" id="dc-love-count">0</span>
+      </button>
+      <button class="dc-react-btn dc-comment" id="dc-comment-scroll-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.2 1.1 4.2 2.9 5.7-.1.9-.5 2.4-1.5 3.9 0 0 2.5-.3 4.6-1.7C9.2 19.3 10.6 19.5 12 19.5c5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>
+        </span>
+        <span class="dc-react-label">মন্তব্য</span>
+        <span class="dc-react-count" id="dc-comment-count">0</span>
+      </button>
+      <button class="dc-react-btn dc-share" id="dc-share-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.1c-.8 0-1.5.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.6.5 1.3.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 2-.8l7 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 3 3 3s3-1.3 3-3-1.4-3.1-3-3.1z"/></svg>
+        </span>
+        <span class="dc-react-label">শেয়ার</span>
+        <span class="dc-react-count" id="dc-share-count">0</span>
+      </button>
+    </div>
+
+    <div class="dc-view-only">
+      <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5zm0-8c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/></svg>
+      <b id="dc-view-count">0</b> বার দেখা হয়েছে
+    </div>
+
+    <div class="dc-comment-section" id="dc-comment-section">
+      <h3>মন্তব্য করুন</h3>
+      <div class="dc-comment-form">
+        <div class="dc-comment-asname">
+          মন্তব্য করছেন <b id="dc-as-name">অতিথি পাঠক</b> হিসেবে —
+          <a href="#" id="dc-open-signup">নিজের নাম দিয়ে যুক্ত হতে চান?</a>
+        </div>
+        <textarea id="dc-comment-input" placeholder="আপনার মন্তব্য লিখুন..."></textarea>
+        <div class="dc-comment-row">
+          <span></span>
+          <button class="dc-comment-submit" id="dc-comment-submit">পাঠিয়ে দিন</button>
+        </div>
+      </div>
+      <div class="dc-comment-list" id="dc-comment-list">
+        <div class="dc-comment-empty">এখনো কোনো মন্তব্য নেই — প্রথম মন্তব্যটি আপনিই করুন!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- লেখকের অন্য লেখা -->
+  {% if page.author %}
+  {% assign author_posts = site.posts | where: "author", page.author %}
+  {% assign other_posts = "" | split: "" %}
+  {% for post in author_posts %}
+    {% unless post.url == page.url %}
+      {% assign other_posts = other_posts | push: post %}
+    {% endunless %}
+  {% endfor %}
+  <div style="margin:28px 0 20px;padding:20px;background:#f9f9f9;border-radius:8px;">
+    <h3 style="font-size:17px;color:#C00000;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #eee;">
+      <i class="fa fa-user" style="margin-right:7px;"></i>{{ page.author }}-এর আরও লেখা
+      <span style="font-size:13px;color:#888;font-weight:400;">({{ other_posts.size }} টি)</span>
+    </h3>
+    {% if other_posts.size > 0 %}
+    <div class="dc-author-posts-grid">
+      {% for post in other_posts %}
+      <div class="dc-author-post-item">
+        <span class="dc-author-post-dot">●</span>
+        <div class="dc-author-post-info">
+          {% if post.categories %}
+          <span class="dc-author-post-cat">{{ post.categories | first }}</span>
+          {% endif %}
+          <a href="{{ post.url | relative_url }}" class="dc-author-post-title">{{ post.title }}</a>
+          <span class="dc-author-post-date"><i class="far fa-clock"></i> {{ post.date | date: "%d %B, %Y" }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="font-size:14px;color:#999;margin:0;">এই লেখকের আর কোনো লেখা নেই।</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="dc-modal-overlay" id="dc-modal-overlay">
+    <div class="dc-modal-box">
+      <button class="dc-modal-close" id="dc-modal-close">&times;</button>
+      <div id="dc-modal-signup">
+        <h3>নতুন একাউন্ট তৈরি করুন</h3>
+        <div class="dc-modal-error" id="dc-signup-error"></div>
+        <input type="text" id="dc-signup-name" placeholder="আপনার নাম">
+        <input type="email" id="dc-signup-email" placeholder="ইমেইল">
+        <input type="password" id="dc-signup-password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)">
+        <button class="dc-modal-submit" id="dc-signup-submit">সাইন আপ করুন</button>
+        <div class="dc-modal-switch">আগেই একাউন্ট আছে? <a href="#" id="dc-switch-to-login">লগ ইন করুন</a></div>
+      </div>
+      <div id="dc-modal-login" style="display:none;">
+        <h3>লগ ইন করুন</h3>
+        <div class="dc-modal-error" id="dc-login-error"></div>
+        <input type="email" id="dc-login-email" placeholder="ইমেইল">
+        <input type="password" id="dc-login-password" placeholder="পাসওয়ার্ড">
+        <button class="dc-modal-submit" id="dc-login-submit">লগ ইন</button>
+        <div class="dc-modal-switch">একাউন্ট নেই? <a href="#" id="dc-switch-to-signup">সাইন আপ করুন</a></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
+    const viewCountEl = document.getElementById('dc-view-count');
+    const likeCountEl = document.getElementById('dc-like-count');
+    const loveCountEl = document.getElementById('dc-love-count');
+    const commentCountEl = document.getElementById('dc-comment-count');
+    const shareCountEl = document.getElementById('dc-share-count');
+    const likeBtn = document.getElementById('dc-like-btn');
+    const loveBtn = document.getElementById('dc-love-btn');
+    const commentScrollBtn = document.getElementById('dc-comment-scroll-btn');
+    const shareBtn = document.getElementById('dc-share-btn');
+    const commentList = document.getElementById('dc-comment-list');
+    const commentInput = document.getElementById('dc-comment-input');
+    const commentSubmit = document.getElementById('dc-comment-submit');
+    const asNameEl = document.getElementById('dc-as-name');
+    let hasCountedView = false;
+
+    postRef.child('viewCount').on('value', function (snap) { viewCountEl.textContent = snap.val() || 0; });
+    postRef.child('likeCount').on('value', function (snap) { likeCountEl.textContent = snap.val() || 0; });
+    postRef.child('loveCount').on('value', function (snap) { loveCountEl.textContent = snap.val() || 0; });
+    postRef.child('shareCount').on('value', function (snap) { shareCountEl.textContent = snap.val() || 0; });
+    postRef.child('comments').on('value', function (snap) {
+      const data = snap.val();
+      let count = 0;
+      if (data) {
+        Object.keys(data).forEach(function (k) {
+          count += 1;
+          if (data[k].replies) count += Object.keys(data[k].replies).length;
+        });
+      }
+      commentCountEl.textContent = count;
+      renderComments(data);
+    });
+
+    function dcEscape(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderReplies(commentKey, repliesData) {
+      if (!repliesData) return '';
+      const items = Object.keys(repliesData).map(function (k) { return Object.assign({ _key: k }, repliesData[k]); });
+      items.sort(function (a, b) { return (a.time || 0) - (b.time || 0); });
+      return '<div class="dc-reply-list">' + items.map(function (r) {
+        const date = r.time ? new Date(r.time).toLocaleDateString('bn-BD') : '';
+        const isMine = dcCurrentUser && r.uid === dcCurrentUser.uid;
+        const editedTag = r.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
+        const actions = isMine
+          ? '<div class="dc-c-actions">' +
+              '<button class="dc-r-edit" data-ckey="' + commentKey + '" data-rkey="' + r._key + '">এডিট</button>' +
+              '<button class="dc-r-delete" data-ckey="' + commentKey + '" data-rkey="' + r._key + '">ডিলিট</button>' +
+            '</div>'
+          : '';
+        return '<div class="dc-reply-item">' +
+          '<span class="dc-c-name">' + dcEscape(r.name || 'অতিথি পাঠক') + '</span>' +
+          '<span class="dc-c-time">' + date + editedTag + '</span>' +
+          '<div class="dc-c-text">' + dcEscape(r.text || '') + '</div>' +
+          actions + '</div>';
+      }).join('') + '</div>';
+    }
+
+    function renderComments(data) {
+      if (!data) {
+        commentList.innerHTML = '<div class="dc-comment-empty">এখনো কোনো মন্তব্য নেই — প্রথম মন্তব্যটি আপনিই করুন!</div>';
+        return;
+      }
+      const items = Object.keys(data).map(function (k) { return Object.assign({ _key: k }, data[k]); });
+      items.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
+      commentList.innerHTML = items.map(function (c) {
+        const date = c.time ? new Date(c.time).toLocaleDateString('bn-BD') : '';
+        const isMine = dcCurrentUser && c.uid === dcCurrentUser.uid;
+        const editedTag = c.edited ? ' <span style="color:#aaa;">(সম্পাদিত)</span>' : '';
+        const ownActions = isMine
+          ? '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
+            '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>'
+          : '';
+        return '<div class="dc-comment-item">' +
+          '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
+          '<span class="dc-c-time">' + date + editedTag + '</span>' +
+          '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
+          '<div class="dc-c-actions">' +
+            '<button class="dc-c-reply-btn" data-key="' + c._key + '">জবাব দিন</button>' +
+            ownActions +
+          '</div>' +
+          '<div class="dc-reply-form" id="dc-reply-form-' + c._key + '">' +
+            '<textarea placeholder="আপনার জবাব লিখুন..."></textarea>' +
+            '<button class="dc-reply-submit" data-key="' + c._key + '">জবাব পাঠান</button>' +
+          '</div>' +
+          renderReplies(c._key, c.replies) +
+          '</div>';
+      }).join('');
+
+      commentList.querySelectorAll('.dc-c-reply-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const form = document.getElementById('dc-reply-form-' + btn.dataset.key);
+          form.classList.toggle('dc-open');
+          if (form.classList.contains('dc-open')) form.querySelector('textarea').focus();
+        });
+      });
+
+      commentList.querySelectorAll('.dc-reply-submit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!dcCurrentUser) { alert('জবাব দিতে হলে আগে লগ ইন বা নাম দিয়ে যুক্ত হন।'); return; }
+          const commentKey = btn.dataset.key;
+          const form = document.getElementById('dc-reply-form-' + commentKey);
+          const textarea = form.querySelector('textarea');
+          const text = textarea.value.trim();
+          if (!text) return;
+          btn.disabled = true;
+          const newRef = postRef.child('comments/' + commentKey + '/replies').push();
+          newRef.set({
+            uid: dcCurrentUser.uid,
+            name: dcDisplayName(),
+            text: text,
+            time: Date.now()
+          }).then(function () {
+            textarea.value = '';
+            btn.disabled = false;
+            form.classList.remove('dc-open');
+          }).catch(function (err) {
+            console.error(err);
+            btn.disabled = false;
+          });
+        });
+      });
+
+      commentList.querySelectorAll('.dc-c-edit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const key = btn.dataset.key;
+          const itemDiv = btn.closest('.dc-comment-item');
+          const oldText = itemDiv.querySelector('.dc-c-text').textContent;
+          const newText = prompt('মন্তব্য সম্পাদনা করুন:', oldText);
+          if (newText !== null && newText.trim() !== '') {
+            postRef.child('comments/' + key).update({ text: newText.trim(), edited: true });
+          }
+        });
+      });
+      commentList.querySelectorAll('.dc-c-delete').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const key = btn.dataset.key;
+          if (confirm('মন্তব্যটি ডিলিট করতে চান?')) {
+            postRef.child('comments/' + key).remove();
+          }
+        });
+      });
+
+      commentList.querySelectorAll('.dc-r-edit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const ckey = btn.dataset.ckey, rkey = btn.dataset.rkey;
+          const itemDiv = btn.closest('.dc-reply-item');
+          const oldText = itemDiv.querySelector('.dc-c-text').textContent;
+          const newText = prompt('জবাব সম্পাদনা করুন:', oldText);
+          if (newText !== null && newText.trim() !== '') {
+            postRef.child('comments/' + ckey + '/replies/' + rkey).update({ text: newText.trim(), edited: true });
+          }
+        });
+      });
+      commentList.querySelectorAll('.dc-r-delete').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const ckey = btn.dataset.ckey, rkey = btn.dataset.rkey;
+          if (confirm('জবাবটি ডিলিট করতে চান?')) {
+            postRef.child('comments/' + ckey + '/replies/' + rkey).remove();
+          }
+        });
+      });
+    }
+
+    function countView() {
+      if (hasCountedView) return;
+      hasCountedView = true;
+      postRef.child('viewCount').transaction(function (cur) { return (cur || 0) + 1; });
+    }
+
+    function toggleReaction(typeKey, countKey, btn) {
+      if (!dcCurrentUser) return;
+      const reactRef = postRef.child(typeKey + '/' + dcCurrentUser.uid);
+      const countRef = postRef.child(countKey);
+      reactRef.once('value').then(function (snap) {
+        const has = !!snap.val();
+        if (has) {
+          reactRef.remove();
+          countRef.transaction(function (cur) { return Math.max((cur || 1) - 1, 0); });
+          btn.classList.remove('dc-active');
+        } else {
+          reactRef.set(true);
+          countRef.transaction(function (cur) { return (cur || 0) + 1; });
+          btn.classList.add('dc-active');
+        }
+      });
+    }
+
+    function refreshReactionUI() {
+      if (!dcCurrentUser) return;
+      postRef.child('likes/' + dcCurrentUser.uid).once('value').then(function (snap) {
+        likeBtn.classList.toggle('dc-active', !!snap.val());
+      });
+      postRef.child('loves/' + dcCurrentUser.uid).once('value').then(function (snap) {
+        loveBtn.classList.toggle('dc-active', !!snap.val());
+      });
+    }
+
+    likeBtn.addEventListener('click', function () { toggleReaction('likes', 'likeCount', likeBtn); });
+    loveBtn.addEventListener('click', function () { toggleReaction('loves', 'loveCount', loveBtn); });
+
+    commentScrollBtn.addEventListener('click', function () {
+      var section = document.getElementById('dc-comment-section');
+      section.classList.add('dc-open');
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () { commentInput.focus(); }, 300);
+    });
+
+    shareBtn.addEventListener('click', function () {
+      const url = window.location.href;
+      const title = document.querySelector('.dc-engage-box').dataset.postTitle || document.title;
+      postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+      if (navigator.share) {
+        navigator.share({ title: title, url: url }).catch(function () {});
+      } else {
+        navigator.clipboard.writeText(url).then(function () {
+          alert('লিংক কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
+        });
+      }
+    });
+
+    commentSubmit.addEventListener('click', function () {
+      const text = commentInput.value.trim();
+      if (!text || !dcCurrentUser) return;
+      commentSubmit.disabled = true;
+      const newRef = postRef.child('comments').push();
+      newRef.set({
+        uid: dcCurrentUser.uid,
+        name: dcDisplayName(),
+        text: text,
+        time: Date.now()
+      }).then(function () {
+        commentInput.value = '';
+        commentSubmit.disabled = false;
+      }).catch(function (err) {
+        console.error(err);
+        commentSubmit.disabled = false;
+      });
+    });
+
+    document.addEventListener('dc-auth-ready', function () {
+      asNameEl.textContent = dcDisplayName();
+      refreshReactionUI();
+      countView();
+    });
+    if (dcCurrentUser) {
+      asNameEl.textContent = dcDisplayName();
+      refreshReactionUI();
+      countView();
+    }
+
+    // পোস্টের উপরের সোশ্যাল আইকনগুলো - এখন নিচের কাজ-করা শেয়ার বাটনের
+    // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
+    // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
+    (function setupTopSocialLinks(){
+      let rawUrl = window.location.href;
+
+      // নেস্টেড (একাধিক স্তরের) ক্যাটাগরি/সাব-ক্যাটাগরিযুক্ত পোস্টের URL-এ
+      // একাধিকবার এনকোডিং থাকতে পারে - তাই আর কোনো %XX প্যাটার্ন না
+      // থাকা পর্যন্ত বারবার ডিকোড করে, তারপর ঠিক একবারই এনকোড করা হচ্ছে
+      let decoded = rawUrl;
+      for (let i = 0; i < 5; i++) {
+        try {
+          const next = decodeURIComponent(decoded);
+          if (next === decoded) break;
+          decoded = next;
+        } catch (e) {
+          break; // ভাঙা/malformed অংশ পেলে যেটুকু ডিকোড হয়েছে তা নিয়েই থামা
+        }
+      }
+      const curUrl = encodeURIComponent(decoded);
+      const curTitle = encodeURIComponent(document.title);
+      const fbLink = document.getElementById('dc-top-fb');
+      const twLink = document.getElementById('dc-top-tw');
+      const waLink = document.getElementById('dc-top-wa');
+      const tgLink = document.getElementById('dc-top-tg');
+      if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + curUrl;
+      if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
+      if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
+      if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
+
+      // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও এখন গুনতি হবে
+      [fbLink, twLink, waLink, tgLink].forEach(function(link){
+        if (!link) return;
+        link.addEventListener('click', function(){
+          if (typeof postRef !== 'undefined') {
+            postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+          }
+        });
+      });
+    })();
+
+    const socialCopyBtn = document.getElementById('dc-social-copy-btn');
+    if (socialCopyBtn) {
+      socialCopyBtn.addEventListener('click', function () {
+        navigator.clipboard.writeText(window.location.href).then(function () {
+          alert('লিংক কপি হয়েছে!');
+        }).catch(function () {
+          alert('লিংক কপি করা যায়নি।');
+        });
+      });
+    }
+
+    const overlay = document.getElementById('dc-modal-overlay');
+    const signupBox = document.getElementById('dc-modal-signup');
+    const loginBox = document.getElementById('dc-modal-login');
+
+    document.getElementById('dc-open-signup').addEventListener('click', function (e) {
+      e.preventDefault(); overlay.classList.add('active');
+    });
+    document.getElementById('dc-modal-close').addEventListener('click', function () {
+      overlay.classList.remove('active');
+    });
+    document.getElementById('dc-switch-to-login').addEventListener('click', function (e) {
+      e.preventDefault(); signupBox.style.display = 'none'; loginBox.style.display = 'block';
+    });
+    document.getElementById('dc-switch-to-signup').addEventListener('click', function (e) {
+      e.preventDefault(); loginBox.style.display = 'none'; signupBox.style.display = 'block';
+    });
+
+    document.getElementById('dc-signup-submit').addEventListener('click', function () {
+      const name = document.getElementById('dc-signup-name').value.trim();
+      const email = document.getElementById('dc-signup-email').value.trim();
+      const pass = document.getElementById('dc-signup-password').value;
+      const errEl = document.getElementById('dc-signup-error');
+      errEl.style.display = 'none';
+      if (!name || !email || pass.length < 6) {
+        errEl.textContent = 'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
+        errEl.style.display = 'block'; return;
+      }
+      dcSignUp(name, email, pass, function (err) {
+        if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
+        overlay.classList.remove('active');
+        asNameEl.textContent = dcDisplayName();
+        refreshReactionUI();
+      });
+    });
+
+    document.getElementById('dc-login-submit').addEventListener('click', function () {
+      const email = document.getElementById('dc-login-email').value.trim();
+      const pass = document.getElementById('dc-login-password').value;
+      const errEl = document.getElementById('dc-login-error');
+      errEl.style.display = 'none';
+      dcLogIn(email, pass, function (err) {
+        if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
+        overlay.classList.remove('active');
+        asNameEl.textContent = dcDisplayName();
+        refreshReactionUI();
+      });
+    });
+  });
+  </script>
+
+  <div style="margin-top:40px;padding-top:20px;border-top:1px solid #eee;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+    <a href="{{ site.baseurl }}/" style="color:#c62828;text-decoration:none;border-bottom:1px solid #c62828;padding-bottom:2px;font-size:16px;">আরও পড়ুন</a>
+    {% if page.next.url %}
+      <a href="{{ page.next.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">নতুন পোস্ট</a>
+    {% else %}
+      <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">নতুন পোস্ট</span>
+    {% endif %}
+    {% if page.previous.url %}
+      <a href="{{ page.previous.url | relative_url }}" style="color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:2px;font-size:16px;">পুরোনো পোস্ট</a>
+    {% else %}
+      <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">পুরোনো পোস্ট</span>
+    {% endif %}
+  </div>
+</article>
 <meta property="og:site_name" content="দৈনিক চালচিত্র">
 
 <meta name="twitter:card" content="summary_large_image">
