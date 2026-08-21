@@ -20,16 +20,21 @@ layout: default
     প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
   </p>
 
-  <!-- একটি মাত্র পরিপাটি শেয়ার বাটন -->
-  <div class="dc-single-share-top" style="margin:12px 0 6px;">
-    <button type="button" id="dc-main-share-btn" style="background:#C00000;color:#fff;border:none;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:'Noto Serif Bengali',serif;">
-      <i class="fa fa-share-alt"></i> শেয়ার করুন
-    </button>
+  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
+  <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
+  <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
+  <div class="dc-social-share-top">
+    <span class="dc-social-label">শেয়ার করুন:</span>
+    <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
+    <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
+    <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
   </div>
 
   <div class="dc-post-body">
     {{ content }}
-  </div>
+</div>
 
   <!-- ============================================================
        DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
@@ -39,6 +44,22 @@ layout: default
 .dc-post-body p { margin-bottom: 8px; font-size: 19px; font-weight: 400; font-family: 'Noto Serif Bengali', serif; }
 .dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
 .dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
+
+  .dc-social-share-top{
+    display:flex; align-items:center; gap:8px; margin:12px 0 6px; flex-wrap:wrap;
+  }
+  .dc-social-label{ font-size:13px; color:#666; margin-right:2px; }
+  .dc-social-icon{
+    width:32px; height:32px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; color:#fff; font-size:14px; text-decoration:none;
+    border:none; cursor:pointer; transition:transform .15s;
+  }
+  .dc-social-icon:hover{ transform:scale(1.08); }
+  .dc-social-fb{ background:#1877f2; }
+  .dc-social-tw{ background:#000; }
+  .dc-social-wa{ background:#25D366; }
+  .dc-social-tg{ background:#229ED9; }
+  .dc-social-copy{ background:#777; }
 
   .dc-engage-box {
     max-width: 760px;
@@ -392,28 +413,6 @@ layout: default
 
   <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // উপরের 'শেয়ার করুন' বাটনটি ক্লিক করলে নিচের সফল শেয়ার ফাংশনটি কাজ করবে
-    const mainShareBtn = document.getElementById('dc-main-share-btn');
-    if (mainShareBtn) {
-      mainShareBtn.addEventListener('click', function() {
-        const url = window.location.href;
-        const title = document.querySelector('.dc-engage-box').dataset.postTitle || document.title;
-        
-        // শেয়ার কাউন্ট বাড়ানো
-        if (typeof postRef !== 'undefined') {
-          postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
-        }
-
-        if (navigator.share) {
-          navigator.share({ title: title, url: url }).catch(function () {});
-        } else {
-          navigator.clipboard.writeText(url).then(function () {
-            alert('লিংক কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
-          });
-        }
-      });
-    }
-
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
     const viewCountEl = document.getElementById('dc-view-count');
     const likeCountEl = document.getElementById('dc-like-count');
@@ -666,6 +665,58 @@ layout: default
       asNameEl.textContent = dcDisplayName();
       refreshReactionUI();
       countView();
+    }
+
+    // পোস্টের উপরের সোশ্যাল আইকনগুলো - এখন নিচের কাজ-করা শেয়ার বাটনের
+    // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
+    // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
+    (function setupTopSocialLinks(){
+      let rawUrl = window.location.href;
+
+      // নেস্টেড (একাধিক স্তরের) ক্যাটাগরি/সাব-ক্যাটাগরিযুক্ত পোস্টের URL-এ
+      // একাধিকবার এনকোডিং থাকতে পারে - তাই আর কোনো %XX প্যাটার্ন না
+      // থাকা পর্যন্ত বারবার ডিকোড করে, তারপর ঠিক একবারই এনকোড করা হচ্ছে
+      let decoded = rawUrl;
+      for (let i = 0; i < 5; i++) {
+        try {
+          const next = decodeURIComponent(decoded);
+          if (next === decoded) break;
+          decoded = next;
+        } catch (e) {
+          break; // ভাঙা/malformed অংশ পেলে যেটুকু ডিকোড হয়েছে তা নিয়েই থামা
+        }
+      }
+      const curUrl = encodeURIComponent(decoded);
+      const curTitle = encodeURIComponent(document.title);
+      const fbLink = document.getElementById('dc-top-fb');
+      const twLink = document.getElementById('dc-top-tw');
+      const waLink = document.getElementById('dc-top-wa');
+      const tgLink = document.getElementById('dc-top-tg');
+      if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + curUrl;
+      if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
+      if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
+      if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
+
+      // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও এখন গুনতি হবে
+      [fbLink, twLink, waLink, tgLink].forEach(function(link){
+        if (!link) return;
+        link.addEventListener('click', function(){
+          if (typeof postRef !== 'undefined') {
+            postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+          }
+        });
+      });
+    })();
+
+    const socialCopyBtn = document.getElementById('dc-social-copy-btn');
+    if (socialCopyBtn) {
+      socialCopyBtn.addEventListener('click', function () {
+        navigator.clipboard.writeText(window.location.href).then(function () {
+          alert('লিংক কপি হয়েছে!');
+        }).catch(function () {
+          alert('লিংক কপি করা যায়নি।');
+        });
+      });
     }
 
     const overlay = document.getElementById('dc-modal-overlay');
