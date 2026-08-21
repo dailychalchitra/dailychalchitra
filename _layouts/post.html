@@ -20,13 +20,13 @@ layout: default
     প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
   </p>
 
-  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে (JavaScript Popup Method) -->
+  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে (নিচের কাজ-করা শেয়ার বাটনের সাথে সংযুক্ত) -->
   <div class="dc-social-share-top">
     <span class="dc-social-label">শেয়ার করুন:</span>
-    <button type="button" class="dc-social-icon dc-social-fb" onclick="dcSharePost('facebook')" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></button>
-    <button type="button" class="dc-social-icon dc-social-tw" onclick="dcSharePost('twitter')" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></button>
-    <button type="button" class="dc-social-icon dc-social-wa" onclick="dcSharePost('whatsapp')" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></button>
-    <button type="button" class="dc-social-icon dc-social-tg" onclick="dcSharePost('telegram')" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></button>
+    <button type="button" class="dc-social-icon dc-social-fb" id="dc-top-fb-btn" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></button>
+    <button type="button" class="dc-social-icon dc-social-tw" id="dc-top-tw-btn" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></button>
+    <button type="button" class="dc-social-icon dc-social-wa" id="dc-top-wa-btn" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></button>
+    <button type="button" class="dc-social-icon dc-social-tg" id="dc-top-tg-btn" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></button>
     <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
   </div>
 
@@ -410,32 +410,21 @@ layout: default
   </div>
 
   <script>
-  // ডাইনামিক পপআপ শেয়ার ফাংশন (নিচের বাটনের মতো ফম্যাট করা)
-  function dcSharePost(platform) {
-    const url = window.location.href;
-    const title = document.title;
-    
-    if (typeof postRef !== 'undefined') {
-      postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
-    }
-
-    let shareUrl = '';
-    if (platform === 'facebook') {
-      shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-    } else if (platform === 'twitter') {
-      shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
-    } else if (platform === 'whatsapp') {
-      shareUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(title + ' ' + url);
-    } else if (platform === 'telegram') {
-      shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
-    }
-
-    if (shareUrl) {
-      window.open(shareUrl, '_blank', 'width=600,height=400');
-    }
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
+    // উপরের সোশ্যাল আইকনগুলো সরাসরি নিচের কাজ-করা শেয়ার বাটনকে ট্রিগার করবে
+    document.getElementById('dc-top-fb-btn').addEventListener('click', function() {
+      document.getElementById('dc-share-btn').click();
+    });
+    document.getElementById('dc-top-tw-btn').addEventListener('click', function() {
+      document.getElementById('dc-share-btn').click();
+    });
+    document.getElementById('dc-top-wa-btn').addEventListener('click', function() {
+      document.getElementById('dc-share-btn').click();
+    });
+    document.getElementById('dc-top-tg-btn').addEventListener('click', function() {
+      document.getElementById('dc-share-btn').click();
+    });
+
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
     const viewCountEl = document.getElementById('dc-view-count');
     const likeCountEl = document.getElementById('dc-like-count');
