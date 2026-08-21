@@ -20,14 +20,11 @@ layout: default
     প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
   </p>
 
-  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে (নিচের কাজ-করা শেয়ার বাটনের সাথে সংযুক্ত) -->
-  <div class="dc-social-share-top">
-    <span class="dc-social-label">শেয়ার করুন:</span>
-    <button type="button" class="dc-social-icon dc-social-fb" id="dc-top-fb-btn" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></button>
-    <button type="button" class="dc-social-icon dc-social-tw" id="dc-top-tw-btn" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></button>
-    <button type="button" class="dc-social-icon dc-social-wa" id="dc-top-wa-btn" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></button>
-    <button type="button" class="dc-social-icon dc-social-tg" id="dc-top-tg-btn" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></button>
-    <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
+  <!-- একটি মাত্র পরিপাটি শেয়ার বাটন -->
+  <div class="dc-single-share-top" style="margin:12px 0 6px;">
+    <button type="button" id="dc-main-share-btn" style="background:#C00000;color:#fff;border:none;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:'Noto Serif Bengali',serif;">
+      <i class="fa fa-share-alt"></i> শেয়ার করুন
+    </button>
   </div>
 
   <div class="dc-post-body">
@@ -42,22 +39,6 @@ layout: default
 .dc-post-body p { margin-bottom: 8px; font-size: 19px; font-weight: 400; font-family: 'Noto Serif Bengali', serif; }
 .dc-post-body h1, .dc-post-body h2, .dc-post-body h3, .dc-post-body h4 { margin: 1em 0 0.5em; font-family: 'Noto Serif Bengali', serif; font-weight: 700; }
 .dc-post-body ul, .dc-post-body ol { margin: 0 0 1em 1.5em; }
-
-  .dc-social-share-top{
-    display:flex; align-items:center; gap:8px; margin:12px 0 6px; flex-wrap:wrap;
-  }
-  .dc-social-label{ font-size:13px; color:#666; margin-right:2px; }
-  .dc-social-icon{
-    width:32px; height:32px; border-radius:50%; display:flex; align-items:center;
-    justify-content:center; color:#fff; font-size:14px; text-decoration:none;
-    border:none; cursor:pointer; transition:transform .15s;
-  }
-  .dc-social-icon:hover{ transform:scale(1.08); }
-  .dc-social-fb{ background:#1877f2; }
-  .dc-social-tw{ background:#000; }
-  .dc-social-wa{ background:#25D366; }
-  .dc-social-tg{ background:#229ED9; }
-  .dc-social-copy{ background:#777; }
 
   .dc-engage-box {
     max-width: 760px;
@@ -411,19 +392,27 @@ layout: default
 
   <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // উপরের সোশ্যাল আইকনগুলো সরাসরি নিচের কাজ-করা শেয়ার বাটনকে ট্রিগার করবে
-    document.getElementById('dc-top-fb-btn').addEventListener('click', function() {
-      document.getElementById('dc-share-btn').click();
-    });
-    document.getElementById('dc-top-tw-btn').addEventListener('click', function() {
-      document.getElementById('dc-share-btn').click();
-    });
-    document.getElementById('dc-top-wa-btn').addEventListener('click', function() {
-      document.getElementById('dc-share-btn').click();
-    });
-    document.getElementById('dc-top-tg-btn').addEventListener('click', function() {
-      document.getElementById('dc-share-btn').click();
-    });
+    // উপরের 'শেয়ার করুন' বাটনটি ক্লিক করলে নিচের সফল শেয়ার ফাংশনটি কাজ করবে
+    const mainShareBtn = document.getElementById('dc-main-share-btn');
+    if (mainShareBtn) {
+      mainShareBtn.addEventListener('click', function() {
+        const url = window.location.href;
+        const title = document.querySelector('.dc-engage-box').dataset.postTitle || document.title;
+        
+        // শেয়ার কাউন্ট বাড়ানো
+        if (typeof postRef !== 'undefined') {
+          postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+        }
+
+        if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(function () {});
+        } else {
+          navigator.clipboard.writeText(url).then(function () {
+            alert('লিংক কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
+          });
+        }
+      });
+    }
 
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
     const viewCountEl = document.getElementById('dc-view-count');
@@ -677,17 +666,6 @@ layout: default
       asNameEl.textContent = dcDisplayName();
       refreshReactionUI();
       countView();
-    }
-
-    const socialCopyBtn = document.getElementById('dc-social-copy-btn');
-    if (socialCopyBtn) {
-      socialCopyBtn.addEventListener('click', function () {
-        navigator.clipboard.writeText(window.location.href).then(function () {
-          alert('লিংক কপি হয়েছে!');
-        }).catch(function () {
-          alert('লিংক কপি করা যায়নি।');
-        });
-      });
     }
 
     const overlay = document.getElementById('dc-modal-overlay');
