@@ -20,21 +20,19 @@ layout: default
     প্রকাশ: {{ page.date | date: "%d %B, %Y, %I:%M %p" }}
   </p>
 
-  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
-  <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
-  <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
+  <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে (JavaScript Popup Method) -->
   <div class="dc-social-share-top">
     <span class="dc-social-label">শেয়ার করুন:</span>
-    <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
-    <a href="#" id="dc-top-tw" target="_blank" rel="noopener" class="dc-social-icon dc-social-tw" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></a>
-    <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
-    <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
+    <button type="button" class="dc-social-icon dc-social-fb" onclick="dcSharePost('facebook')" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></button>
+    <button type="button" class="dc-social-icon dc-social-tw" onclick="dcSharePost('twitter')" title="Twitter/X-এ শেয়ার করুন"><i class="fab fa-x-twitter"></i></button>
+    <button type="button" class="dc-social-icon dc-social-wa" onclick="dcSharePost('whatsapp')" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></button>
+    <button type="button" class="dc-social-icon dc-social-tg" onclick="dcSharePost('telegram')" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></button>
     <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
   </div>
 
   <div class="dc-post-body">
     {{ content }}
-</div>
+  </div>
 
   <!-- ============================================================
        DAILY CHALCHITRA — LIKE / LOVE / COMMENT / SHARE / VIEW WIDGET
@@ -412,6 +410,31 @@ layout: default
   </div>
 
   <script>
+  // ডাইনামিক পপআপ শেয়ার ফাংশন (নিচের বাটনের মতো ফম্যাট করা)
+  function dcSharePost(platform) {
+    const url = window.location.href;
+    const title = document.title;
+    
+    if (typeof postRef !== 'undefined') {
+      postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
+    }
+
+    let shareUrl = '';
+    if (platform === 'facebook') {
+      shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    } else if (platform === 'twitter') {
+      shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
+    } else if (platform === 'whatsapp') {
+      shareUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(title + ' ' + url);
+    } else if (platform === 'telegram') {
+      shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
+    }
+
+    if (shareUrl) {
+      window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const postRef = dcDB.ref('dc_posts/' + DC_POST_ID);
     const viewCountEl = document.getElementById('dc-view-count');
@@ -666,47 +689,6 @@ layout: default
       refreshReactionUI();
       countView();
     }
-
-    // পোস্টের উপরের সোশ্যাল আইকনগুলো - এখন নিচের কাজ-করা শেয়ার বাটনের
-    // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
-    // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
-    (function setupTopSocialLinks(){
-      let rawUrl = window.location.href;
-
-      // নেস্টেড (একাধিক স্তরের) ক্যাটাগরি/সাব-ক্যাটাগরিযুক্ত পোস্টের URL-এ
-      // একাধিকবার এনকোডিং থাকতে পারে - তাই আর কোনো %XX প্যাটার্ন না
-      // থাকা পর্যন্ত বারবার ডিকোড করে, তারপর ঠিক একবারই এনকোড করা হচ্ছে
-      let decoded = rawUrl;
-      for (let i = 0; i < 5; i++) {
-        try {
-          const next = decodeURIComponent(decoded);
-          if (next === decoded) break;
-          decoded = next;
-        } catch (e) {
-          break; // ভাঙা/malformed অংশ পেলে যেটুকু ডিকোড হয়েছে তা নিয়েই থামা
-        }
-      }
-      const curUrl = encodeURIComponent(decoded);
-      const curTitle = encodeURIComponent(document.title);
-      const fbLink = document.getElementById('dc-top-fb');
-      const twLink = document.getElementById('dc-top-tw');
-      const waLink = document.getElementById('dc-top-wa');
-      const tgLink = document.getElementById('dc-top-tg');
-      if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + curUrl;
-      if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + curUrl + '&text=' + curTitle;
-      if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
-      if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
-
-      // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও এখন গুনতি হবে
-      [fbLink, twLink, waLink, tgLink].forEach(function(link){
-        if (!link) return;
-        link.addEventListener('click', function(){
-          if (typeof postRef !== 'undefined') {
-            postRef.child('shareCount').transaction(function (cur) { return (cur || 0) + 1; });
-          }
-        });
-      });
-    })();
 
     const socialCopyBtn = document.getElementById('dc-social-copy-btn');
     if (socialCopyBtn) {
