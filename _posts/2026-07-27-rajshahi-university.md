@@ -4,61 +4,28 @@ title: "প্রেমের প্রস্তাব ফেরানোয় 
 date: 2026-07-27 19:14:00 +0400
 categories: [সংবাদ]
 tags:
-    - রাজশাহী বিশ্ববিদ্যালয়
-    - রাবি
     - রাজশাহী
-    - রাজশাহী জেলা সংবাদ
-    - রাজশাহী বিভাগ
     - জেলা সংবাদ
     - বিভাগ
-    - শিক্ষাঙ্গন
-    - শিক্ষা প্রতিষ্ঠান
     - শিক্ষা
-    - নারী নির্যাতন
-    - নারী সমাজ
-    - উত্ত্যক্ত
-    - হুমকি
-    - পিস্তল
-    - অস্ত্র
-    - প্রেমের প্রস্তাব
-    - অভিযোগ
     - ক্যাম্পাস
-    - ছাত্রী নির্যাতন
-    - আইন ও অপরাধ
     - পড়াশোনা 
     - উচ্চশিক্ষা 
     - সম্পর্ক
     - প্রতিক্রিয়া
     - মতামত
     - বাংলাদেশ
-    - দেশের সংবাদ
     - বিশেষ সংখ্যা
-    - rajshahi university 
-    - ru rajshahi 
-    - rajshahi district news 
-    - rajshahi division 
-    - district News 
-    - division 
-    - educational institution 
-    - education 
-    - women's torture 
-    - women's society 
-    - harassment 
-    - threat 
-    - pistol 
-    - weapon 
-    - love proposal 
-    - complaint 
-    - campus 
-    - student torture
-    - law and crime
+    - rajshahi
+    - district news
+    - division
+    - campus
     - study
     - higher education
     - relationship
     - feedback
     - opinion
-    - bangladesh 
-    - country news 
+    - bangladesh
     - special issue
 author: ডেস্ক রিপোর্ট
 image: /assets/img/rajshahi-university.webp
