@@ -82,7 +82,7 @@ title: প্রচ্ছদ
         </div>
     </div>
 
-    <!-- ইউটিউব ভিডিও আবৃত্তি সেকশন (ডেস্কটপ ও মোবাইলে পাশাপাশি দুটি কার্ড) -->
+    <!-- ইউটিউব ভিডিও আবৃত্তি সেকশন -->
     <div style="margin:25px 0;">
         <h3 style="font-size:18px;color:#C00000;border-left:4px solid #C00000;padding-left:10px;margin:0 0 15px;display:flex;align-items:center;gap:8px;">
             <i class="fab fa-youtube" style="font-size:18px;"></i> কবিতা আবৃত্তি ও ভিডিও
@@ -90,9 +90,9 @@ title: প্রচ্ছদ
         <div id="dc-youtube-news-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">
             
             <!-- ভিডিও কার্ড ১ -->
-            <article class="news-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+            <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
                 <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
-                    <iframe src="https://www.youtube.com/embed/oFt9N9rahRs?modestbranding=1&rel=0" 
+                    <iframe src="https://www.youtube.com/embed/oFt9N9rahRs?modestbranding=1&rel=0&iv_load_policy=3" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
                             allowfullscreen></iframe>
                 </div>
@@ -106,9 +106,9 @@ title: প্রচ্ছদ
             </article>
 
             <!-- ভিডিও কার্ড ২ -->
-            <article class="news-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+            <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
                 <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
-                    <iframe src="https://www.youtube.com/embed/UpXajSAatTQ?modestbranding=1&rel=0" 
+                    <iframe src="https://www.youtube.com/embed/UpXajSAatTQ?modestbranding=1&rel=0&iv_load_policy=3" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
                             allowfullscreen></iframe>
                 </div>
@@ -127,9 +127,19 @@ title: প্রচ্ছদ
     <style>
     #dc-more-news-grid, #dc-youtube-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
     #dc-more-news-grid .news-card, #dc-youtube-news-grid .news-card{ max-width:100%; margin:0; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
+    
+    /* মোবাইলে ইউটিউব লোগো বা প্লে বাটন সামঞ্জস্য করার জন্য জুম ইফেক্ট বা স্কেলিং */
     @media(max-width:600px){
         #dc-more-news-grid{ gap:8px; }
         #dc-youtube-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+        #dc-youtube-news-grid .dc-yt-card iframe {
+            transform: scale(0.85);
+            transform-origin: center;
+            width: 117.65% !important;
+            height: 117.65% !important;
+            top: -8.8% !important;
+            left: -8.8% !important;
+        }
         #dc-more-news-grid .card-img img{ height:70px !important; object-fit:cover; }
         #dc-more-news-grid .card-content, #dc-youtube-news-grid .card-content{ padding:8px !important; }
         #dc-more-news-grid .card-content .category-badge, #dc-youtube-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
