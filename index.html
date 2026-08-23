@@ -82,56 +82,63 @@ title: প্রচ্ছদ
         </div>
     </div>
 
-    <!-- ইউটিউব ভিডিও আবৃত্তি সেকশন -->
+    <!-- ইউটিউব ভিডিও আবৃত্তি সেকশন (নিউজ কার্ডের আদলে সাজানো) -->
     <div style="margin:25px 0;">
-        <h3 style="font-size:18px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:8px;margin:0 0 15px;display:flex;align-items:center;gap:8px;">
-            <i class="fab fa-youtube" style="font-size:20px;"></i> কবিতা আবৃত্তি ও ভিডিও
+        <h3 style="font-size:18px;color:#C00000;border-left:4px solid #C00000;padding-left:10px;margin:0 0 15px;display:flex;align-items:center;gap:8px;">
+            <i class="fab fa-youtube" style="font-size:18px;"></i> কবিতা আবৃত্তি ও ভিডিও
         </h3>
-        <div class="dc-youtube-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">
+        <div id="dc-youtube-news-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">
             
-            <!-- ভিডিও ১ -->
-            <div style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;padding:10px;">
-                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;border-radius:6px;">
+            <!-- ভিডিও কার্ড ১ -->
+            <article class="news-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
                     <iframe src="https://www.youtube.com/embed/oFt9N9rahRs" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
                             allowfullscreen></iframe>
                 </div>
-                <h4 style="font-size:14px;font-weight:700;color:#111;margin:10px 0 4px;line-height:1.4;">
-                    কবিতা আবৃত্তি - ১
-                </h4>
-            </div>
+                <div class="card-content" style="padding:15px;">
+                    <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
+                    <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
+                        <a href="https://youtu.be/oFt9N9rahRs" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ১</a>
+                    </h3>
+                    <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+                </div>
+            </article>
 
-            <!-- ভিডিও ২ -->
-            <div style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;padding:10px;">
-                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;border-radius:6px;">
+            <!-- ভিডিও কার্ড ২ -->
+            <article class="news-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
                     <iframe src="https://www.youtube.com/embed/UpXajSAatTQ" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
                             allowfullscreen></iframe>
                 </div>
-                <h4 style="font-size:14px;font-weight:700;color:#111;margin:10px 0 4px;line-height:1.4;">
-                    কবিতা আবৃত্তি - ২
-                </h4>
-            </div>
+                <div class="card-content" style="padding:15px;">
+                    <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
+                    <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
+                        <a href="https://youtu.be/UpXajSAatTQ" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ২</a>
+                    </h3>
+                    <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+                </div>
+            </article>
 
         </div>
     </div>
 
     <style>
-    #dc-more-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
-    #dc-more-news-grid .news-card{ max-width:100%; margin:0; }
+    #dc-more-news-grid, #dc-youtube-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
+    #dc-more-news-grid .news-card, #dc-youtube-news-grid .news-card{ max-width:100%; margin:0; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
     @media(max-width:600px){
-        #dc-more-news-grid{ gap:8px; }
+        #dc-more-news-grid, #dc-youtube-news-grid{ gap:8px; }
         #dc-more-news-grid .card-img img{ height:70px !important; object-fit:cover; }
-        #dc-more-news-grid .card-content{ padding:8px !important; }
-        #dc-more-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
-        #dc-more-news-grid .card-content h3{ font-size:13px !important; margin:4px 0 2px !important; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+        #dc-more-news-grid .card-content, #dc-youtube-news-grid .card-content{ padding:8px !important; }
+        #dc-more-news-grid .card-content .category-badge, #dc-youtube-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
+        #dc-more-news-grid .card-content h3, #dc-youtube-news-grid .card-content h3{ font-size:13px !important; margin:4px 0 2px !important; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+        #dc-youtube-news-grid .card-content p{ font-size:11px !important; margin:0 !important; }
         #dc-more-news-grid .card-author{ font-size:11px !important; margin:0 0 3px !important; }
         #dc-more-news-grid .card-excerpt{ font-size:12px !important; margin:3px 0 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
         #dc-more-news-grid .card-actions-row a{ font-size:11px !important; }
         #dc-more-news-grid .dc-home-follow-btn{ font-size:9px !important; padding:2px 6px !important; }
         #dc-more-news-grid .post-meta{ font-size:10px !important; margin-top:3px !important; }
-        .dc-youtube-grid{ grid-template-columns:1fr !important; gap:10px !important; }
-        .dc-youtube-grid h4{ font-size:12px !important; }
     }
     </style>
 
