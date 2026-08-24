@@ -294,20 +294,35 @@ layout: default
     padding:6px 16px; border-radius:16px; font-size:13px; font-weight:600; cursor:pointer;
   }
 
-  @media(max-width: 600px) {
-      .post-footer-grid {
-          grid-template-columns: repeat(2, 1fr) !important;
-          gap: 8px !important;
+  /* হোমপেজের মতো গ্রিড এবং ইউটিউব রেসপন্সিভ স্টাইল */
+  #dc-more-news-grid, #dc-youtube-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
+  #dc-more-news-grid .news-card, #dc-youtube-news-grid .news-card{ max-width:100%; margin:0; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
+  
+  @media(max-width:600px){
+      #dc-more-news-grid{ gap:8px; }
+      #dc-youtube-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+      
+      #dc-youtube-news-grid .dc-yt-card > div:first-child {
+          position: relative;
+          overflow: hidden;
       }
-      .post-footer-grid img {
-          height: 85px !important;
+      #dc-youtube-news-grid iframe {
+          transform: scale(0.65);
+          transform-origin: top left;
+          width: 153.84% !important;
+          height: 153.84% !important;
       }
-      .post-footer-grid h4 {
-          font-size: 11px !important;
-      }
-      .post-footer-grid p {
-          display: none !important;
-      }
+
+      #dc-more-news-grid .card-img img{ height:90px !important; object-fit:cover; }
+      #dc-more-news-grid .card-content{ padding:8px !important; }
+      #dc-more-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
+      #dc-more-news-grid .card-content h3{ font-size:12px !important; margin:3px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+      #dc-more-news-grid .card-excerpt{ font-size:11px !important; margin:4px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+      #dc-youtube-news-grid .card-content{ padding:8px !important; }
+      #dc-youtube-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
+      #dc-youtube-news-grid .card-content h3{ font-size:12px !important; margin:3px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+      #dc-youtube-news-grid .card-content p{ font-size:10px !important; color:#666 !important; margin:0 !important; }
   }
   </style>
 
@@ -402,29 +417,26 @@ layout: default
   </div>
   {% endif %}
 
-  <!-- ১. 'আরও সংবাদ' গ্রিড সেকশন -->
+  <!-- ১. আরও সংবাদ গ্রিড -->
   <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
-      <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">
-          আরও সংবাদ
-      </h3>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;" class="post-footer-grid">
-          {% for post in site.posts offset:1 limit:6 %}
-          <article style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; margin: 0;">
-              <a href="{{ post.url | relative_url }}" style="display: block;">
+      <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">আরও সংবাদ</h3>
+      <div id="dc-more-news-grid">
+          {% for post in site.posts offset:1 limit:8 %}
+          <article class="news-card">
+              <a href="{{ post.url | relative_url }}" class="card-img">
                   {% if post.image %}
                   <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
                   {% else %}
                   <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
                   {% endif %}
               </a>
-              <div style="padding: 12px;">
-                  {% if post.categories %}
-                  <span style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
-                  {% endif %}
-                  <h4 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
+              <div class="card-content" style="padding: 12px;">
+                  <span class="category-badge" style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
+                  <h3 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
                       <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
-                  </h4>
-                  <p style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
+                  </h3>
+                  {% if post.author %}<p class="card-author" style="font-size:12px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 4px;">লেখক: {{ post.author }}</p>{% endif %}
+                  <p class="card-excerpt" style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
                   <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center;">
                       <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
                       <a href="{{ post.url | relative_url }}" style="color: #C00000; font-weight: bold; text-decoration: none;">আরও পড়ুন »</a>
@@ -435,75 +447,45 @@ layout: default
       </div>
   </div>
 
-  <!-- ২. 'জনপ্রিয় সংবাদ ও অন্যান্য লেখা' গ্রিড সেকশন -->
+  <!-- ২. ইউটিউব ভিডিও আবৃত্তি সেকশন -->
   <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
-      <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">
-          জনপ্রিয় সংবাদ ও অন্যান্য লেখা
+      <h3 style="font-size: 18px; color: #C00000; border-left: 4px solid #C00000; padding-left: 10px; margin: 0 0 15px; display: flex; align-items: center; gap: 8px;">
+          <i class="fab fa-youtube" style="font-size: 18px;"></i> কবিতা আবৃত্তি ও ভিডিও
       </h3>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;" class="post-footer-grid">
-          {% for post in site.posts offset:7 limit:6 %}
-          <article style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; margin: 0;">
-              <a href="{{ post.url | relative_url }}" style="display: block;">
-                  {% if post.image %}
-                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
-                  {% else %}
-                  <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
-                  {% endif %}
-              </a>
-              <div style="padding: 12px;">
-                  {% if post.categories %}
-                  <span style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
-                  {% endif %}
-                  <h4 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
-                      <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
-                  </h4>
-                  <p style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
-                  <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center;">
-                      <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
-                      <a href="{{ post.url | relative_url }}" style="color: #C00000; font-weight: bold; text-decoration: none;">আরও পড়ুন »</a>
-                  </div>
+      <div id="dc-youtube-news-grid">
+          
+          <!-- ভিডিও কার্ড ১ -->
+          <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+              <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
+                  <iframe src="https://www.youtube.com/embed/oFt9N9rahRs?modestbranding=1&rel=0" 
+                          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
+                          allowfullscreen></iframe>
+              </div>
+              <div class="card-content" style="padding:15px;">
+                  <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
+                  <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
+                      <a href="https://youtu.be/oFt9N9rahRs" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ১</a>
+                  </h3>
+                  <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
               </div>
           </article>
-          {% endfor %}
-      </div>
-  </div>
 
-  <!-- ৩. 'কবিতা আবৃত্তি ও অন্যান্য ভিডিও' গ্রিড সেকশন (নিরাপদ লুপসহ) -->
-  <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
-      <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">
-          কবিতা আবৃত্তি ও অন্যান্য ভিডিও
-      </h3>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;" class="post-footer-grid">
-          {% assign count = 0 %}
-          {% for post in site.posts %}
-            {% if post.categories contains 'কবিতা' or post.categories contains 'ভিডিও' %}
-              {% if count < 6 %}
-              <article style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; margin: 0;">
-                  <a href="{{ post.url | relative_url }}" style="display: block;">
-                      {% if post.image %}
-                      <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
-                      {% else %}
-                      <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
-                      {% endif %}
-                  </a>
-                  <div style="padding: 12px;">
-                      {% if post.categories %}
-                      <span style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
-                      {% endif %}
-                      <h4 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
-                          <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
-                      </h4>
-                      <p style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
-                      <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center;">
-                          <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
-                          <a href="{{ post.url | relative_url }}" style="color: #C00000; font-weight: bold; text-decoration: none;">আরও পড়ুন »</a>
-                      </div>
-                  </div>
-              </article>
-              {% assign count = count | plus: 1 %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
+          <!-- ভিডিও কার্ড ২ -->
+          <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+              <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
+                  <iframe src="https://www.youtube.com/embed/UpXajSAatTQ?modestbranding=1&rel=0" 
+                          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
+                          allowfullscreen></iframe>
+              </div>
+              <div class="card-content" style="padding:15px;">
+                  <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
+                  <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
+                      <a href="https://youtu.be/UpXajSAatTQ" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ২</a>
+                  </h3>
+                  <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+              </div>
+          </article>
+
       </div>
   </div>
 
