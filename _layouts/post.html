@@ -301,6 +301,17 @@ layout: default
   @media(max-width:600px){
       #dc-more-news-grid{ gap:8px; }
       #dc-youtube-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+      
+      #dc-youtube-news-grid .dc-yt-card > div:first-child {
+          position: relative;
+          overflow: hidden;
+      }
+      #dc-youtube-news-grid iframe {
+          transform: scale(0.65);
+          transform-origin: top left;
+          width: 153.84% !important;
+          height: 153.84% !important;
+      }
 
       #dc-more-news-grid .card-img img{ height:90px !important; object-fit:cover; }
       #dc-more-news-grid .card-content{ padding:8px !important; }
@@ -436,36 +447,45 @@ layout: default
       </div>
   </div>
 
-  <!-- ২. কবিতা আবৃত্তি ও ভিডিও (ডাইনামিক সেকশন) -->
+  <!-- ২. ইউটিউব ভিডিও আবৃত্তি সেকশন -->
   <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
       <h3 style="font-size: 18px; color: #C00000; border-left: 4px solid #C00000; padding-left: 10px; margin: 0 0 15px; display: flex; align-items: center; gap: 8px;">
           <i class="fab fa-youtube" style="font-size: 18px;"></i> কবিতা আবৃত্তি ও ভিডিও
       </h3>
       <div id="dc-youtube-news-grid">
-          {% assign yt_count = 0 %}
-          {% for post in site.posts %}
-            {% if post.categories contains 'কবিতা' or post.categories contains 'আবৃত্তি' or post.categories contains 'ভিডিও' %}
-              {% if yt_count < 2 %}
-              <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
-                  <a href="{{ post.url | relative_url }}" style="display: block;">
-                      {% if post.image %}
-                      <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 130px; object-fit: cover; display: block;">
-                      {% else %}
-                      <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 130px; object-fit: cover; display: block;">
-                      {% endif %}
-                  </a>
-                  <div class="card-content" style="padding:15px;">
-                      <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">{{ post.categories | first }}</span>
-                      <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
-                          <a href="{{ post.url | relative_url }}" style="color:#111;text-decoration:none;">{{ post.title }}</a>
-                      </h3>
-                      <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">{% if post.author %}লেখক: {{ post.author }}{% else %}শামীম নিমু{% endif %}</p>
-                  </div>
-              </article>
-              {% assign yt_count = yt_count | plus: 1 %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
+          
+          <!-- ভিডিও কার্ড ১ -->
+          <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+              <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
+                  <iframe src="https://www.youtube.com/embed/oFt9N9rahRs?modestbranding=1&rel=0" 
+                          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
+                          allowfullscreen></iframe>
+              </div>
+              <div class="card-content" style="padding:15px;">
+                  <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
+                  <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
+                      <a href="https://youtu.be/oFt9N9rahRs" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ১</a>
+                  </h3>
+                  <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+              </div>
+          </article>
+
+          <!-- ভিডিও কার্ড ২ -->
+          <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+              <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
+                  <iframe src="https://www.youtube.com/embed/UpXajSAatTQ?modestbranding=1&rel=0" 
+                          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
+                          allowfullscreen></iframe>
+              </div>
+              <div class="card-content" style="padding:15px;">
+                  <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
+                  <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
+                      <a href="https://youtu.be/UpXajSAatTQ" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ২</a>
+                  </h3>
+                  <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+              </div>
+          </article>
+
       </div>
   </div>
 
