@@ -275,17 +275,29 @@ layout: default
     .dc-author-post-title { font-size: 13px !important; }
   }
 
+  /* রিপ্লাই সিস্টেম */
+  .dc-reply-list{
+    margin-top:10px; margin-left:18px; padding-left:12px;
+    border-left:2px solid #eee; display:flex; flex-direction:column; gap:10px;
+  }
+  .dc-reply-item{ background:#fff; border:1px solid #eee; border-radius:6px; padding:8px 10px; }
+  .dc-reply-item .dc-c-name{ font-size:13px; }
+  .dc-reply-item .dc-c-text{ font-size:13px; }
+  .dc-reply-form{ display:none; margin-top:8px; flex-direction:column; gap:8px; }
+  .dc-reply-form.dc-open{ display:flex; }
+  .dc-reply-form textarea{
+    min-height:50px; padding:8px; border:1px solid #ddd; border-radius:6px;
+    font-size:13px; font-family:inherit; resize:vertical;
+  }
+  .dc-reply-form button{
+    align-self:flex-end; background:#C00000; color:#fff; border:none;
+    padding:6px 16px; border-radius:16px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+
   /* হোমপেজের মতো গ্রিড এবং ইউটিউব রেসপন্সিভ স্টাইল */
   #dc-more-news-grid, #dc-youtube-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
   #dc-more-news-grid .news-card, #dc-youtube-news-grid .news-card{ max-width:100%; margin:0; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
   
-  /* আরও সংবাদ কার্ড হোমপেজের মতো কমপ্যাক্ট সাইজ করার জন্য */
-  #dc-more-news-grid .card-content { padding: 8px !important; }
-  #dc-more-news-grid .card-img img { height: 90px !important; object-fit: cover !important; }
-  #dc-more-news-grid h3 { font-size: 13px !important; margin: 2px 0 4px 0 !important; line-height: 1.3 !important; }
-  #dc-more-news-grid .card-excerpt { display: none !important; }
-  #dc-more-news-grid .card-author { font-size: 11px !important; margin: 0 0 2px 0 !important; }
-
   @media(max-width:600px){
       #dc-more-news-grid{ gap:8px; }
       #dc-youtube-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
@@ -300,6 +312,12 @@ layout: default
           width: 153.84% !important;
           height: 153.84% !important;
       }
+
+      #dc-more-news-grid .card-img img{ height:90px !important; object-fit:cover; }
+      #dc-more-news-grid .card-content{ padding:8px !important; }
+      #dc-more-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
+      #dc-more-news-grid .card-content h3{ font-size:12px !important; margin:3px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+      #dc-more-news-grid .card-excerpt{ font-size:11px !important; margin:4px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
       #dc-youtube-news-grid .card-content{ padding:8px !important; }
       #dc-youtube-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
@@ -407,18 +425,19 @@ layout: default
           <article class="news-card">
               <a href="{{ post.url | relative_url }}" class="card-img">
                   {% if post.image %}
-                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 90px; object-fit: cover; display: block;">
+                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
                   {% else %}
-                  <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 90px; object-fit: cover; display: block;">
+                  <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
                   {% endif %}
               </a>
-              <div class="card-content" style="padding: 8px;">
-                  <span class="category-badge" style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 4px; font-weight: 700;">{{ post.categories | first }}</span>
-                  <h3 style="font-size: 13px; margin: 2px 0 4px 0; line-height: 1.3; font-weight: 700;">
+              <div class="card-content" style="padding: 12px;">
+                  <span class="category-badge" style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
+                  <h3 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
                       <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
                   </h3>
-                  {% if post.author %}<p class="card-author" style="font-size:11px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 2px;">লেখক: {{ post.author }}</p>{% endif %}
-                  <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                  {% if post.author %}<p class="card-author" style="font-size:12px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 4px;">লেখক: {{ post.author }}</p>{% endif %}
+                  <p class="card-excerpt" style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
+                  <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center;">
                       <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
                       <a href="{{ post.url | relative_url }}" style="color: #C00000; font-weight: bold; text-decoration: none;">আরও পড়ুন »</a>
                   </div>
