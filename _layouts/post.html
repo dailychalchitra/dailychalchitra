@@ -436,12 +436,12 @@ layout: default
       </div>
   </div>
 
-  <!-- ২. কবিতা আবৃত্তি ও ভিডিও (ডাইনামিক লুপ সেকশন) -->
+    <!-- ২. কবিতা আবৃত্তি ও ভিডিও (ডাইনামিক সেকশন) -->
   <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
       <h3 style="font-size: 18px; color: #C00000; border-left: 4px solid #C00000; padding-left: 10px; margin: 0 0 15px; display: flex; align-items: center; gap: 8px;">
           <i class="fab fa-youtube" style="font-size: 18px;"></i> কবিতা আবৃত্তি ও ভিডিও
       </h3>
-      <div id="dc-youtube-news-grid">
+      <div id="dc-youtube-news-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">
           {% assign yt_count = 0 %}
           {% for post in site.posts %}
             {% if post.categories contains 'কবিতা' or post.categories contains 'আবৃত্তি' or post.categories contains 'ভিডিও' or post.categories contains 'বিনোদন' %}
