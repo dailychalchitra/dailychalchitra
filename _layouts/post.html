@@ -386,14 +386,14 @@ layout: default
   </div>
   {% endif %}
 
-  <!-- হোমপেজের মতো অন্যান্য পোস্টের পোস্টকার্ড গ্রিড সেকশন -->
+  <!-- হোমপেজের মতো 'আরও সংবাদ' গ্রিড সেকশন -->
   <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
       <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">
-          সর্বশেষ অন্যান্য সংবাদ
+          আরও সংবাদ
       </h3>
       
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;" class="post-footer-grid">
-          {% for post in site.posts limit:6 %}
+          {% for post in site.posts offset:1 limit:6 %}
           <article style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; margin: 0;">
               <a href="{{ post.url | relative_url }}" style="display: block;">
                   {% if post.image %}
@@ -789,7 +789,7 @@ layout: default
         errEl.style.display = 'block'; return;
       }
       dcSignUp(name, email, pass, function (err) {
-        if (err) { errEl.textContent = err.message; errEl.style.display = 'block'; return; }
+        if (err) { errEl.textContent = err.message; errEl.style.errEl = 'block'; return; }
         overlay.classList.remove('active');
         asNameEl.textContent = dcDisplayName();
         refreshReactionUI();
