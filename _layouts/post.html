@@ -21,8 +21,6 @@ layout: default
   </p>
 
   <!-- সোশ্যাল মিডিয়া শেয়ার আইকন - পোস্টের উপরে -->
-  <!-- data-share-url/data-share-title Jekyll দিয়ে সরাসরি বসানো (কাঁচা/আনএনকোডেড) -->
-  <!-- JS এগুলোকে ঠিক একবারই encodeURIComponent করে - ডাবল-এনকোডিং এড়াতে -->
   <div class="dc-social-share-top">
     <span class="dc-social-label">শেয়ার করুন:</span>
     <a href="#" id="dc-top-fb" target="_blank" rel="noopener" class="dc-social-icon dc-social-fb" title="Facebook-এ শেয়ার করুন"><i class="fab fa-facebook-f"></i></a>
@@ -388,6 +386,58 @@ layout: default
   </div>
   {% endif %}
 
+  <!-- হোমপেজের মতো অন্যান্য পোস্টের পোস্টকার্ড গ্রিড সেকশন -->
+  <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
+      <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">
+          সর্বশেষ অন্যান্য সংবাদ
+      </h3>
+      
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;" class="post-footer-grid">
+          {% for post in site.posts limit:6 %}
+          <article style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; margin: 0;">
+              <a href="{{ post.url | relative_url }}" style="display: block;">
+                  {% if post.image %}
+                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
+                  {% else %}
+                  <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
+                  {% endif %}
+              </a>
+              <div style="padding: 12px;">
+                  {% if post.categories %}
+                  <span style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
+                  {% endif %}
+                  <h4 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
+                      <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
+                  </h4>
+                  <p style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
+                  <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center;">
+                      <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
+                      <a href="{{ post.url | relative_url }}" style="color: #C00000; font-weight: bold; text-decoration: none;">আরও পড়ুন »</a>
+                  </div>
+              </div>
+          </article>
+          {% endfor %}
+      </div>
+  </div>
+
+  <style>
+  @media(max-width: 600px) {
+      .post-footer-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 8px !important;
+      }
+      .post-footer-grid img {
+          height: 85px !important;
+      }
+      .post-footer-grid h4 {
+          font-size: 11px !important;
+      }
+      .post-footer-grid p {
+          display: none !important;
+      }
+  }
+  </style>
+
   <div class="dc-modal-overlay" id="dc-modal-overlay">
     <div class="dc-modal-box">
       <button class="dc-modal-close" id="dc-modal-close">&times;</button>
@@ -667,15 +717,8 @@ layout: default
       countView();
     }
 
-    // পোস্টের উপরের সোশ্যাল আইকনগুলো - এখন নিচের কাজ-করা শেয়ার বাটনের
-    // মতোই সরাসরি window.location.href ব্যবহার করে (Jekyll page.url নয়) -
-    // ব্রাউজারের নিজস্ব URL সবসময় সঠিকভাবে এনকোডেড থাকে
     (function setupTopSocialLinks(){
       let rawUrl = window.location.href;
-
-      // নেস্টেড (একাধিক স্তরের) ক্যাটাগরি/সাব-ক্যাটাগরিযুক্ত পোস্টের URL-এ
-      // একাধিকবার এনকোডিং থাকতে পারে - তাই আর কোনো %XX প্যাটার্ন না
-      // থাকা পর্যন্ত বারবার ডিকোড করে, তারপর ঠিক একবারই এনকোড করা হচ্ছে
       let decoded = rawUrl;
       for (let i = 0; i < 5; i++) {
         try {
@@ -683,7 +726,7 @@ layout: default
           if (next === decoded) break;
           decoded = next;
         } catch (e) {
-          break; // ভাঙা/malformed অংশ পেলে যেটুকু ডিকোড হয়েছে তা নিয়েই থামা
+          break;
         }
       }
       const curUrl = encodeURIComponent(decoded);
@@ -697,7 +740,6 @@ layout: default
       if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + curTitle + '%20' + curUrl;
       if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + curUrl + '&text=' + curTitle;
 
-      // শেয়ার কাউন্ট বাড়ানো - উপরের আইকনে ক্লিক করলেও এখন গুনতি হবে
       [fbLink, twLink, waLink, tgLink].forEach(function(link){
         if (!link) return;
         link.addEventListener('click', function(){
@@ -708,7 +750,7 @@ layout: default
       });
     })();
 
-        const socialCopyBtn = document.getElementById('dc-social-copy-btn');
+    const socialCopyBtn = document.getElementById('dc-social-copy-btn');
     if (socialCopyBtn) {
       socialCopyBtn.addEventListener('click', function () {
         navigator.clipboard.writeText(window.location.href).then(function () {
@@ -718,60 +760,6 @@ layout: default
         });
       });
     }
-  });
-  </script>
-
-  <!-- হোমপেজের মতো অন্যান্য পোস্টের পোস্টকার্ড গ্রিড সেকশন -->
-  <div style="margin: 35px 0 20px 0; border-top: 2px solid #C00000; padding-top: 25px;">
-      <h3 style="font-size: 18px; color: #333; margin-bottom: 15px; border-left: 4px solid #C00000; padding-left: 10px;">
-          সর্বশেষ অন্যান্য সংবাদ
-      </h3>
-      
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;" class="post-footer-grid">
-          {% for post in site.posts limit:6 %}
-          <article style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; margin: 0;">
-              <a href="{{ post.url | relative_url }}" style="display: block;">
-                  {% if post.image %}
-                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
-                  {% else %}
-                  <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" style="width: 100%; height: 110px; object-fit: cover; display: block;">
-                  {% endif %}
-              </a>
-              <div style="padding: 12px;">
-                  {% if post.categories %}
-                  <span style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
-                  {% endif %}
-                  <h4 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
-                      <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
-                  </h4>
-                  <p style="font-size: 12px; color: #666; margin: 0 0 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ post.excerpt | strip_html | truncatewords: 15 }}</p>
-                  <div style="font-size: 11px; color: #888; display: flex; justify-content: space-between; align-items: center;">
-                      <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b, %Y" }}</span>
-                      <a href="{{ post.url | relative_url }}" style="color: #C00000; font-weight: bold; text-decoration: none;">আরও পড়ুন »</a>
-                  </div>
-              </div>
-          </article>
-          {% endfor %}
-      </div>
-  </div>
-
-  <style>
-  @media(max-width: 600px) {
-      .post-footer-grid {
-          grid-template-columns: repeat(2, 1fr) !important;
-          gap: 8px !important;
-      }
-      .post-footer-grid img {
-          height: 85px !important;
-      }
-      .post-footer-grid h4 {
-          font-size: 11px !important;
-      }
-      .post-footer-grid p {
-          display: none !important;
-      }
-  }
-  </style>
 
     const overlay = document.getElementById('dc-modal-overlay');
     const signupBox = document.getElementById('dc-modal-signup');
