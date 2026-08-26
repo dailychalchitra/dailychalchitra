@@ -1,9 +1,10 @@
 ---
 layout: post
-title: "দেড় হাত মাটি"
+title: "কবিতা আবৃত্তি - দেড় হাত মাটি"
 date: 2026-08-26 16:11:00 +0400
 categories:
     - বিনোদন
+    - আবৃত্তি
 tags:
     - ভিডিও
     - আবৃত্তি
@@ -14,6 +15,12 @@ author: "শামীম নিমু"
 image: /assets/img/derhat-mati.webp
 youtube_id: bZVS6joNAHw
 ---
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;margin-bottom:20px;">
+    <iframe src="https://www.youtube.com/embed/bZVS6joNAHw?modestbranding=1&rel=0" 
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
+            allowfullscreen></iframe>
+</div>
 
 মাঝেমধ্যে নিজেকে আমি ভুলে যাই,
 ভুলে যাই- এই গ্রাম শহরে কত রঙ বিরঙের মানুষ বাস করে,
@@ -26,7 +33,7 @@ youtube_id: bZVS6joNAHw
 আমার জন্ম..? আমার বাস..? তবে..?
 তবে এতকাল ধরে আমি কোথায় বসবাস করছি.?
 এই যে আমার দেহ, আমার পরিচয়, এসব তবে কি..?
-কারা আমার র*ক্তে সাথে মিশে র*ক্তের শিরায় চলাচল করছে..?
+কারা আমার রক্তের সাথে মিশে রক্তের শিরায় চলাচল করছে..?
 আমি ভীষণ আশ্চর্যান্বিত হই..!
 একটুখানি হাসিও বটে..!
 অতঃপর একবার উপরে আরেকবার নিচের দিকে চেয়ে দেখি...
