@@ -391,11 +391,21 @@ layout: default
       {% assign other_posts = other_posts | push: post %}
     {% endunless %}
   {% endfor %}
+  {% assign dc_author_img = site.data.authors[page.author] %}
   <div style="margin:28px 0 20px;padding:20px;background:#f9f9f9;border-radius:8px;">
-    <h3 style="font-size:17px;color:#C00000;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #eee;">
-      <i class="fa fa-user" style="margin-right:7px;"></i>{{ page.author }}-এর আরও লেখা
-      <span style="font-size:13px;color:#888;font-weight:400;">({{ other_posts.size }} টি)</span>
-    </h3>
+    <div style="display:flex;align-items:center;gap:12px;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #eee;">
+      <a href="/author/?name={{ page.author | url_encode }}" style="flex-shrink:0;text-decoration:none;">
+        {% if dc_author_img %}
+        <img src="{{ dc_author_img }}" alt="{{ page.author }}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #C00000;display:block;">
+        {% else %}
+        <div style="width:50px;height:50px;border-radius:50%;background:#C00000;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;">{{ page.author | slice: 0, 1 }}</div>
+        {% endif %}
+      </a>
+      <h3 style="font-size:17px;color:#C00000;margin:0;">
+        <a href="/author/?name={{ page.author | url_encode }}" style="color:#C00000;text-decoration:none;">{{ page.author }}-এর আরও লেখা</a>
+        <span style="font-size:13px;color:#888;font-weight:400;">({{ other_posts.size }} টি)</span>
+      </h3>
+    </div>
     {% if other_posts.size > 0 %}
     <div class="dc-author-posts-grid">
       {% for post in other_posts %}
