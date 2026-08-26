@@ -15,15 +15,6 @@ image: /assets/img/derhat-mati.webp
 youtube_id: bZVS6joNAHw
 ---
 
-<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;margin-bottom:20px;">
-    <iframe src="https://www.youtube.com/embed/bZVS6joNAHw?modestbranding=1&rel=0" 
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
-            allowfullscreen></iframe>
-</div>
-
-**দেড় হাত মাটি**
--শামীম নিমু﻿
-
 মাঝেমধ্যে নিজেকে আমি ভুলে যাই,
 ভুলে যাই- এই গ্রাম শহরে কত রঙ বিরঙের মানুষ বাস করে,
 ভুলে যাই- পৃথিবী বলতে কিছুই নেই.!
