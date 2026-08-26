@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "দেড় হাত মাটি"
+title: "কবিতা আবৃত্তি - ২"
 date: 2026-08-26 16:11:00 +0400
 categories:
     - বিনোদন
 tags:
-    - কবিতা আবৃত্তি ও ভিডিও
+    - ভিডিও
     - আবৃত্তি
     - কবিতা
     - শামীম নিমু
@@ -20,6 +20,9 @@ youtube_id: bZVS6joNAHw
             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
             allowfullscreen></iframe>
 </div>
+
+**দেড় হাত মাটি**
+-শামীম নিমু
 
 মাঝেমধ্যে নিজেকে আমি ভুলে যাই,
 ভুলে যাই- এই গ্রাম শহরে কত রঙ বিরঙের মানুষ বাস করে,
