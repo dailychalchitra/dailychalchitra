@@ -4,20 +4,25 @@ title: "আইসিইউয়ে অমিতাভ বচ্চন, জী�
 date: 2026-07-21 18:55:00 +0400
 categories:
     - বিনোদন
-    - শোক সংবাদ
 tags:
-    - বিনোদন
-    - শোক সংবাদ
-    - অমিতাভ বচ্চন
-    - বলিউড
+    - বিশ্ব
+    - মধ্যপ্রাচ্য
     - ভারত
-    - অমিতাভ বচ্চন অসুস্থ
-    - বলিউড খবর
-    - তারকা সংবাদ
-    - সিনেমা
-    - বলিউড আপডেট
+    - সংবাদ
+    - আন্তর্জাতিক
+    - শোক সংবাদ
+    - বিভাগ সমূহ
     - চলচ্চিত্র 
-    - ডেস্ক রিপোর্ট
+    - দৈনিক চালচিত্র
+    - world
+    - Mmiddle east
+    - india
+    - news
+    - international
+    - obituary
+    - categories
+    - movies
+    - daily chalchitra
 author: ডেস্ক রিপোর্ট
 image: /assets/img/amitabh-bachchan-icu.webp
 ---
