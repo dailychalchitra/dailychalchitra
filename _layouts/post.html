@@ -107,6 +107,7 @@ layout: default
   .dc-love .dc-react-circle { background: #f33e58; }
   .dc-comment .dc-react-circle { background: #29b6f6; }
   .dc-share .dc-react-circle { background: #29b6f6; }
+  .dc-follow .dc-react-circle { background: #C00000; }
   .dc-react-btn.dc-active .dc-react-circle { box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
   .dc-react-label { font-size: 12px; color: #555; font-weight: 600; }
   .dc-react-btn.dc-active .dc-react-label { color: #111; }
@@ -356,6 +357,13 @@ layout: default
         <span class="dc-react-label">শেয়ার</span>
         <span class="dc-react-count" id="dc-share-count">0</span>
       </button>
+      <button class="dc-react-btn dc-follow" id="dc-follow-btn">
+        <span class="dc-react-circle">
+          <svg viewBox="0 0 24 24" fill="currentColor" id="dc-follow-svg"><path d="M15 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>
+        </span>
+        <span class="dc-react-label" id="dc-follow-label">ফলো</span>
+        <span class="dc-react-count" id="dc-follow-count">0</span>
+      </button>
     </div>
 
     <div class="dc-view-only">
@@ -569,6 +577,34 @@ layout: default
     const loveBtn = document.getElementById('dc-love-btn');
     const commentScrollBtn = document.getElementById('dc-comment-scroll-btn');
     const shareBtn = document.getElementById('dc-share-btn');
+    const followBtn = document.getElementById('dc-follow-btn');
+    const followCountEl = document.getElementById('dc-follow-count');
+    const followLabelEl = document.getElementById('dc-follow-label');
+    const followRef = dcDB.ref('site_followers');
+    let isFollowing = false;
+
+    followRef.on('value', function (snap) {
+      const data = snap.val();
+      const count = data ? Object.keys(data).length : 0;
+      followCountEl.textContent = count;
+    });
+
+    function updateFollowUI() {
+      followBtn.classList.toggle('dc-active', isFollowing);
+      followLabelEl.textContent = isFollowing ? 'ফলো করছেন' : 'ফলো';
+    }
+
+    followBtn.addEventListener('click', function () {
+      if (!dcCurrentUser) return;
+      const userRef = followRef.child(dcCurrentUser.uid);
+      if (isFollowing) {
+        userRef.remove();
+      } else {
+        userRef.set(true);
+      }
+      isFollowing = !isFollowing;
+      updateFollowUI();
+    });
     const commentList = document.getElementById('dc-comment-list');
     const commentInput = document.getElementById('dc-comment-input');
     const commentSubmit = document.getElementById('dc-comment-submit');
@@ -757,6 +793,10 @@ layout: default
       });
       postRef.child('loves/' + dcCurrentUser.uid).once('value').then(function (snap) {
         loveBtn.classList.toggle('dc-active', !!snap.val());
+      });
+      followRef.child(dcCurrentUser.uid).once('value').then(function (snap) {
+        isFollowing = !!snap.val();
+        updateFollowUI();
       });
     }
 
