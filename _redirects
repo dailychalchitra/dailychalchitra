@@ -3,6 +3,9 @@
 /search/label/আলোচনা  /tag.html?tag=আলোচনা  301
 /search/label/শিক্ষাঙ্গন  /tag.html?tag=শিক্ষাঙ্গন  301
 /search/label/বিনোদন  /tag.html?tag=বিনোদন  301
-/search/label/ইসলামিক আদর্শ  /tag.html?tag=ইসলামিক আদর্শ  301
+/search/label/ইসলামিক%20আদর্শ  /tag.html?tag=ইসলামিক%20আদর্শ  301
 /search/label/*  /tag.html  301
+
+# পুরনো Blogger Post গুলো হোমপেজে
 /2026/05/adv.html  /  301
+/2026/06/blog-post_06.html  /  301
