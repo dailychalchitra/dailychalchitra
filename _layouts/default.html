@@ -15,6 +15,11 @@
 {% else %}
   {% assign dc_page_title = page.title | default: "দৈনিক চালচিত্র" %}
 {% endif %}
+{% if page.image %}
+  {% assign dc_page_image = page.image | absolute_url %}
+{% else %}
+  {% assign dc_page_image = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" %}
+{% endif %}
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{ dc_page_title }}">
