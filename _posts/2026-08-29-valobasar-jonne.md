@@ -3,17 +3,13 @@ layout: post
 title: "ভালোবাসার জন্য"
 date: 2026-08-29 02:49:00 +0400
 categories:
-        - kobita
+    - kobita
 category_bn: "কবিতা"
-
 tags:
-        - সাহিত্য বিভাগ
-        - সাহিত্য
-        - গদ্য কবিতা
-        - অনু কবিতা
-        - দৈনিক চালচিত্র
-        - শামীম নিমু এর লেখা গদ্য কবিতা
-
+    - কবিতা
+    - গদ্য কবিতা
+    - অনু কবিতা
+    - শামীম নিমু
 author: "শামীম নিমু"
 image: /assets/img/shamim-nimu-1.webp
 permalink: /kobita/2026/08/29/valobasar-jonne/
