@@ -10,7 +10,7 @@ layout: default
 </div>
   <img src="{{ page.image | relative_url }}" style="width:100%;border-radius:8px;margin-bottom:15px;">
   <span style="background:#C00000;color:white;padding:5px 10px;font-size:14px;border-radius:4px;">
-    {{ page.categories | first }}
+    {{ page.category_bn | default: page.categories.first }}
   </span>
   <h1 style="font-size:28px;margin:15px 0 2px;line-height:1.4;">
     <span style="display:inline-block;border-bottom:2px solid #ccc;padding-bottom:4px;">{{ page.title }}</span>
@@ -421,7 +421,7 @@ layout: default
         <span class="dc-author-post-dot">●</span>
         <div class="dc-author-post-info">
           {% if post.categories %}
-          <span class="dc-author-post-cat">{{ post.categories | first }}</span>
+          <span class="dc-author-post-cat">{{ post.category_bn | default: post.categories.first }}</span>
           {% endif %}
           <a href="{{ post.url | relative_url }}" class="dc-author-post-title">{{ post.title }}</a>
           <span class="dc-author-post-date"><i class="far fa-clock"></i> {{ post.date | date: "%d %B, %Y" }}</span>
@@ -449,7 +449,7 @@ layout: default
                   {% endif %}
               </a>
               <div class="card-content" style="padding: 12px;">
-                  <span class="category-badge" style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.categories | first }}</span>
+                  <span class="category-badge" style="background: #C00000; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px; font-weight: 700;">{{ post.category_bn | default: post.categories.first }}</span>
                   <h3 style="font-size: 14px; margin: 0 0 6px 0; line-height: 1.4; font-weight: 700;">
                       <a href="{{ post.url | relative_url }}" style="color: #111; text-decoration: none;">{{ post.title }}</a>
                   </h3>
@@ -496,7 +496,7 @@ layout: default
                   </div>
                   <div class="card-content" style="padding:15px;">
                       {% if vp.categories %}
-                      <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">{{ vp.categories | first }}</span>
+                      <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">{{ vp.category_bn | default: vp.categories.first }}</span>
                       {% endif %}
                       <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
                           <a href="{{ vp.url | relative_url }}" style="color:#111;text-decoration:none;">{{ vp.title }}</a>
