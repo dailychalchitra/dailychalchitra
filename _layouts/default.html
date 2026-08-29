@@ -6,10 +6,11 @@
   <title>{{ page.title }} | দৈনিক চালচিত্র</title>
 
 {% assign dc_page_desc = page.excerpt | strip_html | truncatewords: 30 | default: "বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার - দৈনিক চালচিত্র" %}
+{% assign dc_cat_display = page.category_bn | default: page.categories | first %}
 {% if page.categories and page.categories.size > 0 and page.author %}
-  {% assign dc_page_title = page.categories | first | append: " | " | append: page.title | append: " | " | append: page.author %}
+  {% assign dc_page_title = dc_cat_display | append: " | " | append: page.title | append: " | " | append: page.author %}
 {% elsif page.categories and page.categories.size > 0 %}
-  {% assign dc_page_title = page.categories | first | append: " | " | append: page.title %}
+  {% assign dc_page_title = dc_cat_display | append: " | " | append: page.title %}
 {% else %}
   {% assign dc_page_title = page.title | default: "দৈনিক চালচিত্র" %}
 {% endif %}
@@ -30,7 +31,7 @@
 <meta name="twitter:title" content="{{ dc_page_title }}">
 <meta name="twitter:description" content="{{ dc_page_desc }}">
 <meta name="twitter:image" content="{{ dc_page_image }}">
-
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
