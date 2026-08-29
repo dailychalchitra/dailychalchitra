@@ -18,7 +18,7 @@
 {% if page.image %}
   {% assign dc_page_image = page.image | absolute_url %}
 {% else %}
-  {% assign dc_page_image = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" %}
+  {% assign dc_page_image = "/assets/img/daily-chalchitra.webp" | absolute_url %}
 {% endif %}
 
 <meta property="og:type" content="article">
@@ -611,7 +611,7 @@ body.dc-menu-open { overflow: hidden; }
   <div class="header-top">
     <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
     <a href="/" class="logo">
-        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="দৈনিক চালচিত্র">
+        <img src="/assets/img/daily-chalchitra.webp" alt="দৈনিক চালচিত্র" width="200" height="45" loading="eager" fetchpriority="high">
     </a>
     <div class="header-right">
         <div class="search-translate-wrap">
@@ -675,7 +675,7 @@ body.dc-menu-open { overflow: hidden; }
 <div id="dc-overlay" onclick="toggleDcMenu()"></div>
 <div id="dc-side-menu">
   <div class="dc-menu-header">
-    <img alt="দৈনিক চালচিত্র" src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"/>
+    <img alt="দৈনিক চালচিত্র" src="/assets/img/daily-chalchitra.webp" width="150" height="35" loading="lazy"/>
     <form action="/search/" class="dc-header-search" method="get">
       <input name="q" placeholder="সার্চ করুন..." type="text"/>
       <button type="submit"><i class="fa fa-search"></i></button>
