@@ -27,7 +27,7 @@ title: প্রচ্ছদ
                 {% endif %}
             </a>
             <div class="lead-content">
-                <span class="category-badge">{{ post.categories | first }}</span>
+                <span class="category-badge">{{ post.category_bn | default: post.categories.first }}</span>
                 <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p style="font-size:16px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 8px;">লেখক: {{ post.author }}</p>{% endif %}
                 <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
@@ -61,7 +61,7 @@ title: প্রচ্ছদ
                         {% endif %}
                     </a>
                     <div class="card-content">
-                        <span class="category-badge">{{ post.categories | first }}</span>
+                        <span class="category-badge">{{ post.category_bn | default: post.categories.first }}</span>
                         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
                         {% if post.author %}<p class="card-author" style="font-size:14px;color:#C00000;font-weight:400;font-style:italic;margin:2px 0 6px;">লেখক: {{ post.author }}</p>{% endif %}
                         <p class="card-excerpt" style="font-size:16px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
