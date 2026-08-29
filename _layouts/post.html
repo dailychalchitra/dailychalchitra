@@ -177,6 +177,17 @@ layout: default
     font-size: 12px; color: #C00000; font-weight: 600; cursor: pointer;
   }
   .dc-c-actions button:hover { text-decoration: underline; }
+  .dc-c-like-btn {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 3px;
+    color: #666 !important;
+  }
+  .dc-c-like-btn.dc-liked {
+    color: #C00000 !important;
+    font-weight: 700 !important;
+  }
+  .dc-c-like-btn:hover { text-decoration: none !important; color: #C00000 !important; }
   .dc-modal-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -671,11 +682,17 @@ layout: default
           ? '<button class="dc-c-edit" data-key="' + c._key + '">এডিট</button>' +
             '<button class="dc-c-delete" data-key="' + c._key + '">ডিলিট</button>'
           : '';
+        const cLikeCount = c.likes ? Object.keys(c.likes).length : 0;
+        const cLiked = dcCurrentUser && c.likes && c.likes[dcCurrentUser.uid];
         return '<div class="dc-comment-item">' +
           '<span class="dc-c-name">' + dcEscape(c.name || 'অতিথি পাঠক') + '</span>' +
           '<span class="dc-c-time">' + date + editedTag + '</span>' +
           '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
           '<div class="dc-c-actions">' +
+            '<button class="dc-c-like-btn' + (cLiked ? ' dc-liked' : '') + '" data-key="' + c._key + '">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>' +
+              ' <span class="dc-like-count">' + cLikeCount + '</span>' +
+            '</button>' +
             '<button class="dc-c-reply-btn" data-key="' + c._key + '">জবাব দিন</button>' +
             ownActions +
           '</div>' +
@@ -686,6 +703,21 @@ layout: default
           renderReplies(c._key, c.replies) +
           '</div>';
       }).join('');
+
+      commentList.querySelectorAll('.dc-c-like-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!dcCurrentUser) return;
+          const key = btn.dataset.key;
+          const likeRef = postRef.child('comments/' + key + '/likes/' + dcCurrentUser.uid);
+          likeRef.once('value').then(function (snap) {
+            if (snap.val()) {
+              likeRef.remove();
+            } else {
+              likeRef.set(true);
+            }
+          });
+        });
+      });
 
       commentList.querySelectorAll('.dc-c-reply-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
