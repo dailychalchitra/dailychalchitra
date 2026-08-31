@@ -171,7 +171,7 @@ layout: default
   .dc-comment-item .dc-c-time { font-size: 12px; color: #999; margin-left: 8px; }
   .dc-comment-item .dc-c-text { font-size: 14px; color: #444; margin-top: 4px; line-height: 1.6; white-space: pre-wrap; }
   .dc-comment-empty { font-size: 14px; color: #999; padding: 10px 0; }
-  .dc-c-actions { margin-top: 8px; display: flex; gap: 14px; justify-content: flex-end; }
+  .dc-c-actions { margin-top: 8px; display: flex; gap: 14px; align-items: center; }
   .dc-c-actions button {
     background: none; border: none; padding: 0;
     font-size: 12px; color: #C00000; font-weight: 600; cursor: pointer;
@@ -689,11 +689,11 @@ layout: default
           '<span class="dc-c-time">' + date + editedTag + '</span>' +
           '<div class="dc-c-text">' + dcEscape(c.text || '') + '</div>' +
           '<div class="dc-c-actions">' +
+            '<button class="dc-c-reply-btn" data-key="' + c._key + '">জবাব দিন</button>' +
             '<button class="dc-c-like-btn' + (cLiked ? ' dc-liked' : '') + '" data-key="' + c._key + '">' +
               '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>' +
               ' <span class="dc-like-count">' + cLikeCount + '</span>' +
             '</button>' +
-            '<button class="dc-c-reply-btn" data-key="' + c._key + '">জবাব দিন</button>' +
             ownActions +
           '</div>' +
           '<div class="dc-reply-form" id="dc-reply-form-' + c._key + '">' +
