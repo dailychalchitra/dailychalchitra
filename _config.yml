@@ -1,5 +1,5 @@
 title: দৈনিক চালচিত্র
-description: ওমান থেকে প্রকাশিত অনলাইন পত্রিকা
+description: ওমান থেকে প্রকাশিত অনলাইন পত্রিকা - বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার
 baseurl: ""
 url: "https://www.dailychalchitra.com"
 timezone: Asia/Muscat
@@ -8,9 +8,14 @@ permalink: pretty
 future: true
 
 plugins:
-    - jekyll-seo-tag
-    - jekyll-sitemap
-    - jekyll-redirect-from
+        - jekyll-seo-tag
+        - jekyll-sitemap
+        - jekyll-redirect-from
+
+include:
+    - ads.txt
+    - _redirects
+    - CNAME
 
 webmaster_verifications:
   google: O6AQ_cAwG8RoU5yHbkg7QvLF8daax_FglyiF2XMinBg
