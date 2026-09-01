@@ -22,7 +22,7 @@ tags:
   - poetry written by razia akter popy
   - daily chalchitra
 
-author: "Adv. রাজিয়া আক্তার পপি"
+author: "Adv. রাজিয়া আক্তার পপি"
 
 image: /assets/img/adv-razia-akter-popy.webp
 ---
