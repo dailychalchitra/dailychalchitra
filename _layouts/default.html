@@ -671,11 +671,11 @@ body.dc-menu-open { overflow: hidden; }
   {{ content }}
 </main>
 <div style="clear: both;"></div>
+  
 <!-- DAILY CHALCHITRA SIDE MENU START -->
-<div id="dc-overlay" onclick="toggleDcMenu()"></div>
 <div id="dc-side-menu">
   <div class="dc-menu-header">
-    <img alt="দৈনিক চালচিত্র" src="/assets/img/daily-chalchitra.webp" width="150" height="35" loading="lazy"/>
+    <img alt="দৈনিক চালচিত্র" src="/assets/img/daily-chalchitra.webp" style="max-width: 150px; height: auto; display: block; margin: 0 auto 10px;" loading="lazy"/>
     <form action="/search/" class="dc-header-search" method="get">
       <input name="q" placeholder="সার্চ করুন..." type="text"/>
       <button type="submit"><i class="fa fa-search"></i></button>
