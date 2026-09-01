@@ -9,20 +9,28 @@ permalink: /author/
 
   <div class="author-profile" id="dc-author-profile" style="display:none;"></div>
 
-  <!-- এসইও এবং গুগলের ক্রলিংয়ের জন্য স্ট্যাটিক লেখক তালিকা -->
+  <!-- এসইও এবং গুগলের ক্রলিংয়ের জন্য _data/authors.yml থেকে স্ট্যাটিক লেখক তালিকা -->
   <div class="author-grid" id="dc-author-grid">
-    {% assign all_authors = site.posts | map: "author" | compact | uniq | sort %}
-    {% for author in all_authors %}
-      {% if author != "" %}
-        <a href="/author/?name={{ author | uri_encode }}" class="author-card">
-          <div class="author-avatar" style="width:48px; height:48px; border-radius:50%; background:#d32f2f; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;">
-            {{ author | slice: 0 }}
-          </div>
-          <div class="author-info" style="margin-left:14px;">
-            <span class="author-name" style="font-size:17px; font-weight:600; color:#111;">{{ author }}</span>
-          </div>
-        </a>
-      {% endif %}
+    {% for author_item in site.data.authors %}
+      {% assign author_name = author_item[0] %}
+      {% assign author_img = author_item[1] %}
+      
+      {% comment %} প্রতিটি লেখকের কতটি পোস্ট আছে তা হিসাব করা {% endcomment %}
+      {% assign post_count = 0 %}
+      {% for post in site.posts %}
+        {% assign p_author = post.author | strip %}
+        {% if p_author == author_name %}
+          {% assign post_count = post_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      <a href="/author/?name={{ author_name | uri_encode }}" class="author-card">
+        <img src="{{ author_img }}" alt="{{ author_name }}" class="author-avatar-img" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid #d32f2f; flex-shrink:0;">
+        <div class="author-info" style="margin-left:14px; display:flex; flex-direction:column;">
+          <span class="author-name" style="font-size:17px; font-weight:600; color:#111;">{{ author_name }}</span>
+          <span class="author-count" style="font-size:13px; color:#777;">{{ post_count }} টি পোস্ট</span>
+        </div>
+      </a>
     {% endfor %}
   </div>
 
