@@ -9,7 +9,23 @@ permalink: /author/
 
   <div class="author-profile" id="dc-author-profile" style="display:none;"></div>
 
-  <div class="author-grid" id="dc-author-grid"></div>
+  <!-- এসইও এবং গুগলের ক্রলিংয়ের জন্য স্ট্যাটিক লেখক তালিকা -->
+  <div class="author-grid" id="dc-author-grid">
+    {% assign all_authors = site.posts | map: "author" | compact | uniq | sort %}
+    {% for author in all_authors %}
+      {% if author != "" %}
+        <a href="/author/?name={{ author | uri_encode }}" class="author-card">
+          <div class="author-avatar" style="width:48px; height:48px; border-radius:50%; background:#d32f2f; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;">
+            {{ author | slice: 0 }}
+          </div>
+          <div class="author-info" style="margin-left:14px;">
+            <span class="author-name" style="font-size:17px; font-weight:600; color:#111;">{{ author }}</span>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
   <div class="post-list" id="dc-author-posts"></div>
   <p id="dc-author-empty" style="display:none; color:#777; text-align:center; margin-top:30px;"></p>
 </div>
