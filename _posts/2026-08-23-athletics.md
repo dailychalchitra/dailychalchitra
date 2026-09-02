@@ -8,21 +8,7 @@ categories:
 
 tags:
   - অ্যাথলেটিক্স
-  - সংবাদ
-  - বিশ্ব
-  - আন্তর্জাতিক
-  - আরও
-  - বিভাগ সমূহ
-  - অন্যান্য
   - দৈনিক চালচিত্র
-  - athletics
-  - news
-  - world
-  - international
-  - more
-  - categories
-  - other
-  - daily chalchitra
 
 author: "স্পোর্টস ডেস্ক"
 
