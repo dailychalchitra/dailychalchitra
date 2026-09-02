@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "între cer și pământ"
+title: "între cer și pământ (Between heaven and earth)"
 date: 2026-09-03 00:39:00 +0400 
 
 categories:
