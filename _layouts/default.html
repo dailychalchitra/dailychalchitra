@@ -598,7 +598,20 @@ body.dc-menu-open { overflow: hidden; }
   <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#C00000">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3408952573422123"
+
+<!-- Google Consent Mode v2 - ডিফল্ট: সম্মতি না দেওয়া পর্যন্ত সব বন্ধ -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied'
+  });
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=..."
      crossorigin="anonymous"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3K494H1N5"></script>
@@ -1270,5 +1283,132 @@ document.addEventListener('copy', function(e) {
 });
 </script>
 
+  <!-- ============================================================
+     COOKIE CONSENT BANNER (GDPR - Accept/Reject)
+     ============================================================ -->
+<style>
+#dc-cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(20,20,20,0.97);
+  color: #f0f0f0;
+  padding: 18px 20px;
+  z-index: 99999;
+  display: none;
+  box-shadow: 0 -3px 12px rgba(0,0,0,0.25);
+}
+#dc-cookie-banner.dc-show { display: block; }
+.dc-cookie-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.dc-cookie-text {
+  flex: 1;
+  min-width: 240px;
+  font-size: 14px;
+  line-height: 1.7;
+  font-family: 'Noto Serif Bengali', serif;
+}
+.dc-cookie-text a {
+  color: #ffd54f;
+  text-decoration: underline;
+}
+.dc-cookie-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#dc-cookie-accept, #dc-cookie-reject {
+  border: none;
+  padding: 9px 22px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Serif Bengali', serif;
+}
+#dc-cookie-accept {
+  background: #C00000;
+  color: #fff;
+}
+#dc-cookie-accept:hover { background: #8B0000; }
+#dc-cookie-reject {
+  background: transparent;
+  color: #f0f0f0;
+  border: 1.5px solid #999;
+}
+#dc-cookie-reject:hover { border-color: #fff; }
+@media (max-width: 600px) {
+  .dc-cookie-inner { flex-direction: column; align-items: flex-start; }
+  .dc-cookie-actions { width: 100%; }
+  #dc-cookie-accept, #dc-cookie-reject { flex: 1; }
+}
+</style>
+
+<div id="dc-cookie-banner">
+  <div class="dc-cookie-inner">
+    <div class="dc-cookie-text">
+      আমরা আপনার অভিজ্ঞতা উন্নত করতে, ব্যক্তিগতকৃত কনটেন্ট ও বিজ্ঞাপন দিতে এবং ট্রাফিক বিশ্লেষণ করতে কুকি ব্যবহার করি।
+      <a href="/privacy-policy/">গোপনীয়তা নীতি</a>
+    </div>
+    <div class="dc-cookie-actions">
+      <button id="dc-cookie-reject">প্রত্যাখ্যান</button>
+      <button id="dc-cookie-accept">গ্রহণ করুন</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var dcCookieKey = 'dc_cookie_consent';
+  var banner = document.getElementById('dc-cookie-banner');
+  var acceptBtn = document.getElementById('dc-cookie-accept');
+  var rejectBtn = document.getElementById('dc-cookie-reject');
+
+  function applyConsent(granted) {
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        'ad_storage': granted ? 'granted' : 'denied',
+        'ad_user_data': granted ? 'granted' : 'denied',
+        'ad_personalization': granted ? 'granted' : 'denied',
+        'analytics_storage': granted ? 'granted' : 'denied'
+      });
+    }
+  }
+
+  try {
+    var saved = localStorage.getItem(dcCookieKey);
+    if (!saved) {
+      banner.classList.add('dc-show');
+    } else if (saved === 'accepted') {
+      applyConsent(true);
+    } else {
+      applyConsent(false);
+    }
+  } catch (e) {
+    // localStorage না থাকলে ব্যানার দেখানো হবে না, সাইট ভাঙবে না
+  }
+
+  acceptBtn.addEventListener('click', function () {
+    try { localStorage.setItem(dcCookieKey, 'accepted'); } catch (e) {}
+    applyConsent(true);
+    banner.classList.remove('dc-show');
+  });
+
+  rejectBtn.addEventListener('click', function () {
+    try { localStorage.setItem(dcCookieKey, 'rejected'); } catch (e) {}
+    applyConsent(false);
+    banner.classList.remove('dc-show');
+  });
+})();
+</script>
+  
 </body>
 </html>
