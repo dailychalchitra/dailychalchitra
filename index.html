@@ -91,10 +91,11 @@ title: প্রচ্ছদ
             
             <!-- ভিডিও কার্ড ১ -->
             <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
-                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
-                    <iframe src="https://www.youtube.com/embed/oFt9N9rahRs?modestbranding=1&rel=0" 
-                            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
-                            allowfullscreen></iframe>
+                <div class="dc-yt-facade" data-yt-id="oFt9N9rahRs" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;cursor:pointer;">
+                    <img src="https://i.ytimg.com/vi/oFt9N9rahRs/hqdefault.jpg" loading="lazy" alt="কবিতা আবৃত্তি - ১" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:42px;background:rgba(200,0,0,0.85);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #fff;margin-left:4px;"></div>
+                    </div>
                 </div>
                 <div class="card-content" style="padding:15px;">
                     <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
@@ -107,10 +108,11 @@ title: প্রচ্ছদ
 
             <!-- ভিডিও কার্ড ২ -->
             <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
-                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
-                    <iframe src="https://www.youtube.com/embed/UpXajSAatTQ?modestbranding=1&rel=0" 
-                            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
-                            allowfullscreen></iframe>
+                <div class="dc-yt-facade" data-yt-id="UpXajSAatTQ" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;cursor:pointer;">
+                    <img src="https://i.ytimg.com/vi/UpXajSAatTQ/hqdefault.jpg" loading="lazy" alt="কবিতা আবৃত্তি - ২" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:42px;background:rgba(200,0,0,0.85);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #fff;margin-left:4px;"></div>
+                    </div>
                 </div>
                 <div class="card-content" style="padding:15px;">
                     <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
@@ -214,6 +216,23 @@ title: প্রচ্ছদ
         if (dcCurrentUser) refreshFollowState();
     });
     </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.dc-yt-facade').forEach(function (facade) {
+        facade.addEventListener('click', function () {
+            var videoId = facade.getAttribute('data-yt-id');
+            var iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&modestbranding=1&rel=0';
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
+            facade.innerHTML = '';
+            facade.appendChild(iframe);
+        }, { once: true });
+    });
+});
+</script>
 
     <!-- 3. নেভিগেশন লিংক -->
     <div class="dc-nav-links" style="margin-top:20px;padding-top:20px;border-top:1px solid #eee;box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;justify-content:center;row-gap:14px;column-gap:clamp(10px, 3vw, 40px);">
