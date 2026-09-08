@@ -2,28 +2,17 @@
 layout: post
 title: "পেপারওয়েট"
 date: 2026-08-21 23:48:00 +0400
-
 categories:
-  - কবিতা
-
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - পদ্য কবিতা
-  - জীবনের কবিতা
-  - প্রকৃতি বিষয়ক কবিতা
-  - রাজিয়া আক্তার পপি এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - verse poetry
-  - life poetry
-  - nature poetry
-  - poetry written by razia akter popy
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - পদ্য কবিতা
+    - জীবনের কবিতা
+    - প্রকৃতি বিষয়ক কবিতা
+    - Adv. রাজিয়া আক্তার পপি এর লেখা কবিতা
+    - দৈনিক চালচিত্র
 author: "Adv. রাজিয়া আক্তার পপি"
-
 image: /assets/img/adv-razia-akter-popy.webp
 ---
 
@@ -51,4 +40,4 @@ image: /assets/img/adv-razia-akter-popy.webp
 
 ---
 *প্রকাশকাল: ০১-০৮-২০২৬ ইং।*
-*পাণ্ডুলিপি সংরক্ষিত*
+*পাণ্ডুলিপি সংরক্ষিত।*
