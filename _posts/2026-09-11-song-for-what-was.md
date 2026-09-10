@@ -12,7 +12,6 @@ tags:
     - দৈনিক চালচিত্র
 author: "Bogdana Gageanu"
 image: /assets/img/bogdana-gageanu.webp
-description: "Cântec pentru ce a fost - Poezie în memoria mamei mele"
 ---
 
 Ce haihui viscolește peste suflet și dor!  
