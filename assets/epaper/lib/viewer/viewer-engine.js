@@ -544,11 +544,79 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName);
     },
 
+    buildSinglePostPageEl(post){
+        const headHTML = this.buildHeadHTML(null, 1, 1);
+        let cleanContent = post.content || post.excerpt || "";
+        if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
+        else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
+
+        const coverImg = post.image
+            ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
+            : '';
+
+        const bodyHTML = `
+            <div class="dcp-single-header">
+                ${coverImg ? `<div class="dcp-card-header">${coverImg}</div>` : ''}
+                <h2>${post.title}</h2>
+                <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
+                ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
+            </div>
+            <div class="dcp-content dcp-single-content">${cleanContent}</div>
+        `;
+
+        const width = 760;
+        const pageEl = document.createElement("div");
+        pageEl.className = "dcp-page";
+        pageEl.style.cssText = `width:${width}px;padding:25px;box-sizing:border-box;`;
+        pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
+            `<div class="dcp-single-col" style="width:${width - 50}px;">${bodyHTML}</div>`;
+
+        return { pageEl, width };
+    },
+
     async downloadSinglePostPDF(post){
-        if(!post){ return; }
-        const printPages = await this.buildPrintPages([post]);
-        const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
-        await this.capturePagesToPDF(printPages, null, fileName);
+        if(!post) return;
+        if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return; }
+
+        const { pageEl, width } = this.buildSinglePostPageEl(post);
+        const host = document.createElement("div");
+        host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
+        host.style.width = "0"; host.style.height = "0"; host.style.overflow = "hidden";
+        document.body.appendChild(host);
+        const wrapper = document.createElement("div");
+        wrapper.style.width = width + "px";
+        host.appendChild(wrapper);
+
+        try{
+            const canvas = await this.captureElement(pageEl, wrapper, width);
+            if(!canvas || canvas.width === 0 || canvas.height === 0){
+                alert("PDF তৈরি করা যায়নি।"); return;
+            }
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pageWidthMM = pdf.internal.pageSize.getWidth();
+            const pageHeightMM = pdf.internal.pageSize.getHeight();
+            const imgData = canvas.toDataURL("image/jpeg", 0.95);
+            const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
+
+            if(imgHeightMM <= pageHeightMM){
+                pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
+            } else {
+                let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
+                while(heightLeftMM > pageHeightMM * 0.08){
+                    if(!first) pdf.addPage();
+                    pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
+                    heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
+                }
+            }
+            const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
+            pdf.save(fileName + ".pdf");
+        } catch(e){
+            console.error(e);
+            alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+        } finally {
+            host.remove();
+        }
     }
 };
 window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
