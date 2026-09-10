@@ -330,12 +330,14 @@ window.DCViewer = {
         return lo;
     },
 
-    splitChunksIntoColumns(chunks, heights, maxColHeight){
+    splitChunksIntoColumns(chunks, heights, maxColHeight, numColumns){
         const columns = [];
         let cur = [], curH = 0;
         for(let i = 0; i < chunks.length; i++){
             const h = heights[i];
-            if(cur.length && curH + h > maxColHeight){
+            const remainingSlots = numColumns - columns.length - 1;
+            const wouldOverflow = cur.length && curH + h > maxColHeight;
+            if(wouldOverflow && remainingSlots > 0){
                 columns.push(cur);
                 cur = []; curH = 0;
             }
@@ -372,8 +374,7 @@ window.DCViewer = {
             guard++;
         }
 
-        const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight);
-
+        const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight, numColumns);
         columns.forEach(col => {
             if(col.length && !col[0].isPostFirst){
                 col[0] = {
