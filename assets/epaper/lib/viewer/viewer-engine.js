@@ -423,6 +423,9 @@ window.DCViewer = {
             .dcp-kobita{ display:block; margin:0 0 4px 0; line-height:1.4; }
             .dcp-kobita-date{ display:block; margin-top:4px; font-size:11px; font-style:italic; color:#555; }
             .dcp-continued{ font-size:10.5px; font-style:italic; color:#888; margin-bottom:4px; }
+            .dcp-single-col{ margin:0 auto; }
+            .dcp-single-header h2{ font-size:20px; margin:8px 0 6px 0; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+            .dcp-single-content{ font-size:15px !important; line-height:1.7 !important; }
         </style>`;
     },
 
