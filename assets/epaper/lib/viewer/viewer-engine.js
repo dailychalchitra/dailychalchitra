@@ -362,14 +362,12 @@ window.DCViewer = {
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
         const safeColHeight = 1150;
 
-        let pageCount = Math.max(1, Math.ceil(totalHeight / (safeColHeight * 4)));
-        let numColumns = pageCount * 4;
+        let numColumns = Math.max(1, Math.ceil(totalHeight / safeColHeight));
         let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
 
         let guard = 0;
-        while(maxColHeight > safeColHeight && guard < 20){
-            pageCount++;
-            numColumns = pageCount * 4;
+        while(maxColHeight > safeColHeight && guard < 40){
+            numColumns++;
             maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
             guard++;
         }
