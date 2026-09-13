@@ -1,12 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v23.0
-   FIX: ১/২/৩/৪ কলামের পাতা — যেকোনো সংখ্যক কলামই এখন পুরো পাতার
-        প্রস্থ পূর্ণভাবে ভাগ করে নেয় (আগে শুধু ১-কলামে কাজ করত,
-        ২-৩ কলামে ডানদিকে ফাঁকা জায়গা থেকে যেত)। প্রতিটা পাতার
-        কোণায় হালকা লতাপাতা-অলংকরণ ব্যাকগ্রাউন্ড যোগ হয়েছে।
+   Daily Chalchitra ePaper Engine - v24.0
+   FIX: প্রতিটা কলাম-প্রস্থ অনুযায়ী কভার ছবির উচ্চতা সীমাবদ্ধ (আর
+        অতিরিক্ত পাতা তৈরি হবে না) + নমুনা ডিজাইন অনুযায়ী শুধু উপরের
+        দুই কোণে লতাপাতা + রঙিন হেডার-ব্যানার + ক্যাটাগরি অনুযায়ী
+        ভিন্ন ভিন্ন রঙের ব্যাজ
    ========================================================== */
 window.DCViewer = {
-    version: "23.0",
+    version: "24.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -233,12 +233,33 @@ window.DCViewer = {
         const coverImg = post.image
             ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
             : '';
+        const catColor = this.getCategoryColor(post.category);
+        const catBadge = post.category
+            ? `<span class="dcp-cat-badge" style="background:${catColor};">${post.category}</span>`
+            : '';
+        const authorText = post.author ? ' লেখক: ' + post.author : '';
         return `<div class="dcp-art-start">
             <div class="dcp-card-header">${coverImg}</div>
             <h2>${post.title}</h2>
-            <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
+            <div class="dcp-cat-author">${catBadge}${authorText ? `<span class="dcp-author-text">${authorText}</span>` : ''}</div>
             ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
         </div>`;
+    },
+
+    // ক্যাটাগরির নাম থেকে সবসময় একই স্থির রঙ তৈরি করে - প্রতিটা
+    // ক্যাটাগরির নিজস্ব আলাদা রঙ থাকবে, সাইটজুড়ে সামঞ্জস্যপূর্ণ
+    getCategoryColor(category){
+        const palette = [
+            "#C0392B", "#8E44AD", "#2980B9", "#16A085",
+            "#D35400", "#27AE60", "#2C3E50", "#E67E22",
+            "#7D3C98", "#1F618D", "#AF601A", "#117864"
+        ];
+        if(!category) return palette[0];
+        let hash = 0;
+        for(let i = 0; i < category.length; i++){
+            hash = (hash * 31 + category.charCodeAt(i)) >>> 0;
+        }
+        return palette[hash % palette.length];
     },
 
     getProseParagraphChunks(html){
@@ -400,62 +421,83 @@ window.DCViewer = {
         return this.layoutGridPages(chunks);
     },
 
-    // চার কোণে হালকা লতাপাতা-অলংকরণ (SVG data-uri) - প্রতিটা কোণে ভিন্ন
-    // ঘূর্ণন কোণে বসিয়ে একটা সংবাদপত্র-সুলভ, স্বতন্ত্র সাজানো লুক তৈরি করে
-    buildCornerLeafBg(){
-        const leaf = (rot) => {
-            const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'>" +
-                "<g transform='rotate(" + rot + " 50 50)'>" +
-                "<path d='M6,94 C18,60 38,38 72,14' stroke='%234a7c3a' stroke-width='3' fill='none' opacity='0.55'/>" +
-                "<path d='M20,78 C28,66 42,54 54,42 C46,54 34,66 20,78 Z' fill='%236b9e4f' opacity='0.55'/>" +
-                "<path d='M12,64 C20,52 32,42 46,33 C38,45 26,56 12,64 Z' fill='%238fbf6a' opacity='0.5'/>" +
-                "<circle cx='70' cy='12' r='5' fill='%23C00000' opacity='0.5'/>" +
-                "</g></svg>";
-            return "url(\"data:image/svg+xml;utf8," + svg + "\")";
-        };
-        const images = [leaf(180), leaf(270), leaf(90), leaf(0)].join(",");
+    // পাতার উপরের অংশে - শুধু বাম ও ডান উপরের কোণে হালকা লতাপাতা,
+    // সাথে হেডারের পেছনে হালকা রঙিন wave-ব্যানার (নমুনা ডিজাইন অনুযায়ী)
+    buildTopCornerLeavesBg(){
+        const leftLeaf = "<svg xmlns='http://www.w3.org/2000/svg' width='140' height='120' viewBox='0 0 140 120'>" +
+            "<g opacity='0.85'>" +
+            "<path d='M8,110 C30,80 55,55 100,20' stroke='%234a7c3a' stroke-width='3' fill='none' opacity='0.6'/>" +
+            "<path d='M20,96 C34,80 54,64 74,50 C62,66 44,82 20,96 Z' fill='%236b9e4f' opacity='0.6'/>" +
+            "<path d='M12,82 C24,68 42,54 62,42 C50,56 32,70 12,82 Z' fill='%238fbf6a' opacity='0.55'/>" +
+            "<circle cx='96' cy='18' r='4.5' fill='%23C00000' opacity='0.6'/>" +
+            "</g></svg>";
+        const rightLeaf = "<svg xmlns='http://www.w3.org/2000/svg' width='140' height='120' viewBox='0 0 140 120'>" +
+            "<g opacity='0.85' transform='scale(-1,1) translate(-140,0)'>" +
+            "<path d='M8,110 C30,80 55,55 100,20' stroke='%234a7c3a' stroke-width='3' fill='none' opacity='0.6'/>" +
+            "<path d='M20,96 C34,80 54,64 74,50 C62,66 44,82 20,96 Z' fill='%236b9e4f' opacity='0.6'/>" +
+            "<path d='M12,82 C24,68 42,54 62,42 C50,56 32,70 12,82 Z' fill='%238fbf6a' opacity='0.55'/>" +
+            "<circle cx='96' cy='18' r='4.5' fill='%23C00000' opacity='0.6'/>" +
+            "</g></svg>";
         return `background-color:#fff;` +
-               `background-image:${images};` +
-               `background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;` +
-               `background-position: top left, top right, bottom left, bottom right;` +
-               `background-size: 100px 100px, 100px 100px, 100px 100px, 100px 100px;`;
+               `background-image: url("data:image/svg+xml;utf8,${leftLeaf}"), url("data:image/svg+xml;utf8,${rightLeaf}");` +
+               `background-repeat:no-repeat, no-repeat;` +
+               `background-position: top -5px left -5px, top -5px right -5px;` +
+               `background-size: 140px 120px, 140px 120px;`;
+    },
+
+    buildHeaderBannerBg(){
+        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='110' viewBox='0 0 1000 110'>" +
+            "<path d='M0,70 C160,20 340,95 520,55 C700,15 860,80 1000,45 L1000,0 L0,0 Z' fill='%23bcd9ea' opacity='0.45'/>" +
+            "<path d='M0,90 C200,45 380,105 560,70 C740,35 880,95 1000,65 L1000,0 L0,0 Z' fill='%23f6e29b' opacity='0.35'/>" +
+            "</svg>";
+        return `background-image:url("data:image/svg+xml;utf8,${svg}");background-repeat:no-repeat;background-size:100% 100%;`;
     },
 
     getPrintStyleTag(){
         return `<style>
             .dcp-page{
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
-              ${this.buildCornerLeafBg()}
+              ${this.buildTopCornerLeavesBg()}
             }
-            .dcp-head{ text-align:center; margin-bottom:8px; border-bottom:1.5px solid #000; padding-bottom:8px; }
+            .dcp-head{
+              text-align:center; margin-bottom:8px; border-bottom:2px solid #C00000; padding:14px 10px 10px;
+              ${this.buildHeaderBannerBg()}
+            }
             .dcp-logo{ display:block; max-width:160px; height:auto; margin:0 auto 6px auto; }
             .dcp-head-info{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; font-size:13px; color:#333; font-weight:600; }
             .dcp-columns{ display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #ccc; }
 
-            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট */
+            /* কভার ছবি - ডিফল্ট (৪-কলাম গ্রিড) */
+            .dcp-cover{ width:100%; max-width:100%; aspect-ratio:16/9; max-height:120px; object-fit:cover; border-radius:5px; display:block; }
+
+            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট, ছবি নিয়ন্ত্রিত উচ্চতায় */
             .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
+            .dcp-col-solo .dcp-cover{ max-height:260px !important; aspect-ratio:16/8 !important; }
 
-            /* দুই কলাম পাতা - মাঝারি প্রশস্ত */
+            /* দুই কলাম পাতা */
             .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; }
             .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; }
             .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; }
+            .dcp-col-duo .dcp-cover{ max-height:190px !important; aspect-ratio:16/9 !important; }
 
             /* তিন কলাম পাতা */
             .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
+            .dcp-col-tri .dcp-cover{ max-height:150px !important; }
 
             .dcp-art-start{ border-top:1px solid #e5e5e5; padding-top:8px; margin-top:8px; }
             .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
-            .dcp-cover{ width:100%; max-width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:5px; display:block; }
-            .dcp-art-start h2{ font-size:14px; margin:0 0 2px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
-            .dcp-cat-author{ font-size:11px; color:#C00000; margin:1px 0 4px 0; border-left:3px solid #C00000; padding-left:6px; font-weight:600; }
+            .dcp-art-start h2{ font-size:14px; margin:0 0 4px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+            .dcp-cat-author{ margin:2px 0 4px 0; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+            .dcp-cat-badge{ color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; display:inline-block; }
+            .dcp-author-text{ font-size:11px; color:#555; font-weight:600; }
             .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
             .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
             .dcp-content p{ margin:0 0 6px 0; padding:0; }
