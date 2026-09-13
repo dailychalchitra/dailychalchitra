@@ -1,10 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v22.0
-   FIX: প্রিন্ট পাতায় ধূসর সাহিত্য-থিমের ব্যাকগ্রাউন্ড প্যাটার্ন +
-        একক-কলাম (ছোট লেখা) পাতা এখন মাঝখানে, বড় ও পরিষ্কার ফন্টে
+   Daily Chalchitra ePaper Engine - v23.0
+   FIX: ১/২/৩/৪ কলামের পাতা — যেকোনো সংখ্যক কলামই এখন পুরো পাতার
+        প্রস্থ পূর্ণভাবে ভাগ করে নেয় (আগে শুধু ১-কলামে কাজ করত,
+        ২-৩ কলামে ডানদিকে ফাঁকা জায়গা থেকে যেত)। প্রতিটা পাতার
+        কোণায় হালকা লতাপাতা-অলংকরণ ব্যাকগ্রাউন্ড যোগ হয়েছে।
    ========================================================== */
 window.DCViewer = {
-    version: "22.0",
+    version: "23.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -398,13 +400,32 @@ window.DCViewer = {
         return this.layoutGridPages(chunks);
     },
 
+    // চার কোণে হালকা লতাপাতা-অলংকরণ (SVG data-uri) - প্রতিটা কোণে ভিন্ন
+    // ঘূর্ণন কোণে বসিয়ে একটা সংবাদপত্র-সুলভ, স্বতন্ত্র সাজানো লুক তৈরি করে
+    buildCornerLeafBg(){
+        const leaf = (rot) => {
+            const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'>" +
+                "<g transform='rotate(" + rot + " 50 50)'>" +
+                "<path d='M6,94 C18,60 38,38 72,14' stroke='%234a7c3a' stroke-width='3' fill='none' opacity='0.55'/>" +
+                "<path d='M20,78 C28,66 42,54 54,42 C46,54 34,66 20,78 Z' fill='%236b9e4f' opacity='0.55'/>" +
+                "<path d='M12,64 C20,52 32,42 46,33 C38,45 26,56 12,64 Z' fill='%238fbf6a' opacity='0.5'/>" +
+                "<circle cx='70' cy='12' r='5' fill='%23C00000' opacity='0.5'/>" +
+                "</g></svg>";
+            return "url(\"data:image/svg+xml;utf8," + svg + "\")";
+        };
+        const images = [leaf(180), leaf(270), leaf(90), leaf(0)].join(",");
+        return `background-color:#fff;` +
+               `background-image:${images};` +
+               `background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;` +
+               `background-position: top left, top right, bottom left, bottom right;` +
+               `background-size: 100px 100px, 100px 100px, 100px 100px, 100px 100px;`;
+    },
+
     getPrintStyleTag(){
         return `<style>
             .dcp-page{
-              font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; background:#fff; box-sizing:border-box;
-              background-color:#fff;
-              background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><g fill='none' stroke='%23000000' stroke-width='1.2' opacity='0.06'><rect x='14' y='14' width='42' height='30' rx='2'/><line x1='14' y1='23' x2='56' y2='23'/><line x1='14' y1='31' x2='56' y2='31'/><line x1='14' y1='39' x2='42' y2='39'/><path d='M92 100 L108 84 L114 90 L98 106 Z'/><line x1='95' y1='103' x2='103' y2='111'/><circle cx='125' cy='30' r='10'/><path d='M118 30 h14 M125 23 v14'/></g></svg>");
-              background-repeat: repeat;
+              font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
+              ${this.buildCornerLeafBg()}
             }
             .dcp-head{ text-align:center; margin-bottom:8px; border-bottom:1.5px solid #000; padding-bottom:8px; }
             .dcp-logo{ display:block; max-width:160px; height:auto; margin:0 auto 6px auto; }
@@ -412,11 +433,23 @@ window.DCViewer = {
             .dcp-columns{ display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #ccc; }
-            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; }
-            .dcp-col-solo:not(:first-child){ border-left:none; }
+
+            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট */
+            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
+
+            /* দুই কলাম পাতা - মাঝারি প্রশস্ত */
+            .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; }
+            .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; }
+            .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; }
+
+            /* তিন কলাম পাতা */
+            .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
+            .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
+            .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
+
             .dcp-art-start{ border-top:1px solid #e5e5e5; padding-top:8px; margin-top:8px; }
             .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
@@ -455,14 +488,25 @@ window.DCViewer = {
             </div>`;
     },
 
+    // পাতায় যতগুলো কলাম আছে (১, ২, ৩ বা ৪), সেই সংখ্যা অনুযায়ী পুরো
+    // পাতার প্রস্থ ভাগ করে দেয় - এতে কম কলামের পাতাতেও ডানদিকে আর
+    // ফাঁকা জায়গা থাকে না
+    getColWidthAndClass(numColsOnPage, captureWidth, gap){
+        const innerWidth = captureWidth - 50;
+        const width = Math.floor((innerWidth - gap * (numColsOnPage - 1)) / numColsOnPage);
+        let extraClass = '';
+        if(numColsOnPage === 1) extraClass = ' dcp-col-solo';
+        else if(numColsOnPage === 2) extraClass = ' dcp-col-duo';
+        else if(numColsOnPage === 3) extraClass = ' dcp-col-tri';
+        return { width, cls: 'dcp-col' + extraClass };
+    },
+
     async capturePagesToPDF(printPages, issueMeta, fileName){
         if(!printPages.length) return false;
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
         const captureWidth = 1000;
         const gap = 16;
-        const gridColWidth = this.getGridColWidth();
-        const soloColWidth = 680;
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -487,16 +531,14 @@ window.DCViewer = {
                 pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
 
                 const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length);
-                const isSoloPage = pg.cols.length === 1;
-                const colsHTML = pg.cols.map(colChunks => {
-                    const w = isSoloPage ? soloColWidth : gridColWidth;
-                    const cls = isSoloPage ? 'dcp-col dcp-col-solo' : 'dcp-col';
-                    return `
-                    <div class="${cls}" style="flex:0 0 ${w}px;width:${w}px;">
+                const numColsOnPage = pg.cols.length;
+                const { width: colWidth, cls: colClass } = this.getColWidthAndClass(numColsOnPage, captureWidth, gap);
+
+                const colsHTML = pg.cols.map(colChunks => `
+                    <div class="${colClass}" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
                         ${colChunks.map(c => c.html).join("")}
                     </div>
-                `;
-                }).join("");
+                `).join("");
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
                     `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>`;
