@@ -28,7 +28,11 @@ layout: default
     <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
     <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
     <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
+    <button type="button" class="dc-social-icon dc-social-pdf" id="dc-post-pdf-btn" title="PDF ডাউনলোড করুন"><i class="fa fa-file-pdf"></i></button>
   </div>
+
+  <!-- PDF তৈরির জন্য পোস্টের আসল কনটেন্ট (লুকানো) -->
+  <div id="dc-post-raw-content" style="display:none;">{{ content }}</div>
 
   <div class="dc-post-body">
     {{ content }}
@@ -58,6 +62,8 @@ layout: default
   .dc-social-wa{ background:#25D366; }
   .dc-social-tg{ background:#229ED9; }
   .dc-social-copy{ background:#777; }
+  .dc-social-pdf{ background:#C00000; }
+  .dc-social-pdf.dc-pdf-loading{ opacity:0.6; pointer-events:none; }
 
   .dc-engage-box {
     max-width: 760px;
@@ -1031,4 +1037,44 @@ document.addEventListener('DOMContentLoaded', function () {
       <span style="color:#999;border-bottom:1px solid #999;padding-bottom:2px;font-size:16px;">পুরোনো পোস্ট</span>
     {% endif %}
   </div>
+
+<!-- সিঙ্গেল-পোস্ট PDF ডাউনলোডের জন্য প্রয়োজনীয় লাইব্রেরি -->
+<link rel="stylesheet" href="/assets/epaper/css/epaper.css?v=16.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="/assets/epaper/lib/viewer/viewer-engine.js?v=21.0"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var pdfBtn = document.getElementById('dc-post-pdf-btn');
+  if (!pdfBtn) return;
+
+  pdfBtn.addEventListener('click', function () {
+    if (typeof DCViewer === 'undefined') {
+      alert('PDF লাইব্রেরি লোড হয়নি, পাতাটি রিফ্রেশ করে আবার চেষ্টা করুন।');
+      return;
+    }
+    var rawContentEl = document.getElementById('dc-post-raw-content');
+    var post = {
+      title: {{ page.title | jsonify }},
+      content: rawContentEl ? rawContentEl.innerHTML : '',
+      category: {{ page.category_bn | default: page.categories.first | default: "" | jsonify }},
+      author: {{ page.author | default: "" | jsonify }},
+      date: {{ page.date | date: "%d %B, %Y" | jsonify }},
+      image: {{ page.image | default: "" | jsonify }},
+      tags: {{ page.tags | default: "" | jsonify }}
+    };
+
+    pdfBtn.classList.add('dc-pdf-loading');
+    var oldIcon = pdfBtn.innerHTML;
+    pdfBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+
+    DCViewer.downloadSinglePostPDF(post).finally(function () {
+      pdfBtn.classList.remove('dc-pdf-loading');
+      pdfBtn.innerHTML = oldIcon;
+    });
+  });
+});
+</script>
+  
 </article>
