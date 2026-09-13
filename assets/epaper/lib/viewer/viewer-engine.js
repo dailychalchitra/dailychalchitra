@@ -1,12 +1,10 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v21.0
-   FIX: আর অক্ষরসংখ্যা দিয়ে height "অনুমান" করা হয় না - প্রতিটা
-        চাংক আসল ব্রাউজারে রেন্ডার করে তার প্রকৃত height মাপা হয়,
-        তারপর সেই নির্ভুল সংখ্যা দিয়ে কলাম ভাগ করা হয়। এতে
-        page-ভেতরে বা page-এর মাঝে আর কোনো ভারসাম্যহীনতা থাকবে না।
+   Daily Chalchitra ePaper Engine - v22.0
+   FIX: প্রিন্ট পাতায় ধূসর সাহিত্য-থিমের ব্যাকগ্রাউন্ড প্যাটার্ন +
+        একক-কলাম (ছোট লেখা) পাতা এখন মাঝখানে, বড় ও পরিষ্কার ফন্টে
    ========================================================== */
 window.DCViewer = {
-    version: "21.0",
+    version: "22.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -402,13 +400,23 @@ window.DCViewer = {
 
     getPrintStyleTag(){
         return `<style>
-            .dcp-page{ font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; background:#fff; box-sizing:border-box; }
+            .dcp-page{
+              font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; background:#fff; box-sizing:border-box;
+              background-color:#fff;
+              background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><g fill='none' stroke='%23000000' stroke-width='1.2' opacity='0.06'><rect x='14' y='14' width='42' height='30' rx='2'/><line x1='14' y1='23' x2='56' y2='23'/><line x1='14' y1='31' x2='56' y2='31'/><line x1='14' y1='39' x2='42' y2='39'/><path d='M92 100 L108 84 L114 90 L98 106 Z'/><line x1='95' y1='103' x2='103' y2='111'/><circle cx='125' cy='30' r='10'/><path d='M118 30 h14 M125 23 v14'/></g></svg>");
+              background-repeat: repeat;
+            }
             .dcp-head{ text-align:center; margin-bottom:8px; border-bottom:1.5px solid #000; padding-bottom:8px; }
             .dcp-logo{ display:block; max-width:160px; height:auto; margin:0 auto 6px auto; }
             .dcp-head-info{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; font-size:13px; color:#333; font-weight:600; }
-            .dcp-columns{ display:flex !important; align-items:flex-start; box-sizing:border-box; }
+            .dcp-columns{ display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #ccc; }
+            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; }
+            .dcp-col-solo:not(:first-child){ border-left:none; }
+            .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
+            .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
+            .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
             .dcp-art-start{ border-top:1px solid #e5e5e5; padding-top:8px; margin-top:8px; }
             .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
@@ -454,6 +462,7 @@ window.DCViewer = {
         const captureWidth = 1000;
         const gap = 16;
         const gridColWidth = this.getGridColWidth();
+        const soloColWidth = 680;
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -478,11 +487,16 @@ window.DCViewer = {
                 pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
 
                 const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length);
-                const colsHTML = pg.cols.map(colChunks => `
-                    <div class="dcp-col" style="flex:0 0 ${gridColWidth}px;width:${gridColWidth}px;">
+                const isSoloPage = pg.cols.length === 1;
+                const colsHTML = pg.cols.map(colChunks => {
+                    const w = isSoloPage ? soloColWidth : gridColWidth;
+                    const cls = isSoloPage ? 'dcp-col dcp-col-solo' : 'dcp-col';
+                    return `
+                    <div class="${cls}" style="flex:0 0 ${w}px;width:${w}px;">
                         ${colChunks.map(c => c.html).join("")}
                     </div>
-                `).join("");
+                `;
+                }).join("");
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
                     `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>`;
