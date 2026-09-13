@@ -28,7 +28,7 @@ layout: default
     <a href="#" id="dc-top-wa" target="_blank" rel="noopener" class="dc-social-icon dc-social-wa" title="WhatsApp-এ শেয়ার করুন"><i class="fab fa-whatsapp"></i></a>
     <a href="#" id="dc-top-tg" target="_blank" rel="noopener" class="dc-social-icon dc-social-tg" title="Telegram-এ শেয়ার করুন"><i class="fab fa-telegram-plane"></i></a>
     <button type="button" class="dc-social-icon dc-social-copy" id="dc-social-copy-btn" title="লিংক কপি করুন"><i class="fa fa-link"></i></button>
-    <button type="button" class="dc-social-icon dc-social-pdf" id="dc-post-pdf-btn" title="PDF ডাউনলোড করুন"><i class="fa fa-file-pdf"></i></button>
+    <button type="button" class="dc-social-icon dc-social-print" id="dc-post-pdf-btn" title="প্রিন্ট/PDF ডাউনলোড করুন"><i class="fa fa-print"></i></button>
   </div>
 
   <!-- PDF তৈরির জন্য পোস্টের আসল কনটেন্ট (লুকানো) -->
@@ -62,8 +62,14 @@ layout: default
   .dc-social-wa{ background:#25D366; }
   .dc-social-tg{ background:#229ED9; }
   .dc-social-copy{ background:#777; }
-  .dc-social-pdf{ background:#C00000; }
-  .dc-social-pdf.dc-pdf-loading{ opacity:0.6; pointer-events:none; }
+  .dc-social-print{ background:#455a64; }
+  .dc-social-print.dc-pdf-loading{ opacity:0.6; pointer-events:none; }
+
+  @media (max-width:420px){
+    .dc-social-share-top{ gap:6px; }
+    .dc-social-label{ display:none; }
+    .dc-social-icon{ width:30px; height:30px; font-size:13px; }
+  }
 
   .dc-engage-box {
     max-width: 760px;
@@ -741,7 +747,6 @@ layout: default
           const form = document.getElementById('dc-reply-form-' + ckey);
           if (!form) return;
           form.classList.add('dc-open');
-          const ta = form.querySelector('.dc-reply-form textarea, textarea');
           const textarea = form.querySelector('textarea');
           const mention = '@' + mentionName + ' ';
           if (!textarea.value.startsWith('@')) {
