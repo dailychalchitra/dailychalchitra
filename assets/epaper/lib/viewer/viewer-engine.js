@@ -1,12 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v24.0
-   FIX: প্রতিটা কলাম-প্রস্থ অনুযায়ী কভার ছবির উচ্চতা সীমাবদ্ধ (আর
-        অতিরিক্ত পাতা তৈরি হবে না) + নমুনা ডিজাইন অনুযায়ী শুধু উপরের
-        দুই কোণে লতাপাতা + রঙিন হেডার-ব্যানার + ক্যাটাগরি অনুযায়ী
-        ভিন্ন ভিন্ন রঙের ব্যাজ
+   Daily Chalchitra ePaper Engine - v25.0
+   FIX: কভার ছবি আর "চ্যাপটা" হবে না (aspect-ratio বাদ, fixed
+        height + object-fit:cover) | ক্যাটাগরি রঙ এখন ক্রমানুসারে
+        নিশ্চিতভাবে ভিন্ন ভিন্ন | ব্যাকগ্রাউন্ড অনেক হালকা, চার
+        কোণেই লতাপাতা, প্রতিটা পোস্টে চিকন রঙিন মার্জিন-রেখা
    ========================================================== */
 window.DCViewer = {
-    version: "24.0",
+    version: "25.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -19,6 +19,8 @@ window.DCViewer = {
     viewer: null,
     columnCount: 3,
     loading: false,
+    categoryColorMap: {},
+    categoryColorIndex: 0,
 
     init(issueId){
         if(this.initialized && this.issue === issueId) return;
@@ -229,6 +231,24 @@ window.DCViewer = {
         }));
     },
 
+    // প্রতিটা নতুন ক্যাটাগরিকে প্যালেটের পরবর্তী রঙ দেওয়া হয়, একই
+    // ক্যাটাগরি সবসময় একই রঙ পায় - এতে ধারাবাহিকভাবে ভিন্ন ভিন্ন
+    // ক্যাটাগরির জন্য নিশ্চিতভাবে ভিন্ন ভিন্ন রঙ ব্যবহৃত হয়
+    getCategoryColor(category){
+        const palette = [
+            "#C0392B", "#2980B9", "#27AE60", "#8E44AD",
+            "#D35400", "#16A085", "#E67E22", "#2C3E50",
+            "#7D3C98", "#1F618D", "#AF601A", "#117864",
+            "#B03A2E", "#1A5276", "#196F3D", "#6C3483"
+        ];
+        const key = category || "সাধারণ";
+        if(this.categoryColorMap[key]) return this.categoryColorMap[key];
+        const color = palette[this.categoryColorIndex % palette.length];
+        this.categoryColorMap[key] = color;
+        this.categoryColorIndex++;
+        return color;
+    },
+
     buildHeaderChunkHTML(post){
         const coverImg = post.image
             ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
@@ -238,28 +258,12 @@ window.DCViewer = {
             ? `<span class="dcp-cat-badge" style="background:${catColor};">${post.category}</span>`
             : '';
         const authorText = post.author ? ' লেখক: ' + post.author : '';
-        return `<div class="dcp-art-start">
+        return `<div class="dcp-art-start" style="border-left:3px solid ${catColor};">
             <div class="dcp-card-header">${coverImg}</div>
             <h2>${post.title}</h2>
             <div class="dcp-cat-author">${catBadge}${authorText ? `<span class="dcp-author-text">${authorText}</span>` : ''}</div>
             ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
         </div>`;
-    },
-
-    // ক্যাটাগরির নাম থেকে সবসময় একই স্থির রঙ তৈরি করে - প্রতিটা
-    // ক্যাটাগরির নিজস্ব আলাদা রঙ থাকবে, সাইটজুড়ে সামঞ্জস্যপূর্ণ
-    getCategoryColor(category){
-        const palette = [
-            "#C0392B", "#8E44AD", "#2980B9", "#16A085",
-            "#D35400", "#27AE60", "#2C3E50", "#E67E22",
-            "#7D3C98", "#1F618D", "#AF601A", "#117864"
-        ];
-        if(!category) return palette[0];
-        let hash = 0;
-        for(let i = 0; i < category.length; i++){
-            hash = (hash * 31 + category.charCodeAt(i)) >>> 0;
-        }
-        return palette[hash % palette.length];
     },
 
     getProseParagraphChunks(html){
@@ -421,34 +425,33 @@ window.DCViewer = {
         return this.layoutGridPages(chunks);
     },
 
-    // পাতার উপরের অংশে - শুধু বাম ও ডান উপরের কোণে হালকা লতাপাতা,
-    // সাথে হেডারের পেছনে হালকা রঙিন wave-ব্যানার (নমুনা ডিজাইন অনুযায়ী)
-    buildTopCornerLeavesBg(){
-        const leftLeaf = "<svg xmlns='http://www.w3.org/2000/svg' width='140' height='120' viewBox='0 0 140 120'>" +
-            "<g opacity='0.85'>" +
-            "<path d='M8,110 C30,80 55,55 100,20' stroke='%234a7c3a' stroke-width='3' fill='none' opacity='0.6'/>" +
-            "<path d='M20,96 C34,80 54,64 74,50 C62,66 44,82 20,96 Z' fill='%236b9e4f' opacity='0.6'/>" +
-            "<path d='M12,82 C24,68 42,54 62,42 C50,56 32,70 12,82 Z' fill='%238fbf6a' opacity='0.55'/>" +
-            "<circle cx='96' cy='18' r='4.5' fill='%23C00000' opacity='0.6'/>" +
-            "</g></svg>";
-        const rightLeaf = "<svg xmlns='http://www.w3.org/2000/svg' width='140' height='120' viewBox='0 0 140 120'>" +
-            "<g opacity='0.85' transform='scale(-1,1) translate(-140,0)'>" +
-            "<path d='M8,110 C30,80 55,55 100,20' stroke='%234a7c3a' stroke-width='3' fill='none' opacity='0.6'/>" +
-            "<path d='M20,96 C34,80 54,64 74,50 C62,66 44,82 20,96 Z' fill='%236b9e4f' opacity='0.6'/>" +
-            "<path d='M12,82 C24,68 42,54 62,42 C50,56 32,70 12,82 Z' fill='%238fbf6a' opacity='0.55'/>" +
-            "<circle cx='96' cy='18' r='4.5' fill='%23C00000' opacity='0.6'/>" +
-            "</g></svg>";
-        return `background-color:#fff;` +
-               `background-image: url("data:image/svg+xml;utf8,${leftLeaf}"), url("data:image/svg+xml;utf8,${rightLeaf}");` +
-               `background-repeat:no-repeat, no-repeat;` +
-               `background-position: top -5px left -5px, top -5px right -5px;` +
-               `background-size: 140px 120px, 140px 120px;`;
+    // পুরো পাতাজুড়ে হালকা রঙিন আভা + চার কোণে (উপরে-নিচে-বামে-ডানে)
+    // পেলব লতাপাতা - আগের চেয়ে অনেক হালকা, চোখে আরামদায়ক
+    buildPageBackground(){
+        const leaf = (rot, hueShift) => {
+            const c1 = hueShift ? '%2385c46b' : '%237fb85e';
+            const c2 = hueShift ? '%23a9d98f' : '%23a3d47f';
+            const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='110' height='95' viewBox='0 0 110 95'>" +
+                "<g transform='rotate(" + rot + " 55 47)' opacity='0.4'>" +
+                "<path d='M6,88 C16,58 32,38 62,14' stroke='" + c1 + "' stroke-width='2.5' fill='none'/>" +
+                "<path d='M16,74 C24,60 36,48 50,38 C42,50 30,62 16,74 Z' fill='" + c2 + "'/>" +
+                "<path d='M10,62 C18,50 28,40 40,32 C32,42 22,52 10,62 Z' fill='" + c1 + "'/>" +
+                "<circle cx='58' cy='12' r='3.5' fill='%23C00000' opacity='0.45'/>" +
+                "</g></svg>";
+            return "url(\"data:image/svg+xml;utf8," + svg + "\")";
+        };
+        const images = [leaf(180,false), leaf(270,true), leaf(90,true), leaf(0,false)].join(",");
+        return `background-color:#fdfcf7;` +
+               `background-image: linear-gradient(135deg, rgba(189,224,205,0.28) 0%, rgba(255,250,225,0.22) 50%, rgba(199,222,240,0.25) 100%), ${images};` +
+               `background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;` +
+               `background-position: 0 0, top left, top right, bottom left, bottom right;` +
+               `background-size: 100% 100%, 110px 95px, 110px 95px, 110px 95px, 110px 95px;`;
     },
 
     buildHeaderBannerBg(){
-        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='110' viewBox='0 0 1000 110'>" +
-            "<path d='M0,70 C160,20 340,95 520,55 C700,15 860,80 1000,45 L1000,0 L0,0 Z' fill='%23bcd9ea' opacity='0.45'/>" +
-            "<path d='M0,90 C200,45 380,105 560,70 C740,35 880,95 1000,65 L1000,0 L0,0 Z' fill='%23f6e29b' opacity='0.35'/>" +
+        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='100' viewBox='0 0 1000 100'>" +
+            "<path d='M0,65 C160,25 340,88 520,52 C700,18 860,72 1000,42 L1000,0 L0,0 Z' fill='%23c9e3ee' opacity='0.4'/>" +
+            "<path d='M0,82 C200,42 380,95 560,64 C740,32 880,86 1000,58 L1000,0 L0,0 Z' fill='%23f7ecb5' opacity='0.3'/>" +
             "</svg>";
         return `background-image:url("data:image/svg+xml;utf8,${svg}");background-repeat:no-repeat;background-size:100% 100%;`;
     },
@@ -457,7 +460,7 @@ window.DCViewer = {
         return `<style>
             .dcp-page{
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
-              ${this.buildTopCornerLeavesBg()}
+              ${this.buildPageBackground()}
             }
             .dcp-head{
               text-align:center; margin-bottom:8px; border-bottom:2px solid #C00000; padding:14px 10px 10px;
@@ -467,31 +470,32 @@ window.DCViewer = {
             .dcp-head-info{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; font-size:13px; color:#333; font-weight:600; }
             .dcp-columns{ display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
-            .dcp-col:not(:first-child){ border-left:1px solid #ccc; }
+            .dcp-col:not(:first-child){ border-left:1px solid #ddd; }
 
-            /* কভার ছবি - ডিফল্ট (৪-কলাম গ্রিড) */
-            .dcp-cover{ width:100%; max-width:100%; aspect-ratio:16/9; max-height:120px; object-fit:cover; border-radius:5px; display:block; }
+            /* কভার ছবি - স্ট্রেচ/বিকৃতি এড়াতে aspect-ratio ব্যবহার না করে
+               সরাসরি নির্দিষ্ট height + object-fit:cover ব্যবহার করা হচ্ছে */
+            .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; }
 
-            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট, ছবি নিয়ন্ত্রিত উচ্চতায় */
+            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট */
             .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
-            .dcp-col-solo .dcp-cover{ max-height:260px !important; aspect-ratio:16/8 !important; }
+            .dcp-col-solo .dcp-cover{ height:230px !important; }
 
             /* দুই কলাম পাতা */
             .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; }
             .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; }
             .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; }
-            .dcp-col-duo .dcp-cover{ max-height:190px !important; aspect-ratio:16/9 !important; }
+            .dcp-col-duo .dcp-cover{ height:170px !important; }
 
             /* তিন কলাম পাতা */
             .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
-            .dcp-col-tri .dcp-cover{ max-height:150px !important; }
+            .dcp-col-tri .dcp-cover{ height:150px !important; }
 
-            .dcp-art-start{ border-top:1px solid #e5e5e5; padding-top:8px; margin-top:8px; }
+            .dcp-art-start{ border-top:1px solid #e5e5e5; padding:8px 0 8px 8px; margin-top:8px; }
             .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
             .dcp-art-start h2{ font-size:14px; margin:0 0 4px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
