@@ -231,9 +231,6 @@ window.DCViewer = {
         }));
     },
 
-    // প্রতিটা নতুন ক্যাটাগরিকে প্যালেটের পরবর্তী রঙ দেওয়া হয়, একই
-    // ক্যাটাগরি সবসময় একই রঙ পায় - এতে ধারাবাহিকভাবে ভিন্ন ভিন্ন
-    // ক্যাটাগরির জন্য নিশ্চিতভাবে ভিন্ন ভিন্ন রঙ ব্যবহৃত হয়
     getCategoryColor(category){
         const palette = [
             "#C0392B", "#2980B9", "#27AE60", "#8E44AD",
@@ -316,8 +313,6 @@ window.DCViewer = {
         return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
     },
 
-    // প্রতিটা চাংক আসল ব্রাউজারে (এই একই কলাম-width এ) রেন্ডার করে
-    // তার প্রকৃত height মাপা হয় - অনুমান না, সরাসরি মাপ
     async measureChunkHeights(chunks, colWidth){
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.left = "-99999px"; host.style.top = "0";
@@ -378,9 +373,6 @@ window.DCViewer = {
         return Math.floor((innerWidth - gap * 3) / 4);
     },
 
-    // মাপা (measured) height দিয়ে সবগুলো কলাম একসাথে গ্লোবালি ব্যালেন্স
-    // করে ৪-কলাম পেজে ভাগ করে - height নির্ভুল হওয়ায় এখন এই একক-ধাপের
-    // পদ্ধতিই সবচেয়ে নির্ভরযোগ্য ফলাফল দেয়
     layoutGridPages(chunks){
         if(!chunks.length) return [];
         const heights = chunks.map(c => c.height);
@@ -425,27 +417,30 @@ window.DCViewer = {
         return this.layoutGridPages(chunks);
     },
 
-    // পুরো পাতাজুড়ে হালকা রঙিন আভা + চার কোণে (উপরে-নিচে-বামে-ডানে)
-    // পেলব লতাপাতা - আগের চেয়ে অনেক হালকা, চোখে আরামদায়ক
+    // ই-পেপারের ব্যাকগ্রাউন্ডে হালকা ধূসর ফুল, পাখি, বই, কলম ও পত্রিকার মোটিফ বা জলছাপ যুক্ত করা হলো
     buildPageBackground(){
-        const leaf = (rot, hueShift) => {
-            const c1 = hueShift ? '%2385c46b' : '%237fb85e';
-            const c2 = hueShift ? '%23a9d98f' : '%23a3d47f';
-            const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='110' height='95' viewBox='0 0 110 95'>" +
-                "<g transform='rotate(" + rot + " 55 47)' opacity='0.4'>" +
-                "<path d='M6,88 C16,58 32,38 62,14' stroke='" + c1 + "' stroke-width='2.5' fill='none'/>" +
-                "<path d='M16,74 C24,60 36,48 50,38 C42,50 30,62 16,74 Z' fill='" + c2 + "'/>" +
-                "<path d='M10,62 C18,50 28,40 40,32 C32,42 22,52 10,62 Z' fill='" + c1 + "'/>" +
-                "<circle cx='58' cy='12' r='3.5' fill='%23C00000' opacity='0.45'/>" +
-                "</g></svg>";
-            return "url(\"data:image/svg+xml;utf8," + svg + "\")";
-        };
-        const images = [leaf(180,false), leaf(270,true), leaf(90,true), leaf(0,false)].join(",");
-        return `background-color:#fdfcf7;` +
-               `background-image: linear-gradient(135deg, rgba(189,224,205,0.28) 0%, rgba(255,250,225,0.22) 50%, rgba(199,222,240,0.25) 100%), ${images};` +
-               `background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;` +
-               `background-position: 0 0, top left, top right, bottom left, bottom right;` +
-               `background-size: 100% 100%, 110px 95px, 110px 95px, 110px 95px, 110px 95px;`;
+        // ফুল (Flower SVG)
+        const flowerSvg = "<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><path d='M30,10 C35,5 45,5 45,15 C55,15 55,25 45,30 C55,35 55,45 45,50 C45,60 35,60 30,50 C25,60 15,60 15,50 C5,45 5,35 15,30 C5,25 5,15 15,15 C15,5 25,5 30,10 Z' fill='%23cccccc' opacity='0.22'/></svg>";
+        
+        // পাখি (Bird SVG)
+        const birdSvg = "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='50' viewBox='0 0 70 50'><path d='M10,35 Q30,10 50,25 Q60,15 65,10 Q55,30 40,35 Q25,40 10,35 Z' fill='%23cccccc' opacity='0.2'/></svg>";
+
+        // বই (Book SVG)
+        const bookSvg = "<svg xmlns='http://www.w3.org/2000/svg' width='65' height='50' viewBox='0 0 65 50'><path d='M5,10 C20,5 30,15 32,45 C20,40 10,40 5,45 Z M60,10 C45,5 35,15 33,45 C45,40 55,40 60,45 Z' fill='%23cccccc' opacity='0.22'/></svg>";
+
+        // কলম (Pen SVG)
+        const penSvg = "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='70' viewBox='0 0 30 70'><path d='M10,5 L20,5 L18,50 L15,65 L12,50 Z' fill='%23cccccc' opacity='0.2'/></svg>";
+
+        const fUrl = "url(\"data:image/svg+xml;utf8," + encodeURIComponent(flowerSvg) + "\")";
+        const bUrl = "url(\"data:image/svg+xml;utf8," + encodeURIComponent(birdSvg) + "\")";
+        const bkUrl = "url(\"data:image/svg+xml;utf8," + encodeURIComponent(bookSvg) + "\")";
+        const pUrl = "url(\"data:image/svg+xml;utf8," + encodeURIComponent(penSvg) + "\")";
+
+        return `background-color:#ffffff;` +
+               `background-image: ${fUrl}, ${bUrl}, ${bkUrl}, ${pUrl};` +
+               `background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;` +
+               `background-position: 8% 12%, 85% 25%, 15% 82%, 82% 78%;` +
+               `background-size: 70px 70px, 80px 60px, 80px 65px, 40px 90px;`;
     },
 
     buildHeaderBannerBg(){
@@ -472,24 +467,19 @@ window.DCViewer = {
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #ddd; }
 
-            /* কভার ছবি - স্ট্রেচ/বিকৃতি এড়াতে aspect-ratio ব্যবহার না করে
-               সরাসরি নির্দিষ্ট height + object-fit:cover ব্যবহার করা হচ্ছে */
             .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; }
 
-            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট */
             .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
             .dcp-col-solo .dcp-cover{ height:230px !important; }
 
-            /* দুই কলাম পাতা */
             .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; }
             .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; }
             .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; }
             .dcp-col-duo .dcp-cover{ height:170px !important; }
 
-            /* তিন কলাম পাতা */
             .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
@@ -534,9 +524,6 @@ window.DCViewer = {
             </div>`;
     },
 
-    // পাতায় যতগুলো কলাম আছে (১, ২, ৩ বা ৪), সেই সংখ্যা অনুযায়ী পুরো
-    // পাতার প্রস্থ ভাগ করে দেয় - এতে কম কলামের পাতাতেও ডানদিকে আর
-    // ফাঁকা জায়গা থাকে না
     getColWidthAndClass(numColsOnPage, captureWidth, gap){
         const innerWidth = captureWidth - 50;
         const width = Math.floor((innerWidth - gap * (numColsOnPage - 1)) / numColsOnPage);
