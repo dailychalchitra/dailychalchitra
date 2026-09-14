@@ -14,7 +14,7 @@ tags:
     - সফলতার গল্প
     - Mark Zuckerberg
     - Facebook Story
-author: "দৈনিক চালচিত্র ডেস্ক"
+author: "দৈনিক চালচিত্র"
 image: /assets/img/facebook-plus.webp
 description: "হার্ভার্ডের ডরমেটরির একটি ছোট ঘর থেকে কিভাবে ফেসবুক ৩ বিলিয়ন মানুষের সাম্রাজ্যে পরিণত হলো - মার্ক জাকারবার্গের বাস্তব সংগ্রামের গল্প।"
 ---
