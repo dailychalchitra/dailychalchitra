@@ -1,10 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v22.0
-   FIX: প্রিন্ট পাতায় ধূসর সাহিত্য-থিমের ব্যাকগ্রাউন্ড প্যাটার্ন +
-        একক-কলাম (ছোট লেখা) পাতা এখন মাঝখানে, বড় ও পরিষ্কার ফন্টে
+   Daily Chalchitra ePaper Engine - v25.0
+   FIX: কভার ছবি আর "চ্যাপটা" হবে না (aspect-ratio বাদ, fixed
+        height + object-fit:cover) | ক্যাটাগরি রঙ এখন ক্রমানুসারে
+        নিশ্চিতভাবে ভিন্ন ভিন্ন | ব্যাকগ্রাউন্ড অনেক হালকা, চার
+        কোণেই লতাপাতা, প্রতিটা পোস্টে চিকন রঙিন মার্জিন-রেখা
    ========================================================== */
 window.DCViewer = {
-    version: "22.0",
+    version: "25.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -17,6 +19,8 @@ window.DCViewer = {
     viewer: null,
     columnCount: 3,
     loading: false,
+    categoryColorMap: {},
+    categoryColorIndex: 0,
 
     init(issueId){
         if(this.initialized && this.issue === issueId) return;
@@ -65,18 +69,6 @@ window.DCViewer = {
         if(Array.isArray(post.tags)) return post.tags.some(t => (t||"").includes("কবিতা"));
         return false;
     },
-
-   categoryColorMap: {},
-categoryColorIndex: 0,
-getCategoryColor(category){
-    const palette = ["#C0392B","#2980B9","#27AE60","#8E44AD","#D35400","#16A085","#E67E22","#2C3E50"];
-    const key = category || "সাধারণ";
-    if(this.categoryColorMap[key]) return this.categoryColorMap[key];
-    const color = palette[this.categoryColorIndex % palette.length];
-    this.categoryColorMap[key] = color;
-    this.categoryColorIndex++;
-    return color;
-},
 
     estimatePostHeight(post){
         let height = 140;
@@ -239,18 +231,40 @@ getCategoryColor(category){
         }));
     },
 
+    // প্রতিটা নতুন ক্যাটাগরিকে প্যালেটের পরবর্তী রঙ দেওয়া হয়, একই
+    // ক্যাটাগরি সবসময় একই রঙ পায় - এতে ধারাবাহিকভাবে ভিন্ন ভিন্ন
+    // ক্যাটাগরির জন্য নিশ্চিতভাবে ভিন্ন ভিন্ন রঙ ব্যবহৃত হয়
+    getCategoryColor(category){
+        const palette = [
+            "#C0392B", "#2980B9", "#27AE60", "#8E44AD",
+            "#D35400", "#16A085", "#E67E22", "#2C3E50",
+            "#7D3C98", "#1F618D", "#AF601A", "#117864",
+            "#B03A2E", "#1A5276", "#196F3D", "#6C3483"
+        ];
+        const key = category || "সাধারণ";
+        if(this.categoryColorMap[key]) return this.categoryColorMap[key];
+        const color = palette[this.categoryColorIndex % palette.length];
+        this.categoryColorMap[key] = color;
+        this.categoryColorIndex++;
+        return color;
+    },
+
     buildHeaderChunkHTML(post){
-    const coverImg = post.image
-        ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
-        : '';
-    const catColor = this.getCategoryColor ? this.getCategoryColor(post.category) : '#C00000';
-    return `<div class="dcp-art-start" style="border-color:${catColor};outline-color:${catColor};">
-        <div class="dcp-card-header">${coverImg}</div>
-        <h2>${post.title}</h2>
-        <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
-        ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
-    </div>`;
-},
+        const coverImg = post.image
+            ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
+            : '';
+        const catColor = this.getCategoryColor(post.category);
+        const catBadge = post.category
+            ? `<span class="dcp-cat-badge" style="background:${catColor};">${post.category}</span>`
+            : '';
+        const authorText = post.author ? ' লেখক: ' + post.author : '';
+        return `<div class="dcp-art-start" style="border-left:3px solid ${catColor};">
+            <div class="dcp-card-header">${coverImg}</div>
+            <h2>${post.title}</h2>
+            <div class="dcp-cat-author">${catBadge}${authorText ? `<span class="dcp-author-text">${authorText}</span>` : ''}</div>
+            ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
+        </div>`;
+    },
 
     getProseParagraphChunks(html){
         let cleaned = (html || "").replace(/<p>\s*<\/p>/gi, "");
@@ -411,39 +425,83 @@ getCategoryColor(category){
         return this.layoutGridPages(chunks);
     },
 
+    // পুরো পাতাজুড়ে হালকা রঙিন আভা + চার কোণে (উপরে-নিচে-বামে-ডানে)
+    // পেলব লতাপাতা - আগের চেয়ে অনেক হালকা, চোখে আরামদায়ক
+    buildPageBackground(){
+        const leaf = (rot, hueShift) => {
+            const c1 = hueShift ? '%2385c46b' : '%237fb85e';
+            const c2 = hueShift ? '%23a9d98f' : '%23a3d47f';
+            const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='110' height='95' viewBox='0 0 110 95'>" +
+                "<g transform='rotate(" + rot + " 55 47)' opacity='0.4'>" +
+                "<path d='M6,88 C16,58 32,38 62,14' stroke='" + c1 + "' stroke-width='2.5' fill='none'/>" +
+                "<path d='M16,74 C24,60 36,48 50,38 C42,50 30,62 16,74 Z' fill='" + c2 + "'/>" +
+                "<path d='M10,62 C18,50 28,40 40,32 C32,42 22,52 10,62 Z' fill='" + c1 + "'/>" +
+                "<circle cx='58' cy='12' r='3.5' fill='%23C00000' opacity='0.45'/>" +
+                "</g></svg>";
+            return "url(\"data:image/svg+xml;utf8," + svg + "\")";
+        };
+        const images = [leaf(180,false), leaf(270,true), leaf(90,true), leaf(0,false)].join(",");
+        return `background-color:#fdfcf7;` +
+               `background-image: linear-gradient(135deg, rgba(189,224,205,0.28) 0%, rgba(255,250,225,0.22) 50%, rgba(199,222,240,0.25) 100%), ${images};` +
+               `background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;` +
+               `background-position: 0 0, top left, top right, bottom left, bottom right;` +
+               `background-size: 100% 100%, 110px 95px, 110px 95px, 110px 95px, 110px 95px;`;
+    },
+
+    buildHeaderBannerBg(){
+        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='100' viewBox='0 0 1000 100'>" +
+            "<path d='M0,65 C160,25 340,88 520,52 C700,18 860,72 1000,42 L1000,0 L0,0 Z' fill='%23c9e3ee' opacity='0.4'/>" +
+            "<path d='M0,82 C200,42 380,95 560,64 C740,32 880,86 1000,58 L1000,0 L0,0 Z' fill='%23f7ecb5' opacity='0.3'/>" +
+            "</svg>";
+        return `background-image:url("data:image/svg+xml;utf8,${svg}");background-repeat:no-repeat;background-size:100% 100%;`;
+    },
+
     getPrintStyleTag(){
         return `<style>
             .dcp-page{
-              font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; background:#fff; box-sizing:border-box;
-              background-color:#fff;
-              background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><g fill='none' stroke='%23000000' stroke-width='1.2' opacity='0.06'><rect x='14' y='14' width='42' height='30' rx='2'/><line x1='14' y1='23' x2='56' y2='23'/><line x1='14' y1='31' x2='56' y2='31'/><line x1='14' y1='39' x2='42' y2='39'/><path d='M92 100 L108 84 L114 90 L98 106 Z'/><line x1='95' y1='103' x2='103' y2='111'/><circle cx='125' cy='30' r='10'/><path d='M118 30 h14 M125 23 v14'/></g></svg>");
-              background-repeat: repeat;
+              font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
+              ${this.buildPageBackground()}
             }
-            .dcp-head{ text-align:center; margin-bottom:8px; border-bottom:1.5px solid #000; padding-bottom:8px; }
+            .dcp-head{
+              text-align:center; margin-bottom:8px; border-bottom:2px solid #C00000; padding:14px 10px 10px;
+              ${this.buildHeaderBannerBg()}
+            }
             .dcp-logo{ display:block; max-width:160px; height:auto; margin:0 auto 6px auto; }
             .dcp-head-info{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; font-size:13px; color:#333; font-weight:600; }
             .dcp-columns{ display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
-            .dcp-col:not(:first-child){ border-left:1px solid #ccc; }
-            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; }
-            .dcp-col-solo:not(:first-child){ border-left:none; }
+            .dcp-col:not(:first-child){ border-left:1px solid #ddd; }
+
+            /* কভার ছবি - স্ট্রেচ/বিকৃতি এড়াতে aspect-ratio ব্যবহার না করে
+               সরাসরি নির্দিষ্ট height + object-fit:cover ব্যবহার করা হচ্ছে */
+            .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; }
+
+            /* একক কলাম পাতা - প্রশস্ত, বড় ফন্ট */
+            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
-            .dcp-art-start{
-  border:2px solid #C00000;
-  outline:1px solid #C00000;
-  outline-offset:4px;
-  padding:12px;
-  margin:10px 4px 14px 4px;
-  border-radius:2px;
-}
-.dcp-col > .dcp-art-start:first-child{ margin-top:4px; }
+            .dcp-col-solo .dcp-cover{ height:230px !important; }
+
+            /* দুই কলাম পাতা */
+            .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; }
+            .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; }
+            .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; }
+            .dcp-col-duo .dcp-cover{ height:170px !important; }
+
+            /* তিন কলাম পাতা */
+            .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
+            .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
+            .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
+            .dcp-col-tri .dcp-cover{ height:150px !important; }
+
+            .dcp-art-start{ border-top:1px solid #e5e5e5; padding:8px 0 8px 8px; margin-top:8px; }
             .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
-            .dcp-cover{ width:100%; max-width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:5px; display:block; }
-            .dcp-art-start h2{ font-size:14px; margin:0 0 2px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
-            .dcp-cat-author{ font-size:11px; color:#C00000; margin:1px 0 4px 0; border-left:3px solid #C00000; padding-left:6px; font-weight:600; }
+            .dcp-art-start h2{ font-size:14px; margin:0 0 4px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+            .dcp-cat-author{ margin:2px 0 4px 0; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+            .dcp-cat-badge{ color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; display:inline-block; }
+            .dcp-author-text{ font-size:11px; color:#555; font-weight:600; }
             .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
             .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
             .dcp-content p{ margin:0 0 6px 0; padding:0; }
@@ -476,14 +534,25 @@ getCategoryColor(category){
             </div>`;
     },
 
+    // পাতায় যতগুলো কলাম আছে (১, ২, ৩ বা ৪), সেই সংখ্যা অনুযায়ী পুরো
+    // পাতার প্রস্থ ভাগ করে দেয় - এতে কম কলামের পাতাতেও ডানদিকে আর
+    // ফাঁকা জায়গা থাকে না
+    getColWidthAndClass(numColsOnPage, captureWidth, gap){
+        const innerWidth = captureWidth - 50;
+        const width = Math.floor((innerWidth - gap * (numColsOnPage - 1)) / numColsOnPage);
+        let extraClass = '';
+        if(numColsOnPage === 1) extraClass = ' dcp-col-solo';
+        else if(numColsOnPage === 2) extraClass = ' dcp-col-duo';
+        else if(numColsOnPage === 3) extraClass = ' dcp-col-tri';
+        return { width, cls: 'dcp-col' + extraClass };
+    },
+
     async capturePagesToPDF(printPages, issueMeta, fileName){
         if(!printPages.length) return false;
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
         const captureWidth = 1000;
         const gap = 16;
-        const gridColWidth = this.getGridColWidth();
-        const soloColWidth = 680;
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -508,16 +577,14 @@ getCategoryColor(category){
                 pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
 
                 const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length);
-                const isSoloPage = pg.cols.length === 1;
-                const colsHTML = pg.cols.map(colChunks => {
-                    const w = isSoloPage ? soloColWidth : gridColWidth;
-                    const cls = isSoloPage ? 'dcp-col dcp-col-solo' : 'dcp-col';
-                    return `
-                    <div class="${cls}" style="flex:0 0 ${w}px;width:${w}px;">
+                const numColsOnPage = pg.cols.length;
+                const { width: colWidth, cls: colClass } = this.getColWidthAndClass(numColsOnPage, captureWidth, gap);
+
+                const colsHTML = pg.cols.map(colChunks => `
+                    <div class="${colClass}" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
                         ${colChunks.map(c => c.html).join("")}
                     </div>
-                `;
-                }).join("");
+                `).join("");
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
                     `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>`;
