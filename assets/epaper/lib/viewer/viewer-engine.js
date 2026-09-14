@@ -66,6 +66,18 @@ window.DCViewer = {
         return false;
     },
 
+   categoryColorMap: {},
+categoryColorIndex: 0,
+getCategoryColor(category){
+    const palette = ["#C0392B","#2980B9","#27AE60","#8E44AD","#D35400","#16A085","#E67E22","#2C3E50"];
+    const key = category || "সাধারণ";
+    if(this.categoryColorMap[key]) return this.categoryColorMap[key];
+    const color = palette[this.categoryColorIndex % palette.length];
+    this.categoryColorMap[key] = color;
+    this.categoryColorIndex++;
+    return color;
+},
+
     estimatePostHeight(post){
         let height = 140;
         if(post.image) height += 200;
@@ -228,16 +240,17 @@ window.DCViewer = {
     },
 
     buildHeaderChunkHTML(post){
-        const coverImg = post.image
-            ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
-            : '';
-        return `<div class="dcp-art-start">
-            <div class="dcp-card-header">${coverImg}</div>
-            <h2>${post.title}</h2>
-            <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
-            ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
-        </div>`;
-    },
+    const coverImg = post.image
+        ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
+        : '';
+    const catColor = this.getCategoryColor ? this.getCategoryColor(post.category) : '#C00000';
+    return `<div class="dcp-art-start" style="border-color:${catColor};outline-color:${catColor};">
+        <div class="dcp-card-header">${coverImg}</div>
+        <h2>${post.title}</h2>
+        <div class="dcp-cat-author">${post.category ? post.category : ''}${post.author ? ' | লেখক: ' + post.author : ''}</div>
+        ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
+    </div>`;
+},
 
     getProseParagraphChunks(html){
         let cleaned = (html || "").replace(/<p>\s*<\/p>/gi, "");
@@ -417,7 +430,15 @@ window.DCViewer = {
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
-            .dcp-art-start{ border-top:1px solid #e5e5e5; padding-top:8px; margin-top:8px; }
+            .dcp-art-start{
+  border:2px solid #C00000;
+  outline:1px solid #C00000;
+  outline-offset:4px;
+  padding:12px;
+  margin:10px 4px 14px 4px;
+  border-radius:2px;
+}
+.dcp-col > .dcp-art-start:first-child{ margin-top:4px; }
             .dcp-col > .dcp-art-start:first-child{ border-top:none; margin-top:0; padding-top:0; }
             .dcp-card-header{ margin-bottom:6px; }
             .dcp-cover{ width:100%; max-width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:5px; display:block; }
