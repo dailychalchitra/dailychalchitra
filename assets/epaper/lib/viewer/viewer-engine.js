@@ -463,31 +463,54 @@ window.DCViewer = {
             .dcp-page{
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
               position:relative; overflow:hidden;
-              background-color:#eaf5fc;
+              background-color:#fdf9f0;
               background-image:
-                radial-gradient(circle at 0% 0%, rgba(255,190,205,0.32), transparent 55%),
-                radial-gradient(circle at 100% 100%, rgba(180,230,255,0.32), transparent 55%);
+                radial-gradient(circle at 0% 0%, rgba(192,0,0,0.05), transparent 45%),
+                radial-gradient(circle at 100% 100%, rgba(20,60,110,0.05), transparent 45%),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
+              border:2px solid #C00000;
+              outline:1px solid #C00000;
+              outline-offset:-6px;
             }
+            .dcp-page::before{
+              content:""; position:absolute; inset:10px; z-index:0;
+              border:1px solid #d8b98a; pointer-events:none;
+            }
+            .dcp-corner{
+              position:absolute; width:26px; height:26px; z-index:2; pointer-events:none;
+              border-color:#C00000;
+            }
+            .dcp-corner-tl{ top:6px; left:6px; border-top:3px solid; border-left:3px solid; }
+            .dcp-corner-tr{ top:6px; right:6px; border-top:3px solid; border-right:3px solid; }
+            .dcp-corner-bl{ bottom:6px; left:6px; border-bottom:3px solid; border-left:3px solid; }
+            .dcp-corner-br{ bottom:6px; right:6px; border-bottom:3px solid; border-right:3px solid; }
+
             .dcp-leaf-layer{ position:absolute; inset:0; pointer-events:none; z-index:0; }
-            .dcp-leaf-img{ position:absolute; width:95px; height:75px; opacity:0.85; }
+            .dcp-leaf-img{ position:absolute; width:95px; height:75px; opacity:0.55; }
 
             .dcp-head{
               position:relative; z-index:1; display:table; width:100%; table-layout:fixed;
-              margin-bottom:10px; border-bottom:2px solid #C00000; padding:8px 6px 10px;
-              background-color:rgba(255,255,255,0.55);
+              margin:4px 0 12px 0; padding:10px 10px 12px;
+              border-bottom:3px double #C00000;
+              background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.55));
+              border-radius:6px 6px 0 0;
             }
             .dcp-head-left, .dcp-head-right{
               display:table-cell; width:150px; font-size:9px; line-height:1.65; color:#444; font-weight:600; vertical-align:middle;
             }
             .dcp-head-right{ text-align:right; }
             .dcp-head-center{ display:table-cell; text-align:center; vertical-align:middle; }
-            .dcp-logo{ display:inline-block; max-width:150px; height:auto; }
+            .dcp-logo{ display:inline-block; max-width:150px; height:auto; filter:drop-shadow(0 1px 1px rgba(0,0,0,0.15)); }
+            .dcp-tagline{
+              display:block; text-align:center; font-size:9px; letter-spacing:3px; color:#C00000;
+              font-weight:700; margin-top:4px;
+            }
 
-            .dcp-columns{ position:relative; z-index:1; display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
+            .dcp-columns{ position:relative; z-index:1; display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; padding:0 6px 10px; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
-            .dcp-col:not(:first-child){ border-left:1px solid #d8d8d8; }
+            .dcp-col:not(:first-child){ border-left:1px dashed #c9a877; }
 
-            .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; }
+            .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; border:1px solid #e3d5b8; }
 
             .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; text-align:center; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; text-align:center; }
@@ -510,14 +533,20 @@ window.DCViewer = {
             .dcp-col-tri .dcp-cover{ height:150px !important; }
 
             .dcp-art-start{
-              border:1px solid #cfcfcf; border-radius:4px;
-              padding:10px; margin:8px 3px 12px 3px; background:rgba(255,255,255,0.6);
+              border:1px solid #e3d5b8; border-radius:6px;
+              padding:10px; margin:8px 3px 12px 3px;
+              background:rgba(255,255,255,0.72);
+              box-shadow:0 2px 5px rgba(0,0,0,0.05);
             }
             .dcp-col > .dcp-art-start:first-child{ margin-top:2px; }
             .dcp-card-header{ margin-bottom:6px; }
-            .dcp-art-start h2{ font-size:14px; margin:0 0 4px 0; line-height:1.3; font-family:'Noto Serif Bengali',serif; font-weight:700; color:#000; }
+            .dcp-art-start h2{
+              font-size:14px; margin:0 0 4px 0; line-height:1.3;
+              font-family:'Noto Serif Bengali',serif; font-weight:700; color:#111;
+              border-bottom:1px solid #eee; padding-bottom:4px;
+            }
             .dcp-cat-author{ margin:2px 0 4px 0; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-            .dcp-cat-badge{ color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; display:inline-block; }
+            .dcp-cat-badge{ color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; display:inline-block; box-shadow:0 1px 2px rgba(0,0,0,0.15); }
             .dcp-author-text{ font-size:11px; color:#555; font-weight:600; }
             .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
             .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
@@ -525,6 +554,11 @@ window.DCViewer = {
             .dcp-kobita{ display:block; margin:0 0 4px 0; line-height:1.4; }
             .dcp-kobita-date{ display:block; margin-top:4px; font-size:11px; font-style:italic; color:#555; }
             .dcp-continued{ font-size:10.5px; font-style:italic; color:#888; margin-bottom:4px; }
+
+            .dcp-footer{
+              position:relative; z-index:1; text-align:center; font-size:9px; color:#999;
+              border-top:1px solid #e3d5b8; padding-top:6px; margin-top:4px;
+            }
         </style>`;
     },
 
@@ -546,6 +580,10 @@ window.DCViewer = {
         const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
         const detailStr = issueMeta?.title || 'ই-পেপার সংস্করণ';
         return `
+            <div class="dcp-corner dcp-corner-tl"></div>
+            <div class="dcp-corner dcp-corner-tr"></div>
+            <div class="dcp-corner dcp-corner-bl"></div>
+            <div class="dcp-corner dcp-corner-br"></div>
             ${this.buildLeafOverlayHTML()}
             <div class="dcp-head">
                 <div class="dcp-head-left">
@@ -555,6 +593,7 @@ window.DCViewer = {
                 </div>
                 <div class="dcp-head-center">
                     <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-logo" crossorigin="anonymous">
+                    <span class="dcp-tagline">সত্য প্রকাশে নির্ভীক কণ্ঠস্বর</span>
                 </div>
                 <div class="dcp-head-right">
                     <div>সংখ্যা: ${issueMeta?.week || ""}</div>
@@ -614,7 +653,8 @@ window.DCViewer = {
                 `).join("");
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
-                    `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>`;
+                    `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>` +
+                    `<div class="dcp-footer">দৈনিক চালচিত্র &nbsp;•&nbsp; www.dailychalchitra.com</div>`;
 
                 const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
                 if(!canvas || canvas.width === 0 || canvas.height === 0){
