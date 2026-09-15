@@ -1,12 +1,10 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v27.0
-   FIX: PDF তৈরি ব্যর্থ হওয়ার বাগ সংশোধন - html2canvas-এর জন্য
-        ঝুঁকিপূর্ণ দুটো অংশ (flexbox হেডার + ১৪-লেয়ার ব্যাকগ্রাউন্ড)
-        প্রমাণিত-নিরাপদ পদ্ধতিতে প্রতিস্থাপিত: হেডারে display:table,
-        লতাপাতা এখন CSS ব্যাকগ্রাউন্ডের বদলে সরাসরি <img> ট্যাগ
+   Daily Chalchitra ePaper Engine - v28.0
+   UPDATE: চারপাশ জুড়ে সারিবদ্ধ পাতা-ফুল, হালকা ব্যাকগ্রাউন্ড,
+           ছোট পোস্টেও ফুল A4-height ব্যাকগ্রাউন্ড
    ========================================================== */
 window.DCViewer = {
-    version: "27.0",
+    version: "28.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -437,25 +435,54 @@ window.DCViewer = {
         return "data:image/svg+xml;utf8," + svg;
     },
 
-    // পাতার চারপাশে ৮টা লতাপাতা - প্রতিটা একটা স্বাধীন <img>, নিজস্ব
-    // top/left/right/bottom দিয়ে বসানো - কোনো CSS background-position
-    // লিস্ট বা মিশ্র ইউনিট ব্যবহার করা হচ্ছে না
+    // হালকা রঙিন ফুল - পাতার মাঝে মাঝে বসিয়ে সৌন্দর্য বাড়ানো হয়
+    flowerDataUri(rot){
+        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'>" +
+            "<g transform='rotate(" + rot + " 30 30)'>" +
+            "<circle cx='30' cy='15' r='8' fill='%23c9b8d6'/>" +
+            "<circle cx='45' cy='30' r='8' fill='%23b8cdd6'/>" +
+            "<circle cx='30' cy='45' r='8' fill='%23d6c8b8'/>" +
+            "<circle cx='15' cy='30' r='8' fill='%23c3d6b8'/>" +
+            "<circle cx='30' cy='30' r='7' fill='%23e0a95f'/>" +
+            "</g></svg>";
+        return "data:image/svg+xml;utf8," + svg;
+    },
+
+    // পাতার চারপাশ জুড়ে (চার কোণ + চার ধার বরাবর সারিবদ্ধ) পাতা ও ফুল
     buildLeafOverlayHTML(){
-        const spots = [
-            { rot: 45,   style: "top:-6px; left:-6px;" },
-            { rot: 90,   style: "top:-6px; left:42%;" },
-            { rot: 135,  style: "top:-6px; right:-6px;" },
-            { rot: 180,  style: "top:45%; left:-6px;" },
-            { rot: 0,    style: "top:45%; right:-6px;" },
-            { rot: -135, style: "bottom:-6px; left:-6px;" },
-            { rot: -90,  style: "bottom:-6px; left:42%;" },
-            { rot: -45,  style: "bottom:-6px; right:-6px;" }
+        const leaf = (rot) => this.fernLeafDataUri(rot);
+        const flower = (rot) => this.flowerDataUri(rot);
+        const imgs = [];
+
+        const corners = [
+            { style:"top:-10px; left:-10px;", rot:45 },
+            { style:"top:-10px; right:-10px;", rot:135 },
+            { style:"bottom:-10px; left:-10px;", rot:-45 },
+            { style:"bottom:-10px; right:-10px;", rot:-135 }
         ];
-        return `<div class="dcp-leaf-layer">` +
-            spots.map(s =>
-                `<img class="dcp-leaf-img" src="${this.fernLeafDataUri(s.rot)}" style="${s.style}">`
-            ).join("") +
-            `</div>`;
+        corners.forEach(c => imgs.push(`<img class="dcp-leaf-corner" src="${leaf(c.rot)}" style="${c.style}">`));
+
+        const topCount = 8;
+        for(let i=1;i<topCount-1;i++){
+            const pct = (i/(topCount-1))*100;
+            const isFlower = i % 2 === 0;
+            const topSrc = isFlower ? flower(0) : leaf(90);
+            const botSrc = isFlower ? flower(180) : leaf(-90);
+            imgs.push(`<img class="dcp-leaf-edge" src="${topSrc}" style="top:-8px; left:${pct}%; transform:translateX(-50%);">`);
+            imgs.push(`<img class="dcp-leaf-edge" src="${botSrc}" style="bottom:-8px; left:${pct}%; transform:translateX(-50%);">`);
+        }
+
+        const sideCount = 7;
+        for(let i=1;i<sideCount-1;i++){
+            const pct = (i/(sideCount-1))*100;
+            const isFlower = i % 2 === 0;
+            const leftSrc = isFlower ? flower(90) : leaf(0);
+            const rightSrc = isFlower ? flower(-90) : leaf(180);
+            imgs.push(`<img class="dcp-leaf-edge" src="${leftSrc}" style="left:-8px; top:${pct}%; transform:translateY(-50%);">`);
+            imgs.push(`<img class="dcp-leaf-edge" src="${rightSrc}" style="right:-8px; top:${pct}%; transform:translateY(-50%);">`);
+        }
+
+        return `<div class="dcp-leaf-layer">${imgs.join("")}</div>`;
     },
 
     getPrintStyleTag(){
@@ -463,11 +490,10 @@ window.DCViewer = {
             .dcp-page{
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
               position:relative; overflow:hidden;
-              background-color:#fdf9f0;
+              background-color:#fdfcf8;
               background-image:
-                radial-gradient(circle at 0% 0%, rgba(192,0,0,0.05), transparent 45%),
-                radial-gradient(circle at 100% 100%, rgba(20,60,110,0.05), transparent 45%),
-                repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
+                radial-gradient(circle at 0% 0%, rgba(192,0,0,0.03), transparent 45%),
+                radial-gradient(circle at 100% 100%, rgba(20,60,110,0.03), transparent 45%);
               border:2px solid #C00000;
               outline:1px solid #C00000;
               outline-offset:-6px;
@@ -486,7 +512,8 @@ window.DCViewer = {
             .dcp-corner-br{ bottom:6px; right:6px; border-bottom:3px solid; border-right:3px solid; }
 
             .dcp-leaf-layer{ position:absolute; inset:0; pointer-events:none; z-index:0; }
-            .dcp-leaf-img{ position:absolute; width:95px; height:75px; opacity:0.55; }
+            .dcp-leaf-corner{ position:absolute; width:95px; height:75px; opacity:0.45; }
+            .dcp-leaf-edge{ position:absolute; width:52px; height:42px; opacity:0.4; }
 
             .dcp-head{
               position:relative; z-index:1; display:table; width:100%; table-layout:fixed;
@@ -619,6 +646,8 @@ window.DCViewer = {
 
         const captureWidth = 1000;
         const gap = 16;
+        const a4Ratio = 297 / 210; // A4 height/width অনুপাত
+        const minHeightPx = Math.round(captureWidth * a4Ratio); // ছোট পোস্টেও ফুল A4-height ব্যাকগ্রাউন্ড
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -640,7 +669,7 @@ window.DCViewer = {
                 const pg = printPages[i];
                 const pageEl = document.createElement("div");
                 pageEl.className = "dcp-page";
-                pageEl.style.cssText = `width:${captureWidth}px;padding:25px;box-sizing:border-box;`;
+                pageEl.style.cssText = `width:${captureWidth}px;min-height:${minHeightPx}px;padding:34px;box-sizing:border-box;`;
 
                 const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length);
                 const numColsOnPage = pg.cols.length;
