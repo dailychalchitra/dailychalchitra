@@ -1,13 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v26.0
-   FIX: পাতার ব্যাকগ্রাউন্ড এখন লাইট-ব্লু + চারপাশে রংধনু-ব্লার-শেড
-        + ধূসর কৃষ্ণচূড়া-পাতার লতাপাতা (চারপাশে ছড়ানো) | হেডারে
-        বামে তারিখ/সময়/বিস্তারিত, ডানে সংখ্যা/পৃষ্ঠা | একক-দুই
-        কলামের পাতায় ছবি+লেখা কেন্দ্রীভূত | ফুল-পেজে প্রতিটা
-        পোস্ট-কার্ডে চিকন হালকা-ধূসর বর্ডার (রঙিন বর্ডার বাদ)
+   Daily Chalchitra ePaper Engine - v27.0
+   FIX: PDF তৈরি ব্যর্থ হওয়ার বাগ সংশোধন - html2canvas-এর জন্য
+        ঝুঁকিপূর্ণ দুটো অংশ (flexbox হেডার + ১৪-লেয়ার ব্যাকগ্রাউন্ড)
+        প্রমাণিত-নিরাপদ পদ্ধতিতে প্রতিস্থাপিত: হেডারে display:table,
+        লতাপাতা এখন CSS ব্যাকগ্রাউন্ডের বদলে সরাসরি <img> ট্যাগ
    ========================================================== */
 window.DCViewer = {
-    version: "26.0",
+    version: "27.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -423,11 +422,11 @@ window.DCViewer = {
         return this.layoutGridPages(chunks);
     },
 
-    // পাতার ধার জুড়ে (শুধু কোণায় না) রংধনু-রঙা হালকা ব্লার-শেড,
-    // এবং তার ওপরে ছড়ানো ধূসর কৃষ্ণচূড়া-পাতার লতাপাতা
-    fernLeafSvg(rot){
+    // ধূসর ফার্ন-পাতা - CSS ব্যাকগ্রাউন্ডের বদলে সরাসরি <img> হিসেবে
+    // বসানো হয় (html2canvas-এ এটা অনেক বেশি নির্ভরযোগ্য)
+    fernLeafDataUri(rot){
         const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='95' height='75' viewBox='0 0 95 75'>" +
-            "<g transform='rotate(" + rot + " 47 37)' opacity='0.55'>" +
+            "<g transform='rotate(" + rot + " 47 37)' opacity='0.6'>" +
             "<line x1='12' y1='64' x2='74' y2='12' stroke='%239a9a9a' stroke-width='2'/>" +
             "<ellipse cx='26' cy='50' rx='9' ry='4' fill='%23aaaaaa' transform='rotate(-40 26 50)'/>" +
             "<ellipse cx='38' cy='40' rx='9' ry='4' fill='%23b8b8b8' transform='rotate(-40 38 40)'/>" +
@@ -435,72 +434,61 @@ window.DCViewer = {
             "<ellipse cx='61' cy='20' rx='8' ry='3.5' fill='%23b8b8b8' transform='rotate(-40 61 20)'/>" +
             "<circle cx='71' cy='14' r='3' fill='%23e08283' opacity='0.65'/>" +
             "</g></svg>";
-        return "url(\"data:image/svg+xml;utf8," + svg + "\")";
+        return "data:image/svg+xml;utf8," + svg;
     },
 
-    buildPageEdgeDesign(){
-        const leaves = [
-            { img: this.fernLeafSvg(45),  pos: "top -6px left -6px" },
-            { img: this.fernLeafSvg(90),  pos: "top -6px left 42%" },
-            { img: this.fernLeafSvg(135), pos: "top -6px right -6px" },
-            { img: this.fernLeafSvg(180), pos: "left -6px top 45%" },
-            { img: this.fernLeafSvg(0),   pos: "right -6px top 45%" },
-            { img: this.fernLeafSvg(-135),pos: "bottom -6px left -6px" },
-            { img: this.fernLeafSvg(-90), pos: "bottom -6px left 42%" },
-            { img: this.fernLeafSvg(-45), pos: "bottom -6px right -6px" }
+    // পাতার চারপাশে ৮টা লতাপাতা - প্রতিটা একটা স্বাধীন <img>, নিজস্ব
+    // top/left/right/bottom দিয়ে বসানো - কোনো CSS background-position
+    // লিস্ট বা মিশ্র ইউনিট ব্যবহার করা হচ্ছে না
+    buildLeafOverlayHTML(){
+        const spots = [
+            { rot: 45,   style: "top:-6px; left:-6px;" },
+            { rot: 90,   style: "top:-6px; left:42%;" },
+            { rot: 135,  style: "top:-6px; right:-6px;" },
+            { rot: 180,  style: "top:45%; left:-6px;" },
+            { rot: 0,    style: "top:45%; right:-6px;" },
+            { rot: -135, style: "bottom:-6px; left:-6px;" },
+            { rot: -90,  style: "bottom:-6px; left:42%;" },
+            { rot: -45,  style: "bottom:-6px; right:-6px;" }
         ];
-        const rainbow = [
-            "radial-gradient(circle at 0% 0%, rgba(255,182,193,0.35), transparent 55%)",
-            "radial-gradient(circle at 100% 0%, rgba(221,160,255,0.32), transparent 55%)",
-            "radial-gradient(circle at 0% 100%, rgba(255,236,150,0.35), transparent 55%)",
-            "radial-gradient(circle at 100% 100%, rgba(180,255,200,0.32), transparent 55%)",
-            "radial-gradient(circle at 50% 0%, rgba(255,205,150,0.3), transparent 55%)",
-            "radial-gradient(circle at 50% 100%, rgba(160,220,255,0.32), transparent 55%)"
-        ];
-
-        const images = leaves.map(l => `url("${l.img.replace(/^url\("|"\)$/g,'')}")`);
-        // fernLeafSvg already returns a full url("...") string, use directly
-        const leafImages = leaves.map(l => l.img);
-        const leafPositions = leaves.map(l => l.pos);
-        const leafSizes = leaves.map(() => "95px 75px");
-
-        const allImages = [...leafImages, ...rainbow].join(", ");
-        const allPositions = [...leafPositions, ...rainbow.map(()=> "0 0")].join(", ");
-        const allSizes = [...leafSizes, ...rainbow.map(()=> "100% 100%")].join(", ");
-        const allRepeats = [...leafImages.map(()=> "no-repeat"), ...rainbow.map(()=> "no-repeat")].join(", ");
-
-        return `background-color:#eaf5fc;` +
-               `background-image:${allImages};` +
-               `background-position:${allPositions};` +
-               `background-size:${allSizes};` +
-               `background-repeat:${allRepeats};`;
+        return `<div class="dcp-leaf-layer">` +
+            spots.map(s =>
+                `<img class="dcp-leaf-img" src="${this.fernLeafDataUri(s.rot)}" style="${s.style}">`
+            ).join("") +
+            `</div>`;
     },
 
     getPrintStyleTag(){
         return `<style>
             .dcp-page{
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
-              ${this.buildPageEdgeDesign()}
+              position:relative; overflow:hidden;
+              background-color:#eaf5fc;
+              background-image:
+                radial-gradient(circle at 0% 0%, rgba(255,190,205,0.32), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(180,230,255,0.32), transparent 55%);
             }
+            .dcp-leaf-layer{ position:absolute; inset:0; pointer-events:none; z-index:0; }
+            .dcp-leaf-img{ position:absolute; width:95px; height:75px; opacity:0.85; }
+
             .dcp-head{
-              display:flex; align-items:center; justify-content:space-between; gap:6px;
+              position:relative; z-index:1; display:table; width:100%; table-layout:fixed;
               margin-bottom:10px; border-bottom:2px solid #C00000; padding:8px 6px 10px;
+              background-color:rgba(255,255,255,0.55);
             }
             .dcp-head-left, .dcp-head-right{
-              flex:0 0 135px; font-size:9px; line-height:1.65; color:#444; font-weight:600;
+              display:table-cell; width:150px; font-size:9px; line-height:1.65; color:#444; font-weight:600; vertical-align:middle;
             }
             .dcp-head-right{ text-align:right; }
-            .dcp-head-center{ flex:1; text-align:center; }
+            .dcp-head-center{ display:table-cell; text-align:center; vertical-align:middle; }
             .dcp-logo{ display:inline-block; max-width:150px; height:auto; }
 
-            .dcp-columns{ display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
+            .dcp-columns{ position:relative; z-index:1; display:flex !important; align-items:flex-start; justify-content:center; box-sizing:border-box; }
             .dcp-col{ box-sizing:border-box !important; padding:0 12px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #d8d8d8; }
 
-            /* কভার ছবি - ডিফল্ট (৪/৩-কলাম গ্রিড) */
             .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; }
 
-            /* একক কলাম পাতা - ছবি ও লেখা মাঝখানে, মাঝারি সাইজ */
             .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; text-align:center; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; text-align:center; }
             .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; text-align:center; }
@@ -509,7 +497,6 @@ window.DCViewer = {
             .dcp-col-solo .dcp-cover{ width:62%; height:auto; max-height:250px; margin:0 auto; object-fit:cover; }
             .dcp-col-solo .dcp-cat-author{ justify-content:center; }
 
-            /* দুই কলাম পাতা - ছবি ও লেখা মাঝখানে, মাঝারি সাইজ */
             .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; text-align:center; }
             .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; text-align:center; }
             .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; text-align:center; }
@@ -517,16 +504,14 @@ window.DCViewer = {
             .dcp-col-duo .dcp-cover{ width:75%; height:auto; max-height:185px; margin:0 auto; object-fit:cover; }
             .dcp-col-duo .dcp-cat-author{ justify-content:center; }
 
-            /* তিন কলাম পাতা - স্বাভাবিক বাম-সারিবদ্ধ */
             .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
             .dcp-col-tri .dcp-cover{ height:150px !important; }
 
-            /* প্রতিটা পোস্টের চারপাশে চিকন হালকা-ধূসর বর্ডার */
             .dcp-art-start{
               border:1px solid #cfcfcf; border-radius:4px;
-              padding:10px; margin:8px 3px 12px 3px; background:rgba(255,255,255,0.55);
+              padding:10px; margin:8px 3px 12px 3px; background:rgba(255,255,255,0.6);
             }
             .dcp-col > .dcp-art-start:first-child{ margin-top:2px; }
             .dcp-card-header{ margin-bottom:6px; }
@@ -556,10 +541,12 @@ window.DCViewer = {
 
     buildHeadHTML(issueMeta, pageNum, totalPages){
         const now = new Date();
-        const timeStr = now.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-        const dateStr = issueMeta?.date || now.toLocaleDateString('bn-BD');
+        const pad = (n) => String(n).padStart(2, '0');
+        const dateStr = issueMeta?.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
+        const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
         const detailStr = issueMeta?.title || 'ই-পেপার সংস্করণ';
         return `
+            ${this.buildLeafOverlayHTML()}
             <div class="dcp-head">
                 <div class="dcp-head-left">
                     <div>তারিখ: ${dateStr}</div>
