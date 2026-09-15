@@ -28,7 +28,7 @@ image: /assets/img/brtc-bus.webp
 কিন্তু আজ সঙ্গে নেই কোনোটাই। প্রস্তুতি ছাড়াই আজ আমি আমার বাবার বাড়ি রওনা হয়েছি। বরাবরের আনন্দবাড়ি আমার বাবার বাড়ি যাচ্ছি আমি নিরানন্দ মনে, চিন্তাচ্ছন্ন হয়ে। কিছুদিন থেকেই বাবার শ্বাসকষ্টটা বেড়েছে। ফোনেই বলেন, এবার কিছুতেই স্বস্তি হচ্ছে না। মাঝে কথাও হয় না। কথা বললে বাড়ে। গত পরশু স্ক্রিনে আব্বা কলিং ভেসে উঠতে খুশি মনে ফোনটা কানে দিয়ে বলি, আব্বা?
 
 আব্বার জবাব শুনে অস্থির হই, কথা বলতে নিবৃত্ত করি উপর্যুপরি অনুরোধ করে বলি,
-<span style="color:#0a5c36; font-weight:bold;">আব্বা পরে কথা বলবো। শ্বাসকষ্টটা বেড়েছে, কথা বলতে কষ্ট হচ্ছে আব্বা।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আব্বা পরে কথা বলবো। শ্বাসকষ্টটা বেড়েছে, কথা বলতে কষ্ট হচ্ছে আব্বা।</span>
 
 তাগাদা দিয়ে বলি, ইনহেলার নিতে, নেবুলাইজার নিতে। প্রথমটায় না চাইলেও অবশেষে আব্বা থেমে যান। মনটা চঞ্চল হয়। পরদিন খবর জানতে চাইলে আব্বা ক্লিনিকে যাচ্ছেন এটুকুই জানতে পারি।
 
@@ -49,10 +49,10 @@ image: /assets/img/brtc-bus.webp
 জার্নির একাকিত্বে মনে ভিড় করে অপরাধবোধের চিত্রাংশ। সহযাত্রীর মুহুর্মুহু ফোনালাপে চিন্তাচ্ছেদ ঘটে। দৃষ্টি বিনিময় হয়, হয় আলাপচারিতাও।
 
 বলি,
-<span style="color:#0a5c36; font-weight:bold;">বাচ্চারা বারবার ফোন দিচ্ছে বুঝি?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">বাচ্চারা বারবার ফোন দিচ্ছে বুঝি?</span>
 
 ম্লান হাসি ফুটিয়ে বললেন,
-<span style="color:#0a5c36; font-weight:bold;">আমি নিঃসন্তান। আমার ভাই বোনদের সবকটি বাচ্চারা আমাকে মা ডাকে। খুব ভালোওবাসে।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আমি নিঃসন্তান। আমার ভাই বোনদের সবকটি বাচ্চারা আমাকে মা ডাকে। খুব ভালোওবাসে।</span>
 
 এরপর একটু একটু করে কখন যেন একে অপরের সুখ দুঃখগুলি ভাগাভাগি করেছি দুজনে অনেকটা অজান্তেই। উনি পরমাত্মীয়ের মতো কাছের মানুষ হয়ে বলে চলেন নিজের কথা। মিষ্টি চেহারাটা কখনো উচ্ছলতায় ভরে ওঠে, কখনো বিষাদে বিষণ্ণ হয়। জল টলমল করে সুন্দর চোখ দুটি। অকপটে বলে চলেন সুখ দুঃখের বার্তা।
 
@@ -64,33 +64,33 @@ image: /assets/img/brtc-bus.webp
 
 এবার সহযাত্রীর হাত চেপে ধরি আমি।
 বলি, 
-<span style="color:#0a5c36; font-weight:bold;">আপা আমার খুব ভয় করছে।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপা আমার খুব ভয় করছে।</span>
 
 সব সান্ত্বনা কণ্ঠে ঢেলে আশ্বস্ত করেন।
 বলেন,
-<span style="color:#0a5c36; font-weight:bold;">আপনার স্টপেজের পর আমার স্টপেজ। অসুবিধা নেই, আমি আপনার সাথেই নেমে যাব। হাতটা ধরেন পরম মমতায়। ঘাবড়াবেন না আপা। নামবার আগে আমার ফোন নাম্বারও তুলে নেন।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপনার স্টপেজের পর আমার স্টপেজ। অসুবিধা নেই, আমি আপনার সাথেই নেমে যাব। হাতটা ধরেন পরম মমতায়। ঘাবড়াবেন না আপা। নামবার আগে আমার ফোন নাম্বারও তুলে নেন।</span>
 
 আমি শত চেষ্টাতেও স্বাভাবিক হতে পারি না। অজানা আশঙ্কায় আর তার সান্ত্বনার আশ্বাসে দুহাতে সময় ঠেলে চলি।
 
 নির্ধারিত স্টপেজে নামি দুজনে। লকারে লাগেজ চিহ্নিত করি সহযাত্রীর সাথে। অদূরে অপেক্ষমাণ আমার একমাত্র ভাই। এগিয়ে আসতেই জিজ্ঞেস করি...
-<span style="color:#0a5c36; font-weight:bold;">আব্বা কেমন এখন?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আব্বা কেমন এখন?</span>
 
 শুকনো মুখে জবাব দেয় ভাই...
-<span style="color:#0a5c36; font-weight:bold;">ভালো নেই আব্বা, ভালো নেই।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">ভালো নেই আব্বা, ভালো নেই।</span>
 
 মাথায় আকাশ ভেঙে পড়ে। আর কিচ্ছু মনে থাকে না। সারাটা পথের মঙ্গলাকাঙ্ক্ষী সহযাত্রীর কথা বেমালুম ভুলে যাই। এক ছুটে হাজির হই ভাইকে অনুসরণ করে পথের বিপরীত পাশে 'জিয়া হার্ট ফাউন্ডেশন'। সহযাত্রীকে 'আসি' বলবার মতো সৌজন্যতাটুকুও নয়।
 
 আই সি ইউর টানা বারান্দায় আমার নিষ্ফল প্রার্থনা বিলাপ আর স্বজনদের সমব্যথার মাঝে অচেনা নাম্বার থেকে ফোন এলো।
-<span style="color:#0a5c36; font-weight:bold;">আপা আপনার আব্বা কেমন আছেন?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপা আপনার আব্বা কেমন আছেন?</span>
 
-<span style="color:#0a5c36; font-weight:bold;">কে?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">কে?</span>
 
-<span style="color:#0a5c36; font-weight:bold;">আমি আপনার সহযাত্রী। একটু আগেই বি আর টি সি তে এলাম পাশাপাশি।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আমি আপনার সহযাত্রী। একটু আগেই বি আর টি সি তে এলাম পাশাপাশি।</span>
 
 অন্তর ছুঁয়ে গেল এই কঠিন সময়ে সহযাত্রীর আন্তরিকতায়। কান্নাগুলো ঠেলে এলো আবেগতাড়িত হয়ে। বললাম...
-<span style="color:#0a5c36; font-weight:bold;">আমার আব্বা ভালো নেই আপা, গত রাত থেকে লাইফ সাপোর্টে আছেন।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আমার আব্বা ভালো নেই আপা, গত রাত থেকে লাইফ সাপোর্টে আছেন।</span>
 
-<span style="color:#0a5c36; font-weight:bold;">আপা ভেঙে পড়বেন না। কাঁদবেন না আপা। চিকিৎসা চলছে তো, ভালো হয়ে যাবেন। দোয়া করেন, শুধু দোয়া।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপা ভেঙে পড়বেন না। কাঁদবেন না আপা। চিকিৎসা চলছে তো, ভালো হয়ে যাবেন। দোয়া করেন, শুধু দোয়া।</span>
 
 এভাবে প্রতিদিন প্রতিবেলা খবর নিতেন, সাহস দিতেন। বলতেন- 'দোয়া পড়বেন আর পানির বোতল রাখবেন, পানি খাবেন ঢোকে ঢোকে অবশ্যই।'
 
@@ -98,39 +98,39 @@ image: /assets/img/brtc-bus.webp
 
 ভেঙে চুরে যাওয়া দুঃসময়ে নিমজ্জিত আমি ফোন ধরতে অপারগ হই। কখনো ইচ্ছায়, কখনো অনিচ্ছায়। অবশেষে আবারও একদিন কথা হয়।
 
-<span style="color:#0a5c36; font-weight:bold;">আপা আমি চলে যাচ্ছি। হাজবেন্ড এসেছেন। রংপুর হয়ে রাজশাহী ফিরবো। ভালো থাকবেন।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপা আমি চলে যাচ্ছি। হাজবেন্ড এসেছেন। রংপুর হয়ে রাজশাহী ফিরবো। ভালো থাকবেন।</span>
 
-<span style="color:#0a5c36; font-weight:bold;">আপনিও ভালো থাকবেন।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপনিও ভালো থাকবেন।</span>
 
 শোকের সাগরে উত্তাল হয় অনাকাঙ্ক্ষিত কষ্টগুলো। সহযাত্রীকে মনে পড়ে। ফোন করতে গিয়ে খেয়াল হয় নাম্বার তো সেভ করা হয়নি। অনেক মিসকল রিসিভ কলের ভিড়ে খেই হারিয়ে ভাসতি উষসীকে ডাকি। বলি,
-<span style="color:#0a5c36; font-weight:bold;">কদিন আগের বারবার করা নাম্বারটা খুঁজে সেভ করে দাও।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">কদিন আগের বারবার করা নাম্বারটা খুঁজে সেভ করে দাও।</span>
 
 বহুবার মিস কল হয়ে থাকা এক নাম্বার খুঁজে পায় উষসী। বলে...
-<span style="color:#0a5c36; font-weight:bold;">কি নামে সেভ করবো ফুপুজি?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">কি নামে সেভ করবো ফুপুজি?</span>
 
-<span style="color:#0a5c36; font-weight:bold;">নাম তো জানি না। বিআর টি সি আপাই লিখো।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">নাম তো জানি না। বিআর টি সি আপাই লিখো।</span>
 
 সময় গড়ায়। ফিরি আপন ঘরে। অন্তঃসারশূন্য হৃদয়ে কষ্টের আছড়ে পড়া ঢেউগুলোতে স্মৃতির অতলে তলিয়ে হাতড়ে বেড়াই আব্বাময় দিনগুলো।
 
 মনে পড়ে দুঃসময়ের বন্ধুটিকে। কল লিস্টে বি আর টি সি আপার নামে কল দেই। ওপাশ থেকে ভেসে আসে নারী কণ্ঠ।
 
-<span style="color:#0a5c36; font-weight:bold;">হ্যালো...</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">হ্যালো...</span>
 
-<span style="color:#0a5c36; font-weight:bold;">কে বলছেন? কাকে চাইছেন?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">কে বলছেন? কাকে চাইছেন?</span>
 
 আমি আমতা আমতা করি। এলোমেলোভাবে বোঝাতে চেষ্টা করি পঁচিশে এপ্রিল বি আর টি সি বাসযাত্রায় সহমর্মিতা আর সমব্যথীর জন্য কৃতজ্ঞতা চিত্ত স্মরণ করছি সেই সহযাত্রীকে। তিনি সেই কিনা।
 
 ওপ্রান্তের কণ্ঠটা এবার বিস্ময়ের ঘোর ঝেড়ে ফেলে বলে...
-<span style="color:#0a5c36; font-weight:bold;">আপনি কি রিয়া আন্টি?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আপনি কি রিয়া আন্টি?</span>
 
 আমি চমকে উঠি,
-<span style="color:#0a5c36; font-weight:bold;">হ্যাঁ.. হ্যাঁ.. কিন্তু আপনি?</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">হ্যাঁ.. হ্যাঁ.. কিন্তু আপনি?</span>
 
 কণ্ঠে ভালোবাসার উষ্ণতা ঢেলে বলে ওঠে...
-<span style="color:#0a5c36; font-weight:bold;">আমি ইয়াসমিন, আপনার সামনের বাড়ির প্রতিবেশী। কিন্তু আপনার সহযাত্রীর সাথে আমার নাম্বারটা গড়বড় হলো কিভাবে ভাবছি।</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">আমি ইয়াসমিন, আপনার সামনের বাড়ির প্রতিবেশী। কিন্তু আপনার সহযাত্রীর সাথে আমার নাম্বারটা গড়বড় হলো কিভাবে ভাবছি।</span>
 
 ভূপতিত হই আমি,
-<span style="color:#0a5c36; font-weight:bold;">ইয়াসমিন? তুমি? কিন্তু...</span>
+<span style="color:#ff0000; font-weight:bold;">>></span> <span style="color:#0a5c36; font-weight:bold;">ইয়াসমিন? তুমি? কিন্তু...</span>
 
 খোলাসা হলো ব্যাপারটা পরে। আমার দুঃসময়ে প্রিয় মানুষগুলো আমার দুঃখগুলো শেয়ার করেছে, করতে চেয়েছে। ইয়াসমিনও বারবার কল দিয়েছে, আমি মিস করেছি পরিস্থিতির অপারগতায় হয়তোবা।
 
