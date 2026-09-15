@@ -1,10 +1,11 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v30.0
-   FIX: dcp-col-solo/duo থেকে centering বাদ, সব কলাম সবসময়
-        সোজা justify-align থাকবে (ডুপ্লিকেট CSS ব্লক মুছে ফেলা হলো)
+   Daily Chalchitra ePaper Engine - v31.0
+   FIX: পুরো ডকুমেন্টের মোট কলাম-সংখ্যা অনুযায়ী সব পাতায়
+        সামঞ্জস্যপূর্ণ কলাম-প্রস্থ; সিঙ্গেল-কলাম পোস্ট এখন
+        সরু ও কেন্দ্রীভূত, ছবির সাইজও ঠিক থাকবে
    ========================================================== */
 window.DCViewer = {
-    version: "30.0",
+    version: "31.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -375,10 +376,10 @@ window.DCViewer = {
     },
 
     // মাপা (measured) height দিয়ে সবগুলো কলাম একসাথে গ্লোবালি ব্যালেন্স
-    // করে ৪-কলাম পেজে ভাগ করে। minColumns দিয়ে সর্বনিম্ন কলাম-সংখ্যা
-    // বাধ্যতামূলক করা যায়
+    // করে ৪-কলাম পেজে ভাগ করে। মোট কলাম-সংখ্যা (totalColumns) ফেরত
+    // দেওয়া হয়, যাতে সব পাতায় একই রকম কলাম-প্রস্থ ব্যবহার করা যায়
     layoutGridPages(chunks, minColumns = 1){
-        if(!chunks.length) return [];
+        if(!chunks.length) return { pages: [], totalColumns: 0 };
         const heights = chunks.map(c => c.height);
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
         const safeColHeight = 1150;
@@ -407,15 +408,15 @@ window.DCViewer = {
         for(let i = 0; i < columns.length; i += 4){
             gridPages.push({ type: 'grid', cols: columns.slice(i, i + 4) });
         }
-        return gridPages;
+        return { pages: gridPages, totalColumns: columns.length };
     },
 
     async buildPrintPages(posts, minColumns = 1){
         const source = posts && posts.length ? posts : this.posts;
-        if(!source.length) return [];
+        if(!source.length) return { pages: [], totalColumns: 0 };
         const chunks = [];
         source.forEach(p => chunks.push(...this.splitPostIntoChunks(p)));
-        if(!chunks.length) return [];
+        if(!chunks.length) return { pages: [], totalColumns: 0 };
 
         await this.measureChunkHeights(chunks, this.getGridColWidth());
         return this.layoutGridPages(chunks, minColumns);
@@ -540,11 +541,12 @@ window.DCViewer = {
 
             .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; border:1px solid #e3d5b8; }
 
+            /* সোলো (মোট ১-কলাম নথি) - সরু, কেন্দ্রীভূত, বড় ফন্ট */
             .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; text-align:justify; }
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; text-align:justify; }
             .dcp-col-solo .dcp-art-start h2{ font-size:20px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
-            .dcp-col-solo .dcp-cover{ width:100%; height:180px; object-fit:cover; }
+            .dcp-col-solo .dcp-cover{ width:100%; height:200px; object-fit:cover; }
 
             .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; text-align:justify; }
             .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; text-align:justify; }
@@ -626,18 +628,23 @@ window.DCViewer = {
             </div>`;
     },
 
-    // পাতায় যতগুলো কলাম আছে, সেই সংখ্যা অনুযায়ী পুরো পাতার প্রস্থ ভাগ
+    // numColsForWidth অনুযায়ী কলাম-প্রস্থ ও স্টাইল ঠিক করে। ১-কলামের
+    // ক্ষেত্রে সরু, কেন্দ্রীভূত প্রস্থ ব্যবহার করা হয় যাতে সিঙ্গেল-পোস্ট
+    // পাতা পুরো পাতা জুড়ে stretched না হয়ে স্বাভাবিক দেখায়
     getColWidthAndClass(numColsOnPage, captureWidth, gap){
         const innerWidth = captureWidth - 50;
+        if(numColsOnPage <= 1){
+            const width = Math.floor(innerWidth * 0.62);
+            return { width, cls: 'dcp-col dcp-col-solo' };
+        }
         const width = Math.floor((innerWidth - gap * (numColsOnPage - 1)) / numColsOnPage);
         let extraClass = '';
-        if(numColsOnPage === 1) extraClass = ' dcp-col-solo';
-        else if(numColsOnPage === 2) extraClass = ' dcp-col-duo';
+        if(numColsOnPage === 2) extraClass = ' dcp-col-duo';
         else if(numColsOnPage === 3) extraClass = ' dcp-col-tri';
         return { width, cls: 'dcp-col' + extraClass };
     },
 
-    async capturePagesToPDF(printPages, issueMeta, fileName){
+    async capturePagesToPDF(printPages, issueMeta, fileName, totalColumns){
         if(!printPages.length) return false;
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
@@ -645,6 +652,12 @@ window.DCViewer = {
         const gap = 16;
         const a4Ratio = 297 / 210; // A4 height/width অনুপাত
         const minHeightPx = Math.round(captureWidth * a4Ratio); // ছোট পোস্টেও ফুল A4-height ব্যাকগ্রাউন্ড
+
+        // পুরো ডকুমেন্টের সব পাতায় একই কলাম-প্রস্থ/স্টাইল ব্যবহার করা
+        // হয় যাতে শেষ পাতায় বাকি থাকা ১-২টা কলাম অসামঞ্জস্যপূর্ণভাবে
+        // পুরো-পাতা-প্রস্থ না হয়ে যায়
+        const numColsForWidth = totalColumns > 0 ? Math.min(totalColumns, 4) : 1;
+        const { width: colWidth, cls: colClass } = this.getColWidthAndClass(numColsForWidth, captureWidth, gap);
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -669,8 +682,6 @@ window.DCViewer = {
                 pageEl.style.cssText = `width:${captureWidth}px;min-height:${minHeightPx}px;padding:34px;box-sizing:border-box;`;
 
                 const headHTML = this.buildHeadHTML(issueMeta, i+1, printPages.length);
-                const numColsOnPage = pg.cols.length;
-                const { width: colWidth, cls: colClass } = this.getColWidthAndClass(numColsOnPage, captureWidth, gap);
 
                 const colsHTML = pg.cols.map(colChunks => `
                     <div class="${colClass}" style="flex:0 0 ${colWidth}px;width:${colWidth}px;">
@@ -724,24 +735,24 @@ window.DCViewer = {
 
     async generateFullPDF(issueMeta){
         if(!this.posts.length){ alert("লোড হয়নি, একটু পর চেষ্টা করুন।"); return; }
-        const printPages = await this.buildPrintPages(this.posts);
+        const { pages: printPages, totalColumns } = await this.buildPrintPages(this.posts);
         const fileName = (issueMeta?.title || "Daily-Chalchitra-ePaper").replace(/\s+/g,'-');
-        await this.capturePagesToPDF(printPages, issueMeta, fileName);
+        await this.capturePagesToPDF(printPages, issueMeta, fileName, totalColumns);
     },
 
     async downloadCurrentPagePDF(issueMeta){
         const current = this.pages[this.currentPage - 1];
         if(!current || !current.length){ alert("এই পাতায় দেখানোর মতো কিছু নেই।"); return; }
-        const printPages = await this.buildPrintPages(current);
+        const { pages: printPages, totalColumns } = await this.buildPrintPages(current);
         const fileName = ((issueMeta?.title || "Daily-Chalchitra") + "-page-" + this.currentPage).replace(/\s+/g,'-');
-        await this.capturePagesToPDF(printPages, issueMeta, fileName);
+        await this.capturePagesToPDF(printPages, issueMeta, fileName, totalColumns);
     },
 
     async downloadSinglePostPDF(post){
         if(!post){ return; }
-        const printPages = await this.buildPrintPages([post]);
+        const { pages: printPages, totalColumns } = await this.buildPrintPages([post]);
         const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
-        await this.capturePagesToPDF(printPages, null, fileName);
+        await this.capturePagesToPDF(printPages, null, fileName, totalColumns);
     }
 };
 window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
