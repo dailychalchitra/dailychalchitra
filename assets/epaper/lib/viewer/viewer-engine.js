@@ -743,8 +743,7 @@ window.DCViewer = {
 
     async downloadSinglePostPDF(post){
         if(!post){ return; }
-        // ছোট লেখাতেও ফুল-পেজের মতো newspaper-column লুক পেতে সর্বনিম্ন ২টা কলাম বাধ্যতামূলক
-        const printPages = await this.buildPrintPages([post], 2);
+        const printPages = await this.buildPrintPages([post]);
         const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
         await this.capturePagesToPDF(printPages, null, fileName);
     }
