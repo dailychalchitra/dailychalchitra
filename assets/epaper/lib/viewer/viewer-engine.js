@@ -1,10 +1,10 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v29.0
-   UPDATE: সিঙ্গেল পোস্ট PDF-এ সর্বনিম্ন ২-কলাম বাধ্যতামূলক,
-           যাতে ছোট লেখাও ফুল-পেজের মতো newspaper-column লুক পায়
+   Daily Chalchitra ePaper Engine - v30.0
+   FIX: dcp-col-solo/duo থেকে centering বাদ, সব কলাম সবসময়
+        সোজা justify-align থাকবে (ডুপ্লিকেট CSS ব্লক মুছে ফেলা হলো)
    ========================================================== */
 window.DCViewer = {
-    version: "29.0",
+    version: "30.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -376,7 +376,7 @@ window.DCViewer = {
 
     // মাপা (measured) height দিয়ে সবগুলো কলাম একসাথে গ্লোবালি ব্যালেন্স
     // করে ৪-কলাম পেজে ভাগ করে। minColumns দিয়ে সর্বনিম্ন কলাম-সংখ্যা
-    // বাধ্যতামূলক করা যায় (সিঙ্গেল পোস্টের জন্য)
+    // বাধ্যতামূলক করা যায়
     layoutGridPages(chunks, minColumns = 1){
         if(!chunks.length) return [];
         const heights = chunks.map(c => c.height);
@@ -540,20 +540,16 @@ window.DCViewer = {
 
             .dcp-cover{ width:100%; height:130px; object-fit:cover; border-radius:5px; display:block; border:1px solid #e3d5b8; }
 
-            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; text-align:center; }
-            .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; text-align:center; }
-            .dcp-col-solo .dcp-art-start h2{ font-size:22px !important; text-align:center; }
+            .dcp-col-solo{ font-size:16px !important; line-height:1.85 !important; border-left:none !important; text-align:justify; }
+            .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; text-align:justify; }
+            .dcp-col-solo .dcp-art-start h2{ font-size:20px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
-            .dcp-col-solo .dcp-card-header{ text-align:center; }
-            .dcp-col-solo .dcp-cover{ width:62%; height:auto; max-height:250px; margin:0 auto; object-fit:cover; }
-            .dcp-col-solo .dcp-cat-author{ justify-content:center; }
+            .dcp-col-solo .dcp-cover{ width:100%; height:180px; object-fit:cover; }
 
-            .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; text-align:center; }
-            .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; text-align:center; }
-            .dcp-col-duo .dcp-art-start h2{ font-size:17px !important; text-align:center; }
-            .dcp-col-duo .dcp-card-header{ text-align:center; }
-            .dcp-col-duo .dcp-cover{ width:75%; height:auto; max-height:185px; margin:0 auto; object-fit:cover; }
-            .dcp-col-duo .dcp-cat-author{ justify-content:center; }
+            .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; text-align:justify; }
+            .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; text-align:justify; }
+            .dcp-col-duo .dcp-art-start h2{ font-size:16px !important; }
+            .dcp-col-duo .dcp-cover{ width:100%; height:150px; object-fit:cover; }
 
             .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
