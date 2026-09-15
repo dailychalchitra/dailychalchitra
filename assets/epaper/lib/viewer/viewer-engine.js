@@ -1,10 +1,10 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v28.0
-   UPDATE: চারপাশ জুড়ে সারিবদ্ধ পাতা-ফুল, হালকা ব্যাকগ্রাউন্ড,
-           ছোট পোস্টেও ফুল A4-height ব্যাকগ্রাউন্ড
+   Daily Chalchitra ePaper Engine - v29.0
+   UPDATE: সিঙ্গেল পোস্ট PDF-এ সর্বনিম্ন ২-কলাম বাধ্যতামূলক,
+           যাতে ছোট লেখাও ফুল-পেজের মতো newspaper-column লুক পায়
    ========================================================== */
 window.DCViewer = {
-    version: "28.0",
+    version: "29.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -375,14 +375,15 @@ window.DCViewer = {
     },
 
     // মাপা (measured) height দিয়ে সবগুলো কলাম একসাথে গ্লোবালি ব্যালেন্স
-    // করে ৪-কলাম পেজে ভাগ করে
-    layoutGridPages(chunks){
+    // করে ৪-কলাম পেজে ভাগ করে। minColumns দিয়ে সর্বনিম্ন কলাম-সংখ্যা
+    // বাধ্যতামূলক করা যায় (সিঙ্গেল পোস্টের জন্য)
+    layoutGridPages(chunks, minColumns = 1){
         if(!chunks.length) return [];
         const heights = chunks.map(c => c.height);
         const totalHeight = heights.reduce((a,b)=>a+b, 0);
         const safeColHeight = 1150;
 
-        let numColumns = Math.max(1, Math.ceil(totalHeight / safeColHeight));
+        let numColumns = Math.max(minColumns, Math.ceil(totalHeight / safeColHeight));
         let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
 
         let guard = 0;
@@ -409,7 +410,7 @@ window.DCViewer = {
         return gridPages;
     },
 
-    async buildPrintPages(posts){
+    async buildPrintPages(posts, minColumns = 1){
         const source = posts && posts.length ? posts : this.posts;
         if(!source.length) return [];
         const chunks = [];
@@ -417,7 +418,7 @@ window.DCViewer = {
         if(!chunks.length) return [];
 
         await this.measureChunkHeights(chunks, this.getGridColWidth());
-        return this.layoutGridPages(chunks);
+        return this.layoutGridPages(chunks, minColumns);
     },
 
     // ধূসর ফার্ন-পাতা - CSS ব্যাকগ্রাউন্ডের বদলে সরাসরি <img> হিসেবে
@@ -742,7 +743,8 @@ window.DCViewer = {
 
     async downloadSinglePostPDF(post){
         if(!post){ return; }
-        const printPages = await this.buildPrintPages([post]);
+        // ছোট লেখাতেও ফুল-পেজের মতো newspaper-column লুক পেতে সর্বনিম্ন ২টা কলাম বাধ্যতামূলক
+        const printPages = await this.buildPrintPages([post], 2);
         const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
         await this.capturePagesToPDF(printPages, null, fileName);
     }
