@@ -375,26 +375,34 @@ window.DCViewer = {
         return Math.floor((innerWidth - gap * 3) / 4);
     },
 
-    // মাপা (measured) height দিয়ে সবগুলো কলাম একসাথে গ্লোবালি ব্যালেন্স
-    // করে ৪-কলাম পেজে ভাগ করে। মোট কলাম-সংখ্যা (totalColumns) ফেরত
-    // দেওয়া হয়, যাতে সব পাতায় একই রকম কলাম-প্রস্থ ব্যবহার করা যায়
+    // এখন সংবাদপত্রের মতো ধারাবাহিক প্রবাহ ব্যবহার করা হয়: প্রতিটা
+    // কলাম নিজের সর্বোচ্চ ধারণক্ষমতা (safeColHeight) পর্যন্ত ভরাট হয়,
+    // তারপরই লেখা পরের কলামে যায় - আগের মতো জোর করে সমান-সমান ভাগ
+    // (balance) করা হয় না, যাতে কোনো কলাম অর্ধেক ভরেই থেমে না যায়
     layoutGridPages(chunks, minColumns = 1){
         if(!chunks.length) return { pages: [], totalColumns: 0 };
         const heights = chunks.map(c => c.height);
-        const totalHeight = heights.reduce((a,b)=>a+b, 0);
         const safeColHeight = 1150;
 
-        let numColumns = Math.max(minColumns, Math.ceil(totalHeight / safeColHeight));
-        let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
-
-        let guard = 0;
-        while(maxColHeight > safeColHeight && guard < 40){
-            numColumns++;
-            maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
-            guard++;
+        let columns;
+        if(minColumns > 1){
+            // সর্বনিম্ন কলাম-সংখ্যা বাধ্যতামূলক হলে (কম ব্যবহৃত পথ) আগের
+            // ব্যালেন্সড পদ্ধতি ব্যবহার করা হয়
+            let numColumns = minColumns;
+            let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
+            let guard = 0;
+            while(maxColHeight > safeColHeight && guard < 40){
+                numColumns++;
+                maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
+                guard++;
+            }
+            columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight, numColumns);
+        } else {
+            // স্বাভাবিক অবস্থায়: প্রতিটা কলাম safeColHeight পর্যন্ত ভরাট
+            // করে, প্রয়োজনমতো নতুন কলাম যোগ হয় - কোনো ঊর্ধ্বসীমা নেই
+            columns = this.splitChunksIntoColumns(chunks, heights, safeColHeight, Infinity);
         }
 
-        const columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight, numColumns);
         columns.forEach(col => {
             if(col.length && !col[0].isPostFirst){
                 col[0] = {
