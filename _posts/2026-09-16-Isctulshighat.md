@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "নিয়োগ বিজ্ঞপ্তি - লাইটহাউস স্কুল অ্যান্ড কলেজ"
-date: 2026-09-16 19:33:00 +0600
+date: 2026-09-16 19:10:00 +0600
 
 categories:
     - চাকরির বিজ্ঞপ্তি
@@ -18,7 +18,7 @@ author: "দৈনিক চালচিত্র"
 image: /assets/img/Isctulshighat.webp
 ---
 
-<div style="text-align: center; color: #8B0000; font-weight: bold; line-height: 1.8;">
+<div style="text-align: center !important; color: #8B0000; font-weight: bold; line-height: 1.8; width: 100%; display: block;">
   লাইটহাউস স্কুল অ্যান্ড কলেজ<br>
   তুলসীঘাট, গাইবান্ধা<br>
   স্থাপিত - ২০১৭ খ্রি.<br>
@@ -32,7 +32,7 @@ image: /assets/img/Isctulshighat.webp
   তারিখ: ১৪/০৯/২৬
 </div>
 
-<h3 style="text-align: center; color: #4B0082; font-weight: bold;">নিয়োগ বিজ্ঞপ্তি</h3>
+<h3 style="text-align: center !important; color: #4B0082; font-weight: bold; width: 100%;">নিয়োগ বিজ্ঞপ্তি</h3>
 
 <p style="color: #5D4037; font-weight: 500; text-align: justify; line-height: 1.7;">
 লাইটহাউস স্কুল অ্যান্ড কলেজ-এ নিম্নোক্ত শূন্য পদে শিক্ষক আবশ্যক। আগ্রহী প্রার্থীদের আগামী <strong>২৪/০৯/২০২৬</strong> তারিখের মধ্যে উপাধ্যক্ষ বরাবর স্ব-হস্তে লিখিত আবেদনপত্র জমা দেওয়ার জন্য আহ্বান করা যাচ্ছে।
@@ -45,9 +45,9 @@ image: /assets/img/Isctulshighat.webp
 | ৩ | অফিস সহকারী | ১ | এসএসসি বা সমমান | আলোচনা সাপেক্ষে |
 | ৪ | আয়া | ১ | অষ্টম শ্রেণী | আলোচনা সাপেক্ষে |
 
-<div style="text-align: center; margin: 25px 0;">
-  <img src="/assets/img/job-circular.webp" alt="লাইটহাউস স্কুল অ্যান্ড কলেজ নিয়োগ বিজ্ঞপ্তি" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-  <p style="font-size: 14px; color: #666; margin-top: 8px;"><em>লাইটহাউস স্কুল অ্যান্ড কলেজ নিয়োগ বিজ্ঞপ্তি ২০২৬</em></p>
+<div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 30px 0;">
+  <img src="/assets/img/job-circular.webp" alt="লাইটহাউস স্কুল অ্যান্ড কলেজ নিয়োগ বিজ্ঞপ্তি" style="display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <p style="font-size: 14px; color: #666; margin-top: 8px; text-align: center !important;"><em>লাইটহাউস স্কুল অ্যান্ড কলেজ নিয়োগ বিজ্ঞপ্তি ২০২৬</em></p>
 </div>
 
 ### প্রয়োজনীয় তথ্য ও শর্তাবলী:
