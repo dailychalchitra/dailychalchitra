@@ -43,7 +43,7 @@ image: /assets/img/Isctulshighat.webp
 }
 </style>
 
-<div style="max-width: 100%; box-sizing: border-box; overflow-wrap: break-word; word-break: break-word; text-align: left; color: #8B0000; font-weight: bold; line-height: 1.8; margin: 0; padding: 10px 0;">
+<div style="max-width: 100%; box-sizing: border-box; overflow-wrap: break-word; word-break: break-word; text-align: left; color: #8B0000; font-weight: bold; line-height: 1.5; margin: 0; padding: 5px 0; font-size: 14px;">
   লাইটহাউস স্কুল অ্যান্ড কলেজ<br>
   তুলসীঘাট, গাইবান্ধা<br>
   স্থাপিত - ২০১৭ খ্রি.<br>
