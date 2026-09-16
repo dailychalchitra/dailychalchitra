@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | দৈনিক চালচিত্র</title>
+  <link rel="canonical" href="{{ page.url | absolute_url | replace: ' ', '%20' }}">
 
 {% assign dc_page_desc = page.excerpt | strip_html | truncatewords: 30 | default: "বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার - দৈনিক চালচিত্র" %}
 {% assign dc_cat_en = page.categories | first %}
@@ -618,6 +619,23 @@ body.dc-menu-open { overflow: hidden; }
   gtag('js', new Date());
   gtag('config', 'G-P3K494H1N5');
 </script>
+
+  <script>
+(function(){
+  if (window.location.pathname.indexOf('/tag/') === 0 && window.location.search) {
+    var params = new URLSearchParams(window.location.search);
+    var tagName = params.get('name');
+    if (tagName) {
+      document.title = tagName + ' | দৈনিক চালচিত্র';
+    }
+    var canon = document.querySelector('link[rel="canonical"]');
+    if (canon) {
+      canon.setAttribute('href', window.location.origin + window.location.pathname + window.location.search);
+    }
+  }
+})();
+</script>
+  
 </head>
 <body>
 
