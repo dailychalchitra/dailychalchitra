@@ -510,10 +510,12 @@ window.DCViewer = {
             .dcp-page{
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
               position:relative; overflow:hidden;
-              background-color:#fdfcf8;
+              background-color:#fbfbfc;
               background-image:
-                radial-gradient(circle at 0% 0%, rgba(192,0,0,0.03), transparent 45%),
-                radial-gradient(circle at 100% 100%, rgba(20,60,110,0.03), transparent 45%);
+                linear-gradient(135deg, rgba(0,0,0,0.05) 0%, transparent 12%, rgba(0,0,0,0.03) 22%, transparent 34%, rgba(0,0,0,0.04) 46%, transparent 58%, rgba(0,0,0,0.03) 70%, transparent 82%, rgba(0,0,0,0.04) 94%, transparent 100%),
+                linear-gradient(45deg, rgba(255,255,255,0.6) 0%, transparent 20%, rgba(255,255,255,0.5) 45%, transparent 65%, rgba(255,255,255,0.6) 90%),
+                radial-gradient(circle at 0% 0%, rgba(0,0,0,0.02), transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(0,0,0,0.02), transparent 50%);
               border:2px solid #C00000;
               outline:1px solid #C00000;
               outline-offset:-6px;
