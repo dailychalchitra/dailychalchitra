@@ -511,8 +511,6 @@ window.DCViewer = {
               font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
               position:relative; overflow:hidden;
               background-color:#ffffff;
-              background-image:
-                linear-gradient(135deg, rgba(0,0,0,0.012) 0%, transparent 15%, rgba(0,0,0,0.008) 30%, transparent 45%, rgba(0,0,0,0.012) 60%, transparent 75%, rgba(0,0,0,0.008) 90%, transparent 100%);
               border:2px solid #C00000;
               outline:1px solid #C00000;
               outline-offset:-6px;
