@@ -1,11 +1,12 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v31.0
-   FIX: পুরো ডকুমেন্টের মোট কলাম-সংখ্যা অনুযায়ী সব পাতায়
-        সামঞ্জস্যপূর্ণ কলাম-প্রস্থ; সিঙ্গেল-কলাম পোস্ট এখন
-        সরু ও কেন্দ্রীভূত, ছবির সাইজও ঠিক থাকবে
+   Daily Chalchitra ePaper Engine - v32.0
+   FIX: height measurement এখন চূড়ান্ত রেন্ডার-প্রস্থ ও ফন্ট-ক্লাস
+        অনুযায়ী iterative ভাবে করা হয়, যাতে কলাম-সংখ্যা ও পেজ-ভরাট
+        সঠিক থাকে (আগে narrow-width মাপ দিয়ে wide-column রেন্ডার
+        হওয়ায় নিচে ফাঁকা থেকে যাচ্ছিল)
    ========================================================== */
 window.DCViewer = {
-    version: "31.0",
+    version: "32.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -313,9 +314,10 @@ window.DCViewer = {
         return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
     },
 
-    // প্রতিটা চাংক আসল ব্রাউজারে (এই একই কলাম-width এ) রেন্ডার করে
-    // তার প্রকৃত height মাপা হয় - অনুমান না, সরাসরি মাপ
-    async measureChunkHeights(chunks, colWidth){
+    // প্রতিটা চাংক আসল ব্রাউজারে, চূড়ান্ত রেন্ডারে যে প্রস্থ ও ফন্ট-ক্লাস
+    // ব্যবহার হবে ঠিক সেটাতেই রেন্ডার করে height মাপা হয় - অনুমান না,
+    // সরাসরি ও যথাযথ মাপ
+    async measureChunkHeights(chunks, colWidth, colClass){
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.left = "-99999px"; host.style.top = "0";
         host.style.width = colWidth + "px"; host.style.visibility = "hidden";
@@ -323,7 +325,7 @@ window.DCViewer = {
         host.innerHTML = this.getPrintStyleTag();
 
         const measureDiv = document.createElement("div");
-        measureDiv.className = "dcp-col";
+        measureDiv.className = colClass || 'dcp-col';
         measureDiv.style.cssText = `width:${colWidth}px;box-sizing:border-box;`;
         host.appendChild(measureDiv);
 
@@ -375,10 +377,8 @@ window.DCViewer = {
         return Math.floor((innerWidth - gap * 3) / 4);
     },
 
-    // এখন সংবাদপত্রের মতো ধারাবাহিক প্রবাহ ব্যবহার করা হয়: প্রতিটা
-    // কলাম নিজের সর্বোচ্চ ধারণক্ষমতা (safeColHeight) পর্যন্ত ভরাট হয়,
-    // তারপরই লেখা পরের কলামে যায় - আগের মতো জোর করে সমান-সমান ভাগ
-    // (balance) করা হয় না, যাতে কোনো কলাম অর্ধেক ভরেই থেমে না যায়
+    // ধারাবাহিক প্রবাহ: প্রতিটা কলাম নিজের সর্বোচ্চ ধারণক্ষমতা
+    // (safeColHeight) পর্যন্ত ভরাট হয়, তারপরই লেখা পরের কলামে যায়
     layoutGridPages(chunks, minColumns = 1){
         if(!chunks.length) return { pages: [], totalColumns: 0 };
         const heights = chunks.map(c => c.height);
@@ -386,8 +386,6 @@ window.DCViewer = {
 
         let columns;
         if(minColumns > 1){
-            // সর্বনিম্ন কলাম-সংখ্যা বাধ্যতামূলক হলে (কম ব্যবহৃত পথ) আগের
-            // ব্যালেন্সড পদ্ধতি ব্যবহার করা হয়
             let numColumns = minColumns;
             let maxColHeight = this.minimalMaxColumnHeight(heights, numColumns);
             let guard = 0;
@@ -398,8 +396,6 @@ window.DCViewer = {
             }
             columns = this.splitChunksIntoColumns(chunks, heights, maxColHeight, numColumns);
         } else {
-            // স্বাভাবিক অবস্থায়: প্রতিটা কলাম safeColHeight পর্যন্ত ভরাট
-            // করে, প্রয়োজনমতো নতুন কলাম যোগ হয় - কোনো ঊর্ধ্বসীমা নেই
             columns = this.splitChunksIntoColumns(chunks, heights, safeColHeight, Infinity);
         }
 
@@ -419,6 +415,9 @@ window.DCViewer = {
         return { pages: gridPages, totalColumns: columns.length };
     },
 
+    // যে প্রস্থ ও ফন্ট-ক্লাসে চূড়ান্ত রেন্ডার হবে, iterative ভাবে ঠিক
+    // সেটাতেই height মেপে লে-আউট করা হয় (একবার মাপা আর একবার রেন্ডারের
+    // প্রস্থ আলাদা হলে page ভরাট/কলাম-সংখ্যা ভুল হয়ে যেত)
     async buildPrintPages(posts, minColumns = 1){
         const source = posts && posts.length ? posts : this.posts;
         if(!source.length) return { pages: [], totalColumns: 0 };
@@ -426,8 +425,19 @@ window.DCViewer = {
         source.forEach(p => chunks.push(...this.splitPostIntoChunks(p)));
         if(!chunks.length) return { pages: [], totalColumns: 0 };
 
-        await this.measureChunkHeights(chunks, this.getGridColWidth());
-        return this.layoutGridPages(chunks, minColumns);
+        const captureWidth = 1000, gap = 16;
+        let numColsGuess = 4;
+        let result = { pages: [], totalColumns: 0 };
+
+        for(let iter = 0; iter < 5; iter++){
+            const { width: colWidth, cls: colClass } = this.getColWidthAndClass(numColsGuess, captureWidth, gap);
+            await this.measureChunkHeights(chunks, colWidth, colClass);
+            result = this.layoutGridPages(chunks, minColumns);
+            const nextNumCols = result.totalColumns > 0 ? Math.min(result.totalColumns, 4) : 1;
+            if(nextNumCols === numColsGuess) break;
+            numColsGuess = nextNumCols;
+        }
+        return result;
     },
 
     // ধূসর ফার্ন-পাতা - CSS ব্যাকগ্রাউন্ডের বদলে সরাসরি <img> হিসেবে
@@ -636,9 +646,7 @@ window.DCViewer = {
             </div>`;
     },
 
-    // numColsForWidth অনুযায়ী কলাম-প্রস্থ ও স্টাইল ঠিক করে। ১-কলামের
-    // ক্ষেত্রে সরু, কেন্দ্রীভূত প্রস্থ ব্যবহার করা হয় যাতে সিঙ্গেল-পোস্ট
-    // পাতা পুরো পাতা জুড়ে stretched না হয়ে স্বাভাবিক দেখায়
+    // numColsOnPage অনুযায়ী কলাম-প্রস্থ ও স্টাইল ঠিক করে
     getColWidthAndClass(numColsOnPage, captureWidth, gap){
         const innerWidth = captureWidth - 50;
         if(numColsOnPage <= 1){
