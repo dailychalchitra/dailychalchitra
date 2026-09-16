@@ -564,17 +564,17 @@ window.DCViewer = {
             .dcp-col-solo .dcp-content{ font-size:16px !important; line-height:1.85 !important; text-align:justify; }
             .dcp-col-solo .dcp-art-start h2{ font-size:20px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:8px !important; }
-            .dcp-col-solo .dcp-cover{ width:100%; height:200px; object-fit:cover; }
+            .dcp-col-solo .dcp-cover{ width:100%; height:280px; object-fit:cover; object-position:center 20%; }
 
             .dcp-col-duo{ font-size:14px !important; line-height:1.7 !important; text-align:justify; }
             .dcp-col-duo .dcp-content{ font-size:14px !important; line-height:1.7 !important; text-align:justify; }
             .dcp-col-duo .dcp-art-start h2{ font-size:16px !important; }
-            .dcp-col-duo .dcp-cover{ width:100%; height:150px; object-fit:cover; }
+            .dcp-col-duo .dcp-cover{ width:100%; height:200px; object-fit:cover; object-position:center 20%; }
 
             .dcp-col-tri{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:13px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:15px !important; }
-            .dcp-col-tri .dcp-cover{ height:150px !important; }
+            .dcp-col-tri .dcp-cover{ height:170px !important; object-position:center 20%; }
 
             .dcp-art-start{
               border:1px solid #e3d5b8; border-radius:6px;
