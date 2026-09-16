@@ -18,7 +18,32 @@ author: "দৈনিক চালচিত্র"
 image: /assets/img/Isctulshighat.webp
 ---
 
-<div style="max-width: 100%; box-sizing: border-box; overflow-wrap: break-word; word-break: break-word; text-align: center; color: #8B0000; font-weight: bold; line-height: 1.8; margin: 0 auto; padding: 10px;">
+<style>
+/* মোবাইলের জন্য টেবিল রেসপন্সিভ */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 15px 0;
+}
+.table-wrapper table {
+  min-width: 500px;
+  width: 100%;
+  font-size: 15px;
+}
+@media only screen and (max-width: 600px) {
+  .table-wrapper table {
+    font-size: 12px !important;
+    min-width: 480px;
+  }
+  .table-wrapper table th,
+  .table-wrapper table td {
+    padding: 6px 5px !important;
+  }
+}
+</style>
+
+<div style="max-width: 100%; box-sizing: border-box; overflow-wrap: break-word; word-break: break-word; text-align: left; color: #8B0000; font-weight: bold; line-height: 1.8; margin: 0; padding: 10px 0;">
   লাইটহাউস স্কুল অ্যান্ড কলেজ<br>
   তুলসীঘাট, গাইবান্ধা<br>
   স্থাপিত - ২০১৭ খ্রি.<br>
@@ -39,12 +64,16 @@ image: /assets/img/Isctulshighat.webp
 লাইটহাউস স্কুল অ্যান্ড কলেজ-এ নিম্নোক্ত শূন্য পদে শিক্ষক আবশ্যক। আগ্রহী প্রার্থীদের আগামী <strong>২৪/০৯/২০২৬</strong> তারিখের মধ্যে উপাধ্যক্ষ বরাবর স্ব-হস্তে লিখিত আবেদনপত্র জমা দেওয়ার জন্য আহ্বান করা যাচ্ছে।
 </p>
 
+<div class="table-wrapper" style="font-size: 13px;">
+
 | ক্রমিক নং | পদের নাম | পদ সংখ্যা | শিক্ষাগত যোগ্যতা | বেতন |
 | :--- | :--- | :--- | :--- | :--- |
 | ১ | সহকারী শিক্ষক - মাধ্যমিক শাখা (ইংরেজি) | ১ | সংশ্লিষ্ট বিষয়ে স্নাতক ডিগ্রি বা স্নাতকোত্তর | আলোচনা সাপেক্ষে |
 | ২ | সহকারী শিক্ষক - মাধ্যমিক শাখা (জীববিজ্ঞান) | ১ | সংশ্লিষ্ট বিষয়ে স্নাতক ডিগ্রি বা স্নাতকোত্তর | আলোচনা সাপেক্ষে |
 | ৩ | অফিস সহকারী | ১ | এসএসসি বা সমমান | আলোচনা সাপেক্ষে |
 | ৪ | আয়া | ১ | অষ্টম শ্রেণী | আলোচনা সাপেক্ষে |
+
+</div>
 
 <div style="max-width: 100%; box-sizing: border-box; margin: 25px auto; text-align: center;">
   <img src="/assets/img/job-circular.webp" alt="লাইটহাউস স্কুল অ্যান্ড কলেজ নিয়োগ বিজ্ঞপ্তি" style="display: block; max-width: 100%; width: auto; height: auto; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
