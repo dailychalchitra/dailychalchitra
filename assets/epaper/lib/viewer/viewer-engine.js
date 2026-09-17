@@ -719,7 +719,7 @@ window.DCViewer = {
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
                     `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>` +
-                    `<div class="dcp-footer">দৈনিক চালচিত্র &nbsp;•&nbsp; www.dailychalchitra.com</div>`;
+                    `<div class="dcp-footer">পড়ুন, জানুন, সচেতন হোন... &nbsp;•&nbsp; www.dailychalchitra.com</div>`;
 
                 const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
                 if(!canvas || canvas.width === 0 || canvas.height === 0){
