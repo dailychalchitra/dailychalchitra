@@ -247,25 +247,20 @@ window.DCViewer = {
         return color;
     },
 
-    truncateText(text, maxLen){
-        const clean = (text || "").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-        if(clean.length <= maxLen) return clean;
-        return clean.slice(0, maxLen).replace(/\s+\S*$/, "") + "...";
-    },
-
-    buildTeaserCardHTML(post){
-        const catColor = this.getCategoryColor(post.category);
+    buildHeaderChunkHTML(post){
         const coverImg = post.image
-            ? `<img src="${post.image}" alt="${post.title}" class="dcp-teaser-thumb" crossorigin="anonymous">`
-            : `<div class="dcp-teaser-thumb dcp-teaser-thumb-fallback" style="background:${catColor};"></div>`;
-        const excerptText = this.truncateText(post.excerpt || post.content, 130);
-        return `<div class="dcp-teaser-card">
-            <div class="dcp-teaser-thumb-wrap">${coverImg}</div>
-            ${post.category ? `<span class="dcp-teaser-badge" style="background:${catColor};">${post.category}</span>` : ''}
-            <h3 class="dcp-teaser-title">${post.title}</h3>
-            ${post.date ? `<div class="dcp-teaser-date">${post.date}</div>` : ''}
-            <p class="dcp-teaser-excerpt">${excerptText}</p>
-            <span class="dcp-teaser-arrow" style="background:${catColor};">&#8594;</span>
+            ? `<img src="${post.image}" alt="${post.title}" class="dcp-cover" crossorigin="anonymous">`
+            : '';
+        const catColor = this.getCategoryColor(post.category);
+        const catBadge = post.category
+            ? `<span class="dcp-cat-badge" style="background:${catColor};">${post.category}</span>`
+            : '';
+        const authorText = post.author ? ' লেখক: ' + post.author : '';
+        return `<div class="dcp-art-start">
+            <div class="dcp-card-header">${coverImg}</div>
+            <h2>${post.title}</h2>
+            <div class="dcp-cat-author">${catBadge}${authorText ? `<span class="dcp-author-text">${authorText}</span>` : ''}</div>
+            ${post.date ? `<div class="dcp-date">${post.date}</div>` : ''}
         </div>`;
     },
 
@@ -306,7 +301,17 @@ window.DCViewer = {
     },
 
     splitPostIntoChunks(post){
-        return [{ html: this.buildTeaserCardHTML(post), height: 0, post, isPostFirst: true }];
+        const raw = post.content || post.excerpt || "";
+        const bodyChunks = this.isKobita(post) ? this.getKobitaChunks(raw) : this.getProseParagraphChunks(raw);
+        const headerHTML = this.buildHeaderChunkHTML(post);
+
+        if(bodyChunks.length){
+            bodyChunks[0] = { html: headerHTML + bodyChunks[0].html, height: 0 };
+        } else {
+            bodyChunks.push({ html: headerHTML, height: 0 });
+        }
+
+        return bodyChunks.map((c, idx) => ({ ...c, post, isPostFirst: idx === 0 }));
     },
 
     // প্রতিটা চাংক আসল ব্রাউজারে, চূড়ান্ত রেন্ডারে যে প্রস্থ ও ফন্ট-ক্লাস
@@ -576,47 +581,20 @@ window.DCViewer = {
             }
             .dcp-col > .dcp-art-start:first-child{ margin-top:2px; }
             .dcp-card-header{ margin-bottom:6px; }
-            .dcp-head-left, .dcp-head-right{ font-size:10px; font-weight:700; color:#C00000; }
-            .dcp-head-right{ text-align:right; }
-            .dcp-head-infobar{
-              position:relative; z-index:1; font-size:10px; color:#555;
-              text-align:center; margin:2px 0 10px 0;
+            .dcp-art-start h2{
+              font-size:14px; margin:0 0 4px 0; line-height:1.3;
+              font-family:'Noto Serif Bengali',serif; font-weight:700; color:#111;
+              border-bottom:1px solid #eee; padding-bottom:4px;
             }
-
-            .dcp-teaser-card{
-              position:relative; border:1px solid #e3d5b8; border-radius:8px;
-              padding:10px 10px 36px 10px; margin:0 3px 14px 3px;
-              background:rgba(255,255,255,0.75); box-shadow:0 2px 6px rgba(0,0,0,0.06);
-            }
-            .dcp-teaser-thumb-wrap{ width:100%; margin-bottom:8px; }
-            .dcp-teaser-thumb{ width:100%; height:100px; object-fit:cover; border-radius:5px; display:block; }
-            .dcp-teaser-thumb-fallback{ height:100px; border-radius:5px; }
-            .dcp-teaser-badge{
-              display:inline-block; color:#fff; font-size:10px; font-weight:700;
-              padding:2px 9px; border-radius:3px; margin-bottom:6px;
-            }
-            .dcp-teaser-title{
-              font-size:14px; font-weight:800; line-height:1.35; margin:0 0 5px 0;
-              color:#111; font-family:'Noto Serif Bengali',serif;
-            }
-            .dcp-teaser-date{ font-size:9.5px; color:#999; margin-bottom:6px; }
-            .dcp-teaser-excerpt{
-              font-size:11.5px; line-height:1.5; color:#444; margin:0;
-              font-family:'Noto Sans Bengali',sans-serif;
-            }
-            .dcp-teaser-arrow{
-              position:absolute; bottom:10px; right:10px; width:22px; height:22px;
-              border-radius:50%; color:#fff; font-size:13px; font-weight:700;
-              display:flex; align-items:center; justify-content:center;
-            }
-
-            /* সিঙ্গেল-পোস্ট PDF-এ (সোলো/ডুও কলাম) কার্ড বড় ও ফিচার্ড দেখাবে */
-            .dcp-col-solo .dcp-teaser-thumb, .dcp-col-solo .dcp-teaser-thumb-fallback{ height:220px; }
-            .dcp-col-solo .dcp-teaser-title{ font-size:20px; }
-            .dcp-col-solo .dcp-teaser-excerpt{ font-size:15px; }
-            .dcp-col-duo .dcp-teaser-thumb, .dcp-col-duo .dcp-teaser-thumb-fallback{ height:160px; }
-            .dcp-col-duo .dcp-teaser-title{ font-size:16px; }
-            .dcp-col-duo .dcp-teaser-excerpt{ font-size:13px; }
+            .dcp-cat-author{ margin:2px 0 4px 0; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+            .dcp-cat-badge{ color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; display:inline-block; box-shadow:0 1px 2px rgba(0,0,0,0.15); }
+            .dcp-author-text{ font-size:11px; color:#555; font-weight:600; }
+            .dcp-date{ font-size:10px; color:#888; margin-bottom:4px; }
+            .dcp-content{ font-family:'Noto Serif Bengali',serif; font-size:12px; line-height:1.5; color:#222; }
+            .dcp-content p{ margin:0 0 6px 0; padding:0; }
+            .dcp-kobita{ display:block; margin:0 0 4px 0; line-height:1.4; }
+            .dcp-kobita-date{ display:block; margin-top:4px; font-size:11px; font-style:italic; color:#555; }
+            .dcp-continued{ font-size:10.5px; font-style:italic; color:#888; margin-bottom:4px; }
 
             .dcp-footer{
               position:relative; z-index:1; text-align:center; font-size:9px; color:#999;
@@ -637,7 +615,10 @@ window.DCViewer = {
     },
 
     buildHeadHTML(issueMeta, pageNum, totalPages){
-        const dateStr = issueMeta?.date || '';
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const dateStr = issueMeta?.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
+        const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
         const detailStr = issueMeta?.title || 'ই-পেপার সংস্করণ';
         return `
             <div class="dcp-corner dcp-corner-tl"></div>
@@ -646,15 +627,19 @@ window.DCViewer = {
             <div class="dcp-corner dcp-corner-br"></div>
             ${this.buildLeafOverlayHTML()}
             <div class="dcp-head">
-                <div class="dcp-head-left">ভালো গল্প<br>সবার জন্য</div>
+                <div class="dcp-head-left">
+                    <div>তারিখ: ${dateStr}</div>
+                    <div>সময়: ${timeStr}</div>
+                    <div>বিস্তারিত: ${detailStr}</div>
+                </div>
                 <div class="dcp-head-center">
                     <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-logo" crossorigin="anonymous">
-                    <span class="dcp-tagline">সত্যের সাথে সবসময়</span>
+                    <span class="dcp-tagline">সত্য প্রকাশে নির্ভীক কণ্ঠস্বর</span>
                 </div>
-                <div class="dcp-head-right">সিনেমা, সাহিত্য,<br>সংস্কৃতি ও সমাজের সব খবর</div>
-            </div>
-            <div class="dcp-head-infobar">
-                সংখ্যা: ${issueMeta?.week || ""} &nbsp;|&nbsp; ${dateStr || detailStr} &nbsp;|&nbsp; পৃষ্ঠা ${pageNum} / ${totalPages}
+                <div class="dcp-head-right">
+                    <div>সংখ্যা: ${issueMeta?.week || ""}</div>
+                    <div>পৃষ্ঠা: ${pageNum} / ${totalPages}</div>
+                </div>
             </div>`;
     },
 
@@ -719,7 +704,7 @@ window.DCViewer = {
 
                 pageEl.innerHTML = this.getPrintStyleTag() + headHTML +
                     `<div class="dcp-columns" style="gap:${gap}px;">${colsHTML}</div>` +
-                    `<div class="dcp-footer">পড়ুন, জানুন, সচেতন হোন... &nbsp;•&nbsp; www.dailychalchitra.com</div>`;
+                    `<div class="dcp-footer">দৈনিক চালচিত্র &nbsp;•&nbsp; www.dailychalchitra.com</div>`;
 
                 const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
                 if(!canvas || canvas.width === 0 || canvas.height === 0){
