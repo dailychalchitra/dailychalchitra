@@ -630,7 +630,7 @@ body.dc-menu-open { overflow: hidden; }
     }
     var canon = document.querySelector('link[rel="canonical"]');
     if (canon) {
-      canon.setAttribute('href', window.location.origin + window.location.pathname + window.location.search);
+      canon.setAttribute('href', window.location.origin + window.location.pathname);
     }
   }
 })();
