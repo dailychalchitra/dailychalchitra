@@ -1,4 +1,5 @@
 <div class="dc-sidefooter">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600;700&display=swap" rel="stylesheet">
 <style>
   .dc-sidefooter{ 
     font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; 
@@ -9,8 +10,16 @@
     float:none !important;
     clear:both;
     margin-top:0;
+    flex-shrink:0;
   }
   .dc-sidefooter a{ text-decoration:none; }
+  .dc-sidefooter .dc-sf-brand{
+    font-family:'Baloo Da 2',cursive;
+    font-weight:700;
+    color:#FFD700 !important;
+    font-size:17px;
+    letter-spacing:0.5px;
+  }
   .dc-sidefooter .dc-sf-tags a{
     display:inline-block; font-size:12px; color:#eee; background:rgba(255,255,255,0.1);
     padding:4px 10px; border-radius:14px; margin:3px 3px;
@@ -27,7 +36,7 @@
   <div style="padding:14px 12px; text-align:center; border-top:2px solid #C00000; background:#0d1b2a;">
     <a href="/" style="display:inline-flex; align-items:center; gap:6px; margin-bottom:10px;">
       <img src="/assets/img/sun-logo.png" alt="দৈনিক চালচিত্র" style="height:22px; width:auto;">
-      <span style="color:#fff; font-weight:700; font-size:14px;">দৈনিক চালচিত্র</span>
+      <span class="dc-sf-brand">দৈনিক চালচিত্র</span>
     </a>
 
     <div class="dc-sf-tags" style="margin-bottom:10px;">
