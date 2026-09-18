@@ -430,16 +430,17 @@ title: প্রচ্ছদ
     .dc-pa-cat-col .dc-cat-thumb{ border-radius:0 !important; }
     .dc-pa-cat-col .dc-cat-main-title{ font-family:'Hind Siliguri', sans-serif; }
 
-        /* ক্যাটাগরি সেকশনের ছবি — মূল সাইজ-বাঁধন (আগে ভুলে বাদ পড়েছিল) */
-    .dc-cat-main-img img{ width:100%; height:120px; object-fit:cover; display:block; }
+        /* ক্যাটাগরি সেকশনের ছবি — সুষম অনুপাতে (চ্যাপ্টা/চওড়া সমস্যা ঠিক) */
+    .dc-cat-main-img{ display:block; overflow:hidden; border-radius:0; }
+    .dc-cat-main-img img{ width:100%; aspect-ratio:4/3; height:auto; object-fit:cover; object-position:center 25%; display:block; }
     .dc-cat-thumb{ flex-shrink:0; width:48px; height:48px; display:block; overflow:hidden; }
-    .dc-cat-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .dc-cat-thumb img{ width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; }
     .dc-cat-list-item{ display:flex; gap:8px; align-items:flex-start; border-top:1px solid #eee; padding:8px 0; }
     .dc-cat-main-title{ font-size:14px; font-weight:700; line-height:1.4; margin:8px 0 4px; }
     .dc-cat-list-title{ font-size:13px; line-height:1.4; color:#333; text-decoration:none; align-self:center; }
 
     @media(max-width:768px){
-        .dc-cat-main-img img{ height:60px; }
+        .dc-cat-main-img img{ aspect-ratio:4/3; }
         .dc-cat-thumb{ width:38px; height:38px; }
         .dc-cat-main-title{ font-size:10px; margin:4px 0 2px; line-height:1.3; }
         .dc-cat-list-title{ font-size:11px; }
