@@ -524,7 +524,7 @@ body.no-scroll {
   position: absolute; top: 10px; right: 10px;
   background: none; border: none; font-size: 30px; cursor: pointer; color: #666;
 }
-.dc-acc-list { padding: 10px 0; flex: 1 1 auto; overflow-y: auto; }
+.dc-acc-list { padding: 10px 0; flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .dc-acc-item { border-bottom: 1px solid #f0f0f0; }
 .dc-acc-title {
   display: block; padding: 12px 20px; color: #333; text-decoration: none;
@@ -1206,19 +1206,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-document.addEventListener('DOMContentLoaded', function() {
   var sideMenu = document.getElementById('dc-side-menu');
   if (sideMenu) {
-    sideMenu.querySelectorAll('a[href]').forEach(function(link) {
-      link.addEventListener('click', function() {
-        if (sideMenu.classList.contains('active')) {
-          toggleDcMenu();
-        }
-      });
+    sideMenu.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href]');
+      if (link && sideMenu.classList.contains('active')) {
+        toggleDcMenu();
+      }
     });
   }
-}); 
-});  
+});
 </script>
 
 <!-- Firebase Init -->
