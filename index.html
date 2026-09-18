@@ -3,282 +3,158 @@ layout: default
 title: প্রচ্ছদ
 ---
 
-<!-- হোমপেজ কন্টেন্ট শুরু -->
-<div class="container main-content">
-    
-    <!-- সেকশন টাইটেল + ই-পেপার বাটন -->
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-        <h2 class="section-title" style="margin-bottom:0;">সর্বশেষ সংবাদ</h2>
-        <a href="{{ '/epaper/' | relative_url }}" style="background:#C00000;color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:6px;">
-            <i class="fa fa-newspaper" style="font-size:13px;"></i>
-            ই-পেপার
+<!-- হোমপেজ কন্টেন্ট শুরু (প্রথম আলো স্টাইল রিডিজাইন) -->
+<div class="container main-content dc-pa-home">
+
+    <!-- টপ বার: তারিখ + ই-পেপার -->
+    <div class="dc-pa-topbar">
+        <span class="dc-pa-topbar-date"><i class="far fa-calendar-alt"></i> {{ site.time | date: "%A, %d %B %Y" }}</span>
+        <a href="{{ '/epaper/' | relative_url }}" class="dc-pa-epaper-btn">
+            <i class="fa fa-newspaper"></i> ই-পেপার
         </a>
     </div>
 
-    <!-- 1. লিড নিউজ সেকশন -->
-    <section class="lead-news-section">
+    <!-- 1. হিরো: লিড নিউজ + পাশে হেডলাইন তালিকা -->
+    <section class="dc-pa-hero">
         {% for post in site.posts limit:1 %}
-        <div class="lead-news">
-            <a href="{{ post.url | relative_url }}" class="lead-img">
+        <div class="dc-pa-hero-main">
+            <a href="{{ post.url | relative_url }}" class="dc-pa-hero-img">
                 {% if post.image %}
                 <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
                 {% else %}
                 <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
                 {% endif %}
             </a>
-            <div class="lead-content">
-                <span class="category-badge">{{ post.category_bn | default: post.categories.first }}</span>
-                <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
-                {% if post.author %}<p style="font-size:16px;color:#C00000;font-weight:400;font-style:italic;margin:0 0 8px;">লেখক: {{ post.author }}</p>{% endif %}
-                <p class="lead-excerpt">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
-                    <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
+            <div class="dc-pa-hero-content">
+                <span class="dc-pa-cat-tag">{{ post.category_bn | default: post.categories.first }}</span>
+                <h1 class="dc-pa-hero-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
+                {% if post.author %}<p class="dc-pa-hero-author">লেখক: {{ post.author }}</p>{% endif %}
+                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 32 }}</p>
+                <div class="dc-pa-hero-bottom">
+                    <span class="dc-pa-hero-meta"><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
                     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
                         <i class="fa fa-plus" style="font-size:10px;"></i>
                         <span class="dc-home-follow-label">ফলো করুন</span>
                     </button>
                 </div>
-                <div class="post-meta">
-                    <span><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
-                </div>
             </div>
         </div>
         {% endfor %}
+
+        <div class="dc-pa-hero-list">
+            <h4 class="dc-pa-hero-list-heading">সর্বশেষ</h4>
+            {% for post in site.posts offset:1 limit:6 %}
+            <a href="{{ post.url | relative_url }}" class="dc-pa-hero-list-item">
+                <span class="dc-pa-hero-dot"></span>
+                <span class="dc-pa-hero-list-text">{{ post.title }}</span>
+            </a>
+            {% endfor %}
+        </div>
     </section>
 
-    <!-- 2. আরও সংবাদ গ্রিড -->
-    <div class="content-wrap">
-        <div class="news-grid-wrap">
-            <h3 style="font-size:18px;color:#333;margin:0 0 15px;border-left:4px solid #C00000;padding-left:10px;">আরও সংবাদ</h3>
-            <div id="dc-more-news-grid">
-                {% for post in site.posts offset:1 limit:8 %}
-                <article class="news-card">
-                    <a href="{{ post.url | relative_url }}" class="card-img">
-                        {% if post.image %}
-                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                        {% else %}
-                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
-                        {% endif %}
-                    </a>
-                    <div class="card-content">
-                        <span class="category-badge">{{ post.category_bn | default: post.categories.first }}</span>
-                        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                        {% if post.author %}<p class="card-author" style="font-size:14px;color:#C00000;font-weight:400;font-style:italic;margin:2px 0 6px;">লেখক: {{ post.author }}</p>{% endif %}
-                        <p class="card-excerpt" style="font-size:16px;margin:10px 0;">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                        <div class="card-actions-row" style="display:flex;justify-content:space-between;align-items:center;">
-                            <a href="{{ post.url | relative_url }}" style="color:#C00000;font-weight:bold;">আরও পড়ুন</a>
-                            <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:4px;background:#fff;color:#C00000;border:1.2px solid #C00000;padding:4px 10px;border-radius:14px;font-weight:600;font-size:11px;cursor:pointer;white-space:nowrap;">
-                                <i class="fa fa-plus" style="font-size:9px;"></i>
-                                <span class="dc-home-follow-label">ফলো করুন</span>
-                            </button>
-                        </div>
-                        <div class="post-meta">
-                            <span><i class="far fa-clock"></i> {{ post.date | date: "%d %b" }}</span>
-                        </div>
+    <!-- 2. আরও সংবাদ (ঘন লিস্ট-গ্রিড) -->
+    <section class="dc-pa-section">
+        <h3 class="dc-pa-section-title">আরও সংবাদ</h3>
+        <div id="dc-more-news-grid" class="dc-pa-news-grid">
+            {% for post in site.posts offset:7 limit:8 %}
+            <article class="news-card dc-pa-news-item">
+                <a href="{{ post.url | relative_url }}" class="card-img dc-pa-news-thumb">
+                    {% if post.image %}
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                    {% endif %}
+                </a>
+                <div class="card-content dc-pa-news-body">
+                    <span class="category-badge dc-pa-mini-cat">{{ post.category_bn | default: post.categories.first }}</span>
+                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                    {% if post.author %}<p class="card-author dc-pa-news-author">লেখক: {{ post.author }}</p>{% endif %}
+                    <p class="card-excerpt dc-pa-news-excerpt">{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
+                    <div class="card-actions-row dc-pa-news-actions">
+                        <span class="post-meta dc-pa-news-meta"><i class="far fa-clock"></i> {{ post.date | date: "%d %b" }}</span>
+                        <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:4px;background:#fff;color:#C00000;border:1.2px solid #C00000;padding:4px 10px;border-radius:14px;font-weight:600;font-size:11px;cursor:pointer;white-space:nowrap;">
+                            <i class="fa fa-plus" style="font-size:9px;"></i>
+                            <span class="dc-home-follow-label">ফলো করুন</span>
+                        </button>
                     </div>
-                </article>
-                {% endfor %}
-            </div>
+                </div>
+            </article>
+            {% endfor %}
         </div>
-    </div>
+    </section>
 
     <!-- ইউটিউব ভিডিও আবৃত্তি সেকশন -->
-    <div style="margin:25px 0;">
-        <h3 style="font-size:18px;color:#C00000;border-left:4px solid #C00000;padding-left:10px;margin:0 0 15px;display:flex;align-items:center;gap:8px;">
-            <i class="fab fa-youtube" style="font-size:18px;"></i> কবিতা আবৃত্তি ও ভিডিও
+    <section class="dc-pa-section">
+        <h3 class="dc-pa-section-title dc-pa-yt-title">
+            <i class="fab fa-youtube"></i> কবিতা আবৃত্তি ও ভিডিও
         </h3>
-        <div id="dc-youtube-news-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">
-            
-            <!-- ভিডিও কার্ড ১ -->
-            <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+        <div id="dc-youtube-news-grid" class="dc-pa-yt-grid">
+
+            <article class="news-card dc-yt-card dc-pa-yt-card">
                 <div class="dc-yt-facade" data-yt-id="oFt9N9rahRs" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;cursor:pointer;">
                     <img src="https://i.ytimg.com/vi/oFt9N9rahRs/hqdefault.jpg" loading="lazy" alt="কবিতা আবৃত্তি - ১" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:42px;background:rgba(200,0,0,0.85);border-radius:10px;display:flex;align-items:center;justify-content:center;">
                         <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #fff;margin-left:4px;"></div>
                     </div>
                 </div>
-                <div class="card-content" style="padding:15px;">
-                    <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
-                    <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
-                        <a href="https://youtu.be/oFt9N9rahRs" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ১</a>
-                    </h3>
-                    <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+                <div class="card-content dc-pa-yt-body">
+                    <span class="category-badge dc-pa-mini-cat">আবৃত্তি</span>
+                    <h3><a href="https://youtu.be/oFt9N9rahRs" target="_blank">কবিতা আবৃত্তি - ১</a></h3>
+                    <p class="card-excerpt">শামীম নিমু</p>
                 </div>
             </article>
 
-            <!-- ভিডিও কার্ড ২ -->
-            <article class="news-card dc-yt-card" style="background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;margin:0;">
+            <article class="news-card dc-yt-card dc-pa-yt-card">
                 <div class="dc-yt-facade" data-yt-id="UpXajSAatTQ" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;cursor:pointer;">
                     <img src="https://i.ytimg.com/vi/UpXajSAatTQ/hqdefault.jpg" loading="lazy" alt="কবিতা আবৃত্তি - ২" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:42px;background:rgba(200,0,0,0.85);border-radius:10px;display:flex;align-items:center;justify-content:center;">
                         <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #fff;margin-left:4px;"></div>
                     </div>
                 </div>
-                <div class="card-content" style="padding:15px;">
-                    <span class="category-badge" style="background:#C00000;color:white;padding:3px 8px;font-size:11px;border-radius:4px;display:inline-block;margin-bottom:6px;">আবৃত্তি</span>
-                    <h3 style="font-size:16px;margin:4px 0 6px;line-height:1.4;">
-                        <a href="https://youtu.be/UpXajSAatTQ" target="_blank" style="color:#111;text-decoration:none;">কবিতা আবৃত্তি - ২</a>
-                    </h3>
-                    <p class="card-excerpt" style="font-size:14px;color:#666;margin:0;">শামীম নিমু</p>
+                <div class="card-content dc-pa-yt-body">
+                    <span class="category-badge dc-pa-mini-cat">আবৃত্তি</span>
+                    <h3><a href="https://youtu.be/UpXajSAatTQ" target="_blank">কবিতা আবৃত্তি - ২</a></h3>
+                    <p class="card-excerpt">শামীম নিমু</p>
                 </div>
             </article>
 
         </div>
-    </div>
-
-    <style>
-    #dc-more-news-grid, #dc-youtube-news-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
-    #dc-more-news-grid .news-card, #dc-youtube-news-grid .news-card{ max-width:100%; margin:0; background:#fff; border:1px solid #eee; border-radius:8px; overflow:hidden; }
-    
-    @media(max-width:600px){
-        #dc-more-news-grid{ gap:8px; }
-        #dc-youtube-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
-        
-        /* ইউটিউব ভিডিও স্কেলিং */
-        #dc-youtube-news-grid .dc-yt-card > div:first-child {
-            position: relative;
-            overflow: hidden;
-        }
-        #dc-youtube-news-grid iframe {
-            transform: scale(0.65);
-            transform-origin: top left;
-            width: 153.84% !important;
-            height: 153.84% !important;
-        }
-
-        /* আরও সংবাদ কার্ডগুলোর মোবাইল সাইজ ও লেআউট ঠিক করা */
-        #dc-more-news-grid .card-img img{ height:90px !important; object-fit:cover; }
-        #dc-more-news-grid .card-content{ padding:8px !important; }
-        #dc-more-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
-        #dc-more-news-grid .card-content h3{ font-size:12px !important; margin:3px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-        #dc-more-news-grid .card-author{ font-size:10px !important; margin:0 0 3px !important; }
-        #dc-more-news-grid .card-excerpt{ font-size:11px !important; margin:4px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-        #dc-more-news-grid .card-actions-row a{ font-size:10px !important; }
-        #dc-more-news-grid .dc-home-follow-btn{ font-size:9px !important; padding:2px 6px !important; }
-        #dc-more-news-grid .post-meta{ font-size:9px !important; margin-top:3px !important; }
-
-        /* ইউটিউব কার্ড কন্টেন্ট মোবাইল ভিউ */
-        #dc-youtube-news-grid .card-content{ padding:8px !important; }
-        #dc-youtube-news-grid .card-content .category-badge{ font-size:9px !important; padding:2px 6px !important; margin-bottom:4px !important; }
-        #dc-youtube-news-grid .card-content h3{ font-size:12px !important; margin:3px 0 !important; line-height:1.3 !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-        #dc-youtube-news-grid .card-content p{ font-size:10px !important; color:#666 !important; margin:0 !important; }
-    }
-    </style>
-
-    <style>
-    .dc-home-follow-btn.dc-following {
-        background: linear-gradient(135deg,#e53935,#C00000) !important;
-        color: #fff !important;
-        border: none !important;
-    }
-    </style>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var followRef = dcDB.ref('site_followers');
-        var followBtns = document.querySelectorAll('.dc-home-follow-btn');
-        var isFollowing = false;
-
-        function updateAllButtons() {
-            followBtns.forEach(function (btn) {
-                var icon = btn.querySelector('i');
-                var label = btn.querySelector('.dc-home-follow-label');
-                if (isFollowing) {
-                    btn.classList.add('dc-following');
-                    icon.className = 'fa fa-check';
-                    label.textContent = 'ফলো করছেন';
-                } else {
-                    btn.classList.remove('dc-following');
-                    icon.className = 'fa fa-plus';
-                    label.textContent = 'ফলো করুন';
-                }
-            });
-        }
-
-        function refreshFollowState() {
-            if (!dcCurrentUser) return;
-            followRef.child(dcCurrentUser.uid).once('value').then(function (snap) {
-                isFollowing = !!snap.val();
-                updateAllButtons();
-            });
-        }
-
-        function handleFollowClick() {
-            if (!dcCurrentUser) return;
-            var userRef = followRef.child(dcCurrentUser.uid);
-            if (isFollowing) { userRef.remove(); } else { userRef.set(true); }
-            isFollowing = !isFollowing;
-            updateAllButtons();
-        }
-
-        followBtns.forEach(function (btn) { btn.addEventListener('click', handleFollowClick); });
-        document.addEventListener('dc-auth-ready', refreshFollowState);
-        if (dcCurrentUser) refreshFollowState();
-    });
-    </script>
-
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.dc-yt-facade').forEach(function (facade) {
-        facade.addEventListener('click', function () {
-            var videoId = facade.getAttribute('data-yt-id');
-            var iframe = document.createElement('iframe');
-            iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&modestbranding=1&rel=0';
-            iframe.setAttribute('allow', 'autoplay; encrypted-media');
-            iframe.setAttribute('allowfullscreen', '');
-            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
-            facade.innerHTML = '';
-            facade.appendChild(iframe);
-        }, { once: true });
-    });
-});
-</script>
+    </section>
 
     <!-- 3. নেভিগেশন লিংক -->
-    <div class="dc-nav-links" style="margin-top:20px;padding-top:20px;border-top:1px solid #eee;box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;justify-content:center;row-gap:14px;column-gap:clamp(10px, 3vw, 40px);">
-        <a href="{{ '/' | relative_url }}" style="white-space:nowrap;color:#c62828;text-decoration:none;border-bottom:1px solid #c62828;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">নতুন পোস্ট</a>
-        <a href="{{ '/archive/' | relative_url }}" style="white-space:nowrap;color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">পুরানো পোস্ট</a>
-        <a href="{{ '/categories/' | relative_url }}" style="white-space:nowrap;color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">বিভাগ সমূহ</a>
-        <a href="{{ '/' | relative_url }}" style="white-space:nowrap;color:#333;text-decoration:none;border-bottom:1px solid #333;padding-bottom:4px;font-size:clamp(14px, 2vw, 19px);">হোম পেজ</a>
+    <div class="dc-pa-nav-links">
+        <a href="{{ '/' | relative_url }}">নতুন পোস্ট</a>
+        <a href="{{ '/archive/' | relative_url }}">পুরানো পোস্ট</a>
+        <a href="{{ '/categories/' | relative_url }}">বিভাগ সমূহ</a>
+        <a href="{{ '/' | relative_url }}">হোম পেজ</a>
     </div>
 
     <!-- 4. জনপ্রিয় সংবাদ -->
-    <div id="dc-popular-section" class="dc-popular-news popular-news-section" style="background:#fff;border:1px solid #eee;border-radius:8px;padding:20px 15px;margin-bottom:25px;">
-        <h3 style="font-size:20px;color:#C00000;border-bottom:2px solid #C00000;padding-bottom:10px;margin:0 0 20px;">জনপ্রিয় সংবাদ</h3>
-        <div class="dc-popular-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(105px, 1fr));gap:10px;">
-            {% for post in site.posts offset:9 limit:6 %}
-            <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:inherit;display:block;">
-                <div style="border:1px solid #eee;border-radius:6px;overflow:hidden;height:100%;">
-                    {% if post.image %}
-                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
-                    {% else %}
-                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pop-img" style="width:100%;height:65px;object-fit:cover;display:block;">
-                    {% endif %}
-                    <div style="padding:6px;">
-                        <h4 class="dc-pop-title" style="font-size:11px;font-weight:700;color:#111;margin:0 0 3px;line-height:1.3;">{{ post.title }}</h4>
-                        <p class="dc-pop-excerpt" style="font-size:10px;color:#666;margin:0 0 3px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ post.excerpt | strip_html | truncatewords: 8 }}</p>
-                        <span style="font-size:9px;color:#999;">{{ post.date | date: "%d %B" }}</span>
-                    </div>
+    <section class="dc-pa-section dc-pa-popular">
+        <h3 class="dc-pa-section-title">জনপ্রিয় সংবাদ</h3>
+        <div class="dc-popular-grid dc-pa-popular-grid">
+            {% for post in site.posts offset:15 limit:6 %}
+            <a href="{{ post.url | relative_url }}" class="dc-pa-pop-item">
+                {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img">
+                {% else %}
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pop-img">
+                {% endif %}
+                <div class="dc-pa-pop-body">
+                    <h4 class="dc-pop-title">{{ post.title }}</h4>
+                    <p class="dc-pop-excerpt">{{ post.excerpt | strip_html | truncatewords: 8 }}</p>
+                    <span class="dc-pa-pop-date">{{ post.date | date: "%d %B" }}</span>
                 </div>
             </a>
             {% endfor %}
         </div>
-    </div>
-
-    <style>
-    @media (min-width: 768px) {
-        .dc-popular-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; gap: 20px !important; }
-        .dc-pop-img { height: 140px !important; }
-        .dc-pop-title { font-size: 15px !important; }
-        .dc-pop-excerpt { font-size: 13px !important; }
-    }
-    </style>
+    </section>
 
     <!-- 5. ক্যাটাগরি সেকশন - ধাপ ১ -->
     {% assign cat_list_1 = "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
-    <div class="dc-cat-grid">
+    <div class="dc-cat-grid dc-pa-cat-grid">
         {% for cat in cat_list_1 %}
-        <div class="dc-cat-col">
+        <div class="dc-cat-col dc-pa-cat-col">
             {% if cat == "লেখক তালিকা" %}
                 <h3 class="dc-cat-title"><a href="{{ '/author/' | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
                 {% assign cat_posts = site.posts %}
@@ -332,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২ -->
     {% assign cat_list_2 = "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
-    <div class="dc-cat-grid">
+    <div class="dc-cat-grid dc-pa-cat-grid">
         {% for cat in cat_list_2 %}
-        <div class="dc-cat-col">
+        <div class="dc-cat-col dc-pa-cat-col">
             <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
 
             {% if cat == "শিক্ষা" %}
@@ -402,32 +278,6 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         {% endfor %}
     </div>
-
-    <style>
-    .dc-cat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:25px; }
-    .dc-cat-col{ min-width:0; }
-    .dc-cat-title{ font-size:15px; font-weight:700; margin:0 0 12px; border-bottom:3px solid #C00000; padding-bottom:8px; }
-    .dc-cat-title a{ color:#C00000; text-decoration:none; display:flex; justify-content:space-between; align-items:center; }
-    .dc-cat-title i{ color:#C00000; font-size:12px; }
-    .dc-cat-main-img img{ width:100%; height:120px; object-fit:cover; border-radius:4px; display:block; }
-    .dc-cat-main-title{ font-size:14px; font-weight:700; line-height:1.4; margin:8px 0 4px; }
-    .dc-cat-main-title a{ color:#111; text-decoration:none; }
-    .dc-cat-main-title a:hover{ color:#C00000; }
-    .dc-cat-list{ list-style:none; margin:0; padding:0; }
-    .dc-cat-list-item{ display:flex; gap:8px; align-items:flex-start; border-top:1px solid #eee; padding:8px 0; }
-    .dc-cat-thumb{ flex-shrink:0; width:48px; height:48px; display:block; border-radius:4px; overflow:hidden; }
-    .dc-cat-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .dc-cat-list-title{ font-size:13px; line-height:1.4; color:#333; text-decoration:none; align-self:center; }
-    .dc-cat-list-title:hover{ color:#C00000; }
-    @media(max-width:768px){
-        .dc-cat-grid{ grid-template-columns:repeat(2,1fr); gap:8px; }
-        .dc-cat-title{ font-size:10px; margin-bottom:6px; padding-bottom:4px; }
-        .dc-cat-main-img img{ height:60px; }
-        .dc-cat-main-title{ font-size:10px; margin:4px 0 2px; line-height:1.3; }
-        .dc-cat-thumb{ width:38px; height:38px; }
-        .dc-cat-list-title{ font-size:11px; }
-    }
-    </style>
 
     <!-- Login/Signup বাটন + Play Store/App Store -->
     <div class="dc-auth-app-row" style="max-width:800px;margin:2px auto;padding:0px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;">
@@ -498,6 +348,177 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
     </div>
+
+    <!-- ======================= প্রথম আলো স্টাইল CSS ======================= -->
+    <style>
+    .dc-pa-home{ font-family:'Noto Sans Bengali', sans-serif; }
+
+    /* টপবার */
+    .dc-pa-topbar{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #C00000; padding-bottom:8px; margin-bottom:14px; }
+    .dc-pa-topbar-date{ font-size:13px; color:#555; }
+    .dc-pa-epaper-btn{ background:#C00000; color:#fff; padding:6px 16px; border-radius:4px; text-decoration:none; font-weight:600; font-size:13px; display:flex; align-items:center; gap:6px; }
+
+    /* হিরো */
+    .dc-pa-hero{ display:grid; grid-template-columns: 1.7fr 1fr; gap:22px; margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #e2e2e2; }
+    .dc-pa-hero-main{ min-width:0; }
+    .dc-pa-hero-img img{ width:100%; height:auto; max-height:400px; object-fit:cover; display:block; }
+    .dc-pa-cat-tag{ display:inline-block; background:#C00000; color:#fff; font-size:12px; font-weight:700; padding:3px 10px; margin:12px 0 8px; }
+    .dc-pa-hero-title{ font-size:26px; line-height:1.35; margin:0 0 8px; font-family:'Hind Siliguri', sans-serif; font-weight:700; }
+    .dc-pa-hero-title a{ color:#111; text-decoration:none; }
+    .dc-pa-hero-title a:hover{ color:#C00000; }
+    .dc-pa-hero-author{ font-size:14px; color:#C00000; font-style:italic; margin:0 0 6px; }
+    .dc-pa-hero-excerpt{ font-size:15px; color:#444; line-height:1.7; margin:0 0 10px; }
+    .dc-pa-hero-bottom{ display:flex; justify-content:space-between; align-items:center; }
+    .dc-pa-hero-meta{ font-size:13px; color:#888; }
+
+    .dc-pa-hero-list{ border-left:1px solid #e2e2e2; padding-left:18px; }
+    .dc-pa-hero-list-heading{ font-size:14px; font-weight:700; color:#C00000; border-bottom:2px solid #C00000; padding-bottom:8px; margin:0 0 10px; }
+    .dc-pa-hero-list-item{ display:flex; align-items:flex-start; gap:8px; padding:9px 0; border-bottom:1px dashed #e5e5e5; text-decoration:none; }
+    .dc-pa-hero-list-item:last-child{ border-bottom:none; }
+    .dc-pa-hero-dot{ width:6px; height:6px; border-radius:50%; background:#C00000; margin-top:7px; flex-shrink:0; }
+    .dc-pa-hero-list-text{ font-size:14.5px; line-height:1.5; color:#222; }
+    .dc-pa-hero-list-item:hover .dc-pa-hero-list-text{ color:#C00000; }
+
+    /* সেকশন কমন */
+    .dc-pa-section{ margin-bottom:28px; }
+    .dc-pa-section-title{ font-size:19px; font-weight:700; color:#111; margin:0 0 16px; padding-bottom:8px; border-bottom:3px solid #C00000; display:inline-block; }
+    .dc-pa-yt-title{ display:flex; align-items:center; gap:8px; color:#C00000; }
+
+    /* আরও সংবাদ - ঘন লিস্ট গ্রিড */
+    .dc-pa-news-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-news-item{ display:flex; flex-direction:column; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; background:#fff; border-radius:0 !important; box-shadow:none !important; }
+    .dc-pa-news-thumb img{ width:100%; height:130px; object-fit:cover; display:block; border-radius:0; }
+    .dc-pa-news-body{ padding:10px 12px; }
+    .dc-pa-mini-cat{ font-size:10.5px; font-weight:700; color:#C00000; background:none !important; padding:0 !important; display:inline-block; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.3px; }
+    .dc-pa-news-body h3{ font-size:15px; line-height:1.4; margin:2px 0 4px; font-family:'Hind Siliguri', sans-serif; font-weight:700; }
+    .dc-pa-news-body h3 a{ color:#161616; text-decoration:none; }
+    .dc-pa-news-body h3 a:hover{ color:#C00000; }
+    .dc-pa-news-author{ font-size:12px !important; color:#C00000; font-style:italic; margin:0 0 4px !important; }
+    .dc-pa-news-excerpt{ font-size:12.5px !important; color:#666; line-height:1.5; margin:0 0 8px !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .dc-pa-news-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
+    .dc-pa-news-meta{ font-size:11px !important; color:#999; }
+
+    /* ভিডিও গ্রিড */
+    .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-yt-card{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; border-radius:0 !important; margin:0 !important; }
+    .dc-pa-yt-body{ padding:12px; }
+    .dc-pa-yt-body h3{ font-size:15px; margin:4px 0 4px; font-family:'Hind Siliguri', sans-serif; font-weight:700; }
+    .dc-pa-yt-body h3 a{ color:#111; text-decoration:none; }
+    .dc-pa-yt-body p{ font-size:13px; color:#666; margin:0; }
+
+    /* নেভিগেশন লিংক */
+    .dc-pa-nav-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px 34px; padding:14px 0; margin-bottom:26px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
+    .dc-pa-nav-links a{ font-size:14.5px; font-weight:600; color:#333; text-decoration:none; padding-bottom:3px; border-bottom:2px solid transparent; }
+    .dc-pa-nav-links a:hover{ color:#C00000; border-bottom-color:#C00000; }
+
+    /* জনপ্রিয় সংবাদ */
+    .dc-pa-popular{ background:none; border:none; padding:0; }
+    .dc-pa-popular-grid{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:0 !important; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-pop-item{ display:flex; gap:10px; align-items:flex-start; padding:12px; text-decoration:none; color:inherit; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
+    .dc-pa-pop-item .dc-pop-img{ width:70px; height:70px; object-fit:cover; flex-shrink:0; border-radius:0; }
+    .dc-pa-pop-body{ min-width:0; }
+    .dc-pa-pop-item .dc-pop-title{ font-size:13.5px !important; font-weight:700; margin:0 0 4px !important; line-height:1.4 !important; color:#161616; }
+    .dc-pa-pop-item:hover .dc-pop-title{ color:#C00000; }
+    .dc-pa-pop-item .dc-pop-excerpt{ font-size:11.5px !important; color:#777; margin:0 0 4px !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .dc-pa-pop-date{ font-size:10.5px; color:#aaa; }
+
+    /* ক্যাটাগরি সেকশন প্রথম আলো স্টাইল */
+    .dc-pa-cat-grid{ gap:0 !important; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; margin-bottom:26px !important; }
+    .dc-pa-cat-col{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; padding:14px !important; }
+    .dc-pa-cat-col .dc-cat-title{ border-bottom:2px solid #C00000 !important; }
+    .dc-pa-cat-col .dc-cat-main-img img{ border-radius:0 !important; }
+    .dc-pa-cat-col .dc-cat-thumb{ border-radius:0 !important; }
+    .dc-pa-cat-col .dc-cat-main-title{ font-family:'Hind Siliguri', sans-serif; }
+
+    /* রেসপন্সিভ */
+    @media(max-width:900px){
+        .dc-pa-hero{ grid-template-columns:1fr; }
+        .dc-pa-hero-list{ border-left:none; padding-left:0; border-top:1px solid #e2e2e2; padding-top:14px; }
+        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr); }
+        .dc-pa-popular-grid{ grid-template-columns:repeat(2,1fr) !important; }
+    }
+    @media(max-width:600px){
+        .dc-pa-hero-title{ font-size:20px; }
+        .dc-pa-hero-img img{ max-height:220px; }
+        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr); }
+        .dc-pa-news-thumb img{ height:90px; }
+        .dc-pa-news-body{ padding:6px 8px; }
+        .dc-pa-news-body h3{ font-size:12.5px; -webkit-line-clamp:2; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
+        .dc-pa-news-excerpt{ display:none; }
+        .dc-pa-yt-grid{ grid-template-columns:1fr; }
+        .dc-pa-popular-grid{ grid-template-columns:1fr !important; }
+        .dc-pa-cat-grid{ grid-template-columns:repeat(2,1fr) !important; }
+    }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var followRef = dcDB.ref('site_followers');
+        var followBtns = document.querySelectorAll('.dc-home-follow-btn');
+        var isFollowing = false;
+
+        function updateAllButtons() {
+            followBtns.forEach(function (btn) {
+                var icon = btn.querySelector('i');
+                var label = btn.querySelector('.dc-home-follow-label');
+                if (isFollowing) {
+                    btn.classList.add('dc-following');
+                    icon.className = 'fa fa-check';
+                    label.textContent = 'ফলো করছেন';
+                } else {
+                    btn.classList.remove('dc-following');
+                    icon.className = 'fa fa-plus';
+                    label.textContent = 'ফলো করুন';
+                }
+            });
+        }
+
+        function refreshFollowState() {
+            if (!dcCurrentUser) return;
+            followRef.child(dcCurrentUser.uid).once('value').then(function (snap) {
+                isFollowing = !!snap.val();
+                updateAllButtons();
+            });
+        }
+
+        function handleFollowClick() {
+            if (!dcCurrentUser) return;
+            var userRef = followRef.child(dcCurrentUser.uid);
+            if (isFollowing) { userRef.remove(); } else { userRef.set(true); }
+            isFollowing = !isFollowing;
+            updateAllButtons();
+        }
+
+        followBtns.forEach(function (btn) { btn.addEventListener('click', handleFollowClick); });
+        document.addEventListener('dc-auth-ready', refreshFollowState);
+        if (dcCurrentUser) refreshFollowState();
+    });
+    </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.dc-yt-facade').forEach(function (facade) {
+        facade.addEventListener('click', function () {
+            var videoId = facade.getAttribute('data-yt-id');
+            var iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&modestbranding=1&rel=0';
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
+            facade.innerHTML = '';
+            facade.appendChild(iframe);
+        }, { once: true });
+    });
+});
+</script>
+
+    <style>
+    .dc-home-follow-btn.dc-following {
+        background: linear-gradient(135deg,#e53935,#C00000) !important;
+        color: #fff !important;
+        border: none !important;
+    }
+    </style>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
