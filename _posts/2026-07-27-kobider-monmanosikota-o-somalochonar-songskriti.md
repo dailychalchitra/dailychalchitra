@@ -48,7 +48,7 @@ tags:
     - articles written by shamim nimu 
     - poet's relationship to poets
     - the mentality of poets and the culture of criticism
-author: শামীম নিমু 
+author: শামীম নিমু
 image: /assets/img/shamim-nimu-1.webp
 ---
 
