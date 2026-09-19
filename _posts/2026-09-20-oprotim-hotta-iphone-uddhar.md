@@ -14,15 +14,13 @@ tags:
     - কুমিল্লা বিশ্ববিদ্যালয়
     - অপরাধ
 author: "ডেস্ক রিপোর্ট"
+image: /assets/img/cumilla-aprotim.webp
 permalink: /songbad/2026/09/20/oprotim-hotta-iphone-uddhar/
 redirect_from:
     - /সংবাদ/2026/09/20/oprotim-hotta-iphone-uddhar/
 ---
 
-<div style="text-align:center; margin-bottom: 15px;">
-  <img src="/assets/img/cumilla-aprotim.webp" alt="ইশায়াত শাহরিয়ার অপ্রতিম" width="375" height="250" style="width:375px; height:250px; max-width:100%; object-fit:cover; border-radius:8px; display:block; margin:0 auto;">
-  <p style="font-size:12px; color:#888; margin-top:6px; font-style:italic;">ইশায়াত শাহরিয়ার অপ্রতিম ছবি: সংগৃহীত</p>
-</div>
+<p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px; font-style:italic; text-align:center;">ইশায়াত শাহরিয়ার অপ্রতিম ছবি: সংগৃহীত</p>
 
 কুমিল্লা বিশ্ববিদ্যালয়ের বাংলা বিভাগের সহযোগী অধ্যাপক নাহিদা বেগমের একমাত্র ছেলে ইশায়াত শাহরিয়ার অপ্রতিমকে (১৩) হত্যার পর তার কাছ থেকে নিয়ে যাওয়া আইফোনটি উদ্ধার করেছে পুলিশ।
 
@@ -30,5 +28,4 @@ redirect_from:
 
 জেলা পুলিশের একটি দায়িত্বশীল সূত্র শনিবার রাত ১২টার দিকে বিষয়টি নিশ্চিত করেছেন। তিনি জানান, হত্যাকাণ্ডের রহস্য উদঘাটন হয়েছে। এ বিষয়ে বিস্তারিত জানাতে রোববার দুপুর ১২টায় জেলা পুলিশ সুপারের কার্যালয়ে সংবাদ সম্মেলন করা হবে।
 
----
-<p style="font-size:11px; color:#888; margin-top:20px; font-style:italic;">প্রকাশ: ১৯-০৯-২০২৬ইং।</p
+<p style="font-size:11px; color:#888; margin-top:20px; font-style:italic;">প্রকাশ: ১৯-০৯-২০২৬ইং।</p>
