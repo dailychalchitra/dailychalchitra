@@ -3,7 +3,7 @@ layout: post
 title: মোমবাতির আলোয় লেখা চিঠি
 date: 2026-08-09 03:09:00 +0400
 image: /assets/img/mombatir-aloy-lekha-chithi-1.webp
-author: "শামীম নিমু "
+author: "শামীম নিমু"
 categories:
   - প্রবন্ধ ও নিবন্ধ
 tags:
