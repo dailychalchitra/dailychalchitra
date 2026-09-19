@@ -14,7 +14,6 @@ tags:
     - কুমিল্লা বিশ্ববিদ্যালয়
     - অপরাধ
 author: "ডেস্ক রিপোর্ট"
-image: /assets/img/cumilla-aprotim.webp
 permalink: /songbad/2026/09/20/oprotim-hotta-iphone-uddhar/
 redirect_from:
     - /সংবাদ/2026/09/20/oprotim-hotta-iphone-uddhar/
@@ -32,4 +31,4 @@ redirect_from:
 জেলা পুলিশের একটি দায়িত্বশীল সূত্র শনিবার রাত ১২টার দিকে বিষয়টি নিশ্চিত করেছেন। তিনি জানান, হত্যাকাণ্ডের রহস্য উদঘাটন হয়েছে। এ বিষয়ে বিস্তারিত জানাতে রোববার দুপুর ১২টায় জেলা পুলিশ সুপারের কার্যালয়ে সংবাদ সম্মেলন করা হবে।
 
 ---
-<p style="font-size:11px; color:#888; margin-top:20px; font-style:italic;">প্রকাশ: ১৯-০৯-২০২৬ইং।</p>
+<p style="font-size:11px; color:#888; margin-top:20px; font-style:italic;">প্রকাশ: ১৯-০৯-২০২৬ইং।</p
