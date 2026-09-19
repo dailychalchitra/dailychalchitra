@@ -3,7 +3,7 @@ layout: default
 title: প্রচ্ছদ
 ---
 
-<!-- হোমপেজ কন্টেন্ট শুরু (প্রথম আলো স্টাইল রিডিজাইন v2) -->
+<!-- হোমপেজ কন্টেন্ট শুরু (প্রথম আলো স্টাইল রিডিজাইন v3 — ফন্ট +3px, হিরো এক্সসার্প্ট বড়) -->
 <div class="container main-content dc-pa-home">
 
     <!-- টপ বার: তারিখ + ই-পেপার -->
@@ -29,7 +29,8 @@ title: প্রচ্ছদ
                 <span class="dc-pa-cat-tag">{{ post.category_bn | default: post.categories.first }}</span>
                 <h1 class="dc-pa-hero-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p class="dc-pa-hero-author">লেখক: {{ post.author }}</p>{% endif %}
-                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+                <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
                 <div class="dc-pa-hero-bottom">
                     <span class="dc-pa-hero-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
                     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
@@ -375,14 +376,14 @@ title: প্রচ্ছদ
         </div>
     </div>
 
-    <!-- ======================= প্রথম আলো স্টাইল CSS ======================= -->
+    <!-- ======================= প্রথম আলো স্টাইল CSS (ফন্ট +3px) ======================= -->
     <style>
     .dc-pa-home{ font-family:'Noto Serif Bengali', serif; }
 
     /* টপবার */
     .dc-pa-topbar{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #C00000; padding-bottom:8px; margin-bottom:14px; }
-    .dc-pa-topbar-date{ font-size:13px; color:#555; }
-    .dc-pa-epaper-btn{ background:#C00000; color:#fff; padding:6px 16px; border-radius:4px; text-decoration:none; font-weight:600; font-size:13px; display:flex; align-items:center; gap:6px; }
+    .dc-pa-topbar-date{ font-size:16px; color:#555; }
+    .dc-pa-epaper-btn{ background:#C00000; color:#fff; padding:6px 16px; border-radius:4px; text-decoration:none; font-weight:600; font-size:16px; display:flex; align-items:center; gap:6px; }
 
     /* হিরো */
     .dc-pa-hero{ display:grid; grid-template-columns: 1.7fr 1fr; gap:22px; margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #e2e2e2; }
@@ -391,26 +392,28 @@ title: প্রচ্ছদ
     .dc-pa-hero-flex .dc-pa-hero-img{ flex-shrink:0; width:38%; max-width:260px; }
     .dc-pa-hero-flex .dc-pa-hero-img img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
     .dc-pa-hero-content{ flex:1; min-width:0; }
-    .dc-pa-cat-tag{ display:inline-block; background:none; color:#C00000; font-size:13px; font-weight:700; padding:0; margin:0 0 6px; }
-    .dc-pa-hero-title{ font-size:24px; line-height:1.35; margin:0 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:900; }
+    .dc-pa-cat-tag{ display:inline-block; background:none; color:#C00000; font-size:16px; font-weight:700; padding:0; margin:0 0 6px; }
+    .dc-pa-hero-title{ font-size:27px; line-height:1.35; margin:0 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:900; }
     .dc-pa-hero-title a{ color:#111; text-decoration:none; }
     .dc-pa-hero-title a:hover{ color:#C00000; }
-    .dc-pa-hero-author{ font-size:14px; color:#C00000; font-style:italic; margin:0 0 6px; }
-    .dc-pa-hero-excerpt{ font-size:15px; color:#444; line-height:1.7; margin:0 0 10px; }
+    .dc-pa-hero-author{ font-size:17px; color:#C00000; font-style:italic; margin:0 0 6px; }
+    .dc-pa-hero-excerpt{ font-size:18px; color:#444; line-height:1.7; margin:0 0 10px; }
+    .dc-pa-readmore-btn{ display:inline-flex; align-items:center; gap:6px; color:#C00000; font-weight:700; font-size:16px; text-decoration:none; margin:0 0 12px; border-bottom:2px solid #C00000; padding-bottom:2px; }
+    .dc-pa-readmore-btn:hover{ color:#8B0000; border-color:#8B0000; }
     .dc-pa-hero-bottom{ display:flex; justify-content:space-between; align-items:center; }
-    .dc-pa-hero-meta{ font-size:13px; color:#888; }
+    .dc-pa-hero-meta{ font-size:16px; color:#888; }
 
     .dc-pa-hero-list{ border-left:1px solid #e2e2e2; padding-left:18px; }
-    .dc-pa-hero-list-heading{ font-size:14px; font-weight:700; color:#C00000; border-bottom:2px solid #C00000; padding-bottom:8px; margin:0 0 10px; }
+    .dc-pa-hero-list-heading{ font-size:17px; font-weight:700; color:#C00000; border-bottom:2px solid #C00000; padding-bottom:8px; margin:0 0 10px; }
     .dc-pa-hero-list-item{ display:flex; align-items:flex-start; gap:8px; padding:9px 0; border-bottom:1px dashed #e5e5e5; text-decoration:none; }
     .dc-pa-hero-list-item:last-child{ border-bottom:none; }
     .dc-pa-hero-dot{ width:6px; height:6px; border-radius:50%; background:#C00000; margin-top:7px; flex-shrink:0; }
-    .dc-pa-hero-list-text{ font-size:14.5px; line-height:1.5; color:#222; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-hero-list-text{ font-size:17.5px; line-height:1.5; color:#222; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-hero-list-item:hover .dc-pa-hero-list-text{ color:#C00000; }
 
     /* সেকশন কমন */
     .dc-pa-section{ margin-bottom:28px; }
-    .dc-pa-section-title{ font-size:19px; font-weight:900; color:#111; margin:0 0 16px; padding-bottom:8px; border-bottom:3px solid #C00000; display:inline-block; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-section-title{ font-size:22px; font-weight:900; color:#111; margin:0 0 16px; padding-bottom:8px; border-bottom:3px solid #C00000; display:inline-block; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-yt-title{ display:flex; align-items:center; gap:8px; color:#C00000; }
 
     /* আরও সংবাদ - পাশাপাশি ছোট থাম্বনেইল কার্ড */
@@ -419,32 +422,32 @@ title: প্রচ্ছদ
     .dc-pa-news-thumb{ flex-shrink:0; width:88px; }
     .dc-pa-news-thumb img{ width:88px; height:88px; object-fit:cover; display:block; border-radius:0; }
     .dc-pa-news-body{ padding:0; display:flex; flex-direction:column; flex:1; min-width:0; }
-    .dc-pa-mini-cat{ font-size:12.5px; font-weight:700; color:#C00000; display:inline-block; margin-bottom:3px; }
-    .dc-pa-news-body h3{ font-size:14.5px; line-height:1.4; margin:0 0 6px; font-family:'Noto Serif Bengali', serif; font-weight:700; flex:1; }
+    .dc-pa-mini-cat{ font-size:15.5px; font-weight:700; color:#C00000; display:inline-block; margin-bottom:3px; }
+    .dc-pa-news-body h3{ font-size:17.5px; line-height:1.4; margin:0 0 6px; font-family:'Noto Serif Bengali', serif; font-weight:700; flex:1; }
     .dc-pa-news-body h3 a{ color:#161616; text-decoration:none; }
     .dc-pa-news-body h3 a:hover{ color:#C00000; }
-    .dc-pa-news-author{ font-size:12px !important; color:#C00000; font-style:italic; margin:0 0 4px !important; }
+    .dc-pa-news-author{ font-size:15px !important; color:#C00000; font-style:italic; margin:0 0 4px !important; }
     .dc-pa-news-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
-    .dc-pa-news-meta{ font-size:11px !important; color:#999; }
+    .dc-pa-news-meta{ font-size:14px !important; color:#999; }
 
     /* টেক্সট-শুধু হেডলাইন সারি */
     .dc-pa-textonly-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
     .dc-pa-textonly-item{ display:block; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; text-decoration:none; color:inherit; }
-    .dc-pa-textonly-item h4{ font-size:14.5px; line-height:1.4; margin:4px 0 6px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
+    .dc-pa-textonly-item h4{ font-size:17.5px; line-height:1.4; margin:4px 0 6px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
     .dc-pa-textonly-item:hover h4{ color:#C00000; }
-    .dc-pa-textonly-item p{ font-size:12.5px; color:#666; line-height:1.5; margin:0 0 6px; }
+    .dc-pa-textonly-item p{ font-size:15.5px; color:#666; line-height:1.5; margin:0 0 6px; }
 
     /* ভিডিও গ্রিড */
     .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
     .dc-pa-yt-card{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; border-radius:0 !important; margin:0 !important; }
     .dc-pa-yt-body{ padding:12px; }
-    .dc-pa-yt-body h3{ font-size:15px; margin:4px 0 4px; font-family:'Noto Serif Bengali', serif; font-weight:700; }
+    .dc-pa-yt-body h3{ font-size:18px; margin:4px 0 4px; font-family:'Noto Serif Bengali', serif; font-weight:700; }
     .dc-pa-yt-body h3 a{ color:#111; text-decoration:none; }
-    .dc-pa-yt-body p{ font-size:13px; color:#666; margin:0; }
+    .dc-pa-yt-body p{ font-size:16px; color:#666; margin:0; }
 
     /* নেভিগেশন লিংক */
     .dc-pa-nav-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px 34px; padding:14px 0; margin-bottom:26px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
-    .dc-pa-nav-links a{ font-size:14.5px; font-weight:600; color:#333; text-decoration:none; padding-bottom:3px; border-bottom:2px solid transparent; }
+    .dc-pa-nav-links a{ font-size:17.5px; font-weight:600; color:#333; text-decoration:none; padding-bottom:3px; border-bottom:2px solid transparent; }
     .dc-pa-nav-links a:hover{ color:#C00000; border-bottom-color:#C00000; }
 
     /* জনপ্রিয় সংবাদ */
@@ -453,10 +456,10 @@ title: প্রচ্ছদ
     .dc-pa-pop-item{ display:flex; gap:10px; align-items:flex-start; padding:12px; text-decoration:none; color:inherit; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
     .dc-pa-pop-item .dc-pop-img{ width:70px; height:70px; object-fit:cover; flex-shrink:0; border-radius:0; }
     .dc-pa-pop-body{ min-width:0; }
-    .dc-pa-pop-item .dc-pop-title{ font-size:13.5px !important; font-weight:700; margin:0 0 4px !important; line-height:1.4 !important; color:#161616; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-pop-item .dc-pop-title{ font-size:16.5px !important; font-weight:700; margin:0 0 4px !important; line-height:1.4 !important; color:#161616; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-pop-item:hover .dc-pop-title{ color:#C00000; }
-    .dc-pa-pop-item .dc-pop-excerpt{ font-size:11.5px !important; color:#777; margin:0 0 4px !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .dc-pa-pop-date{ font-size:10.5px; color:#aaa; }
+    .dc-pa-pop-item .dc-pop-excerpt{ font-size:14.5px !important; color:#777; margin:0 0 4px !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .dc-pa-pop-date{ font-size:13.5px; color:#aaa; }
 
     /* ক্যাটাগরি সেকশন প্রথম আলো স্টাইল */
     .dc-pa-cat-grid{ gap:0 !important; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; margin-bottom:26px !important; }
@@ -472,20 +475,20 @@ title: প্রচ্ছদ
     .dc-cat-thumb{ flex-shrink:0; width:48px; height:48px; display:block; overflow:hidden; }
     .dc-cat-thumb img{ width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; }
     .dc-cat-list-item{ display:flex; gap:8px; align-items:flex-start; border-top:1px solid #eee; padding:8px 0; }
-    .dc-cat-main-title{ font-size:14px; font-weight:700; line-height:1.4; margin:8px 0 4px; }
-    .dc-cat-list-title{ font-size:13px; line-height:1.4; color:#333; text-decoration:none; align-self:center; font-family:'Noto Serif Bengali', serif; }
+    .dc-cat-main-title{ font-size:17px; font-weight:700; line-height:1.4; margin:8px 0 4px; }
+    .dc-cat-list-title{ font-size:16px; line-height:1.4; color:#333; text-decoration:none; align-self:center; font-family:'Noto Serif Bengali', serif; }
 
     @media(max-width:768px){
         .dc-cat-main-img img{ aspect-ratio:4/3; }
         .dc-cat-thumb{ width:38px; height:38px; }
-        .dc-cat-main-title{ font-size:10px; margin:4px 0 2px; line-height:1.3; }
-        .dc-cat-list-title{ font-size:11px; }
+        .dc-cat-main-title{ font-size:13px; margin:4px 0 2px; line-height:1.3; }
+        .dc-cat-list-title{ font-size:14px; }
     }
 
     /* লেখক তালিকার ড্রপডাউন */
     .dc-author-dropdown{ border:1px solid #eee; }
     .dc-author-dropdown summary{
-        cursor:pointer; padding:12px 14px; font-weight:700; font-size:14px;
+        cursor:pointer; padding:12px 14px; font-weight:700; font-size:17px;
         color:#C00000; list-style:none; display:flex;
         justify-content:space-between; align-items:center;
         font-family:'Noto Serif Bengali', serif;
@@ -499,7 +502,7 @@ title: প্রচ্ছদ
     }
     .dc-author-list li{ border-bottom:1px solid #f0f0f0; }
     .dc-author-list li a{
-        display:block; padding:10px 14px; font-size:13.5px;
+        display:block; padding:10px 14px; font-size:16.5px;
         color:#333; text-decoration:none;
         font-family:'Noto Serif Bengali', serif;
     }
@@ -516,10 +519,10 @@ title: প্রচ্ছদ
     @media(max-width:600px){
         .dc-pa-hero-flex{ flex-direction:column; }
         .dc-pa-hero-flex .dc-pa-hero-img{ width:100%; max-width:none; }
-        .dc-pa-hero-title{ font-size:20px; }
+        .dc-pa-hero-title{ font-size:23px; }
         .dc-pa-news-grid{ grid-template-columns:1fr; }
         .dc-pa-news-thumb, .dc-pa-news-thumb img{ width:70px; height:70px; }
-        .dc-pa-news-body h3{ font-size:13px; }
+        .dc-pa-news-body h3{ font-size:16px; }
         .dc-pa-textonly-grid{ grid-template-columns:1fr; }
         .dc-pa-yt-grid{ grid-template-columns:1fr; }
         .dc-pa-popular-grid{ grid-template-columns:1fr !important; }
