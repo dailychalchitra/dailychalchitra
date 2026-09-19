@@ -3,7 +3,7 @@ layout: default
 title: প্রচ্ছদ
 ---
 
-<!-- হোমপেজ কন্টেন্ট শুরু (প্রথম আলো স্টাইল রিডিজাইন) -->
+<!-- হোমপেজ কন্টেন্ট শুরু (প্রথম আলো স্টাইল রিডিজাইন v2) -->
 <div class="container main-content dc-pa-home">
 
     <!-- টপ বার: তারিখ + ই-পেপার -->
@@ -14,10 +14,10 @@ title: প্রচ্ছদ
         </a>
     </div>
 
-    <!-- 1. হিরো: লিড নিউজ + পাশে হেডলাইন তালিকা -->
+    <!-- 1. হিরো: লিড নিউজ (ছোট স্কয়ার ছবি + টেক্সট পাশাপাশি) + হেডলাইন তালিকা -->
     <section class="dc-pa-hero">
         {% for post in site.posts limit:1 %}
-        <div class="dc-pa-hero-main">
+        <div class="dc-pa-hero-main dc-pa-hero-flex">
             <a href="{{ post.url | relative_url }}" class="dc-pa-hero-img">
                 {% if post.image %}
                 <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
@@ -29,9 +29,9 @@ title: প্রচ্ছদ
                 <span class="dc-pa-cat-tag">{{ post.category_bn | default: post.categories.first }}</span>
                 <h1 class="dc-pa-hero-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p class="dc-pa-hero-author">লেখক: {{ post.author }}</p>{% endif %}
-                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 32 }}</p>
+                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
                 <div class="dc-pa-hero-bottom">
-                    <span class="dc-pa-hero-meta"><i class="far fa-clock"></i> {{ post.date | date: "%d %B %Y" }}</span>
+                    <span class="dc-pa-hero-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
                     <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
                         <i class="fa fa-plus" style="font-size:10px;"></i>
                         <span class="dc-home-follow-label">ফলো করুন</span>
@@ -52,11 +52,11 @@ title: প্রচ্ছদ
         </div>
     </section>
 
-    <!-- 2. আরও সংবাদ (ঘন লিস্ট-গ্রিড) -->
+    <!-- 2. আরও সংবাদ (পাশাপাশি ছোট থাম্বনেইল + টেক্সট কার্ড) -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title">আরও সংবাদ</h3>
         <div id="dc-more-news-grid" class="dc-pa-news-grid">
-            {% for post in site.posts offset:7 limit:8 %}
+            {% for post in site.posts offset:7 limit:9 %}
             <article class="news-card dc-pa-news-item">
                 <a href="{{ post.url | relative_url }}" class="card-img dc-pa-news-thumb">
                     {% if post.image %}
@@ -66,11 +66,11 @@ title: প্রচ্ছদ
                     {% endif %}
                 </a>
                 <div class="card-content dc-pa-news-body">
-                    <span class="category-badge dc-pa-mini-cat">{{ post.category_bn | default: post.categories.first }}</span>
+                    <span class="dc-pa-mini-cat">{{ post.category_bn | default: post.categories.first }}</span>
                     <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
                     {% if post.author %}<p class="card-author dc-pa-news-author">লেখক: {{ post.author }}</p>{% endif %}
                     <div class="card-actions-row dc-pa-news-actions">
-                        <span class="post-meta dc-pa-news-meta"><i class="far fa-clock"></i> {{ post.date | date: "%d %b" }}</span>
+                        <span class="post-meta dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
                         <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:4px;background:#fff;color:#C00000;border:1.2px solid #C00000;padding:4px 10px;border-radius:14px;font-weight:600;font-size:11px;cursor:pointer;white-space:nowrap;">
                             <i class="fa fa-plus" style="font-size:9px;"></i>
                             <span class="dc-home-follow-label">ফলো করুন</span>
@@ -78,6 +78,21 @@ title: প্রচ্ছদ
                     </div>
                 </div>
             </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- 2.5. একদম টেক্সট-শুধু হেডলাইন সারি (প্রথম আলো স্টাইল ঘনত্বের জন্য) -->
+    <section class="dc-pa-section">
+        <h3 class="dc-pa-section-title">সংক্ষিপ্ত সংবাদ</h3>
+        <div class="dc-pa-textonly-grid">
+            {% for post in site.posts offset:16 limit:9 %}
+            <a href="{{ post.url | relative_url }}" class="dc-pa-textonly-item">
+                <span class="dc-pa-mini-cat">{{ post.category_bn | default: post.categories.first }}</span>
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.excerpt | strip_html | truncatewords: 14 }}</p>
+                <span class="dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
+            </a>
             {% endfor %}
         </div>
     </section>
@@ -97,7 +112,7 @@ title: প্রচ্ছদ
                     </div>
                 </div>
                 <div class="card-content dc-pa-yt-body">
-                    <span class="category-badge dc-pa-mini-cat">আবৃত্তি</span>
+                    <span class="dc-pa-mini-cat">আবৃত্তি</span>
                     <h3><a href="https://youtu.be/oFt9N9rahRs" target="_blank">কবিতা আবৃত্তি - ১</a></h3>
                     <p class="card-excerpt">শামীম নিমু</p>
                 </div>
@@ -111,7 +126,7 @@ title: প্রচ্ছদ
                     </div>
                 </div>
                 <div class="card-content dc-pa-yt-body">
-                    <span class="category-badge dc-pa-mini-cat">আবৃত্তি</span>
+                    <span class="dc-pa-mini-cat">আবৃত্তি</span>
                     <h3><a href="https://youtu.be/UpXajSAatTQ" target="_blank">কবিতা আবৃত্তি - ২</a></h3>
                     <p class="card-excerpt">শামীম নিমু</p>
                 </div>
@@ -132,7 +147,7 @@ title: প্রচ্ছদ
     <section class="dc-pa-section dc-pa-popular">
         <h3 class="dc-pa-section-title">জনপ্রিয় সংবাদ</h3>
         <div class="dc-popular-grid dc-pa-popular-grid">
-            {% for post in site.posts offset:15 limit:6 %}
+            {% for post in site.posts offset:25 limit:6 %}
             <a href="{{ post.url | relative_url }}" class="dc-pa-pop-item">
                 {% if post.image %}
                 <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pop-img">
@@ -142,7 +157,7 @@ title: প্রচ্ছদ
                 <div class="dc-pa-pop-body">
                     <h4 class="dc-pop-title">{{ post.title }}</h4>
                     <p class="dc-pop-excerpt">{{ post.excerpt | strip_html | truncatewords: 8 }}</p>
-                    <span class="dc-pa-pop-date">{{ post.date | date: "%d %B" }}</span>
+                    <span class="dc-pa-pop-date dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B" }}</span>
                 </div>
             </a>
             {% endfor %}
@@ -372,9 +387,12 @@ title: প্রচ্ছদ
     /* হিরো */
     .dc-pa-hero{ display:grid; grid-template-columns: 1.7fr 1fr; gap:22px; margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #e2e2e2; }
     .dc-pa-hero-main{ min-width:0; }
-    .dc-pa-hero-img img{ width:100%; height:auto; max-height:400px; object-fit:cover; display:block; }
-    .dc-pa-cat-tag{ display:inline-block; background:#C00000; color:#fff; font-size:12px; font-weight:700; padding:3px 10px; margin:12px 0 8px; }
-    .dc-pa-hero-title{ font-size:26px; line-height:1.35; margin:0 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:900; }
+    .dc-pa-hero-flex{ display:flex; gap:16px; align-items:flex-start; }
+    .dc-pa-hero-flex .dc-pa-hero-img{ flex-shrink:0; width:38%; max-width:260px; }
+    .dc-pa-hero-flex .dc-pa-hero-img img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+    .dc-pa-hero-content{ flex:1; min-width:0; }
+    .dc-pa-cat-tag{ display:inline-block; background:none; color:#C00000; font-size:13px; font-weight:700; padding:0; margin:0 0 6px; }
+    .dc-pa-hero-title{ font-size:24px; line-height:1.35; margin:0 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:900; }
     .dc-pa-hero-title a{ color:#111; text-decoration:none; }
     .dc-pa-hero-title a:hover{ color:#C00000; }
     .dc-pa-hero-author{ font-size:14px; color:#C00000; font-style:italic; margin:0 0 6px; }
@@ -395,18 +413,26 @@ title: প্রচ্ছদ
     .dc-pa-section-title{ font-size:19px; font-weight:900; color:#111; margin:0 0 16px; padding-bottom:8px; border-bottom:3px solid #C00000; display:inline-block; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-yt-title{ display:flex; align-items:center; gap:8px; color:#C00000; }
 
-    /* আরও সংবাদ - ঘন লিস্ট গ্রিড */
-    .dc-pa-news-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-    .dc-pa-news-item{ display:flex; flex-direction:column; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; background:#fff; border-radius:0 !important; box-shadow:none !important; }
-    .dc-pa-news-thumb img{ width:100%; height:130px; object-fit:cover; display:block; border-radius:0; }
-    .dc-pa-news-body{ padding:10px 12px; display:flex; flex-direction:column; flex:1; }
-    .dc-pa-mini-cat{ font-size:10.5px; font-weight:700; color:#C00000; background:none !important; padding:0 !important; display:inline-block; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.3px; }
-    .dc-pa-news-body h3{ font-size:15px; line-height:1.4; margin:2px 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:700; flex:1; }
+    /* আরও সংবাদ - পাশাপাশি ছোট থাম্বনেইল কার্ড */
+    .dc-pa-news-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-news-item{ display:flex; flex-direction:row; gap:10px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; background:#fff; border-radius:0 !important; box-shadow:none !important; padding:12px; }
+    .dc-pa-news-thumb{ flex-shrink:0; width:88px; }
+    .dc-pa-news-thumb img{ width:88px; height:88px; object-fit:cover; display:block; border-radius:0; }
+    .dc-pa-news-body{ padding:0; display:flex; flex-direction:column; flex:1; min-width:0; }
+    .dc-pa-mini-cat{ font-size:12.5px; font-weight:700; color:#C00000; display:inline-block; margin-bottom:3px; }
+    .dc-pa-news-body h3{ font-size:14.5px; line-height:1.4; margin:0 0 6px; font-family:'Noto Serif Bengali', serif; font-weight:700; flex:1; }
     .dc-pa-news-body h3 a{ color:#161616; text-decoration:none; }
     .dc-pa-news-body h3 a:hover{ color:#C00000; }
     .dc-pa-news-author{ font-size:12px !important; color:#C00000; font-style:italic; margin:0 0 4px !important; }
     .dc-pa-news-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
     .dc-pa-news-meta{ font-size:11px !important; color:#999; }
+
+    /* টেক্সট-শুধু হেডলাইন সারি */
+    .dc-pa-textonly-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-textonly-item{ display:block; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; text-decoration:none; color:inherit; }
+    .dc-pa-textonly-item h4{ font-size:14.5px; line-height:1.4; margin:4px 0 6px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
+    .dc-pa-textonly-item:hover h4{ color:#C00000; }
+    .dc-pa-textonly-item p{ font-size:12.5px; color:#666; line-height:1.5; margin:0 0 6px; }
 
     /* ভিডিও গ্রিড */
     .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
@@ -440,7 +466,7 @@ title: প্রচ্ছদ
     .dc-pa-cat-col .dc-cat-thumb{ border-radius:0 !important; }
     .dc-pa-cat-col .dc-cat-main-title{ font-family:'Noto Serif Bengali', serif; }
 
-    /* ক্যাটাগরি সেকশনের ছবি — সুষম অনুপাতে (চ্যাপ্টা/চওড়া সমস্যা ঠিক) */
+    /* ক্যাটাগরি সেকশনের ছবি — সুষম অনুপাতে */
     .dc-cat-main-img{ display:block; overflow:hidden; border-radius:0; }
     .dc-cat-main-img img{ width:100%; aspect-ratio:4/3; height:auto; object-fit:cover; object-position:center 25%; display:block; }
     .dc-cat-thumb{ flex-shrink:0; width:48px; height:48px; display:block; overflow:hidden; }
@@ -484,20 +510,42 @@ title: প্রচ্ছদ
         .dc-pa-hero{ grid-template-columns:1fr; }
         .dc-pa-hero-list{ border-left:none; padding-left:0; border-top:1px solid #e2e2e2; padding-top:14px; }
         .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr); }
+        .dc-pa-textonly-grid{ grid-template-columns:repeat(2,1fr); }
         .dc-pa-popular-grid{ grid-template-columns:repeat(2,1fr) !important; }
     }
     @media(max-width:600px){
+        .dc-pa-hero-flex{ flex-direction:column; }
+        .dc-pa-hero-flex .dc-pa-hero-img{ width:100%; max-width:none; }
         .dc-pa-hero-title{ font-size:20px; }
-        .dc-pa-hero-img img{ max-height:220px; }
-        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr); }
-        .dc-pa-news-thumb img{ height:90px; }
-        .dc-pa-news-body{ padding:6px 8px; }
-        .dc-pa-news-body h3{ font-size:12.5px; -webkit-line-clamp:2; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
+        .dc-pa-news-grid{ grid-template-columns:1fr; }
+        .dc-pa-news-thumb, .dc-pa-news-thumb img{ width:70px; height:70px; }
+        .dc-pa-news-body h3{ font-size:13px; }
+        .dc-pa-textonly-grid{ grid-template-columns:1fr; }
         .dc-pa-yt-grid{ grid-template-columns:1fr; }
         .dc-pa-popular-grid{ grid-template-columns:1fr !important; }
         .dc-pa-cat-grid{ grid-template-columns:repeat(2,1fr) !important; }
     }
     </style>
+
+    <!-- রিলেটিভ টাইম ("X ঘণ্টা আগে") — প্রথম আলো স্টাইল -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var units = [
+            ['বছর', 31536000], ['মাস', 2592000], ['সপ্তাহ', 604800],
+            ['দিন', 86400], ['ঘণ্টা', 3600], ['মিনিট', 60]
+        ];
+        document.querySelectorAll('.dc-relative-time').forEach(function (el) {
+            var d = new Date(el.getAttribute('data-date'));
+            if (isNaN(d)) return;
+            var diff = Math.floor((Date.now() - d.getTime()) / 1000);
+            if (diff < 60) { el.textContent = 'এইমাত্র'; return; }
+            for (var i = 0; i < units.length; i++) {
+                var val = Math.floor(diff / units[i][1]);
+                if (val >= 1) { el.textContent = val + ' ' + units[i][0] + ' আগে'; return; }
+            }
+        });
+    });
+    </script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
