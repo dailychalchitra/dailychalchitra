@@ -176,32 +176,44 @@ title: প্রচ্ছদ
                 {% assign cat_posts = matched_cat | concat: matched_tag | uniq | sort: "date" | reverse %}
             {% endif %}
 
-            {% assign main_post = cat_posts | first %}
-            {% if main_post %}
-            <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
-                {% if main_post.image %}
-                <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
-                {% else %}
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+            {% if cat == "লেখক তালিকা" %}
+                {% assign all_authors = site.posts | map: "author" | compact | uniq | sort %}
+                <details class="dc-author-dropdown">
+                    <summary>সকল লেখক দেখুন ({{ all_authors.size }} জন)</summary>
+                    <ul class="dc-author-list">
+                        {% for author in all_authors %}
+                        <li><a href="{{ '/author/' | relative_url }}?name={{ author | url_encode }}">{{ author }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </details>
+            {% else %}
+                {% assign main_post = cat_posts | first %}
+                {% if main_post %}
+                <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                    {% if main_post.image %}
+                    <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                    {% endif %}
+                </a>
+                <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
                 {% endif %}
-            </a>
-            <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
-            {% endif %}
 
-            <ul class="dc-cat-list">
-                {% for post in cat_posts offset:1 limit:4 %}
-                <li class="dc-cat-list-item">
-                    <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
-                        {% if post.image %}
-                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                        {% else %}
-                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
-                        {% endif %}
-                    </a>
-                    <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+                <ul class="dc-cat-list">
+                    {% for post in cat_posts offset:1 limit:4 %}
+                    <li class="dc-cat-list-item">
+                        <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </a>
+                        <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
@@ -430,7 +442,7 @@ title: প্রচ্ছদ
     .dc-pa-cat-col .dc-cat-thumb{ border-radius:0 !important; }
     .dc-pa-cat-col .dc-cat-main-title{ font-family:'Hind Siliguri', sans-serif; }
 
-        /* ক্যাটাগরি সেকশনের ছবি — সুষম অনুপাতে (চ্যাপ্টা/চওড়া সমস্যা ঠিক) */
+    /* ক্যাটাগরি সেকশনের ছবি — সুষম অনুপাতে (চ্যাপ্টা/চওড়া সমস্যা ঠিক) */
     .dc-cat-main-img{ display:block; overflow:hidden; border-radius:0; }
     .dc-cat-main-img img{ width:100%; aspect-ratio:4/3; height:auto; object-fit:cover; object-position:center 25%; display:block; }
     .dc-cat-thumb{ flex-shrink:0; width:48px; height:48px; display:block; overflow:hidden; }
@@ -445,6 +457,27 @@ title: প্রচ্ছদ
         .dc-cat-main-title{ font-size:10px; margin:4px 0 2px; line-height:1.3; }
         .dc-cat-list-title{ font-size:11px; }
     }
+
+    /* লেখক তালিকার ড্রপডাউন */
+    .dc-author-dropdown{ border:1px solid #eee; }
+    .dc-author-dropdown summary{
+        cursor:pointer; padding:12px 14px; font-weight:700; font-size:14px;
+        color:#C00000; list-style:none; display:flex;
+        justify-content:space-between; align-items:center;
+    }
+    .dc-author-dropdown summary::-webkit-details-marker{ display:none; }
+    .dc-author-dropdown summary::after{ content:'▾'; font-size:12px; }
+    .dc-author-dropdown[open] summary::after{ content:'▴'; }
+    .dc-author-list{
+        list-style:none; margin:0; padding:0;
+        max-height:280px; overflow-y:auto; border-top:1px solid #eee;
+    }
+    .dc-author-list li{ border-bottom:1px solid #f0f0f0; }
+    .dc-author-list li a{
+        display:block; padding:10px 14px; font-size:13.5px;
+        color:#333; text-decoration:none;
+    }
+    .dc-author-list li a:hover{ color:#C00000; background:#fafafa; }
 
     /* রেসপন্সিভ */
     @media(max-width:900px){
