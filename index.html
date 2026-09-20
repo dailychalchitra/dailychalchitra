@@ -420,12 +420,18 @@ title: প্রচ্ছদ
     .dc-pa-hero-list-item:last-child{ border-bottom:none; }
     .dc-pa-hero-cat-dropdown{ margin-bottom:5px; }
     .dc-pa-hero-cat-badge{
-        cursor:pointer; display:inline-block; background:#C00000; color:#fff;
+        cursor:pointer; display:inline-flex; align-items:center; gap:5px;
+        background:#C00000; color:#fff;
         font-size:12px; font-weight:700; padding:3px 10px; border-radius:3px;
         list-style:none; font-family:'Noto Sans Bengali', sans-serif;
     }
     .dc-pa-hero-cat-badge::-webkit-details-marker{ display:none; }
     .dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge{ background:#8B0000; }
+    .dc-pa-hero-cat-badge::after{
+        content:'▾'; font-size:11px; line-height:1;
+        background:none; color:#fff;
+    }
+    .dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge::after{ content:'▴'; }
     .dc-pa-hero-cat-list{
         list-style:none; margin:8px 0 0; padding:8px 0 0;
         border-top:1px dashed #eee;
