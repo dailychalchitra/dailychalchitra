@@ -45,10 +45,21 @@ title: প্রচ্ছদ
         <div class="dc-pa-hero-list">
             <h4 class="dc-pa-hero-list-heading">সর্বশেষ</h4>
             {% for post in site.posts offset:1 limit:6 %}
-            <a href="{{ post.url | relative_url }}" class="dc-pa-hero-list-item">
-                <span class="dc-pa-hero-dot"></span>
-                <span class="dc-pa-hero-list-text">{{ post.title }}</span>
-            </a>
+                {% assign hcat = post.category_bn | default: post.categories.first %}
+                {% assign hmatched_cat = site.posts | where_exp: "p", "p.categories contains hcat" %}
+                {% assign hmatched_tag = site.posts | where_exp: "p", "p.tags contains hcat" %}
+                {% assign hcat_posts = hmatched_cat | concat: hmatched_tag | uniq | sort: "date" | reverse %}
+                <div class="dc-pa-hero-list-item">
+                    <details class="dc-pa-hero-cat-dropdown">
+                        <summary class="dc-pa-hero-cat-badge">{{ hcat }}</summary>
+                        <ul class="dc-pa-hero-cat-list">
+                            {% for cp in hcat_posts limit:5 %}
+                            <li><a href="{{ cp.url | relative_url }}">{{ cp.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                    <a href="{{ post.url | relative_url }}" class="dc-pa-hero-list-text">{{ post.title }}</a>
+                </div>
             {% endfor %}
         </div>
     </section>
@@ -405,11 +416,28 @@ title: প্রচ্ছদ
 
     .dc-pa-hero-list{ border-left:1px solid #e2e2e2; padding-left:18px; }
     .dc-pa-hero-list-heading{ font-size:17px; font-weight:700; color:#C00000; border-bottom:2px solid #C00000; padding-bottom:8px; margin:0 0 10px; }
-    .dc-pa-hero-list-item{ display:flex; align-items:flex-start; gap:8px; padding:9px 0; border-bottom:1px dashed #e5e5e5; text-decoration:none; }
+    .dc-pa-hero-list-item{ padding:9px 0; border-bottom:1px dashed #e5e5e5; }
     .dc-pa-hero-list-item:last-child{ border-bottom:none; }
-    .dc-pa-hero-dot{ width:6px; height:6px; border-radius:50%; background:#C00000; margin-top:7px; flex-shrink:0; }
-    .dc-pa-hero-list-text{ font-size:17.5px; line-height:1.5; color:#222; font-family:'Noto Serif Bengali', serif; }
-    .dc-pa-hero-list-item:hover .dc-pa-hero-list-text{ color:#C00000; }
+    .dc-pa-hero-cat-dropdown{ margin-bottom:5px; }
+    .dc-pa-hero-cat-badge{
+        cursor:pointer; display:inline-block; background:#C00000; color:#fff;
+        font-size:12px; font-weight:700; padding:3px 10px; border-radius:3px;
+        list-style:none; font-family:'Noto Sans Bengali', sans-serif;
+    }
+    .dc-pa-hero-cat-badge::-webkit-details-marker{ display:none; }
+    .dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge{ background:#8B0000; }
+    .dc-pa-hero-cat-list{
+        list-style:none; margin:8px 0 0; padding:8px 0 0;
+        border-top:1px dashed #eee;
+    }
+    .dc-pa-hero-cat-list li{ padding:4px 0; }
+    .dc-pa-hero-cat-list li a{ font-size:13.5px; color:#333; text-decoration:none; }
+    .dc-pa-hero-cat-list li a:hover{ color:#C00000; }
+    .dc-pa-hero-list-text{
+        display:block; font-size:17.5px; line-height:1.5; color:#222;
+        font-family:'Noto Serif Bengali', serif; text-decoration:none;
+    }
+    .dc-pa-hero-list-text:hover{ color:#C00000; }
 
     /* সেকশন কমন */
     .dc-pa-section{ margin-bottom:28px; }
