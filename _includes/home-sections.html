@@ -10,7 +10,7 @@
     <!-- 1. হিরো: লিড নিউজ + হেডলাইন তালিকা (ক্যাটাগরি ড্রপডাউনসহ) -->
     <section class="dc-pa-hero">
         {% for post in site.posts limit:1 %}
-        <div class="dc-pa-hero-main dc-pa-hero-flex">
+        <div class="dc-pa-hero-main">
             <a href="{{ post.url | relative_url }}" class="dc-pa-hero-img">
                 {% if post.image %}
                 <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
@@ -22,7 +22,7 @@
                 <span class="dc-pa-cat-tag">{{ post.category_bn | default: post.categories.first }}</span>
                 <h1 class="dc-pa-hero-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p class="dc-pa-hero-author">লেখক: {{ post.author }}</p>{% endif %}
-                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 90 }}</p>
                 <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
                 <div class="dc-pa-hero-bottom">
                     <span class="dc-pa-hero-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
@@ -391,10 +391,9 @@
 
     .dc-pa-hero{ display:grid; grid-template-columns: 1.7fr 1fr; gap:22px; margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #e2e2e2; }
     .dc-pa-hero-main{ min-width:0; }
-    .dc-pa-hero-flex{ display:flex; gap:16px; align-items:flex-start; }
-    .dc-pa-hero-flex .dc-pa-hero-img{ flex-shrink:0; width:38%; max-width:260px; }
-    .dc-pa-hero-flex .dc-pa-hero-img img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
-    .dc-pa-hero-content{ flex:1; min-width:0; }
+    .dc-pa-hero-img{ display:block; width:100%; margin-bottom:14px; }
+    .dc-pa-hero-img img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+    .dc-pa-hero-content{ width:100%; }
     .dc-pa-cat-tag{ display:inline-block; background:none; color:#C00000; font-size:16px; font-weight:700; padding:0; margin:0 0 6px; }
     .dc-pa-hero-title{ font-size:27px; line-height:1.35; margin:0 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:900; }
     .dc-pa-hero-title a{ color:#111; text-decoration:none; }
@@ -526,27 +525,50 @@
     }
     .dc-author-list li a:hover{ color:#C00000; background:#fafafa; }
 
-    @media(max-width:900px){
-        .dc-pa-hero{ grid-template-columns:1fr; }
-        .dc-pa-hero-list{ border-left:none; padding-left:0; border-top:1px solid #e2e2e2; padding-top:14px; }
-        .dc-pa-news-grid{ grid-template-columns:repeat(3,1fr); }
-        .dc-pa-textonly-grid{ grid-template-columns:repeat(2,1fr); }
-        .dc-pa-popular-grid{ grid-template-columns:repeat(2,1fr) !important; }
-    }
+    /* মোবাইলেও ডেস্কটপের মতো একই গ্রিড কাঠামো — শুধু ফন্ট/ছবি সাইজ ছোট */
     @media(max-width:600px){
-        .dc-pa-hero-flex{ flex-direction:column; }
-        .dc-pa-hero-flex .dc-pa-hero-img{ width:100%; max-width:none; }
-        .dc-pa-hero-title{ font-size:23px; }
-        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr); }
-        .dc-pa-news-thumb img{ height:110px; }
-        .dc-pa-news-body{ padding:8px; }
-        .dc-pa-news-body h3{ font-size:14px; }
-        .dc-pa-news-author{ font-size:12px !important; }
-        .dc-pa-news-meta{ font-size:11px !important; }
-        .dc-pa-textonly-grid{ grid-template-columns:1fr; }
-        .dc-pa-yt-grid{ grid-template-columns:1fr; }
-        .dc-pa-popular-grid{ grid-template-columns:1fr !important; }
-        .dc-pa-cat-grid{ grid-template-columns:repeat(2,1fr) !important; }
+        .dc-pa-topbar-date{ font-size:11px; }
+        .dc-pa-epaper-btn{ font-size:11px; padding:5px 10px; }
+        .dc-pa-hero{ gap:12px; }
+        .dc-pa-hero-title{ font-size:17px; margin-bottom:5px; }
+        .dc-pa-hero-excerpt{ font-size:12.5px; line-height:1.5; margin-bottom:6px; }
+        .dc-pa-cat-tag{ font-size:11px; }
+        .dc-pa-hero-author{ font-size:11px; }
+        .dc-pa-hero-meta{ font-size:10.5px; }
+        .dc-pa-readmore-btn{ font-size:11px; margin-bottom:8px; }
+        .dc-pa-hero-list{ padding-left:10px; }
+        .dc-pa-hero-list-heading{ font-size:12px; padding-bottom:5px; }
+        .dc-pa-hero-cat-badge{ font-size:9px; padding:2px 7px; }
+        .dc-pa-hero-list-text{ font-size:11.5px; }
+
+        .dc-pa-section-title{ font-size:15px; }
+        .dc-pa-news-thumb img{ height:80px; }
+        .dc-pa-news-body{ padding:6px; }
+        .dc-pa-mini-cat{ font-size:10px; }
+        .dc-pa-news-body h3{ font-size:11px; }
+        .dc-pa-news-author{ font-size:9.5px !important; }
+        .dc-pa-news-meta{ font-size:9px !important; }
+
+        .dc-pa-textonly-item{ padding:8px; }
+        .dc-pa-textonly-item h4{ font-size:11.5px; }
+        .dc-pa-textonly-item p{ font-size:10px; }
+
+        .dc-pa-yt-body h3{ font-size:11px; }
+        .dc-pa-yt-body p{ font-size:10px; }
+
+        .dc-pa-nav-links{ gap:8px 14px; }
+        .dc-pa-nav-links a{ font-size:11px; }
+
+        .dc-pa-pop-item{ padding:6px; gap:6px; }
+        .dc-pa-pop-item .dc-pop-img{ width:44px; height:44px; }
+        .dc-pa-pop-item .dc-pop-title{ font-size:10px !important; }
+        .dc-pa-pop-item .dc-pop-excerpt{ font-size:9px !important; }
+        .dc-pa-pop-date{ font-size:8.5px; }
+
+        .dc-cat-title{ font-size:11px !important; }
+        .dc-cat-main-title{ font-size:9px !important; }
+        .dc-cat-list-title{ font-size:9px !important; }
+        .dc-cat-thumb{ width:28px; height:28px; }
     }
     </style>
 
