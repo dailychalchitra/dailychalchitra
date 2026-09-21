@@ -2,10 +2,23 @@
 layout: post
 title: "ত্রেতাব বীর"
 date: 2026-07-06 07:20:30 +0600
-categories: [সাহিত্য বিভাগ]
-tags: [ছড়া কবিতা, শরৎচন্দ্র চট্টোপাধ্যায়]
-author: শরৎচন্দ্র চট্টোপাধ্যায়
-image: /assets/img/sarat-chandro.webp
+categories:
+    - chora-kobita
+category_bn:
+    - ছড়া কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - ছড়া কবিতা
+    - দৈনিক চালচিত্র
+author: "শরৎচন্দ্র চট্টোপাধ্যায়"
+image: "/assets/img/sarat-chandro.webp"
+description: "শরৎচন্দ্র চট্টোপাধ্যায়ের লেখা ছড়া কবিতা 'ত্রেতাব বীর'।"
+excerpt: "শরৎচন্দ্র চট্টোপাধ্যায়ের লেখা ছড়া কবিতা 'ত্রেতাব বীর'।"
+permalink: "/chora-kobita/2026/07/06/tretab-bir/"
+redirect_from:
+    - "/ছড়া কবিতা/2026/07/06/tretab-bir/"
+    - "/search/label/ছড়া কবিতা"
 ---
 
 হুপ্-হুপ্-হুপ্  
