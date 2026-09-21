@@ -1,25 +1,28 @@
-{% if include.show_hero %}
+{% assign dc_default_img = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" %}
 
 <div class="dc-pa-home">
 
-    <!-- =========================================================
+{% if include.show_hero %}
+
+    <!-- =========================
          TOP BAR
-         ========================================================= -->
+    ========================== -->
     <div class="dc-pa-topbar">
         <span class="dc-pa-topbar-date">
+            <i class="far fa-calendar-alt"></i>
             {{ site.time | date: "%A, %d %B %Y" }}
         </span>
 
         <a href="{{ '/epaper/' | relative_url }}" class="dc-pa-epaper-btn">
-            <i class="fa fa-newspaper-o"></i>
+            <i class="fa fa-newspaper"></i>
             ই-পেপার
         </a>
     </div>
 
 
-    <!-- =========================================================
-         1. HERO / LEAD NEWS
-         ========================================================= -->
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
     <section class="dc-pa-hero">
 
         {% for post in site.posts limit:1 %}
@@ -29,25 +32,23 @@
             <a href="{{ post.url | relative_url }}" class="dc-pa-hero-img">
 
                 {% if post.image %}
-
-                <img
-                    src="{{ post.image | relative_url }}"
-                    alt="{{ post.title }}"
-                    width="1200"
-                    height="675"
-                    loading="eager"
-                    fetchpriority="high">
-
+                    <img
+                        src="{{ post.image | relative_url }}"
+                        alt="{{ post.title }}"
+                        width="1200"
+                        height="675"
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async">
                 {% else %}
-
-                <img
-                    src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
-                    alt="{{ post.title }}"
-                    width="1200"
-                    height="675"
-                    loading="eager"
-                    fetchpriority="high">
-
+                    <img
+                        src="{{ dc_default_img }}"
+                        alt="{{ post.title }}"
+                        width="1200"
+                        height="675"
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async">
                 {% endif %}
 
             </a>
@@ -65,18 +66,18 @@
                 </h1>
 
                 {% if post.author %}
-                <p class="dc-pa-hero-author">
-                    লেখক: {{ post.author }}
-                </p>
+                    <p class="dc-pa-hero-author">
+                        লেখক: {{ post.author }}
+                    </p>
                 {% endif %}
 
-                <p class="dc-pa-hero-excerpt">
-                    {{ post.excerpt | strip_html | truncatewords: 90 }}
-                </p>
+                {% if post.excerpt %}
+                    <p class="dc-pa-hero-excerpt">
+                        {{ post.excerpt | strip_html | truncatewords: 90 }}
+                    </p>
+                {% endif %}
 
-                <a
-                    href="{{ post.url | relative_url }}"
-                    class="dc-pa-readmore-btn">
+                <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">
                     আরও পড়ুন
                     <i class="fa fa-arrow-right"></i>
                 </a>
@@ -89,49 +90,79 @@
                         {{ post.date | date: "%d %B %Y" }}
                     </span>
 
-                    <button
-                        type="button"
-                        class="dc-home-follow-btn">
-
+                    <button type="button" class="dc-home-follow-btn">
                         <i class="fa fa-plus"></i>
-
-                        <span class="dc-home-follow-label">
-                            ফলো করুন
-                        </span>
-
+                        <span class="dc-home-follow-label">ফলো করুন</span>
                     </button>
 
                 </div>
 
             </div>
-
         </article>
 
         {% endfor %}
 
 
-        <!-- =====================================================
-             LATEST NEWS
-             ===================================================== -->
+        <!-- সর্বশেষ সংবাদ -->
         <aside class="dc-pa-hero-list">
 
             <h2 class="dc-pa-hero-list-heading">
-                সর্বশেষ সংবাদ
+                সর্বশেষ
             </h2>
 
             {% for post in site.posts offset:1 limit:6 %}
 
                 {% assign hcat = post.category_bn | default: post.categories.first %}
 
-                <article class="dc-pa-hero-list-item">
+                <div class="dc-pa-hero-list-item">
 
-                    <div class="dc-pa-hero-list-category">
-                        {% if hcat %}
-                        <span class="dc-pa-small-category">
+                    {% if hcat %}
+
+                    <details class="dc-pa-hero-cat-dropdown">
+
+                        <summary class="dc-pa-hero-cat-badge">
                             {{ hcat }}
-                        </span>
-                        {% endif %}
-                    </div>
+                        </summary>
+
+                        <ul class="dc-pa-hero-cat-list">
+
+                            {% assign hcount = 0 %}
+
+                            {% for cp in site.posts %}
+
+                                {% if hcount < 5 %}
+
+                                    {% assign hmatch = false %}
+
+                                    {% if cp.categories and cp.categories contains hcat %}
+                                        {% assign hmatch = true %}
+                                    {% endif %}
+
+                                    {% if cp.tags and cp.tags contains hcat %}
+                                        {% assign hmatch = true %}
+                                    {% endif %}
+
+                                    {% if hmatch %}
+
+                                        {% assign hcount = hcount | plus: 1 %}
+
+                                        <li>
+                                            <a href="{{ cp.url | relative_url }}">
+                                                {{ cp.title }}
+                                            </a>
+                                        </li>
+
+                                    {% endif %}
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </details>
+
+                    {% endif %}
 
                     <a
                         href="{{ post.url | relative_url }}"
@@ -139,13 +170,7 @@
                         {{ post.title }}
                     </a>
 
-                    <span
-                        class="dc-pa-small-date dc-relative-time"
-                        data-date="{{ post.date | date_to_xmlschema }}">
-                        {{ post.date | date: "%d %b" }}
-                    </span>
-
-                </article>
+                </div>
 
             {% endfor %}
 
@@ -153,48 +178,44 @@
 
     </section>
 
-</div>
-
 {% endif %}
 
 
-<!-- =============================================================
-     2. আরও সংবাদ
-     ============================================================= -->
+<!-- =========================
+     আরও সংবাদ
+========================== -->
 <section class="dc-pa-section">
 
     <h2 class="dc-pa-section-title">
         আরও সংবাদ
     </h2>
 
-    <div class="dc-pa-news-grid">
+    <div class="dc-pa-news-grid" id="dc-more-news-grid">
 
         {% for post in site.posts offset:7 limit:9 %}
 
-        <article class="dc-pa-news-item">
+        <article class="news-card dc-pa-news-item">
 
             <a
                 href="{{ post.url | relative_url }}"
                 class="dc-pa-news-thumb">
 
                 {% if post.image %}
-
-                <img
-                    src="{{ post.image | relative_url }}"
-                    alt="{{ post.title }}"
-                    width="400"
-                    height="225"
-                    loading="lazy">
-
+                    <img
+                        src="{{ post.image | relative_url }}"
+                        alt="{{ post.title }}"
+                        width="400"
+                        height="225"
+                        loading="lazy"
+                        decoding="async">
                 {% else %}
-
-                <img
-                    src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
-                    alt="{{ post.title }}"
-                    width="400"
-                    height="225"
-                    loading="lazy">
-
+                    <img
+                        src="{{ dc_default_img }}"
+                        alt="{{ post.title }}"
+                        width="400"
+                        height="225"
+                        loading="lazy"
+                        decoding="async">
                 {% endif %}
 
             </a>
@@ -212,9 +233,9 @@
                 </h3>
 
                 {% if post.author %}
-                <p class="dc-pa-news-author">
-                    লেখক: {{ post.author }}
-                </p>
+                    <p class="dc-pa-news-author">
+                        লেখক: {{ post.author }}
+                    </p>
                 {% endif %}
 
                 <div class="dc-pa-news-actions">
@@ -225,16 +246,9 @@
                         {{ post.date | date: "%d %b" }}
                     </span>
 
-                    <button
-                        type="button"
-                        class="dc-home-follow-btn">
-
+                    <button type="button" class="dc-home-follow-btn">
                         <i class="fa fa-plus"></i>
-
-                        <span class="dc-home-follow-label">
-                            ফলো
-                        </span>
-
+                        <span class="dc-home-follow-label">ফলো করুন</span>
                     </button>
 
                 </div>
@@ -250,9 +264,9 @@
 </section>
 
 
-<!-- =============================================================
-     3. সংক্ষিপ্ত সংবাদ
-     ============================================================= -->
+<!-- =========================
+     সংক্ষিপ্ত সংবাদ
+========================== -->
 <section class="dc-pa-section">
 
     <h2 class="dc-pa-section-title">
@@ -275,9 +289,11 @@
                 {{ post.title }}
             </h3>
 
-            <p>
-                {{ post.excerpt | strip_html | truncatewords: 14 }}
-            </p>
+            {% if post.excerpt %}
+                <p>
+                    {{ post.excerpt | strip_html | truncatewords: 14 }}
+                </p>
+            {% endif %}
 
             <span
                 class="dc-pa-news-meta dc-relative-time"
@@ -294,9 +310,9 @@
 </section>
 
 
-<!-- =============================================================
-     4. YOUTUBE
-     ============================================================= -->
+<!-- =========================
+     YOUTUBE
+========================== -->
 <section class="dc-pa-section">
 
     <h2 class="dc-pa-section-title dc-pa-yt-title">
@@ -304,9 +320,11 @@
         কবিতা আবৃত্তি ও ভিডিও
     </h2>
 
-    <div class="dc-pa-yt-grid">
+    <div class="dc-pa-yt-grid" id="dc-youtube-news-grid">
 
-        <article class="dc-pa-yt-card">
+
+        <!-- VIDEO 1 -->
+        <article class="news-card dc-yt-card dc-pa-yt-card">
 
             <div
                 class="dc-yt-facade"
@@ -314,10 +332,9 @@
 
                 <img
                     src="https://i.ytimg.com/vi/oFt9N9rahRs/hqdefault.jpg"
-                    alt="কবিতা আবৃত্তি - ১"
-                    width="480"
-                    height="270"
-                    loading="lazy">
+                    loading="lazy"
+                    decoding="async"
+                    alt="কবিতা আবৃত্তি - ১">
 
                 <span class="dc-yt-play">
                     <span></span>
@@ -335,21 +352,20 @@
                     <a
                         href="https://youtu.be/oFt9N9rahRs"
                         target="_blank"
-                        rel="noopener">
+                        rel="noopener noreferrer">
                         কবিতা আবৃত্তি - ১
                     </a>
                 </h3>
 
-                <p>
-                    শামীম নিমু
-                </p>
+                <p>শামীম নিমু</p>
 
             </div>
 
         </article>
 
 
-        <article class="dc-pa-yt-card">
+        <!-- VIDEO 2 -->
+        <article class="news-card dc-yt-card dc-pa-yt-card">
 
             <div
                 class="dc-yt-facade"
@@ -357,10 +373,9 @@
 
                 <img
                     src="https://i.ytimg.com/vi/UpXajSAatTQ/hqdefault.jpg"
-                    alt="কবিতা আবৃত্তি - ২"
-                    width="480"
-                    height="270"
-                    loading="lazy">
+                    loading="lazy"
+                    decoding="async"
+                    alt="কবিতা আবৃত্তি - ২">
 
                 <span class="dc-yt-play">
                     <span></span>
@@ -378,14 +393,12 @@
                     <a
                         href="https://youtu.be/UpXajSAatTQ"
                         target="_blank"
-                        rel="noopener">
+                        rel="noopener noreferrer">
                         কবিতা আবৃত্তি - ২
                     </a>
                 </h3>
 
-                <p>
-                    শামীম নিমু
-                </p>
+                <p>শামীম নিমু</p>
 
             </div>
 
@@ -396,9 +409,9 @@
 </section>
 
 
-<!-- =============================================================
-     5. NAVIGATION
-     ============================================================= -->
+<!-- =========================
+     NAVIGATION
+========================== -->
 <nav class="dc-pa-nav-links">
 
     <a href="{{ '/' | relative_url }}">
@@ -420,9 +433,9 @@
 </nav>
 
 
-<!-- =============================================================
-     6. জনপ্রিয় সংবাদ
-     ============================================================= -->
+<!-- =========================
+     জনপ্রিয় সংবাদ
+========================== -->
 <section class="dc-pa-section dc-pa-popular">
 
     <h2 class="dc-pa-section-title">
@@ -438,34 +451,36 @@
             class="dc-pa-pop-item">
 
             {% if post.image %}
-
-            <img
-                src="{{ post.image | relative_url }}"
-                alt="{{ post.title }}"
-                width="100"
-                height="70"
-                loading="lazy">
-
+                <img
+                    src="{{ post.image | relative_url }}"
+                    alt="{{ post.title }}"
+                    width="100"
+                    height="70"
+                    loading="lazy"
+                    decoding="async"
+                    class="dc-pop-img">
             {% else %}
-
-            <img
-                src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
-                alt="{{ post.title }}"
-                width="100"
-                height="70"
-                loading="lazy">
-
+                <img
+                    src="{{ dc_default_img }}"
+                    alt="{{ post.title }}"
+                    width="100"
+                    height="70"
+                    loading="lazy"
+                    decoding="async"
+                    class="dc-pop-img">
             {% endif %}
 
             <div class="dc-pa-pop-body">
 
-                <h3>
+                <h3 class="dc-pop-title">
                     {{ post.title }}
                 </h3>
 
-                <p>
-                    {{ post.excerpt | strip_html | truncatewords: 8 }}
-                </p>
+                {% if post.excerpt %}
+                    <p class="dc-pop-excerpt">
+                        {{ post.excerpt | strip_html | truncatewords: 8 }}
+                    </p>
+                {% endif %}
 
                 <span
                     class="dc-pa-pop-date dc-relative-time"
@@ -484,48 +499,33 @@
 </section>
 
 
-<!-- =============================================================
-     7. CATEGORY GROUP 1
-     ============================================================= -->
+<!-- ==================================================
+     CATEGORY SECTION 1
+================================================== -->
 
 {% assign cat_list_1 = "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
 
-<div class="dc-pa-category-grid">
+<div class="dc-pa-cat-grid">
 
 {% for cat in cat_list_1 %}
 
-    <section class="dc-pa-category-box">
-
-        <h2 class="dc-pa-category-title">
-
-            {% if cat == "লেখক তালিকা" %}
-
-            <a href="{{ '/author/' | relative_url }}">
-                {{ cat }}
-                <i class="fa fa-chevron-right"></i>
-            </a>
-
-            {% else %}
-
-            <a href="{{ '/tag/?name=' | append: cat | relative_url }}">
-                {{ cat }}
-                <i class="fa fa-chevron-right"></i>
-            </a>
-
-            {% endif %}
-
-        </h2>
-
+    <section class="dc-pa-cat-col">
 
         {% if cat == "লেখক তালিকা" %}
+
+            <h2 class="dc-cat-title">
+                <a href="{{ '/author/' | relative_url }}">
+                    {{ cat }}
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            </h2>
 
             {% assign all_authors = site.posts | map: "author" | compact | uniq | sort %}
 
             <details class="dc-author-dropdown">
 
                 <summary>
-                    সকল লেখক দেখুন
-                    <span>({{ all_authors.size }} জন)</span>
+                    সকল লেখক দেখুন ({{ all_authors.size }} জন)
                 </summary>
 
                 <ul class="dc-author-list">
@@ -548,111 +548,139 @@
 
         {% else %}
 
-            <div class="dc-category-content">
+            <h2 class="dc-cat-title">
 
-                {% assign category_found = 0 %}
+                {% if cat == "সংবাদ" %}
+                    <a href="{{ '/tag/?name=' | append: cat | relative_url }}">
+                {% else %}
+                    <a href="{{ '/tag/?name=' | append: cat | relative_url }}">
+                {% endif %}
 
-                {% for post in site.posts %}
+                    {{ cat }}
+                    <i class="fa fa-chevron-right"></i>
 
-                    {% if category_found < 5 %}
+                </a>
 
-                        {% assign category_match = false %}
+            </h2>
 
-                        {% if post.categories %}
-                            {% if post.categories contains cat %}
-                                {% assign category_match = true %}
+
+            <!-- প্রথম সংবাদ খোঁজা -->
+            {% assign cat_count = 0 %}
+
+            {% for post in site.posts %}
+
+                {% if cat_count < 5 %}
+
+                    {% assign matched = false %}
+
+                    {% if post.categories and post.categories contains cat %}
+                        {% assign matched = true %}
+                    {% endif %}
+
+                    {% if post.tags and post.tags contains cat %}
+                        {% assign matched = true %}
+                    {% endif %}
+
+
+                    <!-- সাহিত্য হলে বিস্তৃত সাহিত্য ট্যাগগুলো -->
+                    {% if cat == "সাহিত্য" %}
+
+                        {% assign literature_tags = "প্রচ্ছদ,সর্বশেষ,বাংলাদেশ,রাজধানী,জেলা,করোনাভাইরাস,পরিবেশ,অপরাধ,বিশ্ব,ভারত,পাকিস্তান,চীন,সংবাদ,দেশের সংবাদ,আন্তর্জাতিক,আবহাওয়া সংবাদ,প্রবাস সংবাদ,নিখোঁজ সংবাদ,শোক সংবাদ,জরুরী সংবাদ,সাহিত্য বিভাগ,সাহিত্য,কবিতা,পদ্য কবিতা,গদ্য কবিতা,মুক্ত গদ্য,মহাকাব্য,ছড়া কবিতা,অনু কবিতা,সনেট কবিতা,লিমেরিক কবিতা,গল্প,বড় গল্প,ছোট গল্প,অনু গল্প,সামাজিক গল্প,ভালোবাসার গল্প,জীবনমুখী গল্প,উপন্যাস,সামাজিক উপন্যাস,ঐতিহাসিক উপন্যাস,মনস্তাত্ত্বিক উপন্যাস,রহস্য উপন্যাস,রাজনৈতিক উপন্যাস,রূপক উপন্যাস,পত্রোপন্যাস,হাস্যরসাত্মক উপন্যাস,প্রবন্ধ ও নিবন্ধ,রম্যরচনা,কৌতুক,ভ্রমণ,বই পরিচিতি,উক্তি,চিঠি,মায়ের চিঠি,বাবার চিঠি,ভাইয়ের চিঠি,বোনের চিঠি,বন্ধুর চিঠি,প্রেমের চিঠি,প্রবাসী চিঠি,শেষ চিঠি,বিনোদন,ভিডিও,গান,চলচ্চিত্র,টেলিফিল্ম,নাটক,সংলাপ,শিল্পকলা,বিজ্ঞাপন,শিক্ষা,ভর্তি,পরীক্ষা,বৃত্তি,পড়াশোনা,উচ্চশিক্ষা,ক্যাম্পাস,খেলাধুলা,ফুটবল,ক্রিকেট,হাডুডু,বাস্কেটবল,ভলিবল,টেনিস,ব্যাডমিন্টন,হকি,বেসবল,অ্যাথলেটিক্স,টেবিল টেনিস,রাগবি,গলফ,সাঁতার,কুস্তি,দাবা,জীবনযাপন,সুস্থতা,সম্পর্ক,রূপচর্চা,গৃহসজ্জা,কেনাকাটা,বিজ্ঞপ্তি,চাকরির বিজ্ঞপ্তি,নিয়োগ বিজ্ঞপ্তি,পরামর্শ,বাণিজ্য,শেয়ার বাজার,ব্যাংক,শিল্প,অর্থনীতি,বিশ্ব বাণিজ্য,বিশ্লেষণ,ব্যক্তিগত অর্থ,উদ্যোক্তা,কর্পোরেট,বাজেট,ধর্ম বিষয়ক,ইসলাম,সনাতন,বৌদ্ধ,খ্রিস্টান,ঐতিহ্যবাহী বা জাতিগত ধর্ম,ধর্মহীন বা নাস্তিক,বিভাগ সমূহ,ঢাকা,চট্টগ্রাম,রাজশাহী,খুলনা,বরিশাল,সিলেট,রংপুর,ময়মনসিংহ,মতামত,সম্পাদকীয়,কলাম,সাক্ষাৎকার,স্মরণ,প্রতিক্রিয়া,অন্যান্য,আলোচনা,সমালোচনা,আরও,গোলটেবিল,বিশেষ সংখ্যা,অনলাইন ভোট,প্রতিষ্ঠা বার্ষিকী" | split: "," %}
+
+                        {% for lt in literature_tags %}
+
+                            {% if post.categories and post.categories contains lt %}
+                                {% assign matched = true %}
                             {% endif %}
-                        {% endif %}
 
-                        {% if post.tags %}
-                            {% if post.tags contains cat %}
-                                {% assign category_match = true %}
+                            {% if post.tags and post.tags contains lt %}
+                                {% assign matched = true %}
                             {% endif %}
-                        {% endif %}
+
+                        {% endfor %}
+
+                    {% endif %}
 
 
-                        {% if category_match %}
+                    {% if matched %}
 
-                            {% assign category_found = category_found | plus: 1 %}
+                        {% assign cat_count = cat_count | plus: 1 %}
 
+                        {% if cat_count == 1 %}
 
-                            {% if category_found == 1 %}
+                            <a
+                                href="{{ post.url | relative_url }}"
+                                class="dc-cat-main-img">
 
-                                <a
-                                    href="{{ post.url | relative_url }}"
-                                    class="dc-category-main">
-
-                                    {% if post.image %}
-
+                                {% if post.image %}
                                     <img
                                         src="{{ post.image | relative_url }}"
                                         alt="{{ post.title }}"
                                         width="600"
-                                        height="360"
-                                        loading="lazy">
-
-                                    {% else %}
-
+                                        height="400"
+                                        loading="lazy"
+                                        decoding="async">
+                                {% else %}
                                     <img
-                                        src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
+                                        src="{{ dc_default_img }}"
                                         alt="{{ post.title }}"
                                         width="600"
-                                        height="360"
-                                        loading="lazy">
+                                        height="400"
+                                        loading="lazy"
+                                        decoding="async">
+                                {% endif %}
 
-                                    {% endif %}
+                            </a>
 
-                                    <h3>
-                                        {{ post.title }}
-                                    </h3>
-
+                            <h3 class="dc-cat-main-title">
+                                <a href="{{ post.url | relative_url }}">
+                                    {{ post.title }}
                                 </a>
+                            </h3>
 
-                                <div class="dc-category-list">
+                        {% else %}
 
-                            {% else %}
+                            <div class="dc-cat-list-item">
 
-                                    <a
-                                        href="{{ post.url | relative_url }}"
-                                        class="dc-category-list-item">
+                                <a
+                                    href="{{ post.url | relative_url }}"
+                                    class="dc-cat-thumb">
 
-                                        {% if post.image %}
-
+                                    {% if post.image %}
                                         <img
                                             src="{{ post.image | relative_url }}"
                                             alt="{{ post.title }}"
-                                            width="90"
-                                            height="65"
-                                            loading="lazy">
-
-                                        {% else %}
-
+                                            width="70"
+                                            height="50"
+                                            loading="lazy"
+                                            decoding="async">
+                                    {% else %}
                                         <img
-                                            src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
+                                            src="{{ dc_default_img }}"
                                             alt="{{ post.title }}"
-                                            width="90"
-                                            height="65"
-                                            loading="lazy">
+                                            width="70"
+                                            height="50"
+                                            loading="lazy"
+                                            decoding="async">
+                                    {% endif %}
 
-                                        {% endif %}
+                                </a>
 
-                                        <span>
-                                            {{ post.title }}
-                                        </span>
+                                <a
+                                    href="{{ post.url | relative_url }}"
+                                    class="dc-cat-list-title">
+                                    {{ post.title }}
+                                </a>
 
-                                    </a>
-
-                            {% endif %}
+                            </div>
 
                         {% endif %}
 
                     {% endif %}
 
-                {% endfor %}
+                {% endif %}
 
-                </div>
-
-            </div>
+            {% endfor %}
 
         {% endif %}
 
@@ -663,19 +691,19 @@
 </div>
 
 
-<!-- =============================================================
-     8. CATEGORY GROUP 2
-     ============================================================= -->
+<!-- ==================================================
+     CATEGORY SECTION 2
+================================================== -->
 
 {% assign cat_list_2 = "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
 
-<div class="dc-pa-category-grid">
+<div class="dc-pa-cat-grid">
 
 {% for cat in cat_list_2 %}
 
-    <section class="dc-pa-category-box">
+    <section class="dc-pa-cat-col">
 
-        <h2 class="dc-pa-category-title">
+        <h2 class="dc-cat-title">
 
             <a href="{{ '/tag/?name=' | append: cat | relative_url }}">
                 {{ cat }}
@@ -685,251 +713,127 @@
         </h2>
 
 
-        <div class="dc-category-content">
+        {% if cat == "শিক্ষা" %}
 
-            {% assign category_found = 0 %}
+            {% assign group_tags = "শিক্ষা,ভর্তি,পরীক্ষা,বৃত্তি,পড়াশোনা,উচ্চশিক্ষা,ক্যাম্পাস" | split: "," %}
 
-            {% for post in site.posts %}
+        {% elsif cat == "খেলাধুলা" %}
 
-                {% if category_found < 5 %}
+            {% assign group_tags = "খেলাধুলা,ফুটবল,ক্রিকেট,হাডুডু,বাস্কেটবল,ভলিবল,টেনিস,ব্যাডমিন্টন,হকি,বেসবল,অ্যাথলেটিক্স,টেবিল টেনিস,রাগবি,গলফ,সাঁতার,কুস্তি,দাবা" | split: "," %}
 
-                    {% assign category_match = false %}
+        {% elsif cat == "মতামত" %}
 
-                    {% if cat == "শিক্ষা" %}
+            {% assign group_tags = "মতামত,সম্পাদকীয়,কলাম,সাক্ষাৎকার,স্মরণ,প্রতিক্রিয়া" | split: "," %}
 
-                        {% if post.categories %}
-                            {% if post.categories contains "শিক্ষা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "ভর্তি" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "পরীক্ষা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "বৃত্তি" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "পড়াশোনা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "উচ্চশিক্ষা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "ক্যাম্পাস" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
+        {% else %}
 
-                        {% if post.tags %}
-                            {% if post.tags contains "শিক্ষা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "ভর্তি" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "পরীক্ষা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "বৃত্তি" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "পড়াশোনা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "উচ্চশিক্ষা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "ক্যাম্পাস" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
+            {% assign group_tags = "অন্যান্য,আলোচনা,সমালোচনা" | split: "," %}
+
+        {% endif %}
 
 
-                    {% elsif cat == "খেলাধুলা" %}
+        {% assign cat_count = 0 %}
 
-                        {% if post.categories %}
-                            {% if post.categories contains "খেলাধুলা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "ফুটবল" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "ক্রিকেট" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
+        {% for post in site.posts %}
 
-                        {% if post.tags %}
-                            {% if post.tags contains "খেলাধুলা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "ফুটবল" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "ক্রিকেট" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
+            {% if cat_count < 5 %}
 
+                {% assign matched = false %}
 
-                    {% elsif cat == "মতামত" %}
+                {% for gt in group_tags %}
 
-                        {% if post.categories %}
-                            {% if post.categories contains "মতামত" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "সম্পাদকীয়" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "কলাম" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "সাক্ষাৎকার" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "স্মরণ" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "প্রতিক্রিয়া" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if post.tags %}
-                            {% if post.tags contains "মতামত" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "সম্পাদকীয়" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "কলাম" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "সাক্ষাৎকার" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "স্মরণ" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "প্রতিক্রিয়া" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
-
-
-                    {% elsif cat == "অন্যান্য" %}
-
-                        {% if post.categories %}
-                            {% if post.categories contains "অন্যান্য" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "আলোচনা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.categories contains "সমালোচনা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if post.tags %}
-                            {% if post.tags contains "অন্যান্য" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "আলোচনা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                            {% if post.tags contains "সমালোচনা" %}
-                                {% assign category_match = true %}
-                            {% endif %}
-                        {% endif %}
-
-
+                    {% if post.categories and post.categories contains gt %}
+                        {% assign matched = true %}
                     {% endif %}
 
+                    {% if post.tags and post.tags contains gt %}
+                        {% assign matched = true %}
+                    {% endif %}
 
-                    {% if category_match %}
-
-                        {% assign category_found = category_found | plus: 1 %}
+                {% endfor %}
 
 
-                        {% if category_found == 1 %}
+                {% if matched %}
 
-                            <a
-                                href="{{ post.url | relative_url }}"
-                                class="dc-category-main">
+                    {% assign cat_count = cat_count | plus: 1 %}
 
-                                {% if post.image %}
 
+                    {% if cat_count == 1 %}
+
+                        <a
+                            href="{{ post.url | relative_url }}"
+                            class="dc-cat-main-img">
+
+                            {% if post.image %}
                                 <img
                                     src="{{ post.image | relative_url }}"
                                     alt="{{ post.title }}"
                                     width="600"
-                                    height="360"
-                                    loading="lazy">
-
-                                {% else %}
-
+                                    height="400"
+                                    loading="lazy"
+                                    decoding="async">
+                            {% else %}
                                 <img
-                                    src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
+                                    src="{{ dc_default_img }}"
                                     alt="{{ post.title }}"
                                     width="600"
-                                    height="360"
-                                    loading="lazy">
+                                    height="400"
+                                    loading="lazy"
+                                    decoding="async">
+                            {% endif %}
 
-                                {% endif %}
+                        </a>
 
-                                <h3>
-                                    {{ post.title }}
-                                </h3>
-
+                        <h3 class="dc-cat-main-title">
+                            <a href="{{ post.url | relative_url }}">
+                                {{ post.title }}
                             </a>
+                        </h3>
 
-                            <div class="dc-category-list">
 
-                        {% else %}
+                    {% else %}
+
+                        <div class="dc-cat-list-item">
 
                             <a
                                 href="{{ post.url | relative_url }}"
-                                class="dc-category-list-item">
+                                class="dc-cat-thumb">
 
                                 {% if post.image %}
-
-                                <img
-                                    src="{{ post.image | relative_url }}"
-                                    alt="{{ post.title }}"
-                                    width="90"
-                                    height="65"
-                                    loading="lazy">
-
+                                    <img
+                                        src="{{ post.image | relative_url }}"
+                                        alt="{{ post.title }}"
+                                        width="70"
+                                        height="50"
+                                        loading="lazy"
+                                        decoding="async">
                                 {% else %}
-
-                                <img
-                                    src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
-                                    alt="{{ post.title }}"
-                                    width="90"
-                                    height="65"
-                                    loading="lazy">
-
+                                    <img
+                                        src="{{ dc_default_img }}"
+                                        alt="{{ post.title }}"
+                                        width="70"
+                                        height="50"
+                                        loading="lazy"
+                                        decoding="async">
                                 {% endif %}
-
-                                <span>
-                                    {{ post.title }}
-                                </span>
 
                             </a>
 
-                        {% endif %}
+                            <a
+                                href="{{ post.url | relative_url }}"
+                                class="dc-cat-list-title">
+                                {{ post.title }}
+                            </a>
+
+                        </div>
 
                     {% endif %}
 
                 {% endif %}
 
-            {% endfor %}
+            {% endif %}
 
-            </div>
-
-        </div>
+        {% endfor %}
 
     </section>
 
@@ -938,9 +842,9 @@
 </div>
 
 
-<!-- =============================================================
-     9. LOGIN / SIGNUP + APP
-     ============================================================= -->
+<!-- ==================================================
+     LOGIN / SIGNUP + APP BUTTON
+================================================== -->
 
 <div class="dc-auth-app-row">
 
@@ -963,9 +867,7 @@
 
     <div class="dc-app-btns">
 
-        <a
-            href="#"
-            id="dc-install-play">
+        <a href="#" id="dc-install-play">
 
             <i class="fab fa-google-play"></i>
 
@@ -977,9 +879,7 @@
         </a>
 
 
-        <a
-            href="#"
-            id="dc-install-apple">
+        <a href="#" id="dc-install-apple">
 
             <i class="fab fa-apple"></i>
 
@@ -995,9 +895,9 @@
 </div>
 
 
-<!-- =============================================================
-     10. LOGIN / SIGNUP MODAL
-     ============================================================= -->
+<!-- ==================================================
+     LOGIN / SIGNUP MODAL
+================================================== -->
 
 <div
     class="dc-modal-overlay"
@@ -1050,9 +950,7 @@
 
             <div class="dc-modal-switch">
                 আগেই একাউন্ট আছে?
-                <a
-                    href="#"
-                    id="dc-home-switch-to-login">
+                <a href="#" id="dc-home-switch-to-login">
                     লগ ইন করুন
                 </a>
             </div>
@@ -1094,9 +992,7 @@
 
             <div class="dc-modal-switch">
                 একাউন্ট নেই?
-                <a
-                    href="#"
-                    id="dc-home-switch-to-signup">
+                <a href="#" id="dc-home-switch-to-signup">
                     সাইন আপ করুন
                 </a>
             </div>
@@ -1108,1156 +1004,1082 @@
 </div>
 
 
-<!-- =============================================================
+<!-- ==================================================
      CSS
-     ============================================================= -->
+================================================== -->
 
 <style>
 
-/* =========================================================
-   BASE
-   ========================================================= */
-
-.dc-pa-home {
-    font-family: 'Noto Serif Bengali', serif;
-    color: #161616;
-}
-
-.dc-pa-section {
-    margin: 0 0 32px;
+.dc-pa-home{
+    font-family:'Noto Serif Bengali',serif;
+    width:100%;
+    box-sizing:border-box;
 }
 
-.dc-pa-section-title {
-    position: relative;
-    display: block;
-    margin: 0 0 18px;
-    padding: 0 0 8px;
-    border-bottom: 3px solid #c00000;
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 24px;
-    line-height: 1.35;
-    font-weight: 900;
-    color: #111;
+.dc-pa-home *,
+.dc-pa-home *::before,
+.dc-pa-home *::after{
+    box-sizing:border-box;
 }
 
-.dc-pa-section-title::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 90px;
-    height: 3px;
-    background: #111;
-}
 
+/* TOP BAR */
 
-/* =========================================================
-   TOP BAR
-   ========================================================= */
+.dc-pa-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    border-bottom:2px solid #C00000;
+    padding-bottom:9px;
+    margin-bottom:18px;
+}
 
-.dc-pa-topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 18px;
-    padding-bottom: 9px;
-    border-bottom: 2px solid #c00000;
+.dc-pa-topbar-date{
+    color:#555;
+    font-size:15px;
 }
 
-.dc-pa-topbar-date {
-    font-size: 15px;
-    color: #666;
+.dc-pa-epaper-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 14px;
+    background:#C00000;
+    color:#fff !important;
+    border-radius:4px;
+    text-decoration:none !important;
+    font-family:'Noto Sans Bengali',sans-serif;
+    font-size:14px;
+    font-weight:700;
 }
 
-.dc-pa-epaper-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 15px;
-    background: #c00000;
-    color: #fff !important;
-    text-decoration: none !important;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 700;
+.dc-pa-epaper-btn:hover{
+    background:#8B0000;
 }
 
 
-/* =========================================================
-   HERO
-   ========================================================= */
+/* HERO */
 
-.dc-pa-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #ddd;
+.dc-pa-hero{
+    display:grid;
+    grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);
+    gap:24px;
+    padding-bottom:24px;
+    margin-bottom:30px;
+    border-bottom:1px solid #ddd;
 }
 
-.dc-pa-hero-main {
-    min-width: 0;
+.dc-pa-hero-main{
+    min-width:0;
 }
 
-.dc-pa-hero-img {
-    display: block;
-    overflow: hidden;
-    margin-bottom: 14px;
-    background: #f3f3f3;
+.dc-pa-hero-img{
+    display:block;
+    width:100%;
+    margin-bottom:14px;
+    overflow:hidden;
 }
 
-.dc-pa-hero-img img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+.dc-pa-hero-img img{
+    width:100%;
+    aspect-ratio:16/9;
+    height:auto;
+    object-fit:cover;
+    display:block;
 }
 
-.dc-pa-cat-tag {
-    display: inline-block;
-    margin-bottom: 5px;
-    color: #c00000;
-    font-size: 15px;
-    font-weight: 800;
+.dc-pa-cat-tag{
+    display:inline-block;
+    color:#C00000;
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:5px;
 }
 
-.dc-pa-hero-title {
-    margin: 0 0 7px;
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 30px;
-    line-height: 1.35;
-    font-weight: 900;
+.dc-pa-hero-title{
+    margin:0 0 8px;
+    font-size:29px;
+    line-height:1.4;
+    font-weight:900;
 }
 
-.dc-pa-hero-title a {
-    color: #111;
-    text-decoration: none;
+.dc-pa-hero-title a{
+    color:#111;
+    text-decoration:none;
 }
 
-.dc-pa-hero-title a:hover {
-    color: #c00000;
+.dc-pa-hero-title a:hover{
+    color:#C00000;
 }
 
-.dc-pa-hero-author {
-    margin: 0 0 7px;
-    color: #c00000;
-    font-size: 15px;
+.dc-pa-hero-author{
+    margin:0 0 7px;
+    color:#C00000;
+    font-size:15px;
 }
 
-.dc-pa-hero-excerpt {
-    max-width: 900px;
-    margin: 0 0 12px;
-    color: #555;
-    font-size: 16px;
-    line-height: 1.7;
+.dc-pa-hero-excerpt{
+    margin:0 0 12px;
+    color:#555;
+    font-size:16px;
+    line-height:1.75;
 }
 
-.dc-pa-readmore-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 12px;
-    padding-bottom: 3px;
-    border-bottom: 2px solid #c00000;
-    color: #c00000 !important;
-    text-decoration: none !important;
-    font-size: 15px;
-    font-weight: 800;
+.dc-pa-readmore-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:#C00000;
+    font-size:15px;
+    font-weight:700;
+    text-decoration:none;
+    border-bottom:2px solid #C00000;
+    padding-bottom:2px;
 }
 
-.dc-pa-hero-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+.dc-pa-hero-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:13px;
 }
 
-.dc-pa-hero-meta {
-    color: #888;
-    font-size: 13px;
+.dc-pa-hero-meta{
+    color:#888;
+    font-size:13px;
 }
 
 
-/* =========================================================
-   FOLLOW BUTTON
-   ========================================================= */
+/* FOLLOW */
 
-.dc-home-follow-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    min-height: 30px;
-    padding: 5px 11px;
-    border: 1px solid #c00000;
-    border-radius: 16px;
-    background: #fff;
-    color: #c00000;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
+.dc-home-follow-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    background:#fff;
+    color:#C00000;
+    border:1.3px solid #C00000;
+    padding:5px 11px;
+    border-radius:16px;
+    font-weight:600;
+    font-size:11px;
+    cursor:pointer;
+    white-space:nowrap;
 }
 
-.dc-home-follow-btn:hover {
-    background: #fff5f5;
+.dc-home-follow-btn:hover{
+    background:#fff5f5;
 }
 
-.dc-home-follow-btn.dc-following {
-    background: linear-gradient(135deg,#e53935,#c00000) !important;
-    color: #fff !important;
-    border-color: #c00000 !important;
+.dc-home-follow-btn.dc-following{
+    background:linear-gradient(135deg,#e53935,#C00000) !important;
+    color:#fff !important;
+    border:none !important;
 }
+
 
+/* HERO LIST */
 
-/* =========================================================
-   LATEST
-   ========================================================= */
+.dc-pa-hero-list{
+    min-width:0;
+    border-left:1px solid #ddd;
+    padding-left:20px;
+}
+
+.dc-pa-hero-list-heading{
+    color:#C00000;
+    font-size:18px;
+    font-weight:800;
+    border-bottom:2px solid #C00000;
+    margin:0 0 10px;
+    padding-bottom:8px;
+}
 
-.dc-pa-hero-list {
-    min-width: 0;
-    padding-left: 20px;
-    border-left: 1px solid #ddd;
+.dc-pa-hero-list-item{
+    padding:10px 0;
+    border-bottom:1px dashed #ddd;
 }
 
-.dc-pa-hero-list-heading {
-    margin: 0 0 8px;
-    padding-bottom: 8px;
-    border-bottom: 3px solid #c00000;
-    color: #111;
-    font-size: 21px;
-    font-weight: 900;
+.dc-pa-hero-list-item:last-child{
+    border-bottom:none;
 }
 
-.dc-pa-hero-list-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #e5e5e5;
+.dc-pa-hero-cat-dropdown{
+    margin-bottom:5px;
 }
 
-.dc-pa-hero-list-item:last-child {
-    border-bottom: 0;
+.dc-pa-hero-cat-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    cursor:pointer;
+    list-style:none;
+    padding:3px 9px;
+    border-radius:3px;
+    background:#C00000;
+    color:#fff;
+    font-family:'Noto Sans Bengali',sans-serif;
+    font-size:11px;
+    font-weight:700;
 }
 
-.dc-pa-small-category {
-    display: inline-block;
-    margin-bottom: 3px;
-    color: #c00000;
-    font-family: 'Noto Sans Bengali', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
+.dc-pa-hero-cat-badge::-webkit-details-marker{
+    display:none;
 }
 
-.dc-pa-hero-list-text {
-    display: block;
-    color: #222;
-    text-decoration: none;
-    font-size: 16px;
-    line-height: 1.48;
-    font-weight: 700;
+.dc-pa-hero-cat-badge::after{
+    content:'▾';
 }
 
-.dc-pa-hero-list-text:hover {
-    color: #c00000;
+.dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge{
+    background:#8B0000;
 }
 
-.dc-pa-small-date {
-    display: block;
-    margin-top: 4px;
-    color: #999;
-    font-family: 'Noto Sans Bengali', sans-serif;
-    font-size: 11px;
+.dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge::after{
+    content:'▴';
 }
 
+.dc-pa-hero-cat-list{
+    list-style:none;
+    margin:7px 0 0;
+    padding:7px 0 0;
+    border-top:1px dashed #eee;
+}
 
-/* =========================================================
-   MORE NEWS
-   ========================================================= */
+.dc-pa-hero-cat-list li{
+    padding:3px 0;
+}
 
-.dc-pa-news-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+.dc-pa-hero-cat-list li a{
+    color:#444;
+    font-size:13px;
+    text-decoration:none;
 }
 
-.dc-pa-news-item {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    background: #fff;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+.dc-pa-hero-cat-list li a:hover{
+    color:#C00000;
 }
 
-.dc-pa-news-thumb {
-    display: block;
-    overflow: hidden;
-    background: #f2f2f2;
+.dc-pa-hero-list-text{
+    display:block;
+    color:#222;
+    font-size:16px;
+    line-height:1.5;
+    text-decoration:none;
 }
 
-.dc-pa-news-thumb img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    transition: transform .25s ease;
+.dc-pa-hero-list-text:hover{
+    color:#C00000;
 }
+
+
+/* SECTION */
 
-.dc-pa-news-item:hover .dc-pa-news-thumb img {
-    transform: scale(1.025);
+.dc-pa-section{
+    margin-bottom:32px;
 }
 
-.dc-pa-news-body {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    padding: 11px 13px 12px;
+.dc-pa-section-title{
+    display:inline-block;
+    margin:0 0 16px;
+    padding-bottom:7px;
+    border-bottom:3px solid #C00000;
+    color:#111;
+    font-size:21px;
+    line-height:1.3;
+    font-weight:900;
 }
 
-.dc-pa-mini-cat {
-    display: inline-block;
-    margin-bottom: 4px;
-    color: #c00000;
-    font-family: 'Noto Sans Bengali', sans-serif;
-    font-size: 12px;
-    font-weight: 800;
+.dc-pa-yt-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#C00000;
 }
 
-.dc-pa-news-body h3 {
-    flex: 1;
-    margin: 0 0 7px;
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 18px;
-    line-height: 1.45;
-    font-weight: 800;
+
+/* MORE NEWS */
+
+.dc-pa-news-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid #ddd;
+    border-left:1px solid #ddd;
 }
 
-.dc-pa-news-body h3 a {
-    color: #171717;
-    text-decoration: none;
+.dc-pa-news-item{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    background:#fff;
+    border-right:1px solid #ddd;
+    border-bottom:1px solid #ddd;
 }
 
-.dc-pa-news-body h3 a:hover {
-    color: #c00000;
+.dc-pa-news-thumb{
+    display:block;
+    width:100%;
+    overflow:hidden;
 }
 
-.dc-pa-news-author {
-    margin: 0 0 6px;
-    color: #c00000;
-    font-size: 12px;
+.dc-pa-news-thumb img{
+    display:block;
+    width:100%;
+    height:160px;
+    object-fit:cover;
 }
 
-.dc-pa-news-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+.dc-pa-news-body{
+    display:flex;
+    flex:1;
+    flex-direction:column;
+    padding:11px 12px;
 }
 
-.dc-pa-news-meta {
-    color: #999;
-    font-size: 11px;
+.dc-pa-mini-cat{
+    display:inline-block;
+    margin-bottom:3px;
+    color:#C00000;
+    font-size:13px;
+    font-weight:700;
 }
 
+.dc-pa-news-body h3{
+    flex:1;
+    margin:0 0 7px;
+    font-size:16px;
+    line-height:1.45;
+    font-weight:700;
+}
 
-/* =========================================================
-   TEXT ONLY
-   ========================================================= */
+.dc-pa-news-body h3 a{
+    color:#161616;
+    text-decoration:none;
+}
 
-.dc-pa-textonly-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+.dc-pa-news-body h3 a:hover{
+    color:#C00000;
 }
 
-.dc-pa-textonly-item {
-    display: block;
-    padding: 15px;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    color: inherit;
-    text-decoration: none;
+.dc-pa-news-author{
+    margin:0 0 5px;
+    color:#C00000;
+    font-size:13px;
 }
 
-.dc-pa-textonly-item h3 {
-    margin: 3px 0 6px;
-    color: #171717;
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 17px;
-    line-height: 1.45;
-    font-weight: 800;
+.dc-pa-news-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:6px;
+    margin-top:auto;
 }
 
-.dc-pa-textonly-item:hover h3 {
-    color: #c00000;
+.dc-pa-news-meta{
+    color:#999;
+    font-size:12px;
 }
+
 
-.dc-pa-textonly-item p {
-    margin: 0 0 6px;
-    color: #666;
-    font-size: 13px;
-    line-height: 1.55;
+/* TEXT NEWS */
+
+.dc-pa-textonly-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid #ddd;
+    border-left:1px solid #ddd;
 }
 
+.dc-pa-textonly-item{
+    display:block;
+    padding:14px;
+    border-right:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    color:inherit;
+    text-decoration:none;
+}
 
-/* =========================================================
-   YOUTUBE
-   ========================================================= */
+.dc-pa-textonly-item h3{
+    margin:3px 0 6px;
+    color:#161616;
+    font-size:16px;
+    line-height:1.45;
+}
 
-.dc-pa-yt-title {
-    color: #c00000;
+.dc-pa-textonly-item:hover h3{
+    color:#C00000;
 }
 
-.dc-pa-yt-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+.dc-pa-textonly-item p{
+    margin:0 0 7px;
+    color:#666;
+    font-size:14px;
+    line-height:1.5;
 }
+
+
+/* YOUTUBE */
 
-.dc-pa-yt-card {
-    min-width: 0;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+.dc-pa-yt-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    border-top:1px solid #ddd;
+    border-left:1px solid #ddd;
 }
 
-.dc-yt-facade {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background: #111;
-    cursor: pointer;
+.dc-pa-yt-card{
+    min-width:0;
+    border-right:1px solid #ddd;
+    border-bottom:1px solid #ddd;
 }
 
-.dc-yt-facade img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.dc-yt-facade{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    background:#000;
+    cursor:pointer;
 }
 
-.dc-yt-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    width: 62px;
-    height: 44px;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%,-50%);
-    border-radius: 10px;
-    background: rgba(200,0,0,.9);
+.dc-yt-facade img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
 }
 
-.dc-yt-play span {
-    width: 0;
-    height: 0;
-    margin-left: 4px;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 16px solid #fff;
+.dc-yt-play{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:60px;
+    height:42px;
+    background:rgba(200,0,0,.88);
+    border-radius:10px;
 }
 
-.dc-pa-yt-body {
-    padding: 12px;
+.dc-yt-play span{
+    width:0;
+    height:0;
+    margin-left:4px;
+    border-top:11px solid transparent;
+    border-bottom:11px solid transparent;
+    border-left:18px solid #fff;
 }
 
-.dc-pa-yt-body h3 {
-    margin: 3px 0 4px;
-    font-size: 18px;
-    line-height: 1.4;
+.dc-pa-yt-body{
+    padding:12px;
 }
 
-.dc-pa-yt-body h3 a {
-    color: #111;
-    text-decoration: none;
+.dc-pa-yt-body h3{
+    margin:4px 0;
+    font-size:17px;
+    line-height:1.4;
 }
 
-.dc-pa-yt-body h3 a:hover {
-    color: #c00000;
+.dc-pa-yt-body h3 a{
+    color:#111;
+    text-decoration:none;
 }
 
-.dc-pa-yt-body p {
-    margin: 0;
-    color: #777;
-    font-size: 13px;
+.dc-pa-yt-body p{
+    margin:0;
+    color:#666;
+    font-size:14px;
 }
 
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
+/* NAVIGATION */
 
-.dc-pa-nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 28px;
-    margin: 0 0 32px;
-    padding: 13px 0;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+.dc-pa-nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px 30px;
+    margin-bottom:30px;
+    padding:14px 0;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
 }
 
-.dc-pa-nav-links a {
-    padding-bottom: 3px;
-    border-bottom: 2px solid transparent;
-    color: #333;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 700;
+.dc-pa-nav-links a{
+    padding-bottom:3px;
+    border-bottom:2px solid transparent;
+    color:#333;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
 }
 
-.dc-pa-nav-links a:hover {
-    color: #c00000;
-    border-bottom-color: #c00000;
+.dc-pa-nav-links a:hover{
+    color:#C00000;
+    border-bottom-color:#C00000;
 }
 
 
-/* =========================================================
-   POPULAR
-   ========================================================= */
+/* POPULAR */
 
-.dc-pa-popular-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+.dc-pa-popular-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid #ddd;
+    border-left:1px solid #ddd;
 }
 
-.dc-pa-pop-item {
-    display: flex;
-    min-width: 0;
-    gap: 11px;
-    padding: 12px;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    color: inherit;
-    text-decoration: none;
+.dc-pa-pop-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    min-width:0;
+    padding:12px;
+    border-right:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    color:inherit;
+    text-decoration:none;
 }
 
-.dc-pa-pop-item > img {
-    flex: 0 0 85px;
-    width: 85px;
-    height: 65px;
-    object-fit: cover;
+.dc-pop-img{
+    width:80px;
+    height:65px;
+    flex-shrink:0;
+    object-fit:cover;
 }
 
-.dc-pa-pop-body {
-    min-width: 0;
+.dc-pa-pop-body{
+    min-width:0;
 }
 
-.dc-pa-pop-body h3 {
-    margin: 0 0 4px;
-    color: #171717;
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 15px;
-    line-height: 1.4;
-    font-weight: 800;
+.dc-pop-title{
+    margin:0 0 4px;
+    color:#161616;
+    font-size:15px;
+    line-height:1.4;
 }
 
-.dc-pa-pop-item:hover h3 {
-    color: #c00000;
+.dc-pa-pop-item:hover .dc-pop-title{
+    color:#C00000;
 }
 
-.dc-pa-pop-body p {
-    display: -webkit-box;
-    overflow: hidden;
-    margin: 0 0 3px;
-    color: #777;
-    font-size: 11px;
-    line-height: 1.4;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+.dc-pop-excerpt{
+    margin:0 0 4px;
+    color:#777;
+    font-size:12px;
+    line-height:1.4;
 }
 
-.dc-pa-pop-date {
-    color: #aaa;
-    font-size: 10px;
+.dc-pa-pop-date{
+    color:#aaa;
+    font-size:11px;
 }
 
 
-/* =========================================================
-   CATEGORY GRID
-   ========================================================= */
+/* CATEGORY */
 
-.dc-pa-category-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin-bottom: 28px;
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+.dc-pa-cat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    margin-bottom:30px;
+    border-top:1px solid #ddd;
+    border-left:1px solid #ddd;
 }
 
-.dc-pa-category-box {
-    min-width: 0;
-    padding: 15px;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+.dc-pa-cat-col{
+    min-width:0;
+    padding:14px;
+    border-right:1px solid #ddd;
+    border-bottom:1px solid #ddd;
 }
 
-.dc-pa-category-title {
-    margin: 0 0 13px;
-    padding-bottom: 7px;
-    border-bottom: 3px solid #c00000;
-    font-size: 20px;
-    line-height: 1.3;
-    font-weight: 900;
+.dc-cat-title{
+    margin:0 0 12px;
+    padding-bottom:7px;
+    border-bottom:2px solid #C00000;
+    font-size:18px;
+    line-height:1.3;
 }
 
-.dc-pa-category-title a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    color: #111;
-    text-decoration: none;
+.dc-cat-title a{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:5px;
+    color:#111;
+    text-decoration:none;
 }
 
-.dc-pa-category-title a:hover {
-    color: #c00000;
+.dc-cat-title a:hover{
+    color:#C00000;
 }
 
-.dc-pa-category-title i {
-    color: #c00000;
-    font-size: 12px;
+.dc-cat-main-img{
+    display:block;
+    width:100%;
+    overflow:hidden;
 }
 
-.dc-category-main {
-    display: block;
-    color: inherit;
-    text-decoration: none;
+.dc-cat-main-img img{
+    display:block;
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
 }
 
-.dc-category-main img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+.dc-cat-main-title{
+    margin:8px 0 5px;
+    font-size:17px;
+    line-height:1.4;
 }
 
-.dc-category-main h3 {
-    margin: 8px 0 10px;
-    color: #171717;
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 19px;
-    line-height: 1.45;
-    font-weight: 900;
+.dc-cat-main-title a{
+    color:#161616;
+    text-decoration:none;
 }
 
-.dc-category-main:hover h3 {
-    color: #c00000;
+.dc-cat-main-title a:hover{
+    color:#C00000;
 }
 
-.dc-category-list {
-    display: flex;
-    flex-direction: column;
+.dc-cat-list-item{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    padding:8px 0;
+    border-top:1px solid #eee;
 }
 
-.dc-category-list-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-top: 1px solid #eee;
-    color: #222;
-    text-decoration: none;
+.dc-cat-thumb{
+    display:block;
+    width:55px;
+    height:45px;
+    flex-shrink:0;
+    overflow:hidden;
 }
 
-.dc-category-list-item img {
-    flex: 0 0 85px;
-    width: 85px;
-    height: 58px;
-    object-fit: cover;
+.dc-cat-thumb img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
 }
 
-.dc-category-list-item span {
-    font-family: 'Noto Serif Bengali', serif;
-    font-size: 15px;
-    line-height: 1.4;
-    font-weight: 700;
+.dc-cat-list-title{
+    align-self:center;
+    color:#333;
+    font-size:14px;
+    line-height:1.4;
+    text-decoration:none;
 }
 
-.dc-category-list-item:hover span {
-    color: #c00000;
+.dc-cat-list-title:hover{
+    color:#C00000;
 }
 
 
-/* =========================================================
-   AUTHOR
-   ========================================================= */
+/* AUTHOR */
+
+.dc-author-dropdown{
+    border:1px solid #eee;
+}
+
+.dc-author-dropdown summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:11px 13px;
+    cursor:pointer;
+    color:#C00000;
+    font-size:15px;
+    font-weight:700;
+    list-style:none;
+}
 
-.dc-author-dropdown {
-    border: 1px solid #ddd;
+.dc-author-dropdown summary::-webkit-details-marker{
+    display:none;
 }
 
-.dc-author-dropdown summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 13px;
-    cursor: pointer;
-    list-style: none;
-    color: #c00000;
-    font-size: 16px;
-    font-weight: 800;
+.dc-author-dropdown summary::after{
+    content:'▾';
 }
 
-.dc-author-dropdown summary::-webkit-details-marker {
-    display: none;
+.dc-author-dropdown[open] summary::after{
+    content:'▴';
 }
 
-.dc-author-list {
-    max-height: 300px;
-    overflow-y: auto;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid #eee;
+.dc-author-list{
+    max-height:280px;
+    margin:0;
+    padding:0;
+    overflow-y:auto;
+    border-top:1px solid #eee;
+    list-style:none;
 }
 
-.dc-author-list li {
-    border-bottom: 1px solid #eee;
+.dc-author-list li{
+    border-bottom:1px solid #eee;
 }
 
-.dc-author-list li a {
-    display: block;
-    padding: 9px 13px;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
+.dc-author-list li a{
+    display:block;
+    padding:9px 13px;
+    color:#333;
+    font-size:14px;
+    text-decoration:none;
 }
 
-.dc-author-list li a:hover {
-    color: #c00000;
-    background: #fafafa;
+.dc-author-list li a:hover{
+    color:#C00000;
+    background:#fafafa;
 }
 
 
-/* =========================================================
-   AUTH + APP
-   ========================================================= */
+/* AUTH / APP */
 
-.dc-auth-app-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    max-width: 900px;
-    margin: 25px auto;
-    padding: 12px;
+.dc-auth-app-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    max-width:800px;
+    margin:18px auto;
+    padding:10px 15px;
 }
 
 .dc-auth-btns,
-.dc-app-btns {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.dc-app-btns{
+    display:flex;
+    align-items:center;
+    gap:7px;
 }
 
-.dc-auth-btns button {
-    padding: 9px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
+.dc-auth-btns button{
+    padding:8px 15px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
 }
 
-#dc-home-login-btn {
-    border: 1.5px solid #c00000;
-    background: #fff;
-    color: #c00000;
+#dc-home-login-btn{
+    background:#fff;
+    color:#C00000;
+    border:1.5px solid #C00000;
 }
 
-#dc-home-signup-btn {
-    border: 0;
-    background: linear-gradient(135deg,#e53935,#c00000);
-    color: #fff;
-    box-shadow: 0 2px 6px rgba(192,0,0,.25);
+#dc-home-signup-btn{
+    background:linear-gradient(135deg,#e53935,#C00000);
+    color:#fff;
+    border:0;
+    box-shadow:0 2px 6px rgba(192,0,0,.25);
 }
 
-.dc-app-btns a {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 7px 10px;
-    border-radius: 7px;
-    color: #fff;
-    text-decoration: none;
+.dc-app-btns a{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    padding:6px 9px;
+    border-radius:6px;
+    color:#fff;
+    text-decoration:none;
 }
 
-#dc-install-play {
-    background: #0f9d58;
+#dc-install-play{
+    background:#0F9D58;
 }
 
-#dc-install-apple {
-    background: #000;
+#dc-install-apple{
+    background:#000;
 }
 
-.dc-app-btns i {
-    font-size: 17px;
+.dc-app-btns i{
+    font-size:14px;
 }
 
-.dc-app-btns span {
-    font-family: Arial, sans-serif;
-    font-size: 8px;
-    line-height: 1.1;
+.dc-app-btns span{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    line-height:1.1;
 }
 
-.dc-app-btns span b {
-    font-size: 11px;
-}
-
-
-/* =========================================================
-   MODAL
-   ========================================================= */
-
-.dc-modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    background: rgba(0,0,0,.55);
-    backdrop-filter: blur(3px);
-}
-
-.dc-modal-overlay.active {
-    display: flex;
-}
-
-.dc-modal-box {
-    position: relative;
-    width: 100%;
-    max-width: 380px;
-    padding: 30px 26px;
-    box-sizing: border-box;
-    border-radius: 16px;
-    background: #fff;
-    box-shadow: 0 20px 50px rgba(0,0,0,.25);
-}
-
-.dc-modal-box h3 {
-    margin: 0 0 18px;
-    color: #111;
-    font-size: 20px;
-}
-
-.dc-modal-box input {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 12px;
-    padding: 12px 14px;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 10px;
-    font-size: 14px;
-}
-
-.dc-modal-box input:focus {
-    outline: none;
-    border-color: #c00000;
-}
-
-.dc-modal-submit {
-    width: 100%;
-    margin-top: 4px;
-    padding: 13px;
-    border: 0;
-    border-radius: 10px;
-    background: linear-gradient(135deg,#e53935,#c00000);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.dc-modal-switch {
-    margin-top: 14px;
-    text-align: center;
-    color: #777;
-    font-size: 13px;
-}
-
-.dc-modal-switch a {
-    color: #c00000;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-.dc-modal-close {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    border: 0;
-    background: transparent;
-    color: #aaa;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-.dc-modal-error {
-    display: none;
-    margin-bottom: 10px;
-    color: #c00000;
-    font-size: 13px;
+.dc-app-btns span b{
+    font-size:9px;
 }
 
 
-/* =========================================================
-   TABLET
-   ========================================================= */
+/* MODAL */
 
-@media (max-width: 900px) {
+.dc-modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(3px);
+}
 
-    .dc-pa-hero {
-        grid-template-columns: 1.35fr 1fr;
-        gap: 16px;
+.dc-modal-overlay.active{
+    display:flex;
+}
+
+.dc-modal-box{
+    position:relative;
+    width:100%;
+    max-width:380px;
+    padding:28px 24px;
+    border-radius:16px;
+    background:#fff;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.dc-modal-box h3{
+    margin:0 0 18px;
+    color:#111;
+    font-size:20px;
+}
+
+.dc-modal-box input{
+    display:block;
+    width:100%;
+    margin-bottom:12px;
+    padding:12px 14px;
+    border:1.5px solid #e5e5e5;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.dc-modal-box input:focus{
+    outline:none;
+    border-color:#C00000;
+}
+
+.dc-modal-submit{
+    width:100%;
+    margin-top:4px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#e53935,#C00000);
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.dc-modal-switch{
+    margin-top:14px;
+    text-align:center;
+    color:#777;
+    font-size:13px;
+}
+
+.dc-modal-switch a{
+    color:#C00000;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.dc-modal-close{
+    position:absolute;
+    top:10px;
+    right:14px;
+    border:0;
+    background:none;
+    color:#aaa;
+    font-size:25px;
+    line-height:1;
+    cursor:pointer;
+}
+
+.dc-modal-error{
+    display:none;
+    margin-bottom:10px;
+    color:#C00000;
+    font-size:13px;
+}
+
+
+/* TABLET */
+
+@media (max-width:1000px){
+
+    .dc-pa-news-grid{
+        grid-template-columns:repeat(3,1fr);
     }
 
-    .dc-pa-hero-title {
-        font-size: 25px;
+    .dc-pa-cat-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .dc-pa-news-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dc-pa-popular-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .dc-pa-popular-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
 }
 
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* MOBILE */
 
-@media (max-width: 600px) {
+@media (max-width:700px){
 
-    .dc-pa-topbar {
-        margin-bottom: 12px;
+    .dc-pa-topbar{
+        margin-bottom:12px;
+        padding-bottom:7px;
     }
 
-    .dc-pa-topbar-date {
-        font-size: 11px;
+    .dc-pa-topbar-date{
+        font-size:11px;
     }
 
-    .dc-pa-epaper-btn {
-        padding: 5px 9px;
-        font-size: 11px;
+    .dc-pa-epaper-btn{
+        padding:5px 9px;
+        font-size:11px;
     }
 
-
-    .dc-pa-hero {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding-bottom: 18px;
+    .dc-pa-hero{
+        grid-template-columns:1fr;
+        gap:18px;
     }
 
-    .dc-pa-hero-list {
-        padding-left: 0;
-        border-left: 0;
-        border-top: 1px solid #ddd;
-        padding-top: 12px;
+    .dc-pa-hero-list{
+        padding-left:0;
+        border-left:0;
+        border-top:1px solid #ddd;
+        padding-top:12px;
     }
 
-    .dc-pa-hero-title {
-        font-size: 21px;
-        line-height: 1.4;
+    .dc-pa-hero-title{
+        font-size:21px;
     }
 
-    .dc-pa-cat-tag {
-        font-size: 13px;
+    .dc-pa-hero-excerpt{
+        font-size:14px;
     }
 
-    .dc-pa-hero-author {
-        font-size: 12px;
+    .dc-pa-hero-author{
+        font-size:13px;
     }
 
-    .dc-pa-hero-excerpt {
-        font-size: 14px;
-        line-height: 1.6;
+    .dc-pa-hero-list-text{
+        font-size:15px;
     }
 
-    .dc-pa-readmore-btn {
-        font-size: 13px;
+    .dc-pa-news-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .dc-pa-hero-list-heading {
-        font-size: 17px;
+    .dc-pa-news-thumb img{
+        height:120px;
     }
 
-    .dc-pa-hero-list-text {
-        font-size: 15px;
+    .dc-pa-news-body{
+        padding:8px;
     }
 
-    .dc-pa-small-category {
-        font-size: 11px;
+    .dc-pa-news-body h3{
+        font-size:14px;
     }
 
-
-    .dc-pa-section-title {
-        font-size: 19px;
-        margin-bottom: 12px;
+    .dc-pa-mini-cat{
+        font-size:11px;
     }
 
-
-    .dc-pa-news-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .dc-pa-news-author{
+        font-size:11px;
     }
 
-    .dc-pa-news-body {
-        padding: 8px;
+    .dc-pa-news-meta{
+        font-size:10px;
     }
 
-    .dc-pa-mini-cat {
-        font-size: 10px;
+    .dc-pa-textonly-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .dc-pa-news-body h3 {
-        font-size: 14px;
-        line-height: 1.4;
+    .dc-pa-textonly-item{
+        padding:10px;
     }
 
-    .dc-pa-news-author {
-        font-size: 10px;
+    .dc-pa-textonly-item h3{
+        font-size:14px;
     }
 
-    .dc-pa-news-meta {
-        font-size: 9px;
+    .dc-pa-textonly-item p{
+        font-size:12px;
     }
 
-    .dc-home-follow-btn {
-        min-height: 25px;
-        padding: 3px 7px;
-        font-size: 9px;
+    .dc-pa-yt-grid{
+        grid-template-columns:1fr;
     }
 
-
-    .dc-pa-textonly-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .dc-pa-nav-links{
+        gap:8px 18px;
     }
 
-    .dc-pa-textonly-item {
-        padding: 9px;
+    .dc-pa-nav-links a{
+        font-size:13px;
     }
 
-    .dc-pa-textonly-item h3 {
-        font-size: 14px;
+    .dc-pa-popular-grid{
+        grid-template-columns:1fr;
     }
 
-    .dc-pa-textonly-item p {
-        font-size: 11px;
+    .dc-pa-cat-grid{
+        grid-template-columns:1fr;
     }
 
-
-    .dc-pa-yt-grid {
-        grid-template-columns: 1fr;
+    .dc-cat-main-title{
+        font-size:16px;
     }
 
-    .dc-pa-yt-body h3 {
-        font-size: 15px;
+    .dc-cat-list-title{
+        font-size:13px;
     }
 
-
-    .dc-pa-nav-links {
-        gap: 8px 15px;
-    }
-
-    .dc-pa-nav-links a {
-        font-size: 12px;
-    }
-
-
-    .dc-pa-popular-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .dc-pa-pop-item {
-        padding: 9px;
-    }
-
-    .dc-pa-pop-item > img {
-        flex-basis: 75px;
-        width: 75px;
-        height: 55px;
-    }
-
-    .dc-pa-pop-body h3 {
-        font-size: 14px;
-    }
-
-    .dc-pa-pop-body p {
-        font-size: 10px;
-    }
-
-
-    .dc-pa-category-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .dc-pa-category-box {
-        padding: 11px;
-    }
-
-    .dc-pa-category-title {
-        font-size: 18px;
-    }
-
-    .dc-category-main h3 {
-        font-size: 17px;
-    }
-
-    .dc-category-list-item img {
-        flex-basis: 70px;
-        width: 70px;
-        height: 50px;
-    }
-
-    .dc-category-list-item span {
-        font-size: 14px;
-    }
-
-
-    .dc-auth-app-row {
-        flex-direction: column;
-        align-items: stretch;
-        margin: 20px auto;
-    }
-
-    .dc-auth-btns,
-    .dc-app-btns {
-        justify-content: center;
+    .dc-auth-app-row{
+        flex-wrap:wrap;
+        justify-content:center;
     }
 
 }
 
 
-/* =========================================================
-   VERY SMALL SCREEN
-   ========================================================= */
+/* SMALL MOBILE */
 
-@media (max-width: 380px) {
+@media (max-width:420px){
 
-    .dc-pa-news-grid {
-        grid-template-columns: 1fr;
+    .dc-pa-news-thumb img{
+        height:95px;
     }
 
-    .dc-pa-textonly-grid {
-        grid-template-columns: 1fr;
+    .dc-pa-news-body h3{
+        font-size:12px;
     }
 
-    .dc-pa-hero-title {
-        font-size: 19px;
+    .dc-pa-section-title{
+        font-size:18px;
+    }
+
+    .dc-pa-hero-title{
+        font-size:19px;
+    }
+
+    .dc-pa-textonly-item h3{
+        font-size:13px;
+    }
+
+    .dc-pop-img{
+        width:70px;
+        height:55px;
     }
 
 }
@@ -2265,48 +2087,55 @@
 </style>
 
 
-<!-- =============================================================
-     RELATIVE TIME
-     ============================================================= -->
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', function(){
+
+    /* Relative time */
 
     var units = [
-        ['বছর', 31536000],
-        ['মাস', 2592000],
-        ['সপ্তাহ', 604800],
-        ['দিন', 86400],
-        ['ঘণ্টা', 3600],
-        ['মিনিট', 60]
+        ['বছর',31536000],
+        ['মাস',2592000],
+        ['সপ্তাহ',604800],
+        ['দিন',86400],
+        ['ঘণ্টা',3600],
+        ['মিনিট',60]
     ];
 
-    document.querySelectorAll('.dc-relative-time').forEach(function (el) {
+    document.querySelectorAll('.dc-relative-time').forEach(function(el){
 
         var dateValue = el.getAttribute('data-date');
 
-        if (!dateValue) return;
+        if(!dateValue){
+            return;
+        }
 
-        var date = new Date(dateValue);
+        var d = new Date(dateValue);
 
-        if (isNaN(date.getTime())) return;
+        if(isNaN(d.getTime())){
+            return;
+        }
 
         var diff = Math.floor(
-            (Date.now() - date.getTime()) / 1000
+            (Date.now() - d.getTime()) / 1000
         );
 
-        if (diff < 60) {
+        if(diff < 60){
             el.textContent = 'এইমাত্র';
             return;
         }
 
-        for (var i = 0; i < units.length; i++) {
+        for(var i = 0; i < units.length; i++){
 
             var value = Math.floor(
                 diff / units[i][1]
             );
 
-            if (value >= 1) {
+            if(value >= 1){
 
                 el.textContent =
                     value + ' ' +
@@ -2321,20 +2150,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+
 </script>
 
 
-<!-- =============================================================
-     FOLLOW SYSTEM
-     ============================================================= -->
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
 
-    if (
+document.addEventListener('DOMContentLoaded', function(){
+
+    /* Follow system */
+
+    if(
         typeof dcDB === 'undefined' ||
         typeof dcCurrentUser === 'undefined'
-    ) {
+    ){
         return;
     }
 
@@ -2347,22 +2176,28 @@ document.addEventListener('DOMContentLoaded', function () {
     var isFollowing = false;
 
 
-    function updateAllButtons() {
+    function updateAllButtons(){
 
-        followBtns.forEach(function (btn) {
+        followBtns.forEach(function(btn){
 
             var icon =
                 btn.querySelector('i');
 
             var label =
-                btn.querySelector('.dc-home-follow-label');
+                btn.querySelector(
+                    '.dc-home-follow-label'
+                );
 
-            if (!icon || !label) return;
+            if(!icon || !label){
+                return;
+            }
 
 
-            if (isFollowing) {
+            if(isFollowing){
 
-                btn.classList.add('dc-following');
+                btn.classList.add(
+                    'dc-following'
+                );
 
                 icon.className =
                     'fa fa-check';
@@ -2370,9 +2205,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 label.textContent =
                     'ফলো করছেন';
 
-            } else {
+            }else{
 
-                btn.classList.remove('dc-following');
+                btn.classList.remove(
+                    'dc-following'
+                );
 
                 icon.className =
                     'fa fa-plus';
@@ -2387,39 +2224,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    function refreshFollowState() {
+    function refreshFollowState(){
 
-        if (!dcCurrentUser) return;
+        if(!dcCurrentUser){
+            return;
+        }
 
         followRef
             .child(dcCurrentUser.uid)
             .once('value')
-            .then(function (snapshot) {
+            .then(function(snapshot){
 
                 isFollowing =
                     !!snapshot.val();
 
                 updateAllButtons();
 
-            })
-            .catch(function () {});
+            });
 
     }
 
 
-    function handleFollowClick() {
+    function handleFollowClick(){
 
-        if (!dcCurrentUser) return;
+        if(!dcCurrentUser){
+            return;
+        }
 
         var userRef =
-            followRef.child(dcCurrentUser.uid);
+            followRef.child(
+                dcCurrentUser.uid
+            );
 
-
-        if (isFollowing) {
+        if(isFollowing){
 
             userRef.remove();
 
-        } else {
+        }else{
 
             userRef.set(true);
 
@@ -2433,7 +2274,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    followBtns.forEach(function (btn) {
+    followBtns.forEach(function(btn){
 
         btn.addEventListener(
             'click',
@@ -2449,79 +2290,86 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 
-    if (dcCurrentUser) {
+    if(dcCurrentUser){
         refreshFollowState();
     }
 
 });
+
 </script>
 
 
-<!-- =============================================================
-     YOUTUBE FACADE
-     ============================================================= -->
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
 
-    document.querySelectorAll('.dc-yt-facade').forEach(function (facade) {
+document.addEventListener('DOMContentLoaded', function(){
 
-        facade.addEventListener('click', function () {
+    /* YouTube facade */
 
-            var videoId =
-                facade.getAttribute('data-yt-id');
+    document.querySelectorAll(
+        '.dc-yt-facade'
+    ).forEach(function(facade){
 
-            if (!videoId) return;
+        facade.addEventListener(
+            'click',
+            function(){
 
+                var videoId =
+                    facade.getAttribute(
+                        'data-yt-id'
+                    );
 
-            var iframe =
-                document.createElement('iframe');
+                if(!videoId){
+                    return;
+                }
 
+                var iframe =
+                    document.createElement(
+                        'iframe'
+                    );
 
-            iframe.src =
-                'https://www.youtube.com/embed/' +
-                videoId +
-                '?autoplay=1&modestbranding=1&rel=0';
+                iframe.src =
+                    'https://www.youtube.com/embed/' +
+                    videoId +
+                    '?autoplay=1&modestbranding=1&rel=0';
 
+                iframe.setAttribute(
+                    'allow',
+                    'autoplay; encrypted-media'
+                );
 
-            iframe.setAttribute(
-                'allow',
-                'autoplay; encrypted-media'
-            );
+                iframe.setAttribute(
+                    'allowfullscreen',
+                    ''
+                );
 
-            iframe.setAttribute(
-                'allowfullscreen',
-                ''
-            );
+                iframe.style.cssText =
+                    'position:absolute;' +
+                    'top:0;left:0;' +
+                    'width:100%;height:100%;' +
+                    'border:0;';
 
+                facade.innerHTML = '';
 
-            iframe.style.cssText =
-                'position:absolute;' +
-                'top:0;' +
-                'left:0;' +
-                'width:100%;' +
-                'height:100%;' +
-                'border:0;';
+                facade.appendChild(
+                    iframe
+                );
 
-
-            facade.innerHTML = '';
-
-            facade.appendChild(iframe);
-
-        }, { once: true });
+            },
+            {once:true}
+        );
 
     });
 
 });
+
 </script>
 
 
-<!-- =============================================================
-     LOGIN / SIGNUP MODAL JS
-     ============================================================= -->
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', function(){
+
+    /* Login / Signup */
 
     var overlay =
         document.getElementById(
@@ -2538,37 +2386,37 @@ document.addEventListener('DOMContentLoaded', function () {
             'dc-home-modal-login'
         );
 
-    var loginButton =
+    var loginBtn =
         document.getElementById(
             'dc-home-login-btn'
         );
 
-    var signupButton =
+    var signupBtn =
         document.getElementById(
             'dc-home-signup-btn'
         );
 
-    var closeButton =
+    var closeBtn =
         document.getElementById(
             'dc-home-modal-close'
         );
 
 
-    if (
+    if(
         !overlay ||
         !signupBox ||
         !loginBox ||
-        !loginButton ||
-        !signupButton ||
-        !closeButton
-    ) {
+        !loginBtn ||
+        !signupBtn ||
+        !closeBtn
+    ){
         return;
     }
 
 
-    loginButton.addEventListener(
+    loginBtn.addEventListener(
         'click',
-        function () {
+        function(){
 
             signupBox.style.display =
                 'none';
@@ -2584,9 +2432,9 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 
-    signupButton.addEventListener(
+    signupBtn.addEventListener(
         'click',
-        function () {
+        function(){
 
             loginBox.style.display =
                 'none';
@@ -2602,9 +2450,9 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 
-    closeButton.addEventListener(
+    closeBtn.addEventListener(
         'click',
-        function () {
+        function(){
 
             overlay.classList.remove(
                 'active'
@@ -2619,39 +2467,38 @@ document.addEventListener('DOMContentLoaded', function () {
             'dc-home-switch-to-login'
         );
 
+    if(switchLogin){
+
+        switchLogin.addEventListener(
+            'click',
+            function(e){
+
+                e.preventDefault();
+
+                signupBox.style.display =
+                    'none';
+
+                loginBox.style.display =
+                    'block';
+
+            }
+        );
+
+    }
+
+
     var switchSignup =
         document.getElementById(
             'dc-home-switch-to-signup'
         );
 
-
-    if (switchLogin) {
-
-        switchLogin.addEventListener(
-            'click',
-            function (event) {
-
-                event.preventDefault();
-
-                signupBox.style.display =
-                    'none';
-
-                loginBox.style.display =
-                    'block';
-
-            }
-        );
-
-    }
-
-
-    if (switchSignup) {
+    if(switchSignup){
 
         switchSignup.addEventListener(
             'click',
-            function (event) {
+            function(e){
 
-                event.preventDefault();
+                e.preventDefault();
 
                 loginBox.style.display =
                     'none';
@@ -2664,18 +2511,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
+
+    /* Signup */
 
     var signupSubmit =
         document.getElementById(
             'dc-home-signup-submit'
         );
 
-
-    if (signupSubmit) {
+    if(signupSubmit){
 
         signupSubmit.addEventListener(
             'click',
-            function () {
+            function(){
 
                 var name =
                     document.getElementById(
@@ -2692,26 +2540,25 @@ document.addEventListener('DOMContentLoaded', function () {
                         'dc-home-signup-password'
                     ).value;
 
-                var error =
+                var errEl =
                     document.getElementById(
                         'dc-home-signup-error'
                     );
 
-
-                error.style.display =
+                errEl.style.display =
                     'none';
 
 
-                if (
+                if(
                     !name ||
                     !email ||
                     pass.length < 6
-                ) {
+                ){
 
-                    error.textContent =
+                    errEl.textContent =
                         'নাম, ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।';
 
-                    error.style.display =
+                    errEl.style.display =
                         'block';
 
                     return;
@@ -2719,15 +2566,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
 
-                if (
+                if(
                     typeof dcSignUp !==
                     'function'
-                ) {
+                ){
 
-                    error.textContent =
-                        'সাইন আপ সিস্টেম এখন প্রস্তুত নয়।';
+                    errEl.textContent =
+                        'সাইন আপ সিস্টেম বর্তমানে প্রস্তুত নয়।';
 
-                    error.style.display =
+                    errEl.style.display =
                         'block';
 
                     return;
@@ -2739,14 +2586,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     name,
                     email,
                     pass,
-                    function (err) {
+                    function(err){
 
-                        if (err) {
+                        if(err){
 
-                            error.textContent =
+                            errEl.textContent =
                                 err.message;
 
-                            error.style.display =
+                            errEl.style.display =
                                 'block';
 
                             return;
@@ -2766,17 +2613,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    /* Login */
+
     var loginSubmit =
         document.getElementById(
             'dc-home-login-submit'
         );
 
-
-    if (loginSubmit) {
+    if(loginSubmit){
 
         loginSubmit.addEventListener(
             'click',
-            function () {
+            function(){
 
                 var email =
                     document.getElementById(
@@ -2788,25 +2636,24 @@ document.addEventListener('DOMContentLoaded', function () {
                         'dc-home-login-password'
                     ).value;
 
-                var error =
+                var errEl =
                     document.getElementById(
                         'dc-home-login-error'
                     );
 
-
-                error.style.display =
+                errEl.style.display =
                     'none';
 
 
-                if (
+                if(
                     typeof dcLogIn !==
                     'function'
-                ) {
+                ){
 
-                    error.textContent =
-                        'লগইন সিস্টেম এখন প্রস্তুত নয়।';
+                    errEl.textContent =
+                        'লগইন সিস্টেম বর্তমানে প্রস্তুত নয়।';
 
-                    error.style.display =
+                    errEl.style.display =
                         'block';
 
                     return;
@@ -2817,14 +2664,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 dcLogIn(
                     email,
                     pass,
-                    function (err) {
+                    function(err){
 
-                        if (err) {
+                        if(err){
 
-                            error.textContent =
+                            errEl.textContent =
                                 err.message;
 
-                            error.style.display =
+                            errEl.style.display =
                                 'block';
 
                             return;
@@ -2843,23 +2690,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-
-    overlay.addEventListener(
-        'click',
-        function (event) {
-
-            if (
-                event.target === overlay
-            ) {
-
-                overlay.classList.remove(
-                    'active'
-                );
-
-            }
-
-        }
-    );
-
 });
+
 </script>
+
+</div>
