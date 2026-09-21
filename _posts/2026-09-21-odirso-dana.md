@@ -3,26 +3,33 @@ layout: post
 title: "অদৃশ্য ডানা"
 date: 2026-09-21 00:11:00 +0400
 categories:
-    - choto golpo
-category_bn: "ছোট গল্প"
+    - choto-golpo
+category_bn:
+    - ছোট গল্প
 tags:
+    - সাহিত্য বিভাগ
     - সাহিত্য
     - গল্প
     - ছোট গল্প
-    - শামীম নিমু
+    - দৈনিক চালচিত্র
 author: "খালিদ মামুন"
-image: /assets/img/khalid-mamun.webp
-permalink: /golpo/2026/09/21/odirso-dana/
+image: "/assets/img/khalid-mamun.webp"
+description: "ম্যাম, আমি পাখি হব কীভাবে? - ছোট্ট নুরের প্রশ্ন আর মনের ডানায় উড়তে শেখার গল্প 'অদৃশ্য ডানা'।"
+excerpt: "ম্যাম, আমি পাখি হব কীভাবে? - ছোট্ট নুরের প্রশ্ন আর মনের ডানায় উড়তে শেখার গল্প 'অদৃশ্য ডানা'।"
+permalink: "/choto-golpo/2026/09/21/odrisho-dana/"
 redirect_from:
-    - /ছোট গল্প/2026/09/21/odirso-dana/
+    - "/ছোট গল্প/2026/09/21/odrisho-dana/"
+    - "/search/label/ছোট গল্প"
 ---
-
-<p style="font-size:12px; color:#888; text-align:center; margin-top:-10px; margin-bottom:15px; font-style:italic;">ছবি: খালিদ মামুন</p>
 
 আজ বৃহস্পতিবার। ছোট ঘণ্টা, অর্ধেক ক্লাস। ম্যাম বাংলা কবিতা পড়াচ্ছেন,
 
 *~<span style="color:#0d1b8a; font-weight:600;">"আমি হব সকাল বেলার পাখি 
 সবার আগে কুসুম-বাগে উঠব আমি ডাকি।"</span>*
+
+<!--more-->
+
+<p style="font-size:12px; color:#888; text-align:center; margin-top:-10px; margin-bottom:15px; font-style:italic;">ছবি: খালিদ মামুন</p>
 
 শেষ ঘণ্টার ক্লাস বলে ছেলেমেয়েদের মধ্যেও একটু ছুটির আমেজ। কেউ জানালার বাইরে তাকিয়ে আছে, কেউ খাতার পাতায় আঁকিবুঁকি কাটছে। ম্যাম অবশ্য সেদিকে কান না দিয়ে কবিতা পড়িয়ে চলেছেন।
 
