@@ -1,5 +1,8 @@
 User-agent: *
-Disallow: /search/
 Allow: /
+Disallow: /search/
+Disallow: /tag/
+Disallow: /*?m=1$
+Disallow: /*?name=
 
 Sitemap: https://www.dailychalchitra.com/sitemap.xml
