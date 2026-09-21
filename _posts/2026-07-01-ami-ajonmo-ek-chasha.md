@@ -3,16 +3,22 @@ layout: post
 title: "আমি আজন্ম এক চাষা"
 date: 2026-07-01 10:25:00 +0600
 categories:
+    - kobita
+category_bn:
     - কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
-    - পদ্য কবিতা
-    - Adv. রাজিয়া আক্তার পপি এর লেখা কবিতা
     - দৈনিক চালচিত্র
 author: "Adv. রাজিয়া আক্তার পপি"
-image: /assets/img/rajia-akter-popi.jpg
+image: "/assets/img/rajia-akter-popi.jpg"
+description: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা 'আমি আজন্ম এক চাষা'।"
+excerpt: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা 'আমি আজন্ম এক চাষা'।"
+permalink: "/kobita/2026/07/01/ami-ajonmo-ek-chasha/"
+redirect_from:
+    - "/কবিতা/2026/07/01/ami-ajonmo-ek-chasha/"
+    - "/search/label/কবিতা"
 ---
 
 চুরি করেছ ছন্দ, চুরি করেছ কলম,
