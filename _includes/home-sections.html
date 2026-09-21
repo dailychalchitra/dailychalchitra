@@ -65,35 +65,40 @@
     </section>
 {% endif %}
 
-    <!-- 2. আরও সংবাদ (ছবি উপরে, ব্যাজ+টাইটেল নিচে) -->
+    <!-- 2. আরও সংবাদ (একবার ক্যাটাগরি ব্যাজ, নিচে সংক্ষিপ্ত লেখা, বাকি পোস্ট ড্রপডাউনে) -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title">আরও সংবাদ</h3>
         {% assign dc_cat_groups = site.posts | group_by_exp: "post", "post.category_bn | default: post.categories.first" %}
         <div id="dc-more-news-grid" class="dc-pa-news-grid">
             {% for group in dc_cat_groups limit:12 %}
-            {% assign gid = forloop.index %}
-            <div class="dc-pa-cat-slider">
-                <button type="button" class="dc-pa-slide-btn dc-pa-slide-prev" data-target="dc-slide-track-{{ gid }}" aria-label="আগের লেখা"><i class="fa fa-chevron-left"></i></button>
-                <div class="dc-pa-cat-slider-track" id="dc-slide-track-{{ gid }}">
-                    {% for post in group.items limit:8 %}
-                    <a href="{{ post.url | relative_url }}" class="dc-pa-cat-slide">
-                        <div class="dc-pa-news-thumb">
-                            {% if post.image %}
-                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                            {% else %}
-                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
-                            {% endif %}
-                        </div>
-                        <div class="dc-pa-news-body">
-                            <span class="dc-pa-mini-cat">{{ group.name }}</span>
-                            <h3>{{ post.title }}</h3>
-                            <span class="post-meta dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
-                        </div>
-                    </a>
-                    {% endfor %}
+            {% assign main_post = group.items | first %}
+            {% if main_post %}
+            <div class="dc-pa-cat-card">
+                <span class="dc-pa-mini-cat dc-pa-cat-card-badge">{{ group.name }}</span>
+                <a href="{{ main_post.url | relative_url }}" class="dc-pa-news-thumb">
+                    {% if main_post.image %}
+                    <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                    {% endif %}
+                </a>
+                <div class="dc-pa-news-body">
+                    <h3><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h3>
+                    <p class="dc-pa-news-excerpt">{{ main_post.excerpt | strip_html | truncatewords: 12 }}</p>
+                    <span class="post-meta dc-pa-news-meta dc-relative-time" data-date="{{ main_post.date | date_to_xmlschema }}">{{ main_post.date | date: "%d %b" }}</span>
                 </div>
-                <button type="button" class="dc-pa-slide-btn dc-pa-slide-next" data-target="dc-slide-track-{{ gid }}" aria-label="পরের লেখা"><i class="fa fa-chevron-right"></i></button>
+                {% if group.items.size > 1 %}
+                <details class="dc-pa-cat-dropdown">
+                    <summary>আরও {{ group.name }} সংবাদ ({{ group.items.size | minus: 1 }})</summary>
+                    <ul class="dc-pa-cat-dropdown-list">
+                        {% for post in group.items offset:1 limit:7 %}
+                        <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </details>
+                {% endif %}
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </section>
@@ -417,9 +422,9 @@
 
     .dc-pa-hero-list{ border-left:1px solid #e2e2e2; padding-left:18px; }
     .dc-pa-hero-list-heading{ font-size:17px; font-weight:700; color:#C00000; border-bottom:2px solid #C00000; padding-bottom:8px; margin:0 0 10px; }
-    .dc-pa-hero-list-item{ padding:9px 0; border-bottom:1px dashed #e5e5e5; }
-    .dc-pa-hero-list-item:last-child{ border-bottom:none; }
-    .dc-pa-hero-cat-dropdown{ margin-bottom:5px; }
+    .dc-pa-hero-list-item{ padding:5px 0; border-bottom:1px dashed #e5e5e5; }
+.dc-pa-hero-list-item:last-child{ border-bottom:none; }
+.dc-pa-hero-cat-dropdown{ margin-bottom:2px; }
     .dc-pa-hero-cat-badge{
         cursor:pointer; display:inline-flex; align-items:center; gap:5px;
         background:#C00000; color:#fff;
@@ -480,6 +485,23 @@
     .dc-pa-news-author{ font-size:15px !important; color:#C00000; font-style:italic; margin:0 0 4px !important; }
     .dc-pa-news-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
     .dc-pa-news-meta{ font-size:14px !important; color:#999; }
+        .dc-pa-cat-card{ display:flex; flex-direction:column; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; }
+.dc-pa-cat-card-badge{ margin:8px 10px 0; }
+.dc-pa-news-thumb{ display:block; }
+.dc-pa-news-excerpt{ font-size:14px; color:#666; line-height:1.5; margin:0 0 6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.dc-pa-cat-dropdown{ border-top:1px dashed #e5e5e5; margin-top:auto; }
+.dc-pa-cat-dropdown summary{
+    cursor:pointer; padding:8px 10px; font-size:13px; font-weight:700; color:#C00000;
+    list-style:none; display:flex; align-items:center; justify-content:space-between;
+    font-family:'Noto Sans Bengali', sans-serif;
+}
+.dc-pa-cat-dropdown summary::-webkit-details-marker{ display:none; }
+.dc-pa-cat-dropdown summary::after{ content:'▾'; font-size:11px; }
+.dc-pa-cat-dropdown[open] summary::after{ content:'▴'; }
+.dc-pa-cat-dropdown-list{ list-style:none; margin:0; padding:0 10px 10px; max-height:220px; overflow-y:auto; }
+.dc-pa-cat-dropdown-list li{ border-top:1px solid #f0f0f0; }
+.dc-pa-cat-dropdown-list li a{ display:block; padding:8px 2px; font-size:13.5px; line-height:1.4; color:#333; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
+.dc-pa-cat-dropdown-list li a:hover{ color:#C00000; }
 
     .dc-pa-textonly-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
     .dc-pa-textonly-item{ display:block; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; text-decoration:none; color:inherit; }
@@ -570,15 +592,18 @@
 
         .dc-pa-section-title{ font-size:17px; }
 
-        /* আরও সংবাদ — মোবাইলে ২ কলাম (ডেস্কটপের অনুপাত ঠিক রাখতে) */
-        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px; }
-        .dc-pa-news-thumb img{ height:100px; }
-        .dc-pa-slide-btn{ width:20px; height:20px; font-size:9px; }
-        .dc-pa-news-body{ padding:9px; }
-        .dc-pa-mini-cat{ font-size:12px; }
-        .dc-pa-news-body h3{ font-size:13.5px; }
-        .dc-pa-news-author{ font-size:11px !important; }
-        .dc-pa-news-meta{ font-size:10.5px !important; }
+        /* আরও সংবাদ — মোবাইলেও ডেস্কটপের মতো ৪ কলাম */
+        .dc-pa-news-grid{ grid-template-columns:repeat(4,1fr) !important; gap:6px; }
+        .dc-pa-news-thumb img{ height:70px; }
+        .dc-pa-news-body{ padding:6px; }
+        .dc-pa-mini-cat{ font-size:10px; }
+        .dc-pa-news-body h3{ font-size:11.5px; line-height:1.3; }
+        .dc-pa-news-excerpt{ font-size:10px; margin-bottom:4px; }
+        .dc-pa-news-meta{ font-size:9px !important; }
+        .dc-pa-cat-card-badge{ margin:5px 6px 0; }
+        .dc-pa-cat-dropdown summary{ padding:5px 6px; font-size:10px; }
+        .dc-pa-cat-dropdown-list{ padding:0 6px 6px; }
+        .dc-pa-cat-dropdown-list li a{ font-size:11px; padding:6px 2px; }
 
         .dc-pa-textonly-grid{ grid-template-columns:repeat(2,1fr) !important; }
         .dc-pa-textonly-item{ padding:10px; }
