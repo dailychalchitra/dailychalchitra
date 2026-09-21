@@ -6,15 +6,16 @@ categories:
     - songbad
 category_bn: "সংবাদ"
 tags:
-    - দেশের সংবাদ
-    - চট্টগ্রাম
-    - দৈনিক চালচিত্র
-    - বোয়ালখালী
+    - "দেশের সংবাদ"
+    - "চট্টগ্রাম"
+    - "দৈনিক চালচিত্র"
+    - "বোয়ালখালী"
 author: "ডেস্ক রিপোর্ট"
-image: /assets/img/brikkho-ropon-01.webp
+image: "/assets/img/brikkho-ropon-01.webp"
 description: "পরিবেশ রক্ষা, সবুজায়ন ও জনসচেতনতা বৃদ্ধির লক্ষ্যে চট্টগ্রামের বোয়ালখালী উপজেলার কধুরখীল মারজিন বিহারে বৃক্ষরোপণ কর্মসূচি অনুষ্ঠিত হয়েছে।"
-permalink: /songbad/2026/09/11[STRIPPED 69 bytes]:
-    - /সংবাদ/2026/09/11/poribesh-rokkhay-kadhurkhil-marjin-bihare-brikkhoropon/
+permalink: "[STRIPPED 75 bytes]"
+redirect_from:
+    - "/সংবাদ[STRIPPED 67 bytes]"
 ---
 
 বাংলাদেশ মাইনোরিটি বুদ্ধিস্ট অ্যাসোসিয়েশন ও HWPL Global 3 Branch-এর সহযোগিতায় ‘Eco Ten 10 Minutes’ কর্মসূচি
