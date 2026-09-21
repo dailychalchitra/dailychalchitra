@@ -2,10 +2,23 @@
 layout: post
 title: "দুঃখই আমার সবি"
 date: 2026-07-07 05:10:00 +0600
-categories: [অনু কবিতা]
-tags: [কবিতা, শামীম নিমু, বিরহের কবিতা, দুঃখের কবিতা, জীবনমূখী কবিতা, সাহিত্য]
-author: শামীম নিমু
-image: /assets/img/dukkhoi-amar-sobi.webp
+categories:
+    - onu-kobita
+category_bn:
+    - অনু কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - অনু কবিতা
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/dukkhoi-amar-sobi.webp"
+description: "শামীম নিমুর লেখা অনু কবিতা 'দুঃখই আমার সবি'।"
+excerpt: "শামীম নিমুর লেখা অনু কবিতা 'দুঃখই আমার সবি'।"
+permalink: "/onu-kobita/2026/07/07/dukkhoi-amar-sobi/"
+redirect_from:
+    - "/অনু কবিতা/2026/07/07/dukkhoi-amar-sobi/"
+    - "/search/label/অনু কবিতা"
 ---
 
 দুঃখই আমার চাবিকাঠি
