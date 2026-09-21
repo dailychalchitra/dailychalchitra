@@ -2,10 +2,25 @@
 layout: post
 title: "‘এখানেই শুরু, এখানেই শেষ’ - ব্রাজিলের জার্সিতে শেষ? অবসরের ইঙ্গিত নেইমারের"
 date: 2026-07-06 08:00:00 +0600
-categories: [খেলাধুলা, ফুটবল]
-tags: [বিশ্বকাপ ২০২৬, ব্রাজিল, নেইমার, অবসর]
-author: স্পোর্টস ডেস্ক
-image: /assets/img/neymar-barazil.webp
+categories:
+    - football
+category_bn:
+    - ফুটবল
+tags:
+    - খেলাধুলা
+    - ফুটবল
+    - বিশ্বকাপ ২০২৬
+    - ব্রাজিল
+    - দৈনিক চালচিত্র
+author: "স্পোর্টস ডেস্ক"
+image: "/assets/img/neymar-barazil.webp"
+description: "বিশ্বকাপ ২০২৬ - ব্রাজিলের জার্সিতে শেষ? অবসরের ইঙ্গিত দিলেন নেইমার - 'এখানেই শুরু, এখানেই শেষ'।"
+excerpt: "বিশ্বকাপ ২০২৬ - ব্রাজিলের জার্সিতে শেষ? অবসরের ইঙ্গিত দিলেন নেইমার - 'এখানেই শুরু, এখানেই শেষ'।"
+permalink: "/football/2026/07/06/neymar-abosorer-ingit/"
+redirect_from:
+    - "/ফুটবল/2026/07/06/neymar-abosorer-ingit/"
+    - "/খেলাধুলা/2026/07/06/neymar-abosorer-ingit/"
+    - "/search/label/ফুটবল"
 ---
 
 
