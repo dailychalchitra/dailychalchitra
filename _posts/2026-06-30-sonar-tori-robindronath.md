@@ -2,11 +2,22 @@
 layout: post
 title: "সোনার তরী"
 date: 2026-06-30 10:40:00 +0600
-categories: [প্রতীকধর্মী কবিতা]
-tags: [কবিতা, রবীন্দ্রনাথ ঠাকুর, সোনার তরী, বাংলা সাহিত্য]
-author: রবীন্দ্রনাথ ঠাকুর
-image: /assets/img/nath-tagore.jpg
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
+author: "রবীন্দ্রনাথ ঠাকুর"
+image: "/assets/img/nath-tagore.jpg"
 description: "রবীন্দ্রনাথ ঠাকুরের বিখ্যাত প্রতীকধর্মী কবিতা 'সোনার তরী'।"
+permalink: "/kobita/2026/06/30/sonar-tori/"
+redirect_from:
+    - "/কবিতা/2026/06/30/sonar-tori/"
+    - "/search/label/কবিতা"
 ---
 
 গগনে গরজে মেঘ, ঘন বরষা।
