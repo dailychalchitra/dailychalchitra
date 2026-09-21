@@ -2,12 +2,26 @@
 layout: post
 title: "লাল কার্ড দেখেও বাঁচলেন বালোগান, ফিফা তুলে নিল নিষেধাজ্ঞা"
 date: 2026-07-05 09:00:00 +0600
-categories: [খেলাধুলা, ফুটবল]
-tags: [বিশ্বকাপ ২০২৬, ফোলারিন বালোগান, যুক্তরাষ্ট্র, ফিফা]
-author: স্পোর্টস ডেস্ক
-image: /assets/img/balogun-red-card.webp
+categories:
+    - football
+category_bn:
+    - ফুটবল
+tags:
+    - খেলাধুলা
+    - ফুটবল
+    - বিশ্বকাপ ২০২৬
+    - ফিফা
+    - দৈনিক চালচিত্র
+author: "স্পোর্টস ডেস্ক"
+image: "/assets/img/balogun-red-card.webp"
+description: "বিশ্বকাপ ২০২৬ - লাল কার্ড দেখেও বাঁচলেন ফোলারিন বালোগান, ফিফা তুলে নিল নিষেধাজ্ঞা।"
+excerpt: "বিশ্বকাপ ২০২৬ - লাল কার্ড দেখেও বাঁচলেন ফোলারিন বালোগান, ফিফা তুলে নিল নিষেধাজ্ঞা।"
+permalink: "/football/2026/07/05/lal-card-dekheo-banchlen-balogan/"
+redirect_from:
+    - "/ফুটবল/2026/07/05/lal-card-dekheo-banchlen-balogan/"
+    - "/খেলাধুলা/2026/07/05/lal-card-dekheo-banchlen-balogan/"
+    - "/search/label/ফুটবল"
 ---
-
 
 সাধারণত লাল কার্ড দেখলে পরের ম্যাচে খেলার সুযোগ থাকে না। সরাসরি লাল কার্ড হলে নিষেধাজ্ঞা আরও বেশি, দুই ম্যাচ। কিন্তু এবারের বিশ্বকাপে ফিফা সেই নিয়মে ছাড় দিল।
 
