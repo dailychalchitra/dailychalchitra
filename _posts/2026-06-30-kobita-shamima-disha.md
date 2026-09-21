@@ -2,11 +2,22 @@
 layout: post
 title: "কবিতা"
 date: 2026-06-30 10:20:00 +0600
-categories: [কবিতা]
-tags: [কবিতা, শামীমা দিশা, দ্রোহ, প্রেম]
-author: শামীমা দিশা
-image: /assets/img/sha-disha.jpg
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
+author: "শামীমা দিশা"
+image: "/assets/img/sha-disha.jpg"
 description: "কবিতা তুমি দ্রোহের আগুন, ভালোবাসার ফাগুন - শামীমা দিশার কবিতা।"
+permalink: "/kobita/2026/06/30/kobita/"
+redirect_from:
+    - "/কবিতা/2026/06/30/kobita/"
+    - "/search/label/কবিতা"
 ---
 
 কবিতা,
