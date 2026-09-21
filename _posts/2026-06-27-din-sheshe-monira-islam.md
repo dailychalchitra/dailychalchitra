@@ -2,10 +2,23 @@
 layout: post
 title: "দিন শেষে"
 date: 2026-06-27 18:00:00 +0400
-categories: [পদ্য কবিতা]
-tags: [মনিরা ইসলাম, সাহিত্য, কবিতা]
-author: মনিরা ইসলাম
-image: /assets/img/miss-monira.jpg
+categories:
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
+tags:
+    - মনিরা ইসলাম
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
+author: "মনিরা ইসলাম"
+image: "/assets/img/miss-monira.jpg"
+description: "দিন শেষে - মনিরা ইসলামের লেখা পদ্য কবিতা"
+permalink: "/poddo-kobita/2026/06/27/din-sheshe/"
+redirect_from:
+    - "/পদ্য কবিতা/2026/06/27/din-sheshe/"
+    - "/search/label/পদ্য কবিতা"
 ---
 
 সমস্ত দিন শেষে যখন  
