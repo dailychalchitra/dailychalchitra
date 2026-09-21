@@ -3,7 +3,8 @@ layout: post
 title: "কবিদের বিপদে একটি স্থায়ী সঞ্চয়ী ফান্ডের প্রস্তাব"
 date: 2026-09-17 20:10:00 +0400
 categories:
-    - প্রবন্ধ ও নিবন্ধ
+    - probondho o nibondho
+category_bn: "প্রবন্ধ ও নিবন্ধ"
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
@@ -13,6 +14,9 @@ tags:
 author: "শামীম নিমু"
 image: /assets/img/shamim-nimu10.webp
 description: "অসহায়, অসুস্থ ও প্রবীণ কবিদের বিপদে পাশে দাঁড়াতে একটি স্থায়ী মাসিক সঞ্চয়ী ফান্ড গঠনের প্রয়োজনীয়তা, পরিচালনা পদ্ধতি ও কার্যকর বাস্তবায়ন নিয়ে শামীম নিমুর প্রস্তাবনা।"
+permalink: /probondho/2026/09/17/kobider-bipode-sonchoyi-fund-prostab/
+redirect_from:
+    - /প্রবন্ধ ও নিবন্ধ/2026/09/17/kobider-bipode-sonchoyi-fund-prostab/
 ---
 
 কবিদের বিপদে কবিদের জন্য একটি সঞ্চয়ী ফান্ড থাকলে কেমন হয়?
