@@ -2,11 +2,23 @@
 layout: post
 title: "কবির আহ্বান"
 date: 2026-06-30 10:35:00 +0600
-categories: [প্রতিবাদী কবিতা]
-tags: [কবিতা, শামীম নিমু, বিদ্রোহ, প্রতিবাদ, কাজী নজরুল, রবীন্দ্রনাথ]
-author: শামীম নিমু
-image: /assets/img/Pro-kobita.jpg
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - প্রতিবাদী কবিতা
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/Pro-kobita.jpg"
 description: "কবি তোমার বন্ধ ঘরের দুয়ার খোল... শামীম নিমুর প্রতিবাদী কবিতা 'কবির আহ্বান'।"
+permalink: "/kobita/2026/06/30/kobir-ahoban/"
+redirect_from:
+    - "/কবিতা/2026/06/30/kobir-ahoban/"
+    - "/search/label/কবিতা"
 ---
 
 কবি তোমার বন্ধ ঘরের
