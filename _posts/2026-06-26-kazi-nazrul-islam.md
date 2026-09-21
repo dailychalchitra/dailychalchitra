@@ -2,12 +2,27 @@
 layout: post
 title: "বিদ্রোহী"
 date: 2026-06-26 08:00:00 +0600
-categories: [বিদ্রোহী কবিতা]
-tags: [কাজী নজরুল ইসলাম, বিদ্রোহী, কবিতা, সাহিত্য]
-author: কাজী নজরুল ইসলাম
-image: /assets/img/nazrul-islam.jpg
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য
+    - বিদ্রোহী কবিতা
+    - কবিতা
+    - দৈনিক চালচিত্র
+author: "কাজী নজরুল ইসলাম"
+image: "/assets/img/nazrul-islam.jpg"
 description: "কাজী নজরুল ইসলামের কালজয়ী কবিতা 'বিদ্রোহী'। আমি চির উন্নত শির।"
+permalink: "/kobita/2026/06/26/bidrohi/"
+redirect_from:
+    - "/কবিতা/2026/06/26/bidrohi/"
+    - "/search/label/কবিতা"
 ---
+
+বল বীর-
+বল উন্নত মম শির!
+শির নেহারি আমারি নতশির ঐ শিখর হিমাদ্রির!
 
 বল বীর-
 বল উন্নত মম শির!
