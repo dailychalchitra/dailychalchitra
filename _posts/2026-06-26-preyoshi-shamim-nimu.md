@@ -2,10 +2,22 @@
 layout: post
 title: "প্রেয়সী"
 date: 2026-06-26 16:40:00 +0600
-categories: [পদ্য কবিতা]
-tags: [সাহিত্য, কবিতা, পদ্য কবিতা]
-author: শামীম নিমু
-image: /assets/img/preyoshi-kobita.jpg
+categories:
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
+tags:
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/preyoshi-kobita.jpg"
+description: "প্রেয়সী - শামীম নিমুর লেখা পদ্য কবিতা"
+permalink: "/poddo-kobita/2026/06/26/preyoshi/"
+redirect_from:
+    - "/পদ্য কবিতা/2026/06/26/preyoshi/"
+    - "/search/label/পদ্য কবিতা"
 ---
 
 চলিতে চলিতে যবে চাহিনু-
