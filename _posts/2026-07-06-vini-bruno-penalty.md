@@ -2,10 +2,25 @@
 layout: post
 title: "নিজে না নিয়ে ভিনিসিয়ুস কেন পেনাল্টি দিলেন ব্রুনোকে? কারণ জানুন"
 date: 2026-07-06 10:30:00 +0600
-categories: [খেলাধুলা, ফুটবল]
-tags: [বিশ্বকাপ ২০২৬, ব্রাজিল, নরওয়ে, ভিনিসিয়ুস, ব্রুনো গিমারেস]
-author: স্পোর্টস ডেস্ক
-image: /assets/img/norway-brazil.jpg
+categories:
+    - football
+category_bn:
+    - ফুটবল
+tags:
+    - খেলাধুলা
+    - ফুটবল
+    - বিশ্বকাপ ২০২৬
+    - ব্রাজিল
+    - দৈনিক চালচিত্র
+author: "স্পোর্টস ডেস্ক"
+image: "/assets/img/norway-brazil.jpg"
+description: "বিশ্বকাপ ২০২৬ - নিজে না নিয়ে ভিনিসিয়ুস কেন পেনাল্টি দিলেন ব্রুনো গিমারেসকে? কারণ জানুন।"
+excerpt: "বিশ্বকাপ ২০২৬ - নিজে না নিয়ে ভিনিসিয়ুস কেন পেনাল্টি দিলেন ব্রুনো গিমারেসকে? কারণ জানুন।"
+permalink: "/football/2026/07/06/vinicius-penalty-bruno-ke-dilen-keno/"
+redirect_from:
+    - "/ফুটবল/2026/07/06/vinicius-penalty-bruno-ke-dilen-keno/"
+    - "/খেলাধুলা/2026/07/06/vinicius-penalty-bruno-ke-dilen-keno/"
+    - "/search/label/ফুটবল"
 ---
 
 
