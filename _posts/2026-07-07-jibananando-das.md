@@ -2,10 +2,24 @@
 layout: post
 title: "আবার আসিব ফিরে"
 date: 2026-07-07 12:31:00 +0400
-categories: [প্রকৃতিবিষয়ক কবিতা]
-tags: [কবিতা, সনেট কবিতা, জীবনানন্দ দাশ, দেশের কবিতা, প্রকৃতিবিষয়ক কবিতা, ভক্তিমূলক কবিতা, সাহিত্য]
-author: জীবনানন্দ দাশ
-image: /assets/img/jibanananda-das.webp
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
+author: "জীবনানন্দ দাশ"
+image: "/assets/img/jibanananda-das.webp"
+description: "জীবনানন্দ দাশের লেখা কবিতা 'আবার আসিব ফিরে'।"
+excerpt: "জীবনানন্দ দাশের লেখা কবিতা 'আবার আসিব ফিরে'।"
+permalink: "/kobita/2026/07/07/abar-asibo-fire/"
+redirect_from:
+    - "/কবিতা/2026/07/07/abar-asibo-fire/"
+    - "/প্রকৃতিবিষয়ক কবিতা/2026/07/07/abar-asibo-fire/"
+    - "/search/label/কবিতা"
 ---
 
 আবার আসিব ফিরে ধানসিড়ির তীরে- এই বাংলায়
