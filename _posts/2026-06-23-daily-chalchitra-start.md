@@ -1,10 +1,23 @@
 ---
 layout: post
 title: "দৈনিক চালচিত্রের যাত্রা শুরু"
-date: 2026-06-23
-categories: ঘোষণা
+date: 2026-06-23 00:00:00 +0400
+categories:
+    - ghoshona
+category_bn: "ঘোষণা"
+tags:
+    - "অন্যান্য"
+    - "Oman"
+    - "ওমান"
+    - "দৈনিক চালচিত্র"
+    - "সংবাদ"
+    - "সর্বশেষ"
+author: "দৈনিক চালচিত্র"
 image: "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
-tags: [অন্যান্য, Oman, ওমান, দৈনিক চালচিত্র, সংবাদ, সর্বশেষ]
+description: "Oman দেশ থেকে প্রকাশিত অনলাইন নিউজ পত্রিকা দৈনিক চালচিত্র এর আনুষ্ঠানিক যাত্রা শুরু হলো।"
+permalink: "/ghoshona/2026/06/23/dainik-chalchitrer-jatra-shuru/"
+redirect_from:
+    - "/ঘোষণা/2026/06/23/dainik-chalchitrer-jatra-shuru/"
 ---
 
 Oman-(ওমান) দেশ থেকে প্রকাশিত অনলাইন নিউজ পত্রিকা **দৈনিক চালচিত্র**-এর আনুষ্ঠানিক যাত্রা শুরু হলো।
