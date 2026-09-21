@@ -2,10 +2,25 @@
 layout: post
 title: "মরক্কোর দাপুটে জয়: কানাডাকে ৩-০ গোলে হারিয়ে কোয়ার্টারে"
 date: 2026-07-04 11:30:00 +0600
-categories: [খেলাধুলা, ফুটবল]
-tags: [বিশ্বকাপ ২০২৬, মরক্কো, কানাডা]
-author: স্পোর্টস ডেস্ক
-image: /assets/img/canada-morocco.webp
+categories:
+    - football
+category_bn:
+    - ফুটবল
+tags:
+    - খেলাধুলা
+    - ফুটবল
+    - বিশ্বকাপ ২০২৬
+    - মরক্কো
+    - দৈনিক চালচিত্র
+author: "স্পোর্টস ডেস্ক"
+image: "/assets/img/canada-morocco.webp"
+description: "বিশ্বকাপ ২০২৬ - গ্রুপ পর্বে কানাডাকে ৩-০ গোলে হারিয়ে কোয়ার্টার ফাইনালে মরক্কো।"
+excerpt: "বিশ্বকাপ ২০২৬ - গ্রুপ পর্বে কানাডাকে ৩-০ গোলে হারিয়ে কোয়ার্টার ফাইনালে মরক্কো।"
+permalink: "/football/2026/07/04/morokkor-dapute-joy/"
+redirect_from:
+    - "/ফুটবল/2026/07/04/morokkor-dapute-joy/"
+    - "/kheladhula/2026/07/04/morokkor-dapute-joy/"
+    - "/search/label/ফুটবল"
 ---
 
 
