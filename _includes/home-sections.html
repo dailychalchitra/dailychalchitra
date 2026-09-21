@@ -22,14 +22,14 @@
                 <span class="dc-pa-cat-tag">{{ post.category_bn | default: post.categories.first }}</span>
                 <h1 class="dc-pa-hero-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
                 {% if post.author %}<p class="dc-pa-hero-author">লেখক: {{ post.author }}</p>{% endif %}
-                <p class="dc-pa-hero-excerpt">{{ post.excerpt | strip_html | truncatewords: 90 }}</p>
+                {% assign hero_excerpt = post.excerpt | strip_html | strip %}
+                {% if hero_excerpt == "" %}
+                    {% assign hero_excerpt = post.content | strip_html | strip %}
+                {% endif %}
+                <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 50 }}</p>
                 <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
                 <div class="dc-pa-hero-bottom">
                     <span class="dc-pa-hero-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
-                    <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:5px;background:#fff;color:#C00000;border:1.3px solid #C00000;padding:5px 12px;border-radius:16px;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">
-                        <i class="fa fa-plus" style="font-size:10px;"></i>
-                        <span class="dc-home-follow-label">ফলো করুন</span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -77,10 +77,6 @@
                     {% if post.author %}<p class="card-author dc-pa-news-author">লেখক: {{ post.author }}</p>{% endif %}
                     <div class="card-actions-row dc-pa-news-actions">
                         <span class="post-meta dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
-                        <button class="dc-home-follow-btn" style="display:flex;align-items:center;gap:4px;background:#fff;color:#C00000;border:1.2px solid #C00000;padding:4px 10px;border-radius:14px;font-weight:600;font-size:11px;cursor:pointer;white-space:nowrap;">
-                            <i class="fa fa-plus" style="font-size:9px;"></i>
-                            <span class="dc-home-follow-label">ফলো করুন</span>
-                        </button>
                     </div>
                 </div>
             </article>
@@ -527,48 +523,55 @@
 
     /* মোবাইলেও ডেস্কটপের মতো একই গ্রিড কাঠামো — শুধু ফন্ট/ছবি সাইজ ছোট */
     @media(max-width:600px){
-        .dc-pa-topbar-date{ font-size:11px; }
-        .dc-pa-epaper-btn{ font-size:11px; padding:5px 10px; }
-        .dc-pa-hero{ gap:12px; }
-        .dc-pa-hero-title{ font-size:17px; margin-bottom:5px; }
-        .dc-pa-hero-excerpt{ font-size:12.5px; line-height:1.5; margin-bottom:6px; }
-        .dc-pa-cat-tag{ font-size:11px; }
-        .dc-pa-hero-author{ font-size:11px; }
-        .dc-pa-hero-meta{ font-size:10.5px; }
-        .dc-pa-readmore-btn{ font-size:11px; margin-bottom:8px; }
-        .dc-pa-hero-list{ padding-left:10px; }
-        .dc-pa-hero-list-heading{ font-size:12px; padding-bottom:5px; }
-        .dc-pa-hero-cat-badge{ font-size:9px; padding:2px 7px; }
-        .dc-pa-hero-list-text{ font-size:11.5px; }
+        .dc-pa-topbar-date{ font-size:12px; }
+        .dc-pa-epaper-btn{ font-size:12px; padding:6px 12px; }
+        .dc-pa-hero{ gap:14px; }
+        .dc-pa-hero-title{ font-size:19px; margin-bottom:6px; }
+        .dc-pa-hero-excerpt{ font-size:14px; line-height:1.6; margin-bottom:8px; }
+        .dc-pa-cat-tag{ font-size:12.5px; }
+        .dc-pa-hero-author{ font-size:12.5px; }
+        .dc-pa-hero-meta{ font-size:12px; }
+        .dc-pa-readmore-btn{ font-size:12.5px; margin-bottom:8px; }
+        .dc-pa-hero-list{ padding-left:12px; }
+        .dc-pa-hero-list-heading{ font-size:13.5px; padding-bottom:6px; }
+        .dc-pa-hero-cat-badge{ font-size:10.5px; padding:3px 8px; }
+        .dc-pa-hero-list-text{ font-size:13px; }
 
-        .dc-pa-section-title{ font-size:15px; }
-        .dc-pa-news-thumb img{ height:80px; }
-        .dc-pa-news-body{ padding:6px; }
-        .dc-pa-mini-cat{ font-size:10px; }
-        .dc-pa-news-body h3{ font-size:11px; }
-        .dc-pa-news-author{ font-size:9.5px !important; }
-        .dc-pa-news-meta{ font-size:9px !important; }
+        .dc-pa-section-title{ font-size:17px; }
 
-        .dc-pa-textonly-item{ padding:8px; }
-        .dc-pa-textonly-item h4{ font-size:11.5px; }
-        .dc-pa-textonly-item p{ font-size:10px; }
+        /* আরও সংবাদ — মোবাইলে ২ কলাম (ডেস্কটপের অনুপাত ঠিক রাখতে) */
+        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr) !important; }
+        .dc-pa-news-thumb img{ height:130px; }
+        .dc-pa-news-body{ padding:9px; }
+        .dc-pa-mini-cat{ font-size:12px; }
+        .dc-pa-news-body h3{ font-size:13.5px; }
+        .dc-pa-news-author{ font-size:11px !important; }
+        .dc-pa-news-meta{ font-size:10.5px !important; }
 
-        .dc-pa-yt-body h3{ font-size:11px; }
-        .dc-pa-yt-body p{ font-size:10px; }
+        .dc-pa-textonly-grid{ grid-template-columns:repeat(2,1fr) !important; }
+        .dc-pa-textonly-item{ padding:10px; }
+        .dc-pa-textonly-item h4{ font-size:13.5px; }
+        .dc-pa-textonly-item p{ font-size:12px; }
 
-        .dc-pa-nav-links{ gap:8px 14px; }
-        .dc-pa-nav-links a{ font-size:11px; }
+        .dc-pa-yt-grid{ grid-template-columns:1fr; }
+        .dc-pa-yt-body h3{ font-size:14px; }
+        .dc-pa-yt-body p{ font-size:12.5px; }
 
-        .dc-pa-pop-item{ padding:6px; gap:6px; }
-        .dc-pa-pop-item .dc-pop-img{ width:44px; height:44px; }
-        .dc-pa-pop-item .dc-pop-title{ font-size:10px !important; }
-        .dc-pa-pop-item .dc-pop-excerpt{ font-size:9px !important; }
-        .dc-pa-pop-date{ font-size:8.5px; }
+        .dc-pa-nav-links{ gap:10px 16px; }
+        .dc-pa-nav-links a{ font-size:12.5px; }
 
-        .dc-cat-title{ font-size:11px !important; }
-        .dc-cat-main-title{ font-size:9px !important; }
-        .dc-cat-list-title{ font-size:9px !important; }
-        .dc-cat-thumb{ width:28px; height:28px; }
+        .dc-pa-popular-grid{ grid-template-columns:repeat(2,1fr) !important; }
+        .dc-pa-pop-item{ padding:9px; gap:8px; }
+        .dc-pa-pop-item .dc-pop-img{ width:56px; height:56px; }
+        .dc-pa-pop-item .dc-pop-title{ font-size:12px !important; }
+        .dc-pa-pop-item .dc-pop-excerpt{ font-size:10.5px !important; }
+        .dc-pa-pop-date{ font-size:10px; }
+
+        .dc-pa-cat-grid{ grid-template-columns:repeat(2,1fr) !important; }
+        .dc-cat-title{ font-size:13px !important; }
+        .dc-cat-main-title{ font-size:11px !important; }
+        .dc-cat-list-title{ font-size:11px !important; }
+        .dc-cat-thumb{ width:34px; height:34px; }
     }
     </style>
 
