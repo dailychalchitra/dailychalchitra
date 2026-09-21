@@ -1,11 +1,24 @@
 ---
 layout: post
-title: আর কতকাল?
+title: "আর কতকাল?"
 date: 2026-06-28 20:00:00 +0600
-categories: [দ্রোহী কবিতা]
-tags: [সাহিত্য বিভাগ, কবিতা, পদ্য কবিতা]
-author: এম. এল. আর. বিপ্লব
-image: /assets/img/m-l-r-biplob.jpg
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - কবিতা
+    - পদ্য কবিতা
+    - দ্রোহী কবিতা
+    - দৈনিক চালচিত্র
+author: "এম. এল. আর. বিপ্লব"
+image: "/assets/img/m-l-r-biplob.jpg"
+description: "আর কতকাল? - এম. এল. আর. বিপ্লবের লেখা দ্রোহী কবিতা"
+permalink: "/kobita/2026/06/28/ar-kotokal/"
+redirect_from:
+    - "/কবিতা/2026/06/28/ar-kotokal/"
+    - "/search/label/কবিতা"
 ---
 
 আর কত কাল হ্যাক হবে এই স্বাধীন বাংলাদেশ?
