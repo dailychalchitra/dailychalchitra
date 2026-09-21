@@ -26,7 +26,14 @@
                 {% if hero_excerpt == "" %}
                     {% assign hero_excerpt = post.content | strip_html | strip %}
                 {% endif %}
-                <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 50 }}</p>
+                {% assign hero_excerpt = post.excerpt | strip_html | strip %}
+                {% unless hero_excerpt %}
+                    {% assign hero_excerpt = post.content | strip_html | strip %}
+                {% endunless %}
+                {% if hero_excerpt == "" or hero_excerpt == nil %}
+                    {% assign hero_excerpt = post.content | strip_html | strip %}
+                {% endif %}
+                <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 45 }}</p>
                 <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
                 <div class="dc-pa-hero-bottom">
                     <span class="dc-pa-hero-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
@@ -61,25 +68,32 @@
     <!-- 2. আরও সংবাদ (ছবি উপরে, ব্যাজ+টাইটেল নিচে) -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title">আরও সংবাদ</h3>
+        {% assign dc_cat_groups = site.posts | group_by_exp: "post", "post.category_bn | default: post.categories.first" %}
         <div id="dc-more-news-grid" class="dc-pa-news-grid">
-            {% for post in site.posts offset:7 limit:9 %}
-            <article class="news-card dc-pa-news-item">
-                <a href="{{ post.url | relative_url }}" class="card-img dc-pa-news-thumb">
-                    {% if post.image %}
-                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                    {% else %}
-                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
-                    {% endif %}
-                </a>
-                <div class="card-content dc-pa-news-body">
-                    <span class="dc-pa-mini-cat">{{ post.category_bn | default: post.categories.first }}</span>
-                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                    {% if post.author %}<p class="card-author dc-pa-news-author">লেখক: {{ post.author }}</p>{% endif %}
-                    <div class="card-actions-row dc-pa-news-actions">
-                        <span class="post-meta dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
-                    </div>
+            {% for group in dc_cat_groups limit:12 %}
+            {% assign gid = forloop.index %}
+            <div class="dc-pa-cat-slider">
+                <button type="button" class="dc-pa-slide-btn dc-pa-slide-prev" data-target="dc-slide-track-{{ gid }}" aria-label="আগের লেখা"><i class="fa fa-chevron-left"></i></button>
+                <div class="dc-pa-cat-slider-track" id="dc-slide-track-{{ gid }}">
+                    {% for post in group.items limit:8 %}
+                    <a href="{{ post.url | relative_url }}" class="dc-pa-cat-slide">
+                        <div class="dc-pa-news-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </div>
+                        <div class="dc-pa-news-body">
+                            <span class="dc-pa-mini-cat">{{ group.name }}</span>
+                            <h3>{{ post.title }}</h3>
+                            <span class="post-meta dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
+                        </div>
+                    </a>
+                    {% endfor %}
                 </div>
-            </article>
+                <button type="button" class="dc-pa-slide-btn dc-pa-slide-next" data-target="dc-slide-track-{{ gid }}" aria-label="পরের লেখা"><i class="fa fa-chevron-right"></i></button>
+            </div>
             {% endfor %}
         </div>
     </section>
@@ -437,10 +451,27 @@
     .dc-pa-yt-title{ display:flex; align-items:center; gap:8px; color:#C00000; }
 
     /* আরও সংবাদ — ছবি উপরে, ব্যাজ+টাইটেল নিচে (ভার্টিক্যাল কার্ড) */
-    .dc-pa-news-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-    .dc-pa-news-item{ display:flex; flex-direction:column; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; background:#fff; border-radius:0 !important; box-shadow:none !important; }
+    .dc-pa-news-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .dc-pa-cat-slider{ position:relative; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; }
+    .dc-pa-cat-slider-track{
+        display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
+        scrollbar-width:none; -ms-overflow-style:none;
+    }
+    .dc-pa-cat-slider-track::-webkit-scrollbar{ display:none; }
+    .dc-pa-cat-slide{
+        flex:0 0 100%; scroll-snap-align:start;
+        display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    }
+    .dc-pa-slide-btn{
+        position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+        background:rgba(255,255,255,0.9); border:1px solid #ddd; border-radius:50%;
+        width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+        cursor:pointer; font-size:10px; color:#C00000; box-shadow:0 1px 4px rgba(0,0,0,0.15);
+    }
+    .dc-pa-slide-prev{ left:5px; }
+    .dc-pa-slide-next{ right:5px; }
     .dc-pa-news-thumb{ display:block; width:100%; }
-    .dc-pa-news-thumb img{ width:100%; height:150px; object-fit:cover; display:block; border-radius:0; }
+    .dc-pa-news-thumb img{ width:100%; height:150px; object-fit:cover; display:block; }
     .dc-pa-news-body{ padding:10px 12px; display:flex; flex-direction:column; flex:1; }
     .dc-pa-mini-cat{ font-size:15.5px; font-weight:700; color:#C00000; display:inline-block; margin-bottom:3px; }
     .dc-pa-news-body h3{ font-size:17.5px; line-height:1.4; margin:0 0 6px; font-family:'Noto Serif Bengali', serif; font-weight:700; flex:1; }
@@ -540,8 +571,9 @@
         .dc-pa-section-title{ font-size:17px; }
 
         /* আরও সংবাদ — মোবাইলে ২ কলাম (ডেস্কটপের অনুপাত ঠিক রাখতে) */
-        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr) !important; }
-        .dc-pa-news-thumb img{ height:130px; }
+        .dc-pa-news-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px; }
+        .dc-pa-news-thumb img{ height:100px; }
+        .dc-pa-slide-btn{ width:20px; height:20px; font-size:9px; }
         .dc-pa-news-body{ padding:9px; }
         .dc-pa-mini-cat{ font-size:12px; }
         .dc-pa-news-body h3{ font-size:13.5px; }
@@ -593,6 +625,22 @@
         });
     });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.dc-pa-slide-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var track = document.getElementById(this.dataset.target);
+            if (!track) return;
+            var slide = track.querySelector('.dc-pa-cat-slide');
+            var width = slide ? slide.getBoundingClientRect().width : track.clientWidth;
+            var dir = this.classList.contains('dc-pa-slide-next') ? 1 : -1;
+            track.scrollBy({ left: dir * width, behavior: 'smooth' });
+        });
+    });
+});
+</script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
