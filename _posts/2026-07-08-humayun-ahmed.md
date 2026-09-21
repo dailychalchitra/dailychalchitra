@@ -2,10 +2,24 @@
 layout: post
 title: "গৃহত্যাগী জ্যোছনা"
 date: 2026-07-08 22:15:00 +0400
-category: "পদ্য কবিতা"
-tags: ["সাহিত্য", "কবিতা", "সাহিত্যিক", "চলচ্চিত্র পরিচালক", "ঔপন্যাসিক"]
-author: হুমায়ূন আহমেদ
-image: /assets/img/humayun-ahmed.webp
+categories:
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
+author: "হুমায়ূন আহমেদ"
+image: "/assets/img/humayun-ahmed.webp"
+description: "হুমায়ূন আহমেদের লেখা পদ্য কবিতা 'গৃহত্যাগী জ্যোছনা'।"
+excerpt: "হুমায়ূন আহমেদের লেখা পদ্য কবিতা 'গৃহত্যাগী জ্যোছনা'।"
+permalink: "/poddo-kobita/2026/07/08/grihotyagi-jyotsna/"
+redirect_from:
+    - "/পদ্য কবিতা/2026/07/08/grihotyagi-jyotsna/"
+    - "/search/label/পদ্য কবিতা"
 ---
 
 প্রতি পূর্ণিমার মধ্যরাতে একবার
