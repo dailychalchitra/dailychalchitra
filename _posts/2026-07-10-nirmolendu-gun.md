@@ -2,10 +2,21 @@
 layout: post
 title: "প্রশ্নাবলী"
 date: 2026-07-10 15:30:00 +0400
-category: "কবিতা"
-tags: [সাহিত্য, পদ্য কবিতা, সাহিত্যিক, প্রশ্নাবলী কবিতা, বিরহের কবিতা]
-author: নির্মলেন্দু গুণ
-image: /assets/img/nirmolendu-gun.webp
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
+author: "নির্মলেন্দু গুণ"
+image: "/assets/img/nirmolendu-gun.webp"
+permalink: "/kobita/2026/07/10/proshnaboli/"
+redirect_from:
+    - "/কবিতা/2026/07/10/proshnaboli/"
 ---
 
 কী ক’রে এমন তীক্ষ্ণ বানালে আঁখি,  
