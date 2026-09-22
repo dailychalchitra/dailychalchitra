@@ -3,7 +3,7 @@ layout: post
 title: "পুশইনের এক বছর পর ৪ ভারতীয় নাগরিককে ফিরিয়ে নিল বিএসএফ"
 date: 2026-07-08 17:38:00 +0400
 categories:
-    - desher-sangbad
+    - songbad
 category_bn:
     - সংবাদ
 tags:
@@ -15,12 +15,9 @@ tags:
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/return-chapainawabganj.webp"
-description: "পুশইনের এক বছর পর ৪ ভারতীয় নাগরিককে ফিরিয়ে নিল বিএসএফ।"
-excerpt: "পুশইনের এক বছর পর ৪ ভারতীয় নাগরিককে ফিরিয়ে নিল বিএসএফ।"
-permalink: "[STRIPPED 88 bytes]"
+permalink: "/songbad/2026/09/20/oprotim-hotta-iphone-uddhar/"
 redirect_from:
-    - "/দেশের সংবাদ[STRIPPED 73 bytes]"
-    - "/search/label/দেশের সংবাদ"
+    - "/সংবাদ/2026/09/20/oprotim-hotta-iphone-uddhar/"
 ---
 
 পুশইনের প্রায় এক বছর পর চার ভারতীয় নাগরিককে ফিরিয়ে নিয়েছে ভারতীয় সীমান্তরক্ষী বাহিনী বিএসএফ।
