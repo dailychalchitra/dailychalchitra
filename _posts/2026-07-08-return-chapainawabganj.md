@@ -5,18 +5,13 @@ date: 2026-07-08 17:38:00 +0400
 categories:
     - desher-sangbad
 category_bn:
-    - দেশের সংবাদ
-tags:
     - সংবাদ
+tags:
+    - দেশের সংবাদ
     - বাংলাদেশ
+    - জেলা
     - ভারত
-    - সীমান্ত
-    - বিএসএফ
-    - বিজিবি
-    - চাঁপাইনবাবগঞ্জ
     - কুড়িগ্রাম
-    - জেলা সংবাদ
-    - সারাদেশ
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/return-chapainawabganj.webp"
