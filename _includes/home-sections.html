@@ -11,34 +11,25 @@
     <section class="dc-pa-hero">
         {% for post in site.posts limit:1 %}
         <div class="dc-pa-hero-main">
-            <a href="{{ post.url | relative_url }}" class="dc-pa-hero-img">
+            <a href="{{ post.url | relative_url }}" class="dc-pa-hero-overlay-link">
                 {% if post.image %}
                 <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
                 {% else %}
                 <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
                 {% endif %}
-            </a>
-            <div class="dc-pa-hero-content">
-                <span class="dc-pa-cat-tag">{{ post.category_bn | default: post.categories.first }}</span>
-                <h1 class="dc-pa-hero-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
-                {% if post.author %}<p class="dc-pa-hero-author">লেখক: {{ post.author }}</p>{% endif %}
-                {% assign hero_excerpt = post.excerpt | strip_html | strip %}
-                {% if hero_excerpt == "" %}
-                    {% assign hero_excerpt = post.content | strip_html | strip %}
-                {% endif %}
-                {% assign hero_excerpt = post.excerpt | strip_html | strip %}
-                {% unless hero_excerpt %}
-                    {% assign hero_excerpt = post.content | strip_html | strip %}
-                {% endunless %}
-                {% if hero_excerpt == "" or hero_excerpt == nil %}
-                    {% assign hero_excerpt = post.content | strip_html | strip %}
-                {% endif %}
-                <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 45 }}</p>
-                <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
-                <div class="dc-pa-hero-bottom">
-                    <span class="dc-pa-hero-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
+                <div class="dc-pa-hero-overlay-cap">
+                    <span class="dc-pa-hero-overlay-cat">{{ post.category_bn | default: post.categories.first }} •</span>
+                    <span class="dc-pa-hero-overlay-title">{{ post.title }}</span>
+                    {% if post.author %}<span class="dc-pa-hero-overlay-author">লেখক: {{ post.author }}</span>{% endif %}
+                    <span class="dc-pa-hero-overlay-time dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
                 </div>
-            </div>
+            </a>
+            {% assign hero_excerpt = post.excerpt | strip_html | strip %}
+            {% unless hero_excerpt %}
+                {% assign hero_excerpt = post.content | strip_html | strip %}
+            {% endunless %}
+            <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 40 }}</p>
+            <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
         </div>
         {% endfor %}
 
@@ -470,6 +461,25 @@
     .dc-pa-hero-img{ display:block; width:100%; margin-bottom:14px; }
     .dc-pa-hero-img img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
     .dc-pa-hero-content{ width:100%; }
+        .dc-pa-hero-overlay-link{ display:block; position:relative; text-decoration:none; margin-bottom:14px; }
+    .dc-pa-hero-overlay-link img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+    .dc-pa-hero-overlay-cap{
+        position:absolute; left:0; right:0; bottom:0;
+        background:linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+        padding:36px 18px 16px; display:flex; flex-direction:column; gap:5px;
+    }
+    .dc-pa-hero-overlay-cat{ font-size:18px; font-weight:800; color:#ffb703; font-family:'Noto Sans Bengali', sans-serif; }
+    .dc-pa-hero-overlay-title{ font-size:25px; font-weight:900; color:#fff; line-height:1.35; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-hero-overlay-author{ font-size:15px; color:#eee; font-style:italic; }
+    .dc-pa-hero-overlay-time{ font-size:14px; color:#ccc; }
+
+    @media(max-width:600px){
+        .dc-pa-hero-overlay-cat{ font-size:13px; }
+        .dc-pa-hero-overlay-title{ font-size:17px; }
+        .dc-pa-hero-overlay-author{ font-size:12px; }
+        .dc-pa-hero-overlay-time{ font-size:11.5px; }
+        .dc-pa-hero-overlay-cap{ padding:26px 12px 12px; }
+    }
     .dc-pa-cat-tag{ display:inline-block; background:none; color:#C00000; font-size:16px; font-weight:700; padding:0; margin:0 0 6px; }
     .dc-pa-hero-title{ font-size:27px; line-height:1.35; margin:0 0 8px; font-family:'Noto Serif Bengali', serif; font-weight:900; }
     .dc-pa-hero-title a{ color:#111; text-decoration:none; }
