@@ -18,10 +18,9 @@ author: "স্পোর্টস ডেস্ক"
 image: "/assets/img/switzerland-vs-colombia.webp"
 description: "টাইব্রেকারে কলম্বিয়াকে হারিয়ে কোয়ার্টারে আর্জেন্টিনার সামনে সুইজারল্যান্ড।"
 excerpt: "টাইব্রেকারে কলম্বিয়াকে হারিয়ে কোয়ার্টারে আর্জেন্টিনার সামনে সুইজারল্যান্ড।"
-permalink: "[STRIPPED 89 bytes]"
+permalink: "[STRIPPED 72 bytes]"
 redirect_from:
-    - "/ফুটবল[STRIPPED 80 bytes]"
-    - "/search/label/ফুটবল"
+    - "/ফুটবল/2026/07/08/tiebreakere-colombiake-hariye-quartere-switzerland/"
 ---
 
 **মিসরকে বিদায় করে শেষ আটে আর্জেন্টিনা**  
