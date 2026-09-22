@@ -3,17 +3,19 @@ layout: post
 title: "জীবনে ও মরণের পরে"
 date: 2026-09-18 17:22:00 +0400
 categories:
-    - ছড়া কবিতা
+    - chora-kobita
+category_bn:
+    - ছড়া কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
-    - কবিতা
-    - ছড়া কবিতা
-    - অনু কবিতা
-    - শামীম নিমু এর লেখা ছড়া কবিতা
+    - ছড়া কবিতা
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
 image: /assets/img/shamim-nimu-11.webp
+permalink: /chora-kobita/2026/09/21/jibone-o-moroner-pore/
+redirect_from:
+    - /ছড়া কবিতা/2026/09/21/jibone-o-moroner-pore/
 ---
 
 *যার যেমন ব্যথা, সে-ই শুধু
@@ -37,4 +39,4 @@ image: /assets/img/shamim-nimu-11.webp
 লিখবে দোয়া চাই।*
 
 ---
-*রচনাকাল: ৩০-০৫-২০২৩ইং।*
+<p style="font-size:11px; color:#888; margin-top:20px; font-style:italic;">রচনাকাল: ৩০-০৫-২০২৩ইং।</p>
