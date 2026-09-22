@@ -2,10 +2,24 @@
 layout: post
 title: "ঘাস"
 date: 2026-07-08 23:23:00 +0400
-category: "কবিতা"
-tags: [সাহিত্য, প্রকৃতিবিষয়ক কবিতা, সাহিত্যিক, পদ্য কবিতা, রূপক কবিতা]
-author: জীবনানন্দ দাশ
-image: /assets/img/shishir-veja-ghas.webp
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - প্রকৃতিবিষয়ক কবিতা
+    - দৈনিক চালচিত্র
+author: "জীবনানন্দ দাশ"
+image: "/assets/img/shishir-veja-ghas.webp"
+description: "জীবনানন্দ দাশের লেখা কবিতা 'ঘাস'।"
+excerpt: "জীবনানন্দ দাশের লেখা কবিতা 'ঘাস'।"
+permalink: "/kobita/2026/07/08/ghas/"
+redirect_from:
+    - "/কবিতা/2026/07/08/ghas/"
+    - "/search/label/কবিতা"
 ---
 
 কচি লেবুপাতার মতো নরম সবুজ আলোয়
