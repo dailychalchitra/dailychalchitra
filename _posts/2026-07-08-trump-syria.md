@@ -2,10 +2,20 @@
 layout: post
 title: "সিরিয়াকে সন্ত্রাসে মদদদাতা দেশের তালিকা থেকে বাদ দিতে পারেন ট্রাম্প"
 date: 2026-07-08 23:30:00 +0400
-category: আন্তর্জাতিক সংবাদ
-tags: ["আন্তর্জাতিক", "সংবাদ", "যুক্তরাষ্ট্র", "সিরিয়া", "ডোনাল্ড ট্রাম্প", "আহমেদ আল-শারা", "তুরস্ক"]
-author: ডেস্ক রিপোর্ট
-image: /assets/img/trump-syria.webp
+categories:
+    - songbad
+category_bn:
+    - সংবাদ
+tags:
+    - আন্তর্জাতিক
+    - সংবাদ
+    - যুক্তরাষ্ট
+    - দৈনিক চালচিত্র
+author: "ডেস্ক রিপোর্ট"
+image: "/assets/img/trump-syria.webp"
+permalink: "/songbad/2026/07/08/syriake-sontrase-mododdata-talika-theke-bad/"
+redirect_from:
+    - "/সংবাদ/2026/07/08/syriake-sontrase-mododdata-talika-theke-bad/"
 ---
 
 সিরিয়াকে যুক্তরাষ্ট্রের ‘সন্ত্রাসে রাষ্ট্রীয় মদদদাতা’ দেশের তালিকা থেকে বাদ দেওয়ার ইঙ্গিত দিয়েছেন প্রেসিডেন্ট ডোনাল্ড ট্রাম্প।
