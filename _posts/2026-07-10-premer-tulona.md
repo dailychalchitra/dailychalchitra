@@ -2,10 +2,20 @@
 layout: post
 title: "প্রেমের তুলনা"
 date: 2026-07-10 21:03:00 +0400
-category: "প্রেমের কবিতা"
-tags: [সাহিত্য, পদ্য কবিতা, সাহিত্যিক, চণ্ডীদাসের কবিতা, বিরহের কবিতা]
-author: চণ্ডীদাস
-image: /assets/img/chondi-das.webp
+categories:
+    - kobita
+category_bn:
+    - কবিতা
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
+author: "চণ্ডীদাস"
+image: "/assets/img/chondi-das.webp"
+permalink: "/kobita/2026/07/10/premer-tulona/"
+redirect_from:
+    - "/কবিতা/2026/07/10/premer-tulona/"
 ---
 
 এমন পিরীতি কভু দেখি নাই শুনি,
