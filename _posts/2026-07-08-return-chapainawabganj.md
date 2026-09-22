@@ -15,9 +15,9 @@ tags:
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/return-chapainawabganj.webp"
-permalink: "/songbad/2026/09/20/oprotim-hotta-iphone-uddhar/"
+permalink: "/songbad/2026/07/08/pushiner-ek-bochor-por/"
 redirect_from:
-    - "/সংবাদ/2026/09/20/oprotim-hotta-iphone-uddhar/"
+    - "/সংবাদ/2026/07/08/pushiner-ek-bochor-por/"
 ---
 
 পুশইনের প্রায় এক বছর পর চার ভারতীয় নাগরিককে ফিরিয়ে নিয়েছে ভারতীয় সীমান্তরক্ষী বাহিনী বিএসএফ।
