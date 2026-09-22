@@ -35,26 +35,30 @@
 
         <div class="dc-pa-hero-list">
             <h4 class="dc-pa-hero-list-heading">সর্বশেষ</h4>
-            {% for post in site.posts offset:1 limit:6 %}
-                {% assign hcat = post.category_bn | default: post.categories.first %}
+            {% assign dc_hero_pool = site.posts | slice: 1, 6 %}
+            {% assign dc_hero_groups = dc_hero_pool | group_by_exp: "post", "post.category_bn.first | default: post.category_bn | default: post.categories.first" %}
+            {% for group in dc_hero_groups %}
+                {% assign hcat = group.name %}
                 {% assign hmatched_cat = site.posts | where_exp: "p", "p.categories contains hcat" %}
                 {% assign hmatched_tag = site.posts | where_exp: "p", "p.tags contains hcat" %}
                 {% assign hcat_posts = hmatched_cat | concat: hmatched_tag | uniq | sort: "date" | reverse %}
-                <div class="dc-pa-hero-list-item">
-                    <details class="dc-pa-hero-cat-dropdown">
-                        <summary class="dc-pa-hero-cat-badge">{{ hcat }}</summary>
-                        <ul class="dc-pa-hero-cat-list">
-                            {% for cp in hcat_posts limit:5 %}
-                            <li><a href="{{ cp.url | relative_url }}">{{ cp.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </details>
-                    <a href="{{ post.url | relative_url }}" class="dc-pa-hero-list-text">{{ post.title }}</a>
+                <div class="dc-pa-hero-cat-block">
+                    <span class="dc-pa-hero-cat-badge">{{ hcat }}</span>
+                    <div class="dc-pa-hero-cat-scroll">
+                        {% for cp in hcat_posts limit:10 %}
+                        <a href="{{ cp.url | relative_url }}" class="dc-pa-hero-cat-scroll-item">
+                            {% if cp.image %}
+                            <img src="{{ cp.image | relative_url }}" alt="{{ cp.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ cp.title }}">
+                            {% endif %}
+                            <span>{{ cp.title }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
-    </section>
-{% endif %}
 
     <!-- 2. আরও সংবাদ (প্রথম আলো স্টাইল: ডট-হেডার + ওভারলে ফিচার + ২-কলাম মিনি গ্রিড) -->
     <section class="dc-pa-section">
@@ -123,17 +127,29 @@
         {% endfor %}
     </section>
 
-    <!-- 2.5. একদম টেক্সট-শুধু হেডলাইন সারি -->
+    <!-- 2.5. সংক্ষিপ্ত সংবাদ — প্রতিটা ক্যাটাগরির একটাই কার্ড, থাম্বনেইলসহ -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title">সংক্ষিপ্ত সংবাদ</h3>
+        {% assign dc_short_pool = site.posts | slice: 16, 24 %}
+        {% assign dc_short_groups = dc_short_pool | group_by_exp: "post", "post.category_bn.first | default: post.category_bn | default: post.categories.first" %}
         <div class="dc-pa-textonly-grid">
-            {% for post in site.posts offset:16 limit:9 %}
-            <a href="{{ post.url | relative_url }}" class="dc-pa-textonly-item">
-                <span class="dc-pa-mini-cat">{{ post.category_bn | default: post.categories.first }}</span>
-                <h4>{{ post.title }}</h4>
-                <p>{{ post.excerpt | strip_html | truncatewords: 14 }}</p>
-                <span class="dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
+            {% for group in dc_short_groups limit:9 %}
+            {% assign sp = group.items | first %}
+            {% if sp %}
+            <a href="{{ sp.url | relative_url }}" class="dc-pa-textonly-item">
+                <div class="dc-pa-textonly-thumbwrap">
+                    {% if sp.image %}
+                    <img src="{{ sp.image | relative_url }}" alt="{{ sp.title }}" class="dc-pa-textonly-thumb">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ sp.title }}" class="dc-pa-textonly-thumb">
+                    {% endif %}
+                </div>
+                <span class="dc-pa-mini-cat">{{ group.name }}</span>
+                <h4>{{ sp.title }}</h4>
+                <p>{{ sp.excerpt | strip_html | truncatewords: 14 }}</p>
+                <span class="dc-pa-news-meta dc-relative-time" data-date="{{ sp.date | date_to_xmlschema }}">{{ sp.date | date: "%d %b" }}</span>
             </a>
+            {% endif %}
             {% endfor %}
         </div>
     </section>
@@ -502,23 +518,33 @@
         font-size:12px; font-weight:700; padding:3px 10px; border-radius:3px;
         list-style:none; font-family:'Noto Sans Bengali', sans-serif;
     }
-    .dc-pa-hero-cat-badge::-webkit-details-marker{ display:none; }
-    .dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge{ background:#8B0000; }
-    .dc-pa-hero-cat-badge::after{
-        content:'▾'; font-size:11px; line-height:1;
-        background:none; color:#fff;
+    .dc-pa-hero-cat-block{ margin-bottom:16px; }
+    .dc-pa-hero-cat-badge{
+        display:inline-block; background:#C00000; color:#fff;
+        font-size:12px; font-weight:700; padding:3px 10px; border-radius:3px;
+        margin-bottom:8px; font-family:'Noto Sans Bengali', sans-serif;
     }
-    .dc-pa-hero-cat-dropdown[open] .dc-pa-hero-cat-badge::after{ content:'▴'; }
-    .dc-pa-hero-cat-list{
-        list-style:none; margin:8px 0 0; padding:8px 0 0;
+    .dc-pa-hero-cat-scroll{
+        max-height:260px; overflow-y:auto; display:flex; flex-direction:column; gap:0;
         border-top:1px dashed #eee;
     }
-    .dc-pa-hero-cat-list li{ padding:4px 0; }
-    .dc-pa-hero-cat-list li a{ font-size:13.5px; color:#333; text-decoration:none; }
-    .dc-pa-hero-cat-list li a:hover{ color:#C00000; }
-    .dc-pa-hero-list-text{
-        display:block; font-size:17.5px; line-height:1.5; color:#222;
-        font-family:'Noto Serif Bengali', serif; text-decoration:none;
+    .dc-pa-hero-cat-scroll-item{
+        display:flex; align-items:center; gap:8px; padding:7px 2px;
+        text-decoration:none; border-bottom:1px dashed #eee;
+    }
+    .dc-pa-hero-cat-scroll-item img{
+        width:40px; height:40px; object-fit:cover; border-radius:3px; flex-shrink:0;
+    }
+    .dc-pa-hero-cat-scroll-item span{
+        font-size:14.5px; line-height:1.35; color:#222; font-family:'Noto Serif Bengali', serif;
+    }
+    .dc-pa-hero-cat-scroll-item:hover span{ color:#C00000; }
+
+    @media(max-width:600px){
+        .dc-pa-hero-cat-badge{ font-size:10.5px; padding:3px 8px; }
+        .dc-pa-hero-cat-scroll{ max-height:200px; }
+        .dc-pa-hero-cat-scroll-item img{ width:32px; height:32px; }
+        .dc-pa-hero-cat-scroll-item span{ font-size:12px; }
     }
     .dc-pa-hero-list-text:hover{ color:#C00000; }
 
@@ -579,6 +605,11 @@
     .dc-pa-textonly-item h4{ font-size:17.5px; line-height:1.4; margin:4px 0 6px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
     .dc-pa-textonly-item:hover h4{ color:#C00000; }
     .dc-pa-textonly-item p{ font-size:15.5px; color:#666; line-height:1.5; margin:0 0 6px; }
+        .dc-pa-textonly-thumbwrap{ margin-bottom:8px; }
+    .dc-pa-textonly-thumb{ width:100%; aspect-ratio:16/10; object-fit:cover; display:block; border-radius:3px; }
+    @media(max-width:600px){
+        .dc-pa-textonly-thumbwrap{ margin-bottom:4px; }
+    }
 
     .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
     .dc-pa-yt-card{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; border-radius:0 !important; margin:0 !important; }
