@@ -5,17 +5,17 @@ date: 2026-09-18 17:22:00 +0400
 categories:
     - chora-kobita
 category_bn:
-    - ছড়া কবিতা
+    - ছড়া কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
-    - ছড়া কবিতা
+    - ছড়া কবিতা
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
 image: /assets/img/shamim-nimu-11.webp
 permalink: /chora-kobita/2026/09/21/jibone-o-moroner-pore/
 redirect_from:
-    - /ছড়া কবিতা/2026/09/21/jibone-o-moroner-pore/
+    - /ছড়া কবিতা/2026/09/21/jibone-o-moroner-pore/
 ---
 
 *যার যেমন ব্যথা, সে-ই শুধু
