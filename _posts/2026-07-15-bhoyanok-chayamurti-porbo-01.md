@@ -2,19 +2,21 @@
 layout: post
 title: "ভয়ানক ছায়ামূর্তি-[পর্ব-০১]"
 date: 2026-07-15 15:58:00 +0400
-categories: [আত্মজৈবনিক উপন্যাস]
+categories:
+    - attojoibonik-uponyas
+category_bn:
+    - আত্মজৈবনিক উপন্যাস
 tags:
-  - সাহিত্য
-  - সামাজিক উপন্যাস
-  - আত্মজৈবনিক উপন্যাস
-  - সাহিত্যিক
-  - পারিবার
-  - পারিবারিক উপন্যাস
-  - ভয়ানক ছায়ামূর্তি 
-  - বাস্তবিক জীবনের কাহিনী
-  - শামীম নিমু এর লেখা উপন্যাস
-author: শামীম নিমু
-image: /assets/img/shamim-nimu-1.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - উপন্যাস
+    - সামাজিক উপন্যাস
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/shamim-nimu-1.webp"
+permalink: "/attojoibonik-uponyas/2026/07/15/bhoyanok-chayamurti-porbo-01/"
+redirect_from:
+    - "/আত্মজৈবনিক উপন্যাস/2026/07/15/bhoyanok-chayamurti-porbo-01/"
 ---
 
 **সেই *'কষ্ট এবং ভয়'* দুটোই আমায় এখনও কাঁদায়৷**
