@@ -69,7 +69,6 @@
                 </div>
             {% endfor %}
         </div>
-        {% endif %}
     </section>
 
     <!-- 2. আরও সংবাদ (প্রথম আলো স্টাইল: ডট-হেডার + ওভারলে ফিচার + ২-কলাম মিনি গ্রিড) -->
@@ -990,22 +989,5 @@ document.addEventListener('DOMContentLoaded', function () {
             else alert('দয়া করে একটি বিভাগ নির্বাচন করুন।');
         });
     }
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    if (typeof dcDB === 'undefined') return;
-    var visitRef = dcDB.ref('site_stats/total_views');
-    try {
-        if (!sessionStorage.getItem('dc_counted_visit')) {
-            visitRef.transaction(function (cur) { return (cur || 0) + 1; });
-            sessionStorage.setItem('dc_counted_visit', '1');
-        }
-    } catch(e) {}
-    visitRef.on('value', function (snap) {
-        var el = document.getElementById('dc-total-visits');
-        if (el) el.textContent = (snap.val() || 0).toLocaleString('bn-BD');
-    });
 });
 </script>
