@@ -2,19 +2,21 @@
 layout: post
 title: "ছাড়পত্র"
 date: 2026-07-14 12:18:00 +0400
-categories: [কবিতা]
+categories:
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য
-  - শ্রেষ্ঠ কবিতা
-  - কবিতা
-  - সাহিত্যিক
-  - কালজয়ী কবিতা
-  - আশীর্বাদ মূলক কবিতা
-  - আগামীর প্রজন্মের চিন্তাভাবনা
-  - শিশুদের নিয়ে লেখা কবিতা
-  - সুকান্ত ভট্টাচার্যের লেখা কবিতা
-author: সুকান্ত ভট্টাচার্য
-image: /assets/img/kobi-sukanta-bhattacharya.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - কালজয়ী কবিতা
+    - দৈনিক চালচিত্র
+author: "সুকান্ত ভট্টাচার্য"
+image: "/assets/img/kobi-sukanta-bhattacharya.webp"
+permalink: "/kobita/2026/07/14/charpotro/"
+redirect_from:
+    - "/কবিতা/2026/07/14/charpotro/"
 ---
 
 যে শিশু ভূমিষ্ঠ হ’লাে আজ রাত্রে
