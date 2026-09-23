@@ -8,7 +8,7 @@
 
 {% assign dc_page_desc = page.excerpt | strip_html | truncatewords: 30 | default: "বাংলাদেশের জনপ্রিয় অনলাইন নিউজপেপার - দৈনিক চালচিত্র" %}
 {% assign dc_cat_en = page.categories | first %}
-{% assign dc_cat_display = page.category_bn | default: dc_cat_en %}
+{% assign dc_cat_display = page.category_bn.first | default: page.category_bn | default: dc_cat_en %}
 {% if page.categories and page.categories.size > 0 and page.author %}
   {% assign dc_page_title = dc_cat_display | append: " | " | append: page.title | append: " | " | append: page.author %}
 {% elsif page.categories and page.categories.size > 0 %}
