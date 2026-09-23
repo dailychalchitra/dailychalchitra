@@ -2,15 +2,22 @@
 layout: post
 title: "মেঘনাদবধ-[১ম সর্গ]"
 date: 2026-07-12 11:55:00 +0400
-categories: [মহাকাব্য]
+categories:
+    - mohakabya
+category_bn:
+    - মহাকাব্য
 tags:
-  - সাহিত্য
-  - কবিতা
-  - পদ্য কবিতা
-  - সাহিত্যি বিভাগ
-  - মাইকেল মধুসূদন দত্ত
-author: মাইকেল মধুসূদন দত্ত
-image: /assets/img/michael-madhusudan.webp
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - সাহিত্যি বিভাগ
+    - মাইকেল মধুসূদন দত্ত
+    - দৈনিক চালচিত্র
+author: "মাইকেল মধুসূদন দত্ত"
+image: "/assets/img/michael-madhusudan.webp"
+permalink: "/mohakabya/2026/07/12/meghnadbad-1st-sorgo/"
+redirect_from:
+    - "/মহাকাব্য/2026/07/12/meghnadbad-1st-sorgo/"
 ---
 
 সম্মুখ সমরে পড়ি, বীর-চূড়ামণি
