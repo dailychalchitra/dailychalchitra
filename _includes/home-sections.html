@@ -9,6 +9,15 @@
 
     <!-- 1. হিরো: লিড নিউজ + হেডলাইন তালিকা (ক্যাটাগরি ড্রপডাউনসহ) -->
     <section class="dc-pa-hero">
+    {% if include.show_hero %}
+        <!-- টপ বার: তারিখ + ই-পেপার -->
+        <div class="dc-pa-topbar">
+            <span class="dc-pa-topbar-date"><i class="far fa-calendar-alt"></i> {{ site.time | date: "%A, %d %B %Y" }}</span>
+            <a href="{{ '/epaper/' | relative_url }}" class="dc-pa-epaper-btn">
+                <i class="fa fa-newspaper"></i> ই-পেপার
+            </a>
+        </div>
+
         {% for post in site.posts limit:1 %}
         <div class="dc-pa-hero-main">
             <a href="{{ post.url | relative_url }}" class="dc-pa-hero-overlay-link">
@@ -18,7 +27,7 @@
                 <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
                 {% endif %}
                 <div class="dc-pa-hero-overlay-cap">
-                    <span class="dc-pa-hero-overlay-cat">{{ post.category_bn | default: post.categories.first }} •</span>
+                    <span class="dc-pa-hero-overlay-cat">{{ post.category_bn.first | default: post.category_bn | default: post.categories.first }} •</span>
                     <span class="dc-pa-hero-overlay-title">{{ post.title }}</span>
                     {% if post.author %}<span class="dc-pa-hero-overlay-author">লেখক: {{ post.author }}</span>{% endif %}
                     <span class="dc-pa-hero-overlay-time dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</span>
@@ -32,6 +41,7 @@
             <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
         </div>
         {% endfor %}
+    {% endif %}
 
         <div class="dc-pa-hero-list">
             <h4 class="dc-pa-hero-list-heading">সর্বশেষ</h4>
@@ -59,7 +69,6 @@
                 </div>
             {% endfor %}
         </div>
-        {% endif %}
     </section>
 
     <!-- 2. আরও সংবাদ (প্রথম আলো স্টাইল: ডট-হেডার + ওভারলে ফিচার + ২-কলাম মিনি গ্রিড) -->
@@ -396,6 +405,26 @@
         {% endfor %}
     </div>
 
+<!-- বাংলাদেশ — এলাকাভিত্তিক সংবাদ -->
+    <section class="dc-pa-section">
+        <h3 class="dc-pa-section-title">বাংলাদেশ</h3>
+        <div class="dc-pa-area-box">
+            <div class="dc-pa-area-label"><i class="fa fa-map-marker-alt"></i> আমার এলাকার খবর</div>
+            <select id="dc-area-division" class="dc-pa-area-select">
+                <option value="">বিভাগ নির্বাচন করুন</option>
+                <option value="ঢাকা">ঢাকা</option>
+                <option value="চট্টগ্রাম">চট্টগ্রাম</option>
+                <option value="রাজশাহী">রাজশাহী</option>
+                <option value="খুলনা">খুলনা</option>
+                <option value="বরিশাল">বরিশাল</option>
+                <option value="সিলেট">সিলেট</option>
+                <option value="রংপুর">রংপুর</option>
+                <option value="ময়মনসিংহ">ময়মনসিংহ</option>
+            </select>
+            <button id="dc-area-search-btn" class="dc-pa-area-btn"><i class="fa fa-search"></i> খুঁজুন</button>
+        </div>
+    </section>
+
     <!-- Login/Signup বাটন + Play Store/App Store -->
     <div class="dc-auth-app-row" style="max-width:800px;margin:2px auto;padding:0px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;">
         <div class="dc-auth-btns" style="display:flex;gap:6px;">
@@ -412,6 +441,14 @@
                 <span style="font-size:8px;line-height:1.1;white-space:nowrap;">Download on<br><b style="font-size:9px;">App Store</b></span>
             </a>
         </div>
+    </div>
+
+<!-- লাইভ ভিজিটর কাউন্টার -->
+    <div class="dc-pa-visit-counter">
+        <i class="fa fa-users"></i>
+        <span>সাইট চালুর পর থেকে মোট ভিজিটর:</span>
+        <span id="dc-total-visits">লোড হচ্ছে...</span>
+        <span class="dc-pa-live-dot"></span>
     </div>
 
     <style>
@@ -762,6 +799,31 @@
         .dc-pa-read-item a{ font-size:16px; }
         .dc-pa-read-cat{ font-size:14.5px; }
     }
+        .dc-pa-area-box{ background:#eef6fb; border-radius:8px; padding:20px; }
+    .dc-pa-area-label{ display:flex; align-items:center; gap:8px; color:#C00000; font-weight:700; font-size:17px; margin-bottom:14px; }
+    .dc-pa-area-select{
+        display:block; width:100%; padding:12px 14px; margin-bottom:12px;
+        border:1px solid #ccc; border-radius:6px; font-size:15px; background:#fff;
+        font-family:'Noto Sans Bengali', sans-serif;
+    }
+    .dc-pa-area-btn{
+        display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
+        background:#0d47a1; color:#fff; border:none; padding:13px; border-radius:6px;
+        font-size:16px; font-weight:700; cursor:pointer;
+    }
+    .dc-pa-area-btn:hover{ background:#08306b; }
+        .dc-pa-visit-counter{
+        display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
+        background:linear-gradient(135deg,#8B0000,#C00000); color:#fff;
+        padding:16px; border-radius:10px; margin:25px auto; max-width:800px;
+        font-size:16px; font-weight:700;
+    }
+    #dc-total-visits{ font-size:20px; color:#ffd54f; }
+    .dc-pa-live-dot{
+        width:9px; height:9px; background:#4caf50; border-radius:50%;
+        display:inline-block; animation:dcLivePulse 1.3s infinite;
+    }
+    @keyframes dcLivePulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
     </style>
 
     <script>
@@ -916,3 +978,33 @@
         });
     });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('dc-area-search-btn');
+    if (btn) {
+        btn.addEventListener('click', function () {
+            var val = document.getElementById('dc-area-division').value;
+            if (val) window.location.href = '/tag/?name=' + encodeURIComponent(val);
+            else alert('দয়া করে একটি বিভাগ নির্বাচন করুন।');
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof dcDB === 'undefined') return;
+    var visitRef = dcDB.ref('site_stats/total_views');
+    try {
+        if (!sessionStorage.getItem('dc_counted_visit')) {
+            visitRef.transaction(function (cur) { return (cur || 0) + 1; });
+            sessionStorage.setItem('dc_counted_visit', '1');
+        }
+    } catch(e) {}
+    visitRef.on('value', function (snap) {
+        var el = document.getElementById('dc-total-visits');
+        if (el) el.textContent = (snap.val() || 0).toLocaleString('bn-BD');
+    });
+});
+</script>
