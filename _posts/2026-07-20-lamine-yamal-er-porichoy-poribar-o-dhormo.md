@@ -3,15 +3,20 @@ layout: post
 title: "লামিন ইয়ামাল এর পরিচয়, পরিবার ও ধর্ম"
 date: 2026-07-20 20:58:00 +0400
 categories:
+    - kheladhula
+category_bn:
     - খেলাধুলা
 tags:
     - ফুটবল
     - ফুটবল বিশ্বকাপ
     - লামিন ইয়ামাল
     - দৈনিক চালচিত্র
-author: ডেস্ক রিপোর্ট 
-image: /assets/img/lamine-yamal.webp
+author: "ডেস্ক রিপোর্ট"
+image: "/assets/img/lamine-yamal.webp"
 description: "স্পেন ও বার্সেলোনার বিস্ময় বালক লামিন ইয়ামালের জীবনী, পরিবার, ধর্ম ও ফুটবল ক্যারিয়ার সম্পর্কে বিস্তারিত জানুন"
+permalink: "/kheladhula/2026/07/20/lamine-yamal-er-porichoy-poribar-o-dhormo/"
+redirect_from:
+    - "/খেলাধুলা/2026/07/20/lamine-yamal-er-porichoy-poribar-o-dhormo/"
 ---
 
 ### লামিন ইয়ামাল: পরিচয়, পরিবার, ধর্ম ও উত্থানের গল্প
