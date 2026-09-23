@@ -3,28 +3,22 @@ layout: post
 title: "আইসিইউয়ে অমিতাভ বচ্চন, জীবনের কঠিনতম সময়ের কথা জানালেন নিজেই"
 date: 2026-07-21 18:55:00 +0400
 categories:
+    - binodon
+category_bn:
     - বিনোদন
 tags:
-    - বিশ্ব
+    - চলচ্চিত্র
     - মধ্যপ্রাচ্য
     - ভারত
-    - সংবাদ
+    - বিনোদন
     - আন্তর্জাতিক
     - শোক সংবাদ
-    - বিভাগ সমূহ
-    - চলচ্চিত্র 
     - দৈনিক চালচিত্র
-    - world
-    - Mmiddle east
-    - india
-    - news
-    - international
-    - obituary
-    - categories
-    - movies
-    - daily chalchitra
-author: ডেস্ক রিপোর্ট
-image: /assets/img/amitabh-bachchan-icu.webp
+author: "ডেস্ক রিপোর্ট"
+image: "/assets/img/amitabh-bachchan-icu.webp"
+permalink: "/binodon/2026/07/21/icu-te-amitabh-bachchan-jiboner-kothintomo-somoy/"
+redirect_from:
+    - "/বিনোদন/2026/07/21/icu-te-amitabh-bachchan-jiboner-kothintomo-somoy/"
 ---
 
 বলিউড শাহেনশাহ অমিতাভ বচ্চন অসুস্থ। নিজেই নিজের অসুস্থতার খবর জানালেন ভক্তদের। অবস্থা এতটাই খারাপ ছিল যে তাঁকে আইসিইউতে ভর্তি করতে হয়েছিল এবং অস্ত্রোপচারও করাতে হয়েছে। মঙ্গলবার ভোরে নিজের ব্লগে তিনি লেখেন, এটি তাঁর জীবনের কঠিনতম অধ্যায়।
