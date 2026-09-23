@@ -59,6 +59,7 @@
                 </div>
             {% endfor %}
         </div>
+    </section>
 
     <!-- 2. আরও সংবাদ (প্রথম আলো স্টাইল: ডট-হেডার + ওভারলে ফিচার + ২-কলাম মিনি গ্রিড) -->
     <section class="dc-pa-section">
@@ -466,6 +467,11 @@
 
     <!-- ======================= প্রথম আলো স্টাইল CSS ======================= -->
     <style>
+    /* === মোবাইল horizontal-overflow প্রতিরোধক (গুরুত্বপূর্ণ ফিক্স) === */
+    html, body{ overflow-x:hidden !important; max-width:100vw; }
+    .dc-pa-home, .dc-pa-home *{ box-sizing:border-box; }
+    .dc-pa-home img{ max-width:100%; height:auto; }
+
     .dc-pa-home{ font-family:'Noto Serif Bengali', serif; }
 
     .dc-pa-topbar{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #C00000; padding-bottom:8px; margin-bottom:14px; }
@@ -477,7 +483,7 @@
     .dc-pa-hero-img{ display:block; width:100%; margin-bottom:14px; }
     .dc-pa-hero-img img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
     .dc-pa-hero-content{ width:100%; }
-        .dc-pa-hero-overlay-link{ display:block; position:relative; text-decoration:none; margin-bottom:14px; }
+    .dc-pa-hero-overlay-link{ display:block; position:relative; text-decoration:none; margin-bottom:14px; }
     .dc-pa-hero-overlay-link img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
     .dc-pa-hero-overlay-cap{
         position:absolute; left:0; right:0; bottom:0;
@@ -509,15 +515,6 @@
 
     .dc-pa-hero-list{ border-left:1px solid #e2e2e2; padding-left:18px; }
     .dc-pa-hero-list-heading{ font-size:17px; font-weight:700; color:#C00000; border-bottom:2px solid #C00000; padding-bottom:8px; margin:0 0 10px; }
-    .dc-pa-hero-list-item{ padding:5px 0; border-bottom:1px dashed #e5e5e5; }
-.dc-pa-hero-list-item:last-child{ border-bottom:none; }
-.dc-pa-hero-cat-dropdown{ margin-bottom:2px; }
-    .dc-pa-hero-cat-badge{
-        cursor:pointer; display:inline-flex; align-items:center; gap:5px;
-        background:#C00000; color:#fff;
-        font-size:12px; font-weight:700; padding:3px 10px; border-radius:3px;
-        list-style:none; font-family:'Noto Sans Bengali', sans-serif;
-    }
     .dc-pa-hero-cat-block{ margin-bottom:16px; }
     .dc-pa-hero-cat-badge{
         display:inline-block; background:#C00000; color:#fff;
@@ -546,32 +543,13 @@
         .dc-pa-hero-cat-scroll-item img{ width:32px; height:32px; }
         .dc-pa-hero-cat-scroll-item span{ font-size:12px; }
     }
-    .dc-pa-hero-list-text:hover{ color:#C00000; }
 
     .dc-pa-section{ margin-bottom:28px; }
     .dc-pa-section-title{ font-size:22px; font-weight:900; color:#111; margin:0 0 16px; padding-bottom:8px; border-bottom:3px solid #C00000; display:inline-block; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-yt-title{ display:flex; align-items:center; gap:8px; color:#C00000; }
 
-/* আরও সংবাদ — ছবি উপরে, ব্যাজ+টাইটেল নিচে (ভার্টিক্যাল কার্ড) */
+    /* আরও সংবাদ — ছবি উপরে, ব্যাজ+টাইটেল নিচে (ভার্টিক্যাল কার্ড) */
     .dc-pa-news-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-    .dc-pa-cat-slider{ position:relative; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; }
-    .dc-pa-cat-slider-track{
-        display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
-        scrollbar-width:none; -ms-overflow-style:none;
-    }
-    .dc-pa-cat-slider-track::-webkit-scrollbar{ display:none; }
-    .dc-pa-cat-slide{
-        flex:0 0 100%; scroll-snap-align:start;
-        display:flex; flex-direction:column; text-decoration:none; color:inherit;
-    }
-    .dc-pa-slide-btn{
-        position:absolute; top:50%; transform:translateY(-50%); z-index:3;
-        background:rgba(255,255,255,0.9); border:1px solid #ddd; border-radius:50%;
-        width:24px; height:24px; display:flex; align-items:center; justify-content:center;
-        cursor:pointer; font-size:10px; color:#C00000; box-shadow:0 1px 4px rgba(0,0,0,0.15);
-    }
-    .dc-pa-slide-prev{ left:5px; }
-    .dc-pa-slide-next{ right:5px; }
     .dc-pa-news-thumb{ display:block; width:100%; }
     .dc-pa-news-thumb img{ width:100%; height:150px; object-fit:cover; display:block; }
     .dc-pa-news-body{ padding:10px 12px; display:flex; flex-direction:column; flex:1; }
@@ -579,33 +557,30 @@
     .dc-pa-news-body h3{ font-size:17.5px; line-height:1.4; margin:0 0 6px; font-family:'Noto Serif Bengali', serif; font-weight:700; flex:1; }
     .dc-pa-news-body h3 a{ color:#161616; text-decoration:none; }
     .dc-pa-news-body h3 a:hover{ color:#C00000; }
-    .dc-pa-news-author{ font-size:15px !important; color:#C00000; font-style:italic; margin:0 0 4px !important; }
-    .dc-pa-news-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
     .dc-pa-news-meta{ font-size:14px !important; color:#999; }
-        .dc-pa-cat-card{ display:flex; flex-direction:column; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; }
-.dc-pa-cat-card-badge{ margin:8px 10px 0; }
-.dc-pa-news-thumb{ display:block; }
-.dc-pa-news-excerpt{ font-size:14px; color:#666; line-height:1.5; margin:0 0 6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.dc-pa-cat-dropdown{ border-top:1px dashed #e5e5e5; margin-top:auto; }
-.dc-pa-cat-dropdown summary{
-    cursor:pointer; padding:8px 10px; font-size:13px; font-weight:700; color:#C00000;
-    list-style:none; display:flex; align-items:center; justify-content:space-between;
-    font-family:'Noto Sans Bengali', sans-serif;
-}
-.dc-pa-cat-dropdown summary::-webkit-details-marker{ display:none; }
-.dc-pa-cat-dropdown summary::after{ content:'▾'; font-size:11px; }
-.dc-pa-cat-dropdown[open] summary::after{ content:'▴'; }
-.dc-pa-cat-dropdown-list{ list-style:none; margin:0; padding:0 10px 10px; max-height:220px; overflow-y:auto; }
-.dc-pa-cat-dropdown-list li{ border-top:1px solid #f0f0f0; }
-.dc-pa-cat-dropdown-list li a{ display:block; padding:8px 2px; font-size:13.5px; line-height:1.4; color:#333; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
-.dc-pa-cat-dropdown-list li a:hover{ color:#C00000; }
+    .dc-pa-cat-card{ display:flex; flex-direction:column; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; }
+    .dc-pa-cat-card-badge{ margin:8px 10px 0; }
+    .dc-pa-news-excerpt{ font-size:14px; color:#666; line-height:1.5; margin:0 0 6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .dc-pa-cat-dropdown{ border-top:1px dashed #e5e5e5; margin-top:auto; }
+    .dc-pa-cat-dropdown summary{
+        cursor:pointer; padding:8px 10px; font-size:13px; font-weight:700; color:#C00000;
+        list-style:none; display:flex; align-items:center; justify-content:space-between;
+        font-family:'Noto Sans Bengali', sans-serif;
+    }
+    .dc-pa-cat-dropdown summary::-webkit-details-marker{ display:none; }
+    .dc-pa-cat-dropdown summary::after{ content:'▾'; font-size:11px; }
+    .dc-pa-cat-dropdown[open] summary::after{ content:'▴'; }
+    .dc-pa-cat-dropdown-list{ list-style:none; margin:0; padding:0 10px 10px; max-height:220px; overflow-y:auto; }
+    .dc-pa-cat-dropdown-list li{ border-top:1px solid #f0f0f0; }
+    .dc-pa-cat-dropdown-list li a{ display:block; padding:8px 2px; font-size:13.5px; line-height:1.4; color:#333; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-cat-dropdown-list li a:hover{ color:#C00000; }
 
     .dc-pa-textonly-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
     .dc-pa-textonly-item{ display:block; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; text-decoration:none; color:inherit; }
     .dc-pa-textonly-item h4{ font-size:17.5px; line-height:1.4; margin:4px 0 6px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
     .dc-pa-textonly-item:hover h4{ color:#C00000; }
     .dc-pa-textonly-item p{ font-size:15.5px; color:#666; line-height:1.5; margin:0 0 6px; }
-        .dc-pa-textonly-thumbwrap{ margin-bottom:8px; }
+    .dc-pa-textonly-thumbwrap{ margin-bottom:8px; }
     .dc-pa-textonly-thumb{ width:100%; aspect-ratio:16/10; object-fit:cover; display:block; border-radius:3px; }
     @media(max-width:600px){
         .dc-pa-textonly-thumbwrap{ margin-bottom:4px; }
@@ -623,14 +598,6 @@
     .dc-pa-nav-links a:hover{ color:#C00000; border-bottom-color:#C00000; }
 
     .dc-pa-popular{ background:none; border:none; padding:0; }
-    .dc-pa-popular-grid{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:0 !important; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-    .dc-pa-pop-item{ display:flex; gap:10px; align-items:flex-start; padding:12px; text-decoration:none; color:inherit; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
-    .dc-pa-pop-item .dc-pop-img{ width:70px; height:70px; object-fit:cover; flex-shrink:0; border-radius:0; }
-    .dc-pa-pop-body{ min-width:0; }
-    .dc-pa-pop-item .dc-pop-title{ font-size:16.5px !important; font-weight:700; margin:0 0 4px !important; line-height:1.4 !important; color:#161616; font-family:'Noto Serif Bengali', serif; }
-    .dc-pa-pop-item:hover .dc-pop-title{ color:#C00000; }
-    .dc-pa-pop-item .dc-pop-excerpt{ font-size:14.5px !important; color:#777; margin:0 0 4px !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .dc-pa-pop-date{ font-size:13.5px; color:#aaa; }
 
     .dc-pa-cat-grid{ gap:0 !important; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; margin-bottom:26px !important; }
     .dc-pa-cat-col{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; padding:14px !important; }
@@ -689,14 +656,10 @@
         .dc-pa-hero-author{ font-size:12.5px; }
         .dc-pa-hero-meta{ font-size:12px; }
         .dc-pa-readmore-btn{ font-size:12.5px; margin-bottom:8px; }
-        .dc-pa-hero-list{ padding-left:12px; }
         .dc-pa-hero-list-heading{ font-size:13.5px; padding-bottom:6px; }
-        .dc-pa-hero-cat-badge{ font-size:10.5px; padding:3px 8px; }
-        .dc-pa-hero-list-text{ font-size:13px; }
 
         .dc-pa-section-title{ font-size:17px; }
 
-        /* আরও সংবাদ — মোবাইলেও ডেস্কটপের মতো ৪ কলাম, কমপ্যাক্ট কার্ড */
         .dc-pa-news-grid{ grid-template-columns:repeat(4,1fr) !important; gap:6px; }
         .dc-pa-news-thumb img{ height:48px; }
         .dc-pa-news-body{ padding:4px 5px; }
@@ -734,13 +697,6 @@
         .dc-pa-nav-links{ gap:10px 16px; }
         .dc-pa-nav-links a{ font-size:12.5px; }
 
-        .dc-pa-popular-grid{ grid-template-columns:repeat(2,1fr) !important; }
-        .dc-pa-pop-item{ padding:9px; gap:8px; }
-        .dc-pa-pop-item .dc-pop-img{ width:56px; height:56px; }
-        .dc-pa-pop-item .dc-pop-title{ font-size:12px !important; }
-        .dc-pa-pop-item .dc-pop-excerpt{ font-size:10.5px !important; }
-        .dc-pa-pop-date{ font-size:10px; }
-
         .dc-pa-cat-grid{ grid-template-columns:repeat(2,1fr) !important; }
         .dc-cat-title{ font-size:13px !important; }
         .dc-cat-main-title{ font-size:11px !important; }
@@ -748,11 +704,11 @@
         .dc-cat-thumb{ width:34px; height:34px; }
     }
 
-/* ২. আরও সংবাদ — ডট হেডার + ওভারলে ফিচার + মিনি গ্রিড */
+    /* ২. আরও সংবাদ — ডট হেডার + ওভারলে ফিচার + মিনি গ্রিড */
     .dc-pa-catblock{ margin-bottom:26px; }
     .dc-pa-cat-header{ display:flex; align-items:center; gap:8px; margin-bottom:12px; }
     .dc-pa-cat-dot{ width:14px; height:14px; border-radius:50%; flex-shrink:0; }
-    .dc-pa-cat-header a{ font-size:20px; font-weight:900; color:#111; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-cat-header a{ font-size:23px; font-weight:900; color:#111; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-cat-header i{ font-size:12px; color:#999; }
 
     .dc-pa-feature{ display:block; position:relative; text-decoration:none; margin-bottom:12px; }
@@ -763,21 +719,21 @@
         padding:30px 16px 14px;
         display:flex; flex-direction:column; gap:4px;
     }
-    .dc-pa-feature-cat{ font-size:16px; font-weight:800; font-family:'Noto Sans Bengali', sans-serif; }
-    .dc-pa-feature-title{ font-size:19px; font-weight:800; color:#fff; line-height:1.4; font-family:'Noto Serif Bengali', serif; }
-    .dc-pa-feature-time{ font-size:13px; color:#ddd; }
+    .dc-pa-feature-cat{ font-size:18px; font-weight:800; font-family:'Noto Sans Bengali', sans-serif; }
+    .dc-pa-feature-title{ font-size:22px; font-weight:800; color:#fff; line-height:1.4; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-feature-time{ font-size:14.5px; color:#ddd; }
 
     .dc-pa-mini-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:#e5e5e5; margin-bottom:6px; }
     .dc-pa-mini-item{ background:#fff; padding:0; text-decoration:none; color:inherit; display:block; }
     .dc-pa-mini-item img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
-    .dc-pa-mini-item h4{ font-size:15.5px; line-height:1.4; margin:8px 10px 2px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
+    .dc-pa-mini-item h4{ font-size:17.5px; line-height:1.4; margin:8px 10px 2px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
     .dc-pa-mini-item:hover h4{ color:#C00000; }
-    .dc-pa-mini-time{ display:block; font-size:12.5px; color:#999; margin:0 10px 10px; }
+    .dc-pa-mini-time{ display:block; font-size:14px; color:#999; margin:0 10px 10px; }
 
     /* ৪. জনপ্রিয় সংবাদ — ট্যাব + নম্বর তালিকা */
     .dc-pa-read-tabs{ display:flex; gap:22px; border-bottom:2px solid #e5e5e5; margin-bottom:6px; }
     .dc-pa-tab-btn{
-        background:none; border:none; padding:10px 2px; font-size:17px; font-weight:700;
+        background:none; border:none; padding:10px 2px; font-size:19px; font-weight:700;
         color:#777; cursor:pointer; border-bottom:3px solid transparent;
         font-family:'Noto Serif Bengali', serif;
     }
@@ -786,26 +742,25 @@
     .dc-pa-tab-panel.active{ display:block; }
     .dc-pa-read-list{ list-style:none; margin:0; padding:0; }
     .dc-pa-read-item{ display:flex; gap:14px; align-items:flex-start; padding:14px 0; border-bottom:1px solid #eee; }
-    .dc-pa-read-num{ font-size:24px; font-weight:900; color:#bbb; flex-shrink:0; font-family:'Noto Serif Bengali', serif; }
-    .dc-pa-read-item a{ font-size:17px; line-height:1.5; color:#161616; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-read-num{ font-size:27px; font-weight:900; color:#bbb; flex-shrink:0; font-family:'Noto Serif Bengali', serif; }
+    .dc-pa-read-item a{ font-size:19px; line-height:1.5; color:#161616; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-read-item a:hover{ color:#C00000; }
-    .dc-pa-read-cat{ color:#C00000; font-weight:700; font-size:15px; font-family:'Noto Sans Bengali', sans-serif; }
+    .dc-pa-read-cat{ color:#C00000; font-weight:700; font-size:17px; font-family:'Noto Sans Bengali', sans-serif; }
 
     @media(max-width:600px){
-        .dc-pa-cat-header a{ font-size:16px; }
-        .dc-pa-feature-title{ font-size:14.5px; }
-        .dc-pa-feature-cat{ font-size:12.5px; }
-        .dc-pa-feature-time{ font-size:11px; }
+        .dc-pa-cat-header a{ font-size:18.5px; }
+        .dc-pa-feature-title{ font-size:16.5px; }
+        .dc-pa-feature-cat{ font-size:14.5px; }
+        .dc-pa-feature-time{ font-size:13px; }
         .dc-pa-feature-overlay{ padding:22px 10px 10px; }
-        .dc-pa-mini-item h4{ font-size:12px; margin:6px 8px 2px; }
-        .dc-pa-mini-time{ font-size:10.5px; margin:0 8px 8px; }
+        .dc-pa-mini-item h4{ font-size:14px; margin:6px 8px 2px; }
+        .dc-pa-mini-time{ font-size:12.5px; margin:0 8px 8px; }
         .dc-pa-read-tabs{ gap:14px; }
-        .dc-pa-tab-btn{ font-size:14px; }
-        .dc-pa-read-num{ font-size:19px; }
-        .dc-pa-read-item a{ font-size:14px; }
-        .dc-pa-read-cat{ font-size:12.5px; }
+        .dc-pa-tab-btn{ font-size:16px; }
+        .dc-pa-read-num{ font-size:22px; }
+        .dc-pa-read-item a{ font-size:16px; }
+        .dc-pa-read-cat{ font-size:14.5px; }
     }
-        
     </style>
 
     <script>
@@ -827,37 +782,21 @@
     });
     </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.dc-pa-slide-btn').forEach(function (btn) {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            var track = document.getElementById(this.dataset.target);
-            if (!track) return;
-            var slide = track.querySelector('.dc-pa-cat-slide');
-            var width = slide ? slide.getBoundingClientRect().width : track.clientWidth;
-            var dir = this.classList.contains('dc-pa-slide-next') ? 1 : -1;
-            track.scrollBy({ left: dir * width, behavior: 'smooth' });
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tabBtns = document.querySelectorAll('.dc-pa-tab-btn');
+        tabBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var target = this.dataset.tab;
+                document.querySelectorAll('.dc-pa-tab-btn').forEach(function (b) { b.classList.remove('active'); });
+                document.querySelectorAll('.dc-pa-tab-panel').forEach(function (p) { p.classList.remove('active'); });
+                this.classList.add('active');
+                var panel = document.querySelector('.dc-pa-tab-panel[data-panel="' + target + '"]');
+                if (panel) panel.classList.add('active');
+            });
         });
     });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var tabBtns = document.querySelectorAll('.dc-pa-tab-btn');
-    tabBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var target = this.dataset.tab;
-            document.querySelectorAll('.dc-pa-tab-btn').forEach(function (b) { b.classList.remove('active'); });
-            document.querySelectorAll('.dc-pa-tab-panel').forEach(function (p) { p.classList.remove('active'); });
-            this.classList.add('active');
-            var panel = document.querySelector('.dc-pa-tab-panel[data-panel="' + target + '"]');
-            if (panel) panel.classList.add('active');
-        });
-    });
-});
-</script>
+    </script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -904,21 +843,21 @@ document.addEventListener('DOMContentLoaded', function () {
     </script>
 
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.dc-yt-facade').forEach(function (facade) {
-        facade.addEventListener('click', function () {
-            var videoId = facade.getAttribute('data-yt-id');
-            var iframe = document.createElement('iframe');
-            iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&modestbranding=1&rel=0';
-            iframe.setAttribute('allow', 'autoplay; encrypted-media');
-            iframe.setAttribute('allowfullscreen', '');
-            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
-            facade.innerHTML = '';
-            facade.appendChild(iframe);
-        }, { once: true });
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.dc-yt-facade').forEach(function (facade) {
+            facade.addEventListener('click', function () {
+                var videoId = facade.getAttribute('data-yt-id');
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&modestbranding=1&rel=0';
+                iframe.setAttribute('allow', 'autoplay; encrypted-media');
+                iframe.setAttribute('allowfullscreen', '');
+                iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
+                facade.innerHTML = '';
+                facade.appendChild(iframe);
+            }, { once: true });
+        });
     });
-});
-</script>
+    </script>
 
     <style>
     .dc-home-follow-btn.dc-following {
@@ -976,4 +915,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     </script>
-        {% endif %}
+{% endif %}
