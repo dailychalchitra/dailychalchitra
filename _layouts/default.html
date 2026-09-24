@@ -1459,6 +1459,12 @@ document.addEventListener('copy', function(e) {
 
   <script>
 document.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('dc-total-visits');
+    try {
+        var cached = localStorage.getItem('dc_cached_visit_count');
+        if (cached && el) el.textContent = Number(cached).toLocaleString('bn-BD');
+    } catch(e) {}
+
     if (typeof dcDB === 'undefined') return;
     var visitRef = dcDB.ref('site_stats/total_views');
     try {
@@ -1468,8 +1474,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     } catch(e) {}
     visitRef.on('value', function (snap) {
-        var el = document.getElementById('dc-total-visits');
-        if (el) el.textContent = (snap.val() || 0).toLocaleString('bn-BD');
+        var val = snap.val() || 0;
+        if (el) el.textContent = val.toLocaleString('bn-BD');
+        try { localStorage.setItem('dc_cached_visit_count', val); } catch(e) {}
     });
 });
 </script>
