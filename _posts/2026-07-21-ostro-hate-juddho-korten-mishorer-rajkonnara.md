@@ -3,18 +3,18 @@ layout: post
 title: "অস্ত্র হাতে যুদ্ধ করতেন মিশরের রাজকন্যারা! ৪০০০ বছর আগের মমি গবেষণায় চাঞ্চল্য"
 date: 2026-07-21 22:48:00 +0400
 categories:
-    - projukti
+    - biggan-projukti
 category_bn:
-    - প্রযুক্তি
+    - বিজ্ঞান প্রযুক্তি
 tags:
     - বিজ্ঞান প্রযুক্তি
     - প্রযুক্তি
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/mishor-rajkonna-momi.webp"
-permalink: "/projukti/2026/07/21/ostro-hate-juddho-korten-mishorer-rajkonnara/"
+permalink: "/biggan-projukti/2026/07/21/ostro-hate-juddho-korten-mishorer-rajkonnara/"
 redirect_from:
-    - "/প্রযুক্তি/2026/07/21/ostro-hate-juddho-korten-mishorer-rajkonnara/"
+    - "/বিজ্ঞান প্রযুক্তি/2026/07/21/ostro-hate-juddho-korten-mishorer-rajkonnara/"
 ---
 
 প্রাচীন মিশরীয় সভ্যতা নিয়ে মানুষের কৌতূহলের শেষ নেই। সেই সভ্যতার অনেক অজানা রহস্য এখনো খুঁজে বেড়াচ্ছেন প্রত্নতাত্ত্বিকরা। এবার ৪ হাজার বছর আগের মমি নিয়ে গবেষণা করতে গিয়ে চমকে গেছেন বিজ্ঞানীরা। গবেষণা বলছে, প্রাচীন মিশরের রাজকন্যারা শুধু রাজপ্রাসাদে বসে থাকতেন না, রীতিমতো অস্ত্র হাতে যুদ্ধ করতেও পারতেন!
