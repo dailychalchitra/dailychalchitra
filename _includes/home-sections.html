@@ -700,6 +700,23 @@
         .dc-cat-list-title{ font-size:14px; }
     }
 
+        @media(max-width:600px){
+    .dc-auth-app-row{
+        flex-wrap:nowrap !important;
+        justify-content:center !important;
+        gap:8px !important;
+        padding:0 8px !important;
+        overflow-x:auto;
+    }
+    .dc-auth-btns{ flex-shrink:0; gap:5px !important; }
+    .dc-app-btns{ flex-shrink:0; gap:5px !important; }
+    .dc-auth-btns button{ padding:6px 10px !important; font-size:11px !important; }
+    .dc-app-btns a{ padding:4px 6px !important; }
+    .dc-app-btns span{ font-size:7px !important; }
+    .dc-app-btns span b{ font-size:8px !important; }
+    .dc-app-btns i{ font-size:12px !important; }
+}
+
     .dc-author-dropdown{ border:1px solid #eee; }
     .dc-author-dropdown summary{
         cursor:pointer; padding:12px 14px; font-weight:700; font-size:17px;
