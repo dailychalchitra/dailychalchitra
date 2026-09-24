@@ -323,6 +323,76 @@
         {% endfor %}
     </div>
 
+<!-- বাংলাদেশ — এলাকাভিত্তিক সংবাদ -->
+    <section class="dc-pa-section">
+        <h3 class="dc-pa-section-title">বাংলাদেশ</h3>
+        <div class="dc-pa-area-box">
+            <div class="dc-pa-area-label"><i class="fa fa-map-marker-alt"></i> আমার এলাকার খবর</div>
+
+            <select id="dc-area-division" class="dc-pa-area-select">
+                <option value="">বিভাগ নির্বাচন করুন</option>
+            </select>
+
+            <select id="dc-area-district" class="dc-pa-area-select" disabled>
+                <option value="">প্রথমে বিভাগ নির্বাচন করুন</option>
+            </select>
+
+            <input type="text" id="dc-area-upazila" class="dc-pa-area-select" placeholder="উপজেলার নাম লিখুন (ঐচ্ছিক)">
+
+            <button id="dc-area-search-btn" class="dc-pa-area-btn"><i class="fa fa-search"></i> খুঁজুন</button>
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var bdData = {
+            "ঢাকা": ["ঢাকা","গাজীপুর","নারায়ণগঞ্জ","নরসিংদী","মানিকগঞ্জ","মুন্সিগঞ্জ","রাজবাড়ী","শরীয়তপুর","টাঙ্গাইল","কিশোরগঞ্জ","ফরিদপুর","গোপালগঞ্জ","মাদারীপুর"],
+            "চট্টগ্রাম": ["চট্টগ্রাম","কক্সবাজার","রাঙামাটি","বান্দরবান","খাগড়াছড়ি","ফেনী","নোয়াখালী","লক্ষ্মীপুর","চাঁদপুর","কুমিল্লা","ব্রাহ্মণবাড়িয়া"],
+            "রাজশাহী": ["রাজশাহী","নাটোর","নওগাঁ","চাঁপাইনবাবগঞ্জ","পাবনা","সিরাজগঞ্জ","বগুড়া","জয়পুরহাট"],
+            "খুলনা": ["খুলনা","বাগেরহাট","সাতক্ষীরা","যশোর","ঝিনাইদহ","মাগুরা","নড়াইল","কুষ্টিয়া","চুয়াডাঙ্গা","মেহেরপুর"],
+            "বরিশাল": ["বরিশাল","পটুয়াখালী","ভোলা","পিরোজপুর","বরগুনা","ঝালকাঠি"],
+            "সিলেট": ["সিলেট","মৌলভীবাজার","হবিগঞ্জ","সুনামগঞ্জ"],
+            "রংপুর": ["রংপুর","দিনাজপুর","গাইবান্ধা","কুড়িগ্রাম","লালমনিরহাট","নীলফামারী","ঠাকুরগাঁও","পঞ্চগড়"],
+            "ময়মনসিংহ": ["ময়মনসিংহ","জামালপুর","নেত্রকোণা","শেরপুর"]
+        };
+
+        var divSelect = document.getElementById('dc-area-division');
+        var distSelect = document.getElementById('dc-area-district');
+
+        Object.keys(bdData).forEach(function (div) {
+            var opt = document.createElement('option');
+            opt.value = div; opt.textContent = div;
+            divSelect.appendChild(opt);
+        });
+
+        divSelect.addEventListener('change', function () {
+            var div = this.value;
+            distSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+            if (div && bdData[div]) {
+                bdData[div].forEach(function (d) {
+                    var opt = document.createElement('option');
+                    opt.value = d; opt.textContent = d;
+                    distSelect.appendChild(opt);
+                });
+                distSelect.disabled = false;
+            } else {
+                distSelect.disabled = true;
+                distSelect.innerHTML = '<option value="">প্রথমে বিভাগ নির্বাচন করুন</option>';
+            }
+        });
+
+        var btn = document.getElementById('dc-area-search-btn');
+        btn.addEventListener('click', function () {
+            var div = divSelect.value;
+            var dist = distSelect.value;
+            var upazila = document.getElementById('dc-area-upazila').value.trim();
+            var searchTerm = upazila || dist || div;
+            if (!searchTerm) { alert('দয়া করে অন্তত একটি বিভাগ নির্বাচন করুন।'); return; }
+            window.location.href = '/tag/?name=' + encodeURIComponent(searchTerm);
+        });
+    });
+    </script>
+
     <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২ -->
     {% assign cat_list_2 = "শিক্ষা,খেলাধুলা,মতামত,অন্যান্য" | split: "," %}
     <div class="dc-cat-grid dc-pa-cat-grid">
@@ -395,26 +465,6 @@
         </div>
         {% endfor %}
     </div>
-
-<!-- বাংলাদেশ — এলাকাভিত্তিক সংবাদ -->
-    <section class="dc-pa-section">
-        <h3 class="dc-pa-section-title">বাংলাদেশ</h3>
-        <div class="dc-pa-area-box">
-            <div class="dc-pa-area-label"><i class="fa fa-map-marker-alt"></i> আমার এলাকার খবর</div>
-            <select id="dc-area-division" class="dc-pa-area-select">
-                <option value="">বিভাগ নির্বাচন করুন</option>
-                <option value="ঢাকা">ঢাকা</option>
-                <option value="চট্টগ্রাম">চট্টগ্রাম</option>
-                <option value="রাজশাহী">রাজশাহী</option>
-                <option value="খুলনা">খুলনা</option>
-                <option value="বরিশাল">বরিশাল</option>
-                <option value="সিলেট">সিলেট</option>
-                <option value="রংপুর">রংপুর</option>
-                <option value="ময়মনসিংহ">ময়মনসিংহ</option>
-            </select>
-            <button id="dc-area-search-btn" class="dc-pa-area-btn"><i class="fa fa-search"></i> খুঁজুন</button>
-        </div>
-    </section>
 
     <!-- Login/Signup বাটন + Play Store/App Store -->
     <div class="dc-auth-app-row" style="max-width:800px;margin:2px auto;padding:0px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;">
@@ -797,6 +847,7 @@
         border:1px solid #ccc; border-radius:6px; font-size:15px; background:#fff;
         font-family:'Noto Sans Bengali', sans-serif;
     }
+        .dc-pa-area-select:disabled{ background:#f2f2f2; color:#999; cursor:not-allowed; }
     .dc-pa-area-btn{
         display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
         background:#0d47a1; color:#fff; border:none; padding:13px; border-radius:6px;
