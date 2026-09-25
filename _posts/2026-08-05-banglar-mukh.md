@@ -2,43 +2,20 @@
 layout: post
 title: "বাংলার মুখ"
 date: 2026-08-05 23:19:45 +0400
-
 categories:
+  - kobita
+category_bn:
   - কবিতা
-
 tags:
+  - সাহিত্য বিভাগ
   - সাহিত্য
   - কবিতা
-  - পদ্য কবিতা
-  - বাংলার মুখ আমি দেখিয়াছি
-  - বাংলার মুখ
-  - জীবনমুখী কবিতা
-  - বাস্তবধর্মী কবিতা
-  - জীবন দর্শন
-  - ভক্তি মূলক কবিতা
-  - দেশের কবিতা
-  - প্রকৃতি বিষয়ক কবিতা
-  - স্মৃতি থেকে নেওয়া কবিতা
-  - জীবনানন্দ দাশ এর লেখা কবিতা
-  - বাংলা কবিতা
-  - literature 
-  - poetry 
-  - verse poetry 
-  - i have seen the face of bengal 
-  - the face of bengal 
-  - life oriented poetry 
-  - realistic poetry 
-  - philosophy of life 
-  - devotional poetry 
-  - country poetry 
-  - nature related poetry 
-  - poems taken from memory 
-  - poems written by jibanananda das 
-  - bengali poetry
-
-author: জীবনানন্দ দাশ
-
-image: /assets/img/jibanananda-das.webp
+  - দৈনিক চালচিত্র
+author: "জীবনানন্দ দাশ"
+image: "/assets/img/jibanananda-das.webp"
+permalink: "/kobita/2026/08/05/banglar-mukh/"
+redirect_from:
+  - "/কবিতা/2026/08/05/banglar-mukh/"
 ---
 
 বাংলার মুখ আমি দেখিয়াছি, তাই আমি পৃথিবীর রূপ
