@@ -1,25 +1,21 @@
 ---
 layout: post
-title: "মেঘনাদবধ-[২য় সর্গ-০২]"
+title: "মেঘনাদবধ-[২য় সর্গ-০২]"
 date: 2026-07-23 11:33:00 +0400
-
 categories:
-  - মহাকাব্য
-
+    - mahakabya
+category_bn:
+    - মহাকাব্য
 tags:
-  - সাহিত্য
-  - কবিতা
-  - পদ্য কবিতা
-  - সাহিত্যিক
-  - অমিত্রাক্ষর ছন্দ
-  - বিরহের কবিতা
-  - মাইকেল মধুসূদন দত্ত
-  - বাংলা প্রথম সার্থক মহাকাব্য
-  - হিন্দু পৌরাণিক ঐতিহ্য
-  - সমালোচক মহাকাব্য
-
-author: মাইকেল মধুসূদন দত্ত
-image: /assets/img/michael-madhusudan.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - মহাকাব্য
+    - দৈনিক চালচিত্র
+author: "মাইকেল মধুসূদন দত্ত"
+image: "/assets/img/michael-madhusudan.webp"
+permalink: "/mahakabya/2026/07/23/meghnadbodh-2yo-sorgo-02/"
+redirect_from:
+    - "/মহাকাব্য/2026/07/23/meghnadbodh-2yo-sorgo-02/"
 ---
 
 চলি গেলা মীনধ্বজ, নীড় ছাড়ি উড়ে
