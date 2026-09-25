@@ -2,50 +2,21 @@
 layout: post
 title: "প্রকৃতির রূপ -[খণ্ড-০৪]"
 date: 2026-08-05 20:54:00 +0400
-
 categories:
-  - ছড়া কবিতা
-
+    - chora-kobita
+category_bn:
+    - ছড়া কবিতা
 tags:
-  - সাহিত্য
-  - কবিতা
-  - ছড়া কবিতা
-  - ছন্দ কবিতা
-  - প্রকৃতির রূপ
-  - দেশের কবিতা
-  - শিক্ষণীয় কবিতা
-  - শিশুদের ছড়া কবিতা
-  - ভবিষ্যৎ কবিতা
-  - বিখ্যাত ছড়া কবিতা
-  - প্রকৃতি বিষয়ক ছড়া কবিতা
-  - নতুন ছড়া কবিতা
-  - খণ্ড ছড়া কবিতা
-  - কবি শামীম নিমু
-  - দৈনিক চালচিত্র
-  - শিশুদের ভবিষ্যৎ
-  - আগামীর ভবিষ্যৎ
-  - শামীম নিমু এর লেখা ছড়া কবিতা
-  - literature
-  - poetry
-  - rhyme poems
-  - natures form
-  - country poems
-  - educational poems
-  - childrens rhyme poems
-  - future poems
-  - famous rhyme poems
-  - nature related rhyme poems
-  - new rhyme poems
-  - fragmented rhyme poems
-  - poet shamim nimu
-  - daily chalchitra
-  - childrens future
-  - future generation
-  - rhyme poems written by shamim nimu
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - ছড়া কবিতা
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-1.webp
+image: "/assets/img/shamim-nimu-1.webp"
+permalink: "/chora-kobita/2026/08/05/prokritir-rup-khondo-04/"
+redirect_from:
+    - "/ছড়া কবিতা/2026/08/05/prokritir-rup-khondo-04/"
 ---
 
 ভাটার ধোঁয়া পেরিয়ে শেষে
