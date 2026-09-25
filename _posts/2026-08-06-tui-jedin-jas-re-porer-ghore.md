@@ -2,44 +2,23 @@
 layout: post
 title: "তুই যেদিন যাস রে পরের ঘরে"
 date: 2026-08-06 01:55:45 +0400
-
 categories:
-  - গীতিকাব্য
-
+    - gitikabya
+category_bn:
+    - গীতিকাব্য
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - গান
-  - গানের লিরিক্স
-  - বাংলা গান
-  - বিরহের গান
-  - জীবনমুখী গান
-  - বাস্তবধর্মী গান
-  - জীবনের গান
-  - প্রেমের গান
-  - রোমান্টিক গান
-  - কষ্টের গান
-  - স্মৃতি থেকে নেওয়া গান
-  - শামীম নিমু এর লেখা গান
-  - আধুনিক গান
-  - literature department
-  - literature
-  - songs
-  - song lyrics
-  - bengali songs
-  - songs of separation
-  - life oriented songs
-  - realistic songs
-  - songs of life
-  - love songs
-  - romantic songs
-  - songs of pain
-  - songs taken from memories
-  - songs written by shamim nimu
-  - modern songs
-
-author: শামীম নিমু
-image: /assets/img/shamim-nimu-1.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - গীতিকাব্য
+    - বিনোদন
+    - গান
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/shamim-nimu-1.webp"
+permalink: "/gitikabya/2026/08/06/tui-jedin-jas-re-porer-ghore/"
+redirect_from:
+    - "/গীতিকাব্য/2026/08/06/tui-jedin-jas-re-porer-ghore/"
 ---
 
 আমায় ছাইড়া তুই যেদিন  
