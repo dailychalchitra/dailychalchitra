@@ -2,34 +2,21 @@
 layout: post
 title: "ওয়ার এন্ড পীস -[প্রথম খণ্ড, অধ্যায়-১]"
 date: 2026-07-30 19:51:00 +0400
-categories: [উপন্যাস]
-tags:
-    - সাহিত্য
+categories:
+    - oitihasik-uponyas
+category_bn:
     - ঐতিহাসিক উপন্যাস
-    - মহাউপন্যাস
-    - সাহিত্যিক
-    - ঐতিহাসিক মহাউপন্যাস
-    - যুদ্ধ ও শান্তি
-    - যুদ্ধ নয় শান্তি
-    - রুশ সাম্রাজ্য
-    - বিখ্যাত উপন্যাস
-    - মহা ঔপন্যাসিক
-    - লিও তলস্তয়ের লেখা মহাউপন্যাস
-    - শিক্ষা 
-    - literature
-    - novel 
-    - great novel 
-    - literary 
-    - historical novel 
-    - war and peace 
-    - peace not war 
-    - russian empire 
-    - famous novels 
-    - great novelists 
-    - great novels written by leo tolstoy 
-    - education
-author: লিও তলস্তয়
-image: /assets/img/leo-tolstoy.webp
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - উপন্যাস
+    - ঐতিহাসিক উপন্যাস
+    - দৈনিক চালচিত্র
+author: "লিও তলস্তয়"
+image: "/assets/img/leo-tolstoy.webp"
+permalink: "/oitihasik-uponyas/2026/07/30/war-end-peace-prothom-khondo-oddhay-1/"
+redirect_from:
+    - "/ঐতিহাসিক উপন্যাস/2026/07/30/war-end-peace-prothom-khondo-oddhay-1/"
 ---
 
 "আচ্ছা প্রিন্স, তাহলে তো জেনোয়া ও লুক্কা এখন বোনাপার্তদের পারিবারিক সম্পত্তি বিশেষ। কিন্তু আমি আপনাকে সাবধান করে দিচ্ছি, একেও যদি আপনি যুদ্ধ না বলেন, এখনও যদি সেই খৃস্টবৈরীর-আমি সত্যি বিশ্বাস করি যে সে লোকটি খৃস্টবৈরী-জঘন্য আচরণ ও সন্ত্রাসকে সমর্থন করেন, তাহলে আপনার সঙ্গে আমার আর কোনও সম্পর্ক থাকবে না, আপনি আমার বন্ধুও থাকবেন না, বা আপনি যে নিজেকে আমার 'বিশ্বস্ত দাস' বলে প্রচার করে থাকেন তাও আর থাকবেন না। কিন্তু আপনার হলো কি? মনে হচ্ছে আপনাকে খুব ভয় পাইয়ে দিয়েছি-বসে পড়ন, আর সব খবর আমাকে বলুন।"
