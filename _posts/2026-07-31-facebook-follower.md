@@ -2,10 +2,22 @@
 layout: post
 title: "ফেসবুক ফলোয়ার"
 date: 2026-07-31 20:18:00 +0400
-categories: ["শ্লোক"]
-tags: [সাহিত্য, উক্তি, বাণী, ছন্দ, শিক্ষণীয় বাণী, শ্রেষ্ঠ বাণী, শ্লোক, বিখ্যাত বাণী, কবিদের বিখ্যাত বাণী, শামীম নিমু এর লেখা বাণী, শিক্ষা]
-author: শামীম নিমু
-image: /assets/img/shamim-nimu-04.webp
+categories:
+    - shlok
+category_bn:
+    - শ্লোক
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - উক্তি
+    - অনু কবিতা
+    - শ্লোক
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/shamim-nimu-04.webp"
+permalink: "/shlok/2026/07/31/facebook-follower/"
+redirect_from:
+    - "/শ্লোক/2026/07/31/facebook-follower/"
 ---
 
 একটিমাত্র ফুলদানিতে সাজানো রয়েছে  
