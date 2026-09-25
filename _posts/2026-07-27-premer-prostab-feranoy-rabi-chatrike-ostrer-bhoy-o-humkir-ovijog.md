@@ -2,33 +2,29 @@
 layout: post
 title: "প্রেমের প্রস্তাব ফেরানোয় রাবি ছাত্রীকে অস্ত্রের ভয় ও হুমকির অভিযোগ"
 date: 2026-07-27 19:14:00 +0400
-categories: [সংবাদ]
+categories:
+    - songbad
+category_bn:
+    - সংবাদ
 tags:
-    - রাজশাহী
+    - বাংলাদেশ
+    - সংবাদ
     - জেলা সংবাদ
     - বিভাগ
-    - শিক্ষা
+    - রাজশাহী
     - ক্যাম্পাস
-    - পড়াশোনা 
-    - উচ্চশিক্ষা 
+    - পড়াশোনা
+    - উচ্চশিক্ষা
     - সম্পর্ক
-    - প্রতিক্রিয়া
+    - প্রতিক্রিয়া
     - মতামত
-    - বাংলাদেশ
     - বিশেষ সংখ্যা
-    - rajshahi
-    - district news
-    - division
-    - campus
-    - study
-    - higher education
-    - relationship
-    - feedback
-    - opinion
-    - bangladesh
-    - special issue
-author: ডেস্ক রিপোর্ট
-image: /assets/img/rajshahi-university.webp
+    - দৈনিক চালচিত্র
+author: "ডেস্ক রিপোর্ট"
+image: "/assets/img/rajshahi-university.webp"
+permalink: "/songbad/2026/07/27/premer-prostab-feranoy-rabi-chatrike-ostrer-bhoy-o-humkir-ovijog/"
+redirect_from:
+    - "/সংবাদ/2026/07/27/premer-prostab-feranoy-rabi-chatrike-ostrer-bhoy-o-humkir-ovijog/"
 ---
 
 রাজশাহী বিশ্ববিদ্যালয়ে এক নবীন ছাত্রীকে প্রেমের প্রস্তাবে রাজি না হওয়ায় অস্ত্রের ভয় দেখিয়ে হুমকি দেওয়ার অভিযোগ উঠেছে এক সিনিয়র শিক্ষার্থীর বিরুদ্ধে।
