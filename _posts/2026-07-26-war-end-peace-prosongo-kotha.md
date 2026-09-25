@@ -1,35 +1,22 @@
 ---
 layout: post
-title: "ওয়ার এন্ড পীস -[প্রসঙ্গ কথা]"
+title: "ওয়ার এন্ড পীস -[প্রসঙ্গ কথা]"
 date: 2026-07-26 18:30:00 +0400
-categories: [উপন্যাস]
-tags:
-    - সাহিত্য
+categories:
+    - oitihasik-uponyas
+category_bn:
     - ঐতিহাসিক উপন্যাস
-    - মহাউপন্যাস
-    - সাহিত্যিক
-    - ঐতিহাসিক মহাউপন্যাস
-    - যুদ্ধ ও শান্তি
-    - যুদ্ধ নয় শান্তি
-    - রুশ সাম্রাজ্য
-    - বিখ্যাত উপন্যাস
-    - মহা ঔপন্যাসিক
-    - লিও তলস্তয়ের লেখা মহাউপন্যাস
-    - শিক্ষা 
-    - literature
-    - novel 
-    - great novel 
-    - literary 
-    - historical novel 
-    - war and Peace 
-    - peace not war 
-    - russian empire 
-    - famous novels 
-    - great novelists 
-    - great novels written by leo tolstoy 
-    - education
-author: লিও তলস্তয়
-image: /assets/img/leo-tolstoy.webp
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - উপন্যাস
+    - ঐতিহাসিক উপন্যাস
+    - দৈনিক চালচিত্র
+author: "লিও তলস্তয়"
+image: "/assets/img/leo-tolstoy.webp"
+permalink: "/oitihasik-uponyas/2026/07/26/war-end-peace-prosongo-kotha/"
+redirect_from:
+    - "/ঐতিহাসিক উপন্যাস/2026/07/26/war-end-peace-prosongo-kotha/"
 ---
 
 ওয়ার এন্ড পীস অর্থাৎ যুদ্ধ এবং শান্তি লেভ তলস্তয়ের বিখ্যাত উপন্যাস। বিশাল বিস্তৃত এই উপন্যাস তাঁকে দুনিয়া জোড়া খ্যাতি ও সম্মান এনে দেয়।
