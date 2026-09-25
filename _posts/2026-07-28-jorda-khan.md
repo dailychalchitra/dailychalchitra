@@ -1,25 +1,22 @@
 ---
 layout: post
 title: "জর্দা খান"
-date: 2026-07-28 17:24:00 +04:00
-categories: [কৌতুক]
+date: 2026-07-28 17:24:00 +0400
+categories:
+    - koutuk
+category_bn:
+    - কৌতুক
 tags:
-  - সাহিত্য
-  - রম্যরচনা
-  - সংলাপ
-  - বিশেষ সংখ্যা
-  - সর্বশেষ
-  - শামীম নিমু এর লেখা কৌতুক
-  - জর্দা খান 
-  - comedy
-  - humor
-  - dialogue
-  - special issue
-  - latest
-  - comedy written by shamim nimu
-  - jorda khan
-author: শামীম নিমু
-image: /assets/img/jorda-khan.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কৌতুক
+    - রম্যরচনা
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/jorda-khan.webp"
+permalink: "/koutuk/2026/07/28/jorda-khan/"
+redirect_from:
+    - "/কৌতুক/2026/07/28/jorda-khan/"
 ---
 
 একদিন এক কোট-টাই পরা ভদ্রলোক বয়স্ক একজন বুড়ো চাচামিয়ার সামনে এসে উপস্থিত হলেন৷ ভদ্র লোকটি বুড়ো চাচামিয়াকে সামনে পেয়ে তাকে সালাম দিলেন৷ বুড়ো চাচামিয়া তাঁর সালাম গ্রহণ করে তৎক্ষণায় লোকটিকে চিনতে না পেরে মুখে পান চিবাতে চিবাতে তিনি বলে বসলেন,
