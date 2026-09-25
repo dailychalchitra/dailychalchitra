@@ -3,16 +3,20 @@ layout: post
 title: "মেঘনাদবধ-[২য় সর্গ-০১]"
 date: 2026-07-23 11:25:00 +0400
 categories:
+    - mahakabya
+category_bn:
     - মহাকাব্য
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
-    - মাইকেল মধুসূদন দত্ত এর লেখা মহাকাব্য
-    - মেঘনাদবধ কাব্য
+    - মহাকাব্য
     - দৈনিক চালচিত্র
-author: মাইকেল মধুসূদন দত্ত
-image: /assets/img/michael-madhusudan.webp
+author: "মাইকেল মধুসূদন দত্ত"
+image: "/assets/img/michael-madhusudan.webp"
 description: "মাইকেল মধুসূদন দত্তের অমর মহাকাব্য মেঘনাদবধ কাব্যের দ্বিতীয় সর্গের সম্পূর্ণ অংশ"
+permalink: "/mahakabya/2026/07/23/meghnadbodh-2yo-sorgo-01/"
+redirect_from:
+    - "/মহাকাব্য/2026/07/23/meghnadbodh-2yo-sorgo-01/"
 ---
 
 অস্তে গেল দিনমণি; আইলা গোধূলি,-
