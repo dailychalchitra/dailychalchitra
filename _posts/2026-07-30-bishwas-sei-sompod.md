@@ -2,10 +2,21 @@
 layout: post
 title: "বিশ্বাস সেই সম্পদ"
 date: 2026-07-30 14:29:00 +0400
-categories: ["ছোট গল্প"]
-tags: [সাহিত্য, গল্প, বিশ্বাস সেই সম্পদ, আমানত, শিক্ষা, trust is wealth, story written by Main Uddin]
-author: মাইন উদ্দিন
-image: /assets/img/main-uddin-01.webp
+categories:
+    - choto-golpo
+category_bn:
+    - ছোট গল্প
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - গল্প
+    - ছোট গল্প
+    - দৈনিক চালচিত্র
+author: "মাইন উদ্দিন"
+image: "/assets/img/main-uddin-01.webp"
+permalink: "/choto-golpo/2026/07/30/bishwas-sei-sompod/"
+redirect_from:
+    - "/ছোট গল্প/2026/07/30/bishwas-sei-sompod/"
 ---
 
 কোন একদিন এক বৃদ্ধ দাদা তাঁর প্রিয় নাতিকে বললেন, 
