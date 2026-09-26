@@ -1,22 +1,22 @@
 ---
 layout: post
-title: মোমবাতির আলোয় লেখা চিঠি
+title: "মোমবাতির আলোয় লেখা চিঠি"
 date: 2026-08-09 03:09:00 +0400
-image: /assets/img/mombatir-aloy-lekha-chithi-1.webp
-author: "শামীম নিমু"
 categories:
-  - প্রবন্ধ ও নিবন্ধ
+    - probondho-o-nibondho
+category_bn:
+    - প্রবন্ধ ও নিবন্ধ
 tags:
-  - আন্তর্জাতিক
-  - সাহিত্য বিভাগ
-  - শিক্ষা
-  - অপরাধ
-  - প্রতিক্রিয়া
-  - আলোচনা
-  - সমালোচনা
-  - সম্পর্ক
-  - শিক্ষা
-  - সামাজিক গল্প
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - প্রবন্ধ ও নিবন্ধ
+    - সামাজিক গল্প
+    - দৈনিক চালচিত্র
+author: "শামীম নিমু"
+image: "/assets/img/mombatir-aloy-lekha-chithi-1.webp"
+permalink: "/probondho-o-nibondho/2026/08/09/mombatir-aloy-lekha-chithi/"
+redirect_from:
+    - "/প্রবন্ধ ও নিবন্ধ/2026/08/09/mombatir-aloy-lekha-chithi/"
 ---
 
 [গাজার ধ্বংসস্তূপ একটি ঘর হতে বাস্তব এক চিৎকার..]
