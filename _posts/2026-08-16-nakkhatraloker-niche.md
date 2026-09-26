@@ -2,37 +2,21 @@
 layout: post
 title: "নক্ষত্রলোকের নিচে"
 date: 2026-08-16 00:33:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - পদ্য কবিতা
-  - স্মৃতি মূলক কবিতা
-  - সময়ের কবিতা
-  - জীবনের কবিতা
-  - প্রকৃতি বিষয়ক কবিতা
-  - ভবিষ্যৎ প্রজন্মের কবিতা
-  - রীতি চাকমা এর লেখা পদ্য কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - verse poetry
-  - memorable poems
-  - poems of time
-  - poems of life
-  - poems about nature
-  - poems of future generations
-  - verse poems written by riti chakma
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রীতি চাকমা"
-
-image: /assets/img/riti-chakma.webp
+image: "/assets/img/riti-chakma.webp"
+permalink: "/kobita/2026/08/16/nakkhatraloker-niche/"
+redirect_from:
+    - "/কবিতা/2026/08/16/nakkhatraloker-niche/"
 ---
-
 অনেক রাত হলে মনে হয়
 এই পৃথিবী যেন কার্তিকের মাঠে পড়ে থাকা
 একটি শিশিরবিন্দু মাত্র,
