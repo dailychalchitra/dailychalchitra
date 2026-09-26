@@ -51,8 +51,8 @@ permalink: /tag/
       var div = document.createElement("div");
       div.className = "post-item";
       div.innerHTML =
-        '<a href="' + post.url + '">' +
-          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" class="post-thumb">' : '') +
+        '<a href="' + post.url + '" style="display:block; position:relative; width:100%; padding-top:56.25%; overflow:hidden; border-radius:8px; margin-bottom:15px; background:#eee;">' +
+          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; object-position:center 20%; margin:0; border-radius:8px; display:block;">' : '') +
         '</a>' +
         '<h2><a href="' + post.url + '">' + post.title + '</a></h2>' +
         '<span class="post-date">' + post.date + ' • ' + post.author + '</span>' +
@@ -67,29 +67,6 @@ permalink: /tag/
 .dc-tag-archive { max-width: 800px; margin: 20px auto; padding: 15px; }
 .archive-title { font-size: 32px; margin-bottom: 30px; border-bottom: 3px solid #d32f2f; padding-bottom: 10px; }
 .post-item { margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid #ddd; }
-.dc-tag-archive .post-item a:has(.post-thumb) {
-    display: block;
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 অনুপাত — height পুরোপুরি width-এর % হিসেবে বাধ্যতামূলক */
-    overflow: hidden;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    background: #eee;
-}
-.dc-tag-archive .post-item .post-thumb {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center 20% !important;
-    border-radius: 8px;
-    margin: 0 !important;
-    display: block;
-}
-
 .post-item h2 { margin: 10px 0; }
 .post-item h2 a { color: #111; text-decoration: none; font-size: 22px; }
 .post-item h2 a:hover { color: #d32f2f; }
