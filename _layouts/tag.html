@@ -6,7 +6,7 @@ permalink: /tag/
 
 <div class="dc-tag-archive">
   <h1 class="archive-title" id="dc-tag-title">ট্যাগ</h1>
-  <div class="post-list" id="dc-tag-posts"></div>
+  <div class="post-grid" id="dc-tag-posts"></div>
   <p id="dc-tag-empty" style="display:none; color:#777; text-align:center; margin-top:30px;">এই ট্যাগে এখনো কোনো পোস্ট নেই।</p>
 </div>
 
@@ -19,8 +19,9 @@ permalink: /tag/
       "date": {{ post.date | date: "%d %B %Y" | jsonify }},
       "author": {{ post.author | default: "" | jsonify }},
       "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
-      "excerpt": {{ post.content | strip_html | truncatewords: 25 | jsonify }},
-  "categories": {{ post.categories | jsonify }},
+      "excerpt": {{ post.content | strip_html | truncatewords: 20 | jsonify }},
+      "category": {{ post.category_bn.first | default: post.category_bn | default: post.categories.first | default: "" | jsonify }},
+      "categories": {{ post.categories | jsonify }},
       "tags": {{ post.tags | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
@@ -43,35 +44,87 @@ permalink: /tag/
 
   var dcContainer = document.getElementById("dc-tag-posts");
   var dcEmptyMsg = document.getElementById("dc-tag-empty");
+  var dcFallbackImg = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png";
 
   if (dcFiltered.length === 0) {
     dcEmptyMsg.style.display = "block";
   } else {
     dcFiltered.forEach(function (post) {
-      var div = document.createElement("div");
-      div.className = "post-item";
-      div.innerHTML =
-        '<a href="' + post.url + '" style="display:block; position:relative; width:100%; padding-top:56.25%; overflow:hidden; border-radius:8px; margin-bottom:15px; background:#eee;">' +
-          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; object-position:center 20%; margin:0; border-radius:8px; display:block;">' : '') +
+      var card = document.createElement("article");
+      card.className = "dc-tag-card";
+      var imgSrc = post.image || dcFallbackImg;
+      card.innerHTML =
+        '<a href="' + post.url + '" class="dc-tag-card-thumb">' +
+          '<img src="' + imgSrc + '" alt="' + post.title + '" loading="lazy">' +
         '</a>' +
-        '<h2><a href="' + post.url + '">' + post.title + '</a></h2>' +
-        '<span class="post-date">' + post.date + ' • ' + post.author + '</span>' +
-        '<p>' + post.excerpt + '</p>' +
-        '<a href="' + post.url + '" class="read-more-btn">আরও পড়ুন →</a>';
-      dcContainer.appendChild(div);
+        '<div class="dc-tag-card-body">' +
+          (post.category ? '<span class="dc-tag-card-cat">' + post.category + '</span>' : '') +
+          '<h2 class="dc-tag-card-title"><a href="' + post.url + '">' + post.title + '</a></h2>' +
+          '<p class="dc-tag-card-excerpt">' + post.excerpt + '</p>' +
+          '<div class="dc-tag-card-meta">' +
+            '<span>' + post.date + '</span>' +
+            (post.author ? '<span> • ' + post.author + '</span>' : '') +
+          '</div>' +
+        '</div>';
+      dcContainer.appendChild(card);
     });
   }
 </script>
 
 <style>
-.dc-tag-archive { max-width: 800px; margin: 20px auto; padding: 15px; }
-.archive-title { font-size: 32px; margin-bottom: 30px; border-bottom: 3px solid #d32f2f; padding-bottom: 10px; }
-.post-item { margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid #ddd; }
-.post-item h2 { margin: 10px 0; }
-.post-item h2 a { color: #111; text-decoration: none; font-size: 22px; }
-.post-item h2 a:hover { color: #d32f2f; }
-.post-date { color: #666; font-size: 14px; }
-.post-item p { color: #333; line-height: 1.8; margin: 12px 0; }
-.read-more-btn { display: inline-block; background: #d32f2f; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px; }
-.read-more-btn:hover { background: #b71c1c; }
+.dc-tag-archive { max-width: 1160px; margin: 20px auto; padding: 15px; }
+.archive-title { font-size: 32px; margin-bottom: 25px; border-bottom: 3px solid #C00000; padding-bottom: 10px; font-family:'Noto Serif Bengali', serif; }
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.dc-tag-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+}
+.dc-tag-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.1); }
+
+.dc-tag-card-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #eee;
+}
+.dc-tag-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+.dc-tag-card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
+.dc-tag-card-cat { color: #C00000; font-weight: 700; font-size: 13px; margin-bottom: 6px; font-family:'Noto Sans Bengali', sans-serif; }
+.dc-tag-card-title { margin: 0 0 8px; font-size: 18px; line-height: 1.4; font-family:'Noto Serif Bengali', serif; }
+.dc-tag-card-title a { color: #111; text-decoration: none; }
+.dc-tag-card-title a:hover { color: #C00000; }
+.dc-tag-card-excerpt { color: #555; font-size: 14.5px; line-height: 1.6; margin: 0 0 10px; flex: 1; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.dc-tag-card-meta { color: #999; font-size: 12.5px; margin-top: auto; }
+
+@media (max-width: 900px) {
+  .post-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .archive-title { font-size: 24px; }
+}
+@media (max-width: 560px) {
+  .post-grid { grid-template-columns: 1fr; }
+  .dc-tag-card { flex-direction: row; }
+  .dc-tag-card-thumb { width: 130px; aspect-ratio: 1/1; flex-shrink: 0; }
+  .dc-tag-card-body { padding: 10px 12px; }
+  .dc-tag-card-title { font-size: 15px; }
+  .dc-tag-card-excerpt { font-size: 13px; -webkit-line-clamp: 2; }
+}
 </style>
