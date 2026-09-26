@@ -2,39 +2,24 @@
 layout: post
 title: "শেষ চিঠি"
 date: 2026-08-13 18:07:00 +0400
-
 categories:
-  - চিঠি
-
+    - chithi
+category_bn:
+    - চিঠি
 tags:
-  - সাহিত্য
-  - শেষ চিঠি
-  - অনামিকার কাছে লেখা শেষ চিঠি
-  - প্রেমিকার কাছে লেখা শেষ চিঠি
-  - প্রেমের চিঠি
-  - মৃত্যুর আগে লেখা শেষ চিঠি
-  - হাসপাতালের বেডে শুয়ে লেখা শেষ চিঠি
-  - প্রিয়তমার কাছে লেখা শেষ চিঠি
-  - শামীম নিমু এর লেখা শেষ চিঠি
-  - দৈনিক চালচিত্র
-  - literature
-  - last letter
-  - last letter written to anamika
-  - last letter written to her lover
-  - love letter
-  - last letter written before death
-  - last letter written while lying in a hospital bed
-  - last letter written to her beloved
-  - last letter written by shamim nimu
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - চিঠি
+    - শেষ চিঠি
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-1.webp
+image: "/assets/img/shamim-nimu-1.webp"
+permalink: "/chithi/2026/08/13/shesh-chithi/"
+redirect_from:
+    - "/চিঠি/2026/08/13/shesh-chithi/"
 ---
 
 প্রিয়তমা অনামিকা,
-
 শুরুতেই তোমার প্রতি রইলো আমার হৃদয় ছোঁয়া ভালোবাসা। এই চিঠিখানা পাওয়া মাত্রই তুমি জানবে- আমি একদম ভালো নেই।
 
 তুমি জানবে, হাসপাতালের করিডোরে সংখ্যাবিহীন কোনো এক বিছানায় শুয়ে আমি মরণ যন্ত্রণায় কাতরাচ্ছি।
