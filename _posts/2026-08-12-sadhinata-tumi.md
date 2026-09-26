@@ -2,43 +2,20 @@
 layout: post
 title: "স্বাধীনতা তুমি"
 date: 2026-08-12 02:10:45 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - রূপক কবি
-  - বাংলা কবিতা
-  - বিভাগ সমূহ
-  - প্রতিক্রিয়া
-  - অন্যান্য
-  - আরও
-  - শিক্ষা
-  - শামসুর রাহমান এর লেখা বিখ্যাত কবিতা
-  - শামসুর রাহমান এর লেখা স্বাধীনতা তুমি কবিতা
-  - স্বাধীনতা তুমি
-  - মুক্তির কবিতা
-  - দৈনিক চালচিত্র
-  - literature section
-  - literature 
-  - metaphorical poem 
-  - bengali poetry 
-  - categories 
-  - reactions 
-  - others 
-  - more 
-  - education 
-  - famous poems written by shamsur rahman 
-  - you are freedom poem written by shamsur rahman
-  - you are freedom
-  - liberation poems
-  - daily chalchitra
-
-author: শামসুর রাহমান
-
-image: /assets/img/shamsur-rahman.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
+author: "শামসুর রাহমান"
+image: "/assets/img/shamsur-rahman.webp"
+permalink: "/kobita/2026/08/12/sadhinata-tumi/"
+redirect_from:
+    - "/কবিতা/2026/08/12/sadhinata-tumi/"
 ---
 
 স্বাধীনতা তুমি
