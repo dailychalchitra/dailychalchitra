@@ -2,35 +2,21 @@
 layout: post
 title: "মনে পড়ছে রাঙামাটির দিনগুলো"
 date: 2026-08-16 00:19:00 +0400
-
 categories:
-  - পদ্য কবিতা
-
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - স্মৃতি মূলক কবিতা
-  - সময়ের কবিতা
-  - জীবনের কবিতা
-  - উৎসর্গ মূলক কবিতা
-  - বন্ধুদের নিয়ে লেখা কবিতা
-  - গোলাম কবির এর লেখা পদ্য কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - poetry
-  - memorable poems
-  - poems of time
-  - poems of life
-  - dedication poems
-  - poems written about friends
-  - poems written by golam kabir
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
 author: "গোলাম কবির"
-
-image: /assets/img/golam-kabir.webp
+image: "/assets/img/golam-kabir.webp"
+permalink: "/poddo-kobita/2026/08/16/mone-porche-rangamatir-dingulo/"
+redirect_from:
+    - "/পদ্য কবিতা/2026/08/16/mone-porche-rangamatir-dingulo/"
 ---
 
 এমন যদি কোনো একটা ব্যবস্থা থাকতো!
