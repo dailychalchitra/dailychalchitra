@@ -27,54 +27,18 @@ permalink: /tag/
     {% endfor %}
   ];
 
-  // slug -> original tag name map (auto generate from site)
-  var dcTagMap = {
-    {% for tag in site.tags %}
-    "{{ tag[0] | slugify }}": {{ tag[0] | jsonify }}{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-    {% if site.tags.size > 0 %},{% endif %}
-    {% for cat in site.categories %}
-    "{{ cat[0] | slugify }}": {{ cat[0] | jsonify }}{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  };
-
-  function dcSlugify(s){
-    return (s||"").toString().toLowerCase().trim()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w\-ঀ-৾]+/g, "")
-      .replace(/\-\-+/g, "-");
-  }
-
   function dcNormalize(s) {
     return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase();
   }
 
-  // 1. ?name= থেকে নেওয়ার চেষ্টা
   var dcParams = new URLSearchParams(window.location.search);
   var dcTagName = dcParams.get("name") || "";
-
-  // 2. যদি query না থাকে, তাহলে /tag/choto-golpo/ থেকে slug নাও
-  if (!dcTagName) {
-    var pathParts = window.location.pathname.split("/").filter(Boolean);
-    var lastPart = pathParts[pathParts.length - 1];
-    if (lastPart && lastPart !== "tag") {
-      var slug = decodeURIComponent(lastPart);
-      dcTagName = dcTagMap[slug] || dcTagMap[dcSlugify(slug)] || slug;
-    }
-  }
-
   document.getElementById("dc-tag-title").textContent = dcTagName ? dcTagName : "ট্যাগ পাওয়া যায়নি";
 
   var dcNormTarget = dcNormalize(dcTagName);
-  var dcNormSlugTarget = dcNormalize(dcSlugify(dcTagName));
-
   var dcFiltered = dcAllPosts.filter(function (p) {
-    var inTags = (p.tags || []).some(function (t) { 
-      return dcNormalize(t) === dcNormTarget || dcNormalize(dcSlugify(t)) === dcNormSlugTarget || dcNormalize(dcSlugify(t)) === dcNormTarget;
-    });
-    var inCats = (p.categories || []).some(function (c) { 
-      return dcNormalize(c) === dcNormTarget || dcNormalize(dcSlugify(c)) === dcNormSlugTarget || dcNormalize(dcSlugify(c)) === dcNormTarget;
-    });
+    var inTags = (p.tags || []).some(function (t) { return dcNormalize(t) === dcNormTarget; });
+    var inCats = (p.categories || []).some(function (c) { return dcNormalize(c) === dcNormTarget; });
     return inTags || inCats;
   });
 
@@ -132,7 +96,7 @@ permalink: /tag/
   display: block;
   position: relative;
   width: 100%;
-  padding-top: 66.6%;
+  padding-top: 66.6%; /* 3:2 অনুপাত — বেশিরভাগ পোর্ট্রেট মুখের ছবির জন্য নিরাপদ */
   overflow: hidden;
   background: #eee;
 }
