@@ -13,7 +13,7 @@ tags:
     - ছোট গল্প
     - দৈনিক চালচিত্র
 author: "খালিদ মামুন"
-image: "/assets/img/khalid-mamun.webp"
+image: "/assets/img/odirsho-dana-02.webp"
 description: "ম্যাম, আমি পাখি হব কীভাবে? - ছোট্ট নুরের প্রশ্ন আর মনের ডানায় উড়তে শেখার গল্প 'অদৃশ্য ডানা'।"
 excerpt: "ম্যাম, আমি পাখি হব কীভাবে? - ছোট্ট নুরের প্রশ্ন আর মনের ডানায় উড়তে শেখার গল্প 'অদৃশ্য ডানা'।"
 permalink: "/choto-golpo/2026/09/21/odrisho-dana/"
