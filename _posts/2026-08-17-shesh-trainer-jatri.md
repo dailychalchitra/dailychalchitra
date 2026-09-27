@@ -2,37 +2,24 @@
 layout: post
 title: "শেষ ট্রেনের যাত্রী"
 date: 2026-08-17 02:54:00 +0400
-
 categories:
-  - ছোট গল্প
-
+    - onu-golpo
+category_bn:
+    - অনু গল্প
 tags:
-  - সাহিত্য বিভাগ
-  - গল্প
-  - জীবনের গল্প
-  - জীবনমুখী গল্প
-  - রাতের গল্প
-  - শেষ ট্রেনের যাত্রী গল্প
-  - শিক্ষণীয় গল্প
-  - মানবিক গল্প
-  - কবি শামীম নিমু
-  - দৈনিক চালচিত্র
-  - শামীম নিমু এর লেখা গল্প
-  - literature department
-  - stories
-  - life stories
-  - life oriented stories
-  - night stories
-  - last train passenger stories
-  - educational stories
-  - humane stories
-  - poet shamim nimu
-  - daily chalchitra
-  - stories written by shamim nimu
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - গল্প
+    - অনু গল্প
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-1.webp
+image: "/assets/img/shamim-nimu-1.webp"
+description: "শেষ ট্রেনের যাত্রী - শামীম নিমুর এক হৃদয়স্পর্শী অনু গল্প।"
+excerpt: "শেষ ট্রেনের যাত্রী - শামীম নিমুর এক হৃদয়স্পর্শী অনু গল্প।"
+permalink: "/onu-golpo/2026/08/17/shesh-trainer-jatri/"
+redirect_from:
+    - "/অনু গল্প/2026/08/17/shesh-trainer-jatri/"
+    - "/search/label/অনু গল্প"
 ---
 
 রাত প্রায় সাড়ে এগারোটা। গাইবান্ধা জেলা শহরের রেলস্টেশনটা তখন প্রায় জনশূন্য। আশপাশের লাইটপোস্টগুলো মিটমিট করে জ্বলছিল, মাঝেমধ্যে বাতাসের গতিবেগে শোনা যেত শুকনো পাতার মরমরে শব্দ। প্ল্যাটফর্মের মাঝখানের বেঞ্চটায় একা একটি মেয়ে বসেছিল। হাতে ছিল তাঁর ছোট্ট একটি কাপড়ের ব্যাগ। পরনে সাধারণ সালোয়ার-কামিজ। দু'চোখের দৃষ্টি ছিল তাঁর রেললাইনের দিকে। কাহারও অপেক্ষায় নয়, বরং তাঁর তাড়া ছিল অন্য কোনো উদ্দেশ্যের।
