@@ -19,7 +19,7 @@ permalink: /tag/
       "date": {{ post.date | date: "%d %B %Y" | jsonify }},
       "author": {{ post.author | default: "" | jsonify }},
       "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
-      "excerpt": {{ post.content | strip_html | truncatewords: 20 | jsonify }},
+      "excerpt": {{ post.content | strip_html | truncatewords: 18 | jsonify }},
       "category": {{ post.category_bn.first | default: post.category_bn | default: post.categories.first | default: "" | jsonify }},
       "categories": {{ post.categories | jsonify }},
       "tags": {{ post.tags | jsonify }}
@@ -78,7 +78,7 @@ permalink: /tag/
 .post-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 22px;
 }
 
 .dc-tag-card {
@@ -94,16 +94,20 @@ permalink: /tag/
 
 .dc-tag-card-thumb {
   display: block;
+  position: relative;
   width: 100%;
-  aspect-ratio: 4/3;
+  padding-top: 66.6%; /* 3:2 অনুপাত — বেশিরভাগ পোর্ট্রেট মুখের ছবির জন্য নিরাপদ */
   overflow: hidden;
   background: #eee;
 }
 .dc-tag-card-thumb img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center 12%;
   display: block;
 }
 
@@ -122,37 +126,9 @@ permalink: /tag/
 @media (max-width: 560px) {
   .post-grid { grid-template-columns: 1fr; }
   .dc-tag-card { flex-direction: row; }
-  .dc-tag-card-thumb { width: 130px; aspect-ratio: 1/1; flex-shrink: 0; }
+  .dc-tag-card-thumb { width: 130px; flex-shrink: 0; padding-top: 0; height: 130px; }
   .dc-tag-card-body { padding: 10px 12px; }
   .dc-tag-card-title { font-size: 15px; }
   .dc-tag-card-excerpt { font-size: 13px; -webkit-line-clamp: 2; }
-}
-
-  .dc-tag-archive .post-item a {
-    display: block;
-    position: relative;
-    width: 100%;
-    padding-top: 75%;
-    overflow: hidden;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    background: #eee;
-}
-@media (max-width: 600px) {
-    .dc-tag-archive .post-item a {
-        padding-top: 56.25%;
-    }
-}
-.dc-tag-archive .post-item .post-thumb {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 15%;
-    margin: 0;
-    border-radius: 8px;
-    display: block;
 }
 </style>
