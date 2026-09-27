@@ -127,4 +127,32 @@ permalink: /tag/
   .dc-tag-card-title { font-size: 15px; }
   .dc-tag-card-excerpt { font-size: 13px; -webkit-line-clamp: 2; }
 }
+
+  .dc-tag-archive .post-item a {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-top: 75%;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background: #eee;
+}
+@media (max-width: 600px) {
+    .dc-tag-archive .post-item a {
+        padding-top: 56.25%;
+    }
+}
+.dc-tag-archive .post-item .post-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
+    margin: 0;
+    border-radius: 8px;
+    display: block;
+}
 </style>
