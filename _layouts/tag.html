@@ -5,9 +5,18 @@ permalink: /tag/
 ---
 
 <div class="dc-tag-archive">
-  <h1 class="archive-title" id="dc-tag-title">ট্যাগ</h1>
-  <div class="post-grid" id="dc-tag-posts"></div>
-  <p id="dc-tag-empty" style="display:none; color:#777; text-align:center; margin-top:30px;">এই ট্যাগে এখনো কোনো পোস্ট নেই।</p>
+
+  <div class="dc-tag-heading">
+    <h1 id="dc-tag-title">ট্যাগ</h1>
+    <span class="dc-tag-heading-line"></span>
+  </div>
+
+  <div class="dc-tag-posts" id="dc-tag-posts"></div>
+
+  <p id="dc-tag-empty" class="dc-tag-empty">
+    এই ট্যাগে এখনো কোনো পোস্ট নেই।
+  </p>
+
 </div>
 
 <script>
@@ -19,7 +28,7 @@ permalink: /tag/
       "date": {{ post.date | date: "%d %B %Y" | jsonify }},
       "author": {{ post.author | default: "" | jsonify }},
       "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
-      "excerpt": {{ post.content | strip_html | truncatewords: 18 | jsonify }},
+      "excerpt": {{ post.content | strip_html | truncatewords: 24 | jsonify }},
       "category": {{ post.category_bn.first | default: post.category_bn | default: post.categories.first | default: "" | jsonify }},
       "categories": {{ post.categories | jsonify }},
       "tags": {{ post.tags | jsonify }}
@@ -28,110 +37,409 @@ permalink: /tag/
   ];
 
   function dcNormalize(s) {
-    return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase();
+    return (s || "")
+      .toString()
+      .replace(/[\s\-]+/g, "")
+      .toLowerCase();
   }
 
   var dcParams = new URLSearchParams(window.location.search);
   var dcTagName = dcParams.get("name") || "";
-  document.getElementById("dc-tag-title").textContent = dcTagName ? dcTagName : "ট্যাগ পাওয়া যায়নি";
+
+  document.getElementById("dc-tag-title").textContent =
+    dcTagName ? dcTagName : "ট্যাগ পাওয়া যায়নি";
 
   var dcNormTarget = dcNormalize(dcTagName);
+
   var dcFiltered = dcAllPosts.filter(function (p) {
-    var inTags = (p.tags || []).some(function (t) { return dcNormalize(t) === dcNormTarget; });
-    var inCats = (p.categories || []).some(function (c) { return dcNormalize(c) === dcNormTarget; });
+
+    var inTags = (p.tags || []).some(function (t) {
+      return dcNormalize(t) === dcNormTarget;
+    });
+
+    var inCats = (p.categories || []).some(function (c) {
+      return dcNormalize(c) === dcNormTarget;
+    });
+
     return inTags || inCats;
   });
 
   var dcContainer = document.getElementById("dc-tag-posts");
   var dcEmptyMsg = document.getElementById("dc-tag-empty");
-  var dcFallbackImg = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png";
+
+  var dcFallbackImg =
+    "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png";
 
   if (dcFiltered.length === 0) {
+
     dcEmptyMsg.style.display = "block";
+
   } else {
+
     dcFiltered.forEach(function (post) {
+
       var card = document.createElement("article");
+
       card.className = "dc-tag-card";
+
       var imgSrc = post.image || dcFallbackImg;
+
       card.innerHTML =
-        '<a href="' + post.url + '" class="dc-tag-card-thumb">' +
-          '<img src="' + imgSrc + '" alt="' + post.title + '" loading="lazy">' +
-        '</a>' +
-        '<div class="dc-tag-card-body">' +
-          (post.category ? '<span class="dc-tag-card-cat">' + post.category + '</span>' : '') +
-          '<h2 class="dc-tag-card-title"><a href="' + post.url + '">' + post.title + '</a></h2>' +
-          '<p class="dc-tag-card-excerpt">' + post.excerpt + '</p>' +
-          '<div class="dc-tag-card-meta">' +
-            '<span>' + post.date + '</span>' +
-            (post.author ? '<span> • ' + post.author + '</span>' : '') +
+
+        '<a href="' + post.url + '" class="dc-tag-card-link">' +
+
+          '<div class="dc-tag-card-thumb">' +
+            '<img src="' + imgSrc + '" alt="' + post.title + '" loading="lazy">' +
           '</div>' +
-        '</div>';
+
+          '<div class="dc-tag-card-body">' +
+
+            (post.category
+              ? '<div class="dc-tag-card-cat">' +
+                  post.category +
+                '</div>'
+              : '') +
+
+            '<h2 class="dc-tag-card-title">' +
+              post.title +
+            '</h2>' +
+
+            '<p class="dc-tag-card-excerpt">' +
+              post.excerpt +
+            '</p>' +
+
+            '<div class="dc-tag-card-meta">' +
+
+              '<span>' +
+                post.date +
+              '</span>' +
+
+              (post.author
+                ? '<span class="dc-tag-author">লেখক: ' +
+                    post.author +
+                  '</span>'
+                : '') +
+
+            '</div>' +
+
+          '</div>' +
+
+        '</a>';
+
       dcContainer.appendChild(card);
+
     });
+
   }
 </script>
 
-<style>
-.dc-tag-archive { max-width: 1160px; margin: 20px auto; padding: 15px; }
-.archive-title { font-size: 32px; margin-bottom: 25px; border-bottom: 3px solid #C00000; padding-bottom: 10px; font-family:'Noto Serif Bengali', serif; }
 
-.post-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+<style>
+
+/* =========================================
+   TAG ARCHIVE
+   ========================================= */
+
+.dc-tag-archive {
+  max-width: 1160px;
+  margin: 25px auto 50px;
+  padding: 0 15px;
 }
+
+
+/* =========================================
+   TAG HEADING
+   ========================================= */
+
+.dc-tag-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+.dc-tag-heading h1 {
+  margin: 0;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+}
+
+.dc-tag-heading-line {
+  height: 3px;
+  background: #C00000;
+  flex: 1;
+}
+
+
+/* =========================================
+   POST LIST
+   ========================================= */
+
+.dc-tag-posts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 26px;
+}
+
+
+/* =========================================
+   CARD
+   ========================================= */
 
 .dc-tag-card {
   background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
+  border-bottom: 1px solid #ddd;
   overflow: hidden;
+  transition: transform .2s ease;
+}
+
+
+/* পুরো কার্ড clickable */
+
+.dc-tag-card-link {
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.2s;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
 }
-.dc-tag-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.1); }
 
-/* TAG PAGE — 1200×630 অনুপাত */
+
+/* =========================================
+   IMAGE
+   1200 × 630 ratio
+   ========================================= */
+
 .dc-tag-card-thumb {
-  display: block !important;
-  position: relative !important;
-  width: 100% !important;
-  aspect-ratio: 1200 / 630 !important;
-  height: auto !important;
-  padding-top: 0 !important;
-  overflow: hidden !important;
-  background: #f5f5f5 !important;
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  overflow: hidden;
+  background: #f4f4f4;
+  flex-shrink: 0;
 }
 
 .dc-tag-card-thumb img {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-  object-fit: contain !important;
-  object-position: center !important;
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  /* ছবি কাটবে না */
+  object-fit: contain;
+  object-position: center;
+
+  transition: transform .25s ease;
 }
 
-.dc-tag-card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
-.dc-tag-card-cat { color: #C00000; font-weight: 700; font-size: 13px; margin-bottom: 6px; font-family:'Noto Sans Bengali', sans-serif; }
-.dc-tag-card-title { margin: 0 0 8px; font-size: 18px; line-height: 1.4; font-family:'Noto Serif Bengali', serif; }
-.dc-tag-card-title a { color: #111; text-decoration: none; }
-.dc-tag-card-title a:hover { color: #C00000; }
-.dc-tag-card-excerpt { color: #555; font-size: 14.5px; line-height: 1.6; margin: 0 0 10px; flex: 1; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-.dc-tag-card-meta { color: #999; font-size: 12.5px; margin-top: auto; }
+
+/* হালকা zoom */
+
+.dc-tag-card:hover .dc-tag-card-thumb img {
+  transform: scale(1.02);
+}
+
+
+/* =========================================
+   CARD BODY
+   ========================================= */
+
+.dc-tag-card-body {
+  padding: 12px 2px 15px;
+}
+
+
+/* =========================================
+   CATEGORY
+   ========================================= */
+
+.dc-tag-card-cat {
+  display: inline-block;
+  color: #C00000;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+
+/* =========================================
+   TITLE
+   ========================================= */
+
+.dc-tag-card-title {
+  margin: 0 0 6px;
+
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 21px;
+  line-height: 1.45;
+  font-weight: 700;
+
+  color: #111;
+}
+
+
+/* =========================================
+   EXCERPT
+   ========================================= */
+
+.dc-tag-card-excerpt {
+  margin: 0 0 9px;
+
+  color: #555;
+
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+
+/* =========================================
+   META
+   ========================================= */
+
+.dc-tag-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #999;
+
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12px;
+}
+
+.dc-tag-author {
+  color: #888;
+}
+
+
+/* =========================================
+   EMPTY
+   ========================================= */
+
+.dc-tag-empty {
+  display: none;
+
+  color: #777;
+  text-align: center;
+
+  margin: 40px 0;
+
+  font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
 
 @media (max-width: 900px) {
-  .post-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .archive-title { font-size: 24px; }
+
+  .dc-tag-posts {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .dc-tag-card-link {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .dc-tag-card-thumb {
+    width: 42%;
+    aspect-ratio: 1200 / 630;
+  }
+
+  .dc-tag-card-body {
+    width: 58%;
+    padding: 8px 14px;
+  }
+
+  .dc-tag-card-title {
+    font-size: 19px;
+  }
+
 }
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
 @media (max-width: 560px) {
-  .post-grid { grid-template-columns: 1fr; }
-  .dc-tag-card { flex-direction: row; }
-  .dc-tag-card-thumb { width: 130px; flex-shrink: 0; padding-top: 0; height: 130px; }
-  .dc-tag-card-body { padding: 10px 12px; }
-  .dc-tag-card-title { font-size: 15px; }
-  .dc-tag-card-excerpt { font-size: 13px; -webkit-line-clamp: 2; }
+
+  .dc-tag-archive {
+    margin-top: 15px;
+    padding: 0 10px;
+  }
+
+  .dc-tag-heading {
+    margin-bottom: 18px;
+  }
+
+  .dc-tag-heading h1 {
+    font-size: 24px;
+  }
+
+  .dc-tag-posts {
+    display: block;
+  }
+
+  .dc-tag-card {
+    margin-bottom: 20px;
+  }
+
+  .dc-tag-card-link {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .dc-tag-card-thumb {
+    width: 42%;
+    aspect-ratio: 1200 / 630;
+  }
+
+  .dc-tag-card-body {
+    width: 58%;
+    padding: 5px 10px;
+  }
+
+  .dc-tag-card-cat {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  .dc-tag-card-title {
+    font-size: 15px;
+    line-height: 1.4;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+  }
+
+  .dc-tag-card-excerpt {
+    display: none;
+  }
+
+  .dc-tag-card-meta {
+    font-size: 10px;
+  }
+
+  .dc-tag-author {
+    display: none;
+  }
+
 }
+
 </style>
