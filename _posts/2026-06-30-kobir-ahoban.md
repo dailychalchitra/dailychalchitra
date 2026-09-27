@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "কবির আহ্বান"
-date: 2026-06-30 10:35:00 +0600
+date: 2026-06-30 10:35:00 +0400
 categories:
     - kobita
 category_bn:
@@ -15,6 +15,7 @@ tags:
 author: "শামীম নিমু"
 image: "/assets/img/Pro-kobita.jpg"
 description: "কবি তোমার বন্ধ ঘরের দুয়ার খোল... শামীম নিমুর প্রতিবাদী কবিতা 'কবির আহ্বান'।"
+excerpt: "কবি তোমার বন্ধ ঘরের দুয়ার খোল... শামীম নিমুর প্রতিবাদী কবিতা 'কবির আহ্বান'।"
 permalink: "/kobita/2026/06/30/kobir-ahoban/"
 redirect_from:
     - "/কবিতা/2026/06/30/kobir-ahoban/"
