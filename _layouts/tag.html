@@ -1,444 +1,964 @@
 ---
 layout: default
-title: ট্যাগ আর্কাইভ
+title: ট্যাগ
 permalink: /tag/
 ---
 
-<div class="dc-tag-archive">
+<div class="dc-pa-home dc-tag-page">
 
-  <div class="dc-tag-heading">
-    <h1 id="dc-tag-title">ট্যাগ</h1>
-    <span class="dc-tag-heading-line"></span>
-  </div>
+    <!-- ট্যাগের নাম -->
+    <section class="dc-pa-section dc-tag-section">
 
-  <div class="dc-tag-posts" id="dc-tag-posts"></div>
+        <div class="dc-tag-header">
+            <span class="dc-pa-cat-dot"></span>
+            <h1 id="dc-tag-title">ট্যাগ</h1>
+        </div>
 
-  <p id="dc-tag-empty" class="dc-tag-empty">
-    এই ট্যাগে এখনো কোনো পোস্ট নেই।
-  </p>
+        <div id="dc-tag-content"></div>
+
+        <div id="dc-tag-empty" style="display:none;">
+            এই ট্যাগে এখনো কোনো পোস্ট নেই।
+        </div>
+
+    </section>
 
 </div>
 
+
 <script>
-  var dcAllPosts = [
-    {% for post in site.posts %}
-    {
-      "title": {{ post.title | jsonify }},
-      "url": {{ post.url | relative_url | jsonify }},
-      "date": {{ post.date | date: "%d %B %Y" | jsonify }},
-      "author": {{ post.author | default: "" | jsonify }},
-      "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
-      "excerpt": {{ post.content | strip_html | truncatewords: 24 | jsonify }},
-      "category": {{ post.category_bn.first | default: post.category_bn | default: post.categories.first | default: "" | jsonify }},
-      "categories": {{ post.categories | jsonify }},
-      "tags": {{ post.tags | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
+var dcTagPosts = [
 
-  function dcNormalize(s) {
-    return (s || "")
-      .toString()
-      .replace(/[\s\-]+/g, "")
-      .toLowerCase();
-  }
+{% for post in site.posts %}
+{
+    title: {{ post.title | jsonify }},
+    url: {{ post.url | relative_url | jsonify }},
 
-  var dcParams = new URLSearchParams(window.location.search);
-  var dcTagName = dcParams.get("name") || "";
+    date: {{ post.date | date_to_xmlschema | jsonify }},
 
-  document.getElementById("dc-tag-title").textContent =
-    dcTagName ? dcTagName : "ট্যাগ পাওয়া যায়নি";
+    dateText: {{ post.date | date: "%d %B" | jsonify }},
 
-  var dcNormTarget = dcNormalize(dcTagName);
+    author: {{ post.author | default: "" | jsonify }},
 
-  var dcFiltered = dcAllPosts.filter(function (p) {
+    image:
+    {% if post.image %}
+        {{ post.image | relative_url | jsonify }}
+    {% else %}
+        "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png"
+    {% endif %},
 
-    var inTags = (p.tags || []).some(function (t) {
-      return dcNormalize(t) === dcNormTarget;
+    category:
+    {{ post.category_bn.first
+       | default: post.category_bn
+       | default: post.categories.first
+       | default: ""
+       | jsonify }},
+
+    categories: {{ post.categories | jsonify }},
+
+    tags: {{ post.tags | jsonify }},
+
+    excerpt:
+    {{ post.excerpt
+       | strip_html
+       | strip
+       | truncatewords: 14
+       | jsonify }}
+
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+
+];
+
+
+(function () {
+
+    /* ----------------------------------
+       URL থেকে ট্যাগের নাম নেওয়া
+    ---------------------------------- */
+
+    var params = new URLSearchParams(window.location.search);
+
+    var tagName = params.get("name") || "";
+
+    tagName = tagName.trim();
+
+
+    var titleElement = document.getElementById("dc-tag-title");
+
+    var contentElement = document.getElementById("dc-tag-content");
+
+    var emptyElement = document.getElementById("dc-tag-empty");
+
+
+    if (!tagName) {
+
+        titleElement.textContent = "ট্যাগ পাওয়া যায়নি";
+
+        emptyElement.style.display = "block";
+
+        return;
+
+    }
+
+
+    titleElement.textContent = tagName;
+
+
+    /* ----------------------------------
+       বাংলা/ইংরেজি ট্যাগ তুলনা
+    ---------------------------------- */
+
+    function normalize(value) {
+
+        return String(value || "")
+            .trim()
+            .replace(/[\s\-]+/g, "")
+            .toLowerCase();
+
+    }
+
+
+    var target = normalize(tagName);
+
+
+    /* ----------------------------------
+       ট্যাগ/ক্যাটাগরি অনুযায়ী পোস্ট বাছাই
+    ---------------------------------- */
+
+    var filteredPosts = dcTagPosts.filter(function (post) {
+
+        var foundInTags = (post.tags || []).some(function (tag) {
+
+            return normalize(tag) === target;
+
+        });
+
+
+        var foundInCategories = (post.categories || []).some(function (category) {
+
+            return normalize(category) === target;
+
+        });
+
+
+        return foundInTags || foundInCategories;
+
     });
 
-    var inCats = (p.categories || []).some(function (c) {
-      return dcNormalize(c) === dcNormTarget;
-    });
 
-    return inTags || inCats;
-  });
+    /* ----------------------------------
+       কোনো পোস্ট না থাকলে
+    ---------------------------------- */
 
-  var dcContainer = document.getElementById("dc-tag-posts");
-  var dcEmptyMsg = document.getElementById("dc-tag-empty");
+    if (!filteredPosts.length) {
 
-  var dcFallbackImg =
-    "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png";
+        emptyElement.style.display = "block";
 
-  if (dcFiltered.length === 0) {
+        return;
 
-    dcEmptyMsg.style.display = "block";
+    }
 
-  } else {
 
-    dcFiltered.forEach(function (post) {
+    /* ----------------------------------
+       তারিখকে relative time করা
+    ---------------------------------- */
 
-      var card = document.createElement("article");
+    function relativeTime(dateString) {
 
-      card.className = "dc-tag-card";
+        var date = new Date(dateString);
 
-      var imgSrc = post.image || dcFallbackImg;
+        if (isNaN(date.getTime())) {
+            return "";
+        }
 
-      card.innerHTML =
+        var diff = Math.floor(
+            (Date.now() - date.getTime()) / 1000
+        );
 
-        '<a href="' + post.url + '" class="dc-tag-card-link">' +
 
-          '<div class="dc-tag-card-thumb">' +
-            '<img src="' + imgSrc + '" alt="' + post.title + '" loading="lazy">' +
-          '</div>' +
+        if (diff < 60) {
+            return "এইমাত্র";
+        }
 
-          '<div class="dc-tag-card-body">' +
 
-            (post.category
-              ? '<div class="dc-tag-card-cat">' +
-                  post.category +
-                '</div>'
-              : '') +
+        var units = [
+            ["বছর", 31536000],
+            ["মাস", 2592000],
+            ["সপ্তাহ", 604800],
+            ["দিন", 86400],
+            ["ঘণ্টা", 3600],
+            ["মিনিট", 60]
+        ];
 
-            '<h2 class="dc-tag-card-title">' +
-              post.title +
-            '</h2>' +
 
-            '<p class="dc-tag-card-excerpt">' +
-              post.excerpt +
-            '</p>' +
+        for (var i = 0; i < units.length; i++) {
 
-            '<div class="dc-tag-card-meta">' +
+            var value = Math.floor(
+                diff / units[i][1]
+            );
 
-              '<span>' +
-                post.date +
-              '</span>' +
 
-              (post.author
-                ? '<span class="dc-tag-author">লেখক: ' +
-                    post.author +
-                  '</span>'
-                : '') +
+            if (value >= 1) {
+
+                return value + " "
+                    + units[i][0]
+                    + " আগে";
+
+            }
+
+        }
+
+
+        return "";
+    }
+
+
+    /* ----------------------------------
+       বড় Feature পোস্ট
+    ---------------------------------- */
+
+    var mainPost = filteredPosts[0];
+
+
+    var html = "";
+
+
+    html += '<div class="dc-pa-catblock dc-tag-catblock">';
+
+
+    /* Category header */
+
+    html +=
+        '<div class="dc-pa-cat-header">' +
+            '<span class="dc-pa-cat-dot"></span>' +
+            '<span class="dc-tag-section-name">' +
+                escapeHtml(tagName) +
+            '</span>' +
+        '</div>';
+
+
+    /* ----------------------------------
+       Feature
+    ---------------------------------- */
+
+    html +=
+        '<a href="' + mainPost.url + '" class="dc-pa-feature">' +
+
+            '<img src="' +
+                mainPost.image +
+            '" alt="' +
+                escapeHtml(mainPost.title) +
+            '">' +
+
+            '<div class="dc-pa-feature-overlay">' +
+
+                (mainPost.category
+                    ? '<span class="dc-pa-feature-cat">' +
+                        escapeHtml(mainPost.category) +
+                      ' •</span>'
+                    : '') +
+
+                '<span class="dc-pa-feature-title">' +
+                    escapeHtml(mainPost.title) +
+                '</span>' +
+
+                '<span class="dc-pa-feature-time dc-relative-time">' +
+                    relativeTime(mainPost.date) +
+                '</span>' +
 
             '</div>' +
 
-          '</div>' +
-
         '</a>';
 
-      dcContainer.appendChild(card);
 
-    });
+    /* ----------------------------------
+       পরের ৪টি পোস্ট — ২ × ২
+    ---------------------------------- */
 
-  }
+    var miniPosts = filteredPosts.slice(1, 5);
+
+
+    if (miniPosts.length) {
+
+        html += '<div class="dc-tag-mini-grid">';
+
+
+        miniPosts.forEach(function (post) {
+
+            html +=
+
+                '<a href="' + post.url + '" class="dc-tag-mini-item">' +
+
+                    '<img src="' +
+                        post.image +
+                    '" alt="' +
+                        escapeHtml(post.title) +
+                    '">' +
+
+                    '<div class="dc-tag-mini-body">' +
+
+                        (post.category
+                            ? '<span class="dc-pa-mini-cat">' +
+                                escapeHtml(post.category) +
+                              '</span>'
+                            : '') +
+
+                        '<h4>' +
+                            escapeHtml(post.title) +
+                        '</h4>' +
+
+                        '<span class="dc-pa-mini-time">' +
+                            relativeTime(post.date) +
+                        '</span>' +
+
+                    '</div>' +
+
+                '</a>';
+
+        });
+
+
+        html += '</div>';
+
+    }
+
+
+    /* ----------------------------------
+       বাকি পোস্ট
+    ---------------------------------- */
+
+    var remainingPosts = filteredPosts.slice(5);
+
+
+    if (remainingPosts.length) {
+
+        html +=
+
+            '<details class="dc-pa-cat-dropdown dc-tag-more-posts">' +
+
+                '<summary>' +
+                    'আরও ' +
+                    escapeHtml(tagName) +
+                    ' সংবাদ (' +
+                    remainingPosts.length +
+                    ')' +
+                '</summary>' +
+
+                '<ul class="dc-pa-cat-dropdown-list">';
+
+
+        remainingPosts.forEach(function (post) {
+
+            html +=
+
+                '<li>' +
+
+                    '<a href="' + post.url + '">' +
+
+                        (post.category
+                            ? '<span class="dc-tag-list-cat">' +
+                                escapeHtml(post.category) +
+                              ' • </span>'
+                            : '') +
+
+                        escapeHtml(post.title) +
+
+                    '</a>' +
+
+                '</li>';
+
+        });
+
+
+        html +=
+
+                '</ul>' +
+            '</details>';
+
+    }
+
+
+    html += '</div>';
+
+
+    contentElement.innerHTML = html;
+
+
+    /* ----------------------------------
+       HTML নিরাপদ রাখা
+    ---------------------------------- */
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+})();
 </script>
 
 
 <style>
 
 /* =========================================
-   TAG ARCHIVE
-   ========================================= */
+   TAG PAGE
+   Homepage-এর dc-pa-catblock-এর সঙ্গে
+   একই visual structure
+========================================= */
 
-.dc-tag-archive {
-  max-width: 1160px;
-  margin: 25px auto 50px;
-  padding: 0 15px;
+.dc-tag-page {
+    font-family: 'Noto Serif Bengali', serif;
 }
 
 
-/* =========================================
-   TAG HEADING
-   ========================================= */
+/* -----------------------------------------
+   Tag Header
+----------------------------------------- */
 
-.dc-tag-heading {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 25px;
-}
+.dc-tag-header {
 
-.dc-tag-heading h1 {
-  margin: 0;
-  font-family: 'Noto Serif Bengali', serif;
-  font-size: 30px;
-  font-weight: 700;
-  color: #111;
-  white-space: nowrap;
-}
+    display:flex;
 
-.dc-tag-heading-line {
-  height: 3px;
-  background: #C00000;
-  flex: 1;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:14px;
+
 }
 
 
-/* =========================================
-   POST LIST
-   ========================================= */
+.dc-tag-header .dc-pa-cat-dot {
 
-.dc-tag-posts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px 26px;
+    width:14px;
+
+    height:14px;
+
+    border-radius:50%;
+
+    background:#C00000;
+
+    flex-shrink:0;
+
 }
 
 
-/* =========================================
-   CARD
-   ========================================= */
+.dc-tag-header h1 {
 
-.dc-tag-card {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  overflow: hidden;
-  transition: transform .2s ease;
+    margin:0;
+
+    font-size:32px;
+
+    font-weight:900;
+
+    color:#111;
+
+    line-height:1.3;
+
 }
 
 
-/* পুরো কার্ড clickable */
+/* -----------------------------------------
+   Feature
+   Homepage-এর dc-pa-feature-এর একই style
+----------------------------------------- */
 
-.dc-tag-card-link {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-decoration: none;
-  color: inherit;
+.dc-tag-catblock .dc-pa-feature {
+
+    display:block;
+
+    position:relative;
+
+    text-decoration:none;
+
+    margin-bottom:12px;
+
 }
 
 
-/* =========================================
-   IMAGE
-   1200 × 630 ratio
-   ========================================= */
+.dc-tag-catblock .dc-pa-feature img {
 
-.dc-tag-card-thumb {
-  width: 100%;
-  aspect-ratio: 1200 / 630;
-  overflow: hidden;
-  background: #f4f4f4;
-  flex-shrink: 0;
-}
+    width:100%;
 
-.dc-tag-card-thumb img {
-  width: 100%;
-  height: 100%;
-  display: block;
+    aspect-ratio:16/9;
 
-  /* ছবি কাটবে না */
-  object-fit: contain;
-  object-position: center;
+    object-fit:cover;
 
-  transition: transform .25s ease;
+    object-position:center 20%;
+
+    display:block;
+
 }
 
 
-/* হালকা zoom */
+.dc-tag-catblock .dc-pa-feature-overlay {
 
-.dc-tag-card:hover .dc-tag-card-thumb img {
-  transform: scale(1.02);
+    position:absolute;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+    background:
+        linear-gradient(
+            0deg,
+            rgba(0,0,0,.85) 0%,
+            rgba(0,0,0,.55) 55%,
+            transparent 100%
+        );
+
+    padding:30px 16px 14px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
 }
 
 
-/* =========================================
-   CARD BODY
-   ========================================= */
+.dc-tag-catblock .dc-pa-feature-cat {
 
-.dc-tag-card-body {
-  padding: 12px 2px 15px;
+    font-size:24px;
+
+    font-weight:800;
+
+    color:#ffb703;
+
+    font-family:'Noto Sans Bengali',sans-serif;
+
 }
 
 
-/* =========================================
-   CATEGORY
-   ========================================= */
+.dc-tag-catblock .dc-pa-feature-title {
 
-.dc-tag-card-cat {
-  display: inline-block;
-  color: #C00000;
-  font-family: 'Noto Sans Bengali', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 5px;
+    font-size:28px;
+
+    font-weight:800;
+
+    color:#fff;
+
+    line-height:1.4;
+
 }
 
 
-/* =========================================
-   TITLE
-   ========================================= */
+.dc-tag-catblock .dc-pa-feature-time {
 
-.dc-tag-card-title {
-  margin: 0 0 6px;
+    font-size:18px;
 
-  font-family: 'Noto Serif Bengali', serif;
-  font-size: 21px;
-  line-height: 1.45;
-  font-weight: 700;
-
-  color: #111;
-}
-
-
-/* =========================================
-   EXCERPT
-   ========================================= */
-
-.dc-tag-card-excerpt {
-  margin: 0 0 9px;
-
-  color: #555;
-
-  font-family: 'Noto Sans Bengali', sans-serif;
-  font-size: 14px;
-  line-height: 1.65;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
-  overflow: hidden;
-}
-
-
-/* =========================================
-   META
-   ========================================= */
-
-.dc-tag-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  color: #999;
-
-  font-family: 'Noto Sans Bengali', sans-serif;
-  font-size: 12px;
-}
-
-.dc-tag-author {
-  color: #888;
-}
-
-
-/* =========================================
-   EMPTY
-   ========================================= */
-
-.dc-tag-empty {
-  display: none;
-
-  color: #777;
-  text-align: center;
-
-  margin: 40px 0;
-
-  font-family: 'Noto Sans Bengali', sans-serif;
-}
-
-
-/* =========================================
-   TABLET
-   ========================================= */
-
-@media (max-width: 900px) {
-
-  .dc-tag-posts {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .dc-tag-card-link {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .dc-tag-card-thumb {
-    width: 42%;
-    aspect-ratio: 1200 / 630;
-  }
-
-  .dc-tag-card-body {
-    width: 58%;
-    padding: 8px 14px;
-  }
-
-  .dc-tag-card-title {
-    font-size: 19px;
-  }
+    color:#ddd;
 
 }
 
 
 /* =========================================
-   MOBILE
-   ========================================= */
+   পরের ৪টি পোস্ট
+   ২ × ২
+========================================= */
 
-@media (max-width: 560px) {
+.dc-tag-mini-grid {
 
-  .dc-tag-archive {
-    margin-top: 15px;
-    padding: 0 10px;
-  }
+    display:grid;
 
-  .dc-tag-heading {
-    margin-bottom: 18px;
-  }
+    grid-template-columns:repeat(2,1fr);
 
-  .dc-tag-heading h1 {
-    font-size: 24px;
-  }
+    gap:1px;
 
-  .dc-tag-posts {
-    display: block;
-  }
+    background:#e5e5e5;
 
-  .dc-tag-card {
-    margin-bottom: 20px;
-  }
+    margin-bottom:6px;
 
-  .dc-tag-card-link {
-    display: flex;
-    flex-direction: row;
-  }
+}
 
-  .dc-tag-card-thumb {
-    width: 42%;
-    aspect-ratio: 1200 / 630;
-  }
 
-  .dc-tag-card-body {
-    width: 58%;
-    padding: 5px 10px;
-  }
+.dc-tag-mini-item {
 
-  .dc-tag-card-cat {
-    font-size: 11px;
-    margin-bottom: 2px;
-  }
+    background:#fff;
 
-  .dc-tag-card-title {
-    font-size: 15px;
-    line-height: 1.4;
+    text-decoration:none;
 
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    color:inherit;
 
-    overflow: hidden;
-  }
+    display:block;
 
-  .dc-tag-card-excerpt {
-    display: none;
-  }
+    overflow:hidden;
 
-  .dc-tag-card-meta {
-    font-size: 10px;
-  }
+}
 
-  .dc-tag-author {
-    display: none;
-  }
+
+.dc-tag-mini-item img {
+
+    width:100%;
+
+    aspect-ratio:4/3;
+
+    object-fit:cover;
+
+    object-position:center 20%;
+
+    display:block;
+
+}
+
+
+.dc-tag-mini-body {
+
+    padding:8px 10px 10px;
+
+}
+
+
+.dc-tag-mini-body .dc-pa-mini-cat {
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#C00000;
+
+    display:block;
+
+    margin-bottom:3px;
+
+}
+
+
+.dc-tag-mini-body h4 {
+
+    font-size:22px;
+
+    line-height:1.4;
+
+    margin:0 0 4px;
+
+    color:#161616;
+
+    font-family:'Noto Serif Bengali',serif;
+
+    font-weight:700;
+
+}
+
+
+.dc-tag-mini-item:hover h4 {
+
+    color:#C00000;
+
+}
+
+
+.dc-tag-mini-body .dc-pa-mini-time {
+
+    font-size:15px;
+
+    color:#999;
+
+}
+
+
+/* =========================================
+   বাকি পোস্ট
+========================================= */
+
+.dc-tag-more-posts {
+
+    border-top:1px dashed #e5e5e5;
+
+    margin-top:6px;
+
+}
+
+
+.dc-tag-more-posts summary {
+
+    cursor:pointer;
+
+    padding:10px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#C00000;
+
+    list-style:none;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    font-family:'Noto Sans Bengali',sans-serif;
+
+}
+
+
+.dc-tag-more-posts summary::-webkit-details-marker {
+
+    display:none;
+
+}
+
+
+.dc-tag-more-posts summary::after {
+
+    content:'▾';
+
+    font-size:12px;
+
+}
+
+
+.dc-tag-more-posts[open] summary::after {
+
+    content:'▴';
+
+}
+
+
+.dc-tag-more-posts .dc-pa-cat-dropdown-list {
+
+    list-style:none;
+
+    margin:0;
+
+    padding:0 10px 10px;
+
+    max-height:400px;
+
+    overflow-y:auto;
+
+}
+
+
+.dc-tag-more-posts .dc-pa-cat-dropdown-list li {
+
+    border-top:1px solid #f0f0f0;
+
+}
+
+
+.dc-tag-more-posts .dc-pa-cat-dropdown-list li a {
+
+    display:block;
+
+    padding:9px 2px;
+
+    font-size:20px;
+
+    line-height:1.45;
+
+    color:#333;
+
+    text-decoration:none;
+
+}
+
+
+.dc-tag-more-posts .dc-pa-cat-dropdown-list li a:hover {
+
+    color:#C00000;
+
+}
+
+
+.dc-tag-list-cat {
+
+    color:#C00000;
+
+    font-weight:700;
+
+}
+
+
+/* =========================================
+   Mobile
+   Homepage-এর mobile typography অনুসরণ
+========================================= */
+
+@media(max-width:600px) {
+
+    .dc-tag-header {
+
+        gap:7px;
+
+        margin-bottom:10px;
+
+    }
+
+
+    .dc-tag-header .dc-pa-cat-dot {
+
+        width:9px;
+
+        height:9px;
+
+    }
+
+
+    .dc-tag-header h1 {
+
+        font-size:19px;
+
+    }
+
+
+    .dc-tag-catblock .dc-pa-feature {
+
+        margin-bottom:8px;
+
+    }
+
+
+    .dc-tag-catblock .dc-pa-feature img {
+
+        aspect-ratio:16/9;
+
+    }
+
+
+    .dc-tag-catblock .dc-pa-feature-overlay {
+
+        padding:22px 10px 10px;
+
+    }
+
+
+    .dc-tag-catblock .dc-pa-feature-cat {
+
+        font-size:15px;
+
+    }
+
+
+    .dc-tag-catblock .dc-pa-feature-title {
+
+        font-size:15px;
+
+        line-height:1.35;
+
+    }
+
+
+    .dc-tag-catblock .dc-pa-feature-time {
+
+        font-size:12px;
+
+    }
+
+
+    .dc-tag-mini-body {
+
+        padding:6px 8px 8px;
+
+    }
+
+
+    .dc-tag-mini-body .dc-pa-mini-cat {
+
+        font-size:11px;
+
+        margin-bottom:2px;
+
+    }
+
+
+    .dc-tag-mini-body h4 {
+
+        font-size:15px;
+
+        line-height:1.3;
+
+        margin:0 0 2px;
+
+        display:-webkit-box;
+
+        -webkit-line-clamp:2;
+
+        -webkit-box-orient:vertical;
+
+        overflow:hidden;
+
+    }
+
+
+    .dc-tag-mini-body .dc-pa-mini-time {
+
+        font-size:12px;
+
+    }
+
+
+    .dc-tag-more-posts summary {
+
+        padding:7px 5px;
+
+        font-size:13px;
+
+    }
+
+
+    .dc-tag-more-posts .dc-pa-cat-dropdown-list {
+
+        padding:0 5px 5px;
+
+        max-height:300px;
+
+    }
+
+
+    .dc-tag-more-posts .dc-pa-cat-dropdown-list li a {
+
+        font-size:15px;
+
+        padding:7px 2px;
+
+    }
+
+}
+
+
+/* =========================================
+   Desktop width
+========================================= */
+
+@media(min-width:601px) {
+
+    .dc-tag-page {
+
+        max-width:1160px;
+
+        margin:0 auto;
+
+        padding-left:32px;
+
+        padding-right:32px;
+
+    }
+
+}
+
+
+@media(min-width:1200px) {
+
+    .dc-tag-page {
+
+        padding-left:0;
+
+        padding-right:0;
+
+    }
 
 }
 
