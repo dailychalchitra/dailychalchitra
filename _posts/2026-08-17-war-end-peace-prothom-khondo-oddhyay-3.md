@@ -12,7 +12,7 @@ tags:
     - উপন্যাস
     - ঐতিহাসিক উপন্যাস
     - দৈনিক চালচিত্র
-author: "লিও তলস্তয়"
+author: "লিও তলস্তয়"
 image: "/assets/img/leo-tolstoy.webp"
 permalink: "/oitihasik-uponyas/2026/08/17/war-end-peace-prothom-khondo-oddhyay-3/"
 redirect_from:
