@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "সুইডেনের সঙ্গে ড্র করে শেষ ষোলোয় জাপান"
-date: 2026-06-26 20:00:00 +0600
+date: 2026-06-26 20:00:00 +0400
 categories:
     - kheladhula
 category_bn:
@@ -18,9 +18,10 @@ tags:
 author: "স্পোর্টস ডেস্ক"
 image: "/assets/img/world-cup.jpg"
 description: "গ্রুপ এফ-এ সুইডেনের সঙ্গে ১-১ ড্র করে রাউন্ড অব ৩২ নিশ্চিত করেছে জাপান। পরের রাউন্ডে তাদের প্রতিপক্ষ ব্রাজিল।"
-permalink: "[STRIPPED 67 bytes]"
+excerpt: "গ্রুপ এফ-এ সুইডেনের সঙ্গে ১-১ ড্র করে রাউন্ড অব ৩২ নিশ্চিত করেছে জাপান। পরের রাউন্ডে তাদের প্রতিপক্ষ ব্রাজিল।"
+permalink: "/kheladhula/2026/06/26/japan-sweden-draw/"
 redirect_from:
-    - "/খেলাধুলা/2026/06/26/suiedener-songe-dro-kore-shesh-sholoy-japan/"
+    - "/খেলাধুলা/2026/06/26/japan-sweden-draw/"
     - "/search/label/খেলাধুলা"
 ---
 
