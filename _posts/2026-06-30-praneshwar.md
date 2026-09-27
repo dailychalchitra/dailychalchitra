@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "প্রাণেশ্বর"
-date: 2026-06-30 10:30:00 +0600
+date: 2026-06-30 10:30:00 +0400
 categories:
     - choto-golpo
 category_bn:
@@ -15,9 +15,11 @@ tags:
 author: "আফরিন শিফা"
 image: "/assets/img/miss-shifa.jpg"
 description: "বয়স পনের ছুঁই ছুঁই... বাল্য বিবাহের মুখে দাঁড়িয়ে এক কিশোরীর ঘুরে দাঁড়ানোর গল্প 'প্রাণেশ্বর'।"
+excerpt: "বয়স পনের ছুঁই ছুঁই... বাল্য বিবাহের মুখে দাঁড়িয়ে এক কিশোরীর ঘুরে দাঁড়ানোর গল্প 'প্রাণেশ্বর'।"
 permalink: "/choto-golpo/2026/06/30/praneshwar/"
 redirect_from:
-    - "/ছোট গল্প/2026/06/30/praneshwar/"
+    - "/ছোট-গল্প/2026/06/30/praneshwar/"
+    - "/choto-golpo/2026/06/30/praneshwar/"
     - "/search/label/ছোট গল্প"
 ---
 
