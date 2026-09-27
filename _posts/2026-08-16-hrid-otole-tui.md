@@ -2,57 +2,21 @@
 layout: post
 title: "হৃদ অতলে তুই"
 date: 2026-08-16 16:52:45 +0400
-
 categories:
-  - পদ্য কবিতা
-
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
-  - সাহিত্য
-  - কবিতা
-  - প্রেমের কবিতা
-  - ছন্দ কবিতা
-  - সাহিত্য বিভাগ
-  - বিরহের কবিতা
-  - শিক্ষণীয় কবিতা
-  - আজকের পদ্য কবিতা
-  - ভালোবাসার কবিতা
-  - সাম্প্রতিক কবিতা
-  - বাংলা কবিতা
-  - বিভাগ সমূহ
-  - প্রতিক্রিয়া
-  - অন্যান্য
-  - আরও
-  - শিক্ষা
-  - মারিয়া নূর এর লেখা হৃদ অতলে তুই ছড়া কবিতা
-  - মারিয়া নূর এর লেখা প্রেমের কবিতা
-  - একাকীত্বের কবিতা
-  - বাস্তবধর্মী কবিতা
-  - দৈনিক চালচিত্র
-  - literature
-  - poetry
-  - love poetry
-  - rhyme poetry
-  - literature category
-  - separation poetry
-  - educational poetry
-  - today's verse poetry
-  - love poetry
-  - recent poetry
-  - bengali poetry
-  - categories
-  - reactions
-  - others
-  - more
-  - education
-  - hrid atale tui rhyme poetry written by maria noor
-  - love poetry written by maria noor
-  - loneliness poetry
-  - realistic poetry
-  - daily chalchitra
-
-author: মারিয়া নূর
-
-image: /assets/img/maria-noor.webp
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
+author: "মারিয়া নূর"
+image: "/assets/img/maria-noor.webp"
+permalink: "/poddo-kobita/2026/08/16/hrid-otole-tui/"
+redirect_from:
+    - "/পদ্য কবিতা/2026/08/16/hrid-otole-tui/"
 ---
 
 হৃদয় অতলে তুই, এক দুঃখ পোষা ভুঁই
