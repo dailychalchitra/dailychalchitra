@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "কেপ ভার্দের কাছেই থামবে আর্জেন্টিনার বিশ্বকাপ যাত্রা, ঘানার ওঝার দাবি"
-date: 2026-06-30 19:21:00 +0600
+date: 2026-06-30 19:21:00 +0400
 categories:
     - kheladhula
 category_bn:
@@ -18,9 +18,10 @@ tags:
 author: "স্পোর্টস ডেস্ক"
 image: "/assets/img/king-messi.jpg"
 description: "কেপ ভার্দের কাছেই থামবে আর্জেন্টিনার বিশ্বকাপ যাত্রা - ঘানার ওঝা কোয়াকু বনসামের চাঞ্চল্যকর ভবিষ্যদ্বাণী"
-permalink: "[STRIPPED 76 bytes]"
+excerpt: "কেপ ভার্দের কাছেই থামবে আর্জেন্টিনার বিশ্বকাপ যাত্রা - ঘানার ওঝা কোয়াকু বনসামের চাঞ্চল্যকর ভবিষ্যদ্বাণী"
+permalink: "/kheladhula/2026/06/30/argentina-cape-verde-ojha/"
 redirect_from:
-    - "/খেলাধুলা[STRIPPED 65 bytes]"
+    - "/খেলাধুলা/2026/06/30/argentina-cape-verde-ojha/"
     - "/search/label/খেলাধুলা"
 ---
 
