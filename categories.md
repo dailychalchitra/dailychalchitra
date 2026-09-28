@@ -10,8 +10,10 @@ permalink: /categories/
   <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
     {% assign sorted_cats = site.categories | sort %}
     {% for cat in sorted_cats %}
+    {% assign first_post = cat[1] | first %}
+    {% assign bn_label = first_post.category_bn.first | default: first_post.category_bn | default: cat[0] %}
     <a href="/tag/?name={{ cat[0] | url_encode }}" style="background:#C00000;color:#fff;padding:7px 14px;border-radius:5px;text-decoration:none;font-size:14px;font-weight:600;">
-      {{ cat[0] }} <span style="opacity:0.8;font-size:12px;">({{ cat[1].size }})</span>
+      {{ bn_label }} <span style="opacity:0.8;font-size:12px;">({{ cat[1].size }})</span>
     </a>
     {% endfor %}
   </div>
