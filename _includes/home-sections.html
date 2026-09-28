@@ -1,14 +1,14 @@
-<!-- 1. হিরো: লিড নিউজ + হেডলাইন তালিকা (ক্যাটাগরি ড্রপডাউনসহ) -->
-    <section class="dc-pa-hero">
-    {% if include.show_hero %}
-        <!-- টপ বার: তারিখ + ই-পেপার -->
-        <div class="dc-pa-topbar">
-            <span class="dc-pa-topbar-date"><i class="far fa-calendar-alt"></i> {{ site.time | date: "%A, %d %B %Y" }}</span>
-            <a href="{{ '/epaper/' | relative_url }}" class="dc-pa-epaper-btn">
-                <i class="fa fa-newspaper"></i> ই-পেপার
-            </a>
-        </div>
+{% if include.show_hero %}
+    <!-- টপ বার: তারিখ + ই-পেপার -->
+    <div class="dc-pa-topbar">
+        <span class="dc-pa-topbar-date"><i class="far fa-calendar-alt"></i> {{ site.time | date: "%A, %d %B %Y" }}</span>
+        <a href="{{ '/epaper/' | relative_url }}" class="dc-pa-epaper-btn">
+            <i class="fa fa-newspaper"></i> ই-পেপার
+        </a>
+    </div>
 
+    <!-- 1. হিরো: লিড নিউজ + হেডলাইন তালিকা (ক্যাটাগরি ড্রপডাউনসহ) -->
+    <section class="dc-pa-hero">
         {% for post in site.posts limit:1 %}
         <div class="dc-pa-hero-main">
             <a href="{{ post.url | relative_url }}" class="dc-pa-hero-overlay-link">
@@ -32,7 +32,6 @@
             <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
         </div>
         {% endfor %}
-    {% endif %}
 
         <div class="dc-pa-hero-list">
             <h4 class="dc-pa-hero-list-heading">সর্বশেষ</h4>
@@ -62,11 +61,10 @@
         </div>
     </section>
 
-    <!-- 2. আরও সংবাদ (প্রথম আলো স্টাইল: ডট-হেডার + ওভারলে ফিচার + ২-কলাম মিনি গ্রিড) -->
+    <!-- 2. আরও সংবাদ (ডট-হেডার + ওভারলে ফিচার + মিনি গ্রিড + স্ক্রল-তালিকা) -->
     <section class="dc-pa-section">
         {% assign dc_cat_groups = site.posts | group_by_exp: "post", "post.category_bn.first | default: post.category_bn | default: post.categories.first" %}
         {% for group in dc_cat_groups limit:6 %}
-        {% assign gcolor = group.name | slice: 0 %}
         {% case forloop.index0 | modulo: 6 %}
             {% when 0 %}{% assign gcolor = "#1877f2" %}
             {% when 1 %}{% assign gcolor = "#e53935" %}
@@ -115,44 +113,52 @@
             {% endif %}
 
             {% if group.items.size > 3 %}
-            <details class="dc-pa-cat-dropdown">
-                <summary>আরও {{ group.name }} সংবাদ ({{ group.items.size | minus: 3 }})</summary>
-                <ul class="dc-pa-cat-dropdown-list">
-                    {% for post in group.items offset:3 limit:7 %}
-                    <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </details>
+            <div class="dc-cat-scroll">
+                {% for post in group.items offset:3 limit:10 %}
+                <a href="{{ post.url | relative_url }}" class="dc-cat-scroll-item">
+                    <span class="dc-cat-scroll-thumb">
+                        {% if post.image %}
+                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                        {% else %}
+                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                        {% endif %}
+                    </span>
+                    <span class="dc-cat-scroll-title">{{ post.title }}</span>
+                </a>
+                {% endfor %}
+            </div>
             {% endif %}
         </div>
         {% endif %}
         {% endfor %}
     </section>
 
-    <!-- 2.5. সংক্ষিপ্ত সংবাদ — প্রতিটা ক্যাটাগরির একটাই কার্ড, থাম্বনেইলসহ -->
+    <!-- 2.5. সংক্ষিপ্ত সংবাদ — অটো-স্লাইড (ডান থেকে বাম) -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title">সংক্ষিপ্ত সংবাদ</h3>
         {% assign dc_short_pool = site.posts | slice: 16, 24 %}
         {% assign dc_short_groups = dc_short_pool | group_by_exp: "post", "post.category_bn.first | default: post.category_bn | default: post.categories.first" %}
-        <div class="dc-pa-textonly-grid">
-            {% for group in dc_short_groups limit:9 %}
-            {% assign sp = group.items | first %}
-            {% if sp %}
-            <a href="{{ sp.url | relative_url }}" class="dc-pa-textonly-item">
-                <div class="dc-pa-textonly-thumbwrap">
-                    {% if sp.image %}
-                    <img src="{{ sp.image | relative_url }}" alt="{{ sp.title }}" class="dc-pa-textonly-thumb">
-                    {% else %}
-                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ sp.title }}" class="dc-pa-textonly-thumb">
-                    {% endif %}
-                </div>
-                <span class="dc-pa-mini-cat">{{ group.name }}</span>
-                <h4>{{ sp.title }}</h4>
-                <p>{{ sp.excerpt | strip_html | truncatewords: 14 }}</p>
-                <span class="dc-pa-news-meta dc-relative-time" data-date="{{ sp.date | date_to_xmlschema }}">{{ sp.date | date: "%d %b" }}</span>
-            </a>
-            {% endif %}
-            {% endfor %}
+        <div class="dc-pa-autoslider">
+            <div class="dc-pa-textonly-grid dc-pa-autoslider-track">
+                {% for group in dc_short_groups limit:9 %}
+                {% assign sp = group.items | first %}
+                {% if sp %}
+                <a href="{{ sp.url | relative_url }}" class="dc-pa-textonly-item">
+                    <div class="dc-pa-textonly-thumbwrap">
+                        {% if sp.image %}
+                        <img src="{{ sp.image | relative_url }}" alt="{{ sp.title }}" class="dc-pa-textonly-thumb">
+                        {% else %}
+                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ sp.title }}" class="dc-pa-textonly-thumb">
+                        {% endif %}
+                    </div>
+                    <span class="dc-pa-mini-cat">{{ group.name }}</span>
+                    <h4>{{ sp.title }}</h4>
+                    <p>{{ sp.excerpt | strip_html | truncatewords: 14 }}</p>
+                    <span class="dc-pa-news-meta dc-relative-time" data-date="{{ sp.date | date_to_xmlschema }}">{{ sp.date | date: "%d %b" }}</span>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </section>
 
@@ -283,14 +289,84 @@
 
             {% if cat == "লেখক তালিকা" %}
                 {% assign all_authors = site.posts | map: "author" | compact | uniq | sort %}
-                <details class="dc-author-dropdown">
-                    <summary>সকল লেখক দেখুন ({{ all_authors.size }} জন)</summary>
-                    <ul class="dc-author-list">
+                <div class="dc-author-dropdown">
+                    <ul class="dc-author-list dc-author-list-scroll">
                         {% for author in all_authors %}
                         <li><a href="{{ '/author/' | relative_url }}?name={{ author | url_encode }}">{{ author }}</a></li>
                         {% endfor %}
                     </ul>
-                </details>
+                </div>
+            {% elsif cat == "সাহিত্য" %}
+                {% assign main_post = cat_posts | first %}
+                {% if main_post %}
+                <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                    {% if main_post.image %}
+                    <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                    {% endif %}
+                </a>
+                <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
+                {% endif %}
+
+                <div class="dc-cat-2col">
+                    {% for post in cat_posts offset:1 limit:2 %}
+                    <a href="{{ post.url | relative_url }}" class="dc-cat-2col-item">
+                        <span class="dc-cat-2col-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </span>
+                        <span class="dc-cat-2col-title">{{ post.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                {% if cat_posts.size > 3 %}
+                <div class="dc-cat-scroll">
+                    {% for post in cat_posts offset:3 limit:15 %}
+                    <a href="{{ post.url | relative_url }}" class="dc-cat-scroll-item">
+                        <span class="dc-cat-scroll-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </span>
+                        <span class="dc-cat-scroll-title">{{ post.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% elsif cat == "বিনোদন" %}
+                {% assign main_post = cat_posts | first %}
+                {% if main_post %}
+                <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                    {% if main_post.image %}
+                    <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                    {% endif %}
+                </a>
+                <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
+                {% endif %}
+
+                <div class="dc-cat-scroll">
+                    {% for post in cat_posts offset:1 limit:15 %}
+                    <a href="{{ post.url | relative_url }}" class="dc-cat-scroll-item">
+                        <span class="dc-cat-scroll-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </span>
+                        <span class="dc-cat-scroll-title">{{ post.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
             {% else %}
                 {% assign main_post = cat_posts | first %}
                 {% if main_post %}
@@ -436,32 +512,102 @@
                 {% assign cat_posts = matched_cat | concat: matched_tag | uniq | sort: "date" | reverse %}
             {% endif %}
 
-            {% assign main_post = cat_posts | first %}
-            {% if main_post %}
-            <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
-                {% if main_post.image %}
-                <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
-                {% else %}
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+            {% if cat == "মতামত" %}
+                <div id="dc-opinion-feed" class="dc-opinion-feed">
+                    <p class="dc-opinion-loading">মতামত লোড হচ্ছে...</p>
+                </div>
+            {% elsif cat == "অন্যান্য" %}
+                <div class="dc-pa-autoslider">
+                    <div class="dc-pa-textonly-grid dc-pa-autoslider-track">
+                        {% for post in cat_posts limit:8 %}
+                        <a href="{{ post.url | relative_url }}" class="dc-pa-textonly-item">
+                            <div class="dc-pa-textonly-thumbwrap">
+                                {% if post.image %}
+                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="dc-pa-textonly-thumb">
+                                {% else %}
+                                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" class="dc-pa-textonly-thumb">
+                                {% endif %}
+                            </div>
+                            <span class="dc-pa-mini-cat">{{ post.category_bn.first | default: post.category_bn | default: post.categories.first }}</span>
+                            <h4>{{ post.title }}</h4>
+                            <p>{{ post.excerpt | strip_html | truncatewords: 14 }}</p>
+                            <span class="dc-pa-news-meta dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% elsif cat == "খেলাধুলা" %}
+                {% assign main_post = cat_posts | first %}
+                {% if main_post %}
+                <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                    {% if main_post.image %}
+                    <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                    {% endif %}
+                </a>
+                <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
                 {% endif %}
-            </a>
-            <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
-            {% endif %}
 
-            <ul class="dc-cat-list">
-                {% for post in cat_posts offset:1 limit:4 %}
-                <li class="dc-cat-list-item">
-                    <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
-                        {% if post.image %}
-                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                        {% else %}
-                        <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
-                        {% endif %}
+                <div class="dc-cat-2col">
+                    {% for post in cat_posts offset:1 limit:2 %}
+                    <a href="{{ post.url | relative_url }}" class="dc-cat-2col-item">
+                        <span class="dc-cat-2col-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </span>
+                        <span class="dc-cat-2col-title">{{ post.title }}</span>
                     </a>
-                    <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+                    {% endfor %}
+                </div>
+
+                {% if cat_posts.size > 3 %}
+                <div class="dc-cat-scroll">
+                    {% for post in cat_posts offset:3 limit:15 %}
+                    <a href="{{ post.url | relative_url }}" class="dc-cat-scroll-item">
+                        <span class="dc-cat-scroll-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </span>
+                        <span class="dc-cat-scroll-title">{{ post.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% else %}
+                {% assign main_post = cat_posts | first %}
+                {% if main_post %}
+                <a href="{{ main_post.url | relative_url }}" class="dc-cat-main-img">
+                    {% if main_post.image %}
+                    <img src="{{ main_post.image | relative_url }}" alt="{{ main_post.title }}">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ main_post.title }}">
+                    {% endif %}
+                </a>
+                <h4 class="dc-cat-main-title"><a href="{{ main_post.url | relative_url }}">{{ main_post.title }}</a></h4>
+                {% endif %}
+
+                <ul class="dc-cat-list">
+                    {% for post in cat_posts offset:1 limit:4 %}
+                    <li class="dc-cat-list-item">
+                        <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
+                            {% if post.image %}
+                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                            {% endif %}
+                        </a>
+                        <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
@@ -662,8 +808,43 @@
     .dc-pa-cat-dropdown-list li a{ display:block; padding:8px 2px; font-size:20px; line-height:1.4; color:#333; text-decoration:none; font-family:'Noto Serif Bengali', serif; }
     .dc-pa-cat-dropdown-list li a:hover{ color:#C00000; }
 
-    .dc-pa-textonly-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-    .dc-pa-textonly-item{ display:block; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; text-decoration:none; color:inherit; }
+    /* === নতুন: ক্যাটাগরি-এক্সট্রা-পোস্ট স্ক্রল-তালিকা (একাধিক সেকশনে পুনর্ব্যবহৃত) === */
+    .dc-cat-scroll{
+        max-height:280px; overflow-y:auto; display:flex; flex-direction:column;
+        border-top:1px dashed #eee; margin-top:8px;
+    }
+    .dc-cat-scroll-item{
+        display:flex; align-items:center; gap:10px; padding:8px 2px;
+        text-decoration:none; border-bottom:1px dashed #eee;
+    }
+    .dc-cat-scroll-thumb{ width:44px; height:44px; flex-shrink:0; display:block; overflow:hidden; border-radius:3px; }
+    .dc-cat-scroll-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .dc-cat-scroll-title{ font-size:15.5px; line-height:1.35; color:#222; font-family:'Noto Serif Bengali', serif; }
+    .dc-cat-scroll-item:hover .dc-cat-scroll-title{ color:#C00000; }
+
+    /* === নতুন: ২-কলাম মিনি কার্ড (সাহিত্য/খেলাধুলা) === */
+    .dc-cat-2col{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:10px 0; }
+    .dc-cat-2col-item{ display:block; text-decoration:none; color:inherit; }
+    .dc-cat-2col-thumb{ display:block; width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:3px; }
+    .dc-cat-2col-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .dc-cat-2col-title{ display:block; font-size:14.5px; line-height:1.35; margin-top:5px; color:#222; font-family:'Noto Serif Bengali', serif; }
+    .dc-cat-2col-item:hover .dc-cat-2col-title{ color:#C00000; }
+
+    /* === নতুন: অটো-স্লাইডার (সংক্ষিপ্ত সংবাদ, অন্যান্য) === */
+    .dc-pa-autoslider{ overflow:hidden; }
+    .dc-pa-autoslider-track{ display:flex !important; transition:transform 0.6s ease; }
+
+    /* === নতুন: মতামত ফিড === */
+    .dc-opinion-feed{ display:flex; flex-direction:column; gap:8px; max-height:340px; overflow-y:auto; }
+    .dc-opinion-card{ display:block; padding:11px 13px; border:1px solid #eee; border-radius:6px; text-decoration:none; background:#fafafa; }
+    .dc-opinion-card:hover{ background:#f2f2f2; }
+    .dc-opinion-name{ display:block; font-size:14.5px; font-weight:700; color:#C00000; margin-bottom:3px; font-family:'Noto Sans Bengali', sans-serif; }
+    .dc-opinion-text{ display:block; font-size:15.5px; color:#333; line-height:1.55; margin-bottom:4px; font-family:'Noto Serif Bengali', serif; }
+    .dc-opinion-onpost{ display:block; font-size:12.5px; color:#999; }
+    .dc-opinion-loading, .dc-opinion-empty{ font-size:14px; color:#999; text-align:center; padding:20px 0; }
+
+    .dc-pa-textonly-grid{ display:flex; gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-textonly-item{ flex:0 0 33.333%; display:block; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; text-decoration:none; color:inherit; }
     .dc-pa-textonly-item h4{ font-size:22px; line-height:1.4; margin:4px 0 6px; color:#161616; font-family:'Noto Serif Bengali', serif; font-weight:700; }
     .dc-pa-textonly-item:hover h4{ color:#C00000; }
     .dc-pa-textonly-item p{ font-size:17.5px; color:#666; line-height:1.5; margin:0 0 6px; }
@@ -729,18 +910,10 @@
     }
 
     .dc-author-dropdown{ border:1px solid #eee; }
-    .dc-author-dropdown summary{
-        cursor:pointer; padding:12px 14px; font-weight:800; font-size:23px;
-        color:#C00000; list-style:none; display:flex;
-        justify-content:space-between; align-items:center;
-        font-family:'Noto Serif Bengali', serif;
-    }
-    .dc-author-dropdown summary::-webkit-details-marker{ display:none; }
-    .dc-author-dropdown summary::after{ content:'▾'; font-size:12px; }
-    .dc-author-dropdown[open] summary::after{ content:'▴'; }
+    .dc-author-list-scroll{ max-height:280px; overflow-y:auto; }
     .dc-author-list{
         list-style:none; margin:0; padding:0;
-        max-height:280px; overflow-y:auto; border-top:1px solid #eee;
+        border-top:1px solid #eee;
     }
     .dc-author-list li{ border-bottom:1px solid #f0f0f0; }
     .dc-author-list li a{
@@ -751,7 +924,6 @@
     .dc-author-list li a:hover{ color:#C00000; background:#fafafa; }
 
     @media(max-width:600px){
-        .dc-author-dropdown summary{ font-size:15px; }
         .dc-author-list li a{ font-size:15px; }
     }
 
@@ -791,15 +963,13 @@
         .dc-pa-cat-dropdown-list{ padding:0 5px 5px; max-height:180px; }
         .dc-pa-cat-dropdown-list li a{ font-size:15px; padding:5px 2px; }
 
-        .dc-pa-textonly-grid{ grid-template-columns:repeat(3,1fr) !important; }
-        .dc-pa-textonly-item{ padding:6px; }
-        .dc-pa-textonly-thumb{ aspect-ratio:4/3; }
-        .dc-pa-textonly-item .dc-pa-mini-cat{ font-size:11px; margin-bottom:2px; }
-        .dc-pa-textonly-item h4{
-            font-size:11.5px; line-height:1.3; margin:2px 0 3px;
-            display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
-        }
-        .dc-pa-textonly-item p{ display:none; }
+        .dc-cat-scroll{ max-height:220px; }
+        .dc-cat-scroll-thumb{ width:36px; height:36px; }
+        .dc-cat-scroll-title{ font-size:13px; }
+        .dc-cat-2col{ gap:6px; }
+        .dc-cat-2col-title{ font-size:12px; }
+
+        .dc-pa-textonly-item{ flex:0 0 100%; padding:10px; }
 
         .dc-pa-yt-grid{ grid-template-columns:1fr; }
         .dc-pa-yt-body h3{ font-size:15px; }
@@ -809,6 +979,10 @@
         .dc-pa-nav-links a{ font-size:12.5px; }
 
         .dc-pa-cat-grid{ grid-template-columns:repeat(2,1fr) !important; }
+
+        .dc-opinion-name{ font-size:12px; }
+        .dc-opinion-text{ font-size:12.5px; }
+        .dc-opinion-onpost{ font-size:10.5px; }
     }
 
     /* ২. আরও সংবাদ — ডট হেডার + ওভারলে ফিচার + মিনি গ্রিড */
@@ -920,6 +1094,100 @@
                 if (val >= 1) { el.textContent = val + ' ' + units[i][0] + ' আগে'; return; }
             }
         });
+    });
+    </script>
+
+    <!-- === নতুন: জেনেরিক অটো-স্লাইডার (সংক্ষিপ্ত সংবাদ + অন্যান্য) === -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.dc-pa-autoslider').forEach(function (slider) {
+            var track = slider.querySelector('.dc-pa-autoslider-track');
+            if (!track || track.children.length < 2) return;
+            var total = track.children.length;
+            var index = 0;
+            setInterval(function () {
+                index++;
+                if (index >= total) {
+                    track.style.transition = 'none';
+                    index = 0;
+                    track.style.transform = 'translateX(0px)';
+                    void track.offsetWidth;
+                    track.style.transition = 'transform 0.6s ease';
+                    return;
+                }
+                var w = track.children[0].getBoundingClientRect().width;
+                track.style.transform = 'translateX(-' + (index * w) + 'px)';
+            }, 3800);
+        });
+    });
+    </script>
+
+    <!-- === নতুন: postId → title/url ম্যাপ (মতামত ফিডে ব্যবহারের জন্য) === -->
+    <script>
+    var dcPostIndex = {
+    {% for post in site.posts %}
+    {% assign url_parts = post.url | split: "/" %}
+    {% assign clean_parts = url_parts | where_exp: "p", "p != ''" %}
+    {% assign pid = clean_parts | join: "_" %}
+    "{{ pid }}": { "title": {{ post.title | jsonify }}, "url": {{ post.url | relative_url | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    };
+    </script>
+
+    <!-- === নতুন: মতামত ফিড — পাঠকদের সাম্প্রতিক মন্তব্য স্বয়ংক্রিয়ভাবে দেখানো === -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var feedEl = document.getElementById('dc-opinion-feed');
+        if (!feedEl) return;
+
+        function dcOpinionEscape(str) {
+            var d = document.createElement('div');
+            d.textContent = str || '';
+            return d.innerHTML;
+        }
+
+        function loadOpinions() {
+            if (typeof dcDB === 'undefined') { feedEl.innerHTML = '<p class="dc-opinion-empty">মতামত লোড করা যায়নি।</p>'; return; }
+            dcDB.ref('dc_posts').once('value').then(function (snap) {
+                var all = [];
+                snap.forEach(function (postSnap) {
+                    var postId = postSnap.key;
+                    var commentsVal = postSnap.child('comments').val();
+                    if (!commentsVal) return;
+                    Object.keys(commentsVal).forEach(function (ck) {
+                        var c = commentsVal[ck];
+                        if (c && c.text) {
+                            all.push({ postId: postId, name: c.name || 'অতিথি পাঠক', text: c.text, time: c.time || 0 });
+                        }
+                    });
+                });
+                all.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
+                var top = all.slice(0, 8);
+                if (!top.length) {
+                    feedEl.innerHTML = '<p class="dc-opinion-empty">এখনো কোনো মতামত পাওয়া যায়নি।</p>';
+                    return;
+                }
+                feedEl.innerHTML = top.map(function (o) {
+                    var info = (typeof dcPostIndex !== 'undefined') ? dcPostIndex[o.postId] : null;
+                    var postTitle = info ? info.title : '';
+                    var postUrl = info ? info.url : '#';
+                    var snippet = o.text.length > 90 ? o.text.substring(0, 90) + '…' : o.text;
+                    return '<a href="' + postUrl + '" class="dc-opinion-card">' +
+                        '<span class="dc-opinion-name">' + dcOpinionEscape(o.name) + '</span>' +
+                        '<span class="dc-opinion-text">' + dcOpinionEscape(snippet) + '</span>' +
+                        (postTitle ? '<span class="dc-opinion-onpost">' + dcOpinionEscape(postTitle) + ' বিষয়ে</span>' : '') +
+                        '</a>';
+                }).join('');
+            }).catch(function () {
+                feedEl.innerHTML = '<p class="dc-opinion-empty">মতামত লোড করা যায়নি।</p>';
+            });
+        }
+
+        if (typeof dcCurrentUser !== 'undefined' && dcCurrentUser) {
+            loadOpinions();
+        } else {
+            document.addEventListener('dc-auth-ready', loadOpinions, { once: true });
+        }
     });
     </script>
 
@@ -1104,3 +1372,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+{% endif %}
