@@ -2,29 +2,23 @@
 layout: post
 title: "আমরা যখন ডুবে গেলাম"
 date: 2026-08-23 20:19:00 +0400
-
 categories:
-  - কবিতা
-
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - পদ্য কবিতা
-  - জীবনের কবিতা
-  - প্রকৃতি বিষয়ক কবিতা
-  - রীতি চাকমা এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - verse poetry
-  - life poetry
-  - nature poetry
-  - poetry written by riti chakma
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
 author: "রীতি চাকমা"
-
-image: /assets/img/riti-chakma.webp
+image: "/assets/img/riti-chakma.webp"
+description: "রীতি চাকমা এর লেখা পদ্য কবিতা - আমরা যখন ডুবে গেলাম।"
+excerpt: "রীতি চাকমা এর লেখা পদ্য কবিতা - আমরা যখন ডুবে গেলাম।"
+permalink: "/poddo-kobita/2026/08/23/amra-jokhon-dube-gelam/"
+redirect_from:
+    - "/পদ্য-কবিতা/2026/08/23/amra-jokhon-dube-gelam/"
 ---
 
 আমরা ফেলে এসেছিলাম আমাদের সবকিছু।
