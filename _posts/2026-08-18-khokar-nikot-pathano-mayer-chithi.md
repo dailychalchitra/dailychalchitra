@@ -2,31 +2,21 @@
 layout: post
 title: "খোকার নিকট পাঠানো মায়ের চিঠি"
 date: 2026-08-18 03:47:00 +0400
-
 categories:
-  - চিঠি
-
+    - chithi
+category_bn:
+    - চিঠি
 tags:
-  - সাহিত্য বিভাগ
-  - মায়ের চিঠি
-  - সন্তানের কাছে লেখা মায়ের চিঠি
-  - সন্তানের কাছে লেখা মায়ের চিঠি
-  - কষ্টের চিঠি
-  - মায়ের লেখা চিঠি
-  - শামীম নিমু এর লেখা খোকার নিকট পাঠানো মায়ের চিঠি
-  - দৈনিক চালচিত্র
-  - literature department
-  - letters
-  - a mother's letter to her child
-  - a mother's letter to her child
-  - a letter of suffering
-  - a letter written by a mother
-  - a mother's letter to her son written by shamim nimu
-  - daily chalchitra
-
+    - চিঠি
+    - মায়ের চিঠি
+    - শামীম নিমু
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-1.webp
+image: "/assets/img/shamim-nimu-1.webp"
+description: "খোকার নিকট পাঠানো মায়ের চিঠি - শামীম নিমুর আবেগঘন চিঠি।"
+excerpt: "খোকার নিকট পাঠানো মায়ের চিঠি - শামীম নিমুর আবেগঘন চিঠি।"
+permalink: "/chithi/2026/08/18/khokar-nikot-pathano-mayer-chithi/"
+redirect_from:
+    - "/চিঠি/2026/08/18/khokar-nikot-pathano-mayer-chithi/"
 ---
 
 প্রিয় খোকা,
