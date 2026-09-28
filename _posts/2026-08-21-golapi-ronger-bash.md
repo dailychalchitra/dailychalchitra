@@ -2,76 +2,22 @@
 layout: post
 title: "গোলাপী রঙের বাস"
 date: 2026-08-21 01:53:00 +0400
-
 categories:
-  - প্রবন্ধ ও নিবন্ধ
-
+    - probondho-o-nibondho
+category_bn:
+    - প্রবন্ধ ও নিবন্ধ
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - বাংলাদেশ
-  - পরিবেশ
-  - পরামর্শ
-  - উদ্যোক্তা
-  - অর্থনীতি
-  - ধর্ম বিষয়ক
-  - ইসলাম
-  - সনাতন
-  - বৌদ্ধ
-  - খ্রিস্টান
-  - ঐতিহ্যবাহী / জাতিগত ধর্ম
-  - ধর্মহীন/নাস্তিক
-  - বিভাগ সমূহ
-  - সম্পাদকীয়
-  - কলাম
-  - সাক্ষাৎকার
-  - স্মরণ
-  - প্রতিক্রিয়া
-  - অন্যান্য
-  - আলোচনা
-  - সমালোচনা
-  - বিশেষ সংখ্যা
-  - অনলাইন ভোট
-  - বিশ্ব
-  - রাজধানী
-  - অপরাধ
-  - শিক্ষা
-  - শামীম নিমু এর লেখা গোলাপী রঙের বাস প্রবন্ধ
-  - দৈনিক চালচিত্র
-  - literature section
-  - literature
-  - bangladesh
-  - environment
-  - advice
-  - entrepreneurship
-  - economy
-  - religious affairs
-  - islam traditional
-  - buddhist
-  - christian
-  - traditional / ethnic religion
-  - non religious/atheist
-  - sections
-  - editorial
-  - column
-  - interview
-  - remembrance
-  - reaction
-  - others
-  - discussion
-  - criticism
-  - special Issue
-  - online Voting
-  - world
-  - capital
-  - crime
-  - education
-  - pink bus article written by shamim nimu
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - প্রবন্ধ ও নিবন্ধ
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-6.webp
+image: "/assets/img/shamim-nimu-6.webp"
+description: "শামীম নিমু এর লেখা প্রবন্ধ ও নিবন্ধ - গোলাপী রঙের বাস।"
+excerpt: "শামীম নিমু এর লেখা প্রবন্ধ ও নিবন্ধ - গোলাপী রঙের বাস।"
+permalink: "/probondho-o-nibondho/2026/08/21/golapi-ronger-bash/"
+redirect_from:
+    - "/প্রবন্ধ-ও-নিবন্ধ/2026/08/21/golapi-ronger-bash/"
 ---
 
 ​বর্তমান সরকারের শাসননামলে এই প্রথমবার একাধারে বাংলাদেশের সড়কে যুক্ত করা হয়েছে নতুন গোলাপী রঙের বাস। বাসটির চালক থেকে শুরু করে সহকারী পর্যন্ত প্রত্যেকেই নারী। বিষয়টি সত্যিই একটু ব্যতিক্রমী।
