@@ -7,14 +7,13 @@ categories:
 category_bn:
     - উক্তি
 tags:
-    - সাহিত্য বিভাগ
-    - সাহিত্য
     - উক্তি
     - শিক্ষণীয় উক্তি
     - বিখ্যাত উক্তি
-    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
 image: "/assets/img/jokhon-karo-durbalotar.webp"
+description: "দুর্বলতার প্রভাব নিয়ে শামীম নিমুর শিক্ষণীয় উক্তি।"
+excerpt: "দুর্বলতার প্রভাব নিয়ে শামীম নিমুর শিক্ষণীয় উক্তি।"
 permalink: "/ukti/2026/07/10/durbolotar-probhab/"
 redirect_from:
     - "/উক্তি/2026/07/10/durbolotar-probhab/"
