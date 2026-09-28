@@ -5,19 +5,19 @@ date: 2026-07-09 00:24:38 +0400
 categories:
     - antorjatik
 category_bn:
-    - আন্তর্জাতিক সংবাদ
+    - আন্তর্জাতিক
 tags:
-    - সংবাদ
     - যুক্তরাজ্য
     - আবহাওয়া
-    - স্বাস্থ্য সতর্কতা
     - লন্ডন
-    - দৈনিক চালচিত্র
+    - আন্তর্জাতিক
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/uk-heatwave.webp"
-permalink: "/antorjatik/2026/07/09/juktorajje-1976-saler-por-dirghotomo-tapprobaher-shongka-ambar-sotorkota-jari/"
+description: "যুক্তরাজ্যে ১৯৭৬ সালের পর দীর্ঘতম তাপপ্রবাহের শঙ্কা, অ্যাম্বার সতর্কতা জারি করেছে আবহাওয়া অফিস।"
+excerpt: "যুক্তরাজ্যে ১৯৭৬ সালের পর দীর্ঘতম তাপপ্রবাহের শঙ্কা, অ্যাম্বার সতর্কতা জারি করেছে আবহাওয়া অফিস।"
+permalink: "/antorjatik/2026/07/09/uk-heatwave-1976-amber-alert/"
 redirect_from:
-    - "/আন্তর্জাতিক সংবাদ/2026/07/09/juktorajje-1976-saler-por-dirghotomo-tapprobaher-shongka-ambar-sotorkota-jari/"
+    - "/আন্তর্জাতিক/2026/07/09/uk-heatwave-1976-amber-alert/"
 ---
 
 ১৯৭৬ সালের পর সবচেয়ে দীর্ঘস্থায়ী তাপপ্রবাহের মুখে পড়তে যাচ্ছে যুক্তরাজ্য। এ কারণে ইংল্যান্ডজুড়ে অ্যাম্বার ও ইয়েলো হিট হেলথ অ্যালার্ট জারি করা হয়েছে।
