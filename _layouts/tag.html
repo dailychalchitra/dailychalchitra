@@ -39,7 +39,8 @@ permalink: /tag/
   var dcFiltered = dcAllPosts.filter(function (p) {
     var inTags = (p.tags || []).some(function (t) { return dcNormalize(t) === dcNormTarget; });
     var inCats = (p.categories || []).some(function (c) { return dcNormalize(c) === dcNormTarget; });
-    return inTags || inCats;
+    var inLabel = dcNormalize(p.category) === dcNormTarget;
+    return inTags || inCats || inLabel;
   });
 
   var dcContainer = document.getElementById("dc-tag-posts");
