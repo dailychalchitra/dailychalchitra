@@ -2,31 +2,21 @@
 layout: post
 title: "আমি লম্বা সময়ের জন্যই এসেছি- সাঁতারে বিশ্বমানের প্রমাণ দিলেন নোয়াকি"
 date: 2026-08-22 23:58:00 +0400
-
 categories:
-  - খেলাধুলা
-
+    - kheladhula
+category_bn:
+    - খেলাধুলা
 tags:
-  - সাঁতার
-  - সংবাদ
-  - বিশ্ব
-  - আন্তর্জাতিক
-  - আরও
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - দৈনিক চালচিত্র
-  - swimming
-  - news
-  - world
-  - international
-  - more
-  - categories
-  - other
-  - daily chalchitra
-
+    - সাঁতার
+    - খেলাধুলা
+    - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
-
-image: /assets/img/swimming-2.webp
+image: "/assets/img/swimming-2.webp"
+description: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - আমি লম্বা সময়ের জন্যই এসেছি- সাঁতারে বিশ্বমানের প্রমাণ দিলেন নোয়াকি।"
+excerpt: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - আমি লম্বা সময়ের জন্যই এসেছি- সাঁতারে বিশ্বমানের প্রমাণ দিলেন নোয়াকি।"
+permalink: "/kheladhula/2026/08/22/noaki-lomba-somoyer-jonno-esechi/"
+redirect_from:
+    - "/খেলাধুলা/2026/08/22/noaki-lomba-somoyer-jonno-esechi/"
 ---
 
 ফিলিপ নোয়াকি বলছেন, তার ইউরোপীয় এবং কমনওয়েলথ গেমসের স্বর্ণপদক প্রমাণ করে যে তিনি বিশ্বমানের পর্যায়ে পৌঁছে গেছেন।
