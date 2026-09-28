@@ -2,31 +2,21 @@
 layout: post
 title: "কলম্বোতে প্রথম দিনে ভারতের দাপট, আবারও সেঞ্চুরি করলেন পাড়িক্কাল"
 date: 2026-08-23 17:55:00 +0400
-
 categories:
-  - খেলাধুলা
-
+    - kheladhula
+category_bn:
+    - খেলাধুলা
 tags:
-  - ক্রিকেট
-  - সংবাদ
-  - বিশ্ব
-  - আন্তর্জাতিক
-  - আরও
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - দৈনিক চালচিত্র
-  - cricket
-  - news
-  - world
-  - international
-  - more
-  - categories
-  - other
-  - daily chalchitra
-
+    - ক্রিকেট
+    - খেলাধুলা
+    - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
-
-image: /assets/img/cricket-2.webp
+image: "/assets/img/cricket-2.webp"
+description: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - কলম্বোতে প্রথম দিনে ভারতের দাপট, আবারও সেঞ্চুরি করলেন পাড়িক্কাল।"
+excerpt: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - কলম্বোতে প্রথম দিনে ভারতের দাপট, আবারও সেঞ্চুরি করলেন পাড়িক্কাল।"
+permalink: "/kheladhula/2026/08/23/colombo-india-padikal-century/"
+redirect_from:
+    - "/খেলাধুলা/2026/08/23/colombo-india-padikal-century/"
 ---
 
 টানা দ্বিতীয় ম্যাচে সেঞ্চুরি করে শ্রীলঙ্কার বিপক্ষে ভারতকে শক্ত অবস্থানে নিয়ে গেলেন দেবদূত পাড়িক্কাল।
