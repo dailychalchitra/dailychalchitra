@@ -3,17 +3,22 @@ layout: post
 title: "পেপারওয়েট"
 date: 2026-08-21 23:48:00 +0400
 categories:
-    - কবিতা
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
+    - কবিতা
     - পদ্য কবিতা
-    - জীবনের কবিতা
-    - প্রকৃতি বিষয়ক কবিতা
-    - Adv. রাজিয়া আক্তার পপি এর লেখা কবিতা
     - দৈনিক চালচিত্র
 author: "Adv. রাজিয়া আক্তার পপি"
-image: /assets/img/adv-razia-akter-popy.webp
+image: "/assets/img/adv-razia-akter-popy.webp"
+description: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা - পেপারওয়েট।"
+excerpt: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা - পেপারওয়েট।"
+permalink: "/poddo-kobita/2026/08/21/paperweight/"
+redirect_from:
+    - "/পদ্য-কবিতা/2026/08/21/paperweight/"
 ---
 
 তাকে দেখে কেউ মুগ্ধ নয়,
