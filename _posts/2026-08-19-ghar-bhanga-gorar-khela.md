@@ -2,29 +2,22 @@
 layout: post
 title: "ঘর ভাঙাগড়ার খেলা"
 date: 2026-08-19 09:44:44 +0400
-
 categories:
-  - কবিতা
-
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - পদ্য কবিতা
-  - অনু কবিতা
-  - জীবনের কবিতা
-  - গোলাম কবির এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - verse poetry
-  - anu Poetry
-  - life poetry
-  - poems written by golam kabir
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
 author: "গোলাম কবির"
-
-image: /assets/img/golam-kabir.webp
+image: "/assets/img/golam-kabir.webp"
+description: "গোলাম কবির এর লেখা পদ্য কবিতা - ঘর ভাঙাগড়ার খেলা।"
+excerpt: "গোলাম কবির এর লেখা পদ্য কবিতা - ঘর ভাঙাগড়ার খেলা।"
+permalink: "/poddo-kobita/2026/08/19/ghar-bhanga-gorar-khela/"
+redirect_from:
+    - "/পদ্য-কবিতা/2026/08/19/ghar-bhanga-gorar-khela/"
 ---
 
 কেউ ঘর বানায় বাবুই পাখির মতো
