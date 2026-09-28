@@ -14,9 +14,9 @@ author: "স্পোর্টস ডেস্ক"
 image: "/assets/img/rugby.webp"
 description: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - WXV গ্লোবাল সিরিজের ম্যাচ অফিসিয়ালদের নাম ঘোষণা করলো ওয়ার্ল্ড রাগবি।"
 excerpt: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - WXV গ্লোবাল সিরিজের ম্যাচ অফিসিয়ালদের নাম ঘোষণা করলো ওয়ার্ল্ড রাগবি।"
-permalink: "/kheladhula/2026/08/22/wxv-match-officials/"
+permalink: "/kheladhula/2026/08/22/all-blacks-vs/"
 redirect_from:
-    - "/খেলাধুলা/2026/08/22/wxv-match-officials/"
+    - "/খেলাধুলা/2026/08/22/all-blacks-vs/"
 ---/img/rugby.webp
 ---
 
