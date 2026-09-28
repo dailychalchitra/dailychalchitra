@@ -2,33 +2,21 @@
 layout: post
 title: "গলফ জিতে প্রতিদ্বন্দ্বীদের খোঁচা ট্রাম্পের, বললেন ‘এটাই ট্যালেন্ট’"
 date: 2026-08-22 02:42:00 +0400
-
 categories:
-  - খেলাধুলা
-
+    - kheladhula
+category_bn:
+    - খেলাধুলা
 tags:
-  - গলফ
-  - সংবাদ
-  - বিশ্ব
-  - আন্তর্জাতিক
-  - ডোনাল্ড ট্রাম্প
-  - আরও
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - দৈনিক চালচিত্র
-  - golf
-  - news
-  - world
-  - international
-  - donald trump
-  - more
-  - categories
-  - other
-  - daily chalchitra
-
+    - খেলাধুলা
+    - গলফ
+    - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
-
-image: /assets/img/donald-trump.webp
+image: "/assets/img/donald-trump.webp"
+description: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - গলফ জিতে প্রতিদ্বন্দ্বীদের খোঁচা ট্রাম্পের, বললেন ‘এটাই ট্যালেন্ট’।"
+excerpt: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - গলফ জিতে প্রতিদ্বন্দ্বীদের খোঁচা ট্রাম্পের, বললেন ‘এটাই ট্যালেন্ট’।"
+permalink: "/kheladhula/2026/08/22/golf-jite-khoncha-trumper-etai-talent/"
+redirect_from:
+    - "/খেলাধুলা/2026/08/22/golf-jite-khoncha-trumper-etai-talent/"
 ---
 
 নিজের মালিকানাধীন গলফ ক্লাবে আবারও শিরোপা জিতলেন মার্কিন প্রেসিডেন্ট ডোনাল্ড ট্রাম্প। আর জয়ের পর প্রতিদ্বন্দ্বীদের উদ্দেশে ছুঁড়ে দিলেন খোঁচা।
