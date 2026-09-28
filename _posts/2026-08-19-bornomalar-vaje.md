@@ -2,27 +2,21 @@
 layout: post
 title: "বর্ণমালার ভাঁজে"
 date: 2026-08-19 23:35:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - পদ্য কবিতা
-  - জীবনের কবিতা
-  - মনিরা ইসলাম এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - verse poetry
-  - life poetry
-  - poetry written by monira islam
-  - daily chalchitra
-
+    - পদ্য কবিতা
+    - বর্ণমালার ভাঁজে
+    - মনিরা ইসলাম
 author: "মনিরা ইসলাম"
-
-image: /assets/img/monira-islam-1.webp
+image: "/assets/img/monira-islam-1.webp"
+description: "মনিরা ইসলাম এর লেখা পদ্য কবিতা - বর্ণমালার ভাঁজে।"
+excerpt: "মনিরা ইসলাম এর লেখা পদ্য কবিতা - বর্ণমালার ভাঁজে।"
+permalink: "/kobita/2026/08/19/bornomalar-vaje/"
+redirect_from:
+    - "/কবিতা/2026/08/19/bornomalar-vaje/"
 ---
 
 একটা একটা করে বর্ণমালার বুক চিরে খুঁজেছি,
