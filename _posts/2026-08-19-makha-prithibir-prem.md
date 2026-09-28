@@ -2,28 +2,22 @@
 layout: post
 title: "ধুলো মাখা পৃথিবীর প্রেম"
 date: 2026-08-19 23:14:00 +0400
-
 categories:
-  - কবিতা
-
+    - anu-kobita
+category_bn:
+    - অনু কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - অনু কবিতা
-  - জীবনের কবিতা
-  - পদ্য কবিতা
-  - অর্জুন চন্দ্র বিশ্বাস এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - verse poetry
-  - life poetry
-  - poetry written by arjun chandro biwash
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - অনু কবিতা
+    - দৈনিক চালচিত্র
 author: "অর্জুন চন্দ্র বিশ্বাস"
-
-image: /assets/img/arjun-chandro-biswash-1.webp
+image: "/assets/img/arjun-chandro-biswash-1.webp"
+description: "অর্জুন চন্দ্র বিশ্বাস এর লেখা অনু কবিতা - ধুলো মাখা পৃথিবীর প্রেম।"
+excerpt: "অর্জুন চন্দ্র বিশ্বাস এর লেখা অনু কবিতা - ধুলো মাখা পৃথিবীর প্রেম।"
+permalink: "/anu-kobita/2026/08/19/dhulo-makha-prithibir-prem/"
+redirect_from:
+    - "/অনু-কবিতা/2026/08/19/dhulo-makha-prithibir-prem/"
 ---
 
 যা হারানোর তা হারিয়ে গেছে,
