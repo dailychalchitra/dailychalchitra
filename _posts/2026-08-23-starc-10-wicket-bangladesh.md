@@ -2,31 +2,21 @@
 layout: post
 title: "স্টার্কের ১০ উইকেটে বাংলাদেশকে উড়িয়ে দিল অস্ট্রেলিয়া"
 date: 2026-08-23 17:42:00 +0400
-
 categories:
-  - খেলাধুলা
-
+    - kheladhula
+category_bn:
+    - খেলাধুলা
 tags:
-  - ক্রিকেট
-  - সংবাদ
-  - বিশ্ব
-  - আন্তর্জাতিক
-  - আরও
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - দৈনিক চালচিত্র
-  - cricket
-  - news
-  - world
-  - international
-  - more
-  - categories
-  - other
-  - daily chalchitra
-
+    - ক্রিকেট
+    - খেলাধুলা
+    - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
-
-image: /assets/img/cricket.webp
+image: "/assets/img/cricket.webp"
+description: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - স্টার্কের ১০ উইকেটে বাংলাদেশকে উড়িয়ে দিল অস্ট্রেলিয়া।"
+excerpt: "স্পোর্টস ডেস্ক এর লেখা খেলাধুলা - স্টার্কের ১০ উইকেটে বাংলাদেশকে উড়িয়ে দিল অস্ট্রেলিয়া।"
+permalink: "/kheladhula/2026/08/23/starc-10-wicket-bangladesh/"
+redirect_from:
+    - "/খেলাধুলা/2026/08/23/starc-10-wicket-bangladesh/"
 ---
 
 দ্বিতীয় টেস্ট, ম্যাকাই (দ্বিতীয় দিন)
