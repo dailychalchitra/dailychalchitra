@@ -2,53 +2,23 @@
 layout: post
 title: "অবহেলার কালো চাদর"
 date: 2026-08-22 01:52:00 +0400
-
 categories:
-  - গল্প
-
+    - boro-golpo
+category_bn:
+    - বড় গল্প
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - বড় গল্প
-  - ছোট গল্প
-  - সামাজিক গল্প
-  - ভালোবাসার গল্প
-  - জীবনমুখী গল্প
-  - পরিবেশ
-  - পরামর্শ
-  - বিভাগ সমূহ
-  - প্রতিক্রিয়া
-  - অন্যান্য
-  - আলোচনা
-  - সমালোচনা
-  - বিশেষ সংখ্যা
-  - অপরাধ
-  - শিক্ষা
-  - শামীম নিমু এর লেখা অবহেলার কালো চাদর
-  - দৈনিক চালচিত্র
-  - literature Section
-  - literature
-  - big stories
-  - short stories
-  - social stories
-  - love stories
-  - life oriented stories
-  - environment
-  - advice
-  - categories
-  - reactions
-  - others
-  - discussion
-  - Ccriticisms
-  - special Issue
-  - crime
-  - education
-  - the black sheet of negligence by shamim nimu
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - বড় গল্প
+    - সামাজিক গল্প
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/rikta-shamim-2.webp
+image: "/assets/img/rikta-shamim-2.webp"
+description: "শামীম নিমু এর লেখা বড় গল্প - অবহেলার কালো চাদর।"
+excerpt: "শামীম নিমু এর লেখা বড় গল্প - অবহেলার কালো চাদর।"
+permalink: "/boro-golpo/2026/08/22/obohelar-kalo-chador/"
+redirect_from:
+    - "/বড়-গল্প/2026/08/22/obohelar-kalo-chador/"
 ---
 
 ৯ই এপ্রিল, দুই হাজার পেরিয়ে এক বছরের সেই আধা আলোয় ভরা সোমবার রাত ১০টা থেকে ১১টার ভেতরেই বিপদগামী আমাদের ভালোবাসার গাঢ় বন্ধনে বাঁধা দুটি মনকে আমরা বিশাল একটি মণি-মুক্তার পাত্রে যত্নে তুলে রেখেছিলাম। বিপদগামী আমাদের ওই সময়কার কটি বছর যে আমরা অতিবাহিত করেছিলাম- সেই দিন, রাত, মাস এবং বছরগুলোর হিসেব আজও আমি মেলাতে পারছি না!
