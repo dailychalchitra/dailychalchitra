@@ -2,33 +2,22 @@
 layout: post
 title: "সময়ের অহংকার"
 date: 2026-08-19 23:45:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - অনু কবিতা
-  - সময়ের কবিতা
-  - জীবনের কবিতা
-  - শিক্ষণীয় কবিতা
-  - শিক্ষা
-  - শামীম নিমু এর লেখা সময়ের অহংকার কবিতা
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - anu poem
-  - poems of time
-  - poems of life
-  - educational poems
-  - education
-  - poems of time's pride written by shamim nimu
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - অনু কবিতা
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-4.webp
+image: "/assets/img/shamim-nimu-4.webp"
+description: "শামীম নিমু এর লেখা কবিতা - সময়ের অহংকার।"
+excerpt: "শামীম নিমু এর লেখা কবিতা - সময়ের অহংকার।"
+permalink: "/kobita/2026/08/19/somoyer-ohongkar/"
+redirect_from:
+    - "/কবিতা/2026/08/19/somoyer-ohongkar/"
 ---
 
 স্বার্থের জন্যে-
