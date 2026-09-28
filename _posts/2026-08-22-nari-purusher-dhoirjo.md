@@ -2,53 +2,23 @@
 layout: post
 title: "নারী পুরুষের ধৈর্য"
 date: 2026-08-22 00:49:00 +0400
-
 categories:
-  - গল্প
-
+    - boro-golpo
+category_bn:
+    - বড় গল্প
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - বড় গল্প
-  - ছোট গল্প
-  - সামাজিক গল্প
-  - ভালোবাসার গল্প
-  - জীবনমুখী গল্প
-  - পরিবেশ
-  - পরামর্শ
-  - বিভাগ সমূহ
-  - প্রতিক্রিয়া
-  - অন্যান্য
-  - আলোচনা
-  - সমালোচনা
-  - বিশেষ সংখ্যা
-  - অপরাধ
-  - শিক্ষা
-  - শামীম নিমু এর লেখা নারী পুরুষের ধৈর্য
-  - দৈনিক চালচিত্র
-  - literature Section
-  - literature
-  - big stories
-  - short stories
-  - social stories
-  - love stories
-  - life oriented stories
-  - environment
-  - advice
-  - categories
-  - reactions
-  - others
-  - discussion
-  - Ccriticisms
-  - special Issue
-  - crime
-  - education
-  - shamim nimu's women and men's patience
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - গল্প
+    - বড় গল্প
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/shamim-nimu-7.webp
+image: "/assets/img/shamim-nimu-7.webp"
+description: "শামীম নিমু এর লেখা বড় গল্প - নারী পুরুষের ধৈর্য।"
+excerpt: "শামীম নিমু এর লেখা বড় গল্প - নারী পুরুষের ধৈর্য।"
+permalink: "/boro-golpo/2026/08/22/nari-purusher-dhoirjo/"
+redirect_from:
+    - "/বড়-গল্প/2026/08/22/nari-purusher-dhoirjo/"
 ---
 
 ​‘ইউনিভার্সিটি’ মানেটা কী, তা ঠিক আমি জানি না, কলেজটা কেমন সেটাও ঠিক বুঝি না। তবে হাইস্কুল ও প্রাইমারি বিষয় সম্পর্কে কমবেশি কিছুটা হলেও বুঝি। কেননা হাইস্কুল ও প্রাইমারিতে পড়েছি বলে সে সম্পর্কে জানতে শিখেছি।
