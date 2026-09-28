@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "সাংবিধানিক ও অসাংবিধানিক"
-date: 2026-06-30 10:45:00 +0600
+date: 2026-06-30 10:45:00 +0400
 categories:
     - somalochona
 category_bn:
@@ -14,6 +14,7 @@ tags:
 author: "মাইন উদ্দিন"
 image: "/assets/img/md-main.jpg"
 description: "সংবিধানে গণবিপ্লবের মুখে প্রধানমন্ত্রী পলাইয়া গেলে কি হবে এইটা বলা নাই - মাইন উদ্দিনের রাজনৈতিক সমালোচনা।"
+excerpt: "সংবিধানে গণবিপ্লবের মুখে প্রধানমন্ত্রী পলাইয়া গেলে কি হবে এইটা বলা নাই - মাইন উদ্দিনের রাজনৈতিক সমালোচনা।"
 permalink: "/somalochona/2026/06/30/sangbidhanik-o-osangbidhanik/"
 redirect_from:
     - "/সমালোচনা/2026/06/30/sangbidhanik-o-osangbidhanik/"
