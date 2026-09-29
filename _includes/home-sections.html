@@ -81,6 +81,7 @@
             {% endfor %}
         </div>
     </section>
+{% endif %}
 
     <!-- 2. আরও সংবাদ (ডট-হেডার + ওভারলে ফিচার + মিনি গ্রিড + স্ক্রল-তালিকা) -->
     <section class="dc-pa-section">
@@ -497,7 +498,9 @@
     <div class="dc-cat-grid dc-pa-cat-grid">
         {% for cat in cat_list_2 %}
         <div class="dc-cat-col dc-pa-cat-col">
-            <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+            {% assign cat_label = cat %}
+            {% if cat == "মতামত" %}{% assign cat_label = "সকল পাঠকদের মন্তব্য" %}{% endif %}
+            <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat_label }} <i class="fa fa-chevron-right"></i></a></h3>
 
             {% if cat == "শিক্ষা" %}
                 {% assign group_tags = "শিক্ষা,ভর্তি,পরীক্ষা,বৃত্তি,পড়াশোনা,উচ্চশিক্ষা,ক্যাম্পাস" | split: "," %}
@@ -1397,4 +1400,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
-{% endif %}
