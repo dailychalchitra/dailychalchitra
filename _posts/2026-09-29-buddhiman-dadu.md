@@ -170,4 +170,4 @@ redirect_from:
 <p style="color:#0284c7; font-weight:600;"><em>~দেখলি? শেষ পর্যন্ত বুদ্ধির জয় হলো!</em></p>
 
 ---
-<p style="font-size:0.85em; color:#9ca3af; text-align:right;"><em>রচনাকাল: ২৮-০৯-২০২৬ইং।</em></p>
+<p style="font-size:0.85em; color:#9ca3af; text-align:left;"><em>রচনাকাল: ২৮-০৯-২০২৬ইং।</em></p>
