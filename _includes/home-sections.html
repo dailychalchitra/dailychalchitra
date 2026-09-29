@@ -30,6 +30,27 @@
             {% endunless %}
             <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 40 }}</p>
             <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
+
+            {% assign hero2col_posts = site.posts | slice: 1, 12 %}
+            <div class="dc-pa-hero-2col-wrap dc-pa-autoslider">
+                <div class="dc-pa-autoslider-track">
+                    {% for hp in hero2col_posts %}
+                        {% assign hmod = forloop.index0 | modulo: 2 %}
+                        {% if hmod == 0 %}<div class="dc-hero-2col-page">{% endif %}
+                            <a href="{{ hp.url | relative_url }}" class="dc-cat-2col-item">
+                                <span class="dc-cat-2col-thumb">
+                                    {% if hp.image %}
+                                    <img src="{{ hp.image | relative_url }}" alt="{{ hp.title }}">
+                                    {% else %}
+                                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ hp.title }}">
+                                    {% endif %}
+                                </span>
+                                <span class="dc-cat-2col-title">{{ hp.title }}</span>
+                            </a>
+                        {% if hmod == 1 or forloop.last %}</div>{% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         {% endfor %}
 
@@ -717,7 +738,7 @@
     .dc-pa-hero-img img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
     .dc-pa-hero-content{ width:100%; }
     .dc-pa-hero-overlay-link{ display:block; position:relative; text-decoration:none; margin-bottom:14px; }
-    .dc-pa-hero-overlay-link img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+    .dc-pa-hero-overlay-link img{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
     .dc-pa-hero-overlay-cap{
         position:absolute; left:0; right:0; bottom:0;
         background:linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
@@ -829,6 +850,8 @@
     .dc-cat-2col-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
     .dc-cat-2col-title{ display:block; font-size:14.5px; line-height:1.35; margin-top:5px; color:#222; font-family:'Noto Serif Bengali', serif; }
     .dc-cat-2col-item:hover .dc-cat-2col-title{ color:#C00000; }
+    .dc-hero-2col-page{ flex:0 0 100%; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.dc-pa-hero-2col-wrap{ margin-top:14px; }
 
     /* === নতুন: অটো-স্লাইডার (সংক্ষিপ্ত সংবাদ, অন্যান্য) === */
     .dc-pa-autoslider{ overflow:hidden; }
