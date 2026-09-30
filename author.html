@@ -215,7 +215,7 @@ var authorData = {
   {% endfor %}
 ];
 
-function dcNormalize(s) { return (s || "").toString().trim().toLowerCase(); }
+function dcNormalize(s) { return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase(); }
 
 var dcParams = new URLSearchParams(window.location.search);
 var dcAuthorName = (dcParams.get("name") || "").trim();
