@@ -1,4 +1,4 @@
-{% if include.show_hero %}
+% if include.show_hero %}
     <!-- টপ বার: তারিখ + ই-পেপার -->
     <div class="dc-pa-topbar">
         <span class="dc-pa-topbar-date"><i class="far fa-calendar-alt"></i> {{ site.time | date: "%A, %d %B %Y" }}</span>
@@ -86,7 +86,6 @@
     <!-- 2. আরও সংবাদ (ডট-হেডার + ওভারলে ফিচার + মিনি গ্রিড + স্ক্রল-তালিকা) -->
     <section class="dc-pa-section">
         {% assign dc_cat_groups = site.posts | group_by_exp: "post", "post.category_bn.first | default: post.category_bn | default: post.categories.first" %}
-        <div class="dc-pa-catblock-grid">
         {% for group in dc_cat_groups limit:6 %}
         {% case forloop.index0 | modulo: 6 %}
             {% when 0 %}{% assign gcolor = "#1877f2" %}
@@ -154,7 +153,6 @@
         </div>
         {% endif %}
         {% endfor %}
-        </div>
     </section>
 
     <!-- 2.5. সংক্ষিপ্ত সংবাদ — অটো-স্লাইড (ডান থেকে বাম) -->
@@ -284,7 +282,6 @@
             </ul>
         </div>
     </section>
-
     <!-- 5. ক্যাটাগরি সেকশন - ধাপ ১ -->
     {% assign cat_list_1 = "সংবাদ,সাহিত্য,লেখক তালিকা,বিনোদন" | split: "," %}
     <div class="dc-cat-grid dc-pa-cat-grid">
@@ -294,7 +291,9 @@
                 <h3 class="dc-cat-title"><a href="{{ '/author/' | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
                 {% assign cat_posts = site.posts %}
             {% elsif cat == "সাহিত্য" %}
-                <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat }} <i class="fa fa-chevron-right"></i></a></h3>
+                {% assign cat_label = cat %}
+            {% if cat == "মতামত" %}{% assign cat_label = "সকল পাঠকদের মন্তব্য" %}{% endif %}
+            <h3 class="dc-cat-title"><a href="{{ '/tag/?name=' | append: cat | relative_url }}">{{ cat_label }} <i class="fa fa-chevron-right"></i></a></h3>
                 {% assign group_tags = "প্রচ্ছদ,সর্বশেষ,বাংলাদেশ,রাজধানী,জেলা,করোনাভাইরাস,পরিবেশ,অপরাধ,বিশ্ব,ভারত,পাকিস্তান,চীন,সংবাদ,দেশের সংবাদ,আন্তর্জাতিক,আবহাওয়া সংবাদ,প্রবাস সংবাদ,নিখোঁজ সংবাদ,শোক সংবাদ,জরুরী সংবাদ,সাহিত্য বিভাগ,সাহিত্য,কবিতা,পদ্য কবিতা,গদ্য কবিতা,মুক্ত গদ্য,মহাকাব্য,গীতিকাব্য,ছড়া কবিতা,অনু কবিতা,সনেট কবিতা,লিমেরিক কবিতা,গল্প,বড় গল্প,ছোট গল্প,অনু গল্প,সামাজিক গল্প,ভালোবাসার গল্প,জীবনমুখী গল্প,উপন্যাস,সামাজিক উপন্যাস,ঐতিহাসিক উপন্যাস,মনস্তাত্ত্বিক উপন্যাস,রহস্য উপন্যাস,রাজনৈতিক উপন্যাস,রূপক উপন্যাস,পত্রোপন্যাস,হাস্যরসাত্মক উপন্যাস,প্রবন্ধ ও নিবন্ধ,রম্যরচনা,কৌতুক,ভ্রমণ,বই পরিচিতি,উক্তি,চিঠি,মায়ের চিঠি,বাবার চিঠি,ভাইয়ের চিঠি,বোনের চিঠি,বন্ধুর চিঠি,প্রেমের চিঠি,প্রবাসী চিঠি,শেষ চিঠি,বিনোদন,ভিডিও,গান,চলচ্চিত্র,টেলিফিল্ম,নাটক,সংলাপ,শিল্পকলা,বিজ্ঞাপন,শিক্ষা,ভর্তি,পরীক্ষা,বৃত্তি,পড়াশোনা,উচ্চশিক্ষা,ক্যাম্পাস,খেলাধুলা,ফুটবল,ক্রিকেট,হাডুডু,বাস্কেটবল,ভলিবল,টেনিস,ব্যাডমিন্টন,হকি,বেসবল,অ্যাথলেটিক্স,টেবিল টেনিস,রাগবি,গলফ,সাঁতার,কুস্তি,দাবা,জীবনযাপন,সুস্থতা,সম্পর্ক,রূপচর্চা,গৃহসজ্জা,কেনাকাটা,বিজ্ঞপ্তি,চাকরির বিজ্ঞপ্তি,নিয়োগ বিজ্ঞপ্তি,পরামর্শ,বাণিজ্য,শেয়ার বাজার,ব্যাংক,শিল্প,অর্থনীতি,বিশ্ব বাণিজ্য,বিশ্লেষণ,ব্যক্তিগত অর্থ,উদ্যোক্তা,কর্পোরেট,বাজেট,ধর্ম বিষয়ক,ইসলাম,সনাতন,বৌদ্ধ,খ্রিস্টান,ঐতিহ্যবাহী বা জাতিগত ধর্ম,ধর্মহীন বা নাস্তিক,বিভাগ সমূহ,ঢাকা,চট্টগ্রাম,রাজশাহী,খুলনা,বরিশাল,সিলেট,রংপুর,ময়মনসিংহ,মতামত,সম্পাদকীয়,কলাম,সাক্ষাৎকার,স্মরণ,প্রতিক্রিয়া,প্রযুক্তি,বিজ্ঞান প্রযুক্তি,অন্যান্য,আলোচনা,সমালোচনা,আরও,গোলটেবিল,বিশেষ সংখ্যা,অনলাইন ভোট,প্রতিষ্ঠা বার্ষিকী" | split: "," %}
                 {% assign cat_posts = "" | split: "" %}
                 {% for t in group_tags %}
@@ -637,7 +636,6 @@
         </div>
         {% endfor %}
     </div>
-
     <!-- Login/Signup বাটন + Play Store/App Store -->
     <div class="dc-auth-app-row" style="max-width:800px;margin:2px auto;padding:0px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;">
         <div class="dc-auth-btns" style="display:flex;gap:6px;">
@@ -731,76 +729,6 @@
     }
     @media(min-width:1200px){
         .dc-pa-home{ padding-left:0; padding-right:0; }
-    }
-        
-    /* ======================= ডেস্কটপ মোড: প্রথম আলো স্টাইল ঘন লেআউট ======================= */
-    @media(min-width:601px){
-        /* হিরো: মূল খবর + "সর্বশেষ" পাশাপাশি (কলাম) */
-        .dc-pa-hero{ display:grid; grid-template-columns:1.7fr 1fr; gap:30px; align-items:start; }
-        .dc-pa-hero-list{ border-left:1px solid #e5e5e5; padding-left:24px; margin-top:0; padding-top:0; border-top:none; }
-
-        /* "আরও সংবাদ" ক্যাটাগরি-ব্লক পাশাপাশি বর্ডার-গ্রিডে */
-        .dc-pa-catblock-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-        .dc-pa-catblock{ margin-bottom:0; padding:22px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
-
-        /* ঘন, কমপ্যাক্ট টাইপোগ্রাফি */
-        .dc-pa-topbar-date{ font-size:13px; }
-        .dc-pa-epaper-btn{ font-size:13px; padding:5px 12px; }
-
-        .dc-pa-hero-overlay-cat{ font-size:14px; }
-        .dc-pa-hero-overlay-title{ font-size:21px; }
-        .dc-pa-hero-overlay-author{ font-size:13px; }
-        .dc-pa-hero-overlay-time{ font-size:13px; }
-        .dc-pa-hero-excerpt{ font-size:14.5px; }
-        .dc-pa-readmore-btn{ font-size:13.5px; }
-
-        .dc-pa-hero-list-heading{ font-size:18px; }
-        .dc-pa-hero-cat-badge{ font-size:12px; padding:3px 9px; }
-        .dc-pa-hero-cat-scroll-item span{ font-size:13.5px; }
-        .dc-pa-hero-cat-scroll-item img{ width:34px; height:34px; }
-
-        .dc-pa-section-title{ font-size:21px; margin-bottom:14px; }
-
-        .dc-pa-cat-header a{ font-size:17px; }
-        .dc-pa-feature-cat{ font-size:13px; }
-        .dc-pa-feature-title{ font-size:16.5px; }
-        .dc-pa-feature-time{ font-size:12px; }
-        .dc-pa-mini-item h4{ font-size:13px; margin:6px 8px 2px; }
-        .dc-pa-mini-time{ font-size:11.5px; margin:0 8px 8px; }
-
-        .dc-cat-scroll-title{ font-size:13.5px; }
-        .dc-cat-scroll-thumb{ width:38px; height:38px; }
-        .dc-cat-2col-title{ font-size:13px; }
-
-        .dc-pa-mini-cat{ font-size:12.5px; }
-        .dc-pa-news-body h3{ font-size:15px; }
-        .dc-pa-news-excerpt{ font-size:13px; }
-        .dc-pa-news-meta{ font-size:11.5px !important; }
-
-        .dc-pa-textonly-item{ padding:12px; }
-        .dc-pa-textonly-item h4{ font-size:14.5px; }
-        .dc-pa-textonly-item p{ font-size:12.5px; }
-        .dc-pa-textonly-item .dc-pa-mini-cat{ font-size:12px; }
-
-        .dc-pa-yt-body h3{ font-size:15px; }
-        .dc-pa-yt-body p{ font-size:12.5px; }
-
-        .dc-pa-nav-links a{ font-size:14px; }
-
-        .dc-pa-tab-btn{ font-size:15px; }
-        .dc-pa-read-num{ font-size:18px; }
-        .dc-pa-read-item a{ font-size:14px; }
-        .dc-pa-read-cat{ font-size:13px; }
-
-        .dc-cat-title{ font-size:15px !important; }
-        .dc-cat-main-title{ font-size:14px; }
-        .dc-cat-list-title{ font-size:13px; }
-
-        .dc-author-list li a{ font-size:13.5px; }
-
-        .dc-pa-area-label{ font-size:15px; }
-        .dc-pa-area-select{ font-size:13.5px; }
-        .dc-pa-area-btn{ font-size:14px; }
     }
 
     .dc-pa-topbar{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #C00000; padding-bottom:8px; margin-bottom:14px; }
@@ -1024,8 +952,7 @@
     @media(max-width:600px){
         .dc-author-list li a{ font-size:15px; }
     }
-
-    /* মোবাইলেও ডেস্কটপের মতো একই গ্রিড কাঠামো — শুধু ফন্ট/ছবি সাইজ ছোট */
+         /* মোবাইলেও ডেস্কটপের মতো একই গ্রিড কাঠামো — শুধু ফন্ট/ছবি সাইজ ছোট */
     @media(max-width:600px){
         .dc-pa-home{ padding-left:0; padding-right:0; }
         .dc-pa-topbar-date{ font-size:12px; }
