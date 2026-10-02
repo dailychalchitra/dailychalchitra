@@ -731,15 +731,16 @@
         .dc-pa-home{ padding-left:0; padding-right:0; }
     }
 
-/* ======================= ডেস্কটপ মোড: প্রথম আলো স্টাইল ঘন লেআউট ======================= */
+/* ======================= ডেস্কটপ মোড: প্রথম আলো স্টাইল — সবশেষে, যাতে সবসময় জেতে ======================= */
     @media(min-width:601px){
         /* হিরো: মূল খবর + "সর্বশেষ" পাশাপাশি (কলাম) */
         .dc-pa-hero{ display:grid; grid-template-columns:1.7fr 1fr; gap:30px; align-items:start; }
         .dc-pa-hero-list{ border-left:1px solid #e5e5e5; padding-left:24px; margin-top:0; padding-top:0; border-top:none; }
 
-        /* "আরও সংবাদ" ক্যাটাগরি-ব্লক পাশাপাশি বর্ডার-গ্রিডে */
-        .dc-pa-catblock-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-        .dc-pa-catblock{ margin-bottom:0; padding:22px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
+        /* "আরও সংবাদ" ক্যাটাগরি-ব্লক — ছোট ছোট প্রচ্ছদে ৪ কলামে */
+        .dc-pa-catblock-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+        .dc-pa-catblock{ margin-bottom:0; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
+        .dc-pa-mini-grid{ display:none; }
 
         /* ঘন, কমপ্যাক্ট টাইপোগ্রাফি */
         .dc-pa-topbar-date{ font-size:13px; }
@@ -759,15 +760,13 @@
 
         .dc-pa-section-title{ font-size:21px; margin-bottom:14px; }
 
-        .dc-pa-cat-header a{ font-size:17px; }
-        .dc-pa-feature-cat{ font-size:13px; }
-        .dc-pa-feature-title{ font-size:16.5px; }
-        .dc-pa-feature-time{ font-size:12px; }
-        .dc-pa-mini-item h4{ font-size:13px; margin:6px 8px 2px; }
-        .dc-pa-mini-time{ font-size:11.5px; margin:0 8px 8px; }
+        .dc-pa-cat-header a{ font-size:14px; }
+        .dc-pa-feature-cat{ font-size:11px; }
+        .dc-pa-feature-title{ font-size:13.5px; }
+        .dc-pa-feature-time{ font-size:11px; }
 
-        .dc-cat-scroll-title{ font-size:13.5px; }
-        .dc-cat-scroll-thumb{ width:38px; height:38px; }
+        .dc-cat-scroll-title{ font-size:12.5px; }
+        .dc-cat-scroll-thumb{ width:32px; height:32px; }
         .dc-cat-2col-title{ font-size:13px; }
 
         .dc-pa-mini-cat{ font-size:12.5px; }
@@ -800,6 +799,7 @@
         .dc-pa-area-select{ font-size:13.5px; }
         .dc-pa-area-btn{ font-size:14px; }
     }
+    </style>
         
     .dc-pa-topbar{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #C00000; padding-bottom:8px; margin-bottom:14px; }
     .dc-pa-topbar-date{ font-size:16px; color:#555; }
