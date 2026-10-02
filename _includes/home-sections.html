@@ -730,76 +730,6 @@
     @media(min-width:1200px){
         .dc-pa-home{ padding-left:0; padding-right:0; }
     }
-
-/* ======================= ডেস্কটপ মোড: প্রথম আলো স্টাইল — সবশেষে, যাতে সবসময় জেতে ======================= */
-    @media(min-width:601px){
-        /* হিরো: মূল খবর + "সর্বশেষ" পাশাপাশি (কলাম) */
-        .dc-pa-hero{ display:grid; grid-template-columns:1.7fr 1fr; gap:30px; align-items:start; }
-        .dc-pa-hero-list{ border-left:1px solid #e5e5e5; padding-left:24px; margin-top:0; padding-top:0; border-top:none; }
-
-        /* "আরও সংবাদ" ক্যাটাগরি-ব্লক — ছোট ছোট প্রচ্ছদে ৪ কলামে */
-        .dc-pa-catblock-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-        .dc-pa-catblock{ margin-bottom:0; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
-        .dc-pa-mini-grid{ display:none; }
-
-        /* ঘন, কমপ্যাক্ট টাইপোগ্রাফি */
-        .dc-pa-topbar-date{ font-size:13px; }
-        .dc-pa-epaper-btn{ font-size:13px; padding:5px 12px; }
-
-        .dc-pa-hero-overlay-cat{ font-size:14px; }
-        .dc-pa-hero-overlay-title{ font-size:21px; }
-        .dc-pa-hero-overlay-author{ font-size:13px; }
-        .dc-pa-hero-overlay-time{ font-size:13px; }
-        .dc-pa-hero-excerpt{ font-size:14.5px; }
-        .dc-pa-readmore-btn{ font-size:13.5px; }
-
-        .dc-pa-hero-list-heading{ font-size:18px; }
-        .dc-pa-hero-cat-badge{ font-size:12px; padding:3px 9px; }
-        .dc-pa-hero-cat-scroll-item span{ font-size:13.5px; }
-        .dc-pa-hero-cat-scroll-item img{ width:34px; height:34px; }
-
-        .dc-pa-section-title{ font-size:21px; margin-bottom:14px; }
-
-        .dc-pa-cat-header a{ font-size:14px; }
-        .dc-pa-feature-cat{ font-size:11px; }
-        .dc-pa-feature-title{ font-size:13.5px; }
-        .dc-pa-feature-time{ font-size:11px; }
-
-        .dc-cat-scroll-title{ font-size:12.5px; }
-        .dc-cat-scroll-thumb{ width:32px; height:32px; }
-        .dc-cat-2col-title{ font-size:13px; }
-
-        .dc-pa-mini-cat{ font-size:12.5px; }
-        .dc-pa-news-body h3{ font-size:15px; }
-        .dc-pa-news-excerpt{ font-size:13px; }
-        .dc-pa-news-meta{ font-size:11.5px !important; }
-
-        .dc-pa-textonly-item{ padding:12px; }
-        .dc-pa-textonly-item h4{ font-size:14.5px; }
-        .dc-pa-textonly-item p{ font-size:12.5px; }
-        .dc-pa-textonly-item .dc-pa-mini-cat{ font-size:12px; }
-
-        .dc-pa-yt-body h3{ font-size:15px; }
-        .dc-pa-yt-body p{ font-size:12.5px; }
-
-        .dc-pa-nav-links a{ font-size:14px; }
-
-        .dc-pa-tab-btn{ font-size:15px; }
-        .dc-pa-read-num{ font-size:18px; }
-        .dc-pa-read-item a{ font-size:14px; }
-        .dc-pa-read-cat{ font-size:13px; }
-
-        .dc-cat-title{ font-size:15px !important; }
-        .dc-cat-main-title{ font-size:14px; }
-        .dc-cat-list-title{ font-size:13px; }
-
-        .dc-author-list li a{ font-size:13.5px; }
-
-        .dc-pa-area-label{ font-size:15px; }
-        .dc-pa-area-select{ font-size:13.5px; }
-        .dc-pa-area-btn{ font-size:14px; }
-    }
-    </style>
         
     .dc-pa-topbar{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #C00000; padding-bottom:8px; margin-bottom:14px; }
     .dc-pa-topbar-date{ font-size:16px; color:#555; }
@@ -1171,6 +1101,75 @@
         display:inline-block; animation:dcLivePulse 1.3s infinite;
     }
     @keyframes dcLivePulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+/* ======================= ডেস্কটপ মোড: প্রথম আলো স্টাইল — সবশেষে, যাতে সবসময় জেতে ======================= */
+    @media(min-width:601px){
+        /* হিরো: মূল খবর + "সর্বশেষ" পাশাপাশি (কলাম) */
+        .dc-pa-hero{ display:grid; grid-template-columns:1.7fr 1fr; gap:30px; align-items:start; }
+        .dc-pa-hero-list{ border-left:1px solid #e5e5e5; padding-left:24px; margin-top:0; padding-top:0; border-top:none; }
+
+        /* "আরও সংবাদ" ক্যাটাগরি-ব্লক — ছোট ছোট প্রচ্ছদে ৪ কলামে */
+        .dc-pa-catblock-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+        .dc-pa-catblock{ margin-bottom:0; padding:14px; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
+        .dc-pa-mini-grid{ display:none; }
+
+        /* ঘন, কমপ্যাক্ট টাইপোগ্রাফি */
+        .dc-pa-topbar-date{ font-size:13px; }
+        .dc-pa-epaper-btn{ font-size:13px; padding:5px 12px; }
+
+        .dc-pa-hero-overlay-cat{ font-size:14px; }
+        .dc-pa-hero-overlay-title{ font-size:21px; }
+        .dc-pa-hero-overlay-author{ font-size:13px; }
+        .dc-pa-hero-overlay-time{ font-size:13px; }
+        .dc-pa-hero-excerpt{ font-size:14.5px; }
+        .dc-pa-readmore-btn{ font-size:13.5px; }
+
+        .dc-pa-hero-list-heading{ font-size:18px; }
+        .dc-pa-hero-cat-badge{ font-size:12px; padding:3px 9px; }
+        .dc-pa-hero-cat-scroll-item span{ font-size:13.5px; }
+        .dc-pa-hero-cat-scroll-item img{ width:34px; height:34px; }
+
+        .dc-pa-section-title{ font-size:21px; margin-bottom:14px; }
+
+        .dc-pa-cat-header a{ font-size:14px; }
+        .dc-pa-feature-cat{ font-size:11px; }
+        .dc-pa-feature-title{ font-size:13.5px; }
+        .dc-pa-feature-time{ font-size:11px; }
+
+        .dc-cat-scroll-title{ font-size:12.5px; }
+        .dc-cat-scroll-thumb{ width:32px; height:32px; }
+        .dc-cat-2col-title{ font-size:13px; }
+
+        .dc-pa-mini-cat{ font-size:12.5px; }
+        .dc-pa-news-body h3{ font-size:15px; }
+        .dc-pa-news-excerpt{ font-size:13px; }
+        .dc-pa-news-meta{ font-size:11.5px !important; }
+
+        .dc-pa-textonly-item{ padding:12px; }
+        .dc-pa-textonly-item h4{ font-size:14.5px; }
+        .dc-pa-textonly-item p{ font-size:12.5px; }
+        .dc-pa-textonly-item .dc-pa-mini-cat{ font-size:12px; }
+
+        .dc-pa-yt-body h3{ font-size:15px; }
+        .dc-pa-yt-body p{ font-size:12.5px; }
+
+        .dc-pa-nav-links a{ font-size:14px; }
+
+        .dc-pa-tab-btn{ font-size:15px; }
+        .dc-pa-read-num{ font-size:18px; }
+        .dc-pa-read-item a{ font-size:14px; }
+        .dc-pa-read-cat{ font-size:13px; }
+
+        .dc-cat-title{ font-size:15px !important; }
+        .dc-cat-main-title{ font-size:14px; }
+        .dc-cat-list-title{ font-size:13px; }
+
+        .dc-author-list li a{ font-size:13.5px; }
+
+        .dc-pa-area-label{ font-size:15px; }
+        .dc-pa-area-select{ font-size:13.5px; }
+        .dc-pa-area-btn{ font-size:14px; }
+    }     
     </style>
 
     <script>
