@@ -51,6 +51,50 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <div class="dc-pa-hero-extra-cats">
+                <div class="dc-pa-hero-extra-card">
+                    <h4 class="dc-pa-hero-extra-title">জনপ্রিয় সংবাদ</h4>
+                    <ul class="dc-cat-list">
+                        {% for post in site.posts offset:13 limit:5 %}
+                        <li class="dc-cat-list-item">
+                            <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
+                                {% if post.image %}
+                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                                {% else %}
+                                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                                {% endif %}
+                            </a>
+                            <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="dc-pa-hero-extra-card">
+                    <h4 class="dc-pa-hero-extra-title">বিশ্ব</h4>
+                    <ul class="dc-cat-list">
+                        {% assign hw_cat = "বিশ্ব" %}
+                        {% assign hw_matched_cat = site.posts | where_exp: "post", "post.categories contains hw_cat" %}
+                        {% assign hw_matched_tag = site.posts | where_exp: "post", "post.tags contains hw_cat" %}
+                        {% assign hw_posts = hw_matched_cat | concat: hw_matched_tag | uniq | sort: "date" | reverse %}
+                        {% for post in hw_posts limit:5 %}
+                        <li class="dc-cat-list-item">
+                            <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
+                                {% if post.image %}
+                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                                {% else %}
+                                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
+                                {% endif %}
+                            </a>
+                            <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
+                        </li>
+                        {% endfor %}
+                        {% unless hw_posts.size > 0 %}
+                        <li class="dc-cat-list-item"><span class="dc-cat-list-title" style="color:#999;">এখনো কোনো পোস্ট নেই।</span></li>
+                        {% endunless %}
+                    </ul>
+                </div>
+            </div>
         </div>
         {% endfor %}
 
@@ -855,6 +899,7 @@
     .dc-cat-2col-item:hover .dc-cat-2col-title{ color:#C00000; }
     .dc-hero-2col-page{ flex:0 0 100%; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 .dc-pa-hero-2col-wrap{ margin-top:14px; }
+.dc-pa-hero-extra-cats{ display:none; }
 
     /* === নতুন: অটো-স্লাইডার (সংক্ষিপ্ত সংবাদ, অন্যান্য) === */
     .dc-pa-autoslider{ overflow:hidden; }
@@ -1169,7 +1214,14 @@
         .dc-pa-area-label{ font-size:15px; }
         .dc-pa-area-select{ font-size:13.5px; }
         .dc-pa-area-btn{ font-size:14px; }
-    }     
+
+        .dc-pa-hero-extra-cats{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:16px; }
+        .dc-pa-hero-extra-card{ border:1px solid #e5e5e5; border-radius:4px; padding:10px 12px; }
+        .dc-pa-hero-extra-title{ font-size:14px; font-weight:800; color:#C00000; margin:0 0 8px; padding-bottom:6px; border-bottom:2px solid #C00000; font-family:'Noto Serif Bengali', serif; }
+        .dc-pa-hero-extra-card .dc-cat-list-item{ padding:6px 0; }
+        .dc-pa-hero-extra-card .dc-cat-thumb{ width:38px; height:38px; }
+        .dc-pa-hero-extra-card .dc-cat-list-title{ font-size:12.5px; }
+    }
     </style>
 
     <script>
