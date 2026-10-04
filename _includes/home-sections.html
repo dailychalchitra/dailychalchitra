@@ -29,7 +29,10 @@
                 {% assign hero_excerpt = post.content | strip_html | strip %}
             {% endunless %}
             <p class="dc-pa-hero-excerpt">{{ hero_excerpt | truncatewords: 40 }}</p>
-            <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
+                        <a href="{{ post.url | relative_url }}" class="dc-pa-readmore-btn">আরও পড়ুন <i class="fa fa-arrow-right"></i></a>
+
+            {% assign dc_hero_seen = "" | split: "" %}
+            {% assign dc_hero_seen = dc_hero_seen | push: post.url %}
 
             {% assign hero2col_posts = site.posts | slice: 1, 12 %}
             <div class="dc-pa-hero-2col-wrap dc-pa-autoslider">
@@ -48,15 +51,23 @@
                                 <span class="dc-cat-2col-title">{{ hp.title }}</span>
                             </a>
                         {% if hmod == 1 or forloop.last %}</div>{% endif %}
+                        {% assign dc_hero_seen = dc_hero_seen | push: hp.url %}
                     {% endfor %}
                 </div>
-            </div>
 
             <div class="dc-pa-hero-extra-cats">
                 <div class="dc-pa-hero-extra-card">
                     <h4 class="dc-pa-hero-extra-title">জনপ্রিয় সংবাদ</h4>
                     <ul class="dc-cat-list">
-                        {% for post in site.posts offset:13 limit:5 %}
+                        {% assign dc_pop_pool = site.posts | slice: 13, 20 %}
+                        {% assign dc_pop_posts = "" | split: "" %}
+                        {% for pp in dc_pop_pool %}
+                            {% unless dc_hero_seen contains pp.url %}
+                                {% assign dc_pop_posts = dc_pop_posts | push: pp %}
+                            {% endunless %}
+                        {% endfor %}
+                        {% assign dc_pop_posts = dc_pop_posts | slice: 0, 5 %}
+                        {% for post in dc_pop_posts %}
                         <li class="dc-cat-list-item">
                             <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
                                 {% if post.image %}
@@ -67,6 +78,7 @@
                             </a>
                             <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
                         </li>
+                        {% assign dc_hero_seen = dc_hero_seen | push: post.url %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -76,8 +88,15 @@
                         {% assign hw_cat = "বিশ্ব" %}
                         {% assign hw_matched_cat = site.posts | where_exp: "post", "post.categories contains hw_cat" %}
                         {% assign hw_matched_tag = site.posts | where_exp: "post", "post.tags contains hw_cat" %}
-                        {% assign hw_posts = hw_matched_cat | concat: hw_matched_tag | uniq | sort: "date" | reverse %}
-                        {% for post in hw_posts limit:5 %}
+                        {% assign hw_posts_all = hw_matched_cat | concat: hw_matched_tag | uniq | sort: "date" | reverse %}
+                        {% assign hw_posts = "" | split: "" %}
+                        {% for wp in hw_posts_all %}
+                            {% unless dc_hero_seen contains wp.url %}
+                                {% assign hw_posts = hw_posts | push: wp %}
+                            {% endunless %}
+                        {% endfor %}
+                        {% assign hw_posts = hw_posts | slice: 0, 5 %}
+                        {% for post in hw_posts %}
                         <li class="dc-cat-list-item">
                             <a href="{{ post.url | relative_url }}" class="dc-cat-thumb">
                                 {% if post.image %}
@@ -88,12 +107,14 @@
                             </a>
                             <a href="{{ post.url | relative_url }}" class="dc-cat-list-title">{{ post.title }}</a>
                         </li>
+                        {% assign dc_hero_seen = dc_hero_seen | push: post.url %}
                         {% endfor %}
                         {% unless hw_posts.size > 0 %}
                         <li class="dc-cat-list-item"><span class="dc-cat-list-title" style="color:#999;">এখনো কোনো পোস্ট নেই।</span></li>
                         {% endunless %}
                     </ul>
                 </div>
+            </div>
             </div>
         </div>
         {% endfor %}
@@ -106,11 +127,18 @@
                 {% assign hcat = group.name %}
                 {% assign hmatched_cat = site.posts | where_exp: "p", "p.categories contains hcat" %}
                 {% assign hmatched_tag = site.posts | where_exp: "p", "p.tags contains hcat" %}
-                {% assign hcat_posts = hmatched_cat | concat: hmatched_tag | uniq | sort: "date" | reverse %}
+                {% assign hcat_posts_all = hmatched_cat | concat: hmatched_tag | uniq | sort: "date" | reverse %}
+                {% assign hcat_posts = "" | split: "" %}
+                {% for hp2 in hcat_posts_all %}
+                    {% unless dc_hero_seen contains hp2.url %}
+                        {% assign hcat_posts = hcat_posts | push: hp2 %}
+                    {% endunless %}
+                {% endfor %}
+                {% assign hcat_posts = hcat_posts | slice: 0, 10 %}
                 <div class="dc-pa-hero-cat-block">
                     <span class="dc-pa-hero-cat-badge">{{ hcat }}</span>
                     <div class="dc-pa-hero-cat-scroll">
-                        {% for cp in hcat_posts limit:10 %}
+                        {% for cp in hcat_posts %}
                         <a href="{{ cp.url | relative_url }}" class="dc-pa-hero-cat-scroll-item">
                             {% if cp.image %}
                             <img src="{{ cp.image | relative_url }}" alt="{{ cp.title }}">
@@ -119,13 +147,13 @@
                             {% endif %}
                             <span>{{ cp.title }}</span>
                         </a>
+                        {% assign dc_hero_seen = dc_hero_seen | push: cp.url %}
                         {% endfor %}
                     </div>
                 </div>
             {% endfor %}
         </div>
     </section>
-{% endif %}
 
     <!-- 2. আরও সংবাদ (ডট-হেডার + ওভারলে ফিচার + মিনি গ্রিড + স্ক্রল-তালিকা) -->
     <section class="dc-pa-section">
