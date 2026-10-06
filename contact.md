@@ -17,12 +17,12 @@ redirect_from:
     <!-- ২. লোগোর নিচের রেখা -->
     <hr style="border: none !important; border-top: 1px solid #d1d5db !important; margin: 2px 0 15px 0 !important; width: 100% !important; display: block !important;">
 
-    <!-- ৩. "যোগাযোগ" শিরোনাম: ২৬px সাইজ, সেন্টারে এবং আন্ডারলাইন সহ -->
+    <!-- ৩. "যোগাযোগ" শিরোনাম -->
     <div style="width: 100% !important; text-align: center !important; margin-bottom: 6px !important; display: block !important;">
         <span style="font-size: 26px !important; font-weight: bold !important; border-bottom: 2px solid #9ca3af !important; padding-bottom: 3px !important; display: inline-block !important;">যোগাযোগ</span>
     </div>
     
-    <!-- ৪. সর্বশেষ আপডেট ছোট ফন্ট ও হালকা ধূসর কালার -->
+    <!-- ৪. সর্বশেষ আপডেট -->
     <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ৭ সেপ্টেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
@@ -32,13 +32,13 @@ redirect_from:
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">লেখা ও বিজ্ঞাপন সংক্রান্ত যোগাযোগ</h2>
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
-      <li style="margin-bottom: 8px !important;"><strong>লেখা জমা দিন:</strong> আপনার মৌলিক কবিতা, গল্প, প্রবন্ধ, ফিচার বা সাহিত্য সমালোচনা পাঠান<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
-      <li style="margin-bottom: 8px !important;"><strong>বিজ্ঞাপন ও পৃষ্ঠপোষকতা:</strong> বইয়ের প্রচার, শিক্ষা প্রতিষ্ঠান বা সাংস্কৃতিক আয়োজনের স্পন্সরশিপ ও বিজ্ঞাপনের জন্য যোগাযোগ করুন<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
-      <li style="margin-bottom: 8px !important;"><strong>সম্পাদকীয় বিভাগ:</strong> সংবাদ বা অন্যান্য যেকোনো প্রশ্ন ও প্রাতিষ্ঠানিক সহযোগিতার জন্য<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
+      <li style="margin-bottom: 8px !important;"><strong>লেখা জমা দিন:</strong> AI ভিত্তিক লেখা ব্যতীত আপনার মৌলিক কবিতা, গল্প, উপন্যাস, প্রবন্ধ, ফিচার বা সাহিত্য সমালোচনা পাঠান<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=লেখা জমা" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
+      <li style="margin-bottom: 8px !important;"><strong>বিজ্ঞাপন ও পৃষ্ঠপোষকতা:</strong> বইয়ের প্রচার, শিক্ষা প্রতিষ্ঠান বা সাংস্কৃতিক আয়োজনের স্পন্সরশিপ ও বিজ্ঞাপনের জন্য যোগাযোগ করুন<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=বিজ্ঞাপন সংক্রান্ত" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
+      <li style="margin-bottom: 8px !important;"><strong>সম্পাদকীয় বিভাগ:</strong> সংবাদ বা অন্যান্য যেকোনো প্রশ্ন ও প্রাতিষ্ঠানিক সহযোগিতার জন্য<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=সম্পাদকীয় যোগাযোগ" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
     </ul>
 
     <div style="background-color: #f9fafb !important; border-left: 4px solid #2563eb !important; padding: 12px 15px !important; margin-bottom: 20px !important; font-size: 14px !important;">
-      <strong>বিশেষ নির্দেশনা:</strong> লেখা পাঠানোর সময় অনুগ্রহ করে ইমেইলের সাবজেক্টে <em>"লেখা জমা: আপনার লেখার শিরোনাম"</em> লিখুন এবং লেখার নিচে আপনার পূর্ণ নাম, সংক্ষিপ্ত প্রবাসীর বা সাহিত্যিক পরিচিতি এবং একটি সচল যোগাযোগের নম্বর সংযুক্ত করে দিন।
+      <strong>বিশেষ নির্দেশনা:</strong> লেখা পাঠানোর সময় অনুগ্রহ করে ইমেইলের সাবজেক্টে <em>"লেখা জমা: আপনার লেখাটির বিভাগ ও শিরোনাম"</em> লিখুন এবং লেখাটির শিরোনামের নিচে আপনার পূর্ণ নাম, সংক্ষিপ্ত লেখক বা সাহিত্যিক পরিচিতি, এক কপি নিজের লেখক প্রোফাইলের জন্য ছবি, এক কপি প্রচ্ছদ ছবি এবং একটি সচল যোগাযোগের নম্বর সংযুক্ত করে দিন।
     </div>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">আমাদের ঠিকানা ও কার্যালয়</h2>
@@ -58,7 +58,7 @@ redirect_from:
       <li style="margin-bottom: 6px !important;"><strong>হোয়াটসঅ্যাপ যোগাযোগ:</strong> <a href="https://wa.me/96893815016" target="_blank" style="color: #2563eb !important; text-decoration: underline !important;">wa.me/96893815016 (+968 93815016)</a></li>
     </ul>
 
-    <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">প্রতিক্রিয়া ও রেসপন্স টাইম</h2>
+    <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">সাড়া দেওয়ার সময়</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">আমরা আমাদের সম্মানিত লেখক ও পাঠকদের প্রতিটি ইমেইল অত্যন্ত গুরুত্ব সহকারে বিবেচনা করি। সাধারণত লেখা পাঠানো বা যেকোনো অনুসন্ধানের পর <strong>২৪ থেকে ৪৮ ঘণ্টার মধ্যে</strong> আমাদের পক্ষ থেকে ফিডব্যাক বা উত্তর দেওয়া হয়। সাপ্তাহিক ছুটির দিন বা বিশেষ ব্যস্ততার কারণে কিছুটা বিলম্ব হতে পারে, এক্ষেত্রে আপনার ধৈর্য ও সহযোগিতা কাম্য।</p>
 
     <hr style="border: none !important; border-top: 1px solid #d1d5db !important; margin: 25px 0 !important; width: 100% !important; display: block !important;">
