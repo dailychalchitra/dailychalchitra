@@ -17,13 +17,13 @@ redirect_from:
     <!-- ২. লোগোর নিচের রেখা -->
     <hr style="border: none !important; border-top: 1px solid #d1d5db !important; margin: 2px 0 15px 0 !important; width: 100% !important; display: block !important;">
 
-    <!-- ৩. "নীতি ও শর্তাবলী" শিরোনাম: ২৬px সাইজ, সেন্টারে এবং আন্ডারলাইন সহ -->
+    <!-- ৩. শিরোনাম -->
     <div style="width: 100% !important; text-align: center !important; margin-bottom: 6px !important; display: block !important;">
         <span style="font-size: 26px !important; font-weight: bold !important; border-bottom: 2px solid #9ca3af !important; padding-bottom: 3px !important; display: inline-block !important;">নীতি ও শর্তাবলী</span>
     </div>
     
-    <!-- ৪. সর্বশেষ আপডেট ছোট ফন্ট ও হালকা ধূসর কালার -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ৩০ জুন, ২০২৬</p>
+    <!-- ৪. সর্বশেষ আপডেট -->
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ অক্টোবর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong> ব্যবহারের শর্তাবলী ও নীতিমালা। এই ওয়েবসাইট ব্যবহার করার অর্থ আপনি নিচের শর্তগুলো মেনে নিচ্ছেন।</p>
@@ -69,7 +69,7 @@ redirect_from:
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">যোগাযোগ:</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">এই নীতিমালা সম্পর্কে কোনো প্রশ্ন থাকলে ইমেইল করুন:<br>
-    <strong>ইমেইল:</strong> nimushamim46@gmail.com</p>
+    <strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
 
     <hr style="border: none !important; border-top: 1px solid #d1d5db !important; margin: 25px 0 !important; width: 100% !important; display: block !important;">
 
