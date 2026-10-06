@@ -4,6 +4,7 @@ title: বিজ্ঞাপন
 permalink: /advertisement/
 redirect_from:
     - /advertisement.html
+    - /advertisement.md
 ---
 
 <div style="max-width: 768px; margin: 0 auto; padding: 15px; text-align: left !important; line-height: 1.7; word-break: break-word;">
@@ -16,13 +17,13 @@ redirect_from:
     <!-- ২. লোগোর নিচের রেখা -->
     <hr style="border: none !important; border-top: 1px solid #d1d5db !important; margin: 2px 0 15px 0 !important; width: 100% !important; display: block !important;">
 
-    <!-- ৩. "বিজ্ঞাপন" শিরোনাম: ২৬px সাইজ, সেন্টারে এবং আন্ডারলাইন সহ -->
+    <!-- ৩. শিরোনাম -->
     <div style="width: 100% !important; text-align: center !important; margin-bottom: 6px !important; display: block !important;">
         <span style="font-size: 26px !important; font-weight: bold !important; border-bottom: 2px solid #9ca3af !important; padding-bottom: 3px !important; display: inline-block !important;">বিজ্ঞাপন</span>
     </div>
     
-    <!-- ৪. সর্বশেষ আপডেট ছোট ফন্ট ও হালকা ধূসর কালার -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ৮ আগস্ট, ২০২৬</p>
+    <!-- ৪. সর্বশেষ আপডেট -->
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ অক্টোবর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্রের সাথে যুক্ত হোন</strong></p>
@@ -50,8 +51,8 @@ redirect_from:
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">যোগাযোগ করুন:</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">আপনার প্রতিষ্ঠানের প্রচার বা অংশীদারিত্বের প্রস্তাব পাঠাতে সরাসরি আমাদের ইমেইল করুন:<br>
-    <strong>ইমেইল:</strong> nimushamim46@gmail.com<br>
-    <strong>হোয়াটসঅ্যাপ:</strong> +96893815016</p>
+    <strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=বিজ্ঞাপনের জন্য যোগাযোগ" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a><br>
+    <strong>হোয়াটসঅ্যাপ:</strong> <a href="https://wa.me/96893815016" target="_blank" style="color: #2563eb !important; text-decoration: underline !important;">+968 93815016</a></p>
 
     <p style="margin-bottom: 16px !important; text-align: left !important;">আপনার বিজ্ঞাপন প্রস্তাব পেলে আমাদের টিম যাচাই-বাছাই শেষে সাধারণত ২৪ থেকে ৪৮ ঘণ্টার মধ্যে বিস্তারিত ফিডব্যাক জানিয়ে দেবো।</p>
 
