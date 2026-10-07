@@ -2,39 +2,26 @@
 layout: post
 title: "রমণীর রত্ন- ১/৪"
 date: 2026-08-25 00:18:00 +0400
-
 categories:
-  - উপন্যাস
-
+    - samajik-uponyas
+category_bn:
+    - সামাজিক উপন্যাস
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - বিভাগ সমূহ
-  - সামাজিক উপন্যাস
-  - ঐতিহাসিক উপন্যাস
-  - মনস্তাত্ত্বিক উপন্যাস
-  - রূপক উপন্যাস
-  - পত্রোপন্যাস
-  - হাস্যরসাত্মক উপন্যাস
-  - অন্যান্য
-  - শামীম নিমু এর লেখা রমণীর রত্ন
-  - দৈনিক চালচিত্র
-  - literature department
-  - literature
-  - departments
-  - social novels
-  - historical novels
-  - psychological novels
-  - allegorical novels
-  - epistolary novels
-  - humorous novels
-  - others
-  - ramonirrtno by shamim nimu
-  - daily chalchitra
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - উপন্যাস
+    - সামাজিক উপন্যাস
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-
-image: /assets/img/romonirrotno-procchad.webp
+image: "/assets/img/romonirrotno-procchad.webp"
+description: "রমণীর রত্ন- ১/৪। শামীম নিমুর লেখা জনপ্রিয় ধারাবাহিক সামাজিক উপন্যাসের প্রথম পর্ব।"
+excerpt: "রমণীর রত্ন- ১/৪। শামীম নিমুর লেখা জনপ্রিয় ধারাবাহিক সামাজিক উপন্যাসের প্রথম পর্ব।"
+permalink: "/samajik-uponyas/2026/08/25/romonir-rotno-1/"
+redirect_from:
+    - "/samajik-uponyas/2026/08/25/romonir-rotno-1/"
+    - "/সামাজিক উপন্যাস/2026/08/25/romonir-rotno-1/"
+    - "/search/label/সাহিত্য"
+    - "/search/label/সামাজিক উপন্যাস"
 ---
 
 **প্রথম কলি**
