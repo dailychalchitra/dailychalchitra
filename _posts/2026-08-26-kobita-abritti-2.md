@@ -3,15 +3,24 @@ layout: post
 title: "কবিতা আবৃত্তি - ২"
 date: 2026-08-26 16:11:00 +0400
 categories:
-    - বিনোদন
+    - kobita-abritti
+category_bn:
+    - কবিতা আবৃত্তি
 tags:
+    - বিনোদন
+    - কবিতা আবৃত্তি
     - ভিডিও
-    - আবৃত্তি
-    - কবিতা
-    - শামীম নিমু
-    - daily chalchitra
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: /assets/img/derhat-mati.webp
+image: "/assets/img/derhat-mati.webp"
+description: "কবিতা আবৃত্তি - ২। শামীম নিমুর কণ্ঠে আরও একটি অসাধারণ কবিতা আবৃত্তি।"
+excerpt: "কবিতা আবৃত্তি - ২। শামীম নিমুর কণ্ঠে আরও একটি অসাধারণ কবিতা আবৃত্তি।"
+permalink: "/kobita-abritti/2026/08/26/kobita-abritti-2/"
+redirect_from:
+    - "/kobita-abritti/2026/08/26/kobita-abritti-2/"
+    - "/কবিতা আবৃত্তি/2026/08/26/kobita-abritti-2/"
+    - "/search/label/বিনোদন"
+    - "/search/label/কবিতা আবৃত্তি"
 youtube_id: bZVS6joNAHw
 ---
 
