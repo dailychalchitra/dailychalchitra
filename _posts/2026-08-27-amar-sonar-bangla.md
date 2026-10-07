@@ -2,24 +2,26 @@
 layout: post
 title: "আমার সোনার বাংলা"
 date: 2026-08-27 22:39:00 +0400
-
 categories:
-  - গান
-
+    - gaan
+category_bn:
+    - গান
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - দেশাত্মবোধক গান
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - বিনোদন
+    - গান
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "আমার সোনার বাংলা - রবীন্দ্রনাথ ঠাকুরের লেখা বাংলাদেশের জাতীয় সঙ্গীত।"
+excerpt: "আমার সোনার বাংলা - রবীন্দ্রনাথ ঠাকুরের লেখা বাংলাদেশের জাতীয় সঙ্গীত।"
+permalink: "/gaan/2026/08/27/amar-sonar-bangla/"
+redirect_from:
+    - "/gaan/2026/08/27/amar-sonar-bangla/"
+    - "/গান/2026/08/27/amar-sonar-bangla/"
+    - "/search/label/গান"
+    - "/search/label/সাহিত্য"
 ---
 
 আমার সোনার বাংলা, আমি তোমায় ভালোবাসি।
