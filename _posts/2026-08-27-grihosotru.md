@@ -2,24 +2,25 @@
 layout: post
 title: "গৃহশত্রু"
 date: 2026-08-27 21:32:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - দেশের কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "গৃহশত্রু - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+excerpt: "গৃহশত্রু - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+permalink: "/kobita/2026/08/27/grihosotru/"
+redirect_from:
+    - "/kobita/2026/08/27/grihosotru/"
+    - "/কবিতা/2026/08/27/grihosotru/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 আমি একাকিনী যবে চলি রাজপথে
