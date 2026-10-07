@@ -2,24 +2,25 @@
 layout: post
 title: "দুর্ভাগা দেশ"
 date: 2026-08-27 22:46:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - দেশের কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "দুর্ভাগা দেশ - রবীন্দ্রনাথ ঠাকুরের লেখা একটি দেশপ্রেমমূলক কবিতা।"
+excerpt: "দুর্ভাগা দেশ - রবীন্দ্রনাথ ঠাকুরের লেখা একটি দেশপ্রেমমূলক কবিতা।"
+permalink: "/kobita/2026/08/27/durbhaga-desh/"
+redirect_from:
+    - "/kobita/2026/08/27/durbhaga-desh/"
+    - "/কবিতা/2026/08/27/durbhaga-desh/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 হে মোর দুর্ভাগা দেশ, যাদের করেছ অপমান,
