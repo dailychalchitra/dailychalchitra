@@ -2,24 +2,25 @@
 layout: post
 title: "আমাদের ছোট নদী"
 date: 2026-08-27 22:50:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - প্রকৃতি বিষয়ক কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "আমাদের ছোট নদী - রবীন্দ্রনাথ ঠাকুরের বিখ্যাত কবিতা।"
+excerpt: "আমাদের ছোট নদী - রবীন্দ্রনাথ ঠাকুরের বিখ্যাত কবিতা।"
+permalink: "/kobita/2026/08/27/amader-choto-nodi/"
+redirect_from:
+    - "/kobita/2026/08/27/amader-choto-nodi/"
+    - "/কবিতা/2026/08/27/amader-choto-nodi/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 আমাদের ছোটো নদী চলে বাঁকে বাঁকে 
