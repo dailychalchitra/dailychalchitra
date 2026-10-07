@@ -3,15 +3,24 @@ layout: post
 title: "কবিতা আবৃত্তি - ৩"
 date: 2026-08-26 21:57:00 +0400
 categories:
-  - বিনোদন
+    - kobita-abritti
+category_bn:
+    - কবিতা আবৃত্তি
 tags:
-  - ভিডিও
-  - আবৃত্তি
-  - কবিতা
-  - শামীম নিমু
-  - daily chalchitra
+    - বিনোদন
+    - কবিতা আবৃত্তি
+    - ভিডিও
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: /assets/img/hottat.webp
+image: "/assets/img/hottat.webp"
+description: "কবিতা আবৃত্তি - ৩। শামীম নিমুর কণ্ঠে আরও একটি হৃদয় ছোঁয়া কবিতা আবৃত্তি।"
+excerpt: "কবিতা আবৃত্তি - ৩। শামীম নিমুর কণ্ঠে আরও একটি হৃদয় ছোঁয়া কবিতা আবৃত্তি।"
+permalink: "/kobita-abritti/2026/08/26/kobita-abritti-3/"
+redirect_from:
+    - "/kobita-abritti/2026/08/26/kobita-abritti-3/"
+    - "/কবিতা আবৃত্তি/2026/08/26/kobita-abritti-3/"
+    - "/search/label/বিনোদন"
+    - "/search/label/কবিতা আবৃত্তি"
 youtube_id: UpXajSAatTQ
 ---
 
