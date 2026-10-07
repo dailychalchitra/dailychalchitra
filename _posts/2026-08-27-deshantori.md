@@ -2,24 +2,25 @@
 layout: post
 title: "দেশান্তরী"
 date: 2026-08-27 23:06:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - দেশের কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "দেশান্তরী - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+excerpt: "দেশান্তরী - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+permalink: "/kobita/2026/08/27/deshantori/"
+redirect_from:
+    - "/kobita/2026/08/27/deshantori/"
+    - "/কবিতা/2026/08/27/deshantori/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 প্রাণ-ধারণের বোঝাখানা বাঁধা পিঠের 'পরে,
