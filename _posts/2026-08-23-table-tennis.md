@@ -2,31 +2,24 @@
 layout: post
 title: "'লাইফলাইন' খ্যাত পিং পং ভেন্যু সাময়িকভাবে আবার খুলল"
 date: 2026-08-23 00:25:00 +0400
-
 categories:
-  - খেলাধুলা
-
+    - table-tennis
+category_bn:
+    - টেবিল টেনিস
 tags:
-  - টেবিল টেনিস
-  - সংবাদ
-  - বিশ্ব
-  - আন্তর্জাতিক
-  - আরও
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - দৈনিক চালচিত্র
-  - table tennis
-  - news
-  - world
-  - international
-  - more
-  - categories
-  - other
-  - daily chalchitra
-
+    - খেলাধুলা
+    - টেবিল টেনিস
+    - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
-
-image: /assets/img/table-tennis.webp
+image: "/assets/img/table-tennis.webp"
+description: "'লাইফলাইন' খ্যাত পিং পং ভেন্যু সাময়িকভাবে আবার খুলল। দীর্ঘদিন বন্ধ থাকার পর খেলোয়াড়দের জন্য খুলে দেওয়া হলো জনপ্রিয় এই টেবিল টেনিস ভেন্যু।"
+excerpt: "'লাইফলাইন' খ্যাত পিং পং ভেন্যু সাময়িকভাবে আবার খুলল।"
+permalink: "/table-tennis/2026/08/23/lifeline-venue-reopen/"
+redirect_from:
+    - "/table-tennis/2026/08/23/lifeline-venue-reopen/"
+    - "/টেবিল টেনিস/2026/08/23/lifeline-venue-reopen/"
+    - "/search/label/খেলাধুলা"
+    - "/search/label/টেবিল টেনিস"
 ---
 
 গত বছর বন্ধ হয়ে যাওয়া "লাইফলাইন" হিসেবে পরিচিত জনপ্রিয় ফ্রি টেবিল টেনিস ভেন্যুটি একই শপিং সেন্টারে সাময়িকভাবে আবার খুলেছে।
