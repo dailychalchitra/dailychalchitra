@@ -3,17 +3,24 @@ layout: post
 title: "ইসলামিক সংগীত"
 date: 2026-09-02 23:04:00 +0400
 categories:
-  - বিনোদন
+    - gan
+category_bn:
+    - গান
 tags:
-  - ইসলামিক সংগীত
-  - ভিডিও
-  - গান
-  - নাসীদ
-  - শামীম নিমু
-  - daily chalchitra
+    - বিনোদন
+    - ভিডিও
+    - গান
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: /assets/img/tumi_mabud.webp
-youtube_id: yYiuWPMmsKU
+image: "/assets/img/tumi_mabud.webp"
+description: "ইসলামিক সংগীত - শামীম নিমু'র কণ্ঠে একটি ইসলামিক গান।"
+excerpt: "ইসলামিক সংগীত - শামীম নিমু'র কণ্ঠে একটি ইসলামিক গান।"
+permalink: "/gaan/2026/09/02/islamic-sangeet/"
+redirect_from:
+    - "/gaan/2026/09/02/islamic-sangeet/"
+    - "/গান/2026/09/02/islamic-sangeet/"
+    - "/search/label/গান"
+youtube_id: "yYiuWPMmsKU"
 ---
 
 <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;margin-bottom:20px;">
