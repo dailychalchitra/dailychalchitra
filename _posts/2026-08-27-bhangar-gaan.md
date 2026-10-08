@@ -2,24 +2,26 @@
 layout: post
 title: "ভাঙ্গার গান"
 date: 2026-08-27 23:41:00 +0400
-
 categories:
-  - গান
-
+    - gaan
+category_bn:
+    - গান
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - বিদ্রোহী গান
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - কাজী নজরুল ইসলাম এর লেখা গান
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - গান
+    - দৈনিক চালচিত্র
 author: "কাজী নজরুল ইসলাম"
-
-image: /assets/img/kazi-nazrul-islam.webp
+image: "/assets/img/kazi-nazrul-islam.webp"
+description: "ভাঙ্গার গান - কাজী নজরুল ইসলামের লেখা একটি বিদ্রোহী গান ও কবিতা।"
+excerpt: "ভাঙ্গার গান - কাজী নজরুল ইসলামের লেখা একটি বিদ্রোহী গান ও কবিতা।"
+permalink: "/gaan/2026/08/27/bhangar-gaan/"
+redirect_from:
+    - "/gaan/2026/08/27/bhangar-gaan/"
+    - "/গান/2026/08/27/bhangar-gaan/"
+    - "/search/label/গান"
+    - "/search/label/সাহিত্য"
 ---
 
 কারার ওই লৌহ-কপাট,
