@@ -689,13 +689,21 @@ window.DCViewer = {
             "</svg>";
         return "data:image/svg+xml;utf8," + svg;
     },
-    buildSoloLeftStripHTML(){
+        buildSoloLeftStripHTML(){
         const combos = [
             ["%23C0392B","%23F1C40F"], ["%23D35400","%2327AE60"], ["%238E44AD","%23F1C40F"],
             ["%232980B9","%23D35400"], ["%2327AE60","%23C0392B"], ["%23F1C40F","%238E44AD"],
             ["%23C0392B","%232980B9"]
         ];
-        const imgs = combos.map(c => `<img src="${this.soloMotifDataUri(c[0], c[1])}">`).join("");
+        // অনেকগুলো মোটিফ গা-ঘেঁষে পরপর বসানো হয় (কোনো ফাঁক ছাড়া), যাতে
+        // পাতা যত লম্বাই হোক পুরো স্ট্রিপ ভরাট দেখায়; overflow:hidden
+        // অতিরিক্ত অংশ কেটে দেয়
+        const repeatCount = 46;
+        let imgs = "";
+        for(let i = 0; i < repeatCount; i++){
+            const c = combos[i % combos.length];
+            imgs += `<img src="${this.soloMotifDataUri(c[0], c[1])}">`;
+        }
         return `<div class="dcp-solo-left-strip">${imgs}</div>`;
     },
 
@@ -706,19 +714,19 @@ window.DCViewer = {
         return words.map((w, i) => `<span style="color:${palette[i % palette.length]};">${w}</span>`).join(" ");
     },
 
-    getSoloPrintStyleTag(){
+        getSoloPrintStyleTag(){
         return `<style>
             .dcp-solo-page{
                 font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
                 position:relative; overflow:hidden; background:#fffaf5;
                 border:9px double #8B0000; outline:2px solid #C0392B; outline-offset:-16px;
-                padding:30px 34px 22px 64px;
+                padding:32px 40px 26px 64px;
             }
             .dcp-solo-left-strip{
-                position:absolute; top:16px; bottom:16px; left:16px; width:30px; z-index:1;
-                display:flex; flex-direction:column; justify-content:space-between; align-items:center;
+                position:absolute; top:14px; bottom:14px; left:14px; width:34px; z-index:1;
+                overflow:hidden; background:rgba(255,255,255,0.35); border-radius:4px;
             }
-            .dcp-solo-left-strip img{ width:28px; height:28px; }
+            .dcp-solo-left-strip img{ display:block; width:32px; height:32px; margin:0 auto; }
             .dcp-solo-vline{
                 position:absolute; top:24px; bottom:24px; right:20px; width:3px; z-index:1;
                 background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9); border-radius:2px;
@@ -726,43 +734,50 @@ window.DCViewer = {
 
             .dcp-solo-head{
                 position:relative; z-index:2; display:table; width:100%; table-layout:fixed;
-                margin:0 0 18px; padding-bottom:14px; border-bottom:2px solid #C0392B;
+                margin:0 0 20px; padding-bottom:14px; border-bottom:2px solid #C0392B;
             }
-            .dcp-solo-head-corner{ display:table-cell; width:150px; font-size:11px; color:#777; font-weight:600; line-height:1.75; vertical-align:middle; }
+            .dcp-solo-head-corner{ display:table-cell; width:150px; font-size:13px; color:#777; font-weight:600; line-height:1.8; vertical-align:middle; }
             .dcp-solo-head-right{ text-align:right; }
             .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
             .dcp-solo-logo{ max-width:150px; height:auto; }
 
             .dcp-solo-body{ position:relative; z-index:2; }
+
+            /* শিরোনাম+কনটেন্ট (বাম, বড়) আর লেখক-সাইডবার (ডান, নির্দিষ্ট
+               প্রস্থ) — display:table দিয়ে, float/flex নয়, যাতে
+               html2canvas-এ নির্ভরযোগ্যভাবে এবং সবসময় একই প্রস্থে রেন্ডার হয় */
+            .dcp-solo-table{ display:table; width:100%; table-layout:fixed; }
+            .dcp-solo-main-cell{ display:table-cell; vertical-align:top; }
+            .dcp-solo-side-cell{ display:table-cell; width:165px; vertical-align:top; padding-left:22px; text-align:center; }
+
             .dcp-solo-title{
-                font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:30px; text-align:center;
-                line-height:1.55; margin:4px 0 10px; letter-spacing:1px;
+                font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:44px; text-align:center;
+                line-height:1.5; margin:6px 0 14px; letter-spacing:1px;
             }
-            .dcp-solo-title span{ display:inline-block; margin:0 3px; }
+            .dcp-solo-title span{ display:inline-block; margin:0 4px; }
             .dcp-solo-authorname{
-                text-align:center; font-size:16px; color:#8B0000; font-weight:700;
-                margin-bottom:20px; font-family:'Noto Serif Bengali',serif;
+                text-align:center; font-size:20px; color:#8B0000; font-weight:700;
+                margin-bottom:26px; font-family:'Noto Serif Bengali',serif;
             }
 
-            .dcp-solo-sidebar{ float:right; width:140px; margin:0 20px 14px 22px; text-align:center; }
             .dcp-solo-author-photo{
-                width:108px; height:108px; border-radius:50%; object-fit:cover;
-                box-shadow:0 4px 10px rgba(0,0,0,0.3); border:3px solid #fff;
+                width:140px; height:auto; display:block; margin:0 auto 12px;
+                box-shadow:0 6px 16px rgba(0,0,0,0.35);
             }
-            .dcp-solo-author-bio{ font-size:11px; color:#555; line-height:1.55; margin-top:8px; }
+            .dcp-solo-author-bio{ font-size:14px; color:#555; line-height:1.65; }
 
-            .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:18px; line-height:1.9; color:#222; text-align:justify; }
-            .dcp-solo-content p{ margin:0 0 12px; }
-            .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 22px; }
-            .dcp-solo-content .kobita-pera.kobita-date{ font-size:13px; font-style:italic; color:#777; margin-top:6px; }
+            .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:27px; line-height:1.95; color:#222; text-align:justify; }
+            .dcp-solo-content p{ margin:0 0 16px; }
+            .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 28px; }
+            .dcp-solo-content .kobita-pera.kobita-date{ font-size:17px; font-style:italic; color:#777; margin-top:8px; }
 
-            .dcp-solo-footer{ position:relative; z-index:2; clear:both; text-align:center; margin-top:22px; }
+            .dcp-solo-footer{ position:relative; z-index:2; clear:both; text-align:center; margin-top:26px; }
             .dcp-solo-footer-line{ border-top:1px solid #d8b98a; margin-bottom:10px; }
-            .dcp-solo-footer-url{ font-size:11px; letter-spacing:2px; color:#999; }
+            .dcp-solo-footer-url{ font-size:13px; letter-spacing:2px; color:#999; }
         </style>`;
     },
 
-    buildSoloBodyHTML(post){
+        buildSoloBodyHTML(post){
         const now = new Date();
         const pad = (n) => String(n).padStart(2, '0');
         const dateStr = post.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
@@ -797,10 +812,14 @@ window.DCViewer = {
                 </div>
             </div>
             <div class="dcp-solo-body">
-                <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
-                ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
-                ${hasSidebar ? `<div class="dcp-solo-sidebar">${authorImgHTML}${authorBioHTML}</div>` : ''}
-                <div class="dcp-solo-content">${cleanContent}</div>
+                <div class="dcp-solo-table">
+                    <div class="dcp-solo-main-cell">
+                        <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
+                        ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
+                        <div class="dcp-solo-content">${cleanContent}</div>
+                    </div>
+                    ${hasSidebar ? `<div class="dcp-solo-side-cell">${authorImgHTML}${authorBioHTML}</div>` : ''}
+                </div>
             </div>
             <div class="dcp-solo-footer">
                 <div class="dcp-solo-footer-line"></div>
@@ -824,8 +843,10 @@ window.DCViewer = {
         let success = true;
         try{
             const pageEl = document.createElement("div");
+                        const a4Ratio = 297 / 210;
+            const minHeightPx = Math.round(captureWidth * a4Ratio);
             pageEl.className = "dcp-solo-page";
-            pageEl.style.cssText = `width:${captureWidth}px; box-sizing:border-box;`;
+            pageEl.style.cssText = `width:${captureWidth}px; min-height:${minHeightPx}px; box-sizing:border-box;`;
             pageEl.innerHTML = this.getSoloPrintStyleTag() + this.buildSoloBodyHTML(post);
 
             const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
