@@ -3,18 +3,24 @@ layout: post
 title: "অসমাপ্ত ভালোবাসার চিঠি"
 date: 2026-08-28 23:32:00 +0400
 categories:
+    - goddo-kobita
+category_bn:
     - গদ্য কবিতা
-
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
-    - চিঠি
+    - গদ্য কবিতা
     - দৈনিক চালচিত্র
-    - শামীম নিমু এর লেখা গদ্য কবিতা
-
 author: "শামীম নিমু"
-image: /assets/img/shamim-nimu-1.webp
+image: "/assets/img/shamim-nimu-1.webp"
+description: "অসমাপ্ত ভালোবাসার চিঠি - শামীম নিমু'র লেখা একটি গদ্য কবিতা।"
+excerpt: "অসমাপ্ত ভালোবাসার চিঠি - শামীম নিমু'র লেখা একটি গদ্য কবিতা।"
+permalink: "/goddo-kobita/2026/08/28/osomapto-valobasar-cithi/"
+redirect_from:
+    - "/goddo-kobita/2026/08/28/osomapto-valobasar-cithi/"
+    - "/গদ্য কবিতা/2026/08/28/osomapto-valobasar-cithi/"
+    - "/search/label/গদ্য কবিতা"
 ---
 
 প্রিয় সংসার,
