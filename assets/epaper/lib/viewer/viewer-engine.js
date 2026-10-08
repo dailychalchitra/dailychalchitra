@@ -675,11 +675,197 @@ window.DCViewer = {
         await this.capturePagesToPDF(printPages, issueMeta, fileName, totalColumns);
     },
 
+        // ============================================================
+    // সিঙ্গেল-পোস্ট উৎসবমুখী ("বৈশাখী কার্ড") প্রিন্ট ডিজাইন —
+    // শুধু downloadSinglePostPDF-এর জন্য, গ্রিড/ইস্যু-ডাউনলোড সিস্টেম
+    // থেকে সম্পূর্ণ স্বতন্ত্র, সেগুলোর কোনো কোড এখানে পুনর্ব্যবহৃত হয়নি।
+    // ============================================================
+
+    // ছোট রঙিন মোটিফ (ফুল/পেইজলি ধাঁচ) - বাম পাশের নকশা-স্ট্রিপে
+    soloMotifDataUri(colorA, colorB){
+        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'>" +
+            "<circle cx='20' cy='20' r='6' fill='" + colorA + "'/>" +
+            "<path d='M20 6 C24 14 30 14 34 20 C30 26 24 26 20 34 C16 26 10 26 6 20 C10 14 16 14 20 6 Z' fill='none' stroke='" + colorB + "' stroke-width='2.2'/>" +
+            "</svg>";
+        return "data:image/svg+xml;utf8," + svg;
+    },
+    buildSoloLeftStripHTML(){
+        const combos = [
+            ["%23C0392B","%23F1C40F"], ["%23D35400","%2327AE60"], ["%238E44AD","%23F1C40F"],
+            ["%232980B9","%23D35400"], ["%2327AE60","%23C0392B"], ["%23F1C40F","%238E44AD"],
+            ["%23C0392B","%232980B9"]
+        ];
+        const imgs = combos.map(c => `<img src="${this.soloMotifDataUri(c[0], c[1])}">`).join("");
+        return `<div class="dcp-solo-left-strip">${imgs}</div>`;
+    },
+
+    // শিরোনামের প্রতিটা শব্দ পালাক্রমে ভিন্ন রঙে - উৎসবমুখী বহু-রঙা প্রভাব
+    colorizeTitle(title){
+        const palette = ["#C0392B", "#D35400", "#8E44AD", "#2980B9", "#117864", "#B9770E"];
+        const words = (title || "").split(" ").filter(Boolean);
+        return words.map((w, i) => `<span style="color:${palette[i % palette.length]};">${w}</span>`).join(" ");
+    },
+
+    getSoloPrintStyleTag(){
+        return `<style>
+            .dcp-solo-page{
+                font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
+                position:relative; overflow:hidden; background:#fffaf5;
+                border:9px double #8B0000; outline:2px solid #C0392B; outline-offset:-16px;
+                padding:30px 34px 22px 64px;
+            }
+            .dcp-solo-left-strip{
+                position:absolute; top:16px; bottom:16px; left:16px; width:30px; z-index:1;
+                display:flex; flex-direction:column; justify-content:space-between; align-items:center;
+            }
+            .dcp-solo-left-strip img{ width:28px; height:28px; }
+            .dcp-solo-vline{
+                position:absolute; top:24px; bottom:24px; right:20px; width:3px; z-index:1;
+                background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9); border-radius:2px;
+            }
+
+            .dcp-solo-head{
+                position:relative; z-index:2; display:table; width:100%; table-layout:fixed;
+                margin:0 0 18px; padding-bottom:14px; border-bottom:2px solid #C0392B;
+            }
+            .dcp-solo-head-corner{ display:table-cell; width:150px; font-size:11px; color:#777; font-weight:600; line-height:1.75; vertical-align:middle; }
+            .dcp-solo-head-right{ text-align:right; }
+            .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
+            .dcp-solo-logo{ max-width:150px; height:auto; }
+
+            .dcp-solo-body{ position:relative; z-index:2; }
+            .dcp-solo-title{
+                font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:30px; text-align:center;
+                line-height:1.55; margin:4px 0 10px; letter-spacing:1px;
+            }
+            .dcp-solo-title span{ display:inline-block; margin:0 3px; }
+            .dcp-solo-authorname{
+                text-align:center; font-size:16px; color:#8B0000; font-weight:700;
+                margin-bottom:20px; font-family:'Noto Serif Bengali',serif;
+            }
+
+            .dcp-solo-sidebar{ float:right; width:140px; margin:0 20px 14px 22px; text-align:center; }
+            .dcp-solo-author-photo{
+                width:108px; height:108px; border-radius:50%; object-fit:cover;
+                box-shadow:0 4px 10px rgba(0,0,0,0.3); border:3px solid #fff;
+            }
+            .dcp-solo-author-bio{ font-size:11px; color:#555; line-height:1.55; margin-top:8px; }
+
+            .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:18px; line-height:1.9; color:#222; text-align:justify; }
+            .dcp-solo-content p{ margin:0 0 12px; }
+            .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 22px; }
+            .dcp-solo-content .kobita-pera.kobita-date{ font-size:13px; font-style:italic; color:#777; margin-top:6px; }
+
+            .dcp-solo-footer{ position:relative; z-index:2; clear:both; text-align:center; margin-top:22px; }
+            .dcp-solo-footer-line{ border-top:1px solid #d8b98a; margin-bottom:10px; }
+            .dcp-solo-footer-url{ font-size:11px; letter-spacing:2px; color:#999; }
+        </style>`;
+    },
+
+    buildSoloBodyHTML(post){
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const dateStr = post.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
+        const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
+
+        let cleanContent = post.content || post.excerpt || "";
+        if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
+        else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
+
+        const authorImgHTML = post.authorImage
+            ? `<img src="${post.authorImage}" class="dcp-solo-author-photo" crossorigin="anonymous">`
+            : '';
+        const authorBioHTML = post.authorBio
+            ? `<div class="dcp-solo-author-bio">${post.authorBio}</div>`
+            : '';
+        const hasSidebar = authorImgHTML || authorBioHTML;
+
+        return `
+            ${this.buildSoloLeftStripHTML()}
+            <div class="dcp-solo-vline"></div>
+            <div class="dcp-solo-head">
+                <div class="dcp-solo-head-corner dcp-solo-head-left">
+                    <div>তারিখ: ${dateStr}</div>
+                    <div>সময়: ${timeStr}</div>
+                </div>
+                <div class="dcp-solo-head-logo">
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-solo-logo" crossorigin="anonymous">
+                </div>
+                <div class="dcp-solo-head-corner dcp-solo-head-right">
+                    <div>বিস্তারিত: সাহিত্য সংস্করণ</div>
+                    <div>${post.category || ''}</div>
+                </div>
+            </div>
+            <div class="dcp-solo-body">
+                <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
+                ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
+                ${hasSidebar ? `<div class="dcp-solo-sidebar">${authorImgHTML}${authorBioHTML}</div>` : ''}
+                <div class="dcp-solo-content">${cleanContent}</div>
+            </div>
+            <div class="dcp-solo-footer">
+                <div class="dcp-solo-footer-line"></div>
+                <div class="dcp-solo-footer-url">দৈনিক চালচিত্র &nbsp;•&nbsp; www.dailychalchitra.com</div>
+            </div>
+        `;
+    },
+
+    async captureSoloPostToPDF(post, fileName){
+        if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
+
+        const captureWidth = 1000;
+        const host = document.createElement("div");
+        host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
+        host.style.width = "0"; host.style.height = "0"; host.style.overflow = "hidden";
+        document.body.appendChild(host);
+        const wrapper = document.createElement("div");
+        wrapper.style.width = captureWidth + "px";
+        host.appendChild(wrapper);
+
+        let success = true;
+        try{
+            const pageEl = document.createElement("div");
+            pageEl.className = "dcp-solo-page";
+            pageEl.style.cssText = `width:${captureWidth}px; box-sizing:border-box;`;
+            pageEl.innerHTML = this.getSoloPrintStyleTag() + this.buildSoloBodyHTML(post);
+
+            const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
+            if(!canvas || canvas.width === 0 || canvas.height === 0){
+                alert("দেখানোর মতো কনটেন্ট পাওয়া যায়নি।");
+                success = false;
+            } else {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF("p", "mm", "a4");
+                const pageWidthMM = pdf.internal.pageSize.getWidth();
+                const pageHeightMM = pdf.internal.pageSize.getHeight();
+                const imgData = canvas.toDataURL("image/jpeg", 0.95);
+                const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
+
+                if(imgHeightMM <= pageHeightMM){
+                    pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
+                } else {
+                    let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
+                    while(heightLeftMM > pageHeightMM * 0.08){
+                        if(!first) pdf.addPage();
+                        pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
+                        heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
+                    }
+                }
+                pdf.save(fileName + ".pdf");
+            }
+        } catch(e){
+            console.error(e);
+            alert("PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+            success = false;
+        } finally {
+            host.remove();
+        }
+        return success;
+    },
+
     async downloadSinglePostPDF(post){
         if(!post){ return; }
-        const { pages: printPages, totalColumns } = await this.buildPrintPages([post]);
         const fileName = (post.title || 'post').replace(/[\/\\:*?"<>|]/g,'').substring(0,40);
-        await this.capturePagesToPDF(printPages, null, fileName, totalColumns);
+        await this.captureSoloPostToPDF(post, fileName);
     }
 };
 window.addEventListener("resize",()=>{ if(window.DCViewer && DCViewer.initialized){ DCViewer.resize(); } });
