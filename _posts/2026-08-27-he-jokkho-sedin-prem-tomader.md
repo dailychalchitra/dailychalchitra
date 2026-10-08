@@ -2,24 +2,25 @@
 layout: post
 title: "হে যক্ষ সেদিন প্রেম তোমাদের"
 date: 2026-08-27 22:55:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - ভক্তি মূলক কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "হে যক্ষ সেদিন প্রেম তোমাদের - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+excerpt: "হে যক্ষ সেদিন প্রেম তোমাদের - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+permalink: "/kobita/2026/08/27/he-jokkho-sedin-prem-tomader/"
+redirect_from:
+    - "/kobita/2026/08/27/he-jokkho-sedin-prem-tomader/"
+    - "/কবিতা/2026/08/27/he-jokkho-sedin-prem-tomader/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 হে যক্ষ, সেদিন প্রেম তোমাদের
