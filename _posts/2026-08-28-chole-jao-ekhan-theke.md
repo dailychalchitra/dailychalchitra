@@ -2,22 +2,24 @@
 layout: post
 title: "চলে যাও এখান থেকে"
 date: 2026-08-28 00:46:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - প্রেমের কবিতা
-  - বিরহের কবিতা
-  - গোলাম কবির এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "গোলাম কবির"
-
-image: /assets/img/golam-kabir.webp
+image: "/assets/img/golam-kabir.webp"
+description: "চলে যাও এখান থেকে - গোলাম কবিরের লেখা একটি কবিতা।"
+excerpt: "চলে যাও এখান থেকে - গোলাম কবিরের লেখা একটি কবিতা।"
+permalink: "/kobita/2026/08/28/chole-jao-ekhan-theke/"
+redirect_from:
+    - "/kobita/2026/08/28/chole-jao-ekhan-theke/"
+    - "/কবিতা/2026/08/28/chole-jao-ekhan-theke/"
+    - "/search/label/কবিতা"
 ---
 
 হ্যাঁ, তোমাকেই বলছি!
