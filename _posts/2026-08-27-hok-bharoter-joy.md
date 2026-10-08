@@ -2,24 +2,25 @@
 layout: post
 title: "হোক ভারতের জয়"
 date: 2026-08-27 22:24:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - জীবনের কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "হোক ভারতের জয় - রবীন্দ্রনাথ ঠাকুরের লেখা একটি দেশাত্মবোধক কবিতা।"
+excerpt: "হোক ভারতের জয় - রবীন্দ্রনাথ ঠাকুরের লেখা একটি দেশাত্মবোধক কবিতা।"
+permalink: "/kobita/2026/08/27/hok-bharoter-joy/"
+redirect_from:
+    - "/kobita/2026/08/27/hok-bharoter-joy/"
+    - "/কবিতা/2026/08/27/hok-bharoter-joy/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 এসো এসো ভ্রাতৃগণ! সরল অন্তরে
