@@ -2,21 +2,24 @@
 layout: post
 title: "প্রিয় খোয়াই নদীর কাছে খোলা চিঠি"
 date: 2026-09-02 01:12:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - চিঠি
-  - গোলাম কবির
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "গোলাম কবির"
-
-image: /assets/img/golam-kobir-01.webp
+image: "/assets/img/golam-kobir-01.webp"
+description: "প্রিয় খোয়াই নদীর কাছে খোলা চিঠি - গোলাম কবিরের লেখা একটি কবিতা।"
+excerpt: "প্রিয় খোয়াই নদীর কাছে খোলা চিঠি - গোলাম কবিরের লেখা একটি কবিতা।"
+permalink: "/kobita/2026/09/02/prio-khoai-nodir-kache-khola-chithi/"
+redirect_from:
+    - "/kobita/2026/09/02/prio-khoai-nodir-kache-khola-chithi/"
+    - "/কবিতা/2026/09/02/prio-khoai-nodir-kache-khola-chithi/"
+    - "/search/label/কবিতা"
 ---
 
 প্রিয় "খোয়াই",
