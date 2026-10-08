@@ -3,18 +3,24 @@ layout: post
 title: "ভালোবাসার জন্য"
 date: 2026-08-29 02:49:00 +0400
 categories:
-    - kobita
-category_bn: "কবিতা"
-tags:
-    - কবিতা
-    - গদ্য কবিতা
+    - anu-kobita
+category_bn:
     - অনু কবিতা
-    - শামীম নিমু
+tags:
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - অনু কবিতা
+    - গদ্য কবিতা
+    - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: /assets/img/shamim-nimu-1.webp
-permalink: /kobita/2026/08/29/valobasar-jonne/
+image: "/assets/img/shamim-nimu-1.webp"
+description: "ভালোবাসার জন্য - শামীম নিমু'র লেখা একটি অনু কবিতা।"
+excerpt: "ভালোবাসার জন্য - শামীম নিমু'র লেখা একটি অনু কবিতা।"
+permalink: "/anu-kobita/2026/08/29/valobasar-jonne/"
 redirect_from:
-    - /কবিতা/2026/08/29/valobasar-jonne/
+    - "/anu-kobita/2026/08/29/valobasar-jonne/"
+    - "/অনু কবিতা/2026/08/29/valobasar-jonne/"
+    - "/search/label/অনু কবিতা"
 ---
 
 ভালোবাসা ছাড়া কি কেউ বাঁচতে পারে, বলো?
