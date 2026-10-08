@@ -2,24 +2,25 @@
 layout: post
 title: "দুই বিঘা জমি"
 date: 2026-08-28 00:12:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - পদ্য কবিতা
-  - সহানুভূতি কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা গান
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - পদ্য কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "দুই বিঘা জমি - রবীন্দ্রনাথ ঠাকুরের লেখা বিখ্যাত কবিতা।"
+excerpt: "দুই বিঘা জমি - রবীন্দ্রনাথ ঠাকুরের লেখা বিখ্যাত কবিতা।"
+permalink: "/kobita/2026/08/28/dui-bigha-jomi/"
+redirect_from:
+    - "/kobita/2026/08/28/dui-bigha-jomi/"
+    - "/কবিতা/2026/08/28/dui-bigha-jomi/"
+    - "/search/label/কবিতা"
 ---
 
 শুধু বিঘে দুই ছিল মোর ভুঁই আর সবই গেছে ঋণে।
