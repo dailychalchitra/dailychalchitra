@@ -954,14 +954,16 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     var rawContentEl = document.getElementById('dc-post-raw-content');
-    var post = {
+        var post = {
       title: {{ page.title | jsonify }},
       content: rawContentEl ? rawContentEl.innerHTML : '',
       category: {{ page.category_bn | default: page.categories.first | default: "" | jsonify }},
       author: {{ page.author | default: "" | jsonify }},
       date: {{ page.date | date: "%d %B, %Y" | jsonify }},
       image: {{ page.image | default: "" | jsonify }},
-      tags: {{ page.tags | default: "" | jsonify }}
+      tags: {{ page.tags | default: "" | jsonify }},
+      authorImage: {{ site.data.authors[page.author] | default: "" | jsonify }},
+      authorBio: {{ page.author_bio | default: "" | jsonify }}
     };
 
     pdfBtn.classList.add('dc-pdf-loading');
