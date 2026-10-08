@@ -2,24 +2,25 @@
 layout: post
 title: "হিন্দুস্থান"
 date: 2026-08-27 23:01:00 +0400
-
 categories:
-  - কবিতা
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - দেশের কবিতা
-  - বিভাগ সমূহ
-  - অন্যান্য
-  - আরও
-  - রবীন্দ্রনাথ ঠাকুর এর লেখা কবিতা
-  - দৈনিক চালচিত্র
-
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
-
-image: /assets/img/rabindranath-tagore.webp
+image: "/assets/img/rabindranath-tagore.webp"
+description: "হিন্দুস্থান - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+excerpt: "হিন্দুস্থান - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
+permalink: "/kobita/2026/08/27/hindustan/"
+redirect_from:
+    - "/kobita/2026/08/27/hindustan/"
+    - "/কবিতা/2026/08/27/hindustan/"
+    - "/search/label/কবিতা"
+    - "/search/label/সাহিত্য"
 ---
 
 মোরে হিন্দুস্থান
