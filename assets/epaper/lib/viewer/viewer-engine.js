@@ -683,15 +683,28 @@ window.DCViewer = {
     // ============================================================
 
     // ছোট রঙিন মোটিফ (ফুল/পেইজলি ধাঁচ) - বাম পাশের নকশা-স্ট্রিপে
-    soloMotifDataUri(colorA, colorB){
-        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'>" +
-            "<circle cx='20' cy='20' r='6' fill='" + colorA + "'/>" +
-            "<path d='M20 6 C24 14 30 14 34 20 C30 26 24 26 20 34 C16 26 10 26 6 20 C10 14 16 14 20 6 Z' fill='none' stroke='" + colorB + "' stroke-width='2.2'/>" +
-            "</svg>";
-        return "data:image/svg+xml;utf8," + svg;
-    },
+    soloMotifDataUri(c1, c2, c3){
+    const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='40' height='24' viewBox='0 0 40 24'>" +
+        "<circle cx='20' cy='12' r='4.5' fill='" + c1 + "'/>" +
+        "<path d='M20 3 C25 8 25 16 20 21 C15 16 15 8 20 3 Z' fill='none' stroke='" + c2 + "' stroke-width='1.6'/>" +
+        "<circle cx='6' cy='12' r='2' fill='" + c3 + "'/>" +
+        "<circle cx='34' cy='12' r='2' fill='" + c3 + "'/>" +
+        "</svg>";
+    return "data:image/svg+xml;utf8," + svg;
+},
         buildSoloLeftStripHTML(){
-    return `<div class="dcp-solo-left-strip"></div>`;
+    const combos = [
+        ["%23C0392B","%23F1C40F","%2327AE60"], ["%23D35400","%2327AE60","%238E44AD"],
+        ["%238E44AD","%23F1C40F","%23C0392B"], ["%232980B9","%23D35400","%23F1C40F"],
+        ["%2327AE60","%23C0392B","%232980B9"], ["%23F1C40F","%238E44AD","%23D35400"]
+    ];
+    const repeatCount = 60;
+    let imgs = "";
+    for(let i = 0; i < repeatCount; i++){
+        const c = combos[i % combos.length];
+        imgs += `<img src="${this.soloMotifDataUri(c[0], c[1], c[2])}">`;
+    }
+    return `<div class="dcp-solo-left-strip">${imgs}</div>`;
 },
 
     // শিরোনামের প্রতিটা শব্দ পালাক্রমে ভিন্ন রঙে - উৎসবমুখী বহু-রঙা প্রভাব
@@ -707,56 +720,53 @@ window.DCViewer = {
             font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
             position:relative; overflow:hidden; background:#fffaf5;
             border:9px double #8B0000; outline:2px solid #C0392B; outline-offset:-16px;
-            padding:34px 46px 30px 74px;
+            padding:34px 46px 30px 78px;
         }
 
-        /* বাম পাশের স্কেল/রুলার-প্যাড ডিজাইন */
+        /* বাইরের স্কেল/রুলার প্যাড — বৈশাখী মোটিফ, চ্যাপটা ইউনিট */
         .dcp-solo-left-strip{
-            position:absolute; top:16px; bottom:16px; left:16px; width:30px; z-index:1;
-            border-radius:6px; overflow:hidden;
-            background:
-                repeating-linear-gradient(180deg, #C0392B 0 6px, transparent 6px 34px),
-                repeating-linear-gradient(180deg, #2980B9 0 3px, transparent 3px 34px),
-                linear-gradient(180deg,#fff6ec,#ffe6cc);
-            background-position: 0 0, 0 17px, 0 0;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 2px 0 6px rgba(0,0,0,0.08);
+            position:absolute; top:14px; bottom:14px; left:14px; width:36px; z-index:1;
+            overflow:hidden; background:linear-gradient(180deg,#fff6ec,#ffe6cc);
+            border-radius:6px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06), 2px 0 6px rgba(0,0,0,0.08);
         }
+        .dcp-solo-left-strip img{ display:block; width:34px; height:20px; margin:1px auto; }
 
         .dcp-solo-head{
             position:relative; z-index:2; display:table; width:100%; table-layout:fixed;
             margin:0 0 24px; padding-bottom:16px; border-bottom:2px solid #C0392B;
         }
-        .dcp-solo-head-corner{ display:table-cell; width:170px; font-size:15px; color:#777; font-weight:600; line-height:1.9; vertical-align:middle; }
+        .dcp-solo-head-corner{ display:table-cell; width:170px; font-size:16px; color:#777; font-weight:600; line-height:1.9; vertical-align:middle; }
         .dcp-solo-head-right{ text-align:right; }
         .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
         .dcp-solo-logo{ max-width:170px; height:auto; }
 
-        .dcp-solo-body{ position:relative; z-index:2; text-align:center; }
+        .dcp-solo-body{ position:relative; z-index:2; padding-left:195px; min-height:900px; }
+
+        /* টেক্সট-কলামের বাঁ-পাশে রঙিন উল্লম্ব রেখা */
+        .dcp-solo-vline{
+            position:absolute; top:0; bottom:0; left:155px; width:5px; border-radius:3px; z-index:1;
+            background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9,#C0392B);
+        }
+
+        /* লেখক-ছবি+বায়ো — না উপরে, না নিচে; পেজের উপরিভাগ-মাঝামাঝি */
+        .dcp-solo-rail{ position:absolute; left:0; width:150px; top:360px; text-align:center; z-index:2; }
+        .dcp-solo-author-photo{
+            width:130px; height:auto; display:block; margin:0 auto 12px;
+            border-radius:8px; box-shadow:0 10px 22px rgba(0,0,0,0.32);
+        }
+        .dcp-solo-author-bio{ font-size:14px; color:#666; line-height:1.6; text-align:center; font-family:'Noto Serif Bengali',serif; padding:0 4px; }
 
         .dcp-solo-title{
-            font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:54px; text-align:center;
+            font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:60px; text-align:center;
             line-height:1.5; margin:6px 0 16px; letter-spacing:1px;
         }
         .dcp-solo-title span{ display:inline-block; margin:0 4px; }
         .dcp-solo-authorname{
-            text-align:center; font-size:24px; color:#8B0000; font-weight:700;
-            margin-bottom:24px; font-family:'Noto Serif Bengali',serif;
+            text-align:center; font-size:26px; color:#8B0000; font-weight:700;
+            margin-bottom:26px; font-family:'Noto Serif Bengali',serif;
         }
 
-        /* লেখক প্রোফাইল ব্লক — শিরোনামের নিচে, নিচের দিকে, কেন্দ্রীভূত */
-        .dcp-solo-author-block{ margin:0 auto 32px; max-width:440px; }
-        .dcp-solo-author-photo{
-            width:150px; height:150px; object-fit:cover; border-radius:50%;
-            display:block; margin:0 auto 14px; border:4px solid #fff;
-            box-shadow:0 10px 24px rgba(0,0,0,0.3), 0 0 0 3px #C0392B;
-        }
-        .dcp-solo-author-bio{ font-size:17px; color:#555; line-height:1.7; text-align:center; font-family:'Noto Serif Bengali',serif; }
-
-        .dcp-solo-content{
-            font-family:'Noto Serif Bengali',serif; font-size:30px; line-height:2.05; color:#222;
-            text-align:justify; text-align-last:center;
-            max-width:800px; margin:0 auto;
-        }
+        .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:32px; line-height:2.05; color:#222; text-align:justify; }
         .dcp-solo-content p{ margin:0 0 18px; }
         .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 30px; }
         .dcp-solo-content .kobita-pera.kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; }
@@ -777,13 +787,16 @@ window.DCViewer = {
     if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
     else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
 
+    const shortBio = (post.authorBio || "").replace(/<[^>]+>/g, "").trim();
+    const trimmedBio = shortBio.length > 150 ? shortBio.substring(0, 150) + "…" : shortBio;
+
     const authorImgHTML = post.authorImage
         ? `<img src="${post.authorImage}" class="dcp-solo-author-photo" crossorigin="anonymous">`
         : '';
-    const authorBioHTML = post.authorBio
-        ? `<div class="dcp-solo-author-bio">${post.authorBio}</div>`
+    const authorBioHTML = trimmedBio
+        ? `<div class="dcp-solo-author-bio">${trimmedBio}</div>`
         : '';
-    const hasAuthorBlock = authorImgHTML || authorBioHTML;
+    const hasRail = authorImgHTML || authorBioHTML;
 
     return `
         ${this.buildSoloLeftStripHTML()}
@@ -801,9 +814,10 @@ window.DCViewer = {
             </div>
         </div>
         <div class="dcp-solo-body">
+            <div class="dcp-solo-vline"></div>
+            ${hasRail ? `<div class="dcp-solo-rail">${authorImgHTML}${authorBioHTML}</div>` : ''}
             <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
             ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
-            ${hasAuthorBlock ? `<div class="dcp-solo-author-block">${authorImgHTML}${authorBioHTML}</div>` : ''}
             <div class="dcp-solo-content">${cleanContent}</div>
         </div>
         <div class="dcp-solo-footer">
