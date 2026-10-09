@@ -740,21 +740,19 @@ window.DCViewer = {
         .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
         .dcp-solo-logo{ max-width:170px; height:auto; }
 
-        .dcp-solo-body{ position:relative; z-index:2; padding-left:195px; min-height:900px; }
+        .dcp-solo-body{ position:relative; z-index:2; padding-right:185px; min-height:900px; }
 
-        /* টেক্সট-কলামের বাঁ-পাশে রঙিন উল্লম্ব রেখা */
-        .dcp-solo-vline{
-            position:absolute; top:0; bottom:0; left:155px; width:5px; border-radius:3px; z-index:1;
-            background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9,#C0392B);
-        }
+.dcp-solo-vline{
+    position:absolute; top:0; bottom:0; right:155px; width:5px; border-radius:3px; z-index:1;
+    background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9,#C0392B);
+}
 
-        /* লেখক-ছবি+বায়ো — না উপরে, না নিচে; পেজের উপরিভাগ-মাঝামাঝি */
-        .dcp-solo-rail{ position:absolute; left:0; width:150px; top:360px; text-align:center; z-index:2; }
-        .dcp-solo-author-photo{
-            width:130px; height:auto; display:block; margin:0 auto 12px;
-            border-radius:8px; box-shadow:0 10px 22px rgba(0,0,0,0.32);
-        }
-        .dcp-solo-author-bio{ font-size:14px; color:#666; line-height:1.6; text-align:center; font-family:'Noto Serif Bengali',serif; padding:0 4px; }
+.dcp-solo-rail{ position:absolute; right:0; width:150px; top:90px; text-align:center; z-index:2; }
+.dcp-solo-author-photo{
+    width:124px; height:124px; object-fit:cover; display:block; margin:0 auto 12px;
+    border-radius:50%; border:none; box-shadow:0 14px 26px rgba(0,0,0,0.38);
+}
+.dcp-solo-author-bio{ font-size:13.5px; color:#666; line-height:1.55; text-align:center; font-family:'Noto Serif Bengali',serif; padding:0 6px; }
 
         .dcp-solo-title{
             font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:60px; text-align:center;
