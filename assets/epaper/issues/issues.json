@@ -19,6 +19,7 @@ permalink: /assets/epaper/issues/issues.json
   "posts": [
     {% for post in week.items %}
     {
+          {
       "title": {{ post.title | strip_html | jsonify }},
       "url": {{ post.url | relative_url | jsonify }},
       "author": {{ post.author | default: "দৈনিক চালচিত্র" | strip_html | jsonify }},
@@ -27,7 +28,9 @@ permalink: /assets/epaper/issues/issues.json
       "image": {{ post.image | default: "" | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
       "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 180 | jsonify }},
-      "content": {{ post.content | strip_newlines | jsonify }}
+      "content": {{ post.content | strip_newlines | jsonify }},
+      "authorImage": {% assign a = site.data.authors[post.author] %}{{ a.img | default: "" | jsonify }},
+      "authorBio": {{ a.bio | default: "" | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ]
