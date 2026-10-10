@@ -2,20 +2,25 @@
 layout: post
 title: "উদ্ভ্রান্ত"
 date: 2026-09-04 00:06:00 +0400
-
 categories:
-    - কবিতা
-
+    - onu-kobita
+category_bn:
+    - অনু কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
-    - শ্রী বিপ্লব জলদাস এর লেখা কবিতা
+    - অনু কবিতা
     - দৈনিক চালচিত্র
-
 author: "শ্রী বিপ্লব জলদাস"
-
-image: /assets/img/shri-biplab-jolodas.webp
+image: "/assets/img/shri-biplab-jolodas.webp"
+description: "শ্রী বিপ্লব জলদাসের অনু কবিতা 'উদ্ভ্রান্ত' - জীবনের উদ্ভ্রান্ত পথচলার এক সংক্ষিপ্ত কাব্যিক প্রকাশ।"
+excerpt: "শ্রী বিপ্লব জলদাসের অনু কবিতা উদ্ভ্রান্ত - দৈনিক চালচিত্র।"
+permalink: "/onu-kobita/2026/09/04/udbhranto/"
+redirect_from:
+    - "/onu-kobita/2026/09/04/udbhranto/"
+    - "/অনু-কবিতা/2026/09/04/udbhranto/"
+    - "/search/label/অনু-কবিতা"
 ---
 
 চিন্তা সে কত নির্লজ্জ
