@@ -693,18 +693,7 @@ window.DCViewer = {
     return "data:image/svg+xml;utf8," + svg;
 },
         buildSoloLeftStripHTML(){
-    const combos = [
-        ["%23C0392B","%23F1C40F","%2327AE60"], ["%23D35400","%2327AE60","%238E44AD"],
-        ["%238E44AD","%23F1C40F","%23C0392B"], ["%232980B9","%23D35400","%23F1C40F"],
-        ["%2327AE60","%23C0392B","%232980B9"], ["%23F1C40F","%238E44AD","%23D35400"]
-    ];
-    const repeatCount = 60;
-    let imgs = "";
-    for(let i = 0; i < repeatCount; i++){
-        const c = combos[i % combos.length];
-        imgs += `<img src="${this.soloMotifDataUri(c[0], c[1], c[2])}">`;
-    }
-    return `<div class="dcp-solo-left-strip">${imgs}</div>`;
+    return `<div class="dcp-solo-left-strip"></div>`;
 },
 
     // শিরোনামের প্রতিটা শব্দ পালাক্রমে ভিন্ন রঙে - উৎসবমুখী বহু-রঙা প্রভাব
@@ -725,11 +714,14 @@ window.DCViewer = {
 
         /* বাইরের স্কেল/রুলার প্যাড — বৈশাখী মোটিফ, চ্যাপটা ইউনিট */
         .dcp-solo-left-strip{
-            position:absolute; top:14px; bottom:14px; left:14px; width:36px; z-index:1;
-            overflow:hidden; background:linear-gradient(180deg,#fff6ec,#ffe6cc);
-            border-radius:6px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06), 2px 0 6px rgba(0,0,0,0.08);
-        }
-        .dcp-solo-left-strip img{ display:block; width:34px; height:20px; margin:1px auto; }
+    position:absolute; top:14px; bottom:14px; left:14px; width:36px; z-index:1;
+    border-radius:6px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06), 2px 0 6px rgba(0,0,0,0.08);
+    background:
+        repeating-linear-gradient(180deg, #C0392B 0 7px, transparent 7px 26px),
+        repeating-linear-gradient(180deg, transparent 0 13px, #F1C40F 13px 17px, transparent 17px 26px),
+        repeating-linear-gradient(180deg, transparent 0 19px, #27AE60 19px 23px, transparent 23px 26px),
+        linear-gradient(180deg,#fff6ec,#ffe6cc);
+}
 
         .dcp-solo-head{
             position:relative; z-index:2; display:table; width:100%; table-layout:fixed;
@@ -855,19 +847,19 @@ window.DCViewer = {
                 const pdf = new jsPDF("p", "mm", "a4");
                 const pageWidthMM = pdf.internal.pageSize.getWidth();
                 const pageHeightMM = pdf.internal.pageSize.getHeight();
-                const imgData = canvas.toDataURL("image/jpeg", 0.95);
+                const imgData = canvas.toDataURL("image/png");
                 const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
 
                 if(imgHeightMM <= pageHeightMM){
-                    pdf.addImage(imgData, "JPEG", 0, 0, pageWidthMM, imgHeightMM);
-                } else {
-                    let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
-                    while(heightLeftMM > pageHeightMM * 0.08){
-                        if(!first) pdf.addPage();
-                        pdf.addImage(imgData, "JPEG", 0, positionMM, pageWidthMM, imgHeightMM);
-                        heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
-                    }
-                }
+    pdf.addImage(imgData, "PNG", 0, 0, pageWidthMM, imgHeightMM);
+} else {
+    let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
+    while(heightLeftMM > pageHeightMM * 0.08){
+        if(!first) pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, positionMM, pageWidthMM, imgHeightMM);
+        heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
+    }
+}
                 pdf.save(fileName + ".pdf");
             }
         } catch(e){
