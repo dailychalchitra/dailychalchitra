@@ -3,17 +3,26 @@ layout: post
 title: "ডিসি হিলে ক্ষতিকর বৃক্ষ অপসারণের দাবিতে পথসভা"
 date: 2026-09-04 18:25:00 +0400
 categories:
-    - সংবাদ
-    - চট্টগ্রাম
-tags:
+    - desher-songbad
+category_bn:
     - দেশের সংবাদ
-    - পরিবেশ
+tags:
+    - সংবাদ
+    - দেশের সংবাদ
+    - বাংলাদেশ
+    - জেলা
     - চট্টগ্রাম
-    - ডিসি হিল
+    - পরিবেশ
     - দৈনিক চালচিত্র
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/pathosova.webp
+author: "চট্টগ্রাম সংবাদ"
+image: "/assets/img/pathosova.webp"
 description: "চট্টগ্রাম নগরীর ডিসি হিল থেকে পরিবেশের জন্য ক্ষতিকর ও ঝুঁকিপূর্ণ বৃক্ষ অপসারণ এবং দেশীয় বৃক্ষরোপণের দাবিতে পথসভা অনুষ্ঠিত হয়েছে।"
+excerpt: "ডিসি হিল থেকে ক্ষতিকর বৃক্ষ অপসারণ ও দেশীয় বৃক্ষরোপণের দাবিতে চট্টগ্রামে পথসভা অনুষ্ঠিত।"
+permalink: "/desher-songbad/2026/09/04/dc-hill-pothosova/"
+redirect_from:
+    - "/desher-songbad/2026/09/04/dc-hill-e-khotikor-brikkho-oposaron/"
+    - "/দেশের-সংবাদ/2026/09/04/dc-hill-pothosova/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 বোয়ালখালী (চট্টগ্রাম) প্রতিনিধি:
