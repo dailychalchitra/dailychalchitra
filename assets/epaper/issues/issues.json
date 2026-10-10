@@ -18,18 +18,20 @@ permalink: /assets/epaper/issues/issues.json
   "cover": {{ week.items.first.image | default: "" | jsonify }},
   "posts": [
     {% for post in week.items %}
+    {% assign post_author = post.author | default: "দৈনিক চালচিত্র" %}
+    {% assign post_author = post_author | strip %}
     {
       "title": {{ post.title | strip_html | jsonify }},
       "url": {{ post.url | relative_url | jsonify }},
-      "author": {{ post.author | default: "দৈনিক চালচিত্র" | strip_html | jsonify }},
+      "author": {{ post_author | strip_html | jsonify }},
       "category": {{ post.categories.first | default: "সাধারণ" | jsonify }},
       "tags": {{ post.tags | jsonify }},
       "image": {{ post.image | default: "" | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
       "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 180 | jsonify }},
       "content": {{ post.content | strip_newlines | jsonify }},
-      "authorImage": {{ site.data.authors[post.author] | default: "" | jsonify }},
-      "authorBio": {{ site.data.author_bios[post.author] | default: "" | jsonify }}
+      "authorImage": {{ site.data.authors[post_author] | default: "" | jsonify }},
+      "authorBio": {{ site.data.author_bios[post_author] | default: "" | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ]
