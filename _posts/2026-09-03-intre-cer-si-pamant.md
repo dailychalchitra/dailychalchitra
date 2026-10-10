@@ -1,23 +1,26 @@
 ---
 layout: post
 title: "între cer și pământ (Between heaven and earth)"
-date: 2026-09-03 00:39:00 +0400 
-
+date: 2026-09-03 00:39:00 +0400
 categories:
-  - কবিতা 
-
+    - kobita
+category_bn:
+    - কবিতা
 tags:
-  - সাহিত্য বিভাগ
-  - সাহিত্য
-  - কবিতা
-  - রোমানিয়ান কবিতা
-  - mariana kiss এর লেখা কবিতা
-  - দৈনিক চালচিত্র 
-
-author: "Mariana Kiss" 
-
-image: /assets/img/mariana-kiss.webp
---- 
+    - সাহিত্য বিভাগ
+    - সাহিত্য
+    - কবিতা
+    - দৈনিক চালচিত্র
+author: "Mariana Kiss"
+image: "/assets/img/mariana-kiss.webp"
+description: "Mariana Kiss এর লেখা রোমানিয়ান কবিতা între cer și pământ (Between heaven and earth) - আকাশ ও পৃথিবীর মাঝখানে থাকা এক কাব্যিক অনুভূতি।"
+excerpt: "Mariana Kiss এর কবিতা între cer și pământ (Between heaven and earth) - দৈনিক চালচিত্র।"
+permalink: "/kobita/2026/09/03/intre-cer-si-pamant/"
+redirect_from:
+    - "/kobita/2026/09/03/intre-cer-si-pamant/"
+    - "/কবিতা/2026/09/03/intre-cer-si-pamant/"
+    - "/search/label/কবিতা"
+---
 
 nu știu 
 dacă-mi mai pot aduna gândurile
