@@ -1,14 +1,16 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v33.0
-   CHANGE: প্রিন্ট/PDF পেজের ফন্ট-সাইজ উল্লেখযোগ্যভাবে বড় করা হয়েছে,
-           আর ডিজাইন পুরনো ভিনটেজ-ফ্রেম/কোণা-ব্র্যাকেট/লতাপাতা-ওভারলে
-           থেকে সরিয়ে আধুনিক ডিজিটাল-নিউজ-কার্ড স্টাইলে (সলিড অ্যাকসেন্ট
-           বার, সফট শ্যাডো কার্ড, গোলাকার কোণা) আনা হয়েছে। হেডারের
-           display:table লেআউট অপরিবর্তিত (html2canvas-নির্ভরযোগ্যতার
-           জন্য) — কোনো height-measurement/pagination লজিক স্পর্শ হয়নি।
+   Daily Chalchitra ePaper Engine - v34.0
+   CHANGE: সোলো-পোস্ট PDF-এ ডান পাশের স্কেল-প্যাড এখন SVG-টাইল
+           background-image দিয়ে (CSS gradient নয়), যা html2canvas-এ
+           নির্ভরযোগ্যভাবে আঁকা হয়। লেখক-রেল-এর রঙিন রেখা এখন শুধু
+           ছবি+বায়ো ব্লকের উচ্চতায় সীমাবদ্ধ। প্রিন্ট/PDF জেনারেশন এখন
+           canvas-slicing দিয়ে প্রতিটা পেজ আলাদাভাবে কাটে (single tall
+           image repeat-trick নয়), ফলে পেজ-সংযোগে ধূসর রেখা থাকে না,
+           এবং প্রতিটা পেজের নিচে পৃথক ফুটার বসে। গ্রিড/ইস্যু-ডাউনলোড
+           সিস্টেম অপরিবর্তিত।
    ========================================================== */
 window.DCViewer = {
-    version: "33.0",
+    version: "34.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -682,19 +684,23 @@ window.DCViewer = {
     // থেকে সম্পূর্ণ স্বতন্ত্র, সেগুলোর কোনো কোড এখানে পুনর্ব্যবহৃত হয়নি।
     // ============================================================
 
-    // ছোট রঙিন মোটিফ (ফুল/পেইজলি ধাঁচ) - বাম পাশের নকশা-স্ট্রিপে
-    soloMotifDataUri(c1, c2, c3){
-    const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='40' height='24' viewBox='0 0 40 24'>" +
-        "<circle cx='20' cy='12' r='4.5' fill='" + c1 + "'/>" +
-        "<path d='M20 3 C25 8 25 16 20 21 C15 16 15 8 20 3 Z' fill='none' stroke='" + c2 + "' stroke-width='1.6'/>" +
-        "<circle cx='6' cy='12' r='2' fill='" + c3 + "'/>" +
-        "<circle cx='34' cy='12' r='2' fill='" + c3 + "'/>" +
-        "</svg>";
-    return "data:image/svg+xml;utf8," + svg;
-},
-        buildSoloLeftStripHTML(){
-    return `<div class="dcp-solo-left-strip"></div>`;
-},
+    // বাইরের স্কেল-প্যাডের টাইল — background-image হিসেবে ব্যবহৃত হবে
+    // (CSS repeating-gradient নয়, কারণ html2canvas তা নির্ভরযোগ্যভাবে
+    // আঁকে না; একক SVG ছবি হিসেবে এটি সঠিকভাবে রেন্ডার হয়)
+    soloMotifTileDataUri(){
+        const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='28' viewBox='0 0 32 28'>
+            <path d='M16 2 C20 7 20 14 16 19 C12 14 12 7 16 2 Z' fill='none' stroke='#C0392B' stroke-width='1.6'/>
+            <circle cx='16' cy='10' r='2.6' fill='#F1C40F'/>
+            <circle cx='6' cy='23' r='2' fill='#27AE60'/>
+            <circle cx='26' cy='23' r='2' fill='#2980B9'/>
+            <circle cx='16' cy='25' r='1.6' fill='#8E44AD'/>
+        </svg>`;
+        return "data:image/svg+xml," + encodeURIComponent(svg);
+    },
+
+    buildSoloLeftStripHTML(){
+        return `<div class="dcp-solo-left-strip"></div>`;
+    },
 
     // শিরোনামের প্রতিটা শব্দ পালাক্রমে ভিন্ন রঙে - উৎসবমুখী বহু-রঙা প্রভাব
     colorizeTitle(title){
@@ -703,124 +709,131 @@ window.DCViewer = {
         return words.map((w, i) => `<span style="color:${palette[i % palette.length]};">${w}</span>`).join(" ");
     },
 
-        getSoloPrintStyleTag(){
-    return `<style>
-        .dcp-solo-page{
-            font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
-            position:relative; overflow:hidden; background:#fffaf5;
-            border:9px double #8B0000; outline:2px solid #C0392B; outline-offset:-16px;
-            padding:34px 46px 30px 78px;
-        }
+    getSoloPrintStyleTag(){
+        return `<style>
+            .dcp-solo-page{
+                font-family:'Noto Sans Bengali','Hind Siliguri',Arial,sans-serif; box-sizing:border-box;
+                position:relative; overflow:hidden; background:#fffaf5;
+                border:9px double #8B0000; outline:2px solid #C0392B; outline-offset:-16px;
+                padding:34px 46px 30px 78px;
+            }
 
-        /* বাইরের স্কেল/রুলার প্যাড — বৈশাখী মোটিফ, চ্যাপটা ইউনিট */
-        .dcp-solo-left-strip{
-    position:absolute; top:14px; bottom:14px; left:14px; width:36px; z-index:1;
-    border-radius:6px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06), 2px 0 6px rgba(0,0,0,0.08);
-    background:
-        repeating-linear-gradient(180deg, #C0392B 0 7px, transparent 7px 26px),
-        repeating-linear-gradient(180deg, transparent 0 13px, #F1C40F 13px 17px, transparent 17px 26px),
-        repeating-linear-gradient(180deg, transparent 0 19px, #27AE60 19px 23px, transparent 23px 26px),
-        linear-gradient(180deg,#fff6ec,#ffe6cc);
-}
+            /* বাইরের স্কেল/রুলার প্যাড — চ্যাপটা, ঘন বৈশাখী মোটিফ-টাইল */
+            .dcp-solo-left-strip{
+                position:absolute; top:14px; bottom:14px; left:14px; width:32px; z-index:1;
+                border-radius:6px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06), 2px 0 6px rgba(0,0,0,0.08);
+                background-color:#fff6ec;
+                background-image:url("${this.soloMotifTileDataUri()}");
+                background-repeat:repeat-y;
+                background-size:32px 28px;
+                background-position:top center;
+            }
 
-        .dcp-solo-head{
-            position:relative; z-index:2; display:table; width:100%; table-layout:fixed;
-            margin:0 0 24px; padding-bottom:16px; border-bottom:2px solid #C0392B;
-        }
-        .dcp-solo-head-corner{ display:table-cell; width:170px; font-size:16px; color:#777; font-weight:600; line-height:1.9; vertical-align:middle; }
-        .dcp-solo-head-right{ text-align:right; }
-        .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
-        .dcp-solo-logo{ max-width:170px; height:auto; }
+            .dcp-solo-head{
+                position:relative; z-index:2; display:table; width:100%; table-layout:fixed;
+                margin:0 0 24px; padding-bottom:16px; border-bottom:2px solid #C0392B;
+            }
+            .dcp-solo-head-corner{ display:table-cell; width:170px; font-size:16px; color:#777; font-weight:600; line-height:1.9; vertical-align:middle; }
+            .dcp-solo-head-right{ text-align:right; }
+            .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
+            .dcp-solo-logo{ max-width:170px; height:auto; }
 
-        .dcp-solo-body{ position:relative; z-index:2; padding-right:185px; min-height:900px; }
+            .dcp-solo-body{ position:relative; z-index:2; padding-right:185px; min-height:900px; }
 
-.dcp-solo-vline{
-    position:absolute; top:0; bottom:0; right:155px; width:5px; border-radius:3px; z-index:1;
-    background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9,#C0392B);
-}
+            /* লেখক-রেল: ছবি+বায়ো, পাশে শুধু এই ব্লকের সমান উচ্চতার রঙিন রেখা */
+            .dcp-solo-rail{ position:absolute; right:14px; top:90px; width:150px; display:flex; align-items:stretch; gap:10px; z-index:2; }
+            .dcp-solo-rail-vline{
+                width:4px; flex-shrink:0; border-radius:2px;
+                background:linear-gradient(180deg,#C0392B,#F1C40F,#27AE60,#2980B9);
+            }
+            .dcp-solo-rail-content{ flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; }
+            .dcp-solo-author-photo{
+                width:120px; height:120px; object-fit:cover; display:block; margin:0 0 12px;
+                border-radius:4px; border:none; box-shadow:0 14px 26px rgba(0,0,0,0.38);
+            }
+            .dcp-solo-author-bio{ font-size:13.5px; color:#666; line-height:1.55; text-align:center; font-family:'Noto Serif Bengali',serif; }
 
-.dcp-solo-rail{ position:absolute; right:0; width:150px; top:90px; text-align:center; z-index:2; }
-.dcp-solo-author-photo{
-    width:124px; height:124px; object-fit:cover; display:block; margin:0 auto 12px;
-    border-radius:4px; border:none; box-shadow:0 14px 26px rgba(0,0,0,0.38);
-}
-.dcp-solo-author-bio{ font-size:13.5px; color:#666; line-height:1.55; text-align:center; font-family:'Noto Serif Bengali',serif; padding:0 6px; }
+            .dcp-solo-title{
+                font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:59px; text-align:center;
+                line-height:1.5; margin:-8px 0 14px; letter-spacing:1px;
+            }
+            .dcp-solo-title span{ display:inline-block; margin:0 4px; }
+            .dcp-solo-authorname{
+                text-align:center; font-size:25px; color:#8B0000; font-weight:700;
+                margin-bottom:24px; font-family:'Noto Serif Bengali',serif;
+            }
 
-        .dcp-solo-title{
-    font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:59px; text-align:center;
-    line-height:1.5; margin:-8px 0 14px; letter-spacing:1px;
-}
-.dcp-solo-title span{ display:inline-block; margin:0 4px; }
-.dcp-solo-authorname{
-    text-align:center; font-size:25px; color:#8B0000; font-weight:700;
-    margin-bottom:24px; font-family:'Noto Serif Bengali',serif;
-}
+            .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:32px; line-height:2.05; color:#222; text-align:justify; }
+            .dcp-solo-content p{ margin:0 0 18px; }
+            .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 30px; }
+            .dcp-solo-content .kobita-pera.kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; }
+        </style>`;
+    },
 
-        .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:32px; line-height:2.05; color:#222; text-align:justify; }
-        .dcp-solo-content p{ margin:0 0 18px; }
-        .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 30px; }
-        .dcp-solo-content .kobita-pera.kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; }
+    buildSoloBodyHTML(post){
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const dateStr = post.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
+        const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
 
-        .dcp-solo-footer{ position:relative; z-index:2; clear:both; text-align:center; margin-top:34px; }
-        .dcp-solo-footer-line{ height:2px; background:linear-gradient(90deg, transparent, #C0392B, transparent); margin-bottom:12px; }
-        .dcp-solo-footer-url{ font-size:15px; letter-spacing:2px; color:#999; }
-    </style>`;
-},
+        let cleanContent = post.content || post.excerpt || "";
+        if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
+        else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
 
-        buildSoloBodyHTML(post){
-    const now = new Date();
-    const pad = (n) => String(n).padStart(2, '0');
-    const dateStr = post.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
-    const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
+        const shortBio = (post.authorBio || "").replace(/<[^>]+>/g, "").trim();
+        const trimmedBio = shortBio.length > 150 ? shortBio.substring(0, 150) + "…" : shortBio;
 
-    let cleanContent = post.content || post.excerpt || "";
-    if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
-    else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
+        const authorImgHTML = post.authorImage
+            ? `<img src="${post.authorImage}" class="dcp-solo-author-photo" crossorigin="anonymous">`
+            : '';
+        const authorBioHTML = trimmedBio
+            ? `<div class="dcp-solo-author-bio">${trimmedBio}</div>`
+            : '';
+        const hasRail = authorImgHTML || authorBioHTML;
 
-    const shortBio = (post.authorBio || "").replace(/<[^>]+>/g, "").trim();
-    const trimmedBio = shortBio.length > 150 ? shortBio.substring(0, 150) + "…" : shortBio;
-
-    const authorImgHTML = post.authorImage
-        ? `<img src="${post.authorImage}" class="dcp-solo-author-photo" crossorigin="anonymous">`
-        : '';
-    const authorBioHTML = trimmedBio
-        ? `<div class="dcp-solo-author-bio">${trimmedBio}</div>`
-        : '';
-    const hasRail = authorImgHTML || authorBioHTML;
-
-    return `
-        ${this.buildSoloLeftStripHTML()}
-        <div class="dcp-solo-head">
-            <div class="dcp-solo-head-corner dcp-solo-head-left">
-                <div>তারিখ: ${dateStr}</div>
-                <div>সময়: ${timeStr}</div>
+        return `
+            ${this.buildSoloLeftStripHTML()}
+            <div class="dcp-solo-head">
+                <div class="dcp-solo-head-corner dcp-solo-head-left">
+                    <div>তারিখ: ${dateStr}</div>
+                    <div>সময়: ${timeStr}</div>
+                </div>
+                <div class="dcp-solo-head-logo">
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-solo-logo" crossorigin="anonymous">
+                </div>
+                <div class="dcp-solo-head-corner dcp-solo-head-right">
+                    <div>বিস্তারিত: সাহিত্য সংস্করণ</div>
+                    <div>${post.category || ''}</div>
+                </div>
             </div>
-            <div class="dcp-solo-head-logo">
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-solo-logo" crossorigin="anonymous">
+            <div class="dcp-solo-body">
+                ${hasRail ? `
+                <div class="dcp-solo-rail">
+                    <div class="dcp-solo-rail-vline"></div>
+                    <div class="dcp-solo-rail-content">
+                        ${authorImgHTML}
+                        ${authorBioHTML}
+                    </div>
+                </div>` : ''}
+                <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
+                ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
+                <div class="dcp-solo-content">${cleanContent}</div>
             </div>
-            <div class="dcp-solo-head-corner dcp-solo-head-right">
-                <div>বিস্তারিত: সাহিত্য সংস্করণ</div>
-                <div>${post.category || ''}</div>
-            </div>
-        </div>
-        <div class="dcp-solo-body">
-            <div class="dcp-solo-vline"></div>
-            ${hasRail ? `<div class="dcp-solo-rail">${authorImgHTML}${authorBioHTML}</div>` : ''}
-            <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
-            ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
-            <div class="dcp-solo-content">${cleanContent}</div>
-        </div>
-        <div class="dcp-solo-footer">
-            <div class="dcp-solo-footer-line"></div>
-            <div class="dcp-solo-footer-url">দৈনিক চালচিত্র &nbsp;•&nbsp; www.dailychalchitra.com</div>
-        </div>
-    `;
-},
+        `;
+    },
 
+    // একটামাত্র লম্বা ক্যানভাস তৈরি করে, তারপর পেজ-উচ্চতা অনুযায়ী
+    // আলাদা আলাদা sub-canvas-এ কেটে প্রতিটা একটা স্বতন্ত্র ছবি হিসেবে
+    // PDF-এ বসানো হয় — এতে আগের "single tall image repeat" কৌশলের
+    // পেজ-সংযোগস্থলের ধূসর রেখা থাকে না, এবং প্রতিটা পেজে আলাদা ফুটার
+    // বসানো সম্ভব হয়
     async captureSoloPostToPDF(post, fileName){
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
         const captureWidth = 1000;
+        const a4Ratio = 297 / 210;
+        const minHeightPx = Math.round(captureWidth * a4Ratio);
+
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
         host.style.width = "0"; host.style.height = "0"; host.style.overflow = "hidden";
@@ -832,8 +845,6 @@ window.DCViewer = {
         let success = true;
         try{
             const pageEl = document.createElement("div");
-                        const a4Ratio = 297 / 210;
-            const minHeightPx = Math.round(captureWidth * a4Ratio);
             pageEl.className = "dcp-solo-page";
             pageEl.style.cssText = `width:${captureWidth}px; min-height:${minHeightPx}px; box-sizing:border-box;`;
             pageEl.innerHTML = this.getSoloPrintStyleTag() + this.buildSoloBodyHTML(post);
@@ -847,19 +858,44 @@ window.DCViewer = {
                 const pdf = new jsPDF("p", "mm", "a4");
                 const pageWidthMM = pdf.internal.pageSize.getWidth();
                 const pageHeightMM = pdf.internal.pageSize.getHeight();
-                const imgData = canvas.toDataURL("image/png");
-                const imgHeightMM = canvas.height * pageWidthMM / canvas.width;
+                const footerSpaceMM = 11;
+                const usableHeightMM = pageHeightMM - footerSpaceMM;
 
-                if(imgHeightMM <= pageHeightMM){
-    pdf.addImage(imgData, "PNG", 0, 0, pageWidthMM, imgHeightMM);
-} else {
-    let heightLeftMM = imgHeightMM, positionMM = 0, first = true;
-    while(heightLeftMM > pageHeightMM * 0.08){
-        if(!first) pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, positionMM, pageWidthMM, imgHeightMM);
-        heightLeftMM -= pageHeightMM; positionMM -= pageHeightMM; first = false;
-    }
-}
+                const pxPerMM = canvas.width / pageWidthMM;
+                const usableHeightPx = Math.max(1, Math.floor(usableHeightMM * pxPerMM));
+                const totalPages = Math.max(1, Math.ceil(canvas.height / usableHeightPx));
+
+                for(let i = 0; i < totalPages; i++){
+                    const sliceHeightPx = Math.min(usableHeightPx, canvas.height - i * usableHeightPx);
+                    if(sliceHeightPx <= 0) break;
+
+                    const sliceCanvas = document.createElement("canvas");
+                    sliceCanvas.width = canvas.width;
+                    sliceCanvas.height = sliceHeightPx;
+                    const ctx = sliceCanvas.getContext("2d");
+                    ctx.fillStyle = "#fffaf5";
+                    ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+                    ctx.drawImage(
+                        canvas,
+                        0, i * usableHeightPx, canvas.width, sliceHeightPx,
+                        0, 0, canvas.width, sliceHeightPx
+                    );
+
+                    const sliceImgData = sliceCanvas.toDataURL("image/png");
+                    const sliceHeightMM = sliceHeightPx / pxPerMM;
+
+                    if(i > 0) pdf.addPage();
+                    pdf.addImage(sliceImgData, "PNG", 0, 0, pageWidthMM, sliceHeightMM);
+
+                    pdf.setFontSize(9);
+                    pdf.setTextColor(150, 150, 150);
+                    pdf.text(
+                        "দৈনিক চালচিত্র  •  www.dailychalchitra.com  •  পৃষ্ঠা " + (i + 1) + "/" + totalPages,
+                        pageWidthMM / 2, pageHeightMM - 6,
+                        { align: "center" }
+                    );
+                }
+
                 pdf.save(fileName + ".pdf");
             }
         } catch(e){
