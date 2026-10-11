@@ -963,7 +963,7 @@ document.addEventListener('DOMContentLoaded', function () {
       image: {{ page.image | default: "" | jsonify }},
       tags: {{ page.tags | default: "" | jsonify }},
       authorImage: {{ site.data.authors[page.author] | default: "" | jsonify }},
-      authorBio: {{ page.author_bio | default: "" | jsonify }}
+authorBio: {{ site.data.author_bios[page.author] | default: "" | jsonify }}
     };
 
     pdfBtn.classList.add('dc-pdf-loading');
