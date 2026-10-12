@@ -704,34 +704,94 @@ window.DCViewer = {
         return `<div class="dcp-solo-left-strip"></div>`;
     },
 
+    escapeForPrint(str){
+        return (str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    },
+
+    // সোলো-প্রিন্টের জন্য কবিতা-ব্লক — সাইটের গ্লোবাল .kobita-pera/br
+    // CSS-এর উপর নির্ভর করে না (সেটা শুধু পোস্ট-পেজের লেআউটেই লোড হয়,
+    // ই-পেপার পেজে না — আর <br style="display:block"> হ্যাকটা
+    // html2canvas-এ লাইভ ব্রাউজারের চেয়ে ভিন্নভাবে আঁকা হয়, যা পেজ-ফিটিং
+    // ভেঙে দিচ্ছিল)। এখানে white-space:pre-line ব্যবহার করে পুরোপুরি
+    // স্বনির্ভর, সামঞ্জস্যপূর্ণ উচ্চতা নিশ্চিত করা হচ্ছে।
+    getKobitaBlocksForPrint(html){
+        let text = (html || "").replace(/<hr[^>]*>/gi, "\n---\n");
+        text = text.replace(/<\/p>\s*<p[^>]*>/gi, "\n\n").replace(/<p[^>]*>/gi, "").replace(/<\/p>/gi, "");
+        text = text.replace(/<br\s*\/?>/gi, "\n");
+        text = text.replace(/<[^>]+>/g, "").trim();
+        const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+        const blocks = []; let temp = [];
+        const flush = () => {
+            if(temp.length){
+                const safe = temp.map(l => this.escapeForPrint(l)).join("\n");
+                blocks.push(`<div class="dcp-solo-kobita-block">${safe}</div>`);
+                temp = [];
+            }
+        };
+        lines.forEach(line => {
+            const clean = line.replace(/^\*+|\*+$/g, "").replace(/^\-+|\-+$/g, "").trim();
+            if(!clean) return;
+            if(/রচনাকাল/i.test(clean)){
+                flush();
+                blocks.push(`<div class="dcp-solo-kobita-block dcp-solo-kobita-date">${this.escapeForPrint(clean)}</div>`);
+            } else {
+                temp.push(clean);
+                if(temp.length === 4) flush();
+            }
+        });
+        flush();
+        return blocks;
+    },
+
     // লেখাকে অনুচ্ছেদ/স্তবক-ব্লকে ভাগ করে — প্রতিটা ব্লক পরে আলাদাভাবে
     // উচ্চতা মাপা হবে এবং পেজ-বাজেট অনুযায়ী ভাগ করা হবে
     getSoloContentBlocks(post){
         const raw = post.content || post.excerpt || "";
         if(this.isKobita(post)){
-            const formatted = this.formatKobita(raw);
-            const blocks = formatted.match(/<div class="kobita-pera[^"]*">[\s\S]*?<\/div>/g);
-            return blocks && blocks.length ? blocks : (formatted ? [formatted] : []);
+            return this.getKobitaBlocksForPrint(raw);
         }
         let cleaned = raw.replace(/<p>\s*<\/p>/gi, "");
         const parts = cleaned.split(/(?=<p[^>]*>)/i).map(s => s.trim()).filter(Boolean);
         return parts.length ? parts : (cleaned.trim() ? [cleaned] : []);
     },
 
-    buildSoloHeaderHTML(post, dateStr, timeStr){
+    buildSoloHeaderHTML(post, dateStr, timeStr, logoSrc){
         return `<div class="dcp-solo-head">
             <div class="dcp-solo-head-corner dcp-solo-head-left">
                 <div>তারিখ: ${dateStr}</div>
                 <div>সময়: ${timeStr}</div>
             </div>
             <div class="dcp-solo-head-logo">
-                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-solo-logo" crossorigin="anonymous">
+                <img src="${logoSrc || 'https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png'}" class="dcp-solo-logo" crossorigin="anonymous">
             </div>
             <div class="dcp-solo-head-corner dcp-solo-head-right">
                 <div>বিস্তারিত: সাহিত্য সংস্করণ</div>
                 <div>${post.category || ''}</div>
             </div>
         </div>`;
+    },
+
+    // লোগোটা একবারই ডাউনলোড করে data-URI হিসেবে ক্যাশ করে রাখা হয় —
+    // মাল্টি-পেজ PDF-এ প্রতিটা পেজের জন্য বারবার বাইরের URL থেকে আনার
+    // চেষ্টা করলে নেটওয়ার্ক-বিলম্বে কোনো কোনো পেজে লোগো মিসিং থাকতে
+    // পারত (৪-সেকেন্ড টাইমআউটে ছবি মুছে ফেলা হতো); ক্যাশ করলে এই
+    // ঝুঁকি থাকে না
+    async getCachedLogoDataUri(){
+        if(this._logoDataUri) return this._logoDataUri;
+        const fallbackUrl = "https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png";
+        try{
+            const res = await fetch(fallbackUrl);
+            const blob = await res.blob();
+            this._logoDataUri = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }catch(e){
+            this._logoDataUri = fallbackUrl;
+        }
+        return this._logoDataUri;
     },
 
     buildSoloTitleHTML(post){
@@ -846,9 +906,10 @@ window.DCViewer = {
     // লুকানো অবস্থায় রেন্ডার করে getBoundingClientRect() দিয়ে সরাসরি
     // মাপা হয় যে লেখা কতদূর নেমেছে — margin-collapse বা অংশ-ভিত্তিক
     // উচ্চতা-যোগফলের উপর নির্ভর করে না বলে এটা নির্ভুল ও স্থিতিশীল
-    async fitSoloPages(post, blocks, captureWidth, pageHeightPx){
+    async fitSoloPages(post, blocks, captureWidth, pageHeightPx, logoSrc){
         const pagePadBottom = 30;
         const borderBottomHalf = 9;
+        const safetyCushion = 28; // সাব-পিক্সেল/রেন্ডারিং পার্থক্যজনিত ক্লিপিং এড়াতে বাড়তি মার্জিন
 
         const now = new Date();
         const pad = (n) => String(n).padStart(2, '0');
@@ -873,7 +934,7 @@ window.DCViewer = {
         const footerReserve = footerEl.offsetHeight + 22 + 6;
         footerProbe.remove();
 
-        const maxContentBottom = pageHeightPx - pagePadBottom - borderBottomHalf - footerReserve;
+        const maxContentBottom = pageHeightPx - pagePadBottom - borderBottomHalf - footerReserve - safetyCushion;
         const railHTML = this.buildSoloRailHTML(post);
 
         const pagesBlocks = [];
@@ -885,7 +946,7 @@ window.DCViewer = {
             pageProbe.className = "dcp-solo-page";
             pageProbe.style.cssText = `width:${captureWidth}px; position:relative;`;
             pageProbe.innerHTML =
-                this.buildSoloHeaderHTML(post, dateStr, timeStr) +
+                this.buildSoloHeaderHTML(post, dateStr, timeStr, logoSrc) +
                 `<div class="dcp-solo-body">
                     ${isFirstPage ? railHTML : ''}
                     ${isFirstPage ? this.buildSoloTitleHTML(post) : this.buildSoloContinuedLabelHTML()}
@@ -950,8 +1011,9 @@ window.DCViewer = {
         const a4Ratio = 297 / 210;
         const pageHeightPx = Math.round(captureWidth * a4Ratio);
 
+        const logoSrc = await this.getCachedLogoDataUri();
         const blocks = this.getSoloContentBlocks(post);
-        const { pagesBlocks, dateStr, timeStr } = await this.fitSoloPages(post, blocks, captureWidth, pageHeightPx);
+        const { pagesBlocks, dateStr, timeStr } = await this.fitSoloPages(post, blocks, captureWidth, pageHeightPx, logoSrc);
 
         const totalPages = pagesBlocks.length;
         const railHTML = this.buildSoloRailHTML(post);
@@ -981,7 +1043,7 @@ window.DCViewer = {
                 pageEl.style.cssText = `width:${captureWidth}px; height:${pageHeightPx}px; box-sizing:border-box; overflow:hidden;`;
                 pageEl.innerHTML = this.getSoloPrintStyleTag() +
                     this.buildSoloLeftStripHTML() +
-                    this.buildSoloHeaderHTML(post, dateStr, timeStr) +
+                    this.buildSoloHeaderHTML(post, dateStr, timeStr, logoSrc) +
                     `<div class="dcp-solo-body">
                         ${isFirst ? railHTML : ''}
                         ${bodyTopHTML}
