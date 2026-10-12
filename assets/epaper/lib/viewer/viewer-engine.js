@@ -1,16 +1,18 @@
 /* ==========================================================
-   Daily Chalchitra ePaper Engine - v34.0
-   CHANGE: সোলো-পোস্ট PDF-এ ডান পাশের স্কেল-প্যাড এখন SVG-টাইল
-           background-image দিয়ে (CSS gradient নয়), যা html2canvas-এ
-           নির্ভরযোগ্যভাবে আঁকা হয়। লেখক-রেল-এর রঙিন রেখা এখন শুধু
-           ছবি+বায়ো ব্লকের উচ্চতায় সীমাবদ্ধ। প্রিন্ট/PDF জেনারেশন এখন
-           canvas-slicing দিয়ে প্রতিটা পেজ আলাদাভাবে কাটে (single tall
-           image repeat-trick নয়), ফলে পেজ-সংযোগে ধূসর রেখা থাকে না,
-           এবং প্রতিটা পেজের নিচে পৃথক ফুটার বসে। গ্রিড/ইস্যু-ডাউনলোড
-           সিস্টেম অপরিবর্তিত।
+   Daily Chalchitra ePaper Engine - v35.0
+   CHANGE: সোলো-পোস্ট PDF এখন গ্রিড-সিস্টেমের মতোই প্রকৃত চাংক-ভিত্তিক
+           পেজিনেশন ব্যবহার করে — লেখা আগে থেকে অনুচ্ছেদ/স্তবক-ব্লকে
+           ভাগ করে প্রতিটার উচ্চতা মেপে পেজ-বাজেট অনুযায়ী ভাগ করা হয়,
+           তারপর প্রতিটা পেজ সম্পূর্ণ ডিজাইন-ফ্রেম (বর্ডার, স্কেল-প্যাড,
+           হেডার, ফুটার) সহ আলাদাভাবে ক্যাপচার হয়ে PDF-এ বসে — কোনো
+           single-tall-canvas slicing নেই, তাই পেজ-সংযোগে কোনো রেখা বা
+           অর্ধেক-কাটা লাইন থাকে না। প্রথম পেজে শিরোনাম+লেখক-রেল,
+           পরবর্তী পেজগুলোতে ধূসর "চলমান" লেবেল, সব পেজেই একই রঙিন
+           থিন-লাইন ফুটার (পৃষ্ঠা-নম্বরসহ)। গ্রিড/ইস্যু-ডাউনলোড সিস্টেম
+           অপরিবর্তিত।
    ========================================================== */
 window.DCViewer = {
-    version: "34.0",
+    version: "35.0",
     issue: null,
     currentPage: 1,
     totalPages: 0,
@@ -702,6 +704,66 @@ window.DCViewer = {
         return `<div class="dcp-solo-left-strip"></div>`;
     },
 
+    // লেখাকে অনুচ্ছেদ/স্তবক-ব্লকে ভাগ করে — প্রতিটা ব্লক পরে আলাদাভাবে
+    // উচ্চতা মাপা হবে এবং পেজ-বাজেট অনুযায়ী ভাগ করা হবে
+    getSoloContentBlocks(post){
+        const raw = post.content || post.excerpt || "";
+        if(this.isKobita(post)){
+            const formatted = this.formatKobita(raw);
+            const blocks = formatted.match(/<div class="kobita-pera[^"]*">[\s\S]*?<\/div>/g);
+            return blocks && blocks.length ? blocks : (formatted ? [formatted] : []);
+        }
+        let cleaned = raw.replace(/<p>\s*<\/p>/gi, "");
+        const parts = cleaned.split(/(?=<p[^>]*>)/i).map(s => s.trim()).filter(Boolean);
+        return parts.length ? parts : (cleaned.trim() ? [cleaned] : []);
+    },
+
+    buildSoloHeaderHTML(post, dateStr, timeStr){
+        return `<div class="dcp-solo-head">
+            <div class="dcp-solo-head-corner dcp-solo-head-left">
+                <div>তারিখ: ${dateStr}</div>
+                <div>সময়: ${timeStr}</div>
+            </div>
+            <div class="dcp-solo-head-logo">
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-solo-logo" crossorigin="anonymous">
+            </div>
+            <div class="dcp-solo-head-corner dcp-solo-head-right">
+                <div>বিস্তারিত: সাহিত্য সংস্করণ</div>
+                <div>${post.category || ''}</div>
+            </div>
+        </div>`;
+    },
+
+    buildSoloTitleHTML(post){
+        return `<h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>` +
+            (post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : '');
+    },
+
+    buildSoloContinuedLabelHTML(){
+        return `<div class="dcp-solo-continued-label">— পূর্ববর্তী পৃষ্ঠার পর থেকে চলমান —</div>`;
+    },
+
+    buildSoloRailHTML(post){
+        const shortBio = (post.authorBio || "").replace(/<[^>]+>/g, "").trim();
+        const trimmedBio = shortBio.length > 150 ? shortBio.substring(0, 150) + "…" : shortBio;
+        const authorImgHTML = post.authorImage
+            ? `<img src="${post.authorImage}" class="dcp-solo-author-photo" crossorigin="anonymous">`
+            : '';
+        const authorBioHTML = trimmedBio ? `<div class="dcp-solo-author-bio">${trimmedBio}</div>` : '';
+        if(!authorImgHTML && !authorBioHTML) return '';
+        return `<div class="dcp-solo-rail">
+            <div class="dcp-solo-rail-vline"></div>
+            <div class="dcp-solo-rail-content">${authorImgHTML}${authorBioHTML}</div>
+        </div>`;
+    },
+
+    buildSoloFooterHTML(pageNum, totalPages){
+        return `<div class="dcp-solo-footer">
+            <div class="dcp-solo-footer-line"></div>
+            <div class="dcp-solo-footer-url">দৈনিক চালচিত্র &nbsp;•&nbsp; www.dailychalchitra.com &nbsp;•&nbsp; পৃষ্ঠা ${pageNum}/${totalPages}</div>
+        </div>`;
+    },
+
     // শিরোনামের প্রতিটা শব্দ পালাক্রমে ভিন্ন রঙে - উৎসবমুখী বহু-রঙা প্রভাব
     colorizeTitle(title){
         const palette = ["#C0392B", "#D35400", "#8E44AD", "#2980B9", "#117864", "#B9770E"];
@@ -738,7 +800,16 @@ window.DCViewer = {
             .dcp-solo-head-logo{ display:table-cell; text-align:center; vertical-align:middle; }
             .dcp-solo-logo{ max-width:170px; height:auto; }
 
-            .dcp-solo-body{ position:relative; z-index:2; padding-right:185px; min-height:900px; }
+            .dcp-solo-body{ position:relative; z-index:2; padding-right:185px; }
+
+            .dcp-solo-continued-label{
+                text-align:center; color:#999; font-size:16px; font-style:italic;
+                margin:0 0 22px; font-family:'Noto Sans Bengali', sans-serif;
+            }
+
+            .dcp-solo-footer{ position:absolute; left:0; right:0; bottom:22px; z-index:2; text-align:center; }
+            .dcp-solo-footer-line{ height:2px; width:66%; margin:0 auto 8px; background:linear-gradient(90deg, transparent, #C0392B, transparent); }
+            .dcp-solo-footer-url{ font-size:14px; letter-spacing:1.5px; color:#999; font-family:'Noto Sans Bengali', sans-serif; }
 
             /* লেখক-রেল: ছবি+বায়ো, পাশে শুধু এই ব্লকের সমান উচ্চতার রঙিন রেখা */
             .dcp-solo-rail{ position:absolute; right:14px; top:90px; width:150px; display:flex; align-items:stretch; gap:10px; z-index:2; }
@@ -770,69 +841,111 @@ window.DCViewer = {
         </style>`;
     },
 
-    buildSoloBodyHTML(post){
+    // সোলো কনটেন্টের ব্লকগুলো আসল ডিজাইনের প্রস্থ/ফন্টে রেন্ডার করে
+    // উচ্চতা মাপে — html2canvas দিয়ে ক্যাপচারের আগে পেজ-বাজেট বের
+    // করার জন্য, গ্রিড-সিস্টেমের measureChunkHeights-এর ধাঁচেই
+    async measureSoloLayout(post, blocks, captureWidth){
+        const host = document.createElement("div");
+        host.style.position = "absolute"; host.style.left = "-99999px"; host.style.top = "0";
+        host.style.width = captureWidth + "px"; host.style.visibility = "hidden";
+        document.body.appendChild(host);
+
         const now = new Date();
         const pad = (n) => String(n).padStart(2, '0');
         const dateStr = post.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
         const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
 
-        let cleanContent = post.content || post.excerpt || "";
-        if(this.isKobita(post)) cleanContent = this.formatKobita(cleanContent);
-        else cleanContent = cleanContent.replace(/<p>\s*<\/p>/gi, "");
-
-        const shortBio = (post.authorBio || "").replace(/<[^>]+>/g, "").trim();
-        const trimmedBio = shortBio.length > 150 ? shortBio.substring(0, 150) + "…" : shortBio;
-
-        const authorImgHTML = post.authorImage
-            ? `<img src="${post.authorImage}" class="dcp-solo-author-photo" crossorigin="anonymous">`
-            : '';
-        const authorBioHTML = trimmedBio
-            ? `<div class="dcp-solo-author-bio">${trimmedBio}</div>`
-            : '';
-        const hasRail = authorImgHTML || authorBioHTML;
-
-        return `
-            ${this.buildSoloLeftStripHTML()}
-            <div class="dcp-solo-head">
-                <div class="dcp-solo-head-corner dcp-solo-head-left">
-                    <div>তারিখ: ${dateStr}</div>
-                    <div>সময়: ${timeStr}</div>
+        host.innerHTML = this.getSoloPrintStyleTag() +
+            `<div class="dcp-solo-page" style="width:${captureWidth}px;">
+                <div id="m-head"></div>
+                <div class="dcp-solo-body">
+                    <div id="m-title"></div>
+                    <div id="m-continued"></div>
+                    <div id="m-content" class="dcp-solo-content"></div>
                 </div>
-                <div class="dcp-solo-head-logo">
-                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" class="dcp-solo-logo" crossorigin="anonymous">
-                </div>
-                <div class="dcp-solo-head-corner dcp-solo-head-right">
-                    <div>বিস্তারিত: সাহিত্য সংস্করণ</div>
-                    <div>${post.category || ''}</div>
-                </div>
-            </div>
-            <div class="dcp-solo-body">
-                ${hasRail ? `
-                <div class="dcp-solo-rail">
-                    <div class="dcp-solo-rail-vline"></div>
-                    <div class="dcp-solo-rail-content">
-                        ${authorImgHTML}
-                        ${authorBioHTML}
-                    </div>
-                </div>` : ''}
-                <h1 class="dcp-solo-title">${this.colorizeTitle(post.title)}</h1>
-                ${post.author ? `<div class="dcp-solo-authorname">লেখক: ${post.author}</div>` : ''}
-                <div class="dcp-solo-content">${cleanContent}</div>
-            </div>
-        `;
+                <div id="m-footer"></div>
+            </div>`;
+
+        const headEl = host.querySelector("#m-head");
+        const titleEl = host.querySelector("#m-title");
+        const continuedEl = host.querySelector("#m-continued");
+        const contentEl = host.querySelector("#m-content");
+        const footerEl = host.querySelector("#m-footer");
+
+        headEl.innerHTML = this.buildSoloHeaderHTML(post, dateStr, timeStr);
+        titleEl.innerHTML = this.buildSoloTitleHTML(post);
+        continuedEl.innerHTML = this.buildSoloContinuedLabelHTML();
+        footerEl.innerHTML = this.buildSoloFooterHTML(1, 1);
+
+        const headerHeight = headEl.offsetHeight;
+        const titleHeight = titleEl.offsetHeight;
+        const continuedHeight = continuedEl.offsetHeight;
+        const footerHeight = footerEl.offsetHeight;
+
+        const blockHeights = blocks.map(b => {
+            contentEl.innerHTML = b;
+            return contentEl.offsetHeight || 20;
+        });
+
+        host.remove();
+        return { dateStr, timeStr, headerHeight, titleHeight, continuedHeight, footerHeight, blockHeights };
     },
 
-    // একটামাত্র লম্বা ক্যানভাস তৈরি করে, তারপর পেজ-উচ্চতা অনুযায়ী
-    // আলাদা আলাদা sub-canvas-এ কেটে প্রতিটা একটা স্বতন্ত্র ছবি হিসেবে
-    // PDF-এ বসানো হয় — এতে আগের "single tall image repeat" কৌশলের
-    // পেজ-সংযোগস্থলের ধূসর রেখা থাকে না, এবং প্রতিটা পেজে আলাদা ফুটার
-    // বসানো সম্ভব হয়
+    // একটা নির্দিষ্ট পিক্সেল-উচ্চতায় (captureHeight) পেজ ক্যাপচার করে —
+    // গ্রিড-সিস্টেমের captureElement থেকে আলাদা, কারণ প্রতিটা সোলো-পেজ
+    // ঠিক এক A4-এর সমান উচ্চতায় ক্যাপচার হওয়া দরকার, উপচে পড়া অংশ নয়
+    async captureFixedHeightElement(pageEl, wrapper, captureWidth, captureHeight){
+        wrapper.innerHTML = "";
+        wrapper.appendChild(pageEl);
+        await this.waitForImages(pageEl);
+        await new Promise(r => setTimeout(r, 220));
+        return html2canvas(pageEl, {
+            scale: 2, useCORS: true, allowTaint: true,
+            backgroundColor: "#ffffff",
+            width: captureWidth, height: captureHeight,
+            windowWidth: captureWidth, windowHeight: captureHeight
+        });
+    },
+
+    // লেখাকে ব্লকে ভেঙে, প্রতিটার উচ্চতা মেপে, পেজ-বাজেট অনুযায়ী ভাগ
+    // করে প্রতিটা পেজ সম্পূর্ণ ডিজাইন-ফ্রেমসহ (বর্ডার, স্কেল-প্যাড,
+    // হেডার, ফুটার) আলাদাভাবে ক্যাপচার করে PDF-এ বসায়। কোনো
+    // single-tall-canvas slicing নেই, তাই পেজ-সংযোগে কোনো রেখা বা
+    // অর্ধেক-কাটা লাইন থাকে না, এবং প্রতিটা পেজ প্রথম পেজের মতোই
+    // সম্পূর্ণ ডিজাইনে দেখায়।
     async captureSoloPostToPDF(post, fileName){
         if(typeof html2canvas === 'undefined' || !window.jspdf){ alert("PDF লাইব্রেরি লোড হয়নি।"); return false; }
 
         const captureWidth = 1000;
         const a4Ratio = 297 / 210;
-        const minHeightPx = Math.round(captureWidth * a4Ratio);
+        const pageHeightPx = Math.round(captureWidth * a4Ratio);
+        const borderPx = 18; // 9px double border, উভয় পাশ (box-sizing:border-box)
+        const pagePadTop = 34, pagePadBottom = 30;
+        const footerGap = 14;
+
+        const blocks = this.getSoloContentBlocks(post);
+        const layout = await this.measureSoloLayout(post, blocks, captureWidth);
+
+        const innerBoxHeight = pageHeightPx - borderPx - pagePadTop - pagePadBottom;
+        const chromeCommon = layout.headerHeight + layout.footerHeight + footerGap;
+        const page1Budget = Math.max(100, innerBoxHeight - chromeCommon - layout.titleHeight);
+        const contBudget = Math.max(100, innerBoxHeight - chromeCommon - layout.continuedHeight);
+
+        // পেজ-বাজেট অনুযায়ী ব্লকগুলো ভাগ করা
+        const pagesBlocks = [];
+        let cur = [], curH = 0, budget = page1Budget;
+        for(let i = 0; i < blocks.length; i++){
+            const h = layout.blockHeights[i];
+            if(cur.length > 0 && curH + h > budget){
+                pagesBlocks.push(cur);
+                cur = []; curH = 0; budget = contBudget;
+            }
+            cur.push(blocks[i]); curH += h;
+        }
+        if(cur.length || pagesBlocks.length === 0) pagesBlocks.push(cur);
+
+        const totalPages = pagesBlocks.length;
+        const railHTML = this.buildSoloRailHTML(post);
 
         const host = document.createElement("div");
         host.style.position = "absolute"; host.style.top = "0"; host.style.left = "0";
@@ -844,58 +957,45 @@ window.DCViewer = {
 
         let success = true;
         try{
-            const pageEl = document.createElement("div");
-            pageEl.className = "dcp-solo-page";
-            pageEl.style.cssText = `width:${captureWidth}px; min-height:${minHeightPx}px; box-sizing:border-box;`;
-            pageEl.innerHTML = this.getSoloPrintStyleTag() + this.buildSoloBodyHTML(post);
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pageWidthMM = pdf.internal.pageSize.getWidth();
+            const pageHeightMM = pdf.internal.pageSize.getHeight();
+            let addedAnyPage = false;
 
-            const canvas = await this.captureElement(pageEl, wrapper, captureWidth);
-            if(!canvas || canvas.width === 0 || canvas.height === 0){
+            for(let p = 0; p < totalPages; p++){
+                const isFirst = p === 0;
+                const bodyTopHTML = isFirst ? this.buildSoloTitleHTML(post) : this.buildSoloContinuedLabelHTML();
+
+                const pageEl = document.createElement("div");
+                pageEl.className = "dcp-solo-page";
+                pageEl.style.cssText = `width:${captureWidth}px; height:${pageHeightPx}px; box-sizing:border-box; overflow:hidden;`;
+                pageEl.innerHTML = this.getSoloPrintStyleTag() +
+                    this.buildSoloLeftStripHTML() +
+                    this.buildSoloHeaderHTML(post, layout.dateStr, layout.timeStr) +
+                    `<div class="dcp-solo-body">
+                        ${isFirst ? railHTML : ''}
+                        ${bodyTopHTML}
+                        <div class="dcp-solo-content">${pagesBlocks[p].join('')}</div>
+                    </div>` +
+                    this.buildSoloFooterHTML(p + 1, totalPages);
+
+                const canvas = await this.captureFixedHeightElement(pageEl, wrapper, captureWidth, pageHeightPx);
+                if(!canvas || canvas.width === 0 || canvas.height === 0){
+                    console.warn("সোলো-পেজ", p + 1, "ক্যাপচার ব্যর্থ, বাদ দেওয়া হচ্ছে।");
+                    continue;
+                }
+
+                const imgData = canvas.toDataURL("image/png");
+                if(addedAnyPage) pdf.addPage();
+                addedAnyPage = true;
+                pdf.addImage(imgData, "PNG", 0, 0, pageWidthMM, pageHeightMM);
+            }
+
+            if(!addedAnyPage){
                 alert("দেখানোর মতো কনটেন্ট পাওয়া যায়নি।");
                 success = false;
             } else {
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF("p", "mm", "a4");
-                const pageWidthMM = pdf.internal.pageSize.getWidth();
-                const pageHeightMM = pdf.internal.pageSize.getHeight();
-                const footerSpaceMM = 11;
-                const usableHeightMM = pageHeightMM - footerSpaceMM;
-
-                const pxPerMM = canvas.width / pageWidthMM;
-                const usableHeightPx = Math.max(1, Math.floor(usableHeightMM * pxPerMM));
-                const totalPages = Math.max(1, Math.ceil(canvas.height / usableHeightPx));
-
-                for(let i = 0; i < totalPages; i++){
-                    const sliceHeightPx = Math.min(usableHeightPx, canvas.height - i * usableHeightPx);
-                    if(sliceHeightPx <= 0) break;
-
-                    const sliceCanvas = document.createElement("canvas");
-                    sliceCanvas.width = canvas.width;
-                    sliceCanvas.height = sliceHeightPx;
-                    const ctx = sliceCanvas.getContext("2d");
-                    ctx.fillStyle = "#fffaf5";
-                    ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-                    ctx.drawImage(
-                        canvas,
-                        0, i * usableHeightPx, canvas.width, sliceHeightPx,
-                        0, 0, canvas.width, sliceHeightPx
-                    );
-
-                    const sliceImgData = sliceCanvas.toDataURL("image/png");
-                    const sliceHeightMM = sliceHeightPx / pxPerMM;
-
-                    if(i > 0) pdf.addPage();
-                    pdf.addImage(sliceImgData, "PNG", 0, 0, pageWidthMM, sliceHeightMM);
-
-                    pdf.setFontSize(9);
-                    pdf.setTextColor(150, 150, 150);
-                    pdf.text(
-                        "দৈনিক চালচিত্র  •  www.dailychalchitra.com  •  পৃষ্ঠা " + (i + 1) + "/" + totalPages,
-                        pageWidthMM / 2, pageHeightMM - 6,
-                        { align: "center" }
-                    );
-                }
-
                 pdf.save(fileName + ".pdf");
             }
         } catch(e){
