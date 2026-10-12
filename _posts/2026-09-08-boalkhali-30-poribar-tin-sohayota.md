@@ -3,16 +3,26 @@ layout: post
 title: "বোয়ালখালীতে দুর্যোগে ক্ষতিগ্রস্ত ৩০ পরিবার পেল টিন ও নগদ অর্থ সহায়তা"
 date: 2026-09-08 19:38:00 +0400
 categories:
-    - সংবাদ
-    - চট্টগ্রাম
-tags:
+    - desher-songbad
+category_bn:
     - দেশের সংবাদ
+tags:
+    - সংবাদ
+    - দেশের সংবাদ
+    - বাংলাদেশ
+    - বিভাগ
+    - জেলা
     - চট্টগ্রাম
     - দৈনিক চালচিত্র
-    - বোয়ালখালী
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/boalkhali-tin.webp
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/boalkhali-tin.webp"
 description: "চট্টগ্রামের বোয়ালখালীতে দুর্যোগে ক্ষতিগ্রস্ত ও অসহায় ৩০ পরিবারের মাঝে ঢেউটিন ও নগদ অর্থ সহায়তা প্রদান করেছে উপজেলা প্রশাসন।"
+excerpt: "বোয়ালখালীতে দুর্যোগে ক্ষতিগ্রস্ত ৩০ পরিবার পেল টিন ও নগদ অর্থ সহায়তা।"
+permalink: "/desher-songbad/2026/09/08/boalkhali-30-poribar-tin-sohayota/"
+redirect_from:
+    - "/desher-songbad/2026/09/08/boalkhali-tin-bitoron/"
+    - "/দেশের-সংবাদ/2026/09/08/boalkhali-30-poribar-tin-sohayota/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 ### বোয়ালখালীতে দুর্যোগে ক্ষতিগ্রস্ত ৩০ পরিবার পেল টিন ও নগদ অর্থ সহায়তা
