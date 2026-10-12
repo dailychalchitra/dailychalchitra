@@ -841,54 +841,84 @@ window.DCViewer = {
         </style>`;
     },
 
-    // সোলো কনটেন্টের ব্লকগুলো আসল ডিজাইনের প্রস্থ/ফন্টে রেন্ডার করে
-    // উচ্চতা মাপে — html2canvas দিয়ে ক্যাপচারের আগে পেজ-বাজেট বের
-    // করার জন্য, গ্রিড-সিস্টেমের measureChunkHeights-এর ধাঁচেই
-    async measureSoloLayout(post, blocks, captureWidth){
-        const host = document.createElement("div");
-        host.style.position = "absolute"; host.style.left = "-99999px"; host.style.top = "0";
-        host.style.width = captureWidth + "px"; host.style.visibility = "hidden";
-        document.body.appendChild(host);
+    // পেজ-বাই-পেজ ব্লক-ফিটিং — প্রতিটা পেজের পুরো বাস্তব গঠন (হেডার +
+    // শিরোনাম/continued-লেবেল + এখন পর্যন্ত জমা হওয়া লেখা) একসাথে
+    // লুকানো অবস্থায় রেন্ডার করে getBoundingClientRect() দিয়ে সরাসরি
+    // মাপা হয় যে লেখা কতদূর নেমেছে — margin-collapse বা অংশ-ভিত্তিক
+    // উচ্চতা-যোগফলের উপর নির্ভর করে না বলে এটা নির্ভুল ও স্থিতিশীল
+    async fitSoloPages(post, blocks, captureWidth, pageHeightPx){
+        const pagePadBottom = 30;
+        const borderBottomHalf = 9;
 
         const now = new Date();
         const pad = (n) => String(n).padStart(2, '0');
         const dateStr = post.date || (pad(now.getDate()) + "-" + pad(now.getMonth()+1) + "-" + now.getFullYear());
         const timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
 
-        host.innerHTML = this.getSoloPrintStyleTag() +
-            `<div class="dcp-solo-page" style="width:${captureWidth}px;">
-                <div id="m-head"></div>
-                <div class="dcp-solo-body">
-                    <div id="m-title"></div>
-                    <div id="m-continued"></div>
-                    <div id="m-content" class="dcp-solo-content"></div>
-                </div>
-                <div id="m-footer"></div>
-            </div>`;
+        const host = document.createElement("div");
+        host.style.position = "absolute"; host.style.left = "-99999px"; host.style.top = "0";
+        host.style.width = captureWidth + "px"; host.style.visibility = "hidden";
+        document.body.appendChild(host);
+        host.innerHTML = this.getSoloPrintStyleTag();
 
-        const headEl = host.querySelector("#m-head");
-        const titleEl = host.querySelector("#m-title");
-        const continuedEl = host.querySelector("#m-continued");
-        const contentEl = host.querySelector("#m-content");
-        const footerEl = host.querySelector("#m-footer");
+        // ফুটারের জন্য সংরক্ষিত জায়গা একবারই মাপা — ফুটার position:absolute
+        // হওয়ায় এটি নিজে একটি নতুন block-formatting-context তৈরি করে,
+        // তাই এর offsetHeight নিজের ভেতরের margin-collapse থেকে সুরক্ষিত
+        const footerProbe = document.createElement("div");
+        footerProbe.className = "dcp-solo-page";
+        footerProbe.style.cssText = `width:${captureWidth}px; position:relative;`;
+        footerProbe.innerHTML = this.buildSoloFooterHTML(1, 1);
+        host.appendChild(footerProbe);
+        const footerEl = footerProbe.querySelector(".dcp-solo-footer");
+        const footerReserve = footerEl.offsetHeight + 22 + 6;
+        footerProbe.remove();
 
-        headEl.innerHTML = this.buildSoloHeaderHTML(post, dateStr, timeStr);
-        titleEl.innerHTML = this.buildSoloTitleHTML(post);
-        continuedEl.innerHTML = this.buildSoloContinuedLabelHTML();
-        footerEl.innerHTML = this.buildSoloFooterHTML(1, 1);
+        const maxContentBottom = pageHeightPx - pagePadBottom - borderBottomHalf - footerReserve;
+        const railHTML = this.buildSoloRailHTML(post);
 
-        const headerHeight = headEl.offsetHeight;
-        const titleHeight = titleEl.offsetHeight;
-        const continuedHeight = continuedEl.offsetHeight;
-        const footerHeight = footerEl.offsetHeight;
+        const pagesBlocks = [];
+        let blockIndex = 0;
+        let isFirstPage = true;
 
-        const blockHeights = blocks.map(b => {
-            contentEl.innerHTML = b;
-            return contentEl.offsetHeight || 20;
-        });
+        while(blockIndex < blocks.length || pagesBlocks.length === 0){
+            const pageProbe = document.createElement("div");
+            pageProbe.className = "dcp-solo-page";
+            pageProbe.style.cssText = `width:${captureWidth}px; position:relative;`;
+            pageProbe.innerHTML =
+                this.buildSoloHeaderHTML(post, dateStr, timeStr) +
+                `<div class="dcp-solo-body">
+                    ${isFirstPage ? railHTML : ''}
+                    ${isFirstPage ? this.buildSoloTitleHTML(post) : this.buildSoloContinuedLabelHTML()}
+                    <div class="dcp-solo-content" id="probe-content"></div>
+                </div>`;
+            host.appendChild(pageProbe);
+
+            const contentEl = pageProbe.querySelector("#probe-content");
+            const pageRect = pageProbe.getBoundingClientRect();
+
+            const thisPageBlocks = [];
+            let accumulatedHTML = "";
+            while(blockIndex < blocks.length){
+                const candidateHTML = accumulatedHTML + blocks[blockIndex];
+                contentEl.innerHTML = candidateHTML;
+                const contentRect = contentEl.getBoundingClientRect();
+                const usedHeight = contentRect.bottom - pageRect.top;
+
+                if(usedHeight > maxContentBottom && thisPageBlocks.length > 0){
+                    break; // এই ব্লকটা পরের পেজে যাবে
+                }
+                thisPageBlocks.push(blocks[blockIndex]);
+                accumulatedHTML = candidateHTML;
+                blockIndex++;
+            }
+
+            pagesBlocks.push(thisPageBlocks);
+            pageProbe.remove();
+            isFirstPage = false;
+        }
 
         host.remove();
-        return { dateStr, timeStr, headerHeight, titleHeight, continuedHeight, footerHeight, blockHeights };
+        return { pagesBlocks, dateStr, timeStr };
     },
 
     // একটা নির্দিষ্ট পিক্সেল-উচ্চতায় (captureHeight) পেজ ক্যাপচার করে —
@@ -919,30 +949,9 @@ window.DCViewer = {
         const captureWidth = 1000;
         const a4Ratio = 297 / 210;
         const pageHeightPx = Math.round(captureWidth * a4Ratio);
-        const borderPx = 18; // 9px double border, উভয় পাশ (box-sizing:border-box)
-        const pagePadTop = 34, pagePadBottom = 30;
-        const footerGap = 14;
 
         const blocks = this.getSoloContentBlocks(post);
-        const layout = await this.measureSoloLayout(post, blocks, captureWidth);
-
-        const innerBoxHeight = pageHeightPx - borderPx - pagePadTop - pagePadBottom;
-        const chromeCommon = layout.headerHeight + layout.footerHeight + footerGap;
-        const page1Budget = Math.max(100, innerBoxHeight - chromeCommon - layout.titleHeight);
-        const contBudget = Math.max(100, innerBoxHeight - chromeCommon - layout.continuedHeight);
-
-        // পেজ-বাজেট অনুযায়ী ব্লকগুলো ভাগ করা
-        const pagesBlocks = [];
-        let cur = [], curH = 0, budget = page1Budget;
-        for(let i = 0; i < blocks.length; i++){
-            const h = layout.blockHeights[i];
-            if(cur.length > 0 && curH + h > budget){
-                pagesBlocks.push(cur);
-                cur = []; curH = 0; budget = contBudget;
-            }
-            cur.push(blocks[i]); curH += h;
-        }
-        if(cur.length || pagesBlocks.length === 0) pagesBlocks.push(cur);
+        const { pagesBlocks, dateStr, timeStr } = await this.fitSoloPages(post, blocks, captureWidth, pageHeightPx);
 
         const totalPages = pagesBlocks.length;
         const railHTML = this.buildSoloRailHTML(post);
@@ -972,7 +981,7 @@ window.DCViewer = {
                 pageEl.style.cssText = `width:${captureWidth}px; height:${pageHeightPx}px; box-sizing:border-box; overflow:hidden;`;
                 pageEl.innerHTML = this.getSoloPrintStyleTag() +
                     this.buildSoloLeftStripHTML() +
-                    this.buildSoloHeaderHTML(post, layout.dateStr, layout.timeStr) +
+                    this.buildSoloHeaderHTML(post, dateStr, timeStr) +
                     `<div class="dcp-solo-body">
                         ${isFirst ? railHTML : ''}
                         ${bodyTopHTML}
