@@ -2,21 +2,25 @@
 layout: post
 title: "জন্ম মৃত্যু সবই তুমি"
 date: 2026-09-08 20:30:00 +0400
-
 categories:
-    - কবিতা
-
+    - chara-kobita
+category_bn:
+    - ছড়া কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - ছড়া কবিতা
-    - শ্রী বিপ্লব জলদাস এর লেখা কবিতা
     - দৈনিক চালচিত্র
-
 author: "শ্রী বিপ্লব জলদাস"
-
-image: /assets/img/sree-biplab-jalodas-02.webp
+image: "/assets/img/sree-biplab-jalodas-02.webp"
+description: "শ্রী বিপ্লব জলদাস এর লেখা ছড়া কবিতা 'জন্ম মৃত্যু সবই তুমি'।"
+excerpt: "জন্ম মৃত্যু সবই তুমি - শ্রী বিপ্লব জলদাস এর ছড়া কবিতা।"
+permalink: "/chara-kobita/2026/09/08/jonmo-mrityu-soboi-tumi/"
+redirect_from:
+    - "/chara-kobita/2026/09/08/jonmo-mrityu-kobita/"
+    - "/ছড়া-কবিতা/2026/09/08/jonmo-mrityu-soboi-tumi/"
+    - "/search/label/ছড়া-কবিতা"
 ---
 
 তোমার হাতেই সব ক্ষমতা 
