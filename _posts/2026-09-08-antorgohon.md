@@ -3,16 +3,24 @@ layout: post
 title: "অন্তর্গহন"
 date: 2026-09-08 21:05:06 +0400
 categories:
-    - কবিতা
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - পদ্য কবিতা
-    - ডা. গোলাম রহমান ব্রাইট এর লেখা কবিতা
     - দৈনিক চালচিত্র
-author: ডা. গোলাম রহমান ব্রাইট
-image: /assets/img/dr-golam-rohman-brite.webp
+author: "ডা. গোলাম রহমান ব্রাইট"
+image: "/assets/img/dr-golam-rohman-brite.webp"
+description: "ডা. গোলাম রহমান ব্রাইট এর লেখা পদ্য কবিতা 'অন্তর্গহন'।"
+excerpt: "অন্তর্গহন - ডা. গোলাম রহমান ব্রাইট এর কবিতা।"
+permalink: "/poddo-kobita/2026/09/08/antorgrohon/"
+redirect_from:
+    - "/poddo-kobita/2026/09/08/antargahan/"
+    - "/পদ্য-কবিতা/2026/09/08/antorgrohon/"
+    - "/search/label/পদ্য-কবিতা"
 ---
 
 মুখোশের অন্তরালে কত মুখ, কত অচেনা রূপ, ছলনার কুহেলিকায় বিবেক হয় নিঃশব্দ, চুপ। লোভের লেলিহান শিখা দগ্ধ করে শুভবোধ, অহমিকার অন্ধকারে হারিয়ে যায় ন্যায়বোধ।
