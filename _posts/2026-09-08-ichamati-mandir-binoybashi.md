@@ -3,16 +3,26 @@ layout: post
 title: "ঐতিহ্যের টানে ইছামতি মাতৃমন্দিরে বিনয়বাঁশী শিল্পীগোষ্ঠীর নেতৃবৃন্দ"
 date: 2026-09-08 15:55:00 +0400
 categories:
-    - সংবাদ
-    - চট্টগ্রাম
-tags:
+    - desher-songbad
+category_bn:
     - দেশের সংবাদ
+tags:
+    - সংবাদ
+    - দেশের সংবাদ
+    - বাংলাদেশ
+    - বিভাগ
+    - জেলা
     - চট্টগ্রাম
     - দৈনিক চালচিত্র
-    - বিনয়বাঁশী শিল্পীগোষ্ঠী
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/ichamati-mandir.webp
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/ichamati-mandir.webp"
 description: "চট্টগ্রামের রাঙ্গুনিয়ায় ঐতিহ্যবাহী শ্রী শ্রী ইছামতি মাতৃমন্দির পরিদর্শন করেছেন বিনয়বাঁশী শিল্পীগোষ্ঠীর নেতৃবৃন্দ।"
+excerpt: "ঐতিহ্যের টানে ইছামতি মাতৃমন্দিরে বিনয়বাঁশী শিল্পীগোষ্ঠীর নেতৃবৃন্দ।"
+permalink: "/desher-songbad/2026/09/08/ichamati-mandir-binoybashi/"
+redirect_from:
+    - "/desher-songbad/2026/09/08/ichamati-mondir-poridorshon/"
+    - "/দেশের-সংবাদ/2026/09/08/ichamati-mandir-binoybashi/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 ### ঐতিহ্যের টানে ইছামতি মাতৃমন্দিরে বিনয়বাঁশী শিল্পীগোষ্ঠীর নেতৃবৃন্দ
