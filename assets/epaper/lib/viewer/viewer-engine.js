@@ -482,19 +482,19 @@ window.DCViewer = {
             .dcp-cover{ width:100%; height:150px; object-fit:cover; border-radius:8px; display:block; }
 
             /* সোলো (মোট ১-কলাম নথি) - সরু, কেন্দ্রীভূত, বড় ফন্ট */
-            .dcp-col-solo{ font-size:20px !important; line-height:1.9 !important; border-left:none !important; text-align:justify; }
-            .dcp-col-solo .dcp-content{ font-size:20px !important; line-height:1.9 !important; text-align:justify; }
+            .dcp-col-solo{ font-size:22px !important; line-height:1.8 !important; border-left:none !important; text-align:justify; }
+            .dcp-col-solo .dcp-content{ font-size:22px !important; line-height:1.8 !important; text-align:justify; }
             .dcp-col-solo .dcp-art-start h2{ font-size:25px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:10px !important; }
             .dcp-col-solo .dcp-cover{ width:100%; height:300px; object-fit:cover; object-position:center 20%; }
 
-            .dcp-col-duo{ font-size:17px !important; line-height:1.8 !important; text-align:justify; }
-            .dcp-col-duo .dcp-content{ font-size:17px !important; line-height:1.8 !important; text-align:justify; }
+            .dcp-col-duo{ font-size:19px !important; line-height:1.7 !important; text-align:justify; }
+            .dcp-col-duo .dcp-content{ font-size:19px !important; line-height:1.7 !important; text-align:justify; }
             .dcp-col-duo .dcp-art-start h2{ font-size:20px !important; }
             .dcp-col-duo .dcp-cover{ width:100%; height:210px; object-fit:cover; object-position:center 20%; }
 
-            .dcp-col-tri{ font-size:16px !important; line-height:1.7 !important; }
-            .dcp-col-tri .dcp-content{ font-size:16px !important; line-height:1.7 !important; }
+            .dcp-col-tri{ font-size:18px !important; line-height:1.6 !important; }
+            .dcp-col-tri .dcp-content{ font-size:18px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:18px !important; }
             .dcp-col-tri .dcp-cover{ height:175px !important; object-position:center 20%; }
 
@@ -885,20 +885,20 @@ window.DCViewer = {
             .dcp-solo-author-bio{ font-size:13.5px; color:#666; line-height:1.55; text-align:center; font-family:'Noto Serif Bengali',serif; }
 
             .dcp-solo-title{
-                font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:59px; text-align:center;
-                line-height:1.5; margin:-8px 0 14px; letter-spacing:1px;
-            }
+    font-family:'Noto Serif Bengali',serif; font-weight:900; font-size:59px; text-align:center;
+    line-height:1.5; margin:-8px 0 6px; letter-spacing:1px;
+}
             .dcp-solo-title span{ display:inline-block; margin:0 4px; }
             .dcp-solo-authorname{
                 text-align:center; font-size:25px; color:#8B0000; font-weight:700;
                 margin-bottom:24px; font-family:'Noto Serif Bengali',serif;
             }
 
-            .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:32px; line-height:2.05; color:#222; text-align:justify; }
+            .dcp-solo-content{ font-family:'Noto Serif Bengali',serif; font-size:34px; line-height:1.95; color:#222; text-align:justify; }
             .dcp-solo-content p{ margin:0 0 18px; }
             .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 30px; }
             .dcp-solo-content .kobita-pera.kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; }
-            .dcp-solo-kobita-block{ display:block; white-space:pre-line; text-align:center; margin:0 0 26px; line-height:1.65; }
+            .dcp-solo-kobita-block{ display:block; white-space:pre-line; text-align:center; margin:0 0 24px; line-height:1.45; }
             .dcp-solo-kobita-block.dcp-solo-kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; white-space:normal; }
         </style>`;
     },
