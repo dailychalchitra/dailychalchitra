@@ -2,21 +2,25 @@
 layout: post
 title: "মৃত্যু কখনো শান্তির জায়গা নয়"
 date: 2026-09-08 20:23:00 +0400
-
 categories:
-    - কবিতা
-
+    - chara-kobita
+category_bn:
+    - ছড়া কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - ছড়া কবিতা
-    - শ্রী বিপ্লব জলদাস এর লেখা কবিতা
     - দৈনিক চালচিত্র
-
 author: "শ্রী বিপ্লব জলদাস"
-
-image: /assets/img/sree-biplab-jalodas-03.webp
+image: "/assets/img/sree-biplab-jalodas-03.webp"
+description: "শ্রী বিপ্লব জলদাস এর লেখা ছড়া কবিতা 'মৃত্যু কখনো শান্তির জায়গা নয়'।"
+excerpt: "মৃত্যু কখনো শান্তির জায়গা নয় - শ্রী বিপ্লব জলদাস এর ছড়া কবিতা।"
+permalink: "/chara-kobita/2026/09/08/mrityu-kokhono-shantir-jayga-noy/"
+redirect_from:
+    - "/chara-kobita/2026/09/08/mrityu-shantir-jayga-noy/"
+    - "/ছড়া-কবিতা/2026/09/08/mrityu-kokhono-shantir-jayga-noy/"
+    - "/search/label/ছড়া-কবিতা"
 ---
 
 মৃত্যু কখনো শান্তির  
