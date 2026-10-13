@@ -18,13 +18,14 @@ permalink: /assets/epaper/issues/issues.json
   "cover": {{ week.items.first.image | default: "" | jsonify }},
   "posts": [
     {% for post in week.items %}
-    {% assign post_author = post.author | default: "দৈনিক চালচিত্র" %}
-    {% assign post_author = post_author | strip %}
-    {
-      "title": {{ post.title | strip_html | jsonify }},
-      "url": {{ post.url | relative_url | jsonify }},
-      "author": {{ post_author | strip_html | jsonify }},
-      "category": {{ post.categories.first | default: "সাধারণ" | jsonify }},
+{% assign post_author = post.author | default: "দৈনিক চালচিত্র" %}
+{% assign post_author = post_author | strip %}
+{% assign post_cat = post.category_bn.first | default: post.category_bn | default: post.categories.first | default: "সাধারণ" %}
+{
+  "title": {{ post.title | strip_html | jsonify }},
+  "url": {{ post.url | relative_url | jsonify }},
+  "author": {{ post_author | strip_html | jsonify }},
+  "category": {{ post_cat | jsonify }},
       "tags": {{ post.tags | jsonify }},
       "image": {{ post.image | default: "" | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
