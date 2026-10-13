@@ -898,7 +898,7 @@ window.DCViewer = {
             .dcp-solo-content p{ margin:0 0 18px; }
             .dcp-solo-content .kobita-pera{ display:block; text-align:center; margin:0 0 30px; }
             .dcp-solo-content .kobita-pera.kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; }
-            .dcp-solo-kobita-block{ display:block; white-space:pre-line; text-align:center; margin:0 0 30px; }
+            .dcp-solo-kobita-block{ display:block; white-space:pre-line; text-align:center; margin:0 0 26px; line-height:1.65; }
             .dcp-solo-kobita-block.dcp-solo-kobita-date{ font-size:18px; font-style:italic; color:#777; margin-top:10px; white-space:normal; }
         </style>`;
     },
