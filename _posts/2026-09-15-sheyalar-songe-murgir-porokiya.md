@@ -3,7 +3,9 @@ layout: post
 title: "শেয়ালের সঙ্গে মুরগির পরকীয়া"
 date: 2026-09-15 05:22:00 +0400
 categories:
-    - কবিতা
+    - onu-kobita
+category_bn:
+    - অনু কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
@@ -11,8 +13,13 @@ tags:
     - অনু কবিতা
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: /assets/img/shamim-nimu-09.webp
+image: "/assets/img/shamim-nimu-09.webp"
 description: "নেটওয়ার্কের যুগে বোকা মুরগি ও দুশ্চরিত্র শেয়ালের গল্প - জীবনের অগণিত দুর্লভ ইতিহাস নিয়ে লেখা একটি বাস্তবধর্মী কবিতা।"
+excerpt: "নেটওয়ার্কের যুগে বোকা মুরগি ও দুশ্চরিত্র শেয়ালের গল্প।"
+permalink: "/onu-kobita/2026/09/15/sheyalar-songe-murgir-porokiya/"
+redirect_from:
+    - "/onu-kobita/2026/09/15/murgir-porokiya/"
+    - "/search/label/অনু-কবিতা"
 ---
 
 চাঁদের কাটা মাথায় হঠাৎ জ্বলে ওঠা
