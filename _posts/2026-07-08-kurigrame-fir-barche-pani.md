@@ -3,19 +3,24 @@ layout: post
 title: "কুড়িগ্রামে ফের বাড়ছে নদ-নদীর পানি, নতুন করে বন্যার শঙ্কা"
 date: 2026-07-08 19:04:00 +0400
 categories:
-    - songbad
+    - desher-songbad
 category_bn:
-    - সংবাদ
+    - দেশের সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - বাংলাদেশ
+    - বিভাগ
+    - রংপুর
     - জেলা
     - কুড়িগ্রাম
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/kurigram-flood.webp"
-permalink: "/songbad/2026/07/08/kurigrame-fir-barche-pani/"
+description: "কুড়িগ্রামে ফের বাড়ছে নদ-নদীর পানি, নতুন করে বন্যার শঙ্কা - বিস্তারিত পড়ুন দৈনিক চালচিত্রে।"
+permalink: "/desher-songbad/2026/07/08/kurigrame-fir-barche-pani/"
 redirect_from:
+    - "/songbad/2026/07/08/kurigrame-fir-barche-pani/"
     - "/সংবাদ/2026/07/08/kurigrame-fir-barche-pani/"
 ---
 
