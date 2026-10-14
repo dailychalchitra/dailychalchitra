@@ -2,18 +2,25 @@
 layout: post
 title: "লাইটহাউস স্কুল অ্যান্ড কলেজ"
 date: 2026-09-16 19:10:00 +0600
-
 categories:
+    - chakrir-biggopti
+category_bn:
     - চাকরির বিজ্ঞপ্তি
 tags:
+    - বিজ্ঞপ্তি
+    - চাকরির বিজ্ঞপ্তি
     - নিয়োগ বিজ্ঞপ্তি
     - পরামর্শ
     - বিজ্ঞাপন
-    - বিজ্ঞপ্তি
     - দৈনিক চালচিত্র
-
 author: "দৈনিক চালচিত্র"
-image: /assets/img/Isctulshighat.webp
+image: "/assets/img/Isctulshighat.webp"
+description: "লাইটহাউস স্কুল অ্যান্ড কলেজে নিয়োগ বিজ্ঞপ্তি।"
+excerpt: "লাইটহাউস স্কুল অ্যান্ড কলেজে নিয়োগ।"
+permalink: "/chakrir-biggopti/2026/09/16/lighthouse-school-and-college/"
+redirect_from:
+    - "/chakrir-biggopti/2026/09/16/lighthouse-school/"
+    - "/search/label/চাকরির-বিজ্ঞপ্তি"
 ---
 
 <style>
