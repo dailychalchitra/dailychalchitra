@@ -9,15 +9,14 @@ category_bn:
 tags:
     - খেলাধুলা
     - ফুটবল
-    - ফিফা বিশ্বকাপ
-    - ফ্রান্স
-    - মরক্কো
     - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
 image: "/assets/img/morocco-vs-france.webp"
-permalink: "/football/2026/07/10/fifa-bishwokap-francer-joye-semifinale-golden-buter-doure-messir-pashe-mbappe/"
+description: "ফিফা বিশ্বকাপ: ফ্রান্সের জয়ে সেমিফাইনালে, গোল্ডেন বুটের দৌড়ে মেসির পাশে এমবাপে - বিস্তারিত পড়ুন দৈনিক চালচিত্রে।"
+excerpt: "ফিফা বিশ্বকাপে ফ্রান্সের জয়ে সেমিফাইনালে, গোল্ডেন বুটের দৌড়ে মেসির পাশে এমবাপে।"
+permalink: "/football/2026/07/10/france-semifinale-mbappe/"
 redirect_from:
-    - "/ফুটবল/2026/07/10/fifa-bishwokap-francer-joye-semifinale-golden-buter-doure-messir-pashe-mbappe/"
+    - /football/2026/07/10/france-mbappe/
 ---
 
 ### ফ্রান্সের জয়ে সেমিফাইনাল নিশ্চিত
