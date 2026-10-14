@@ -3,18 +3,25 @@ layout: post
 title: "বিনয়বাঁশী শিল্পীগোষ্ঠীর সাধারণ সভা অনুষ্ঠিত"
 date: 2026-09-12 16:26:00 +0400
 categories:
-    - সংবাদ
+    - desher-songbad
+category_bn:
+    - দেশের সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - বাংলাদেশ
+    - বিভাগ
     - জেলা
     - চট্টগ্রাম
     - দৈনিক চালচিত্র
-    - বোয়ালখালী
-    - বিনয়বাঁশী শিল্পীগোষ্ঠী
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/binoybashi-sova-01.webp
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/binoybashi-sova-01.webp"
 description: "চট্টগ্রামের বোয়ালখালীতে লোকসাংস্কৃতিক প্রতিষ্ঠান বিনয়বাঁশী শিল্পীগোষ্ঠীর সাধারণ সভা অনুষ্ঠিত হয়েছে। সভায় একুশে পদকপ্রাপ্ত কিংবদন্তি ঢোলবাদক বিনয়বাঁশী জলদাসের ১১৫তম জন্মদিবস পালনের কর্মসূচি গ্রহণ করা হয়।"
+excerpt: "চট্টগ্রামের বোয়ালখালীতে বিনয়বাঁশী শিল্পীগোষ্ঠীর সাধারণ সভা অনুষ্ঠিত।"
+permalink: "/desher-songbad/2026/09/12/binoybashi-shilpigosthi-sova/"
+redirect_from:
+    - "/desher-songbad/2026/09/12/binoybashi-sadaron-sova/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 <p style="font-size:14px; color:#888; font-style:italic; margin-bottom:15px;">বোয়ালখালী (চট্টগ্রাম) প্রতিনিধি:</p>
