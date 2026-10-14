@@ -2,21 +2,24 @@
 layout: post
 title: "মেঘনাদবধ-[৪র্থ সর্গ]"
 date: 2026-09-09 15:28:00 +0400
-
 categories:
     - mahakabya
-category_bn: "মহাকাব্য"
-
+category_bn:
+    - মহাকাব্য
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - মহাকাব্য
-    - মাইকেল মধুসূদন দত্ত এর লেখা মহাকাব্য
     - দৈনিক চালচিত্র
-
-author: মাইকেল মধুসূদন দত্ত
-image: /assets/img/michael-madhusudan-dutt.webp
+author: "মাইকেল মধুসূদন দত্ত"
+image: "/assets/img/michael-madhusudan-dutt.webp"
+description: "মাইকেল মধুসূদন দত্ত এর মহাকাব্য 'মেঘনাদবধ' - ৪র্থ সর্গ।"
+excerpt: "মেঘনাদবধ ৪র্থ সর্গ - মাইকেল মধুসূদন দত্ত এর মহাকাব্য।"
+permalink: "/mahakabya/2026/09/09/meghnad-bodh-4th-sorgo/"
+redirect_from:
+    - "/mahakabya/2026/09/09/meghnad-bodh/"
+    - "/search/label/মহাকাব্য"
 ---
 
 নমি আমি, কবি-গুরু, তব পদাম্বুজে,
