@@ -3,16 +3,24 @@ layout: post
 title: "খাক"
 date: 2026-09-09 19:26:00 +0400
 categories:
-    - কবিতা
+    - chara-kobita
+category_bn:
+    - ছড়া কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - ছড়া কবিতা
-    - মোঃ রহমত আলী এর লেখা কবিতা
     - দৈনিক চালচিত্র
 author: "মোঃ রহমত আলী"
-image: /assets/img/md-rohmat-ali.webp
+image: "/assets/img/md-rohmat-ali.webp"
+description: "মোঃ রহমত আলী এর লেখা ছড়া কবিতা 'খাক'।"
+excerpt: "খাক - মোঃ রহমত আলী এর ছড়া কবিতা।"
+permalink: "/chara-kobita/2026/09/09/khak-rohmat-ali/"
+redirect_from:
+    - "/chara-kobita/2026/09/09/khak-kobita/"
+    - "/ছড়া-কবিতা/2026/09/09/khak/"
+    - "/search/label/ছড়া-কবিতা"
 ---
 
 দেহের যত্ন করছো, খুব ভালো,
