@@ -3,16 +3,25 @@ layout: post
 title: "পটিয়ায় এম আর একাডেমির পুরস্কার বিতরণী অনুষ্ঠান সম্পন্ন"
 date: 2026-09-14 19:26:00 +0400
 categories:
-    - সংবাদ
+    - desher-songbad
+category_bn:
+    - দেশের সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - বাংলাদেশ
+    - বিভাগ
     - জেলা
     - চট্টগ্রাম
-    - পটিয়া
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/mr-academy.webp
+    - দৈনিক চালচিত্র
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/mr-academy.webp"
 description: "চট্টগ্রামের পটিয়ায় এম আর একাডেমির জুলাই-২০২৬ মাসের মাসিক পুরস্কার বিতরণী অনুষ্ঠান সম্পন্ন হয়েছে।"
+excerpt: "পটিয়ায় এম আর একাডেমির পুরস্কার বিতরণী অনুষ্ঠান সম্পন্ন।"
+permalink: "/desher-songbad/2026/09/14/patiya-mr-academy-purashkar/"
+redirect_from:
+    - "/desher-songbad/2026/09/14/patiya-mr-academy/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 <small style="color: #888888; font-size: 13px;">বিশেষ প্রতিনিধি:</small>
