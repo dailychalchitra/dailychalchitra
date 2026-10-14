@@ -3,13 +3,14 @@ layout: post
 title: "১৩ বছর ধরে স্বীকৃতি বঞ্চিত গাইবান্ধার ২১৩ প্রতিবন্ধী শিশুর জেলা মডেল স্কুল"
 date: 2026-07-22 08:51:00 +0400
 categories:
-    - songbad
+    - joruri-sangbad
 category_bn:
-    - সংবাদ
-tags:
-    - দেশের সংবাদ
-    - সংবাদ
     - জরুরী সংবাদ
+tags:
+    - সংবাদ
+    - দেশের সংবাদ
+    - জরুরী সংবাদ
+    - বাংলাদেশ
     - বিভাগ
     - রংপুর
     - জেলা
@@ -17,9 +18,10 @@ tags:
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/ramchandrapur-special-school.webp"
-permalink: "/songbad/2026/07/22/13-bochor-dhore-sikriti-bonchito-gaibandhar-213-protibondhi-shishur-jela-model-school/"
+description: "১৩ বছর ধরে স্বীকৃতি বঞ্চিত গাইবান্ধার ২১৩ প্রতিবন্ধী শিশুর জেলা মডেল স্কুল।"
+permalink: "/joruri-sangbad/2026/07/22/gaibandha-model-school/"
 redirect_from:
-    - "/সংবাদ/2026/07/22/13-bochor-dhore-sikriti-bonchito-gaibandhar-213-protibondhi-shishur-jela-model-school/"
+    - /songbad/2026/07/22/gaibandha-model-school/
 ---
 
 **গাইবান্ধা প্রতিনিধি:** ১৩ বছর ধরে বিনা বেতনে চলছে একটি বিশেষায়িত বিদ্যালয়। ২১৩ জন বুদ্ধি প্রতিবন্ধী ও অটিস্টিক শিশুর শিক্ষা ও বেঁচে থাকার একমাত্র অবলম্বন এই প্রতিষ্ঠান। কিন্তু আজও মেলেনি সরকারি স্বীকৃতি ও এমপিওভুক্তি। এমনই এক মানবিক সংকটে দিন কাটছে গাইবান্ধা সদরের রামচন্দ্রপুর এ.আর. বুদ্ধি প্রতিবন্ধী ও অটিস্টিক বিদ্যালয়ের।
