@@ -3,17 +3,22 @@ layout: post
 title: "বোয়ালখালীতে বাংলাদেশ পূজা উদযাপন পরিষদের উপজেলা শাখার সম্মেলন অনুষ্ঠিত"
 date: 2026-09-13 16:13:00 +0400
 categories:
-    - সংবাদ
+    - desher-songbad
+category_bn:
+    - দেশের সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - বাংলাদেশ
+    - বিভাগ
     - জেলা
     - চট্টগ্রাম
-    - বোয়ালখালী
     - দৈনিক চালচিত্র
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/puja-udjapon.webp
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/puja-udjapon.webp"
 description: "চট্টগ্রামের বোয়ালখালীতে বাংলাদেশ পূজা উদযাপন পরিষদের উপজেলা শাখার সম্মেলন অনুষ্ঠিত হয়েছে।"
+excerpt: "বোয়ালখালীতে পূজা উদযাপন পরিষদের সম্মেলন অনুষ্ঠিত।"
+permalink: /desher-songbad/2026/09/13/boalkhali-puja-udjapon-porishod-sommelon/
 ---
 
 <small style="color: #888888; font-size: 13px;">বিপ্লব দাস : বিশেষ প্রতিনিধি:</small>
