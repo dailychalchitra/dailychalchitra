@@ -3,18 +3,23 @@ layout: post
 title: "Imagine!"
 date: 2026-09-11 13:54:00 +0400
 categories:
-    - "কবিতা"
+    - onu-kobita
+category_bn:
+    - অনু কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - অনু কবিতা
-    - ইংরেজি কবিতা
-    - রোমানিয়ান কবিতা
     - দৈনিক চালচিত্র
-    - অনুপ্রেরণা
 author: "Bogdana Gageanu"
-image: /assets/img/bogdana-gageanu-01.webp
+image: "/assets/img/bogdana-gageanu-01.webp"
+description: "Bogdana Gageanu এর লেখা অনু কবিতা 'Imagine!'।"
+excerpt: "Imagine! - Bogdana Gageanu এর অনু কবিতা।"
+permalink: "/onu-kobita/2026/09/11/imagine-bogdana-gageanu/"
+redirect_from:
+    - "/onu-kobita/2026/09/11/imagine-kobita/"
+    - "/search/label/অনু-কবিতা"
 ---
 
 Imagine what you want to imagine 
