@@ -3,16 +3,25 @@ layout: post
 title: "অবকাঠামো উন্নয়ন মানেই শিক্ষার প্রকৃত উন্নয়ন নয়: আজিজুল হক"
 date: 2026-09-10 16:50:00 +0400
 categories:
-    - সংবাদ
-    - চট্টগ্রাম
-tags:
+    - desher-songbad
+category_bn:
     - দেশের সংবাদ
+tags:
+    - সংবাদ
+    - দেশের সংবাদ
+    - বাংলাদেশ
+    - বিভাগ
     - চট্টগ্রাম
+    - জেলা
     - দৈনিক চালচিত্র
-    - বোয়ালখালী
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/unnaon-01.webp
-description: "অবকাঠামো উন্নয়ন মানেই শিক্ষার প্রকৃত উন্নয়ন নয়: আজিজুল হক"
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/unnaon-01.webp"
+description: "অবকাঠামো উন্নয়ন মানেই শিক্ষার প্রকৃত উন্নয়ন নয়: আজিজুল হক।"
+excerpt: "অবকাঠামো উন্নয়ন মানেই শিক্ষার প্রকৃত উন্নয়ন নয়: আজিজুল হক।"
+permalink: "/desher-songbad/2026/09/10/abokathamo-unnoyon-azizul-hoque/"
+redirect_from:
+    - "/desher-songbad/2026/09/10/abokathamo-shikkha-unnoyon/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 <p style="font-size:14px; color:#6b7280; margin-bottom:16px;">বোয়ালখালী (চট্টগ্রাম) প্রতিনিধি:</p>
