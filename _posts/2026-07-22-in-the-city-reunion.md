@@ -3,19 +3,22 @@ layout: post
 title: "‘ইন দ্য সিটি’ রিইউনিয়নে উত্তপ্ত বাক্যযুদ্ধ, সম্পর্ক নিয়েও নতুন তথ্য দিলেন তারকারা"
 date: 2026-07-22 11:09:00 +0400
 categories:
-    - binodon
+    - cholochitra
 category_bn:
-    - বিনোদন
+    - চলচ্চিত্র
 tags:
+    - বিনোদন
     - চলচ্চিত্র
     - টেলিফিল্ম
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/in-the-city-reunion.webp"
-description: "‘ইন দ্য সিটি’ রিইউনিয়নে উত্তপ্ত বাক্যযুদ্ধ, সম্পর্ক নিয়েও নতুন তথ্য দিলেন তারকারা"
-permalink: "/binodon/2026/07/22/in-the-city-reunion/"
+description: "‘ইন দ্য সিটি’ রিইউনিয়নে উত্তপ্ত বাক্যযুদ্ধ, সম্পর্ক নিয়েও নতুন তথ্য দিলেন তারকারা।"
+excerpt: "‘ইন দ্য সিটি’ রিইউনিয়নে উত্তপ্ত বাক্যযুদ্ধ, সম্পর্ক নিয়েও নতুন তথ্য দিলেন তারকারা।"
+permalink: "/cholochitra/2026/07/22/in-the-city-reunion/"
 redirect_from:
-    - "/বিনোদন/2026/07/22/in-the-city-reunion/"
+    - "/cholochitra/2026/07/22/in-the-city-bakkojuddho/"
+    - "/search/label/চলচ্চিত্র"
 ---
 
 ### ‘ইন দ্য সিটি’ রিইউনিয়নে চড়া উত্তেজনা
