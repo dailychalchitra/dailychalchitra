@@ -3,23 +3,26 @@ layout: post
 title: "পরিবেশ রক্ষায় কধুরখীল মারজিন বিহারে বৃক্ষরোপণ"
 date: 2026-09-11 14:20:00 +0400
 categories:
-    - songbad
+    - desher-songbad
 category_bn:
-    - সংবাদ
-tags:
     - দেশের সংবাদ
+tags:
+    - সংবাদ
+    - দেশের সংবাদ
+    - বাংলাদেশ
+    - বিভাগ
+    - জেলা
     - চট্টগ্রাম
+    - পরিবেশ
     - দৈনিক চালচিত্র
-    - বোয়ালখালী
-author: "ডেস্ক রিপোর্ট"
+author: "চট্টগ্রাম প্রতিনিধি"
 image: "/assets/img/brikkho-ropon-01.webp"
 description: "পরিবেশ রক্ষা, সবুজায়ন ও জনসচেতনতা বৃদ্ধির লক্ষ্যে চট্টগ্রামের বোয়ালখালী উপজেলার কধুরখীল মারজিন বিহারে বৃক্ষরোপণ কর্মসূচি অনুষ্ঠিত হয়েছে।"
 excerpt: "পরিবেশ রক্ষা, সবুজায়ন ও জনসচেতনতা বৃদ্ধির লক্ষ্যে চট্টগ্রামের বোয়ালখালী উপজেলার কধুরখীল মারজিন বিহারে বৃক্ষরোপণ কর্মসূচি অনুষ্ঠিত হয়েছে।"
-permalink: "/songbad/2026/09/11/kadhurkhil-marjin-bihare-brikkhoropon/"
+permalink: "/desher-songbad/2026/09/11/kadhurkhil-bihare-brikkho/"
 redirect_from:
-    - "/সংবাদ/চট্টগ্রাম/2026/09/11/brikkho-ropon/"
-    - "/সংবাদ/2026/09/11/brikkho-ropon/"
-    - "/songbad/2026/09/11/brikkho-ropon/"
+    - /songbad/2026/09/11/brikkho-ropon/
+    - /songbad/2026/09/11/kadhurkhil-bihare-brikkho/
 ---
 
 বাংলাদেশ মাইনোরিটি বুদ্ধিস্ট অ্যাসোসিয়েশন ও HWPL Global 3 Branch-এর সহযোগিতায় ‘Eco Ten 10 Minutes’ কর্মসূচি
