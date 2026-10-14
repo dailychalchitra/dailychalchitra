@@ -3,17 +3,23 @@ layout: post
 title: "Cafea și flori"
 date: 2026-09-16 23:59:00 +0600
 categories:
+    - kobita
+category_bn:
     - কবিতা
-
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - দৈনিক চালচিত্র
     - Adrian Bexa এর লেখা কবিতা
-
 author: "Adrian Bexa"
-image: /assets/img/adrian-bexa.webp
+image: "/assets/img/adrian-bexa.webp"
+description: "Cafea și flori - Adrian Bexa এর লেখা একটি কবিতা।"
+excerpt: "Adrian Bexa এর কবিতা Cafea și flori।"
+permalink: "/kobita/2026/09/16/cafea-si-flori-adrian-bexa/"
+redirect_from:
+    - "/kobita/2026/09/16/cafea-si-flori/"
+    - "/search/label/কবিতা"
 ---
 
 Aș fi vrut, să bem cafeaua,
