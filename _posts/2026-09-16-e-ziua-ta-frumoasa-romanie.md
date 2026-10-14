@@ -2,21 +2,23 @@
 layout: post
 title: "E ZIUA TA, FRUMOASĂ ROMÂNIE"
 date: 2026-09-16 02:52:00 +0400
-
 categories:
+    - kobita
+category_bn:
     - কবিতা
-
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
-    - রোমানিয়ান কবিতা
-    - lenuta bobotan এর লেখা কবিতা
     - দৈনিক চালচিত্র
-
 author: "Lenuta Bobotan"
-
-image: /assets/img/lenuta-bobotan.webp
+image: "/assets/img/lenuta-bobotan.webp"
+description: "E ZIUA TA, FRUMOASĂ ROMÂNIE - Lenuta Bobotan এর লেখা একটি কবিতা।"
+excerpt: "Lenuta Bobotan এর কবিতা E ZIUA TA, FRUMOASĂ ROMÂNIE।"
+permalink: "/kobita/2026/09/16/e-ziua-ta-frumoasa-romanie/"
+redirect_from:
+    - "/kobita/2026/09/16/e-ziua-ta/"
+    - "/search/label/কবিতা"
 ---
 
 E ziua ta, frumoasă Românie
