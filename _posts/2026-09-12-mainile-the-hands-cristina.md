@@ -3,15 +3,22 @@ layout: post
 title: "Mâinile (The Hands)"
 date: 2026-09-12 23:21:00 +0400
 categories:
-    - "কবিতা"
+    - kobita
+category_bn:
+    - কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
-    - রোমানিয়ান কবিতা
     - দৈনিক চালচিত্র
 author: "Cristina Serghiescu"
-image: /assets/img/cristina-serghiescu.webp
+image: "/assets/img/cristina-serghiescu.webp"
+description: "Cristina Serghiescu এর লেখা কবিতা 'Mâinile (The Hands)'।"
+excerpt: "Mâinile (The Hands) - Cristina Serghiescu এর কবিতা।"
+permalink: "/kobita/2026/09/12/mainile-the-hands-cristina/"
+redirect_from:
+    - "/kobita/2026/09/12/mainile-hands-kobita/"
+    - "/search/label/কবিতা"
 ---
 
 Mâinile tac, ascultă și fac...
