@@ -18,7 +18,10 @@ author: "চট্টগ্রাম প্রতিনিধি"
 image: "/assets/img/puja-udjapon.webp"
 description: "চট্টগ্রামের বোয়ালখালীতে বাংলাদেশ পূজা উদযাপন পরিষদের উপজেলা শাখার সম্মেলন অনুষ্ঠিত হয়েছে।"
 excerpt: "বোয়ালখালীতে পূজা উদযাপন পরিষদের সম্মেলন অনুষ্ঠিত।"
-permalink: /desher-songbad/2026/09/13/boalkhali-puja-udjapon-porishod-sommelon/
+permalink: "/desher-songbad/2026/09/13/boalkhali-puja-sommelon/"
+redirect_from:
+    - "/desher-songbad/2026/09/13/boalkhali-puja-sommelon/"
+    - "/search/label/দেশের-সংবাদ"
 ---
 
 <small style="color: #888888; font-size: 13px;">বিপ্লব দাস : বিশেষ প্রতিনিধি:</small>
