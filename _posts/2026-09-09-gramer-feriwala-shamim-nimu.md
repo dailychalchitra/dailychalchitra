@@ -3,15 +3,22 @@ layout: post
 title: "গ্রামের ফেরিওয়ালা"
 date: 2026-09-09 20:50:00 +0400
 categories:
-    - "কবিতা"
+    - kobita
+category_bn:
+    - কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - দৈনিক চালচিত্র
-    - শামীম নিমু এর লেখা কবিতা
 author: "শামীম নিমু"
-image: /assets/img/shamim-nimu-1.webp
+image: "/assets/img/shamim-nimu-1.webp"
+description: "শামীম নিমু এর লেখা কবিতা 'গ্রামের ফেরিওয়ালা'।"
+excerpt: "গ্রামের ফেরিওয়ালা - শামীম নিমু এর কবিতা।"
+permalink: "/kobita/2026/09/09/gramer-feriwala-shamim-nimu/"
+redirect_from:
+    - "/kobita/2026/09/09/gramer-feriwala/"
+    - "/search/label/কবিতা"
 ---
 
 এ...এ...এই চুড়ি...চুড়ি...
