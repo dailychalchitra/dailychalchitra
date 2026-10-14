@@ -5,19 +5,22 @@ date: 2026-07-09 23:25:00 +0400
 categories:
     - antorjatik
 category_bn:
-    - আন্তর্জাতিক সংবাদ
+    - আন্তর্জাতিক
 tags:
     - সংবাদ
-    - যুক্তরাষ্ট্র
+    - আন্তর্জাতিক
+    - বিশ্ব
     - মধ্যপ্রাচ্য
-    - ইরান
-    - হরমুজ প্রণালী
+    - যুক্তরাষ্ট্র
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/trump-iran-strike.webp"
-permalink: "∕antorjatik∕2026∕07∕09∕irane-fer-hamlar-humki-trumper-tehraner-palta-hushiyari∕"
+description: "ইরানে ফের হামলার হুমকি ট্রাম্পের, তেহরানের পাল্টা হুঁশিয়ারি।"
+excerpt: "ইরানে ফের হামলার হুমকি ট্রাম্পের, তেহরানের পাল্টা হুঁশিয়ারি।"
+permalink: "/antorjatik/2026/07/09/trump-iran-humki/"
 redirect_from:
-    - "∕আন্তর্জাতিক সংবাদ∕2026∕07∕09∕irane-fer-hamlar-humki-trumper-tehraner-palta-hushiyari∕"
+    - "/antorjatik/2026/07/09/iran-trump-hushiyari/"
+    - "/search/label/আন্তর্জাতিক"
 ---
 
 ইরানে আবারও বড় ধরনের হামলার হুমকি দিয়েছেন যুক্তরাষ্ট্রের প্রেসিডেন্ট ডোনাল্ড ট্রাম্প। জবাবে তেহরান জানিয়েছে, যেকোনো হামলার ‘নির্ভয়ে ও সাহসিকতার সঙ্গে’ পাল্টা জবাব দেওয়া হবে।
