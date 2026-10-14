@@ -15,7 +15,10 @@ author: "Bogdana Gageanu"
 image: "/assets/img/bogdana-gageanu-3.webp"
 description: "I wrote a poem when my soul spoke out loud - A beautiful English poem by Bogdana Gageanu."
 excerpt: "I wrote a poem coming from emotions that wanted to outburst. The pen gave ink to the poem and the paper gave a printing space."
-permalink: /kobita/i-wrote-a-poem-bogdana-gageanu/
+permalink: "/kobita/2026/10/03/i-wrote-a-poem-bogdana-gageanu/"
+redirect_from:
+    - "/kobita/i-wrote-a-poem-bogdana-gageanu/"
+    - "/search/label/কবিতা"
 ---
 
 I wrote a poem
