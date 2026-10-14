@@ -3,18 +3,23 @@ layout: post
 title: "সিরিয়াকে সন্ত্রাসে মদদদাতা দেশের তালিকা থেকে বাদ দিতে পারেন ট্রাম্প"
 date: 2026-07-08 23:30:00 +0400
 categories:
-    - songbad
+    - antorjatik
 category_bn:
-    - সংবাদ
-tags:
     - আন্তর্জাতিক
+tags:
     - সংবাদ
-    - যুক্তরাষ্ট
+    - আন্তর্জাতিক
+    - বিশ্ব
+    - যুক্তরাষ্ট্র
+    - মধ্যপ্রাচ্য
+    - এশিয়া
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/trump-syria.webp"
-permalink: "/songbad/2026/07/08/syriake-sontrase-mododdata-talika-theke-bad/"
+description: "সিরিয়াকে সন্ত্রাসে মদদদাতা দেশের তালিকা থেকে বাদ দিতে পারেন ট্রাম্প - বিস্তারিত পড়ুন দৈনিক চালচিত্রে।"
+permalink: "/antorjatik/2026/07/08/trump-syria/"
 redirect_from:
+    - "/songbad/2026/07/08/syriake-sontrase-mododdata-talika-theke-bad/"
     - "/সংবাদ/2026/07/08/syriake-sontrase-mododdata-talika-theke-bad/"
 ---
 
