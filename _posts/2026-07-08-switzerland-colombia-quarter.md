@@ -7,20 +7,21 @@ categories:
 category_bn:
     - ফুটবল
 tags:
-    - বিশ্বকাপ ২০২৬
+    - খেলাধুলা
+    - ফুটবল
+    - আন্তর্জাতিক
     - সুইজারল্যান্ড
     - কলম্বিয়া
     - আর্জেন্টিনা
-    - খেলাধুলা
-    - ফুটবল
     - দৈনিক চালচিত্র
 author: "স্পোর্টস ডেস্ক"
 image: "/assets/img/switzerland-vs-colombia.webp"
 description: "টাইব্রেকারে কলম্বিয়াকে হারিয়ে কোয়ার্টারে আর্জেন্টিনার সামনে সুইজারল্যান্ড।"
 excerpt: "টাইব্রেকারে কলম্বিয়াকে হারিয়ে কোয়ার্টারে আর্জেন্টিনার সামনে সুইজারল্যান্ড।"
-permalink: "[STRIPPED 72 bytes]"
+permalink: "/football/2026/07/08/switzerland-colombia-quarter/"
 redirect_from:
-    - "/ফুটবল/2026/07/08/tiebreakere-colombiake-hariye-quartere-switzerland/"
+    - "/football/2026/07/08/colombia-vs-switzerland-tiebreaker/"
+    - "/search/label/ফুটবল"
 ---
 
 **মিসরকে বিদায় করে শেষ আটে আর্জেন্টিনা**  
