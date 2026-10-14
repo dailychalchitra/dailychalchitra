@@ -3,22 +3,23 @@ layout: post
 title: "More"
 date: 2026-09-11 13:28:00 +0400
 categories:
-    - kobita
+    - onu-kobita
 category_bn:
-    - কবিতা
+    - অনু কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - অনু কবিতা
-    - ইংরেজি কবিতা
-    - রোমানিয়ান কবিতা
     - দৈনিক চালচিত্র
 author: "Bogdana Gageanu"
 image: /assets/img/bogdana-gageanu.webp
 description: "More - A beautiful short English poem by Bogdana Gageanu about gratitude and life."
 excerpt: "When somebody is ill you have more than enough being healthy. There is always more in what seems less."
-permalink: /kobita/more-bogdana-gageanu/
+permalink: "/onu-kobita/2026/09/11/more-bogdana-gageanu/"
+redirect_from:
+    - "/kobita/more-bogdana-gageanu/"
+    - "/onu-kobita/more-bogdana-gageanu/"
 ---
 
 When somebody is ill
