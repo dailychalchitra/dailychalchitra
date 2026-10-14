@@ -3,21 +3,28 @@ layout: post
 title: "অপ্রতিম হত্যা: সিসিটিভি ফুটেজের সূত্রে আটক কিশোরের বাসা থেকে আইফোন উদ্ধার"
 date: 2026-09-20 00:31:00 +0400
 categories:
-    - songbad
-category_bn: "সংবাদ"
+    - shok-songbad
+category_bn:
+    - শোক সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - শোক সংবাদ
     - বাংলাদেশ
+    - বিভাগ
+    - চট্টগ্রাম
     - জেলা
-    - অপ্রতিম হত্যা
-    - কুমিল্লা বিশ্ববিদ্যালয়
+    - কুমিল্লা
     - অপরাধ
+    - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
-image: /assets/img/cumilla-aprotim.webp
-permalink: /songbad/2026/09/20/oprotim-hotta-iphone-uddhar/
+image: "/assets/img/cumilla-aprotim.webp"
+description: "কুমিল্লায় অপ্রতিম হত্যা মামলায় সিসিটিভি ফুটেজের সূত্র ধরে আটক কিশোরের বাসা থেকে আইফোন উদ্ধার করেছে পুলিশ।"
+excerpt: "অপ্রতিম হত্যা মামলায় কিশোরের বাসা থেকে আইফোন উদ্ধার।"
+permalink: "/shok-songbad/2026/09/20/aprotim-hotta-iphone-uddhar/"
 redirect_from:
-    - /সংবাদ/2026/09/20/oprotim-hotta-iphone-uddhar/
+    - "/songbad/2026/09/20/oprotim-hotta-iphone-uddhar/"
+    - "/search/label/শোক-সংবাদ"
 ---
 
 <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px; font-style:italic; text-align:center;">ইশায়াত শাহরিয়ার অপ্রতিম ছবি: সংগৃহীত</p>
