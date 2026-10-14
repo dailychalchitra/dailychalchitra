@@ -1,18 +1,24 @@
 ---
 layout: post
-title: "চট্টগ্রাম অঞ্চলের নেতৃবৃন্দের সঙ্গে বোয়ালখালী বৌদ্ধ যুব পরিষদের মতবিনিময়"
+title: "চট্টগ্রাম অঞ্চলের নেতৃবৃন্দের সঙ্গে বোয়ালখালী বৌদ্ধ যুব পরিষদের মতবিনিময়"
 date: 2026-09-13 11:58:00 +0400
 categories:
-    - সংবাদ
+    - desher-songbad
+category_bn:
+    - দেশের সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - বাংলাদেশ
+    - বিভাগ
     - জেলা
     - চট্টগ্রাম
-    - বোয়ালখালী
     - দৈনিক চালচিত্র
-author: "ডেস্ক রিপোর্ট"
-image: /assets/img/boalkhali-bouddha.webp
+author: "চট্টগ্রাম প্রতিনিধি"
+image: "/assets/img/boalkhali-bouddha.webp"
+description: "চট্টগ্রাম অঞ্চলের নেতৃবৃন্দের সঙ্গে বোয়ালখালী বৌদ্ধ যুব পরিষদের মতবিনিময় সভা অনুষ্ঠিত।"
+excerpt: "বোয়ালখালী বৌদ্ধ যুব পরিষদের মতবিনিময় সভা অনুষ্ঠিত।"
+permalink: "/desher-songbad/2026/09/13/boalkhali-bouddha-motobinimoy/"
 ---
 
 <small style="color: #888888; font-size: 13px;">বিপ্লব দাস : বিশেষ প্রতিনিধি:</small>
