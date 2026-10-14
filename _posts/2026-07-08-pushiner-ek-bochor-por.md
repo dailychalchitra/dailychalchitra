@@ -3,20 +3,27 @@ layout: post
 title: "পুশইনের এক বছর পর ৪ ভারতীয় নাগরিককে ফিরিয়ে নিল বিএসএফ"
 date: 2026-07-08 17:38:00 +0400
 categories:
-    - songbad
+    - desher-songbad
 category_bn:
-    - সংবাদ
+    - দেশের সংবাদ
 tags:
+    - সংবাদ
     - দেশের সংবাদ
     - বাংলাদেশ
+    - বিভাগ
     - জেলা
-    - ভারত
     - কুড়িগ্রাম
+    - বিশ্ব
+    - ভারত
+    - মধ্যপ্রাচ্য
+    - এশিয়া
     - দৈনিক চালচিত্র
 author: "ডেস্ক রিপোর্ট"
 image: "/assets/img/return-chapainawabganj.webp"
-permalink: "/songbad/2026/07/08/pushiner-ek-bochor-por/"
+description: "পুশইনের এক বছর পর ৪ ভারতীয় নাগরিককে ফিরিয়ে নিল বিএসএফ - বিস্তারিত পড়ুন দৈনিক চালচিত্রে।"
+permalink: "/desher-songbad/2026/07/08/pushiner-ek-bochor-por/"
 redirect_from:
+    - "/songbad/2026/07/08/pushiner-ek-bochor-por/"
     - "/সংবাদ/2026/07/08/pushiner-ek-bochor-por/"
 ---
 
