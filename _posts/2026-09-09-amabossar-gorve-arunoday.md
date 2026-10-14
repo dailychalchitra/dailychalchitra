@@ -3,22 +3,24 @@ layout: post
 title: "অমাবস্যার গর্ভে অরুণোদয়"
 date: 2026-09-09 14:15:00 +0400
 categories:
-    - কবিতা
+    - poddo-kobita
+category_bn:
+    - পদ্য কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - পদ্য কবিতা
-    - ডা. গোলাম রহমান ব্রাইট এর লেখা কবিতা
     - দৈনিক চালচিত্র
-    - literature department
-    - literature
-    - poetry
-    - verse poetry
-    - poetry written by dr golam rahman bright
-    - daily chalchitra
 author: "ডা. গোলাম রহমান ব্রাইট"
-image: /assets/img/dr-golam-rohman-brite-03.webp
+image: "/assets/img/dr-golam-rohman-brite-03.webp"
+description: "ডা. গোলাম রহমান ব্রাইট এর লেখা পদ্য কবিতা 'অমাবস্যার গর্ভে অরুণোদয়'।"
+excerpt: "অমাবস্যার গর্ভে অরুণোদয় - ডা. গোলাম রহমান ব্রাইট এর পদ্য কবিতা।"
+permalink: "/poddo-kobita/2026/09/09/amabossar-gorve-arunoday/"
+redirect_from:
+    - "/poddo-kobita/2026/09/09/amabossar-gorve/"
+    - "/পদ্য-কবিতা/2026/09/09/amabossar-gorve-arunoday/"
+    - "/search/label/পদ্য-কবিতা"
 ---
 
 নিস্তব্ধ নগরীর বুকে আজ অবসন্ন প্রহর জাগে,
