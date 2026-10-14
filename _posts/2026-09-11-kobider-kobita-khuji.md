@@ -3,7 +3,9 @@ layout: post
 title: "কবিদের কবিতা খুঁজি"
 date: 2026-09-11 00:47:00 +0400
 categories:
-    - "কবিতা"
+    - chara-kobita
+category_bn:
+    - ছড়া কবিতা
 tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
@@ -11,9 +13,14 @@ tags:
     - ছড়া কবিতা
     - অনু কবিতা
     - দৈনিক চালচিত্র
-    - শামীম নিমু এর লেখা কবিতা
 author: "শামীম নিমু"
-image: /assets/img/shamim-nimu-09.webp
+image: "/assets/img/shamim-nimu-09.webp"
+description: "শামীম নিমু এর লেখা ছড়া কবিতা 'কবিদের কবিতা খুঁজি'।"
+excerpt: "কবিদের কবিতা খুঁজি - শামীম নিমু এর ছড়া কবিতা।"
+permalink: "/chara-kobita/2026/09/11/kobider-kobita-khuji/"
+redirect_from:
+    - "/chara-kobita/2026/09/11/kobider-kobita/"
+    - "/search/label/ছড়া-কবিতা"
 ---
 
 আমি কবিতার মাঝে
