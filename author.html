@@ -210,6 +210,20 @@ var authorData = {
 }
 };
 
+  function dcSlugFromAuthor(name) {
+  var info = authorData[name];
+  if (info && info.img) {
+    var match = info.img.match(/\/([a-z0-9-]+)-profile\.webp$/i);
+    if (match) return match[1];
+  }
+  return encodeURIComponent(name);
+}
+
+var dcSlugToName = {};
+Object.keys(authorData).forEach(function (name) {
+  dcSlugToName[dcSlugFromAuthor(name)] = name;
+});
+
   var dcAllPosts = [
   {% for post in site.posts %}
   {
@@ -226,8 +240,8 @@ var authorData = {
 function dcNormalize(s) { return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase(); }
 
 var dcParams = new URLSearchParams(window.location.search);
-var dcAuthorName = (dcParams.get("name") || "").trim();
-
+var dcRawParam = (dcParams.get("name") || "").trim();
+var dcAuthorName = dcSlugToName[dcRawParam] || dcRawParam;
 var dcProfile = document.getElementById("dc-author-profile");
 var dcGrid = document.getElementById("dc-author-grid");
 var dcContainer = document.getElementById("dc-author-posts");
@@ -257,7 +271,7 @@ if (!dcAuthorName) {
   } else {
     dcNames.forEach(function (name) {
       var card = document.createElement("a");
-      card.href = "/author/?name=" + encodeURIComponent(name);
+      card.href = "/author/?name=" + dcSlugFromAuthor(name);
       card.className = "author-card";
       card.innerHTML =
         dcAvatarHTML(name, 48) +
