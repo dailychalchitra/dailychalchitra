@@ -15,7 +15,7 @@ tags:
 author: "আরাফাত হোসেন"
 image: "/assets/img/arafat-hossain.webp"
 description: "আরাফাত হোসেনের ছড়া কবিতা - শীতের দিন। শীতের সকালে শ্রমিক ও বাবু সাহেবের জীবনের বৈষম্যের ছবি।"
-excerpt: "শীতের দিন নিয়ে আরাফাত হোসেনের ছড়া কবিতা।"
+excerpt: "শীতের দিন নিয়ে লেখা ছড়া কবিতা। সকালবেলা কুণ্ডলী পাকিয়ে থাকা, কুয়াশা ভেজা মাঠ আর হাড়কাঁপানো শীতে শ্রমিকের মাঠে যাওয়া এবং ধনীর বিলাসী জীবনের বৈপরীত্যই এই কবিতার মূল বিষয়।"
 permalink: "/chora-kobita/2026/10/15/shiter-din/"
 redirect_from:
     - /ছড়া-কবিতা/2026/10/15/শীতের-দিন/
@@ -72,4 +72,4 @@ redirect_from:
 কারও কাটে বিলাসিতায়।
 
 ---
-<p style="font-size: 0.85em; color: #888888; text-align: center; font-style: italic;">প্রকাশকাল: ১৫-১০-২০২৬ইং</p>
+<p style="font-size: 0.85em; color: #888888; text-align: left; font-style: italic;">প্রকাশকাল: ১৫-১০-২০২৬ইং</p>
