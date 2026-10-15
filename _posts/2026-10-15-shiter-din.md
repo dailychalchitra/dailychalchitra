@@ -72,4 +72,4 @@ redirect_from:
 কারও কাটে বিলাসিতায়।
 
 ---
-<p style="font-size: 0.85em; color: #888888; text-align: left; font-style: italic;">প্রকাশকাল: ১৫-১০-২০২৬ইং</p>
+<p style="font-size: 0.85em; color: #888888; text-align: left; font-style: italic;">প্রকাশকাল: ১৫-১০-২০২৬ইং।</p>
