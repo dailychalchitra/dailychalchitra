@@ -1,4 +1,3 @@
 ---
-layout: author
 title: "দৈনিক চালচিত্র"
 ---
