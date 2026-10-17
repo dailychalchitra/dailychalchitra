@@ -23,3 +23,7 @@ webmaster_verifications:
 kramdown:
   input: GFM
   hard_wrap: true
+collections:
+  authors:
+    output: true
+    permalink: /author/:slug/
