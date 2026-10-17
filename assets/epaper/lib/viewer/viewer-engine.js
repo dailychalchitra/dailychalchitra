@@ -273,7 +273,7 @@ window.DCViewer = {
 
     getProseParagraphChunks(html){
         let cleaned = (html || "").replace(/<p>\s*<\/p>/gi, "");
-        const parts = cleaned.split(/(?=<p[^>]*>)/i).map(s=>s.trim()).filter(Boolean);
+        const parts = cleaned.split(/(?=<p[^>]*>|<div[^>]*>)/i).map(s=>s.trim()).filter(Boolean);
         const list = parts.length ? parts : (cleaned.trim() ? [cleaned] : []);
         return list.map(p => ({ html: `<div class="dcp-content">${p}</div>`, height: 0 }));
     },
@@ -751,7 +751,7 @@ window.DCViewer = {
             return this.getKobitaBlocksForPrint(raw);
         }
         let cleaned = raw.replace(/<p>\s*<\/p>/gi, "");
-        const parts = cleaned.split(/(?=<p[^>]*>)/i).map(s => s.trim()).filter(Boolean);
+        const parts = cleaned.split(/(?=<p[^>]*>|<div[^>]*>)/i).map(s => s.trim()).filter(Boolean);
         return parts.length ? parts : (cleaned.trim() ? [cleaned] : []);
     },
 
