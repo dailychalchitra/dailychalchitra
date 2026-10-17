@@ -1,3 +1,4 @@
 ---
+layout: author
 title: "স্পোর্টস ডেস্ক"
 ---

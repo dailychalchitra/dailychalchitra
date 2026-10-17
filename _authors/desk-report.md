@@ -1,3 +1,4 @@
 ---
+layout: author
 title: "ডেস্ক রিপোর্ট"
 ---

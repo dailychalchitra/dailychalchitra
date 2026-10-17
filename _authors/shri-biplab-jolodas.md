@@ -1,3 +1,4 @@
 ---
+layout: author
 title: "শ্রী বিপ্লব জলদাস"
 ---
