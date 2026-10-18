@@ -9,10 +9,9 @@ layout: default
     {% else %}
     <div style="width:110px;height:110px;border-radius:10px;background:#d32f2f;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:44px;flex-shrink:0;">{{ page.title | slice: 0, 1 }}</div>
     {% endif %}
-    <div style="flex:1;text-align:left;">
+        <div style="flex:1;text-align:left;">
       <h1 style="font-size:26px;margin:0 0 10px;border-bottom:3px solid #d32f2f;display:inline-block;padding-bottom:6px;">{{ page.title }}</h1>
-      {% assign dc_bio = site.data.author_bios[page.title] %}
-      <p style="color:#333;line-height:1.9;font-size:15px;margin:10px 0 0;">{{ dc_bio | default: "এই লেখকের সম্পর্কে এখনো বিস্তারিত তথ্য যুক্ত করা হয়নি।" }}</p>
+      <p class="author-bio" id="dc-author-full-bio" style="color:#333;line-height:1.9;font-size:15px;margin:10px 0 0;">এই লেখকের সম্পর্কে এখনো বিস্তারিত তথ্য যুক্ত করা হয়নি।</p>
     </div>
   </div>
 
@@ -33,3 +32,13 @@ layout: default
     {% endfor %}
   </div>
 </div>
+
+{% include dc-author-data.html %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var info = authorData[{{ page.title | jsonify }}];
+  if (info && info.bio) {
+    document.getElementById('dc-author-full-bio').innerHTML = info.bio;
+  }
+});
+</script>
