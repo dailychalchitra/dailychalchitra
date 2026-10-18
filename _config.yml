@@ -25,13 +25,12 @@ kramdown:
   hard_wrap: true
 
 collections:
+defaults:
+  - scope:
+      path: ""
+      type: "authors"
+    values:
+      layout: "author"
   authors:
     output: true
     permalink: /author/:slug/
-
-defaults:
-    - scope:
-      path: ""
-      type: authors
-    values:
-      layout: author
