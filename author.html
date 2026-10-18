@@ -15,6 +15,114 @@ permalink: /author/
 </div>
 
 {% include dc-author-data.html %}
+<script>
+function dcSlugFromAuthor(name) {
+  var info = authorData[name];
+  if (info && info.img) {
+    var match = info.img.match(/\/([a-z0-9-]+)-profile\.webp$/i);
+    if (match) return match[1];
+  }
+  return encodeURIComponent(name);
+}
+
+var dcSlugToName = {};
+Object.keys(authorData).forEach(function (name) {
+  dcSlugToName[dcSlugFromAuthor(name)] = name;
+});
+
+  var dcAllPosts = [
+  {% for post in site.posts %}
+  {
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "date": {{ post.date | date: "%d %B %Y" | jsonify }},
+    "author": {{ post.author | default: "" | jsonify }},
+    "image": {% if post.image %}{{ post.image | relative_url | jsonify }}{% else %}null{% endif %},
+    "excerpt": {{ post.content | strip_html | truncatewords: 25 | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+
+function dcNormalize(s) { return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase(); }
+
+var dcParams = new URLSearchParams(window.location.search);
+var dcRawParam = (dcParams.get("name") || "").trim();
+var dcAuthorName = dcSlugToName[dcRawParam] || dcRawParam;
+var dcProfile = document.getElementById("dc-author-profile");
+var dcGrid = document.getElementById("dc-author-grid");
+var dcContainer = document.getElementById("dc-author-posts");
+var dcEmptyMsg = document.getElementById("dc-author-empty");
+var dcTitle = document.getElementById("dc-author-title");
+
+function dcAvatarHTML(name, size) {
+  var info = authorData[name];
+  if (info && info.img) {
+    return '<img src="' + info.img + '" alt="' + name + '" class="author-avatar-img" style="width:' + size + 'px; height:' + size + 'px;">';
+  }
+  return '<div class="author-avatar" style="width:' + size + 'px; height:' + size + 'px; font-size:' + (size * 0.4) + 'px;">' + name.charAt(0) + '</div>';
+}
+
+if (!dcAuthorName) {
+  var dcCounts = {};
+  dcAllPosts.forEach(function (p) {
+    var name = (p.author || "").trim();
+    if (!name) return;
+    dcCounts[name] = (dcCounts[name] || 0) + 1;
+  });
+  var dcNames = Object.keys(dcCounts).sort(function (a, b) { return a.localeCompare(b, "bn"); });
+
+  if (dcNames.length === 0) {
+    dcEmptyMsg.textContent = "এখনো কোনো লেখকের তথ্য পাওয়া যায়নি।";
+    dcEmptyMsg.style.display = "block";
+  } else {
+    dcNames.forEach(function (name) {
+      var card = document.createElement("a");
+      card.href = "/author/?name=" + dcSlugFromAuthor(name);
+      card.className = "author-card";
+      card.innerHTML =
+        dcAvatarHTML(name, 48) +
+        '<div class="author-info">' +
+          '<span class="author-name">' + name + '</span>' +
+          '<span class="author-count">' + dcCounts[name] + ' টি পোস্ট</span>' +
+        '</div>';
+      dcGrid.appendChild(card);
+    });
+  }
+} else {
+  dcTitle.textContent = dcAuthorName;
+  dcGrid.style.display = "none";
+
+  var dcInfo = authorData[dcAuthorName];
+  dcProfile.style.display = "flex";
+  dcProfile.innerHTML =
+    dcAvatarHTML(dcAuthorName, 110) +
+    '<div class="author-profile-text">' +
+      (dcInfo && dcInfo.bio ? '<p class="author-bio">' + dcInfo.bio + '</p>' : '<p class="author-bio" style="color:#999;">এই লেখকের সম্পর্কে এখনো বিস্তারিত তথ্য যুক্ত করা হয়নি।</p>') +
+    '</div>';
+
+  var dcTarget = dcNormalize(dcAuthorName);
+  var dcFiltered = dcAllPosts.filter(function (p) { return dcNormalize(p.author) === dcTarget; });
+
+  if (dcFiltered.length === 0) {
+    dcEmptyMsg.textContent = "এই লেখকের কোনো পোস্ট পাওয়া যায়নি।";
+    dcEmptyMsg.style.display = "block";
+  } else {
+    dcFiltered.forEach(function (post) {
+      var div = document.createElement("div");
+      div.className = "post-item";
+      div.innerHTML =
+        '<a href="' + post.url + '">' +
+          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" class="post-thumb">' : '') +
+        '</a>' +
+        '<h2><a href="' + post.url + '">' + post.title + '</a></h2>' +
+        '<span class="post-date">' + post.date + '</span>' +
+        '<p>' + post.excerpt + '</p>' +
+        '<a href="' + post.url + '" class="read-more-btn">আরও পড়ুন →</a>';
+      dcContainer.appendChild(div);
+    });
+  }
+}
+</script>
 
 <style>
 .dc-author-archive { max-width: 800px; margin: 20px auto; padding: 15px; }
