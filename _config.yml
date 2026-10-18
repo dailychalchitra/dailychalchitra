@@ -34,3 +34,4 @@ defaults:
       type: "authors"
     values:
       layout: "author"
+      
