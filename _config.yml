@@ -27,3 +27,10 @@ collections:
   authors:
     output: true
     permalink: /author/:slug/
+
+    defaults:
+  - scope:
+      path: ""
+      type: "authors"
+    values:
+      layout: "author"
