@@ -32,6 +32,6 @@ collections:
 defaults:
     - scope:
       path: ""
-      type: "authors"
+      type: authors
     values:
-      layout: "author"
+      layout: author
