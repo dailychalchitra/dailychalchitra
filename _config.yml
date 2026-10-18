@@ -8,9 +8,9 @@ permalink: pretty
 future: true
 
 plugins:
-    - jekyll-seo-tag
-    - jekyll-sitemap
-    - jekyll-redirect-from
+        - jekyll-seo-tag
+        - jekyll-sitemap
+        - jekyll-redirect-from
 
 include:
     - ads.txt
@@ -23,14 +23,7 @@ webmaster_verifications:
 kramdown:
   input: GFM
   hard_wrap: true
-
 collections:
-defaults:
-  - scope:
-      path: ""
-      type: "authors"
-    values:
-      layout: "author"
   authors:
     output: true
     permalink: /author/:slug/
