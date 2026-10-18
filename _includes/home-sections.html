@@ -393,8 +393,14 @@
                 <div class="dc-author-dropdown">
                     <ul class="dc-author-list dc-author-list-scroll">
                         {% for author in all_authors %}
-                        <li><a href="{{ '/author/' | relative_url }}?name={{ author | url_encode }}">{{ author }}</a></li>
-                        {% endfor %}
+{% assign dc_ha_img = site.data.authors[author] %}
+{% if dc_ha_img %}
+  {% assign dc_ha_slug = dc_ha_img | split: "/" | last | replace: "-profile.webp", "" %}
+{% else %}
+  {% assign dc_ha_slug = author | url_encode %}
+{% endif %}
+<li><a href="{{ '/author/' | relative_url }}{{ dc_ha_slug }}/">{{ author }}</a></li>
+{% endfor %}
                     </ul>
                 </div>
             {% else %}
