@@ -1491,6 +1491,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+<script>
+(function () {
+  var dcTagSlugMap = {{ site.data.tag_slugs | jsonify }};
+  var dcNameToSlug = {};
+  Object.keys(dcTagSlugMap).forEach(function (slug) {
+    dcNameToSlug[dcTagSlugMap[slug]] = slug;
+  });
+
+  document.querySelectorAll('a[href*="/tag/?name="]').forEach(function (a) {
+    try {
+      var url = new URL(a.getAttribute('href'), window.location.origin);
+      var name = decodeURIComponent(url.searchParams.get('name') || '').trim();
+      var slug = dcNameToSlug[name];
+      if (slug) {
+        a.setAttribute('href', '/tag/' + slug + '/');
+      }
+    } catch (e) {}
+  });
+})();
+</script>
   
 </body>
 </html>
