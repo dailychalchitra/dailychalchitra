@@ -17,13 +17,19 @@ permalink: /author/
 {% include dc-author-data.html %}
 <script>
 function dcSlugFromAuthor(name) {
-  var info = authorData[name];
+  var info = authorData[name] || dcAuthorDataNorm[dcNormKey(name)];
   if (info && info.img) {
     var match = info.img.match(/\/([a-z0-9-]+)-profile\.webp$/i);
     if (match) return match[1];
   }
   return encodeURIComponent(name);
 }
+
+function dcNormKey(s) { return (s || "").toString().normalize("NFC").trim(); }
+var dcAuthorDataNorm = {};
+Object.keys(authorData).forEach(function (k) {
+  dcAuthorDataNorm[dcNormKey(k)] = authorData[k];
+});
 
 var dcSlugToName = {};
 Object.keys(authorData).forEach(function (name) {
@@ -43,7 +49,7 @@ Object.keys(authorData).forEach(function (name) {
   {% endfor %}
 ];
 
-function dcNormalize(s) { return (s || "").toString().replace(/[\s\-]+/g, "").toLowerCase(); }
+function dcNormalize(s) { return (s || "").toString().normalize("NFC").replace(/[\s\-]+/g, "").toLowerCase(); }
 
 var dcParams = new URLSearchParams(window.location.search);
 var dcRawParam = (dcParams.get("name") || "").trim();
@@ -55,7 +61,7 @@ var dcEmptyMsg = document.getElementById("dc-author-empty");
 var dcTitle = document.getElementById("dc-author-title");
 
 function dcAvatarHTML(name, size) {
-  var info = authorData[name];
+  var info = authorData[name] || dcAuthorDataNorm[dcNormKey(name)];
   if (info && info.img) {
     return '<img src="' + info.img + '" alt="' + name + '" class="author-avatar-img" style="width:' + size + 'px; height:' + size + 'px;">';
   }
@@ -92,7 +98,7 @@ if (!dcAuthorName) {
   dcTitle.textContent = dcAuthorName;
   dcGrid.style.display = "none";
 
-  var dcInfo = authorData[dcAuthorName];
+  var dcInfo = authorData[dcAuthorName] || dcAuthorDataNorm[dcNormKey(dcAuthorName)];
   dcProfile.style.display = "flex";
   dcProfile.innerHTML =
     dcAvatarHTML(dcAuthorName, 110) +
