@@ -34,7 +34,16 @@ layout: default
 {% include dc-author-data.html %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var info = authorData[{{ page.title | jsonify }}];
+  function dcNormKey(s) { return (s || "").toString().normalize("NFC").trim(); }
+  var dcPageTitle = {{ page.title | jsonify }};
+  var info = authorData[dcPageTitle];
+  if (!info) {
+    var dcNormTarget = dcNormKey(dcPageTitle);
+    var dcMatchKey = Object.keys(authorData).find(function (k) {
+      return dcNormKey(k) === dcNormTarget;
+    });
+    if (dcMatchKey) info = authorData[dcMatchKey];
+  }
   if (info && info.bio) {
     document.getElementById('dc-author-full-bio').innerHTML = info.bio;
   }
