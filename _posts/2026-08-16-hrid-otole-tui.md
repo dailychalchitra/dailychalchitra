@@ -12,7 +12,7 @@ tags:
     - কবিতা
     - পদ্য কবিতা
     - দৈনিক চালচিত্র
-author: "মারিয়া নূর"
+author: "মারিয়া নূর"
 image: "/assets/img/maria-noor.webp"
 permalink: "/poddo-kobita/2026/08/16/hrid-otole-tui/"
 redirect_from:
