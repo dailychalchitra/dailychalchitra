@@ -3,16 +3,16 @@ layout: post
 title: "সে এখন কার"
 date: 2026-10-19 19:40:00 +0400
 categories:
-    - kobita
+        - kobita
 category_bn:
-    - কবিতা
+        - কবিতা
 tags:
-    - সাহিত্য বিভাগ
-    - সাহিত্য
-    - কবিতা
-    - দৈনিক চালচিত্র
+        - সাহিত্য বিভাগ
+        - সাহিত্য
+        - কবিতা
+        - দৈনিক চালচিত্র
 author: "আরিফুজ্জামান জুলহাস"
-image: "/assets/img/julhash-howlader.webp"
+image: "/assets/img/julhash-howlader-02.webp"
 description: "প্রান্তিক কবি আরিফুজ্জামান জুলহাসের বিরহের কবিতা 'সে এখন কার'।"
 excerpt: "অনেক দিন দেখি না যারে, সে ভুলে থাকতে পারে - বিরহ নিয়ে লেখা কবিতা।"
 permalink: /kobita/se-ekhon-kar/
