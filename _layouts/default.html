@@ -1577,7 +1577,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 
   var dcFontStep = 0;
   function applyFontStep() {
-    document.documentElement.style.fontSize = (100 + dcFontStep * 10) + '%';
+    document.body.style.zoom = (100 + dcFontStep * 10) + '%';
   }
   fontInc.addEventListener('click', function () {
     dcFontStep = Math.min(dcFontStep + 1, 5);
@@ -1602,6 +1602,19 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
     var voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
     var lc = (code || '').toLowerCase();
     return voices.find(function (v) { return v.lang && v.lang.toLowerCase().indexOf(lc) === 0; });
+  }
+
+  function dcLoadVoicesThen(callback) {
+    if (!('speechSynthesis' in window)) { callback(); return; }
+    var voices = window.speechSynthesis.getVoices();
+    if (voices.length) { callback(); return; }
+    var done = false;
+    window.speechSynthesis.onvoiceschanged = function () {
+      if (done) return;
+      done = true;
+      callback();
+    };
+    setTimeout(function () { if (!done) { done = true; callback(); } }, 800);
   }
 
   function dcSplitText(text) {
@@ -1636,6 +1649,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
       return;
     }
     if (dcSpeaking) {
+      dcQueue = [];
       window.speechSynthesis.cancel();
       dcSpeaking = false;
       listenBtn.textContent = '🔊 লেখাটি শুনুন';
@@ -1647,23 +1661,23 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
       alert('এই পেজে পড়ার মতো কোনো লেখা পাওয়া যায়নি।');
       return;
     }
-    dcActiveLang = dcCurrentLangCode();
-    dcActiveVoice = dcGetVoiceForLang(dcActiveLang);
-    dcQueue = dcSplitText(text);
-    dcSpeaking = true;
-    listenBtn.textContent = '⏸ পড়া চলছে... (থামাতে চাপুন)';
-    dcSpeakNext();
+    listenBtn.textContent = '⏳ প্রস্তুত হচ্ছে...';
+    dcLoadVoicesThen(function () {
+      dcActiveLang = dcCurrentLangCode();
+      dcActiveVoice = dcGetVoiceForLang(dcActiveLang);
+      dcQueue = dcSplitText(text);
+      dcSpeaking = true;
+      listenBtn.textContent = '⏸ পড়া চলছে... (থামাতে চাপুন)';
+      dcSpeakNext();
+    });
   });
 
   stopBtn.addEventListener('click', function () {
+    dcQueue = [];
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     dcSpeaking = false;
     listenBtn.textContent = '🔊 লেখাটি শুনুন';
   });
-
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = function () {};
-  }
 })();
 </script>
   
