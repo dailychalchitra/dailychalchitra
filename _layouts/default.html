@@ -642,22 +642,23 @@ body.dc-menu-open { overflow: hidden; }
   
 </head>
 <body>
+<a href="#dc-main-content" class="dc-skip-link">মূল কনটেন্টে যান</a>
 
 <div class="header-top">
-    <a href="/" class="home-btn"><i class="fas fa-home"></i></a>
+    <a href="/" class="home-btn" aria-label="প্রচ্ছদ"><i class="fas fa-home"></i></a>
     <a href="/" class="logo">
         <img src="/assets/img/daily-chalchitra.webp" alt="দৈনিক চালচিত্র" width="200" height="45" loading="eager" fetchpriority="high">
     </a>
     <div class="header-right">
         <div class="search-translate-wrap">
-            <form action="/search/" method="get" class="search-box">
-              <input type="text" name="q" placeholder="খুঁজুন..." required>
-              <button type="submit" style="background:none; border:none; padding:0; cursor:pointer;">
+                        <form action="/search/" method="get" class="search-box">
+              <input type="text" name="q" placeholder="খুঁজুন..." required aria-label="সাইটে খুঁজুন">
+              <button type="submit" aria-label="খুঁজুন" style="background:none; border:none; padding:0; cursor:pointer;">
                   <i class="fas fa-search"></i>
               </button>
             </form>
             <div class="translate-box">
-    <select id="translateSelect">
+    <select id="translateSelect" aria-label="ভাষা নির্বাচন করুন">
         <option value="">ভাষা নির্বাচন / Select Language</option>
         <option value="ps">Afghanistan - پښتو / دری (Pashto / Dari)</option>
         <option value="sq">Albania - Shqip (Albanian)</option>
@@ -795,9 +796,9 @@ body.dc-menu-open { overflow: hidden; }
   
 <!-- LIVE টিকার শুরু -->
 <div class="ticker-container">
-  <div id="dc-menu-trigger" onclick="toggleDcMenu()">
+    <button id="dc-menu-trigger" onclick="toggleDcMenu()" aria-label="মেনু খুলুন" style="border:none;font:inherit;">
     <i class="fa fa-bars"></i>
-  </div>
+  </button>
   {% assign dc_ticker_posts = site.posts | slice: 0, 10 %}
   <div class="ticker-move" style="animation-duration: {{ dc_ticker_posts.size | times: 3 }}s;">
     {% for post in dc_ticker_posts %}
@@ -822,7 +823,7 @@ body.dc-menu-open { overflow: hidden; }
 </nav>
 
 <!-- মেইন কন্টেন্ট -->
-<main class="container">
+<main class="container" id="dc-main-content" tabindex="-1">
   <div class="search-box" id="searchBox" style="display:none;">
     <input type="text" id="searchInput" onkeyup="searchNews()" placeholder="নিউজ খুঁজুন...">
   </div>
@@ -834,11 +835,11 @@ body.dc-menu-open { overflow: hidden; }
 <div id="dc-side-menu">
   <div class="dc-menu-header">
     <img alt="দৈনিক চালচিত্র" src="/assets/img/daily-chalchitra.webp" style="max-width: 150px; height: auto; display: block; margin: 0 auto 10px;" loading="lazy"/>
-    <form action="/search/" class="dc-header-search" method="get">
-      <input name="q" placeholder="সার্চ করুন..." type="text"/>
-      <button type="submit"><i class="fa fa-search"></i></button>
+        <form action="/search/" class="dc-header-search" method="get">
+      <input name="q" placeholder="সার্চ করুন..." type="text" aria-label="সার্চ করুন"/>
+      <button type="submit" aria-label="খুঁজুন"><i class="fa fa-search"></i></button>
     </form>
-    <button class="dc-close-btn" onclick="toggleDcMenu()">&#215;</button>
+    <button class="dc-close-btn" onclick="toggleDcMenu()" aria-label="মেনু বন্ধ করুন">&#215;</button>
   </div>
   <div class="dc-acc-list">
     <div class="dc-acc-item"><a class="dc-acc-title" href="/">প্রচ্ছদ</a></div>
@@ -1510,6 +1511,159 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     } catch (e) {}
   });
+})();
+</script>
+
+<style>
+.dc-skip-link{
+  position:absolute; left:-9999px; top:0; background:#C00000; color:#fff;
+  padding:10px 18px; z-index:100000; border-radius:0 0 8px 0; font-family:'Noto Sans Bengali',sans-serif;
+  text-decoration:none; font-weight:700;
+}
+.dc-skip-link:focus{ left:0; }
+
+#dc-a11y-widget{ position:fixed; right:16px; bottom:16px; z-index:9999; font-family:'Noto Sans Bengali',sans-serif; }
+#dc-a11y-toggle{
+  width:54px; height:54px; border-radius:50%; background:#C00000; color:#fff; border:none;
+  font-size:22px; box-shadow:0 3px 12px rgba(0,0,0,0.35); cursor:pointer;
+}
+#dc-a11y-panel{
+  display:none; position:absolute; bottom:64px; right:0; background:#fff; border-radius:10px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3); padding:14px; min-width:230px;
+}
+#dc-a11y-panel.dc-a11y-open{ display:block; }
+#dc-a11y-panel button{
+  display:block; width:100%; margin-bottom:8px; padding:9px 10px; border-radius:6px;
+  border:1px solid #ddd; background:#f7f7f7; font-size:15px; cursor:pointer; text-align:left;
+  font-family:'Noto Sans Bengali',sans-serif;
+}
+#dc-a11y-panel button:last-child{ margin-bottom:0; }
+.dc-a11y-row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.dc-a11y-row button{ width:auto; flex:1; margin-bottom:0; text-align:center; }
+
+body.dc-high-contrast{ filter:invert(1) hue-rotate(180deg); background:#000 !important; }
+body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rotate(180deg); }
+</style>
+
+<div id="dc-a11y-widget">
+  <button id="dc-a11y-toggle" aria-label="অ্যাক্সেসিবিলিটি অপশন খুলুন" title="অ্যাক্সেসিবিলিটি">
+    <i class="fas fa-universal-access"></i>
+  </button>
+  <div id="dc-a11y-panel" role="region" aria-label="অ্যাক্সেসিবিলিটি অপশন">
+    <p style="font-size:12px;color:#777;margin:0 0 8px;">প্রথমে উপরের "ভাষা নির্বাচন" থেকে আপনার ভাষা বেছে নিন, তারপর নিচের বাটনে চাপুন।</p>
+    <button id="dc-a11y-listen">🔊 লেখাটি শুনুন</button>
+    <button id="dc-a11y-stop">⏹ থামান</button>
+    <div class="dc-a11y-row">
+      <button id="dc-a11y-font-dec" aria-label="ফন্ট ছোট করুন">A−</button>
+      <button id="dc-a11y-font-inc" aria-label="ফন্ট বড় করুন">A+</button>
+    </div>
+    <button id="dc-a11y-contrast">🌓 হাই-কনট্রাস্ট মোড</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var toggleBtn = document.getElementById('dc-a11y-toggle');
+  var panel = document.getElementById('dc-a11y-panel');
+  var listenBtn = document.getElementById('dc-a11y-listen');
+  var stopBtn = document.getElementById('dc-a11y-stop');
+  var fontInc = document.getElementById('dc-a11y-font-inc');
+  var fontDec = document.getElementById('dc-a11y-font-dec');
+  var contrastBtn = document.getElementById('dc-a11y-contrast');
+
+  toggleBtn.addEventListener('click', function () {
+    panel.classList.toggle('dc-a11y-open');
+  });
+
+  var dcFontStep = 0;
+  function applyFontStep() {
+    document.documentElement.style.fontSize = (100 + dcFontStep * 10) + '%';
+  }
+  fontInc.addEventListener('click', function () {
+    dcFontStep = Math.min(dcFontStep + 1, 5);
+    applyFontStep();
+  });
+  fontDec.addEventListener('click', function () {
+    dcFontStep = Math.max(dcFontStep - 1, -2);
+    applyFontStep();
+  });
+
+  contrastBtn.addEventListener('click', function () {
+    document.body.classList.toggle('dc-high-contrast');
+  });
+
+  function dcCurrentLangCode() {
+    var sel = document.getElementById('translateSelect');
+    var code = (sel && sel.value) ? sel.value : 'bn';
+    return code;
+  }
+
+  function dcGetVoiceForLang(code) {
+    var voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+    var lc = (code || '').toLowerCase();
+    return voices.find(function (v) { return v.lang && v.lang.toLowerCase().indexOf(lc) === 0; });
+  }
+
+  function dcSplitText(text) {
+    return text.replace(/([।.!?])\s*/g, "$1|||").split("|||")
+      .map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  var dcQueue = [];
+  var dcSpeaking = false;
+  var dcActiveLang = 'bn';
+  var dcActiveVoice = null;
+
+  function dcSpeakNext() {
+    if (!dcQueue.length) {
+      dcSpeaking = false;
+      listenBtn.textContent = '🔊 লেখাটি শুনুন';
+      return;
+    }
+    var chunk = dcQueue.shift();
+    var utter = new SpeechSynthesisUtterance(chunk);
+    if (dcActiveVoice) { utter.voice = dcActiveVoice; utter.lang = dcActiveVoice.lang; }
+    else { utter.lang = dcActiveLang; }
+    utter.rate = 0.95;
+    utter.onend = dcSpeakNext;
+    utter.onerror = dcSpeakNext;
+    window.speechSynthesis.speak(utter);
+  }
+
+  listenBtn.addEventListener('click', function () {
+    if (!('speechSynthesis' in window)) {
+      alert('দুঃখিত, আপনার ব্রাউজারে ভয়েস-রিডিং সুবিধা সমর্থিত নয়।');
+      return;
+    }
+    if (dcSpeaking) {
+      window.speechSynthesis.cancel();
+      dcSpeaking = false;
+      listenBtn.textContent = '🔊 লেখাটি শুনুন';
+      return;
+    }
+    var source = document.querySelector('.dc-post-body') || document.getElementById('dc-main-content');
+    var text = source ? source.innerText.trim() : '';
+    if (!text) {
+      alert('এই পেজে পড়ার মতো কোনো লেখা পাওয়া যায়নি।');
+      return;
+    }
+    dcActiveLang = dcCurrentLangCode();
+    dcActiveVoice = dcGetVoiceForLang(dcActiveLang);
+    dcQueue = dcSplitText(text);
+    dcSpeaking = true;
+    listenBtn.textContent = '⏸ পড়া চলছে... (থামাতে চাপুন)';
+    dcSpeakNext();
+  });
+
+  stopBtn.addEventListener('click', function () {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    dcSpeaking = false;
+    listenBtn.textContent = '🔊 লেখাটি শুনুন';
+  });
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = function () {};
+  }
 })();
 </script>
   
