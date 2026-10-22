@@ -1551,6 +1551,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
   </button>
   <div id="dc-a11y-panel" role="region" aria-label="অ্যাক্সেসিবিলিটি অপশন">
     <p style="font-size:12px;color:#777;margin:0 0 8px;">প্রথমে উপরের "ভাষা নির্বাচন" থেকে আপনার ভাষা বেছে নিন, তারপর নিচের বাটনে চাপুন।</p>
+    <select id="dc-a11y-voice-select" aria-label="ভয়েস নির্বাচন করুন" style="width:100%;margin-bottom:8px;padding:8px;border-radius:6px;border:1px solid #ddd;font-size:13px;"></select>
     <button id="dc-a11y-listen">🔊 লেখাটি শুনুন</button>
     <button id="dc-a11y-stop">⏹ থামান</button>
     <div class="dc-a11y-row">
@@ -1570,9 +1571,11 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
   var fontInc = document.getElementById('dc-a11y-font-inc');
   var fontDec = document.getElementById('dc-a11y-font-dec');
   var contrastBtn = document.getElementById('dc-a11y-contrast');
+  var voiceSelect = document.getElementById('dc-a11y-voice-select');
 
   toggleBtn.addEventListener('click', function () {
     panel.classList.toggle('dc-a11y-open');
+    dcPopulateVoiceList();
   });
 
   var dcFontStep = 0;
@@ -1604,21 +1607,32 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
     return voices.find(function (v) { return v.lang && v.lang.toLowerCase().indexOf(lc) === 0; });
   }
 
+  function dcPopulateVoiceList() {
+    if (!('speechSynthesis' in window)) return;
+    var voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return;
+    var current = voiceSelect.value;
+    voiceSelect.innerHTML = '<option value="">(স্বয়ংক্রিয় — ভাষা অনুযায়ী)</option>' +
+      voices.map(function (v, i) {
+        return '<option value="' + i + '">' + v.name + ' — ' + v.lang + '</option>';
+      }).join('');
+    if (current) voiceSelect.value = current;
+  }
+
   function dcLoadVoicesThen(callback) {
     if (!('speechSynthesis' in window)) { callback(); return; }
     var voices = window.speechSynthesis.getVoices();
-    if (voices.length) { callback(); return; }
+    if (voices.length) { dcPopulateVoiceList(); callback(); return; }
     var done = false;
     window.speechSynthesis.onvoiceschanged = function () {
       if (done) return;
       done = true;
+      dcPopulateVoiceList();
       callback();
     };
     setTimeout(function () { if (!done) { done = true; callback(); } }, 800);
   }
 
-  // বাক্যে-বাক্যে ভাগ করার পর, কাছাকাছি বাক্যগুলোকে একসাথে জুড়ে বড় অংশে একত্র করা হয় —
-  // যাতে বারবার থেমে-থেমে না পড়ে, একটানা মসৃণ শোনায়
   function dcSplitText(text) {
     var sentences = text.replace(/([।.!?])\s*/g, "$1|||").split("|||")
       .map(function (s) { return s.trim(); }).filter(Boolean);
@@ -1677,8 +1691,15 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
     }
     listenBtn.textContent = '⏳ প্রস্তুত হচ্ছে...';
     dcLoadVoicesThen(function () {
-      dcActiveLang = dcCurrentLangCode();
-      dcActiveVoice = dcGetVoiceForLang(dcActiveLang);
+      var voices = window.speechSynthesis.getVoices();
+      var chosenIndex = voiceSelect.value;
+      if (chosenIndex !== '' && voices[chosenIndex]) {
+        dcActiveVoice = voices[chosenIndex];
+        dcActiveLang = dcActiveVoice.lang;
+      } else {
+        dcActiveLang = dcCurrentLangCode();
+        dcActiveVoice = dcGetVoiceForLang(dcActiveLang);
+      }
       dcQueue = dcSplitText(text);
       dcSpeaking = true;
       listenBtn.textContent = '⏸ পড়া চলছে... (থামাতে চাপুন)';
@@ -1692,6 +1713,8 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
     dcSpeaking = false;
     listenBtn.textContent = '🔊 লেখাটি শুনুন';
   });
+
+  dcPopulateVoiceList();
 })();
 </script>
   
