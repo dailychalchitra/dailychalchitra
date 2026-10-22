@@ -1617,9 +1617,23 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
     setTimeout(function () { if (!done) { done = true; callback(); } }, 800);
   }
 
+  // বাক্যে-বাক্যে ভাগ করার পর, কাছাকাছি বাক্যগুলোকে একসাথে জুড়ে বড় অংশে একত্র করা হয় —
+  // যাতে বারবার থেমে-থেমে না পড়ে, একটানা মসৃণ শোনায়
   function dcSplitText(text) {
-    return text.replace(/([।.!?])\s*/g, "$1|||").split("|||")
+    var sentences = text.replace(/([।.!?])\s*/g, "$1|||").split("|||")
       .map(function (s) { return s.trim(); }).filter(Boolean);
+    var chunks = [];
+    var current = "";
+    sentences.forEach(function (s) {
+      if (current && (current + " " + s).length > 220) {
+        chunks.push(current.trim());
+        current = s;
+      } else {
+        current = current ? current + " " + s : s;
+      }
+    });
+    if (current) chunks.push(current.trim());
+    return chunks;
   }
 
   var dcQueue = [];
