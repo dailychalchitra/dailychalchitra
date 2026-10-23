@@ -120,10 +120,10 @@ function dcLoadWeather() {
   statusEl.style.display = 'block';
   statusEl.textContent = 'আনুমানিক অবস্থান অনুযায়ী আবহাওয়া আনা হচ্ছে...';
 
-  // পারমিশন ছাড়াই, IP থেকে আনুমানিক লোকেশন — এটাই এখন ডিফল্ট
-  fetch('https://ipapi.co/json/').then(function (res) { return res.json(); }).then(function (data) {
-    if (data && data.latitude && data.longitude) {
-      var name = [data.city, data.country_name].filter(Boolean).join(', ');
+    // পারমিশন ছাড়াই, IP থেকে আনুমানিক লোকেশন — এটাই এখন ডিফল্ট
+  fetch('https://ipwho.is/').then(function (res) { return res.json(); }).then(function (data) {
+    if (data && data.success !== false && data.latitude && data.longitude) {
+      var name = [data.city, data.country].filter(Boolean).join(', ');
       dcShowWeather(data.latitude, data.longitude, name);
     } else { dcShowError(); }
   }).catch(dcShowError);
