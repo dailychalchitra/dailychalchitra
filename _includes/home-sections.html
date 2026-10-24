@@ -302,6 +302,39 @@
         </div>
     </section>
 
+    <!-- ছবি — প্রকৃতির ছবি গ্রিড -->
+    <section class="dc-pa-section">
+        <h3 class="dc-pa-section-title">ছবি</h3>
+        {% assign dc_photo_cat = "ছবি" %}
+        {% assign dc_photo_matched_cat = site.posts | where_exp: "post", "post.categories contains dc_photo_cat" %}
+        {% assign dc_photo_matched_tag = site.posts | where_exp: "post", "post.tags contains dc_photo_cat" %}
+        {% assign dc_photo_posts = dc_photo_matched_cat | concat: dc_photo_matched_tag | uniq | sort: "date" | reverse %}
+        <div class="dc-photo-grid">
+            {% for post in dc_photo_posts limit: 12 %}
+            <a href="{{ post.url | relative_url }}" class="dc-photo-item" title="{{ post.title }}">
+                {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+                {% else %}
+                <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" loading="lazy">
+                {% endif %}
+            </a>
+            {% else %}
+            <p style="grid-column:1/-1;text-align:center;color:#999;padding:20px 0;">এখনো কোনো ছবি পোস্ট করা হয়নি।</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <style>
+    .dc-photo-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .dc-photo-item{ display:block; overflow:hidden; border-radius:6px; aspect-ratio:1/1; }
+    .dc-photo-item img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.3s; }
+    .dc-photo-item:hover img{ transform:scale(1.08); }
+    @media(max-width:600px){
+        .dc-photo-grid{ gap:4px; }
+        .dc-photo-item{ border-radius:3px; }
+    }
+    </style>
+
     <!-- 3. নেভিগেশন লিংক -->
     <div class="dc-pa-nav-links">
         <a href="{{ '/' | relative_url }}">নতুন পোস্ট</a>
@@ -692,6 +725,49 @@
         </div>
         {% endfor %}
     </div>
+
+<!-- আবহাওয়া সংবাদ -->
+<section class="dc-pa-section">
+    <div class="dc-pa-area-box" id="dc-home-weather-box">
+        <div class="dc-pa-area-label"><i class="fa fa-cloud-sun"></i> আবহাওয়া সংবাদ</div>
+        <div id="dc-home-weather-content" style="text-align:center;color:#555;font-size:14px;padding:14px 0;">আবহাওয়ার তথ্য আনা হচ্ছে...</div>
+        <a href="{{ '/weather/' | relative_url }}" class="dc-pa-area-btn" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;">
+            বিস্তারিত আবহাওয়া দেখুন <i class="fa fa-arrow-right"></i>
+        </a>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('dc-home-weather-content');
+    if (!el) return;
+    var dcHomeWeatherCodes = {
+      0:['☀️','পরিষ্কার আকাশ'],1:['🌤️','মূলত পরিষ্কার'],2:['⛅','আংশিক মেঘলা'],3:['☁️','মেঘলা'],
+      45:['🌫️','কুয়াশা'],48:['🌫️','ঘন কুয়াশা'],51:['🌦️','লঘু বৃষ্টি'],53:['🌦️','মধ্যম বৃষ্টি'],
+      55:['🌧️','ভারী বৃষ্টি'],61:['🌧️','হালকা বৃষ্টি'],63:['🌧️','মধ্যম বৃষ্টি'],65:['🌧️','প্রবল বৃষ্টি'],
+      71:['🌨️','হালকা তুষারপাত'],73:['🌨️','মধ্যম তুষারপাত'],75:['❄️','প্রবল তুষারপাত'],
+      80:['🌦️','বৃষ্টির ছাট'],81:['🌧️','মধ্যম বৃষ্টির ছাট'],82:['⛈️','প্রবল বৃষ্টির ছাট'],
+      95:['⛈️','ঝড়-বৃষ্টি'],96:['⛈️','বজ্রসহ ঝড়'],99:['⛈️','প্রবল বজ্রঝড়']
+    };
+    fetch('https://ipwho.is/').then(function (r) { return r.json(); }).then(function (loc) {
+        if (!loc || loc.success === false || !loc.latitude || !loc.longitude) throw new Error('loc');
+        var place = [loc.city, loc.country].filter(Boolean).join(', ');
+        return fetch('https://api.open-meteo.com/v1/forecast?latitude=' + loc.latitude + '&longitude=' + loc.longitude + '&current=temperature_2m,weather_code')
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data.current) throw new Error('wx');
+            var info = dcHomeWeatherCodes[data.current.weather_code] || ['🌡️', 'আবহাওয়া'];
+            el.innerHTML =
+              '<div style="font-size:32px;">' + info[0] + '</div>' +
+              '<div style="font-size:26px;font-weight:700;color:#d32f2f;">' + Math.round(data.current.temperature_2m) + '°সে</div>' +
+              '<div style="font-size:13px;color:#777;">' + info[1] + ' • ' + place + '</div>';
+          });
+    }).catch(function () {
+        el.textContent = 'আবহাওয়ার তথ্য আনতে সমস্যা হয়েছে।';
+    });
+});
+</script>
+
     <!-- Login/Signup বাটন + Play Store/App Store -->
     <div class="dc-auth-app-row" style="max-width:800px;margin:2px auto;padding:0px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;">
         <div class="dc-auth-btns" style="display:flex;gap:6px;">
