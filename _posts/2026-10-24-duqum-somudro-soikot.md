@@ -21,11 +21,14 @@ redirect_from:
 
 বিকেলের দুকুম সমুদ্র সৈকত। আকাশটা আজ একদম পরিষ্কার, হালকা নীল থেকে দিগন্তে মিশে গেছে সাদায়।
 
+<img src="/assets/img/dqum-beach.jpg" alt="দুকুম সমুদ্র সৈকত" style="width:100%; height:auto; border-radius:8px; display:block;">
+<p style="font-size: 0.85em; color: #777; text-align: left; font-style: italic; margin-top: 6px;">ছবি: দুকুম সমুদ্র সৈকত, তথ্যসূত্র: দৈনিক চালচিত্র।</p>
+
 আরব সাগরের শান্ত ঢেউ একের পর এক আছড়ে পড়ছে তীরে। খুব বেশি উত্তাল নয়, ঠিক যেন পায়ের পাতা ভেজানোর মতো নরম ঢেউ।
 
 আর সেই অগভীর জলেই দুজনের নির্মল আনন্দ। কোমর সমান পানিতে দাঁড়িয়ে সমুদ্রের সাথে খেলা - প্রবাসের ব্যস্ত জীবনের মাঝে এমন একটি বিকেল যেন সব ক্লান্তি ভুলিয়ে দেয়।
 
 দুকুমের এই সৈকতের সৌন্দর্য তার নির্জনতা আর শান্ততায়।
 
-<p style="font-size: 0.85em; color: #777; text-align: left; font-style: italic; margin-bottom: 2px;">দুকুম সমুদ্র সৈকত</p>
-<p style="font-size: 0.8em; color: #888; text-align: left; font-style: italic; margin-top: 0;">প্রকাশকাল: ২৪-১০-২০২৬ইং।</p>
+---
+<p style="font-size: 0.8em; color: #888; text-align: left; font-style: italic; margin-top: 20px;">প্রকাশকাল: ২৪-১০-২০২৬ইং।</p>
