@@ -29,7 +29,7 @@ redirect_from:
 
 দুকুমের এই সৈকতের সৌন্দর্য তার নির্জনতা আর শান্ততায়।
 
-![দুকুম সমুদ্র সৈকত](/assets/img/duqm-beach.jpg)
+![দুকুম সমুদ্র সৈকত](/assets/img/dqum-beach.jpg)
 
 <p style="font-size: 0.85em; color: #777; text-align: center; font-style: italic; margin-top: 8px;">দুকুম সমুদ্র সৈকত</p>
 
