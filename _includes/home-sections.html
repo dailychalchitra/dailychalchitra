@@ -264,41 +264,46 @@
         </div>
     </section>
 
-    <!-- ইউটিউব ভিডিও আবৃত্তি সেকশন -->
+        <!-- কবিতা আবৃত্তি ও ভিডিও -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title dc-pa-yt-title">
-            <i class="fab fa-youtube"></i> কবিতা আবৃত্তি ও ভিডিও
+            <a href="{{ '/tag/kobita-abritti-o-video/' | relative_url }}" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                <i class="fab fa-youtube"></i> কবিতা আবৃত্তি ও ভিডিও
+            </a>
         </h3>
+        {% assign dc_video_tags = "কবিতা আবৃত্তি,ভিডিও" | split: "," %}
+        {% assign dc_video_posts = "" | split: "" %}
+        {% for t in dc_video_tags %}
+            {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
+            {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains t" %}
+            {% assign matched = matched_cat | concat: matched_tag %}
+            {% assign dc_video_posts = dc_video_posts | concat: matched %}
+        {% endfor %}
+        {% assign dc_video_posts = dc_video_posts | uniq | sort: "date" | reverse %}
         <div id="dc-youtube-news-grid" class="dc-pa-yt-grid">
-
+            {% for post in dc_video_posts limit: 8 %}
             <article class="news-card dc-yt-card dc-pa-yt-card">
-                <div class="dc-yt-facade" data-yt-id="oFt9N9rahRs" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;cursor:pointer;">
-                    <img src="https://i.ytimg.com/vi/oFt9N9rahRs/hqdefault.jpg" loading="lazy" alt="কবিতা আবৃত্তি - ১" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:42px;background:rgba(200,0,0,0.85);border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                        <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #fff;margin-left:4px;"></div>
+                <a href="{{ post.url | relative_url }}" style="position:relative;display:block;padding-bottom:75%;height:0;overflow:hidden;background:#000;">
+                    {% if post.image %}
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+                    {% else %}
+                    <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+                    {% endif %}
+                    {% if post.youtube_id %}
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:26px;background:rgba(200,0,0,0.85);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #fff;margin-left:2px;"></div>
                     </div>
-                </div>
+                    {% endif %}
+                </a>
                 <div class="card-content dc-pa-yt-body">
-                    <span class="dc-pa-mini-cat">আবৃত্তি</span>
-                    <h3><a href="https://youtu.be/oFt9N9rahRs" target="_blank">কবিতা আবৃত্তি - ১</a></h3>
-                    <p class="card-excerpt">শামীম নিমু</p>
+                    <span class="dc-pa-mini-cat">{{ post.category_bn.first | default: post.category_bn | default: post.categories.first }}</span>
+                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                    <p class="card-excerpt">{{ post.author }}</p>
                 </div>
             </article>
-
-            <article class="news-card dc-yt-card dc-pa-yt-card">
-                <div class="dc-yt-facade" data-yt-id="UpXajSAatTQ" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;cursor:pointer;">
-                    <img src="https://i.ytimg.com/vi/UpXajSAatTQ/hqdefault.jpg" loading="lazy" alt="কবিতা আবৃত্তি - ২" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:42px;background:rgba(200,0,0,0.85);border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                        <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #fff;margin-left:4px;"></div>
-                    </div>
-                </div>
-                <div class="card-content dc-pa-yt-body">
-                    <span class="dc-pa-mini-cat">আবৃত্তি</span>
-                    <h3><a href="https://youtu.be/UpXajSAatTQ" target="_blank">কবিতা আবৃত্তি - ২</a></h3>
-                    <p class="card-excerpt">শামীম নিমু</p>
-                </div>
-            </article>
-
+            {% else %}
+            <p style="grid-column:1/-1;text-align:center;color:#999;padding:20px 0;">এখনো কোনো ভিডিও পোস্ট করা হয়নি।</p>
+            {% endfor %}
         </div>
     </section>
 
@@ -1014,12 +1019,12 @@ document.addEventListener('DOMContentLoaded', function () {
         .dc-pa-textonly-thumbwrap{ margin-bottom:4px; }
     }
 
-    .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
+    .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
     .dc-pa-yt-card{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; border-radius:0 !important; margin:0 !important; }
-    .dc-pa-yt-body{ padding:12px; }
-    .dc-pa-yt-body h3{ font-size:20px; margin:4px 0 4px; font-family:'Noto Serif Bengali', serif; font-weight:700; }
+    .dc-pa-yt-body{ padding:8px; }
+    .dc-pa-yt-body h3{ font-size:14px; margin:4px 0 2px; font-family:'Noto Serif Bengali', serif; font-weight:700; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .dc-pa-yt-body h3 a{ color:#111; text-decoration:none; }
-    .dc-pa-yt-body p{ font-size:16px; color:#666; margin:0; }
+    .dc-pa-yt-body p{ font-size:11px; color:#666; margin:0; }
 
     .dc-pa-nav-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px 34px; padding:14px 0; margin-bottom:26px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
     .dc-pa-nav-links a{ font-size:19.5px; font-weight:600; color:#333; text-decoration:none; padding-bottom:3px; border-bottom:2px solid transparent; }
@@ -1131,9 +1136,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         .dc-pa-textonly-item{ flex:0 0 100%; padding:10px; }
 
-        .dc-pa-yt-grid{ grid-template-columns:1fr; }
-        .dc-pa-yt-body h3{ font-size:15px; }
-        .dc-pa-yt-body p{ font-size:12px; }
+        .dc-pa-yt-grid{ grid-template-columns:repeat(4,1fr); }
+        .dc-pa-yt-body h3{ font-size:11px; }
+        .dc-pa-yt-body p{ font-size:9px; }
 
         .dc-pa-nav-links{ gap:10px 16px; }
         .dc-pa-nav-links a{ font-size:12.5px; }
@@ -1288,8 +1293,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .dc-pa-textonly-item p{ font-size:14.5px; }
         .dc-pa-textonly-item .dc-pa-mini-cat{ font-size:14px; }
 
-        .dc-pa-yt-body h3{ font-size:17px; }
-        .dc-pa-yt-body p{ font-size:14.5px; }
+        .dc-pa-yt-body h3{ font-size:13px; }
+        .dc-pa-yt-body p{ font-size:11px; }
 
         .dc-pa-nav-links a{ font-size:16px; }
 
