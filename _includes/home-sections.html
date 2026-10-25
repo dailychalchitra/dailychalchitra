@@ -264,14 +264,14 @@
         </div>
     </section>
 
-        <!-- কবিতা আবৃত্তি ও ভিডিও -->
+            <!-- কবিতা আবৃত্তি -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title dc-pa-yt-title">
             <a href="{{ '/tag/kobita-abritti-o-video/' | relative_url }}" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
-                <i class="fab fa-youtube"></i> কবিতা আবৃত্তি ও ভিডিও
+                <i class="fab fa-youtube"></i> কবিতা আবৃত্তি
             </a>
         </h3>
-        {% assign dc_video_tags = "কবিতা আবৃত্তি,ভিডিও" | split: "," %}
+        {% assign dc_video_tags = "কবিতা আবৃত্তি" | split: "," %}
         {% assign dc_video_posts = "" | split: "" %}
         {% for t in dc_video_tags %}
             {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
