@@ -20,14 +20,13 @@ sitemap: false
 var dcTagSlugs = {{ site.data.tag_slugs | jsonify }};
 var dcPath = window.location.pathname;
 var dcMatch = dcPath.match(/^\/tag\/([^\/]+)\/?$/);
-var dcSlug = dcMatch ? decodeURIComponent(dcMatch[1]) : null;
 var dcTagName = dcSlug ? dcTagSlugs[dcSlug] : null;
+var dcTagNames = dcTagName ? dcTagName.split(',').map(function (s) { return s.trim(); }) : [];
 
-if (dcTagName) {
+if (dcTagNames.length) {
   document.getElementById('dc-404-wrap').style.display = 'none';
   document.getElementById('dc-tag-wrap').style.display = 'block';
-  document.getElementById('dc-tag-title').textContent = dcTagName;
-
+  document.getElementById('dc-tag-title').textContent = dcTagNames.join(' ও ');
   var dcAllPosts = [
     {% for post in site.posts %}
     {
@@ -47,10 +46,11 @@ if (dcTagName) {
     return (s || "").toString().normalize("NFC").replace(/[\s\-]+/g, "").toLowerCase();
   }
 
-  var dcNormTarget = dcNormalize(dcTagName);
+    var dcNormTargets = dcTagNames.map(dcNormalize);
   var dcFiltered = dcAllPosts.filter(function (p) {
     var dcAllTerms = (p.tags || []).concat(p.categories || []);
-    return dcAllTerms.some(function (t) { return dcNormalize(t) === dcNormTarget; });
+    var dcNormTerms = dcAllTerms.map(dcNormalize);
+    return dcNormTargets.some(function (t) { return dcNormTerms.indexOf(t) !== -1; });
   });
 
   var dcContainer = document.getElementById("dc-tag-posts");
