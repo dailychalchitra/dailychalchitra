@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /search/
 Disallow: /*?m=1$
-Disallow: /tag/
+Disallow: /tag/?
 Disallow: /admin/
 Disallow: /admin-log/
 Disallow: /get-token.html
