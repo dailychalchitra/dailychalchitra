@@ -15,11 +15,12 @@ author: "শামীমা দিশা"
 image: "/assets/img/sha-disha.jpg"
 description: "কবিতা তুমি দ্রোহের আগুন, ভালোবাসার ফাগুন - শামীমা দিশার কবিতা।"
 excerpt: "কবিতা তুমি দ্রোহের আগুন, ভালোবাসার ফাগুন - শামীমা দিশার কবিতা।"
-permalink: "/kobita/2026/06/30/kobita-shamima-disha/"
+permalink: /kobita/kobita-shamima-disha/
 redirect_from:
-    - "/কবিতা/2026/06/30/kobita/"
-    - "/kobita/2026/06/30/kobita/"
-    - "/search/label/কবিতা"
+    - /kobita/2026/06/30/kobita-shamima-disha/
+    - /kobita/2026/06/30/kobita/
+    - /কবিতা/2026/06/30/kobita/
+    - /search/label/কবিতা
 ---
 
 কবিতা,
