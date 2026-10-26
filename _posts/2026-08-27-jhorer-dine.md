@@ -13,14 +13,14 @@ tags:
     - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
 image: "/assets/img/rabindranath-tagore.webp"
-description: "ঝড়ের দিনে - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
-excerpt: "ঝড়ের দিনে - রবীন্দ্রনাথ ঠাকুরের লেখা একটি কবিতা।"
-permalink: "/kobita/2026/08/27/jhorer-dine/"
+description: "ঝড়ের দিনে - রবীন্দ্রনাথ ঠাকুরের লেখা ঝড়ের সৌন্দর্য নিয়ে একটি বিখ্যাত কবিতা।"
+excerpt: "ঝড়ের দিনে মম ঝড়ের দিনে - রবীন্দ্রনাথ ঠাকুরের কালজয়ী কবিতা।"
+permalink: /kobita/jhorer-dine/
 redirect_from:
-    - "/kobita/2026/08/27/jhorer-dine/"
-    - "/কবিতা/2026/08/27/jhorer-dine/"
-    - "/search/label/কবিতা"
-    - "/search/label/সাহিত্য"
+    - /kobita/2026/08/27/jhorer-dine/
+    - /কবিতা/2026/08/27/jhorer-dine/
+    - /search/label/কবিতা
+    - /search/label/সাহিত্য
 ---
 
 আজি এই আকুল আশ্বিনে
