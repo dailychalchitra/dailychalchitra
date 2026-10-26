@@ -16,10 +16,12 @@ author: "রীতি চাকমা"
 image: "/assets/img/riti-chakma-03.webp"
 description: "রীতি চাকমার লেখা ছোট গল্প 'লজ' - জীবনের এক বাস্তব অনুভূতির গল্প।"
 excerpt: "রীতি চাকমার ছোট গল্প লজ - দৈনিক চালচিত্র।"
-permalink: "/choto-golpo/2026/09/03/loj-riti-chakma/"
+permalink: /choto-golpo/loj-riti-chakma/
 redirect_from:
-    - "/choto-golpo/2026/09/03/loj-golpo/"
-    - "/search/label/ছোট-গল্প"
+    - /choto-golpo/2026/09/03/loj-riti-chakma/
+    - /choto-golpo/2026/09/03/loj-golpo/
+    - /গল্প/2026/09/03/loj/
+    - /search/label/ছোট-গল্প
 ---
 
 **রাত তখন ঠিক বারোটা।**
