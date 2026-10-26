@@ -3,27 +3,25 @@ layout: post
 title: "আমি জানলাম প্রেম মানে"
 date: 2026-09-01 00:37:00 +0400
 categories:
-    - gan
+    - gaan
 category_bn:
     - গান
 tags:
-    - সাহিত্য বিভাগ
-    - সাহিত্য
-    - কবিতা
     - বিনোদন
     - গান
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
 image: "/assets/img/prem-mane.webp"
-description: "আমি জানলাম প্রেম মানে - শামীম নিমু'র লেখা একটি গান।"
-excerpt: "আমি জানলাম প্রেম মানে - শামীম নিমু'র লেখা একটি গান।"
-permalink: "/gaan/2026/09/01/ami-janlam-prem-mane/"
+description: "শামীম নিমু'র লেখা গান 'আমি জানলাম প্রেম মানে' - প্রেমের অনুভূতি নিয়ে লেখা একটি আধুনিক বাংলা গান।"
+excerpt: "আমি জানলাম প্রেম মানে - শামীম নিমু'র লেখা ভালোবাসার একটি গান।"
+permalink: /gaan/ami-janlam-prem-mane/
 redirect_from:
-    - "/gaan/2026/09/01/ami-janlam-prem-mane/"
-    - "/গান/2026/09/01/ami-janlam-prem-mane/"
-    - "/search/label/গান"
-    - "/binodon/2026/09/01/ami-janlam-prem-mane/"
-    - "/বিনোদন/2026/09/01/ami-janlam-prem-mane/"
+    - /gaan/2026/09/01/ami-janlam-prem-mane/
+    - /গান/2026/09/01/ami-janlam-prem-mane/
+    - /binodon/2026/09/01/ami-janlam-prem-mane/
+    - /বিনোদন/2026/09/01/ami-janlam-prem-mane/
+    - /search/label/গান
+    - /gan/ami-janlam-prem-mane/
 ---
 
 কিভাবে যে মানুষ প্রেম করে
