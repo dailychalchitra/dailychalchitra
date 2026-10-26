@@ -278,7 +278,7 @@
         <div class="dc-pa-yt-grid">
             {% for post in dc_recite_posts limit: 8 %}
             <article class="news-card dc-yt-card dc-pa-yt-card">
-                <a href="{{ post.url | relative_url }}" style="position:relative;display:block;padding-bottom:75%;height:0;overflow:hidden;background:#000;">
+                <a href="{{ post.url | relative_url }}" style="position:relative;display:block;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
                     {% if post.image %}
                     <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     {% else %}
@@ -573,7 +573,7 @@
         <div class="dc-pa-yt-grid">
             {% for post in dc_video2_posts limit: 8 %}
             <article class="news-card dc-yt-card dc-pa-yt-card">
-                <a href="{{ post.url | relative_url }}" style="position:relative;display:block;padding-bottom:75%;height:0;overflow:hidden;background:#000;">
+                <a href="{{ post.url | relative_url }}" style="position:relative;display:block;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
                     {% if post.image %}
                     <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     {% else %}
@@ -1055,8 +1055,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .dc-pa-textonly-thumbwrap{ margin-bottom:4px; }
     }
 
-    .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid #e5e5e5; border-left:1px solid #e5e5e5; }
-    .dc-pa-yt-card{ border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; border-radius:0 !important; margin:0 !important; }
+    .dc-pa-yt-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .dc-pa-yt-card{ border:1px solid #eee; border-radius:8px !important; margin:0 !important; overflow:hidden; background:#fff; }
     .dc-pa-yt-body{ padding:8px; }
     .dc-pa-yt-body h3{ font-size:14px; margin:4px 0 2px; font-family:'Noto Serif Bengali', serif; font-weight:700; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .dc-pa-yt-body h3 a{ color:#111; text-decoration:none; }
@@ -1172,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         .dc-pa-textonly-item{ flex:0 0 100%; padding:10px; }
 
-        .dc-pa-yt-grid{ grid-template-columns:repeat(4,1fr); }
+        .dc-pa-yt-grid{ grid-template-columns:repeat(4,1fr); gap:6px; }
         .dc-pa-yt-body h3{ font-size:11px; }
         .dc-pa-yt-body p{ font-size:9px; }
 
