@@ -264,24 +264,19 @@
         </div>
     </section>
 
-                <!-- কবিতা আবৃত্তি ও ভিডিও -->
+                    <!-- কবিতা আবৃত্তি -->
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title dc-pa-yt-title">
-            <a href="{{ '/tag/kobita-abritti-o-video/' | relative_url }}" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
-                <i class="fab fa-youtube"></i> কবিতা আবৃত্তি ও ভিডিও
+            <a href="{{ '/tag/kobita-abritti/' | relative_url }}" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                <i class="fab fa-youtube"></i> কবিতা আবৃত্তি
             </a>
         </h3>
-        {% assign dc_video_tags = "কবিতা আবৃত্তি,ভিডিও" | split: "," %}
-        {% assign dc_video_posts = "" | split: "" %}
-        {% for t in dc_video_tags %}
-            {% assign matched_cat = site.posts | where_exp: "post", "post.categories contains t" %}
-            {% assign matched_tag = site.posts | where_exp: "post", "post.tags contains t" %}
-            {% assign matched = matched_cat | concat: matched_tag %}
-            {% assign dc_video_posts = dc_video_posts | concat: matched %}
-        {% endfor %}
-        {% assign dc_video_posts = dc_video_posts | uniq | sort: "date" | reverse %}
-        <div id="dc-youtube-news-grid" class="dc-pa-yt-grid">
-            {% for post in dc_video_posts limit: 8 %}
+        {% assign dc_recite_cat = "কবিতা আবৃত্তি" %}
+        {% assign dc_recite_matched_cat = site.posts | where_exp: "post", "post.categories contains dc_recite_cat" %}
+        {% assign dc_recite_matched_tag = site.posts | where_exp: "post", "post.tags contains dc_recite_cat" %}
+        {% assign dc_recite_posts = dc_recite_matched_cat | concat: dc_recite_matched_tag | uniq | sort: "date" | reverse %}
+        <div class="dc-pa-yt-grid">
+            {% for post in dc_recite_posts limit: 8 %}
             <article class="news-card dc-yt-card dc-pa-yt-card">
                 <a href="{{ post.url | relative_url }}" style="position:relative;display:block;padding-bottom:75%;height:0;overflow:hidden;background:#000;">
                     {% if post.image %}
@@ -302,7 +297,7 @@
                 </div>
             </article>
             {% else %}
-            <p style="grid-column:1/-1;text-align:center;color:#999;padding:20px 0;">এখনো কোনো ভিডিও পোস্ট করা হয়নি।</p>
+            <p style="grid-column:1/-1;text-align:center;color:#999;padding:20px 0;">এখনো কোনো আবৃত্তি পোস্ট করা হয়নি।</p>
             {% endfor %}
         </div>
     </section>
