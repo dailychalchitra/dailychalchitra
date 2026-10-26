@@ -12,10 +12,10 @@ tags:
     - কবিতা
     - পদ্য কবিতা
     - দৈনিক চালচিত্র
-author: "Adv. রাজিয়া আক্তার পপি"
+author: "Adv. রাজিয়া আক্তার পপি"
 image: "/assets/img/adv-razia-akter-popy.webp"
-description: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা - পেপারওয়েট।"
-excerpt: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা - পেপারওয়েট।"
+description: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা - পেপারওয়েট।"
+excerpt: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা - পেপারওয়েট।"
 permalink: "/poddo-kobita/2026/08/21/paperweight/"
 redirect_from:
     - "/পদ্য-কবিতা/2026/08/21/paperweight/"
