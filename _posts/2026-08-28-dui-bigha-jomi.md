@@ -14,13 +14,13 @@ tags:
     - দৈনিক চালচিত্র
 author: "রবীন্দ্রনাথ ঠাকুর"
 image: "/assets/img/rabindranath-tagore.webp"
-description: "দুই বিঘা জমি - রবীন্দ্রনাথ ঠাকুরের লেখা বিখ্যাত কবিতা।"
-excerpt: "দুই বিঘা জমি - রবীন্দ্রনাথ ঠাকুরের লেখা বিখ্যাত কবিতা।"
-permalink: "/kobita/2026/08/28/dui-bigha-jomi/"
+description: "দুই বিঘা জমি - রবীন্দ্রনাথ ঠাকুরের লেখা বিখ্যাত কবিতা, জমিদার ও কৃষকের হৃদয়বিদারক গল্প।"
+excerpt: "শুধু বিঘে দুই ছিল মোর ভুঁই আর সবই গেছে ঋণে - রবীন্দ্রনাথ ঠাকুরের কালজয়ী কবিতা দুই বিঘা জমি।"
+permalink: /kobita/dui-bigha-jomi/
 redirect_from:
-    - "/kobita/2026/08/28/dui-bigha-jomi/"
-    - "/কবিতা/2026/08/28/dui-bigha-jomi/"
-    - "/search/label/কবিতা"
+    - /kobita/2026/08/28/dui-bigha-jomi/
+    - /কবিতা/2026/08/28/dui-bigha-jomi/
+    - /search/label/কবিতা
 ---
 
 শুধু বিঘে দুই ছিল মোর ভুঁই আর সবই গেছে ঋণে।
