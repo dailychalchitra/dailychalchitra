@@ -20,6 +20,7 @@ sitemap: false
 var dcTagSlugs = {{ site.data.tag_slugs | jsonify }};
 var dcPath = window.location.pathname;
 var dcMatch = dcPath.match(/^\/tag\/([^\/]+)\/?$/);
+var dcSlug = dcMatch ? decodeURIComponent(dcMatch[1]) : null;
 var dcTagName = dcSlug ? dcTagSlugs[dcSlug] : null;
 var dcTagNames = dcTagName ? dcTagName.split(',').map(function (s) { return s.trim(); }) : [];
 
