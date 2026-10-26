@@ -11,10 +11,10 @@ tags:
     - সাহিত্য
     - কবিতা
     - দৈনিক চালচিত্র
-author: "Adv. রাজিয়া আক্তার পপি"
+author: "Adv. রাজিয়া আক্তার পপি"
 image: "/assets/img/rajia-akter-popi.jpg"
-description: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা 'আমি আজন্ম এক চাষা'।"
-excerpt: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা 'আমি আজন্ম এক চাষা'।"
+description: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা 'আমি আজন্ম এক চাষা'।"
+excerpt: "Adv. রাজিয়া আক্তার পপি এর লেখা পদ্য কবিতা 'আমি আজন্ম এক চাষা'।"
 permalink: "/kobita/2026/07/01/ami-ajonmo-ek-chasha/"
 redirect_from:
     - "/কবিতা/2026/07/01/ami-ajonmo-ek-chasha/"
