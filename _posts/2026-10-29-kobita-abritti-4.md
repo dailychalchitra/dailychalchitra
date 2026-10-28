@@ -32,8 +32,7 @@ youtube_id: uQzjZZkYNWg
             allowfullscreen></iframe>
 </div>
 
-**কবিতা | প্রতিবাদ**
-
+<p style="margin-top:25px;"><strong>কবিতা | প্রতিবাদ</strong></p>
 
 প্রতিটি শব্দ, প্রতিটি আওয়াজ
 একেকটি মুষ্টিবদ্ধ হাত।
