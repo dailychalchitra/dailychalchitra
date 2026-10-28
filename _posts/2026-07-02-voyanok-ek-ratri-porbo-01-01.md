@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ভয়ানক এক রাত্রি"
+title: "ভয়ানক এক রাত্রি - পর্ব: ০১/০১"
 date: 2026-07-02 20:30:00 +0600
 categories:
     - rohoshyo-uponnash
@@ -12,15 +12,18 @@ tags:
     - উপন্যাস
     - রহস্য উপন্যাস
     - দৈনিক চালচিত্র
+    - ধারাবাহিক উপন্যাস
 author: "শামীম নিমু"
 image: "/assets/img/nimu.webp"
-description: "শামীম নিমুর লেখা রহস্য উপন্যাস 'ভয়ানক এক রাত্রি' - এক রাতের ভয়ংকর অভিজ্ঞতার রোমাঞ্চকর গল্প।"
-excerpt: "এক ভয়ানক রাতের গল্প নিয়ে শামীম নিমুর রহস্য উপন্যাস 'ভয়ানক এক রাত্রি'।"
-permalink: /rohoshyo-uponnash/voyanok-ek-ratri/
+description: "শামীম নিমুর লেখা রহস্য উপন্যাস 'ভয়ানক এক রাত্রি' - প্রথম অধ্যায়ের প্রথম পর্ব - এক রাতের ভয়ংকর অভিজ্ঞতার রোমাঞ্চকর গল্প।"
+excerpt: "এক ভয়ানক রাতের গল্প নিয়ে শামীম নিমুর রহস্য উপন্যাস 'ভয়ানক এক রাত্রি' - পর্ব: ০১/০১।"
+permalink: /rohoshyo-uponnash/voyanok-ek-ratri-porbo-01-01/
 redirect_from:
+    - /rohoshyo-uponnash/voyanok-ek-ratri/
     - /rohosso-uponyas/2026/07/02/voyanok-ek-ratri/
     - /রহস্য উপন্যাস/2026/07/02/voyanok-ek-ratri/
     - /uponyas/2026/07/02/voyanok-ek-ratri/
+    - /rohoshyo-uponnash/2026/07/02/voyanok-ek-ratri/
     - /search/label/রহস্য উপন্যাস
 ---
 
