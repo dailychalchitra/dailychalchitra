@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "কবিতা আবৃত্তি - ৫"
+title: "কবিতা আবৃত্তি - ৪"
 date: 2026-10-29 00:36:00 +0400
 categories:
     - kobita-abritti
@@ -14,13 +14,13 @@ tags:
     - আবদুল আজিজ
     - প্রতিবাদ
 author: "আবদুল আজিজ"
-image: "/assets/img/abdul-aziz.webp"
-description: "কবিতা আবৃত্তি - ৫। আবদুল আজিজের লেখা 'প্রতিবাদ' কবিতার আবৃত্তি - প্রতিবাদের দৃপ্ত উচ্চারণ।"
-excerpt: "আবদুল আজিজের 'প্রতিবাদ' কবিতার আবৃত্তি - কবিতা আবৃত্তি - ৫।"
-permalink: /kobita-abritti/kobita-abritti-5/
+image: "/assets/img/protibadth_abdul_aziz.webp"
+description: "কবিতা আবৃত্তি - ৪। আবদুল আজিজের লেখা 'প্রতিবাদ' কবিতার আবৃত্তি - প্রতিবাদের দৃপ্ত উচ্চারণ।"
+excerpt: "আবদুল আজিজের 'প্রতিবাদ' কবিতার আবৃত্তি - কবিতা আবৃত্তি - ৪।"
+permalink: /kobita-abritti/kobita-abritti-4/
 redirect_from:
-    - /kobita-abritti/2026/10/29/kobita-abritti-5/
-    - /কবিতা আবৃত্তি/2026/10/29/kobita-abritti-5/
+    - /kobita-abritti/2026/10/29/kobita-abritti-4/
+    - /কবিতা আবৃত্তি/2026/10/29/kobita-abritti-4/
     - /search/label/কবিতা আবৃত্তি
     - /search/label/বিনোদন
 youtube_id: uQzjZZkYNWg
