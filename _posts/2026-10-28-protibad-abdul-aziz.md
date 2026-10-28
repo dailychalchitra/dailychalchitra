@@ -12,7 +12,7 @@ tags:
     - কবিতা
     - দৈনিক চালচিত্র
 author: "আবদুল আজিজ"
-image: "/assets/img/abdul-aziz-protibad.webp"
+image: "/assets/img/abdul-aziz.webp"
 description: "আবদুল আজিজের প্রতিবাদী কবিতা 'প্রতিবাদ' - গণতন্ত্র, ফ্যাসিবাদ ও সময়ের প্রতিবাদের এক বলিষ্ঠ উচ্চারণ।"
 excerpt: "প্রতিটি শব্দ, প্রতিটি আওয়াজ - একেকটি মুষ্টিবদ্ধ হাত - আবদুল আজিজের কবিতা প্রতিবাদ।"
 permalink: /kobita/protibad-abdul-aziz/
