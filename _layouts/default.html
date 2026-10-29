@@ -1729,15 +1729,17 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 <!-- Tawk.to Live Chat - দৈনিক চালচিত্র -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.onLoad = function(){
-    // লাল বাটনের ঠিক উপরে তুলে দেওয়া
-    var interval = setInterval(function(){
-        var chatFrame = document.querySelector('iframe[title="chat widget"]');
-        if(chatFrame){
-            chatFrame.style.setProperty('bottom', '75px', 'important');
-            clearInterval(interval);
+Tawk_API.customStyle = {
+    visibility: {
+        desktop: {
+            xOffset: 15,
+            yOffset: 65
+        },
+        mobile: {
+            xOffset: 10,
+            yOffset: 65
         }
-    }, 300);
+    }
 };
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
