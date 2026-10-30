@@ -1731,15 +1731,20 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 Tawk_API.customStyle = {
     visibility: {
-        desktop: {
-            xOffset: 10,
-            yOffset: 74
-        },
-        mobile: {
-            xOffset: 10,
-            yOffset: 74
-        }
+        desktop: { xOffset: 12, yOffset: 78 },
+        mobile: { xOffset: 12, yOffset: 78 }
     }
+};
+Tawk_API.onLoad = function(){
+    // বাটন ছোট করার জন্য JS দিয়ে ফোর্স করা
+    var check = setInterval(function(){
+        var container = document.getElementById('tawkchat-container');
+        if(container){
+            container.style.setProperty('transform', 'scale(0.52)', 'important');
+            container.style.setProperty('transform-origin', 'bottom right', 'important');
+            clearInterval(check);
+        }
+    }, 500);
 };
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -1751,14 +1756,6 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
-
-<style>
-/* আরও ছোট - লাল বাটনের থেকেও ছোট */
-div#tawkchat-container iframe[title="chat widget"] {
-    transform: scale(0.10) !important;
-    transform-origin: bottom right !important;
-}
-</style>
   
 </body>
 </html>
