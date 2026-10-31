@@ -1727,7 +1727,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
-<!-- Tawk.to - Zero Flash - Bubble Always Hidden -->
+<!-- Tawk.to - Zero Flash Final -->
 <button id="dc-chat-btn"><span class="dc-label">Live<br>Chat</span></button>
 
 <style>
@@ -1746,18 +1746,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
   var chatBtn=document.getElementById('dc-chat-btn');
   var a11y=document.getElementById('dc-a11y-toggle');
   var tawkLoaded=false;
-
-  // ১. পেজ লোড থেকেই Tawk এর bubble কে ধরা - inline !important দিয়ে হাইড
-  var observer = new MutationObserver(function(){
-    var bubbles = document.querySelectorAll('#tawkchat-minified-container, #tawk-bubble-container, div[id^="tawkchat-minified"]');
-    bubbles.forEach(function(el){
-      el.style.setProperty('display','none','important');
-      el.style.setProperty('visibility','hidden','important');
-      el.style.setProperty('opacity','0','important');
-      el.style.setProperty('pointer-events','none','important');
-    });
-  });
-  observer.observe(document.documentElement, {childList:true, subtree:true});
+  var bubbleBlocker=false;
 
   function placeChatBtn(){
     if(!a11y) return;
@@ -1771,23 +1760,37 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
     }
   }
 
+  // প্রতি ফ্রেমে সবুজ bubble কে মেরে ফেলা
+  function blockBubble(){
+    if(!bubbleBlocker) return;
+    var els=document.querySelectorAll('#tawkchat-minified-container, #tawk-bubble-container, div[id^="tawkchat-minified"]');
+    els.forEach(function(el){
+      el.style.setProperty('display','none','important');
+      el.style.setProperty('visibility','hidden','important');
+      el.style.setProperty('opacity','0','important');
+    });
+    requestAnimationFrame(blockBubble);
+  }
+
   function loadTawk(){
     if(tawkLoaded){
-      if(window.Tawk_API){ 
-        if(window.Tawk_API.showWidget) window.Tawk_API.showWidget();
-        if(window.Tawk_API.maximize) window.Tawk_API.maximize();
-      }
+      if(window.Tawk_API && window.Tawk_API.maximize) window.Tawk_API.maximize();
       return;
     }
     tawkLoaded=true;
+    bubbleBlocker=true;
+    blockBubble(); // এখন থেকেই ব্লক শুরু
+
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_API.onLoad = function(){
-      // লোড হওয়া মাত্র bubble হাইড রেখে শুধু চ্যাট উইন্ডো খোলা
+      // bubble ব্লক চলতেই থাকবে, শুধু চ্যাট খুলবে
       if(window.Tawk_API.maximize) window.Tawk_API.maximize();
     };
     window.Tawk_API.onChatMinimized = function(){
+      bubbleBlocker=false;
       if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget();
     };
+
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
     s1.async=true;
     s1.src='https://embed.tawk.to/6ae2ed85210329348fde7615/default';
