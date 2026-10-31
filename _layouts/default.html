@@ -1727,45 +1727,67 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
-<!-- Tawk.to Live Chat - দৈনিক চালচিত্র -->
+<!-- Tawk.to Live Chat - দৈনিক চালচিত্র (কাস্টম বাটন) -->
 <script type="text/javascript">
-var Tawk_API = Tawk_API || {};
-var Tawk_LoadStart = new Date();
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
-Tawk_API.customStyle = {
-    visibility: {
-        desktop: {
-            xOffset: 10,
-            yOffset: 74
-        },
-        mobile: {
-            xOffset: 10,
-            yOffset: 74
-        }
-    }
-};
+// Tawk-এর ডিফল্ট বাটন সবসময় লুকানো থাকবে
+Tawk_API.onLoad = function () { Tawk_API.hideWidget(); };
+Tawk_API.onChatMinimized = function () { Tawk_API.hideWidget(); };
 
-(function () {
-    var s1 = document.createElement("script");
-    var s0 = document.getElementsByTagName("script")[0];
-
-    s1.async = true;
-    s1.src = 'https://embed.tawk.to/6ae2ed85210329348fde7615/default';
-    s1.charset = 'UTF-8';
-    s1.setAttribute('crossorigin', '*');
-
-    s0.parentNode.insertBefore(s1, s0);
+(function(){
+  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/6ae2ed85210329348fde7615/default';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  s0.parentNode.insertBefore(s1, s0);
 })();
 </script>
-<!-- End of Tawk.to Script -->
+
+<button id="dc-chat-btn" aria-label="লাইভ চ্যাট" title="লাইভ চ্যাট">💬</button>
 
 <style>
-/* Tawk.to বাটনের সাইজ ছোট করা */
-iframe[title="chat widget"] {
-    transform: scale(0.08) !important;
-    transform-origin: bottom right !important;
+#dc-chat-btn{
+  position:fixed; z-index:99998;
+  border:none; border-radius:50%; padding:0; line-height:1;
+  background:#1a73e8; color:#fff; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+  visibility:hidden;
 }
 </style>
+
+<script>
+(function () {
+  var chatBtn = document.getElementById('dc-chat-btn');
+  var a11y = document.getElementById('dc-a11y-toggle');
+
+  // লাল বাটনের সাইজ ও অবস্থান মেপে ঠিক তার ওপরে বসানো
+  function placeChatBtn() {
+    if (!a11y || !chatBtn) return;
+    var r = a11y.getBoundingClientRect();
+    if (!r.width) return;
+    chatBtn.style.width = r.width + 'px';
+    chatBtn.style.height = r.height + 'px';
+    chatBtn.style.fontSize = (r.height * 0.5) + 'px';
+    chatBtn.style.left = r.left + 'px';
+    chatBtn.style.bottom = (window.innerHeight - r.top + 10) + 'px';
+    chatBtn.style.visibility = 'visible';
+  }
+
+  chatBtn.addEventListener('click', function () {
+    if (window.Tawk_API && Tawk_API.maximize) {
+      Tawk_API.showWidget();
+      Tawk_API.maximize();
+    }
+  });
+
+  window.addEventListener('load', placeChatBtn);
+  window.addEventListener('resize', placeChatBtn);
+  setTimeout(placeChatBtn, 500);
+})();
+</script>
   
 </body>
 </html>
