@@ -1727,15 +1727,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
-<!-- Tawk.to - Lazy Load - Bubble Never Shows -->
-<style id="tawk-hide-bubble">
-  /* সবুজ bubble টা কখনোই দেখাবে না */
-  #tawkchat-minified-container, #tawk-bubble-container, 
-  div#tawkchat-container iframe[title*="chat widget"]:not([title*="chat window"]) {
-    display: none !important;
-  }
-</style>
-
+<!-- Tawk.to - Zero Flash - Bubble Always Hidden -->
 <button id="dc-chat-btn"><span class="dc-label">Live<br>Chat</span></button>
 
 <style>
@@ -1755,6 +1747,18 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
   var a11y=document.getElementById('dc-a11y-toggle');
   var tawkLoaded=false;
 
+  // ১. পেজ লোড থেকেই Tawk এর bubble কে ধরা - inline !important দিয়ে হাইড
+  var observer = new MutationObserver(function(){
+    var bubbles = document.querySelectorAll('#tawkchat-minified-container, #tawk-bubble-container, div[id^="tawkchat-minified"]');
+    bubbles.forEach(function(el){
+      el.style.setProperty('display','none','important');
+      el.style.setProperty('visibility','hidden','important');
+      el.style.setProperty('opacity','0','important');
+      el.style.setProperty('pointer-events','none','important');
+    });
+  });
+  observer.observe(document.documentElement, {childList:true, subtree:true});
+
   function placeChatBtn(){
     if(!a11y) return;
     var r=a11y.getBoundingClientRect();
@@ -1769,29 +1773,21 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 
   function loadTawk(){
     if(tawkLoaded){
-      if(window.Tawk_API && Tawk_API.maximize){
-        Tawk_API.showWidget();
-        Tawk_API.maximize();
+      if(window.Tawk_API){ 
+        if(window.Tawk_API.showWidget) window.Tawk_API.showWidget();
+        if(window.Tawk_API.maximize) window.Tawk_API.maximize();
       }
       return;
     }
     tawkLoaded=true;
     window.Tawk_API = window.Tawk_API || {};
-    // লোড হওয়া মাত্রই bubble লুকিয়ে সরাসরি চ্যাট খোলা
     window.Tawk_API.onLoad = function(){
-      var hideBubble = function(){
-        var els=document.querySelectorAll('#tawkchat-minified-container, #tawk-bubble-container');
-        els.forEach(function(el){ el.style.setProperty('display','none','important'); });
-      };
-      hideBubble();
-      setInterval(hideBubble, 200); // Tawk বারবার bubble ফিরিয়ে আনে, তাই লুপে লুকানো
-      if(window.Tawk_API.showWidget) window.Tawk_API.showWidget();
+      // লোড হওয়া মাত্র bubble হাইড রেখে শুধু চ্যাট উইন্ডো খোলা
       if(window.Tawk_API.maximize) window.Tawk_API.maximize();
     };
     window.Tawk_API.onChatMinimized = function(){
-      window.Tawk_API.hideWidget();
+      if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget();
     };
-
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
     s1.async=true;
     s1.src='https://embed.tawk.to/6ae2ed85210329348fde7615/default';
@@ -1802,7 +1798,7 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 
   chatBtn.addEventListener('click', loadTawk);
   window.addEventListener('load', placeChatBtn);
-  setTimeout(placeChatBtn, 500);
+  setTimeout(placeChatBtn, 400);
   setTimeout(placeChatBtn, 1200);
 })();
 </script>
