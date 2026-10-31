@@ -1727,23 +1727,15 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
-<script type="text/javascript">
-var Tawk_LoadStart = new Date();
-(function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/6ae2ed85210329348fde7615/default';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-
-<button id="dc-chat-btn"><span class="dc-label">Live<br>Chat</span></button>
+<!-- Tawk.to - Lazy Load - No Flash Ever -->
+<button id="dc-chat-btn" aria-label="Live Chat">
+  <span class="dc-label">Live<br>Chat</span>
+</button>
 
 <style>
 #dc-chat-btn{
-  position:fixed; right:20px; bottom:85px; width:56px; height:56px;
+  position:fixed; right:20px; bottom:85px;
+  width:56px; height:56px;
   z-index:99999; border:none; border-radius:50%;
   background:#1a73e8; color:#fff; cursor:pointer;
   display:flex; align-items:center; justify-content:center; text-align:center;
@@ -1754,36 +1746,48 @@ var Tawk_LoadStart = new Date();
 
 <script>
 (function(){
-  var chatBtn=document.getElementById('dc-chat-btn');
-  var a11y=document.getElementById('dc-a11y-toggle');
+  var chatBtn = document.getElementById('dc-chat-btn');
+  var a11y = document.getElementById('dc-a11y-toggle');
+  var tawkLoaded = false;
+  var Tawk_API = window.Tawk_API || {};
+  window.Tawk_API = Tawk_API;
+
   function placeChatBtn(){
-    if(!a11y) return;
-    var r=a11y.getBoundingClientRect();
-    if(r.width>10){
-      chatBtn.style.width=r.width+'px';
-      chatBtn.style.height=r.height+'px';
-      chatBtn.style.right=(window.innerWidth - r.right)+'px';
-      chatBtn.style.bottom=(window.innerHeight - r.top + 12)+'px';
-      chatBtn.querySelector('.dc-label').style.fontSize=(r.height*0.22)+'px';
+    if(!a11y || !chatBtn) return;
+    var r = a11y.getBoundingClientRect();
+    if(r.width > 10){
+      chatBtn.style.width = r.width + 'px';
+      chatBtn.style.height = r.height + 'px';
+      chatBtn.style.right = (window.innerWidth - r.right) + 'px';
+      chatBtn.style.bottom = (window.innerHeight - r.top + 12) + 'px';
+      chatBtn.querySelector('.dc-label').style.fontSize = (r.height * 0.22) + 'px';
     }
   }
-  chatBtn.addEventListener('click', function(){
-    // anti-flash স্টাইলটা সরিয়ে দাও
-    var anti=document.getElementById('tawk-anti-flash');
-    if(anti) anti.remove();
-    var els=document.querySelectorAll('#tawkchat-container, #tawkchat-minified-container, #tawk-bubble-container, iframe[title*="chat widget"]');
-    els.forEach(function(el){
-      el.style.setProperty('display','block','important');
-      el.style.setProperty('visibility','visible','important');
-      el.style.setProperty('opacity','1','important');
-      el.style.setProperty('pointer-events','auto','important');
-    });
-    if(window.Tawk_API){
-      Tawk_API.customStyle = { visibility : { desktop : { xOffset:15, yOffset:15, position:'br' }, mobile : { xOffset:10, yOffset:10, position:'br' } } };
+
+  function loadTawk(){
+    if(tawkLoaded) {
       if(Tawk_API.showWidget) Tawk_API.showWidget();
-      setTimeout(function(){ if(Tawk_API.maximize) Tawk_API.maximize(); },150);
+      if(Tawk_API.maximize) Tawk_API.maximize();
+      return;
     }
-  });
+    tawkLoaded = true;
+    Tawk_API.onLoad = function(){
+      Tawk_API.showWidget();
+      Tawk_API.maximize();
+    };
+    Tawk_API.onChatMinimized = function(){
+      Tawk_API.hideWidget();
+    };
+    var s1 = document.createElement("script");
+    var s0 = document.getElementsByTagName("script")[0];
+    s1.async = true;
+    s1.src = 'https://embed.tawk.to/6ae2ed85210329348fde7615/default';
+    s1.charset = 'UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1, s0);
+  }
+
+  chatBtn.addEventListener('click', loadTawk);
   window.addEventListener('load', placeChatBtn);
   setTimeout(placeChatBtn, 500);
   setTimeout(placeChatBtn, 1200);
