@@ -1727,15 +1727,20 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
-<!-- Tawk.to - Lazy Load - No Flash Ever -->
-<button id="dc-chat-btn" aria-label="Live Chat">
-  <span class="dc-label">Live<br>Chat</span>
-</button>
+<!-- Tawk.to - Lazy Load - Bubble Never Shows -->
+<style id="tawk-hide-bubble">
+  /* সবুজ bubble টা কখনোই দেখাবে না */
+  #tawkchat-minified-container, #tawk-bubble-container, 
+  div#tawkchat-container iframe[title*="chat widget"]:not([title*="chat window"]) {
+    display: none !important;
+  }
+</style>
+
+<button id="dc-chat-btn"><span class="dc-label">Live<br>Chat</span></button>
 
 <style>
 #dc-chat-btn{
-  position:fixed; right:20px; bottom:85px;
-  width:56px; height:56px;
+  position:fixed; right:20px; bottom:85px; width:56px; height:56px;
   z-index:99999; border:none; border-radius:50%;
   background:#1a73e8; color:#fff; cursor:pointer;
   display:flex; align-items:center; justify-content:center; text-align:center;
@@ -1746,45 +1751,53 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 
 <script>
 (function(){
-  var chatBtn = document.getElementById('dc-chat-btn');
-  var a11y = document.getElementById('dc-a11y-toggle');
-  var tawkLoaded = false;
-  var Tawk_API = window.Tawk_API || {};
-  window.Tawk_API = Tawk_API;
+  var chatBtn=document.getElementById('dc-chat-btn');
+  var a11y=document.getElementById('dc-a11y-toggle');
+  var tawkLoaded=false;
 
   function placeChatBtn(){
-    if(!a11y || !chatBtn) return;
-    var r = a11y.getBoundingClientRect();
-    if(r.width > 10){
-      chatBtn.style.width = r.width + 'px';
-      chatBtn.style.height = r.height + 'px';
-      chatBtn.style.right = (window.innerWidth - r.right) + 'px';
-      chatBtn.style.bottom = (window.innerHeight - r.top + 12) + 'px';
-      chatBtn.querySelector('.dc-label').style.fontSize = (r.height * 0.22) + 'px';
+    if(!a11y) return;
+    var r=a11y.getBoundingClientRect();
+    if(r.width>10){
+      chatBtn.style.width=r.width+'px';
+      chatBtn.style.height=r.height+'px';
+      chatBtn.style.right=(window.innerWidth - r.right)+'px';
+      chatBtn.style.bottom=(window.innerHeight - r.top + 12)+'px';
+      chatBtn.querySelector('.dc-label').style.fontSize=(r.height*0.22)+'px';
     }
   }
 
   function loadTawk(){
-    if(tawkLoaded) {
-      if(Tawk_API.showWidget) Tawk_API.showWidget();
-      if(Tawk_API.maximize) Tawk_API.maximize();
+    if(tawkLoaded){
+      if(window.Tawk_API && Tawk_API.maximize){
+        Tawk_API.showWidget();
+        Tawk_API.maximize();
+      }
       return;
     }
-    tawkLoaded = true;
-    Tawk_API.onLoad = function(){
-      Tawk_API.showWidget();
-      Tawk_API.maximize();
+    tawkLoaded=true;
+    window.Tawk_API = window.Tawk_API || {};
+    // লোড হওয়া মাত্রই bubble লুকিয়ে সরাসরি চ্যাট খোলা
+    window.Tawk_API.onLoad = function(){
+      var hideBubble = function(){
+        var els=document.querySelectorAll('#tawkchat-minified-container, #tawk-bubble-container');
+        els.forEach(function(el){ el.style.setProperty('display','none','important'); });
+      };
+      hideBubble();
+      setInterval(hideBubble, 200); // Tawk বারবার bubble ফিরিয়ে আনে, তাই লুপে লুকানো
+      if(window.Tawk_API.showWidget) window.Tawk_API.showWidget();
+      if(window.Tawk_API.maximize) window.Tawk_API.maximize();
     };
-    Tawk_API.onChatMinimized = function(){
-      Tawk_API.hideWidget();
+    window.Tawk_API.onChatMinimized = function(){
+      window.Tawk_API.hideWidget();
     };
-    var s1 = document.createElement("script");
-    var s0 = document.getElementsByTagName("script")[0];
-    s1.async = true;
-    s1.src = 'https://embed.tawk.to/6ae2ed85210329348fde7615/default';
-    s1.charset = 'UTF-8';
+
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6ae2ed85210329348fde7615/default';
+    s1.charset='UTF-8';
     s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1, s0);
+    s0.parentNode.insertBefore(s1,s0);
   }
 
   chatBtn.addEventListener('click', loadTawk);
