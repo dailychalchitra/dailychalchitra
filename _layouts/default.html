@@ -1727,34 +1727,8 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
-<!-- Tawk.to - Final No-Flash Custom Button -->
 <script type="text/javascript">
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-Tawk_API.onLoad = function(){ Tawk_API.hideWidget(); };
-Tawk_API.onChatMinimized = function(){ Tawk_API.hideWidget(); };
-
-// ১. Tawk যেই মাত্র DOM এ আসবে, সাথে সাথে লুকিয়ে ফেলা - ফ্ল্যাশ হবে না
-(function(){
-  var observer = new MutationObserver(function(mutations){
-    mutations.forEach(function(m){
-      m.addedNodes.forEach(function(node){
-        if(node.id && node.id.indexOf('tawk') !== -1){
-          node.style.setProperty('display','none','important');
-          node.style.setProperty('visibility','hidden','important');
-          node.style.setProperty('opacity','0','important');
-        }
-      });
-    });
-    var tawkEls = document.querySelectorAll('[id*="tawk"], [class*="tawk"]');
-    tawkEls.forEach(function(el){
-      if(el.id !== 'dc-chat-btn'){
-        el.style.setProperty('display','none','important');
-      }
-    });
-  });
-  observer.observe(document.body, {childList:true, subtree:true});
-})();
-
+var Tawk_LoadStart = new Date();
 (function(){
   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
   s1.async=true;
@@ -1765,20 +1739,14 @@ Tawk_API.onChatMinimized = function(){ Tawk_API.hideWidget(); };
 })();
 </script>
 
-<button id="dc-chat-btn" aria-label="Live Chat">
-  <span class="dc-label">Live<br>Chat</span>
-</button>
+<button id="dc-chat-btn"><span class="dc-label">Live<br>Chat</span></button>
 
 <style>
 #dc-chat-btn{
-  position:fixed; right:20px; bottom:85px;
-  width:56px; height:56px;
-  z-index:99999;
-  border:none; border-radius:50%;
-  background:#1a73e8; color:#fff;
-  cursor:pointer; display:flex;
-  align-items:center; justify-content:center;
-  text-align:center;
+  position:fixed; right:20px; bottom:85px; width:56px; height:56px;
+  z-index:99999; border:none; border-radius:50%;
+  background:#1a73e8; color:#fff; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; text-align:center;
   box-shadow:0 2px 8px rgba(0,0,0,0.3);
 }
 #dc-chat-btn .dc-label{ font-size:11px; font-weight:700; line-height:1.05; }
@@ -1789,31 +1757,35 @@ Tawk_API.onChatMinimized = function(){ Tawk_API.hideWidget(); };
   var chatBtn=document.getElementById('dc-chat-btn');
   var a11y=document.getElementById('dc-a11y-toggle');
   function placeChatBtn(){
-    if(!a11y || !chatBtn) return;
+    if(!a11y) return;
     var r=a11y.getBoundingClientRect();
     if(r.width>10){
       chatBtn.style.width=r.width+'px';
       chatBtn.style.height=r.height+'px';
       chatBtn.style.right=(window.innerWidth - r.right)+'px';
       chatBtn.style.bottom=(window.innerHeight - r.top + 12)+'px';
-      var label=chatBtn.querySelector('.dc-label');
-      if(label) label.style.fontSize=(r.height*0.22)+'px';
+      chatBtn.querySelector('.dc-label').style.fontSize=(r.height*0.22)+'px';
     }
   }
   chatBtn.addEventListener('click', function(){
-    var els=document.querySelectorAll('#tawkchat-container, #tawkchat-minified-container, #tawk-bubble-container');
+    // anti-flash স্টাইলটা সরিয়ে দাও
+    var anti=document.getElementById('tawk-anti-flash');
+    if(anti) anti.remove();
+    var els=document.querySelectorAll('#tawkchat-container, #tawkchat-minified-container, #tawk-bubble-container, iframe[title*="chat widget"]');
     els.forEach(function(el){
       el.style.setProperty('display','block','important');
       el.style.setProperty('visibility','visible','important');
       el.style.setProperty('opacity','1','important');
+      el.style.setProperty('pointer-events','auto','important');
     });
     if(window.Tawk_API){
+      Tawk_API.customStyle = { visibility : { desktop : { xOffset:15, yOffset:15, position:'br' }, mobile : { xOffset:10, yOffset:10, position:'br' } } };
       if(Tawk_API.showWidget) Tawk_API.showWidget();
-      setTimeout(function(){ if(Tawk_API.maximize) Tawk_API.maximize(); },100);
+      setTimeout(function(){ if(Tawk_API.maximize) Tawk_API.maximize(); },150);
     }
   });
   window.addEventListener('load', placeChatBtn);
-  setTimeout(placeChatBtn, 400);
+  setTimeout(placeChatBtn, 500);
   setTimeout(placeChatBtn, 1200);
 })();
 </script>
