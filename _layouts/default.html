@@ -1727,46 +1727,105 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 </script>
 
 
+<!-- Tawk.to - Final Fix (No Flash + Button Always Visible) -->
+<script type="text/javascript">
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+Tawk_API.onLoad = function(){ Tawk_API.hideWidget(); };
+Tawk_API.onChatMinimized = function(){ Tawk_API.hideWidget(); };
+(function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/6ae2ed85210329348fde7615/default';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+
+<button id="dc-chat-btn" aria-label="Live Chat" title="Live Chat">
+  <span class="dc-label">Live<br>Chat</span>
+</button>
+
+<style>
+/* শুধু Tawk এর ডিফল্ট UI হাইড - আপনার বাটন হাইড হবে না */
+div#tawkchat-container,
+div#tawk-bubble-container {
+  display: none !important;
+}
+
+#dc-chat-btn{
+  position:fixed;
+  right:20px;
+  bottom:85px;
+  width:56px;
+  height:56px;
+  z-index:99998;
+  border:none;
+  border-radius:50%;
+  background:#1a73e8;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+  line-height:1.1;
+}
+#dc-chat-btn .dc-label{
+  font-size:11px;
+  font-weight:700;
+  line-height:1.05;
+}
+</style>
+
 <script>
-(function () {
+(function(){
   var chatBtn = document.getElementById('dc-chat-btn');
   var a11y = document.getElementById('dc-a11y-toggle');
-  var label = chatBtn.querySelector('.dc-label');
-
-  function placeChatBtn() {
-    if (!a11y || !chatBtn) return;
-    var r = a11y.getBoundingClientRect();
-    if (!r.width) return;
-    chatBtn.style.width = r.width + 'px';
-    chatBtn.style.height = r.height + 'px';
-    chatBtn.style.left = r.left + 'px';
-    chatBtn.style.bottom = (window.innerHeight - r.top + 10) + 'px';
-    if(label) label.style.fontSize = (r.height * 0.22) + 'px';
+  
+  function placeChatBtn(){
+    if(!chatBtn) return;
+    // লাল বাটন থাকলে তার সাইজ কপি করো
+    if(a11y){
+      var r = a11y.getBoundingClientRect();
+      if(r.width > 10){
+        chatBtn.style.width = r.width + 'px';
+        chatBtn.style.height = r.height + 'px';
+        chatBtn.style.right = (window.innerWidth - r.right) + 'px';
+        chatBtn.style.bottom = (window.innerHeight - r.top + 12) + 'px';
+        var label = chatBtn.querySelector('.dc-label');
+        if(label) label.style.fontSize = (r.height * 0.22) + 'px';
+      }
+    }
+    // সব অবস্থায় দেখা যাবে
     chatBtn.style.visibility = 'visible';
+    chatBtn.style.display = 'flex';
   }
 
-  function showTawkContainer(){
-    var els = document.querySelectorAll('#tawkchat-container, #tawk-bubble-container, .tawk-min-container, iframe[title*="chat widget"]');
-    els.forEach(function(el){
-      el.style.setProperty('display','block','important');
-      el.style.setProperty('visibility','visible','important');
-      el.style.setProperty('opacity','1','important');
-    });
-  }
-
-  chatBtn.addEventListener('click', function () {
-    showTawkContainer();
-    if (window.Tawk_API) {
+  chatBtn.addEventListener('click', function(){
+    // ফ্ল্যাশ-ফিক্স CSS সরিয়ে দাও
+    var tawk = document.getElementById('tawkchat-container');
+    if(tawk){
+      tawk.style.setProperty('display','block','important');
+      tawk.style.setProperty('visibility','visible','important');
+      tawk.style.setProperty('opacity','1','important');
+    }
+    var bubble = document.getElementById('tawk-bubble-container');
+    if(bubble){
+      bubble.style.setProperty('display','block','important');
+    }
+    if(window.Tawk_API){
       if(Tawk_API.showWidget) Tawk_API.showWidget();
-      setTimeout(function(){
-        if(Tawk_API.maximize) Tawk_API.maximize();
-      }, 100);
+      setTimeout(function(){ if(Tawk_API.maximize) Tawk_API.maximize(); }, 150);
     }
   });
 
+  // ৩ বার চেষ্টা করবে যাতে লাল বাটন মিস না হয়
   window.addEventListener('load', placeChatBtn);
-  window.addEventListener('resize', placeChatBtn);
   setTimeout(placeChatBtn, 500);
+  setTimeout(placeChatBtn, 1500);
+  placeChatBtn();
 })();
 </script>
   
