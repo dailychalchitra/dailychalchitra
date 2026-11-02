@@ -13,7 +13,7 @@ tags:
     - ছড়া কবিতা
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: "/assets/img/shamim-nimu-16.webp"
+image: "assets/img/shamim-nimu-13.webp"
 description: "স্বচ্ছ একটি আয়না ছিল, দেখতাম তাতে মুখ- আয়না ভাঙার গল্প নিয়ে লেখা রহস্যময় ছড়া কবিতা 'তৃতীয় প্রতিবিম্ব'।"
 excerpt: "স্বচ্ছ একটি আয়না ছিল, দেখতাম তাতে মুখ, সকাল-দুপুর-সন্ধ্যে-রাতে জড়িয়ে থাকত সুখ।"
 permalink: /chora-kobita/tritiyo-protibimbo/
