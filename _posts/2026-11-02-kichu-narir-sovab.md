@@ -12,7 +12,7 @@ tags:
     - ছড়া কবিতা
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
-image: "/assets/img/shamim-nimu-16.webp"
+image: "/assets/img/shamim-nimu-18.webp"
 description: "নারীর সংসার নারীরাই ভাঙে পুরুষরাই তবু এর দায়ী - শামীম নিমুর ছড়া কবিতা কিছু নারীর স্বভাব।"
 excerpt: "নারীর সংসার নারীরাই ভাঙে পুরুষরাই তবু এর দায়ী, এই স্বভাবের নারীদের সংখ্যা হাজারো সংসারে দেখি।"
 permalink: /chora-kobita/kichu-narir-sovab/
