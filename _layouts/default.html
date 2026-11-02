@@ -1726,7 +1726,6 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 })();
 </script>
 
-
 <!-- Tawk.to - Final Custom Design + Zero Flash -->
 <button id="dc-chat-btn" aria-label="Live chat" title="Live chat">
   <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -1756,54 +1755,87 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 
 <script>
 (function(){
-  var chatBtn=document.getElementById('dc-chat-btn');
-  var a11y=document.getElementById('dc-a11y-toggle');
-  var tawkLoaded=false;
-  var blocker=false;
+  var chatBtn = document.getElementById('dc-chat-btn');
+  var a11y = document.getElementById('dc-a11y-toggle');
+  var tawkLoaded = false;
+  var blockTimer = null;
 
-  // প্রথম ক্লিকের ১ সেকেন্ডের সবুজ ফ্ল্যাশ ব্লক
+  /* Tawk-এর ডিফল্ট বাবল লুকানোর CSS - লুপ ছাড়া, শুধু একটা স্টাইল ট্যাগ */
+  var hideStyle = document.createElement('style');
+  hideStyle.id = 'dc-tawk-hide-style';
+  hideStyle.textContent =
+    '#tawkchat-minified-container, #tawk-bubble-container, div[id^="tawkchat-minified"]{display:none !important;}';
+
   function blockBubble(){
-    if(!blocker) return;
-    document.querySelectorAll('#tawkchat-minified-container, #tawk-bubble-container, div[id^="tawkchat-minified"]')
-      .forEach(function(el){
-        el.style.setProperty('display','none','important');
-      });
-    requestAnimationFrame(blockBubble);
+    if(!document.getElementById('dc-tawk-hide-style')) document.head.appendChild(hideStyle);
+    clearTimeout(blockTimer);
+    /* সর্বোচ্চ ৮ সেকেন্ড পর নিজে থেকেই ব্লক বন্ধ - আটকে থাকার ঝুঁকি নেই */
+    blockTimer = setTimeout(unblockBubble, 8000);
   }
-  new MutationObserver(blockBubble).observe(document.documentElement,{childList:true,subtree:true});
+  function unblockBubble(){
+    clearTimeout(blockTimer);
+    var el = document.getElementById('dc-tawk-hide-style');
+    if(el) el.remove();
+  }
 
   function placeChatBtn(){
-    if(!a11y) return;
-    var r=a11y.getBoundingClientRect();
-    if(r.width>10){
-      chatBtn.style.width=r.width+'px';
-      chatBtn.style.height=r.height+'px';
-      chatBtn.style.right=(window.innerWidth - r.right)+'px';
-      chatBtn.style.bottom=(window.innerHeight - r.top + 12)+'px';
+    if(!a11y || !chatBtn) return;
+    var r = a11y.getBoundingClientRect();
+    if(r.width > 10){
+      chatBtn.style.width = r.width + 'px';
+      chatBtn.style.height = r.height + 'px';
+      chatBtn.style.right = (window.innerWidth - r.right) + 'px';
+      chatBtn.style.bottom = (window.innerHeight - r.top + 12) + 'px';
+    }
+  }
+
+  function openChat(){
+    var api = window.Tawk_API;
+    if(api){
+      if(api.showWidget) api.showWidget();
+      if(api.maximize) api.maximize();
     }
   }
 
   function loadTawk(){
     if(tawkLoaded){
-      if(window.Tawk_API && window.Tawk_API.maximize) window.Tawk_API.maximize();
+      openChat();
       return;
     }
-    tawkLoaded=true; blocker=true; blockBubble();
-    window.Tawk_API=window.Tawk_API||{};
-    window.Tawk_API.onLoad=function(){ if(window.Tawk_API.maximize) window.Tawk_API.maximize(); };
-    window.Tawk_API.onChatMinimized=function(){ blocker=false; if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget(); };
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true; s1.src='https://embed.tawk.to/6ae2ed85210329348fde7615/default';
-    s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
+    tawkLoaded = true;
+    blockBubble();
+
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_LoadStart = new Date();
+
+    window.Tawk_API.onLoad = function(){
+      openChat();
+      /* চ্যাট খুলে যাওয়ার ১ সেকেন্ড পর ব্লক তুলে নেওয়া */
+      setTimeout(unblockBubble, 1000);
+    };
+    window.Tawk_API.onChatMinimized = function(){
+      if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget();
+    };
+    window.Tawk_API.onChatEnded = function(){
+      if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget();
+    };
+
+    var s1 = document.createElement('script'), s0 = document.getElementsByTagName('script')[0];
+    s1.async = true;
+    s1.src = 'https://embed.tawk.to/6ae2ed85210329348fde7615/default';
+    s1.charset = 'UTF-8';
+    s1.setAttribute('crossorigin', '*');
+    s0.parentNode.insertBefore(s1, s0);
   }
 
   chatBtn.addEventListener('click', loadTawk);
   window.addEventListener('load', placeChatBtn);
+  window.addEventListener('resize', placeChatBtn);
+  window.addEventListener('orientationchange', function(){ setTimeout(placeChatBtn, 300); });
   setTimeout(placeChatBtn, 400);
   setTimeout(placeChatBtn, 1200);
 })();
 </script>
-  
+
 </body>
 </html>
