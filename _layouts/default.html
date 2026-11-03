@@ -1758,24 +1758,29 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
   var chatBtn = document.getElementById('dc-chat-btn');
   var a11y = document.getElementById('dc-a11y-toggle');
   var tawkLoaded = false;
-  var blockTimer = null;
+  var failSafeTimer = null;
 
-  /* Tawk-এর ডিফল্ট বাবল লুকানোর CSS - লুপ ছাড়া, শুধু একটা স্টাইল ট্যাগ */
-  var hideStyle = document.createElement('style');
-  hideStyle.id = 'dc-tawk-hide-style';
-  hideStyle.textContent =
-    '#tawkchat-minified-container, #tawk-bubble-container, div[id^="tawkchat-minified"]{display:none !important;}';
+  /* Tawk-এর সবকিছু অদৃশ্য রাখার স্টাইল (opacity দিয়ে, যাতে ভেতরের কাজ ব্যাহত না হয়) */
+  var HIDE_CSS =
+    'div[id^="tawkchat"], div[id^="tawk-"], iframe[title="chat widget"], iframe[src*="tawk.to"]{' +
+    'opacity:0 !important; pointer-events:none !important;}';
 
-  function blockBubble(){
-    if(!document.getElementById('dc-tawk-hide-style')) document.head.appendChild(hideStyle);
-    clearTimeout(blockTimer);
-    /* সর্বোচ্চ ৮ সেকেন্ড পর নিজে থেকেই ব্লক বন্ধ - আটকে থাকার ঝুঁকি নেই */
-    blockTimer = setTimeout(unblockBubble, 8000);
+  function blockTawk(){
+    if(!document.getElementById('dc-tawk-hide-style')){
+      var st = document.createElement('style');
+      st.id = 'dc-tawk-hide-style';
+      st.textContent = HIDE_CSS;
+      document.head.appendChild(st);
+    }
+    /* নিরাপত্তা: কোনো কারণে চ্যাট না খুললে ১০ সেকেন্ড পর ব্লক তুলে নেওয়া */
+    clearTimeout(failSafeTimer);
+    failSafeTimer = setTimeout(unblockTawk, 10000);
   }
-  function unblockBubble(){
-    clearTimeout(blockTimer);
-    var el = document.getElementById('dc-tawk-hide-style');
-    if(el) el.remove();
+
+  function unblockTawk(){
+    clearTimeout(failSafeTimer);
+    var st = document.getElementById('dc-tawk-hide-style');
+    if(st) st.remove();
   }
 
   function placeChatBtn(){
@@ -1791,32 +1796,44 @@ body.dc-high-contrast img, body.dc-high-contrast video{ filter:invert(1) hue-rot
 
   function openChat(){
     var api = window.Tawk_API;
-    if(api){
-      if(api.showWidget) api.showWidget();
-      if(api.maximize) api.maximize();
-    }
+    if(!api) return;
+    blockTawk();                       /* আগে লুকাও, তারপর খোলো */
+    if(api.showWidget) api.showWidget();
+    if(api.maximize) api.maximize();
+    /* যদি আগে থেকেই খোলা থাকে (ইভেন্ট না এলে) */
+    setTimeout(function(){
+      if(api.isChatMaximized && api.isChatMaximized()) unblockTawk();
+    }, 1200);
   }
 
   function loadTawk(){
-    if(tawkLoaded){
-      openChat();
-      return;
-    }
+    if(tawkLoaded){ openChat(); return; }
     tawkLoaded = true;
-    blockBubble();
+    blockTawk();                       /* স্ক্রিপ্ট লোডের আগেই সবকিছু লুকানো */
 
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
 
     window.Tawk_API.onLoad = function(){
-      openChat();
-      /* চ্যাট খুলে যাওয়ার ১ সেকেন্ড পর ব্লক তুলে নেওয়া */
-      setTimeout(unblockBubble, 1000);
+      var api = window.Tawk_API;
+      if(api.maximize) api.maximize();
+      setTimeout(function(){
+        if(api.isChatMaximized && api.isChatMaximized()) unblockTawk();
+      }, 1500);
     };
+
+    /* চ্যাট উইন্ডো সত্যিই খুলে গেলে তবেই দৃশ্যমান করা */
+    window.Tawk_API.onChatMaximized = function(){
+      setTimeout(unblockTawk, 150);
+    };
+
+    /* মিনিমাইজ বা শেষ হলে সঙ্গে সঙ্গে আবার লুকানো */
     window.Tawk_API.onChatMinimized = function(){
+      blockTawk();
       if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget();
     };
     window.Tawk_API.onChatEnded = function(){
+      blockTawk();
       if(window.Tawk_API.hideWidget) window.Tawk_API.hideWidget();
     };
 
