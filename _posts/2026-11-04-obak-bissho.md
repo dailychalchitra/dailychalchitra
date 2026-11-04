@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "অবাক বিশ্ব"
-date: 2026-11-04 00:10:00 +0400
+date: 2026-11-04 12:10:00 +0400
 categories:
     - kobita
 category_bn:
