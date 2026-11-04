@@ -23,7 +23,7 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ অক্টোবর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র (dailychalchitra.com)</strong> ব্যবহার করার আগে দয়া করে এই ডিসক্লেইমার পাতাটি মনোযোগ সহকারে পড়ুন। এই ওয়েবসাইট ব্যবহার করার অর্থ আপনি নিচের শর্তগুলো মেনে নিচ্ছেন।</p>
@@ -35,7 +35,7 @@ redirect_from:
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
       <li style="margin-bottom: 6px !important;">আমরা দৈনিক চালচিত্রে প্রকাশিত তথ্যের যথার্থতা, সম্পূর্ণতা ও সময়োপযোগীতা নিশ্চিত করতে যথাসাধ্য চেষ্টা করি।</li>
       <li style="margin-bottom: 6px !important;">তবে কোনো তথ্য, উপাত্ত বা বিবৃতির সম্পূর্ণ নির্ভুলতা, নির্ভরযোগ্যতা বা উপযুক্ততা সম্পর্কে আমরা কোনো প্রকার সরাসরি বা পরোক্ষ নিশ্চয়তা প্রদান করি না।</li>
-      <li style="margin-bottom: 6px !important;">এই ওয়েবসাইটে প্রাপ্ত যেকোনো তথ্যের উপর নির্ভর করে নেওয়া সিদ্ধান্ত সম্পূর্ণভাবে পাঠকের নিজস্ব ঝুঁকিতে নেওয়া হবে।</li>
+      <li style="margin-bottom: 6px !important;">এই ওয়েবসাইটে প্রাপ্ত যেকোনো তথ্যের উপর ভিত্তি করে নেওয়া সিদ্ধান্ত সম্পূর্ণভাবে পাঠকের নিজস্ব ঝুঁকিতে নেওয়া হবে।</li>
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৩. মতামত ও লেখকের দায়</h2>
@@ -45,13 +45,13 @@ redirect_from:
     <p style="margin-bottom: 16px !important; text-align: left !important;">দৈনিক চালচিত্র ওয়েবসাইটে অন্যান্য তৃতীয়-পক্ষের ওয়েবসাইটের লিংক থাকতে পারে, যেগুলো আমাদের মালিকানাধীন বা নিয়ন্ত্রণাধীন নয়। এই ধরনের বহিঃস্থ ওয়েবসাইটের কনটেন্ট, গোপনীয়তা নীতি বা যেকোনো কার্যক্রমের জন্য আমরা কোনো দায় বহন করি না। পাঠকদের নিজ দায়িত্বে সেসব সাইটের শর্তাবলী ও গোপনীয়তা নীতি পর্যালোচনা করার পরামর্শ দেওয়া হচ্ছে।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৫. বিজ্ঞাপন</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">দৈনিক চালচিত্র তার পরিচালন ব্যয় নির্বাহের জন্য Google AdSense-সহ বিভিন্ন বিজ্ঞাপনী নেটওয়ার্কের মাধ্যমে বিজ্ঞাপন প্রদর্শন করে থাকে। এই বিজ্ঞাপনগুলো তৃতীয়-পক্ষের বিজ্ঞাপনদাতা কর্তৃক সরবরাহ করা হয় এবং এর কনটেন্ট বা পণ্য/সেবার মান সম্পর্কে দৈনিক চালচিত্র কোনো নিশ্চয়তা প্রদান করে না। কোনো বিজ্ঞাপনে ক্লিক করার মাধ্যমে কৃত যেকোনো লেনদেন বা সিদ্ধান্তের জন্য সংশ্লিষ্ট বিজ্ঞাপনদাতা দায়ী থাকবে, দৈনিক চালচিত্র নয়। বিজ্ঞাপন সম্পর্কিত আরও তথ্যের জন্য আমাদের <a href="/privacy-policy/" style="color: #2563eb !important; text-decoration: underline !important;">গোপনীয়তা নীতি</a> দেখুন।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">সাইটে কোনো বিজ্ঞাপন প্রদর্শিত হলে তা তৃতীয় পক্ষের বিজ্ঞাপনদাতা কর্তৃক সরবরাহ করা হতে পারে। এই বিজ্ঞাপনের কনটেন্ট বা পণ্য/সেবার মান সম্পর্কে দৈনিক চালচিত্র কোনো নিশ্চয়তা প্রদান করে না। কোনো বিজ্ঞাপনে ক্লিক করার মাধ্যমে কৃত যেকোনো লেনদেন বা সিদ্ধান্তের জন্য সংশ্লিষ্ট বিজ্ঞাপনদাতা দায়ী থাকবে, দৈনিক চালচিত্র নয়। বিজ্ঞাপন সম্পর্কিত আরও তথ্যের জন্য আমাদের <a href="/privacy-policy/" style="color: #2563eb !important; text-decoration: underline !important;">গোপনীয়তা নীতি</a> দেখুন।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৬. ছবি ও কপিরাইট</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">এই সাইটে ব্যবহৃত ছবি, লোগো ও গ্রাফিক্স যথাসম্ভব বৈধ উৎস থেকে সংগ্রহ করা বা নিজস্বভাবে তৈরি। কোনো কপিরাইট লঙ্ঘনের বিষয়টি অনিচ্ছাকৃতভাবে ঘটে থাকলে, সংশ্লিষ্ট স্বত্বাধিকারী আমাদের সাথে যোগাযোগ করলে আমরা দ্রুততম সময়ে তা অপসারণ বা সংশোধন করব।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">এই সাইটে ব্যবহৃত ছবি, লোগো ও গ্রাফিক্স লেখক, অবদানকারী বা সংশ্লিষ্ট উৎসের অনুমতিক্রমে ব্যবহৃত, অথবা দৈনিক চালচিত্র কর্তৃক নিজস্বভাবে তৈরি। কোনো কপিরাইট লঙ্ঘনের বিষয়টি অনিচ্ছাকৃতভাবে ঘটে থাকলে, সংশ্লিষ্ট স্বত্বাধিকারী আমাদের সাথে যোগাযোগ করলে আমরা দ্রুততম সময়ে তা অপসারণ বা সংশোধন করব।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৭. ত্রুটি ও পরিবর্তনের অধিকার</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">দৈনিক চালচিত্র কর্তৃপক্ষ যেকোনো সময়, পূর্ব নোটিশ ছাড়াই, এই ওয়েবসাইটের কনটেন্ট, এই ডিসক্লেইমার বা অন্য যেকোনো নীতিমালা পরিবর্তন, সংশোধন বা হালনাগাদ করার অধিকার সংরক্ষণ করে। প্রকাশের পর কোনো লেখায় তথ্যগত ত্রুটি ধরা পড়লে তা সংশোধনের চেষ্টা করা হবে, তবে প্রকাশের মুহূর্ত পর্যন্ত কনটেন্টের যথার্থতার জন্য দায়বদ্ধতা সীমিত।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">দৈনিক চালচিত্র কর্তৃপক্ষ এই ওয়েবসাইটের কনটেন্ট, এই ডিসক্লেইমার বা অন্য যেকোনো নীতিমালা পরিবর্তন, সংশোধন বা হালনাগাদ করার অধিকার সংরক্ষণ করে। পরিবর্তন হলে সাইটে নতুন সংস্করণ প্রকাশ করা হবে এবং "সর্বশেষ আপডেট" তারিখ বদলানো হবে। প্রকাশের পর কোনো লেখায় তথ্যগত ত্রুটি ধরা পড়লে তা সংশোধনের চেষ্টা করা হবে, তবে প্রকাশের মুহূর্ত পর্যন্ত কনটেন্টের যথার্থতার জন্য দায়বদ্ধতা সীমিত।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৮. দায়-সীমাবদ্ধতা</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">কোনো অবস্থাতেই দৈনিক চালচিত্র, এর সম্পাদক, লেখক বা অবদানকারীরা এই ওয়েবসাইট ব্যবহারের ফলে উদ্ভূত কোনো প্রত্যক্ষ, পরোক্ষ, আকস্মিক বা পরিণামমূলক ক্ষতির জন্য দায়ী থাকবে না।</p>
@@ -61,7 +61,7 @@ redirect_from:
     <h3 style="font-size: 16px !important; font-weight: bold !important; margin-bottom: 10px !important; text-align: left !important;">যোগাযোগ করুন</h3>
     <p style="margin-bottom: 16px !important; text-align: left !important;">এই ডিসক্লেইমার সম্পর্কে আপনার কোনো প্রশ্ন বা পরামর্শ থাকলে আমাদের সাথে যোগাযোগ করুন:<br>
     <strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a><br>
-    <strong>ওয়েবসাইট:</strong> <a href="https://www.dailychalchitra.com" target="_blank" style="color: #2563eb !important; text-decoration: underline !important;">https://www.dailychalchitra.com</a></p>
+    <strong>ওয়েবসাইট:</strong> <a href="https://www.dailychalchitra.com" target="_blank" rel="noopener" style="color: #2563eb !important; text-decoration: underline !important;">https://www.dailychalchitra.com</a></p>
 
     <p style="margin-top: 20px !important; text-align: left !important;"><a href="/" style="color: #2563eb !important; text-decoration: none !important;">← হোমে ফিরে যান</a></p>
 
