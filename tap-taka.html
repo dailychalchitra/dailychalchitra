@@ -9,8 +9,6 @@ sitemap: false
 <title>Tap Taka Pro - Fun Game</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- SAFE ADSENSE CODE - Replace with your AdSense ID after approval -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <style>
 body{font-family:'Hind Siliguri',sans-serif;background:#0a0a0a;color:#fff}
 .gold{color:#FFD700}
@@ -20,6 +18,7 @@ body{font-family:'Hind Siliguri',sans-serif;background:#0a0a0a;color:#fff}
 </style>
 </head>
 <body class="max-w-[420px] mx-auto min-h-screen p-4">
+
 <div class="flex justify-between items-center mb-4">
 <div>
 <h1 class="text-2xl font-bold">🎮 <span class="gold">Tap Taka Fun</span></h1>
@@ -38,24 +37,8 @@ body{font-family:'Hind Siliguri',sans-serif;background:#0a0a0a;color:#fff}
 
 <button id="tapBtn" class="tap-btn w-full gold-bg font-bold text-xl py-6 rounded-2xl mb-4">TAP TO PLAY</button>
 
-<!-- SAFE AD UNIT - Non-incentivized -->
-<div class="card p-3 mb-4 text-center">
-<h3 class="text-sm font-bold mb-2">📢 Advertisement</h3>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-     data-ad-slot="XXXXXXXXXX"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-<p class="text-[9px] text-gray-600 mt-2">Ads help us keep the game free</p>
-</div>
-
-<div class="card p-3 mb-4">
-<h3 class="text-sm font-bold mb-2">🎁 Daily Bonus</h3>
-<p class="text-xs text-gray-400 mb-2">Watch ad for bonus points (Optional)</p>
-<button onclick="watchBonusAd()" class="w-full bg-white text-black px-5 py-3 rounded-full text-sm font-bold">WATCH BONUS AD +50 POINTS</button>
-</div>
+<!-- ভবিষ্যৎ বিজ্ঞাপনের জায়গা (AdSense অনুমোদনের পর) -->
+<div id="ad-placeholder" class="mb-4"></div>
 
 <div class="card p-3">
 <p class="text-[9px] text-gray-500 text-center">⚠️ Disclaimer: This is a fun game only. Points have no real monetary value. No real money can be earned or withdrawn. This game is for entertainment purposes only.</p>
@@ -65,10 +48,6 @@ body{font-family:'Hind Siliguri',sans-serif;background:#0a0a0a;color:#fff}
 let coins = parseInt(localStorage.getItem('tt_coins_safe')||'0');
 function save(){ localStorage.setItem('tt_coins_safe', coins); document.getElementById('coinDisplay').textContent=coins; }
 document.getElementById('tapBtn').addEventListener('click',()=>{ coins+=1; save(); if(navigator.vibrate) navigator.vibrate(30); });
-function watchBonusAd(){
-  alert('Bonus Ad loading... (Real App এ AdMob Rewarded Ad বসবে)');
-  setTimeout(()=>{ coins+=50; save(); alert('Bonus +50 Points!'); }, 3000);
-}
 save();
 </script>
 </body>
