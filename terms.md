@@ -23,7 +23,7 @@ redirect_from:
     </div>
     
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ অক্টোবর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong> ব্যবহারের শর্তাবলী ও নীতিমালা। এই ওয়েবসাইট ব্যবহার করার অর্থ আপনি নিচের শর্তগুলো মেনে নিচ্ছেন।</p>
@@ -44,9 +44,12 @@ redirect_from:
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৩. লেখা জমা দেওয়ার নিয়ম</h2>
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
-      <li style="margin-bottom: 6px !important;">আপনার পাঠানো লেখা মৌলিক ও অপ্রকাশিত হতে হবে।</li>
-      <li style="margin-bottom: 6px !important;">লেখা সম্পাদনা, পরিমার্জন বা প্রকাশ না করার সম্পূর্ণ অধিকার সম্পাদক রাখেন।</li>
-      <li style="margin-bottom: 6px !important;">প্রকাশিত লেখার জন্য আমরা সাধারণত সম্মানী দিই না, যদি না আগে থেকে চুক্তি থাকে।</li>
+      <li style="margin-bottom: 8px !important;"><strong>মৌলিক লেখা:</strong> আপনার পাঠানো লেখা অবশ্যই মৌলিক ও অপ্রকাশিত হতে হবে। AI ভিত্তিক লেখা ব্যতীত আপনার মৌলিক কবিতা, গল্প, উপন্যাস, প্রবন্ধ, ফিচার বা সাহিত্য সমালোচনা গ্রহণযোগ্য।</li>
+      <li style="margin-bottom: 8px !important;"><strong>ইমেইলের বিষয়:</strong> লেখা পাঠানোর সময় ইমেইলের সাবজেক্টে অবশ্যই <em>"লেখা জমা: আপনার লেখাটির বিভাগ ও শিরোনাম"</em> লিখুন।</li>
+      <li style="margin-bottom: 8px !important;"><strong>প্রয়োজনীয় তথ্য:</strong> লেখার শিরোনামের নিচে আপনার পূর্ণ নাম, সংক্ষিপ্ত লেখক বা সাহিত্যিক পরিচিতি, লেখক প্রোফাইলের জন্য এক কপি ছবি, প্রচ্ছদের জন্য এক কপি ছবি এবং একটি সচল যোগাযোগ নম্বর সংযুক্ত করে দিন।</li>
+      <li style="margin-bottom: 8px !important;"><strong>সম্পাদনার অধিকার:</strong> লেখা সম্পাদনা, পরিমার্জন বা প্রকাশ না করার সম্পূর্ণ অধিকার সম্পাদক রাখেন।</li>
+      <li style="margin-bottom: 8px !important;"><strong>সম্মানী:</strong> প্রকাশিত লেখার জন্য আমরা সাধারণত সম্মানী দিই না, যদি না আগে থেকে চুক্তি থাকে।</li>
+      <li style="margin-bottom: 8px !important;"><strong>যোগাযোগ:</strong> লেখা পাঠান এই ঠিকানায় — <a href="mailto:nimushamim46@gmail.com?subject=লেখা জমা" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৪. দায়-অস্বীকার</h2>
