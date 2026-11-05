@@ -1033,5 +1033,61 @@ authorBio: {{ site.data.author_bios[page.author] | default: "" | jsonify }}
   });
 });
 </script>
+
+<!-- পোস্ট মন্তব্য বাটন (ফ্লোটিং) -->
+<button id="dc-post-comment-fab" type="button" aria-label="মন্তব্য দেখুন">
+  <i class="fa fa-comment"></i>
+  <span>মন্তব্য</span>
+  <span class="dc-fab-count" id="dc-post-comment-count">0</span>
+</button>
+
+<style>
+#dc-post-comment-fab{
+  position:fixed; left:16px; bottom:16px; z-index:9998;
+  background:#C00000; color:#fff; border:none;
+  border-radius:28px; padding:11px 18px;
+  font-family:'Noto Sans Bengali',sans-serif; font-size:15px; font-weight:700;
+  box-shadow:0 3px 12px rgba(0,0,0,0.35); cursor:pointer;
+  display:flex; align-items:center; gap:8px;
+}
+#dc-post-comment-fab:hover{ background:#8B0000; }
+#dc-post-comment-fab:active{ transform:scale(0.96); }
+#dc-post-comment-fab .dc-fab-count{
+  background:#fff; color:#C00000; border-radius:12px;
+  padding:1px 9px; font-size:13px; min-width:22px; text-align:center;
+}
+@media print{ #dc-post-comment-fab{ display:none !important; } }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var fab = document.getElementById('dc-post-comment-fab');
+  if (!fab) return;
+
+  var countEl = document.getElementById('dc-comment-count');
+  var badge = document.getElementById('dc-post-comment-count');
+
+  function syncCount() {
+    if (countEl && badge) badge.textContent = countEl.textContent || '0';
+  }
+  if (countEl) {
+    new MutationObserver(syncCount).observe(countEl, {
+      childList: true, characterData: true, subtree: true
+    });
+  }
+  syncCount();
+
+  fab.addEventListener('click', function () {
+    var section = document.getElementById('dc-comment-section');
+    if (!section) return;
+    section.classList.add('dc-open');
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () {
+      var input = document.getElementById('dc-comment-input');
+      if (input) input.focus();
+    }, 400);
+  });
+});
+</script>
   
 </article>
