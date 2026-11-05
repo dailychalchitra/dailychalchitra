@@ -10,7 +10,6 @@ tags:
     - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
-    - প্রতিবাদী কবিতা
     - দৈনিক চালচিত্র
 author: "শামীম নিমু"
 image: "/assets/img/Pro-kobita.jpg"
@@ -20,6 +19,7 @@ permalink: "/kobita/2026/06/30/kobir-ahoban/"
 redirect_from:
     - "/কবিতা/2026/06/30/kobir-ahoban/"
     - "/search/label/কবিতা"
+    - /tag/kobita/
 ---
 
 <div style="text-align:center; line-height:2.1; font-size:1.18em;">
