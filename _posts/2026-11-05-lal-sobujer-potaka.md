@@ -17,7 +17,7 @@ description: "সবুজের মাঝে লাল বৃত্ত - লা
 excerpt: "সবুজের মাঝে লাল বৃত্ত হলো পতাকার - ভালোবাসি দেশ"
 permalink: /kobita/lal-sobujer-potaka/
 redirect_from:
-    - /tag/kobita/
+    - /kobita/2026/11/05/lal-sobujer-potaka/
 ---
 
 সবুজ ঘাসের বুকে তাজা রক্তের স্তূপ
