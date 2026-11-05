@@ -22,33 +22,33 @@ redirect_from:
     - /tag/kobita/
 ---
 
-<div style="text-align:center; line-height:2.1; font-size:1.18em;">
+<div style="text-align:center; line-height:1.55; font-size:1.18em;">
 
 কবি তোমার &nbsp; বন্ধ ঘরের<br>
 দুয়ার খোল,<br>
 সবি মোদের &nbsp; অন্ধ পথের<br>
 চুয়াড় ভাঙ্গ।<br>
-<div style="height:8px;"></div>
+<div style="height:18px;"></div>
 লেখ বিদ্রোহ &nbsp; ধরো অস্ত্র<br>
 মার শয়তান;<br>
 গড় সীমান্ত &nbsp; দেখ সূর্য,<br>
 বড় উদীয়মান।<br>
-<div style="height:8px;"></div>
+<div style="height:18px;"></div>
 ছাড় তোষণ &nbsp; জ্বাল অভী<br>
 সত্যের কুপি;<br>
 ঝাড় ক্ষেপণ &nbsp; ভুলো ক্ষতি<br>
 মিথ্যের যতি।<br>
-<div style="height:8px;"></div>
+<div style="height:18px;"></div>
 পড় ইতিহাস &nbsp; স্মর কাজী-<br>
 নজরুল রবি;<br>
 ছেঁড় নিরাশ &nbsp; নাড় গতি-<br>
 শার্দূল বাহাদুরি।<br>
-<div style="height:8px;"></div>
+<div style="height:18px;"></div>
 অহং হিংসা &nbsp; যত নিগূঢ়<br>
 রাগ অভিমান,<br>
 স্বয়ং বিনাশ &nbsp; অপ অসুর<br>
 ভাগ সমমান।<br>
-<div style="height:8px;"></div>
+<div style="height:18px;"></div>
 এসো ফিরি &nbsp; শত বৎসর-<br>
 পূর্বের সম্পর্কে,<br>
 ওঠো গিরি &nbsp; নত চমৎকার<br>
