@@ -16,7 +16,8 @@ author: "রানু রহমান"
 image: "/assets/img/ranu-rahman-06.webp"
 description: "রানু রহমানের গদ্য কবিতা অনুভূতিহীন ভালোবাসার শূন্য এক পৃথিবী - বিমূর্ত রাত্রি, সমুদ্র আর শূন্যতার কাব্য।"
 excerpt: "বিমূর্ত রাত্রি তুমি আমাকে সঙ্গে নেবে? অনুভূতিহীন ভালোবাসার শূন্য এক পৃথিবী।"
-permalink: [STRIPPED 68 bytes]:
+permalink: /goddo-kobita/onubhutihin-valobasar-shunno-ek-prithibi/
+redirect_from:
     - /goddo-kobita/2026/11/06/onubhutihin-valobasar-shunno-ek-prithibi/
     - /tag/kobita/
     - /search/label/কবিতা
