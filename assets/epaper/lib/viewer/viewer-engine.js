@@ -479,24 +479,24 @@ window.DCViewer = {
             .dcp-col{ box-sizing:border-box !important; padding:0 14px; overflow:hidden; }
             .dcp-col:not(:first-child){ border-left:1px solid #ececec; }
 
-            .dcp-cover{ width:100%; height:150px; object-fit:cover; border-radius:8px; display:block; }
+            .dcp-cover{ width:100%; height:auto; aspect-ratio:4 / 3; object-fit:cover; border-radius:8px; display:block; }
 
             /* সোলো (মোট ১-কলাম নথি) - সরু, কেন্দ্রীভূত, বড় ফন্ট */
             .dcp-col-solo{ font-size:22px !important; line-height:1.8 !important; border-left:none !important; text-align:justify; }
             .dcp-col-solo .dcp-content{ font-size:22px !important; line-height:1.8 !important; text-align:justify; }
             .dcp-col-solo .dcp-art-start h2{ font-size:25px !important; }
             .dcp-col-solo .dcp-kobita{ margin-bottom:10px !important; }
-            .dcp-col-solo .dcp-cover{ width:100%; height:300px; object-fit:cover; object-position:center 20%; }
+            .dcp-col-solo .dcp-cover{ width:100%; height:auto; aspect-ratio:16 / 9; object-fit:cover; object-position:center 20%; }
 
             .dcp-col-duo{ font-size:19px !important; line-height:1.7 !important; text-align:justify; }
             .dcp-col-duo .dcp-content{ font-size:19px !important; line-height:1.7 !important; text-align:justify; }
             .dcp-col-duo .dcp-art-start h2{ font-size:20px !important; }
-            .dcp-col-duo .dcp-cover{ width:100%; height:210px; object-fit:cover; object-position:center 20%; }
+            .dcp-col-duo .dcp-cover{ width:100%; height:auto; aspect-ratio:4 / 3; object-fit:cover; object-position:center 20%; }
 
             .dcp-col-tri{ font-size:18px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-content{ font-size:18px !important; line-height:1.6 !important; }
             .dcp-col-tri .dcp-art-start h2{ font-size:18px !important; }
-            .dcp-col-tri .dcp-cover{ height:175px !important; object-position:center 20%; }
+            .dcp-col-tri .dcp-cover{ width:100%; height:auto !important; aspect-ratio:4 / 3; object-fit:cover; object-position:center 20%; }
 
             .dcp-art-start{
               border:none; border-top:4px solid #C00000; border-radius:4px 4px 10px 10px;
