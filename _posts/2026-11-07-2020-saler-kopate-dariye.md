@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "2020 সালের কপাটে দাঁড়িয়ে"
-date: 2026-11-06 01:46:00 +0400
+date: 2026-11-07 01:46:00 +0400
 categories:
     - goddo-kobita
 category_bn:
