@@ -176,7 +176,7 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       { waitUntil: 'load' }
     );
     await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: outFile, type: 'jpeg', quality: 88 });
+    await page.screenshot({ path: outFile, type: 'jpeg', quality: 70 });
     await page.close();
 
     console.log('তৈরি:', outFile);
