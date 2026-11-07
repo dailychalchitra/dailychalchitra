@@ -16,7 +16,11 @@
 {% else %}
   {% assign dc_page_title = page.title | default: "দৈনিক চালচিত্র" %}
 {% endif %}
-{% if page.image %}
+{% if page.og_image %}
+  {% assign dc_page_image = page.og_image | absolute_url %}
+{% elsif page.layout == "post" %}
+  {% assign dc_page_image = "/assets/og/" | append: page.name | remove: ".md" | remove: ".html" | append: ".jpg" | absolute_url %}
+{% elsif page.image %}
   {% assign dc_page_image = page.image | absolute_url %}
 {% else %}
   {% assign dc_page_image = "/assets/img/daily-chalchitra.webp" | absolute_url %}
@@ -26,6 +30,8 @@
 <meta property="og:title" content="{{ dc_page_title }}">
 <meta property="og:description" content="{{ dc_page_desc }}">
 <meta property="og:image" content="{{ dc_page_image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
 <meta property="og:url" content="{{ page.url | absolute_url | replace: ' ', '%20' }}">
 <meta property="og:site_name" content="দৈনিক চালচিত্র">
 
