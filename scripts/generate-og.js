@@ -75,6 +75,7 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       height: 64px;
       width: auto;
       display: block;
+      filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 6px rgba(0,0,0,.9)) drop-shadow(0 2px 6px rgba(0,0,0,.8));
     }
 
     .box {
