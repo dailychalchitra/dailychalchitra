@@ -69,6 +69,9 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       top: 36px;
       left: 60px;
       line-height: 0;
+      padding: 6px;
+      background: rgba(255,255,255,.85);
+      border-radius: 8px;
     }
 
     .brand img {
