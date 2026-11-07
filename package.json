@@ -1,0 +1,9 @@
+{
+  "name": "dailychalchitra-tools",
+  "private": true,
+  "dependencies": {
+    "@fontsource/noto-sans-bengali": "^5.0.0",
+    "gray-matter": "^4.0.3",
+    "puppeteer": "^23.0.0"
+  }
+}
