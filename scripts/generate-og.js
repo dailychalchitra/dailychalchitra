@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer');
 
 const FONT_DIR = 'node_modules/@fontsource/noto-sans-bengali/files';
 const OUT_DIR = 'assets/og';
+const LOGO_PATH = 'assets/img/logo-og.png';
 const WIDTH = 1200;
 const HEIGHT = 675;
 
@@ -21,7 +22,7 @@ function mimeOf(file) {
   return 'image/webp';
 }
 
-function template({ bg, category, title, author, f400, f700 }) {
+function template({ bg, category, title, author, f400, f700, logoB64 }) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
     @font-face{font-family:BN;font-weight:400;src:url(data:font/woff2;base64,${f400}) format('woff2');}
     @font-face{font-family:BN;font-weight:700;src:url(data:font/woff2;base64,${f700}) format('woff2');}
@@ -29,8 +30,9 @@ function template({ bg, category, title, author, f400, f700 }) {
     body{width:${WIDTH}px;height:${HEIGHT}px;position:relative;overflow:hidden;font-family:BN,sans-serif;background:#000}
     .bg{position:absolute;inset:0;background:url('${bg}') center/cover no-repeat}
     .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.88) 100%)}
-    .brand{position:absolute;top:36px;left:60px;background:rgba(255,255,255,.95);color:#C00000;
-           font-weight:700;font-size:28px;padding:10px 18px;border-radius:8px}
+    .brand{position:absolute;top:36px;left:60px;background:rgba(255,255,255,.95);
+           padding:8px 14px;border-radius:8px;line-height:0}
+    .brand img{height:64px;width:auto;display:block}
     .box{position:absolute;left:60px;right:60px;bottom:56px;color:#fff}
     .cat{display:inline-block;background:#C00000;color:#fff;font-weight:700;font-size:26px;
          padding:6px 18px;border-radius:6px;margin-bottom:18px}
@@ -39,7 +41,7 @@ function template({ bg, category, title, author, f400, f700 }) {
     .author{font-size:30px;color:#f1c40f}
   </style></head><body>
     <div class="bg"></div><div class="shade"></div>
-    <div class="brand">দৈনিক চালচিত্র</div>
+    <div class="brand"><img src="data:image/png;base64,${logoB64}" alt="দৈনিক চালচিত্র"></div>
     <div class="box">
       <span class="cat">${esc(category)}</span>
       <div class="title">${esc(title)}</div>
@@ -51,6 +53,7 @@ function template({ bg, category, title, author, f400, f700 }) {
 (async () => {
   const f400 = b64(path.join(FONT_DIR, 'noto-sans-bengali-bengali-400-normal.woff2'));
   const f700 = b64(path.join(FONT_DIR, 'noto-sans-bengali-bengali-700-normal.woff2'));
+  const logoB64 = fs.existsSync(LOGO_PATH) ? b64(LOGO_PATH) : '';
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
@@ -75,7 +78,7 @@ function template({ bg, category, title, author, f400, f700 }) {
     const page = await browser.newPage();
     await page.setViewport({ width: WIDTH, height: HEIGHT });
     await page.setContent(
-      template({ bg, category, title: data.title, author: data.author, f400, f700 }),
+      template({ bg, category, title: data.title, author: data.author, f400, f700, logoB64 }),
       { waitUntil: 'load' }
     );
     await page.evaluate(() => document.fonts.ready);
