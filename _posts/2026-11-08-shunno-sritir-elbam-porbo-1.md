@@ -179,4 +179,4 @@ redirect_from:
 ইমন ভাবল ও নীড় হতে পারিনি? কেন এমন হয়? কেন?
 
 ---
-<p style="font-size: 0.8em; color: #888; text-align: left; font-style: italic; margin-top: 15px;">প্রকাশকাল: ০৮-১১-২০২৬ইং।</p>
+<p style="font-size: 0.8em; color: #888; text-align: left; font-style: italic; margin-top: 15px;">রচনাকাল: ১০-০২-২০০৫ইং।</p>
