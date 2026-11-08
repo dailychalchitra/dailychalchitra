@@ -1,31 +1,42 @@
 <section class="dc-ad-wrap" aria-label="বিজ্ঞাপন">
   <a class="dc-ad-card" id="dcAdCard" href="/contact.html">
-    <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="দৈনিক চালচিত্র বিজ্ঞাপন">
-    <div class="dc-ad-text">
-      <span class="dc-ad-title" id="dcAdTitle">দৈনিক চালচিত্র</span>
-      <span class="dc-ad-sub" id="dcAdSub">সবসময় সত্য প্রকাশে অটল</span>
+    <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="">
+    <div class="dc-ad-text" id="dcAdText">
+      <span class="dc-ad-line" id="dcAdLine">দৈনিক চালচিত্র</span>
     </div>
   </a>
 </section>
 
 <script>
 (function () {
-  var ads = [
-    { img: '/assets/img/ad-1.webp', title: 'দৈনিক চালচিত্র', sub: 'সবসময় সত্য প্রকাশে অটল' },
-    { img: '/assets/img/ad-2.webp', title: 'সাহিত্য ও সংবাদ প্রচার মাধ্যম', sub: 'আপনার পছন্দের লেখাটি পাঠান' },
-    { img: '/assets/img/ad-3.webp', title: 'আপনার ব্যবসার বিজ্ঞাপন পাঠান', sub: 'যোগাযোগ করুন →' }
+  var banners = [
+    '/assets/img/ad-1.webp',
+    '/assets/img/ad-2.webp',
+    '/assets/img/ad-3.webp'
+  ];
+  var lines = [
+    { text: 'দৈনিক চালচিত্র',                    cls: 'f1' },
+    { text: 'সবসময় সত্য প্রকাশে অটল',          cls: 'f2' },
+    { text: 'সাহিত্য ও সংবাদ প্রচার মাধ্যম',     cls: 'f3' },
+    { text: 'আপনার পছন্দের লেখাটি পাঠান',        cls: 'f4' },
+    { text: 'আপনার ব্যবসার বিজ্ঞাপন পাঠান',      cls: 'f5' },
+    { text: 'যোগাযোগ করুন',                       cls: 'f6' }
   ];
   var img = document.getElementById('dcAdImg');
-  var title = document.getElementById('dcAdTitle');
-  var sub = document.getElementById('dcAdSub');
-  if (!img) return;
-  var i = 0;
+  var line = document.getElementById('dcAdLine');
+  if (!img || !line) return;
+
+  var b = 0, l = 0;
   setInterval(function () {
-    i = (i + 1) % ads.length;
-    img.src = ads[i].img;
-    title.textContent = ads[i].title;
-    sub.textContent = ads[i].sub;
-  }, 3000);
+    l = (l + 1) % lines.length;
+    line.textContent = lines[l].text;
+    line.className = 'dc-ad-line ' + lines[l].cls;
+
+    if (l === 0) {
+      b = (b + 1) % banners.length;
+      img.src = banners[b];
+    }
+  }, 2000);
 })();
 </script>
 
@@ -33,15 +44,19 @@
 .dc-ad-wrap{width:100%;margin:16px 0;padding:0 8%;box-sizing:border-box;display:flex;justify-content:center}
 .dc-ad-card{position:relative;display:block;width:100%;max-width:715px;height:160px;border-radius:4px;
   overflow:hidden;background:#f5f3ee;text-decoration:none}
-.dc-ad-card img{width:100%;height:100%;object-fit:cover;display:block}
-.dc-ad-text{position:absolute;left:0;bottom:0;width:100%;padding:10px 16px;
-  background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,0));color:#fff;
-  font-family:'Hind Siliguri','Noto Sans Bengali',sans-serif;pointer-events:none}
-.dc-ad-title{display:block;font-size:20px;font-weight:700;line-height:1.3}
-.dc-ad-sub{display:block;font-size:14px;font-weight:500;color:#ffd23f;margin-top:2px}
+.dc-ad-card img{width:100%;height:100%;object-fit:contain;display:block}
+.dc-ad-text{position:absolute;left:0;right:0;bottom:0;padding:10px 16px;text-align:center;
+  background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0));pointer-events:none}
+.dc-ad-line{display:inline-block;font-size:22px;font-weight:700;color:#fff;
+  font-family:'Hind Siliguri',sans-serif}
+.dc-ad-line.f1{font-family:'Noto Serif Bengali',serif;color:#ffd23f}
+.dc-ad-line.f2{font-family:'Hind Siliguri',sans-serif;font-weight:600;color:#fff}
+.dc-ad-line.f3{font-family:'Noto Sans Bengali',sans-serif;font-style:italic;color:#9be7ff}
+.dc-ad-line.f4{font-family:'Hind Siliguri',sans-serif;font-weight:700;color:#ffffff;letter-spacing:.5px}
+.dc-ad-line.f5{font-family:'Noto Serif Bengali',serif;font-weight:900;color:#ff8a8a}
+.dc-ad-line.f6{font-family:'Hind Siliguri',sans-serif;font-weight:700;color:#fff;text-decoration:underline}
 @media (max-width:640px){
   .dc-ad-wrap{padding:0 6%}
-  .dc-ad-title{font-size:16px}
-  .dc-ad-sub{font-size:12px}
+  .dc-ad-line{font-size:17px}
 }
 </style>
