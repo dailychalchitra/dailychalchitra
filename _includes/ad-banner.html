@@ -1,8 +1,8 @@
 <section class="dc-ad-wrap" aria-label="বিজ্ঞাপন">
   <a class="dc-ad-card" id="dcAdCard" href="/contact.html">
-    <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="">
+    <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="" class="dc-ad-show">
     <div class="dc-ad-text" id="dcAdText">
-      <span class="dc-ad-line" id="dcAdLine">দৈনিক চালচিত্র</span>
+      <span class="dc-ad-line" id="dcAdLine"></span>
     </div>
   </a>
 </section>
@@ -22,21 +22,41 @@
     { text: 'আপনার ব্যবসার বিজ্ঞাপন পাঠান',      cls: 'f5' },
     { text: 'যোগাযোগ করুন',                       cls: 'f6' }
   ];
+  var card = document.getElementById('dcAdCard');
   var img = document.getElementById('dcAdImg');
+  var text = document.getElementById('dcAdText');
   var line = document.getElementById('dcAdLine');
-  if (!img || !line) return;
+  if (!card || !img || !line) return;
 
-  var b = 0, l = 0;
-  setInterval(function () {
-    l = (l + 1) % lines.length;
-    line.textContent = lines[l].text;
-    line.className = 'dc-ad-line ' + lines[l].cls;
+  // চক্র: ব্যানার (১ ধাপ) তারপর ৬টি লেখা (৬ ধাপ), মোট ৭ ধাপ
+  var step = 0, banner = 0, bannerCount = banners.length;
+  var STEP_MS = 2000;
 
-    if (l === 0) {
-      b = (b + 1) % banners.length;
-      img.src = banners[b];
+  function show() {
+    var phase = step % 7;
+    if (phase === 0) {
+      // ব্যানার দেখানোর সময়
+      img.src = banners[banner];
+      img.style.display = 'block';
+      text.style.display = 'none';
+      card.classList.add('is-banner');
+      card.classList.remove('is-text');
+      banner = (banner + 1) % bannerCount;
+    } else {
+      // লেখা দেখানোর সময়
+      var L = lines[phase - 1];
+      line.textContent = L.text;
+      line.className = 'dc-ad-line ' + L.cls;
+      img.style.display = 'none';
+      text.style.display = 'flex';
+      card.classList.add('is-text');
+      card.classList.remove('is-banner');
     }
-  }, 2000);
+    step++;
+  }
+
+  show();
+  setInterval(show, STEP_MS);
 })();
 </script>
 
@@ -44,19 +64,18 @@
 .dc-ad-wrap{width:100%;margin:16px 0;padding:0 8%;box-sizing:border-box;display:flex;justify-content:center}
 .dc-ad-card{position:relative;display:block;width:100%;max-width:715px;height:160px;border-radius:4px;
   overflow:hidden;background:#f5f3ee;text-decoration:none}
-.dc-ad-card img{width:100%;height:100%;object-fit:contain;display:block}
-.dc-ad-text{position:absolute;left:0;right:0;bottom:0;padding:10px 16px;text-align:center;
-  background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0));pointer-events:none}
-.dc-ad-line{display:inline-block;font-size:22px;font-weight:700;color:#fff;
-  font-family:'Hind Siliguri',sans-serif}
-.dc-ad-line.f1{font-family:'Noto Serif Bengali',serif;color:#ffd23f}
-.dc-ad-line.f2{font-family:'Hind Siliguri',sans-serif;font-weight:600;color:#fff}
-.dc-ad-line.f3{font-family:'Noto Sans Bengali',sans-serif;font-style:italic;color:#9be7ff}
-.dc-ad-line.f4{font-family:'Hind Siliguri',sans-serif;font-weight:700;color:#ffffff;letter-spacing:.5px}
-.dc-ad-line.f5{font-family:'Noto Serif Bengali',serif;font-weight:900;color:#ff8a8a}
-.dc-ad-line.f6{font-family:'Hind Siliguri',sans-serif;font-weight:700;color:#fff;text-decoration:underline}
+.dc-ad-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.dc-ad-text{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+  padding:12px 20px;text-align:center;background:#f5f3ee}
+.dc-ad-line{display:inline-block;font-size:26px;font-weight:700;color:#0b2e6b;line-height:1.3}
+.dc-ad-line.f1{font-family:'Noto Serif Bengali',serif;color:#c00000}
+.dc-ad-line.f2{font-family:'Hind Siliguri',sans-serif;font-weight:600;color:#0b2e6b}
+.dc-ad-line.f3{font-family:'Noto Sans Bengali',sans-serif;font-style:italic;color:#1b4fa8}
+.dc-ad-line.f4{font-family:'Hind Siliguri',sans-serif;font-weight:700;color:#0b2e6b;letter-spacing:.5px}
+.dc-ad-line.f5{font-family:'Noto Serif Bengali',serif;font-weight:900;color:#c00000}
+.dc-ad-line.f6{font-family:'Hind Siliguri',sans-serif;font-weight:700;color:#0b2e6b;text-decoration:underline}
 @media (max-width:640px){
   .dc-ad-wrap{padding:0 6%}
-  .dc-ad-line{font-size:17px}
+  .dc-ad-line{font-size:20px}
 }
 </style>
