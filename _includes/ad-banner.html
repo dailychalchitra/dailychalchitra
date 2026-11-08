@@ -1,6 +1,6 @@
 <section class="dc-ad-wrap" aria-label="বিজ্ঞাপন">
   <a class="dc-ad-card" id="dcAdCard" href="/contact.html">
-    <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="" class="dc-ad-show">
+    <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="বিজ্ঞাপন">
     <div class="dc-ad-text" id="dcAdText">
       <span class="dc-ad-line" id="dcAdLine"></span>
     </div>
@@ -28,35 +28,36 @@
   var line = document.getElementById('dcAdLine');
   if (!card || !img || !line) return;
 
-  // চক্র: ব্যানার (১ ধাপ) তারপর ৬টি লেখা (৬ ধাপ), মোট ৭ ধাপ
-  var step = 0, banner = 0, bannerCount = banners.length;
+  // প্রতি চক্র: ব্যানার (১ ধাপ) + লেখা (৬ ধাপ) = ৭ ধাপ
+  var step = 0, bannerIdx = 0;
   var STEP_MS = 2000;
 
-  function show() {
+  function showBanner() {
+    img.style.display = 'block';
+    text.style.display = 'none';
+  }
+
+  function showText(L) {
+    img.style.display = 'none';
+    text.style.display = 'flex';
+    line.textContent = L.text;
+    line.className = 'dc-ad-line ' + L.cls;
+  }
+
+  function tick() {
     var phase = step % 7;
     if (phase === 0) {
-      // ব্যানার দেখানোর সময়
-      img.src = banners[banner];
-      img.style.display = 'block';
-      text.style.display = 'none';
-      card.classList.add('is-banner');
-      card.classList.remove('is-text');
-      banner = (banner + 1) % bannerCount;
+      showBanner();
+      img.src = banners[bannerIdx];
+      bannerIdx = (bannerIdx + 1) % banners.length;
     } else {
-      // লেখা দেখানোর সময়
-      var L = lines[phase - 1];
-      line.textContent = L.text;
-      line.className = 'dc-ad-line ' + L.cls;
-      img.style.display = 'none';
-      text.style.display = 'flex';
-      card.classList.add('is-text');
-      card.classList.remove('is-banner');
+      showText(lines[phase - 1]);
     }
     step++;
   }
 
-  show();
-  setInterval(show, STEP_MS);
+  tick();
+  setInterval(tick, STEP_MS);
 })();
 </script>
 
