@@ -3,20 +3,22 @@ layout: post
 title: "মেঘনাদবধ-[১ম সর্গ]"
 date: 2026-07-12 11:55:00 +0400
 categories:
-    - mohakabya
+    - mohakabbo
 category_bn:
     - মহাকাব্য
 tags:
+    - সাহিত্য বিভাগ
     - সাহিত্য
     - কবিতা
     - পদ্য কবিতা
-    - সাহিত্যি বিভাগ
-    - মাইকেল মধুসূদন দত্ত
     - দৈনিক চালচিত্র
 author: "মাইকেল মধুসূদন দত্ত"
 image: "/assets/img/michael-madhusudan.webp"
-permalink: "/mohakabya/2026/07/12/meghnadbad-1st-sorgo/"
+description: "মাইকেল মধুসূদন দত্তের মহাকাব্য মেঘনাদবধ কাব্যের প্রথম সর্গ।"
+excerpt: "মেঘনাদবধ কাব্যের প্রথম সর্গ - মাইকেল মধুসূদন দত্ত।"
+permalink: "/mohakabbo/2026/07/12/meghnadbad-1st-sorgo/"
 redirect_from:
+    - "/mohakabya/2026/07/12/meghnadbad-1st-sorgo/"
     - "/মহাকাব্য/2026/07/12/meghnadbad-1st-sorgo/"
 ---
 
