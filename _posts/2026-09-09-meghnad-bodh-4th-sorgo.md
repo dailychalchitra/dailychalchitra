@@ -19,7 +19,6 @@ excerpt: "মেঘনাদবধ ৪র্থ সর্গ - মাইকে�
 permalink: "/mohakabbo/2026/09/09/meghnad-bodh-4th-sorgo/"
 redirect_from:
     - "/mohakabbo/2026/09/09/meghnad-bodh/"
-    - "/search/label/মহাকাব্য"
 ---
 
 নমি আমি, কবি-গুরু, তব পদাম্বুজে,
