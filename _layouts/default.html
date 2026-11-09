@@ -41,6 +41,8 @@
 <meta name="twitter:description" content="{{ dc_page_desc }}">
 <meta name="twitter:image" content="{{ dc_page_image }}">
 <meta name="description" content="{{ dc_page_desc }}">
+
+{% if page.robots %}<meta name="robots" content="{{ page.robots }}">{% endif %}
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
