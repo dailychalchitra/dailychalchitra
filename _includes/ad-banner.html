@@ -1,5 +1,6 @@
 <section class="dc-ad-wrap" aria-label="বিজ্ঞাপন">
   <a class="dc-ad-card" id="dcAdCard" href="/contact.html">
+    <div class="dc-ad-doodles" id="dcAdDoodles" aria-hidden="true"></div>
     <img id="dcAdImg" src="/assets/img/ad-1.webp" alt="বিজ্ঞাপন">
     <div class="dc-ad-text" id="dcAdText">
       <span class="dc-ad-line" id="dcAdLine"></span>
@@ -22,24 +23,50 @@
     { text: 'আপনার ব্যবসার বিজ্ঞাপন পাঠান',      cls: 'f5' },
     { text: 'যোগাযোগ করুন',                       cls: 'f6' }
   ];
+
+  // ছোট SVG আইকন (ফুল, পাখি, বই, পেনসিল, ফল)
+  var icons = [
+    '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><circle cx="12" cy="16" r="3"/><circle cx="12" cy="12" r="2"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M3 10 Q12 2 21 10 Q12 14 3 10Z"/><path d="M9 12 L9 20 M15 12 L15 20" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+    '<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 6 Q14 3 17 4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M4 4 H11 V20 H4Z"/><path d="M13 4 H20 V20 H13Z"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M4 20 L16 8 L19 11 L7 23 Z"/><path d="M15 6 L18 9" stroke="currentColor" stroke-width="1.5"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M12 3 C18 3 20 10 12 21 C4 10 6 3 12 3Z"/></svg>'
+  ];
+
   var card = document.getElementById('dcAdCard');
   var img = document.getElementById('dcAdImg');
   var text = document.getElementById('dcAdText');
   var line = document.getElementById('dcAdLine');
-  if (!card || !img || !line) return;
+  var doodles = document.getElementById('dcAdDoodles');
+  if (!card || !img || !line || !doodles) return;
 
-  // প্রতি চক্র: ব্যানার (১ ধাপ) + লেখা (৬ ধাপ) = ৭ ধাপ
+  // এলোমেলো ব্যাকগ্রাউন্ড আইকন তৈরি
+  var html = '';
+  for (var n = 0; n < 22; n++) {
+    var x = Math.round(Math.random() * 100);
+    var y = Math.round(Math.random() * 100);
+    var s = 18 + Math.round(Math.random() * 22);
+    var r = Math.round(Math.random() * 360);
+    html += '<span class="dc-ad-icon" style="left:' + x + '%;top:' + y +
+      '%;width:' + s + 'px;height:' + s + 'px;transform:rotate(' + r + 'deg)">' +
+      icons[n % icons.length] + '</span>';
+  }
+  doodles.innerHTML = html;
+
   var step = 0, bannerIdx = 0;
   var STEP_MS = 2000;
 
   function showBanner() {
     img.style.display = 'block';
     text.style.display = 'none';
+    doodles.style.display = 'none';
   }
 
   function showText(L) {
     img.style.display = 'none';
     text.style.display = 'flex';
+    doodles.style.display = 'block';
     line.textContent = L.text;
     line.className = 'dc-ad-line ' + L.cls;
   }
@@ -65,10 +92,13 @@
 .dc-ad-wrap{width:100%;margin:16px 0;padding:0 8%;box-sizing:border-box;display:flex;justify-content:center}
 .dc-ad-card{position:relative;display:block;width:100%;max-width:715px;aspect-ratio:16/9;border-radius:4px;
   overflow:hidden;background:#f5f3ee;text-decoration:none}
+.dc-ad-doodles{position:absolute;inset:0;display:none;pointer-events:none}
+.dc-ad-icon{position:absolute;color:#9a9a9a;opacity:.22}
+.dc-ad-icon svg{width:100%;height:100%;fill:currentColor;stroke:currentColor}
 .dc-ad-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .dc-ad-text{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
-  padding:12px 20px;text-align:center;background:#f5f3ee}
-.dc-ad-line{display:inline-block;font-size:26px;font-weight:700;color:#0b2e6b;line-height:1.3}
+  padding:12px 20px;text-align:center;background:transparent}
+.dc-ad-line{position:relative;display:inline-block;font-size:26px;font-weight:700;color:#0b2e6b;line-height:1.3}
 .dc-ad-line.f1{font-family:'Noto Serif Bengali',serif;color:#c00000}
 .dc-ad-line.f2{font-family:'Hind Siliguri',sans-serif;font-weight:600;color:#0b2e6b}
 .dc-ad-line.f3{font-family:'Noto Sans Bengali',sans-serif;font-style:italic;color:#1b4fa8}
@@ -78,6 +108,5 @@
 @media (max-width:640px){
   .dc-ad-wrap{padding:0 6%}
   .dc-ad-line{font-size:20px}
-  .dc-ad-card{max-width:100%}
 }
 </style>
