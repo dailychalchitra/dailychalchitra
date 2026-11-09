@@ -3,7 +3,7 @@ layout: post
 title: "মেঘনাদবধ-[২য় সর্গ-০২]"
 date: 2026-07-23 11:33:00 +0400
 categories:
-    - mahakabya
+    - mohakabbo
 category_bn:
     - মহাকাব্য
 tags:
@@ -13,6 +13,7 @@ tags:
     - দৈনিক চালচিত্র
 author: "মাইকেল মধুসূদন দত্ত"
 image: "/assets/img/michael-madhusudan.webp"
+description: "মাইকেল মধুসূদন দত্তের মহাকাব্য মেঘনাদবধ কাব্যের দ্বিতীয় সর্গ - পর্ব ০২।"
 permalink: "/mahakabya/2026/07/23/meghnadbodh-2yo-sorgo-02/"
 redirect_from:
     - "/মহাকাব্য/2026/07/23/meghnadbodh-2yo-sorgo-02/"
