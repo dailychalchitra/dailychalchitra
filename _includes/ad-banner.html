@@ -63,7 +63,7 @@
 
 <style>
 .dc-ad-wrap{width:100%;margin:16px 0;padding:0 8%;box-sizing:border-box;display:flex;justify-content:center}
-.dc-ad-card{position:relative;display:block;width:100%;max-width:715px;height:160px;border-radius:4px;
+.dc-ad-card{position:relative;display:block;width:100%;max-width:715px;aspect-ratio:16/9;border-radius:4px;
   overflow:hidden;background:#f5f3ee;text-decoration:none}
 .dc-ad-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .dc-ad-text{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
@@ -78,5 +78,6 @@
 @media (max-width:640px){
   .dc-ad-wrap{padding:0 6%}
   .dc-ad-line{font-size:20px}
+  .dc-ad-card{max-width:100%}
 }
 </style>
