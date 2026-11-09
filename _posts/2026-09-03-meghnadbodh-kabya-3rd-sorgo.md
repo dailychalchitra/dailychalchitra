@@ -3,7 +3,7 @@ layout: post
 title: "মেঘনাদবধ কাব্য - ৩য় সর্গ"
 date: 2026-09-03 19:22:00 +0400
 categories:
-    - mahakabya
+    - mohakabbo
 category_bn:
     - মহাকাব্য
 tags:
@@ -14,13 +14,12 @@ tags:
     - দৈনিক চালচিত্র
 author: "মাইকেল মধুসূদন দত্ত"
 image: "/assets/img/michael-madhusudan-dutt.webp"
-description: "মাইকেল মধুসূদন দত্তের অমর মহাকাব্য মেঘনাদবধ কাব্যের ৩য় সর্গ - বাংলা সাহিত্যের প্রথম সার্থক মহাকাব্য।"
+description: "মাইকেল মধুসূদন দত্তের মহাকাব্য মেঘনাদবধ কাব্যের ৩য় সর্গ - বাংলা সাহিত্যের প্রথম সার্থক মহাকাব্য।"
 excerpt: "মাইকেল মধুসূদন দত্তের মেঘনাদবধ কাব্য ৩য় সর্গ - দৈনিক চালচিত্র।"
 permalink: "/mahakabya/2026/09/03/meghnadbodh-kabya-3rd-sorgo/"
 redirect_from:
     - "/mahakabya/2026/09/03/meghnadbodh-3rd-sorgo/"
     - "/মহাকাব্য/2026/09/03/meghnadbodh-kabya-3rd-sorgo/"
-    - "/search/label/মহাকাব্য"
 ---
 
 প্রমোদ-উদ্যানে কাঁদে দানব-নন্দিনী
