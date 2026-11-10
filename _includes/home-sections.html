@@ -265,6 +265,7 @@
     </section>
 
                     <!-- কবিতা আবৃত্তি -->
+{% unless include.show_video == false %}
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title dc-pa-yt-title">
             <a href="{{ '/tag/kobita-abritti/' | relative_url }}" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
@@ -301,6 +302,7 @@
             {% endfor %}
         </div>
     </section>
+{% endunless %}
 
     <!-- ছবি — প্রকৃতির ছবি গ্রিড -->
     <section class="dc-pa-section">
@@ -562,6 +564,7 @@
     </script>
 
     <!-- ভিডিও -->
+{% unless include.show_video == false %}
     <section class="dc-pa-section">
         <h3 class="dc-pa-section-title dc-pa-yt-title">
             <a href="{{ '/tag/video/' | relative_url }}" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
@@ -598,6 +601,7 @@
             {% endfor %}
         </div>
     </section>
+{% endunless %}
 
     <!-- 6. ক্যাটাগরি সেকশন - ধাপ ২ -->
 
