@@ -56,81 +56,110 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       background: #000;
     }
 
+    /* ডান পাশে পুরো ছবি দেখাবে */
     .bg {
       position: absolute;
       inset: 0;
       background: url('${bg}') center/cover no-repeat;
     }
 
-    .shade {
+    /* বাম পাশের সাদা প্যানেল, ডান কিনারা তির্যক */
+    .panel {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 20%, rgba(0,0,0,.88) 100%);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 640px;
+      background: #fdfbf7;
+      clip-path: polygon(0 0, 100% 0, 84% 100%, 0 100%);
+    }
+
+    /* উপরের লাল ফিতা */
+    .top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 700px;
+      height: 16px;
+      background: #C00000;
+      clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+    }
+
+    /* নিচের লাল ফিতা */
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 14px;
+      background: #C00000;
     }
 
     .brand {
       position: absolute;
-      top: 36px;
-      left: 60px;
+      top: 44px;
+      left: 50px;
       line-height: 0;
     }
 
     .brand img {
-      height: 64px;
+      height: 70px;
       width: auto;
       display: block;
-      filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff);
-    }
-
-    .box {
-      position: absolute;
-      left: 60px;
-      right: 60px;
-      bottom: 56px;
-      color: #fff;
     }
 
     .cat {
-      display: inline-block;
-      background: #C00000;
-      color: #fff;
+      position: absolute;
+      top: 170px;
+      left: 50px;
+      color: #C00000;
+      font-size: 30px;
       font-weight: 700;
-      font-size: 26px;
-      padding: 6px 18px;
-      border-radius: 6px;
-      margin-bottom: 18px;
+      border-left: 6px solid #C00000;
+      padding-left: 12px;
+      line-height: 1.2;
     }
 
     .title {
-      font-size: 58px;
+      position: absolute;
+      top: 225px;
+      left: 50px;
+      width: 530px;
+      font-size: 50px;
       font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 16px;
+      line-height: 1.35;
+      color: #111;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
     .author {
-      font-size: 30px;
-      color: #f1c40f;
+      position: absolute;
+      bottom: 62px;
+      left: 50px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      border-bottom: 3px solid #C00000;
+      padding-bottom: 4px;
     }
   </style>
 </head>
 <body>
   <div class="bg"></div>
-  <div class="shade"></div>
+  <div class="panel"></div>
+  <div class="top-bar"></div>
+  <div class="bottom-bar"></div>
 
   <div class="brand">
     <img src="data:image/png;base64,${logoB64}" alt="দৈনিক চালচিত্র">
   </div>
 
-  <div class="box">
-    <span class="cat">${esc(category)}</span>
-    <div class="title">${esc(title)}</div>
-    ${author ? `<div class="author">লেখক: ${esc(author)}</div>` : ''}
-  </div>
+  <div class="cat">${esc(category)}</div>
+  <div class="title">${esc(title)}</div>
+  ${author ? `<div class="author">লেখক: ${esc(author)}</div>` : ''}
 </body>
 </html>`;
 }
