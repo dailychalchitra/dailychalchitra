@@ -101,6 +101,16 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       background: #C00000;
     }
 
+    /* হালকা ধূসর ফুল: শিরোনাম ও লেখকের মাঝে */
+    .flower {
+      position: absolute;
+      left: 60px;
+      top: 470px;
+      width: 90px;
+      height: 120px;
+      opacity: 0.4;
+    }
+
     .brand {
       position: absolute;
       top: 44px;
@@ -146,7 +156,7 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       overflow: hidden;
     }
 
-    /* লেখকের নাম: নতুন রং (গাঢ় নীল) */
+    /* লেখকের নাম: গাঢ় নীল */
     .author {
       position: absolute;
       bottom: 62px;
@@ -164,6 +174,21 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
   <div class="panel"></div>
   <div class="top-bar"></div>
   <div class="bottom-bar"></div>
+
+  <svg class="flower" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#b5b5b5" stroke-width="1.6" stroke-linecap="round">
+      <!-- পাপড়ি -->
+      <path d="M60 40 C40 20 30 50 45 62 C25 60 22 85 40 88 C30 105 55 112 62 98 C72 112 96 104 84 88 C102 84 98 60 78 62 C92 50 80 20 60 40 Z" fill="#dcdcdc" fill-opacity="0.35"/>
+      <path d="M60 40 C52 55 52 70 60 88"/>
+      <path d="M60 40 C68 55 68 70 60 88"/>
+      <!-- কেন্দ্র -->
+      <circle cx="60" cy="72" r="5" fill="#c4c4c4" stroke="none"/>
+      <!-- কাণ্ড -->
+      <path d="M60 98 C62 120 58 140 60 158"/>
+      <!-- পাতা -->
+      <path d="M61 130 C75 118 88 116 96 124 C86 136 72 138 61 130 Z" fill="#dcdcdc" fill-opacity="0.35"/>
+    </g>
+  </svg>
 
   <div class="brand">
     <img src="data:image/png;base64,${logoB64}" alt="দৈনিক চালচিত্র">
