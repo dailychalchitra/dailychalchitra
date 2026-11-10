@@ -10,6 +10,9 @@ const DEFAULT_BG = '/assets/img/daily-chalchitra.webp';
 const WIDTH = 1200;
 const HEIGHT = 675;
 
+// ছবিটি ডানদিকে কতটুকু সরবে (px)। বড় করলে ছবি আরও ডানে যাবে।
+const BG_SHIFT = 200;
+
 // একটি ১×১ স্বচ্ছ GIF, ছবি না থাকলে ব্যবহৃত হবে
 const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
@@ -56,10 +59,13 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       background: #000;
     }
 
-    /* ডান পাশে পুরো ছবি দেখাবে */
+    /* ছবি ডানদিকে সরানো হয়েছে; ডান পাশ কাটা যাবে, মুখ মাঝখানে থাকবে */
     .bg {
       position: absolute;
-      inset: 0;
+      top: 0;
+      bottom: 0;
+      left: ${BG_SHIFT}px;
+      width: ${WIDTH}px;
       background: url('${bg}') center/cover no-repeat;
     }
 
@@ -69,9 +75,9 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       top: 0;
       bottom: 0;
       left: 0;
-      width: 520px;
+      width: 640px;
       background: #fdfbf7;
-      clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 84% 100%, 0 100%);
     }
 
     /* উপরের লাল ফিতা */
@@ -79,10 +85,10 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       position: absolute;
       top: 0;
       left: 0;
-      width: 560px;
+      width: 700px;
       height: 16px;
       background: #C00000;
-      clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
     }
 
     /* নিচের লাল ফিতা */
@@ -120,28 +126,34 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       line-height: 1.2;
     }
 
+    /* শিরোনাম: উপর-নিচে লম্বাটে (scaleY) ও একটু অক্ষর-ব্যবধান */
     .title {
       position: absolute;
       top: 225px;
       left: 50px;
-      width: 430px;
-      font-size: 46px;
+      width: 530px;
+      font-size: 50px;
       font-weight: 700;
       line-height: 1.35;
+      letter-spacing: 1px;
       color: #111;
+      text-shadow: 2px 2px 0 rgba(192, 0, 0, 0.25);
+      transform: scaleY(1.22);
+      transform-origin: top left;
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
+    /* লেখকের নাম: নতুন রং (গাঢ় নীল) */
     .author {
       position: absolute;
       bottom: 62px;
       left: 50px;
       font-size: 28px;
       font-weight: 700;
-      color: #333;
+      color: #0d47a1;
       border-bottom: 3px solid #C00000;
       padding-bottom: 4px;
     }
