@@ -69,9 +69,9 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       top: 0;
       bottom: 0;
       left: 0;
-      width: 640px;
+      width: 520px;
       background: #fdfbf7;
-      clip-path: polygon(0 0, 100% 0, 84% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
     }
 
     /* উপরের লাল ফিতা */
@@ -79,10 +79,10 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       position: absolute;
       top: 0;
       left: 0;
-      width: 700px;
+      width: 560px;
       height: 16px;
       background: #C00000;
-      clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
     }
 
     /* নিচের লাল ফিতা */
@@ -124,8 +124,8 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       position: absolute;
       top: 225px;
       left: 50px;
-      width: 530px;
-      font-size: 50px;
+      width: 430px;
+      font-size: 46px;
       font-weight: 700;
       line-height: 1.35;
       color: #111;
