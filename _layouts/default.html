@@ -20,7 +20,7 @@
 {% assign dc_page_image = page.og_image | absolute_url %}
 {% elsif page.layout == "post" %}
 {% assign dc_og_base = page.path | split: "/" | last | remove: ".md" | remove: ".html" %}
-{% assign dc_page_image = "/assets/og/" | append: dc_og_base | append: ".jpg" | absolute_url %}
+{% assign dc_page_image = "/assets/og/" | append: dc_og_base | append: "-v2.jpg" | absolute_url %}
 {% elsif page.image %}
 {% assign dc_page_image = page.image | absolute_url %}
 {% else %}
