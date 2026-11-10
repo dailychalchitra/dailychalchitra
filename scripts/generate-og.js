@@ -6,8 +6,12 @@ const puppeteer = require('puppeteer');
 const FONT_DIR = 'node_modules/@fontsource/noto-sans-bengali/files';
 const OUT_DIR = 'assets/og';
 const LOGO_PATH = 'assets/img/logo-og.png';
+const DEFAULT_BG = '/assets/img/daily-chalchitra.webp';
 const WIDTH = 1200;
 const HEIGHT = 675;
+
+// একটি ১×১ স্বচ্ছ GIF, ছবি না থাকলে ব্যবহৃত হবে
+const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 const esc = (s) => String(s || '')
   .replace(/&/g, '&amp;')
@@ -131,9 +135,32 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
 </html>`;
 }
 
+// পটভূমি ছবি (CSS background) লোড ও ডিকোড হওয়া পর্যন্ত অপেক্ষা
+async function waitForBackground(page) {
+  await page.evaluate(() => new Promise((resolve) => {
+    const el = document.querySelector('.bg');
+    const match = getComputedStyle(el).backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+    if (!match || !match[1]) return resolve();
+    const img = new Image();
+    img.onload = img.onerror = () => resolve();
+    img.src = match[1];
+  }));
+}
+
+// সব <img> (যেমন লোগো) ডিকোড হওয়া পর্যন্ত অপেক্ষা
+async function waitForImages(page) {
+  await page.evaluate(() => Promise.all(
+    [...document.images].map((img) => img.decode().catch(() => {}))
+  ));
+}
+
 (async () => {
   const f400 = b64(path.join(FONT_DIR, 'noto-sans-bengali-bengali-400-normal.woff2'));
   const f700 = b64(path.join(FONT_DIR, 'noto-sans-bengali-bengali-700-normal.woff2'));
+
+  if (!fs.existsSync(LOGO_PATH)) {
+    console.warn(`⚠️ লোগো পাওয়া যায়নি: ${LOGO_PATH}`);
+  }
   const logoB64 = fs.existsSync(LOGO_PATH) ? b64(LOGO_PATH) : '';
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -150,11 +177,19 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
 
     const outFile = path.join(OUT_DIR, file.replace(/\.(md|html)$/, '') + '.jpg');
 
-    const imgSrc = data.image || '/assets/img/daily-chalchitra.webp';
+    // পোস্টের image ফাইল খুঁজুন; না থাকলে ডিফল্ট ছবি, তাও না থাকলে স্বচ্ছ ছবি
+    const imgSrc = data.image || DEFAULT_BG;
     const localImg = path.join('.', imgSrc.replace(/^\//, ''));
-    const bg = fs.existsSync(localImg)
-      ? `data:${mimeOf(localImg)};base64,${b64(localImg)}`
-      : imgSrc;
+    let bg;
+    if (fs.existsSync(localImg)) {
+      bg = `data:${mimeOf(localImg)};base64,${b64(localImg)}`;
+    } else {
+      console.warn(`⚠️ "${file}": ছবি পাওয়া যায়নি (${localImg}), ডিফল্ট ব্যবহার হচ্ছে`);
+      const defPath = path.join('.', DEFAULT_BG.replace(/^\//, ''));
+      bg = fs.existsSync(defPath)
+        ? `data:${mimeOf(defPath)};base64,${b64(defPath)}`
+        : BLANK_IMG;
+    }
 
     const category =
       (Array.isArray(data.category_bn) ? data.category_bn[0] : data.category_bn) ||
@@ -175,6 +210,8 @@ function template({ bg, category, title, author, f400, f700, logoB64 }) {
       }),
       { waitUntil: 'load' }
     );
+    await waitForBackground(page);
+    await waitForImages(page);
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: outFile, type: 'jpeg', quality: 60 });
     await page.close();
