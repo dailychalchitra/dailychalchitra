@@ -216,7 +216,7 @@ async function waitForImages(page) {
     const { data } = matter(fs.readFileSync(path.join('_posts', file), 'utf8'));
     if (!data.title) continue;
 
-    const outFile = path.join(OUT_DIR, file.replace(/\.(md|html)$/, '') + '.jpg');
+    const outFile = path.join(OUT_DIR, file.replace(/\.(md|html)$/, '') + '-v2.jpg');
 
     // পোস্টের image ফাইল খুঁজুন; না থাকলে ডিফল্ট ছবি, তাও না থাকলে স্বচ্ছ ছবি
     const imgSrc = data.image || DEFAULT_BG;
