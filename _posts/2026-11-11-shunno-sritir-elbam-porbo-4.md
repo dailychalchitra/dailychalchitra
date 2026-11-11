@@ -28,25 +28,24 @@ redirect_from:
   line-height: 1.9;
   color: #1a1a1a;
 }
-.dc-post-body p,
-.dc-post-body div {
+.dc-post-body p {
   font-weight: 400;
 }
 .dc-dialogue {
-  display: inline-block;
   color: #0d47a1;
   font-weight: 300;
-  transform: scaleY(1.2);
-  transform-origin: top center;
+  font-size: 1em;
+  line-height: 1.9;
+  display: inline-block;
+  transform: scaleY(1.08);
+  transform-origin: top left;
   letter-spacing: 0.2px;
-  margin: 4px 0;
 }
 </style>
 
 <div class="dc-post-body">
 
 **৪র্থ পর্ব**
-
 <span class="dc-dialogue">নীড় হেসে উঠল- আমার হাতে একটু কাজ আছে।</span>
 
 <span class="dc-dialogue">নীড় উঠে দাঁড়াল। আমি এখন মৌদের বাসায় যাব, ওকে ম্যানেজ করতে হবে না? হাতে সময় বেশি নেই, শেষে দেখো, আমাদের যাওয়াটাই মাটি হয়ে যাবে।</span>
