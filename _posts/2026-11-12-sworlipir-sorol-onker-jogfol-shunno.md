@@ -15,7 +15,7 @@ tags:
 author: "রানু রহমান"
 image: "/assets/img/ranu-rohman-11.webp"
 description: "রানু রহমানের গদ্য কবিতা স্বরলিপির সরল অঙ্কের যোগফল শূন্য - নিঃসঙ্গতা, দুঃখ আর কবিতার শহরে ফেরার কাব্য।"
-excerpt: "নিঃশব্দ, নিঃসঙ্গ এই আমি নিজের থেকে আড়ালে পালিয়ে বেড়াই — নিজস্ব দুঃখগুলো কাঁসার কলসে ভরে মাটির তলে পুঁতে রাখা এক নারীর কাব্য।"
+excerpt: "নিঃশব্দ, নিঃসঙ্গ এই আমি নিজের থেকে আড়ালে পালিয়ে বেড়াই - নিজস্ব দুঃখগুলো কাঁসার কলসে ভরে মাটির তলে পুঁতে রাখা এক নারীর কাব্য।"
 permalink: /goddo-kobita/sworlipir-sorol-onker-jogfol-shunno/
 redirect_from:
     - /goddo-kobita/2026/11/12/sworlipir-sorol-onker-jogfol-shunno/
