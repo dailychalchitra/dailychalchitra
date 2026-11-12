@@ -13,7 +13,7 @@ tags:
     - গদ্য কবিতা
     - দৈনিক চালচিত্র
 author: "রানু রহমান"
-image: "/assets/img/ranu-rahman-08.webp"
+image: "assets/img/ranu-rahman-10.webp"
 description: "রানু রহমানের গদ্য কবিতা গোপন পাসওয়ার্ড - হাসনাহেনার গন্ধে হারিয়ে যাওয়ার কাব্য।"
 excerpt: "এই সংসার অরণ্য ছেড়ে গুচ্ছ গুচ্ছ জুঁই ফুল স্বপ্ন মাড়িয়ে তুমি কোথায় যাবে।"
 permalink: /goddo-kobita/gopon-password/
