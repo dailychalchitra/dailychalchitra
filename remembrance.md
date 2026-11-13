@@ -23,7 +23,7 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;">কিছু মানুষ শারীরিকভাবে চলে গেলেও তাঁদের কাজ, চিন্তা ও অবদান সমাজের স্মৃতিতে থেকে যায়। তাঁদের স্মরণ করা মানে শুধু অতীত ফিরে দেখা নয়, বরং তাঁদের রেখে যাওয়া আদর্শ, সংগ্রাম ও শিক্ষাকে বর্তমানের সাথে যুক্ত রাখা।</p>
@@ -41,7 +41,7 @@ redirect_from:
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">লেখা পাঠানোর নিয়ম</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">কোনো প্রয়াত ব্যক্তিত্বকে নিয়ে স্মৃতিচারণ, মূল্যায়ন বা শ্রদ্ধাঞ্জলি লেখা পাঠাতে চাইলে ইমেইলের সাবজেক্টে <em>"স্মরণ"</em> লিখে পাঠান।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">কোনো প্রয়াত ব্যক্তিত্বকে নিয়ে স্মৃতিচারণ, মূল্যায়ন বা শ্রদ্ধাঞ্জলি লেখা পাঠাতে চাইলে ইমেইলের বিষয়ে লিখুন <em>"স্মরণ"</em>।</p>
 
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=স্মরণ" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
 
