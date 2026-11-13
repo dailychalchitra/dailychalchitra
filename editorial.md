@@ -23,7 +23,7 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;">সাহিত্য মানুষের অনুভূতি ও সৃজনশীলতার বিকাশ ঘটায়, আর সাংবাদিকতা সমাজ, রাষ্ট্র ও বিশ্বের বাস্তব চিত্র মানুষের সামনে তুলে ধরে। এই দুইয়ের সমন্বয়েই একটি সচেতন ও মানবিক সমাজ গড়ে ওঠে।</p>
