@@ -35,10 +35,9 @@ redirect_from:
 }
 .dc-post-body p.dc-dialogue {
   color: #6A1B9A;
-  font-weight: 300;
-  transform: scaleY(1.06);
-  transform-origin: top left;
-  letter-spacing: 0.2px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 2;
   margin-bottom: 1.1em;
 }
 </style>
@@ -158,4 +157,4 @@ redirect_from:
 </div>
 
 ---
-<p style="font-size: 0.8em; color: #888; text-align: left; font-style: italic; margin-top: 15px;">রচনাকাল: ১০-০২-২০০৫ ইং।</p>
+<p style="font-size: 0.8em; color: #888; text-align: left; font-style: italic; margin-top: 15px;">রচনাকাল: ১০-০২-২০০৫ইং।</p>
