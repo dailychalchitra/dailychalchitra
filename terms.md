@@ -23,7 +23,7 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong> ব্যবহারের শর্তাবলী ও নীতিমালা। এই ওয়েবসাইট ব্যবহার করার অর্থ আপনি নিচের শর্তগুলো মেনে নিচ্ছেন।</p>
@@ -38,17 +38,17 @@ redirect_from:
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">২. ব্যবহারকারীর দায়বদ্ধতা</h2>
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
-      <li style="margin-bottom: 6px !important;"><strong>লেখকের মতামত:</strong> প্রকাশিত লেখার দায় লেখকের। সম্পাদকীয় বিভাগ এর জন্য দায়ী নয়, তবে আইনবিরুদ্ধ বা অপমানজনক লেখা প্রকাশ না করার অধিকার সম্পাদক রাখেন।</li>
+      <li style="margin-bottom: 6px !important;"><strong>লেখকের মতামত:</strong> প্রকাশিত লেখার মতামতের দায় লেখকের। তবে আইনবিরুদ্ধ, অপমানজনক বা বিদ্বেষমূলক লেখা প্রকাশ না করার অধিকার সম্পাদক রাখেন।</li>
       <li style="margin-bottom: 6px !important;"><strong>মন্তব্য নীতিমালা:</strong> মন্তব্যে গালিগালাজ, অশ্লীল ভাষা, ধর্মীয় বা রাজনৈতিক উস্কানি, ব্যক্তি আক্রমণ ও স্প্যাম নিষিদ্ধ। নীতিমালা ভঙ্গ করলে মন্তব্য মুছে দেওয়া হবে এবং ব্যবহারকারীকে ব্লক করা হতে পারে।</li>
-      <li style="margin-bottom: 6px !important;"><strong>মন্তব্যের দায়:</strong> ব্যবহারকারীর করা মন্তব্যের দায় সম্পূর্ণভাবে মন্তব্যকারীর। মন্তব্য প্রকাশ হওয়ার অর্থ এই নয় যে কর্তৃপক্ষ তার সাথে একমত।</li>
+      <li style="margin-bottom: 6px !important;"><strong>মন্তব্যের দায়:</strong> ব্যবহারকারীর মন্তব্যের দায় সম্পূর্ণভাবে মন্তব্যকারীর। মন্তব্য প্রকাশ হওয়ার অর্থ এই নয় যে কর্তৃপক্ষ তার সাথে একমত।</li>
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৩. লেখা জমা দেওয়ার নিয়ম</h2>
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
-      <li style="margin-bottom: 8px !important;"><strong>মৌলিক লেখা:</strong> পাঠানো লেখা অবশ্যই আপনার নিজের মৌলিক ও অপ্রকাশিত হতে হবে। AI দিয়ে তৈরি লেখা গ্রহণ করা হবে না।</li>
-      <li style="margin-bottom: 8px !important;"><strong>ইমেইলের বিষয়:</strong> লেখা পাঠানোর সময় ইমেইলের সাবজেক্টে অবশ্যই <em>"লেখা জমা: আপনার লেখাটির বিভাগ ও শিরোনাম"</em> লিখুন।</li>
+      <li style="margin-bottom: 8px !important;"><strong>মৌলিক লেখা:</strong> পাঠানো লেখা অবশ্যই আপনার নিজের মৌলিক ও অপ্রকাশিত হতে হবে। কৃত্রিম বুদ্ধিমত্তা (AI) দিয়ে তৈরি লেখা গ্রহণ করা হবে না।</li>
+      <li style="margin-bottom: 8px !important;"><strong>ইমেইলের বিষয়:</strong> লেখা পাঠানোর সময় ইমেইলের বিষয়ে লিখুন <em>"লেখা জমা: বিভাগ ও শিরোনাম"</em>।</li>
       <li style="margin-bottom: 8px !important;"><strong>প্রয়োজনীয় তথ্য:</strong> লেখার সাথে আপনার পূর্ণ নাম, সংক্ষিপ্ত লেখক পরিচিতি, একটি সচল যোগাযোগ নম্বর, লেখক প্রোফাইলের জন্য একটি ছবি এবং প্রচ্ছদের জন্য একটি ছবি সংযুক্ত করুন। ছবি হতে হবে WebP ফরম্যাটে, আকার ১৫০ KB-র মধ্যে।</li>
-      <li style="margin-bottom: 8px !important;"><strong>সম্পাদনার অধিকার:</strong> লেখা সম্পাদনা, পরিমার্জন বা প্রকাশ না করার সম্পূর্ণ অধিকার সম্পাদক রাখেন।</li>
+      <li style="margin-bottom: 8px !important;"><strong>সম্পাদনার অধিকার:</strong> লেখা সম্পাদনা, পরিমার্জন বা প্রকাশ না করার অধিকার সম্পাদক সংরক্ষণ করেন।</li>
       <li style="margin-bottom: 8px !important;"><strong>সম্মানী:</strong> প্রকাশিত লেখার জন্য কোনো সম্মানী দেওয়া হয় না।</li>
       <li style="margin-bottom: 8px !important;"><strong>যোগাযোগ:</strong> লেখা পাঠান এই ঠিকানায় — <a href="mailto:nimushamim46@gmail.com?subject=লেখা জমা" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
     </ul>
@@ -61,10 +61,10 @@ redirect_from:
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৫. গোপনীয়তা</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">আপনার ব্যক্তিগত তথ্য কীভাবে সংগ্রহ ও ব্যবহার করা হয়, তার বিস্তারিত বিবরণ আমাদের <a href="/privacy-policy/" style="color: #2563eb !important; text-decoration: underline !important;">গোপনীয়তা নীতি</a>-তে দেওয়া আছে। এই শর্তাবলী গোপনীয়তা নীতির সাথে একসাথে পড়তে হবে।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">আপনার ব্যক্তিগত তথ্য কীভাবে সংগ্রহ ও ব্যবহার করা হয়, তার বিস্তারিত <a href="/privacy-policy/" style="color: #2563eb !important; text-decoration: underline !important;">গোপনীয়তা নীতি</a>-তে দেওয়া আছে। এই শর্তাবলী গোপনীয়তা নীতির সাথে একসাথে পড়তে হবে।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">৬. পরিবর্তন</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">কর্তৃপক্ষ যে কোনো সময় এই নীতিমালা পরিবর্তন, পরিবর্ধন বা বাতিল করার অধিকার রাখে। পরিবর্তন হলে সাইটে নতুন সংস্করণ প্রকাশ করা হবে এবং "সর্বশেষ আপডেট" তারিখ বদলানো হবে। পরিবর্তিত নীতি প্রকাশের সাথে সাথেই কার্যকর হবে।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">কর্তৃপক্ষ যে কোনো সময় এই নীতিমালা পরিবর্তন, পরিবর্ধন বা বাতিল করার অধিকার রাখে। পরিবর্তন হলে সাইটে নতুন সংস্করণ প্রকাশ করা হবে এবং "সর্বশেষ আপডেট" তারিখ বদলানো হবে।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">যোগাযোগ</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">এই নীতিমালা সম্পর্কে কোনো প্রশ্ন থাকলে ইমেইল করুন:<br>
