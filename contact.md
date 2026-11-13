@@ -23,24 +23,24 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্রের সাথে যুক্ত হোন</strong></p>
 
-    <p style="margin-bottom: 16px !important; text-align: left !important;">আপনার সৃষ্টিশীল লেখা, মূল্যবান মতামত, সাহিত্য বিষয়ক পরামর্শ বা যে কোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করুন।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">আপনার সৃষ্টিশীল লেখা, মূল্যবান মতামত, সাহিত্য বিষয়ক পরামর্শ বা যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করুন।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">লেখা ও বিজ্ঞাপন সংক্রান্ত যোগাযোগ</h2>
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
-      <li style="margin-bottom: 8px !important;"><strong>লেখা জমা দিন:</strong> AI দিয়ে তৈরি লেখা ছাড়া আপনার নিজের মৌলিক কবিতা, গল্প, উপন্যাস, প্রবন্ধ, ফিচার বা সাহিত্য সমালোচনা পাঠান।<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=লেখা জমা" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
-      <li style="margin-bottom: 8px !important;"><strong>বিজ্ঞাপন ও পৃষ্ঠপোষকতা:</strong> বইয়ের প্রচার, শিক্ষা প্রতিষ্ঠান বা সাংস্কৃতিক আয়োজনের স্পন্সরশিপ ও বিজ্ঞাপনের জন্য যোগাযোগ করুন।<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=বিজ্ঞাপন সংক্রান্ত" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
+      <li style="margin-bottom: 8px !important;"><strong>লেখা জমা দিন:</strong> কৃত্রিম বুদ্ধিমত্তা (AI) দিয়ে তৈরি লেখা ছাড়া আপনার নিজের মৌলিক কবিতা, গল্প, উপন্যাস, প্রবন্ধ, ফিচার বা সাহিত্য সমালোচনা পাঠান।<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=লেখা জমা" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
+      <li style="margin-bottom: 8px !important;"><strong>বিজ্ঞাপন ও পৃষ্ঠপোষকতা:</strong> বইয়ের প্রচার, শিক্ষা প্রতিষ্ঠান বা সাংস্কৃতিক আয়োজনের স্পনসরশিপ ও বিজ্ঞাপনের জন্য যোগাযোগ করুন।<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=বিজ্ঞাপন সংক্রান্ত" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
       <li style="margin-bottom: 8px !important;"><strong>সম্পাদকীয় বিভাগ:</strong> সংবাদ বা অন্যান্য যেকোনো প্রশ্ন ও প্রাতিষ্ঠানিক সহযোগিতার জন্য।<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=সম্পাদকীয় যোগাযোগ" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></li>
     </ul>
 
     <div style="background-color: #f9fafb !important; border-left: 4px solid #2563eb !important; padding: 12px 15px !important; margin-bottom: 20px !important; font-size: 14px !important;">
       <strong>লেখা পাঠানোর নির্দেশনা:</strong>
       <ul style="margin: 8px 0 0 0; padding-left: 20px;">
-        <li>ইমেইলের সাবজেক্টে লিখুন: <em>"লেখা জমা: আপনার লেখাটির বিভাগ ও শিরোনাম"</em></li>
+        <li>ইমেইলের বিষয়ে লিখুন: <em>"লেখা জমা: বিভাগ ও শিরোনাম"</em></li>
         <li>লেখার শিরোনামের নিচে আপনার পূর্ণ নাম ও সংক্ষিপ্ত লেখক পরিচিতি দিন।</li>
         <li>একটি সচল যোগাযোগ নম্বর দিন।</li>
         <li>লেখক প্রোফাইলের জন্য একটি ছবি ও প্রচ্ছদের জন্য একটি ছবি সংযুক্ত করুন। ছবি হতে হবে WebP ফরম্যাটে, আকার ১৫০ KB-র মধ্যে।</li>
