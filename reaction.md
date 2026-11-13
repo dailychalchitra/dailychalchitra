@@ -23,12 +23,12 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;">কোনো ঘটনা, সিদ্ধান্ত বা প্রকাশিত লেখার পর মানুষের তাৎক্ষণিক ভাবনা ও অনুভূতি প্রতিক্রিয়ার মধ্য দিয়ে প্রকাশ পায়। এটি একধরনের সংলাপ, যেখানে পাঠক ও লেখক একে অপরের সাথে যুক্ত হন এবং নিজেদের মতামত জানান।</p>
 
-    <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong>-এর প্রতিক্রিয়া বিভাগে সাম্প্রতিক ঘটনা, আলোচিত সংবাদ বা প্রকাশিত সাহিত্যের প্রতি বিভিন্ন মানুষের মতামত ও বিশ্লেষণ প্রকাশের চেষ্টা করা হয়। এখানে প্রশংসা, গঠনমূলক সমালোচনা বা ভিন্নমত — সবই স্থান পেতে পারে।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong>-এর প্রতিক্রিয়া বিভাগে সাম্প্রতিক ঘটনা, আলোচিত সংবাদ বা প্রকাশিত সাহিত্যের প্রতি বিভিন্ন মানুষের মতামত ও বিশ্লেষণ প্রকাশের চেষ্টা করা হয়। এখানে প্রশংসা, গঠনমূলক সমালোচনা বা ভিন্নমত, সবই স্থান পেতে পারে।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">কেন এই বিভাগের গুরুত্ব</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">প্রতিক্রিয়া একমুখী মন্তব্য নয়, এটি একটি চলমান আলোচনার অংশ। ভিন্ন ভিন্ন দৃষ্টিভঙ্গি পাশাপাশি স্থান পেলে কোনো বিষয় আরও পূর্ণাঙ্গভাবে বোঝা যায়।</p>
@@ -43,7 +43,7 @@ redirect_from:
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">আপনার প্রতিক্রিয়া জানান</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">আমাদের প্রকাশিত কোনো লেখা বা সমসাময়িক বিষয়ে আপনার সুচিন্তিত মতামত থাকলে তা পাঠাতে পারেন। শালীন ও গঠনমূলক মতামতকে আমরা স্বাগত জানাই।</p>
 
-    <p style="margin-bottom: 16px !important; text-align: left !important;">ইমেইলের সাবজেক্টে <em>"প্রতিক্রিয়া"</em> লিখে পাঠান: <br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=প্রতিক্রিয়া" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">ইমেইলের বিষয়ে লিখুন <em>"প্রতিক্রিয়া"</em>:<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=প্রতিক্রিয়া" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
 
     <div style="margin-top: 25px !important; text-align: left !important;">
       <strong>সম্পাদক ও প্রকাশক:</strong><br>
