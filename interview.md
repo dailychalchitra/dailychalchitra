@@ -23,12 +23,12 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
-    <p style="margin-bottom: 16px !important; text-align: left !important;">কোনো মানুষের চিন্তা, অভিজ্ঞতা ও দৃষ্টিভঙ্গিকে তার নিজের ভাষায় তুলে ধরার একটি কার্যকর মাধ্যম হলো সাক্ষাৎকার। প্রশ্ন-উত্তরের মধ্য দিয়ে এমন অনেক কথা উঠে আসে, যা সাধারণ প্রতিবেদনে সবসময় ধরা পড়ে না।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">কোনো মানুষের চিন্তা, অভিজ্ঞতা ও দৃষ্টিভঙ্গিকে তাঁর নিজের ভাষায় তুলে ধরার একটি কার্যকর মাধ্যম হলো সাক্ষাৎকার। প্রশ্ন-উত্তরের মধ্য দিয়ে এমন অনেক কথা উঠে আসে, যা সাধারণ প্রতিবেদনে সবসময় ধরা পড়ে না।</p>
 
-    <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong>-এর সাক্ষাৎকার বিভাগে সাহিত্যিক, লেখক, কবি, শিল্পী, গবেষক ও শিক্ষাবিদসহ বিভিন্ন ক্ষেত্রের ব্যক্তিদের সঙ্গে কথোপকথন প্রকাশের চেষ্টা করা হয়। তাদের জীবনের অভিজ্ঞতা, সাফল্য-ব্যর্থতার গল্প এবং ভবিষ্যৎ ভাবনা এখানে তুলে ধরা হয়।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong>-এর সাক্ষাৎকার বিভাগে সাহিত্যিক, লেখক, কবি, শিল্পী, গবেষক ও শিক্ষাবিদসহ বিভিন্ন ক্ষেত্রের ব্যক্তিদের সঙ্গে কথোপকথন প্রকাশের চেষ্টা করা হয়। তাঁদের জীবনের অভিজ্ঞতা, সাফল্য-ব্যর্থতার গল্প এবং ভবিষ্যৎ ভাবনা এখানে তুলে ধরা হয়।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">কেন পড়বেন</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">একটি ভালো সাক্ষাৎকার পাঠককে একজন মানুষের ভেতরের জগতের কাছাকাছি নিয়ে যায়। প্রবাসের নানা অভিজ্ঞতা ও সংগ্রামকে সামনে আনতেও এই বিভাগ সহায়ক ভূমিকা পালন করে।</p>
@@ -43,7 +43,7 @@ redirect_from:
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">সাক্ষাৎকারের প্রস্তাব</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">আপনি যদি এমন কোনো ব্যক্তিত্বকে চেনেন, যাঁর সাক্ষাৎকার পাঠকদের জন্য অনুপ্রেরণাদায়ক হতে পারে, তাহলে আমাদের জানাতে পারেন। প্রস্তাবের সাথে ব্যক্তির সংক্ষিপ্ত পরিচয় ও প্রস্তাবিত বিষয় উল্লেখ করুন।</p>
 
-    <p style="margin-bottom: 16px !important; text-align: left !important;">ইমেইলের সাবজেক্টে <em>"সাক্ষাৎকার প্রস্তাব"</em> লিখে পাঠান: <br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=সাক্ষাৎকার প্রস্তাব" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">ইমেইলের বিষয়ে লিখুন <em>"সাক্ষাৎকার প্রস্তাব"</em>:<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=সাক্ষাৎকার প্রস্তাব" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
 
     <div style="margin-top: 25px !important; text-align: left !important;">
       <strong>সম্পাদক ও প্রকাশক:</strong><br>
