@@ -23,7 +23,7 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্রের সাথে যুক্ত হোন</strong></p>
@@ -39,7 +39,10 @@ redirect_from:
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">নীতিমালা</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">আমরা পাঠকের আস্থা ও রুচিশীলতা রক্ষায় বিশ্বাসী। আমরা মূলত সাহিত্য, শিক্ষা, শিল্প-সংস্কৃতি ও প্রবাসীদের কল্যাণমূলক উদ্যোগের বিজ্ঞাপন বিবেচনা করি। রাজনৈতিক বিতর্কিত, বিভ্রান্তিকর বা অশোভন বিজ্ঞাপন গ্রহণ করা হয় না।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">আমরা পাঠকের আস্থা ও রুচিশীলতা রক্ষায় বিশ্বাসী। আমরা মূলত সাহিত্য, শিক্ষা, শিল্প-সংস্কৃতি ও প্রবাসীদের কল্যাণমূলক উদ্যোগের বিজ্ঞাপন বিবেচনা করি। রাজনৈতিক বিতর্কিত, বিভ্রান্তিকর, প্রতারণামূলক বা অশোভন বিজ্ঞাপন গ্রহণ করা হয় না। সম্পাদকীয় বিষয়বস্তু ও বিজ্ঞাপন আলাদাভাবে চিহ্নিত রাখা হয়।</p>
+
+    <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">ডিজিটাল বিজ্ঞাপন</h2>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">ওয়েবসাইটে Google AdSense-এর মাধ্যমে স্বয়ংক্রিয় বিজ্ঞাপন প্রদর্শিত হতে পারে। এই বিজ্ঞাপনের ব্যবহার ও কুকি সংক্রান্ত তথ্য <a href="/privacy-policy/" style="color: #2563eb !important; text-decoration: underline !important;">গোপনীয়তা নীতি</a>-তে দেওয়া আছে।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">মূল্য ও শর্ত</h2>
     <p style="margin-bottom: 16px !important; text-align: left !important;">বিজ্ঞাপনের মূল্য, সময়কাল ও শর্ত প্রতিটি প্রস্তাব অনুযায়ী আলোচনার মাধ্যমে নির্ধারিত হয়।</p>
