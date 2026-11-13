@@ -6,7 +6,6 @@ Disallow: /tag/?
 Disallow: /admin/
 Disallow: /admin-log/
 Disallow: /get-token.html
-Disallow: /tap-taka.html
 Disallow: /assets/epaper/pdf/
 
 Sitemap: https://www.dailychalchitra.com/sitemap.xml
