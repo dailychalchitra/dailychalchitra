@@ -23,7 +23,7 @@ redirect_from:
     </div>
 
     <!-- ৪. সর্বশেষ আপডেট -->
-    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ০৬ নভেম্বর, ২০২৬</p>
+    <p style="font-size: 12px !important; color: #6b7280 !important; text-align: center !important; margin-bottom: 25px !important; display: block !important;">সর্বশেষ আপডেট: ১৪ নভেম্বর, ২০২৬</p>
 
     <!-- ৫. মূল কন্টেন্ট -->
     <p style="margin-bottom: 16px !important; text-align: left !important;">সংবাদের বাইরে গিয়ে চিন্তার জায়গা তৈরি করাই কলামের কাজ। এখানে লেখকদের ব্যক্তিগত মতামত, যুক্তি ও দৃষ্টিভঙ্গি প্রকাশ পায়, যা কোনো বিষয়কে শুধু জানানোর বদলে গভীরভাবে বোঝার সুযোগ করে দেয়।</p>
@@ -31,7 +31,7 @@ redirect_from:
     <p style="margin-bottom: 16px !important; text-align: left !important;"><strong>দৈনিক চালচিত্র</strong>-এর কলাম বিভাগে দেশ, প্রবাস জীবন, সমাজ ও সংস্কৃতি নিয়ে বিভিন্ন লেখকের কলাম প্রকাশের চেষ্টা করা হয়।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">কেন পড়বেন আমাদের কলাম</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">প্রতিটি লেখায় থাকে নিজস্ব দৃষ্টিকোণ ও যুক্তিনির্ভর বিশ্লেষণ। এটি পাঠককে শুধু "কী ঘটেছে" নয়, "কেন ঘটেছে" এবং এর তাৎপর্য বুঝতে সাহায্য করে। মতামত একমুখী নয়, তাই ভিন্ন ভিন্ন চিন্তাধারা পাশাপাশি জায়গা পায়, যাতে পাঠক নিজের মতো করে বিষয়টি যাচাই করতে পারেন।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">প্রতিটি লেখায় থাকে নিজস্ব দৃষ্টিকোণ ও যুক্তিনির্ভর বিশ্লেষণ। এটি পাঠককে শুধু "কী ঘটেছে" নয়, "কেন ঘটেছে" এবং এর তাৎপর্য বুঝতে সাহায্য করে। মতামত একমুখী নয়, তাই ভিন্ন ভিন্ন চিন্তাধারা পাশাপাশি স্থান পায়, যাতে পাঠক নিজের মতো করে বিষয়টি যাচাই করতে পারেন।</p>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">আলোচিত বিষয়সমূহ</h2>
     <ul style="margin-bottom: 16px !important; padding-left: 20px !important; text-align: left !important;">
@@ -42,9 +42,9 @@ redirect_from:
     </ul>
 
     <h2 style="font-size: 18px !important; font-weight: bold !important; margin-top: 25px !important; margin-bottom: 10px !important; text-align: left !important;">কলাম লেখার আহ্বান</h2>
-    <p style="margin-bottom: 16px !important; text-align: left !important;">যাঁরা খবরের পেছনের প্রেক্ষাপট ও তাৎপর্য তুলে ধরতে আগ্রহী, তাঁদের জন্য আমাদের কলাম বিভাগ উন্মুক্ত। সমাজ ও পারিপার্শ্বিকতা নিয়ে আপনার মৌলিক কলাম পাঠাতে চাইলে ইমেইল করুন।</p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">যাঁরা খবরের পেছনের প্রেক্ষাপট ও তাৎপর্য তুলে ধরতে আগ্রহী, তাঁদের জন্য আমাদের কলাম বিভাগ উন্মুক্ত। সমাজ ও পারিপার্শ্বিকতা নিয়ে আপনার মৌলিক কলাম পাঠাতে চাইলে ইমেইল করুন। লেখা অবশ্যই মৌলিক ও অপ্রকাশিত হতে হবে।</p>
 
-    <p style="margin-bottom: 16px !important; text-align: left !important;">ইমেইলের সাবজেক্টে <em>"কলাম"</em> লিখে পাঠান: <br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=কলাম" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
+    <p style="margin-bottom: 16px !important; text-align: left !important;">ইমেইলের বিষয়ে লিখুন <em>"কলাম: শিরোনাম"</em>:<br><strong>ইমেইল:</strong> <a href="mailto:nimushamim46@gmail.com?subject=কলাম" style="color: #2563eb !important; text-decoration: underline !important;">nimushamim46@gmail.com</a></p>
 
     <div style="background-color: #f9fafb !important; border-left: 4px solid #2563eb !important; padding: 12px 15px !important; margin: 20px 0 !important; font-size: 14px !important;">
       <strong>সম্পাদক ও প্রকাশক:</strong> শামীম নিমু<br>
