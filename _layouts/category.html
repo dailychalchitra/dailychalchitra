@@ -1,21 +1,28 @@
 ---
 layout: default
 ---
-
 <div style="max-width:800px;margin:20px auto;padding:0 15px;">
-  <h1 style="text-align:center;">{{ page.title }}</h1>
-  
-  {% for post in site.categories[page.category] %}
+  <h1 style="text-align:center;font-size:26px;margin-bottom:20px;">{{ page.category_name }}</h1>
+
+  {% assign cat_posts = site.posts | where_exp: "p", "p.category_bn contains page.category_name" %}
+
+  {% if cat_posts.size == 0 %}
+  <p style="text-align:center;color:#777;">এই বিভাগে এখনো কোনো লেখা নেই।</p>
+  {% endif %}
+
+  {% for post in cat_posts %}
   <article style="background:#fff;margin:0 0 20px 0;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
-    <a href="{{ post.url }}">
-      <img src="{{ post.image }}" style="width:100%;height:220px;object-fit:cover;">
+    <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:inherit;display:block;">
+      {% if post.image %}
+      <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" style="width:100%;height:220px;object-fit:cover;display:block;">
+      {% endif %}
       <div style="padding:15px;">
-        <span style="background:#C00000;color:#fff;padding:3px 10px;border-radius:3px;font-size:12px;">{{ post.category }}</span>
         <h2 style="font-size:20px;margin:0 0 10px 0;font-weight:700;">{{ post.title }}</h2>
         <p style="font-size:15px;color:#555;margin:0 0 12px 0;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-        <div style="font-size:13px;color:#777;border-top:1px solid #f0f0f0;padding-top:10px;">প্রকাশ: {{ post.date | date: "%d %B %Y" }} | <b>আরও পড়ুন »</b></div>
+        <div style="font-size:13px;color:#777;border-top:1px solid #f0f0f0;padding-top:10px;">প্রকাশ: {{ post.date | date: "%d %B %Y" }} | <b>আরও পড়ুন »</b></div>
       </div>
     </a>
   </article>
   {% endfor %}
-</div>
+</div>9
+
