@@ -1394,6 +1394,22 @@ document.addEventListener('DOMContentLoaded', function () {
             color:#555; margin:0;
         }
     }
+
+    /* বিভাগ সেকশন: ছোট লেখা ও শিরোনামের রং */
+.dc-cat-main-title a,
+.dc-cat-main-title { color:#00695c !important; }
+.dc-cat-main-excerpt,
+.dc-cat-2col-excerpt,
+.dc-cat-scroll-excerpt {
+  font-size:14px !important;
+  line-height:1.55 !important;
+  color:#555;
+}
+@media(max-width:600px){
+  .dc-cat-main-excerpt,
+  .dc-cat-2col-excerpt,
+  .dc-cat-scroll-excerpt { font-size:13px !important; }
+} 
     </style>
 
     <script>
