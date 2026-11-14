@@ -149,7 +149,10 @@
                             {% else %}
                             <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ cp.title }}">
                             {% endif %}
-                            <span>{{ cp.title }}</span>
+                            <span class="dc-pa-hero-cat-title">{{ cp.title }}</span>
+                            {% if cp.excerpt %}
+                            <p class="dc-pa-hero-cat-excerpt">{{ cp.excerpt | strip_html | truncatewords: 15 }}</p>
+                            {% endif %}
                         </a>
                         {% assign dc_hero_seen = dc_hero_seen | push: cp.url %}
                         {% endfor %}
@@ -1362,6 +1365,15 @@ document.addEventListener('DOMContentLoaded', function () {
         .dc-pa-hero-extra-card .dc-cat-list-item{ padding:6px 0; }
         .dc-pa-hero-extra-card .dc-cat-thumb{ width:38px; height:38px; }
         .dc-pa-hero-extra-card .dc-cat-list-title{ font-size:14.5px; }
+    }
+
+    /* মোবাইল: সর্বশেষ সেকশন — বড় শিরোনাম ও সংক্ষিপ্ত লেখা */
+    .dc-pa-hero-cat-excerpt{ display:none; }
+    @media(max-width:600px){
+        .dc-pa-hero-list-heading{ font-size:24px !important; }
+        .dc-pa-hero-cat-badge{ font-size:16px !important; }
+        .dc-pa-hero-cat-scroll-item .dc-pa-hero-cat-title{ font-size:19px !important; line-height:1.5; }
+        .dc-pa-hero-cat-excerpt{ display:block; font-size:16px; line-height:1.6; color:#555; margin:4px 0 0; }
     }
     </style>
 
