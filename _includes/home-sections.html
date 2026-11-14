@@ -229,8 +229,10 @@
                         <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
                         {% endif %}
                     </span>
+                    <div class="dc-cat-scroll-text">
                     <span class="dc-cat-scroll-title">{{ post.title }}</span>
                     <span class="dc-cat-scroll-excerpt">{{ post.excerpt | strip_html | truncatewords: 12 }}</span>
+                    </div>
                 </a>
                 {% endfor %}
             </div>
@@ -1782,3 +1784,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+<style>
+.dc-pa-catblock .dc-cat-scroll-item { align-items:flex-start !important; gap:10px; }
+.dc-pa-catblock .dc-cat-scroll-text { display:flex; flex-direction:column; flex:1; min-width:0; }
+.dc-pa-catblock .dc-cat-scroll-excerpt { font-size:14px !important; line-height:1.45 !important; margin:4px 0 0 !important; }
+.dc-pa-catblock[data-cat="কবিতা"] .dc-cat-scroll-excerpt { color:#ad1457 !important; }
+.dc-pa-catblock[data-cat="গদ্য কবিতা"] .dc-cat-scroll-excerpt { color:#7b1fa2 !important; }
+.dc-pa-catblock[data-cat="ছোট গল্প"] .dc-cat-scroll-excerpt { color:#6d4c41 !important; }
+.dc-pa-catblock[data-cat="ভালোবাসার উপন্যাস"] .dc-cat-scroll-excerpt { color:#455a64 !important; }
+.dc-pa-catblock[data-cat="প্রবন্ধ"] .dc-cat-scroll-excerpt { color:#827717 !important; }
+.dc-pa-catblock[data-cat="ছড়া কবিতা"] .dc-cat-scroll-excerpt { color:#3949ab !important; }
+</style>
