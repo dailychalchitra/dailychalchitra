@@ -180,7 +180,7 @@
         {% endcase %}
         {% assign main_post = group.items | first %}
         {% if main_post %}
-        <div class="dc-pa-catblock">
+        <div class="dc-pa-catblock" data-cat="{{ group.name }}">
             <div class="dc-pa-cat-header">
                 <span class="dc-pa-cat-dot" style="background:{{ gcolor }};"></span>
                 <a href="{{ '/tag/?name=' | append: group.name | relative_url }}">{{ group.name }}</a>
@@ -1803,4 +1803,21 @@ document.addEventListener('DOMContentLoaded', function () {
 .dc-cat-col[data-cat="খেলাধুলা"] .dc-cat-title a { color:#2e7d32 !important; }
 .dc-cat-col[data-cat="মতামত"] .dc-cat-title a { color:#6d4c41 !important; }
 .dc-cat-col[data-cat="অন্যান্য"] .dc-cat-title a { color:#b8860b !important; }
+</style>
+<style>
+.dc-cat-col[data-cat="সংবাদ"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="সংবাদ"] .dc-cat-scroll-title { color:#b71c1c !important; }
+.dc-cat-col[data-cat="সাহিত্য"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="সাহিত্য"] .dc-cat-scroll-title { color:#00695c !important; }
+.dc-cat-col[data-cat="বিনোদন"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="বিনোদন"] .dc-cat-scroll-title { color:#e65100 !important; }
+.dc-cat-col[data-cat="শিক্ষা"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="শিক্ষা"] .dc-cat-scroll-title { color:#0277bd !important; }
+.dc-cat-col[data-cat="খেলাধুলা"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="খেলাধুলা"] .dc-cat-scroll-title { color:#2e7d32 !important; }
+.dc-cat-col[data-cat="মতামত"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="মতামত"] .dc-cat-scroll-title { color:#5d4037 !important; }
+.dc-cat-col[data-cat="অন্যান্য"] .dc-cat-2col-title,
+.dc-cat-col[data-cat="অন্যান্য"] .dc-cat-scroll-title { color:#b8860b !important; }
+.dc-cat-scroll { overscroll-behavior:auto; touch-action:pan-y; }
 </style>
