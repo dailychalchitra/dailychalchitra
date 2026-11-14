@@ -149,10 +149,12 @@
                             {% else %}
                             <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ cp.title }}">
                             {% endif %}
-                            <span class="dc-pa-hero-cat-title">{{ cp.title }}</span>
-                            {% if cp.excerpt %}
-                            <p class="dc-pa-hero-cat-excerpt">{{ cp.excerpt | strip_html | truncatewords: 15 }}</p>
-                            {% endif %}
+                            <div class="dc-pa-hero-cat-text">
+                                <span class="dc-pa-hero-cat-title">{{ cp.title }}</span>
+                                {% if cp.excerpt %}
+                                <p class="dc-pa-hero-cat-excerpt">{{ cp.excerpt | strip_html | truncatewords: 15 }}</p>
+                                {% endif %}
+                            </div>
                         </a>
                         {% assign dc_hero_seen = dc_hero_seen | push: cp.url %}
                         {% endfor %}
@@ -1367,13 +1369,20 @@ document.addEventListener('DOMContentLoaded', function () {
         .dc-pa-hero-extra-card .dc-cat-list-title{ font-size:14.5px; }
     }
 
-    /* মোবাইল: সর্বশেষ সেকশন — বড় শিরোনাম ও সংক্ষিপ্ত লেখা */
+    /* মোবাইল: সর্বশেষ সেকশন — শিরোনাম উপরে, লেখা নিচে */
     .dc-pa-hero-cat-excerpt{ display:none; }
+    .dc-pa-hero-cat-text{ flex:1; min-width:0; }
     @media(max-width:600px){
         .dc-pa-hero-list-heading{ font-size:24px !important; }
         .dc-pa-hero-cat-badge{ font-size:16px !important; }
-        .dc-pa-hero-cat-scroll-item .dc-pa-hero-cat-title{ font-size:19px !important; line-height:1.5; }
-        .dc-pa-hero-cat-excerpt{ display:block; font-size:16px; line-height:1.6; color:#555; margin:4px 0 0; }
+        .dc-pa-hero-cat-scroll-item .dc-pa-hero-cat-title{
+            display:block; font-size:19px !important; font-weight:700 !important;
+            color:#C00000 !important; line-height:1.4; margin-bottom:4px;
+        }
+        .dc-pa-hero-cat-excerpt{
+            display:block; font-size:16px; font-weight:400; line-height:1.6;
+            color:#555; margin:0;
+        }
     }
     </style>
 
