@@ -1395,26 +1395,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    /* বিভাগ সেকশন: ছোট লেখা ও শিরোনামের রং */
-.dc-cat-main-title a,
-.dc-cat-main-title { color:#00695c !important; }
-.dc-cat-main-excerpt,
-.dc-cat-2col-excerpt,
-.dc-cat-scroll-excerpt {
-  font-size:15px !important;
-  line-height:1.4 !important;
-  color:#555;
-  margin:0 !important;
+/* ছোট কার্ড: শিরোনাম বড় ও রঙিন, লেখা এক ধাপ ছোট ও ধূসর */
+.dc-cat-2col-title,
+.dc-cat-scroll-title {
+  display:block !important;
+  font-size:17px !important;
+  font-weight:700 !important;
+  color:#00695c !important;
+  line-height:1.35 !important;
+  margin:4px 0 2px !important;
   padding:0 !important;
 }
-.dc-cat-2col-item { padding-bottom:0 !important; }
-@media(max-width:600px){
-  .dc-cat-main-excerpt,
-  .dc-cat-2col-excerpt,
-  .dc-cat-scroll-excerpt {
-    font-size:15px !important;
-    line-height:1.4 !important;
-  }
+.dc-cat-2col-excerpt,
+.dc-cat-scroll-excerpt {
+  display:block !important;
+  font-size:15px !important;
+  font-weight:400 !important;
+  color:#555 !important;
+  line-height:1.4 !important;
+  margin:0 !important;
+  padding:0 !important;
 }
     </style>
 
