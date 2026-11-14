@@ -1821,3 +1821,15 @@ document.addEventListener('DOMContentLoaded', function () {
 .dc-cat-col[data-cat="অন্যান্য"] .dc-cat-scroll-title { color:#b8860b !important; }
 .dc-cat-scroll { overscroll-behavior:auto; touch-action:pan-y; }
 </style>
+<style>
+/* তালিকার লেখা: শিরোনাম থেকে আলাদা রং, প্রতিটি সেকশনে ভিন্ন */
+.dc-pa-catblock[data-cat="কবিতা"] .dc-cat-scroll-excerpt { color:#607d8b !important; }
+.dc-pa-catblock[data-cat="গদ্য কবিতা"] .dc-cat-scroll-excerpt { color:#8d6e63 !important; }
+.dc-pa-catblock[data-cat="ছোট গল্প"] .dc-cat-scroll-excerpt { color:#78909c !important; }
+.dc-pa-catblock[data-cat="ভালোবাসার উপন্যাস"] .dc-cat-scroll-excerpt { color:#5c6bc0 !important; }
+.dc-pa-catblock[data-cat="প্রবন্ধ"] .dc-cat-scroll-excerpt { color:#9e9d24 !important; }
+.dc-pa-catblock[data-cat="ছড়া কবিতা"] .dc-cat-scroll-excerpt { color:#26a69a !important; }
+
+/* তালিকার ভেতরের স্ক্রল বন্ধ: পুরো পেজ স্ক্রল হবে, আটকাবে না */
+.dc-pa-catblock .dc-cat-scroll { max-height:none !important; overflow:visible !important; }
+</style>
