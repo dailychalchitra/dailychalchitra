@@ -472,6 +472,16 @@
                             {% endif %}
                         </span>
                         <span class="dc-cat-2col-title">{{ post.title }}</span>
+                        {% assign cbn = post.category_bn.first | default: post.category_bn %}
+                        {% assign ex_color = "#37474f" %}
+                        {% if cbn == "কবিতা" %}{% assign ex_color = "#c2185b" %}
+                        {% elsif cbn == "ছোট গল্প" %}{% assign ex_color = "#5d4037" %}
+                        {% elsif cbn == "ভালোবাসার উপন্যাস" %}{% assign ex_color = "#546e7a" %}
+                        {% elsif cbn == "খেলাধুলা" %}{% assign ex_color = "#827717" %}
+                        {% elsif cbn == "দেশের সংবাদ" %}{% assign ex_color = "#303f9f" %}
+                        {% elsif cbn == "আন্তর্জাতিক" %}{% assign ex_color = "#ff6f00" %}
+                        {% endif %}
+                        <span class="dc-cat-2col-excerpt" style="color:{{ ex_color }};">{{ post.excerpt | strip_html | truncatewords: 12 }}</span>
                     </a>
                     {% endfor %}
                 </div>
