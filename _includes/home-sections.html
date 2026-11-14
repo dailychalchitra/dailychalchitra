@@ -211,6 +211,7 @@
                     <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
                     {% endif %}
                     <h4>{{ post.title }}</h4>
+                    <p class="dc-pa-mini-excerpt">{{ post.excerpt | strip_html | truncatewords: 12 }}</p>
                     <span class="dc-pa-mini-time dc-relative-time" data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b" }}</span>
                 </a>
                 {% endfor %}
@@ -229,6 +230,7 @@
                         {% endif %}
                     </span>
                     <span class="dc-cat-scroll-title">{{ post.title }}</span>
+                    <span class="dc-cat-scroll-excerpt">{{ post.excerpt | strip_html | truncatewords: 12 }}</span>
                 </a>
                 {% endfor %}
             </div>
@@ -1668,6 +1670,20 @@ document.addEventListener('DOMContentLoaded', function () {
         color: #fff !important;
         border: none !important;
     }
+.dc-pa-catblock[data-cat="কবিতা"] .dc-pa-mini-item h4,
+.dc-pa-catblock[data-cat="কবিতা"] .dc-cat-scroll-title { color:#c2185b !important; }
+.dc-pa-catblock[data-cat="গদ্য কবিতা"] .dc-pa-mini-item h4,
+.dc-pa-catblock[data-cat="গদ্য কবিতা"] .dc-cat-scroll-title { color:#6a1b9a !important; }
+.dc-pa-catblock[data-cat="ছোট গল্প"] .dc-pa-mini-item h4,
+.dc-pa-catblock[data-cat="ছোট গল্প"] .dc-cat-scroll-title { color:#5d4037 !important; }
+.dc-pa-catblock[data-cat="ভালোবাসার উপন্যাস"] .dc-pa-mini-item h4,
+.dc-pa-catblock[data-cat="ভালোবাসার উপন্যাস"] .dc-cat-scroll-title { color:#37474f !important; }
+.dc-pa-catblock[data-cat="প্রবন্ধ"] .dc-pa-mini-item h4,
+.dc-pa-catblock[data-cat="প্রবন্ধ"] .dc-cat-scroll-title { color:#827717 !important; }
+.dc-pa-catblock[data-cat="ছড়া কবিতা"] .dc-pa-mini-item h4,
+.dc-pa-catblock[data-cat="ছড়া কবিতা"] .dc-cat-scroll-title { color:#303f9f !important; }
+.dc-pa-mini-excerpt,
+.dc-cat-scroll-excerpt { display:block; font-size:15px; line-height:1.4; color:#555; margin:2px 0 0; }
     </style>
 
     <script>
