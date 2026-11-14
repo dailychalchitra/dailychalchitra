@@ -5,11 +5,11 @@ date: 2026-10-23 00:15:00 +0400
 categories:
         - chora-kobita
 category_bn:
-        - ছড়া-কবিতা
+        - ছড়া কবিতা
 tags:
         - সাহিত্য বিভাগ
         - সাহিত্য
-        - ছড়া-কবিতা
+        - ছড়া কবিতা
         - দৈনিক চালচিত্র
 author: "আরাফাত হোসেন"
 image: "/assets/img/arafat-hossain-03.webp"
