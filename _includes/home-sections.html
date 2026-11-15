@@ -1031,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* === নতুন: ক্যাটাগরি-এক্সট্রা-পোস্ট স্ক্রল-তালিকা (একাধিক সেকশনে পুনর্ব্যবহৃত) === */
     .dc-cat-scroll{
-        max-height:280px; overflow-y:auto; display:flex; flex-direction:column;
+        max-height:none; overflow:visible; display:flex; flex-direction:column;
         border-top:1px dashed #eee; margin-top:8px;
     }
     .dc-cat-scroll-item{
@@ -1832,5 +1832,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </style>
 <style>
-.dc-pa-catblock .dc-cat-scroll { max-height:280px !important; overflow-y:auto !important; overscroll-behavior:auto !important; }
 </style>
