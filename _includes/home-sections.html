@@ -165,6 +165,263 @@
     </section>
 {% endif %}
 
+<section class="dc-submit-section">
+  <h3 class="dc-submit-title">আপনার লেখাটি এখানে পাঠান &gt;</h3>
+
+  <form id="dc-submit-form" action="https://formspree.io/f/mgakkbqw" method="POST">
+    <p class="dc-submit-note">এই বক্সে আপনার লেখাটি জমা দিন</p>
+
+    <label>লেখক পরিচিতি</label>
+    <textarea name="লেখক_পরিচিতি" rows="3" placeholder="এখানে আপনার সম্পর্কে সংক্ষিপ্ত পরিচিতি লিখুন"></textarea>
+
+    <label>লেখক প্রোফাইল ছবি</label>
+    <p class="dc-submit-hint">এখানে আপনার লেখক প্রোফাইলের জন্য 300x300px সাইজের একটি ছবি যুক্ত করুন। (ছবিটি ইমেইল বা WhatsApp-এ আলাদা পাঠাবেন)</p>
+
+    <label>বিভাগের নাম</label>
+    <select name="বিভাগ" required>
+      <option value="">বিভাগের নাম লিখুন</option>
+      <optgroup label="প্রচ্ছদ ও সংবাদ">
+        <option>প্রচ্ছদ</option>
+        <option>সর্বশেষ</option>
+        <option>বাংলাদেশ</option>
+        <option>রাজধানী</option>
+        <option>জেলা</option>
+        <option>করোনাভাইরাস</option>
+        <option>পরিবেশ</option>
+        <option>অপরাধ</option>
+        <option>বিশ্ব</option>
+        <option>ভারত</option>
+        <option>পাকিস্তান</option>
+        <option>চীন</option>
+        <option>মধ্যপ্রাচ্য</option>
+        <option>যুক্তরাষ্ট্র</option>
+        <option>যুক্তরাজ্য</option>
+        <option>এশিয়া</option>
+        <option>ইউরোপ</option>
+        <option>আফ্রিকা</option>
+        <option>লাতিন আমেরিকা</option>
+        <option>ইরান</option>
+        <option>সৌদি আরব</option>
+        <option>সংবাদ</option>
+        <option>দেশের সংবাদ</option>
+        <option>আন্তর্জাতিক</option>
+        <option>আবহাওয়া সংবাদ</option>
+        <option>প্রবাস সংবাদ</option>
+        <option>নিখোঁজ সংবাদ</option>
+        <option>শোক সংবাদ</option>
+        <option>জরুরী সংবাদ</option>
+        <option>ঘোষণা</option>
+      </optgroup>
+      <optgroup label="সাহিত্য">
+        <option>সাহিত্য বিভাগ</option>
+        <option>সাহিত্য</option>
+        <option>কবিতা</option>
+        <option>পদ্য কবিতা</option>
+        <option>গদ্য কবিতা</option>
+        <option>মুক্ত গদ্য</option>
+        <option>মহাকাব্য</option>
+        <option>গীতিকাব্য</option>
+        <option>ছড়া কবিতা</option>
+        <option>অনু কবিতা</option>
+        <option>সনেট কবিতা</option>
+        <option>লিমেরিক কবিতা</option>
+        <option>শ্লোক</option>
+        <option>গল্প</option>
+        <option>বড় গল্প</option>
+        <option>ছোট গল্প</option>
+        <option>অনু গল্প</option>
+        <option>সামাজিক গল্প</option>
+        <option>ভালোবাসার গল্প</option>
+        <option>জীবনমুখী গল্প</option>
+        <option>উপন্যাস</option>
+        <option>ভালোবাসার উপন্যাস</option>
+        <option>সামাজিক উপন্যাস</option>
+        <option>ঐতিহাসিক উপন্যাস</option>
+        <option>মনস্তাত্ত্বিক উপন্যাস</option>
+        <option>রহস্য উপন্যাস</option>
+        <option>রাজনৈতিক উপন্যাস</option>
+        <option>রূপক উপন্যাস</option>
+        <option>পত্রোপন্যাস</option>
+        <option>হাস্যরসাত্মক উপন্যাস</option>
+        <option>আত্মজৈবনিক উপন্যাস</option>
+        <option>প্রবন্ধ ও নিবন্ধ</option>
+        <option>প্রবন্ধ</option>
+        <option>নিবন্ধ</option>
+        <option>রম্যরচনা</option>
+        <option>কৌতুক</option>
+        <option>ভ্রমণ</option>
+        <option>বই পরিচিতি</option>
+        <option>উক্তি</option>
+        <option>চিঠি</option>
+        <option>মায়ের চিঠি</option>
+        <option>বাবার চিঠি</option>
+        <option>ভাইয়ের চিঠি</option>
+        <option>বোনের চিঠি</option>
+        <option>বন্ধুর চিঠি</option>
+        <option>প্রেমের চিঠি</option>
+        <option>প্রবাসী চিঠি</option>
+        <option>শেষ চিঠি</option>
+        <option>লেখক তালিকা</option>
+      </optgroup>
+      <optgroup label="বিনোদন ও শিল্প">
+        <option>বিনোদন</option>
+        <option>কবিতা আবৃত্তি</option>
+        <option>ভিডিও</option>
+        <option>গান</option>
+        <option>চলচ্চিত্র</option>
+        <option>টেলিফিল্ম</option>
+        <option>নাটক</option>
+        <option>সংলাপ</option>
+        <option>শিল্পকলা</option>
+        <option>বিজ্ঞাপন</option>
+        <option>ছবি</option>
+        <option>প্রকৃতির দৃশ্য</option>
+        <option>চিত্র অঙ্কন</option>
+      </optgroup>
+      <optgroup label="শিক্ষা ও খেলাধুলা">
+        <option>শিক্ষা</option>
+        <option>ভর্তি</option>
+        <option>পরীক্ষা</option>
+        <option>বৃত্তি</option>
+        <option>পড়াশোনা</option>
+        <option>উচ্চশিক্ষা</option>
+        <option>ক্যাম্পাস</option>
+        <option>খেলাধুলা</option>
+        <option>ফুটবল</option>
+        <option>ক্রিকেট</option>
+        <option>হাডুডু</option>
+        <option>বাস্কেটবল</option>
+        <option>ভলিবল</option>
+        <option>টেনিস</option>
+        <option>ব্যাডমিন্টন</option>
+        <option>হকি</option>
+        <option>বেসবল</option>
+        <option>অ্যাথলেটিক্স</option>
+        <option>টেবিল টেনিস</option>
+        <option>রাগবি</option>
+        <option>গলফ</option>
+        <option>সাঁতার</option>
+        <option>কুস্তি</option>
+        <option>দাবা</option>
+      </optgroup>
+      <optgroup label="জীবনযাপন">
+        <option>জীবনযাপন</option>
+        <option>সুস্থতা</option>
+        <option>সম্পর্ক</option>
+        <option>রূপচর্চা</option>
+        <option>গৃহসজ্জা</option>
+        <option>কেনাকাটা</option>
+        <option>চাকরির বিজ্ঞপ্তি</option>
+        <option>নিয়োগ বিজ্ঞপ্তি</option>
+        <option>পরামর্শ</option>
+      </optgroup>
+      <optgroup label="বাণিজ্য ও অর্থনীতি">
+        <option>বাণিজ্য</option>
+        <option>শেয়ারবাজার</option>
+        <option>ব্যাংক</option>
+        <option>শিল্প</option>
+        <option>অর্থনীতি</option>
+        <option>বিশ্ব বাণিজ্য</option>
+        <option>বিশ্লেষণ</option>
+        <option>ব্যক্তিগত অর্থ</option>
+        <option>উদ্যোক্তা</option>
+        <option>কর্পোরেট</option>
+        <option>বাজেট</option>
+      </optgroup>
+      <optgroup label="ধর্ম">
+        <option>ধর্ম বিষয়ক</option>
+        <option>ইসলাম</option>
+        <option>সনাতন</option>
+        <option>বৌদ্ধ</option>
+        <option>খ্রিস্টান</option>
+        <option>ঐতিহ্যবাহী বা জাতিগত-ধর্ম</option>
+        <option>ধর্মহীন বা নাস্তিক</option>
+      </optgroup>
+      <optgroup label="বিভাগ সমূহ">
+        <option>ঢাকা</option>
+        <option>চট্টগ্রাম</option>
+        <option>রাজশাহী</option>
+        <option>খুলনা</option>
+        <option>বরিশাল</option>
+        <option>সিলেট</option>
+        <option>রংপুর</option>
+        <option>ময়মনসিংহ</option>
+      </optgroup>
+      <optgroup label="মতামত ও প্রযুক্তি">
+        <option>মতামত</option>
+        <option>সম্পাদকীয়</option>
+        <option>কলাম</option>
+        <option>সাক্ষাৎকার</option>
+        <option>স্মরণ</option>
+        <option>প্রতিক্রিয়া</option>
+        <option>প্রযুক্তি</option>
+        <option>বিজ্ঞান প্রযুক্তি</option>
+        <option>অন্যান্য</option>
+        <option>আলোচনা</option>
+        <option>সমালোচনা</option>
+        <option>আরও</option>
+        <option>গোলটেবিল</option>
+        <option>বিশেষ সংখ্যা</option>
+        <option>অনলাইন ভোট</option>
+        <option>প্রতিষ্ঠা বার্ষিকী</option>
+      </optgroup>
+    </select>
+
+    <label>লেখার শিরোনাম</label>
+    <input type="text" name="শিরোনাম" placeholder="এখানে আপনার লেখাটির শিরোনাম লিখুন" required>
+
+    <label>লেখকের নাম</label>
+    <input type="text" name="লেখকের_নাম" placeholder="এখানে লেখকের নাম লিখুন" required>
+
+    <label>লেখা</label>
+    <textarea name="লেখা" rows="8" placeholder="এখানে আপনার সম্পূর্ণ লেখাটি লিখুন" required></textarea>
+
+    <label>প্রচ্ছদ ছবি</label>
+    <p class="dc-submit-hint">আপনার লেখাটির জন্য এক কপি 1200x675px সাইজের একটি প্রচ্ছদ ছবি যুক্ত করুন। (ছবিটি ইমেইল বা WhatsApp-এ আলাদা পাঠাবেন)</p>
+
+    <p class="dc-submit-note">লেখাটি পাঠিয়ে দিন</p>
+    <div class="dc-submit-boxes">
+      <div class="dc-submit-box">
+        <strong>জিমেইল</strong>
+        <span>nimushamim46@gmail.com</span>
+      </div>
+      <a class="dc-submit-box" href="https://wa.me/96893815016" target="_blank" rel="noopener">
+        <strong>হোয়াটসঅ্যাপ</strong>
+        <span>+968 93815016</span>
+      </a>
+    </div>
+
+    <button type="submit" class="dc-submit-btn">সাবমিট</button>
+    <p id="dc-submit-msg" class="dc-submit-hint"></p>
+  </form>
+</section>
+
+<style>
+.dc-submit-section { margin:20px 0; padding:16px; border:1px solid #eee; border-radius:6px; }
+.dc-submit-title { font-size:22px; font-weight:800; color:#b71c1c; margin:0 0 12px; font-family:'Noto Serif Bengali', serif; }
+.dc-submit-section label { display:block; font-weight:700; margin:12px 0 4px; }
+.dc-submit-section input, .dc-submit-section textarea, .dc-submit-section select { width:100%; padding:8px; border:1px solid #ccc; border-radius:4px; font-size:16px; box-sizing:border-box; }
+.dc-submit-note { font-weight:700; margin:14px 0 6px; }
+.dc-submit-hint { font-size:14px; color:#666; margin:4px 0 0; }
+.dc-submit-boxes { display:flex; gap:10px; flex-wrap:wrap; }
+.dc-submit-box { flex:1; min-width:160px; padding:10px; border:1px solid #ddd; border-radius:4px; text-decoration:none; color:#222; display:flex; flex-direction:column; }
+.dc-submit-btn { margin-top:14px; width:100%; padding:12px; background:#C00000; color:#fff; border:none; border-radius:4px; font-size:18px; font-weight:700; cursor:pointer; }
+</style>
+
+<script>
+document.getElementById('dc-submit-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var form = this, msg = document.getElementById('dc-submit-msg');
+  msg.textContent = 'পাঠানো হচ্ছে...';
+  fetch(form.action, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } })
+    .then(function (r) {
+      if (r.ok) { form.reset(); msg.textContent = 'আপনার লেখাটি পাঠানো হয়েছে, ধন্যবাদ।'; }
+      else { msg.textContent = 'পাঠানো যায়নি, আবার চেষ্টা করুন।'; }
+    })
+    .catch(function () { msg.textContent = 'ইন্টারনেট সংযোগ যাচাই করে আবার চেষ্টা করুন।'; });
+});
+</script>
+
     <!-- 2. আরও সংবাদ (ডট-হেডার + ওভারলে ফিচার + মিনি গ্রিড + স্ক্রল-তালিকা) -->
     <section class="dc-pa-section">
         {% assign dc_cat_groups = site.posts | group_by_exp: "post", "post.category_bn.first | default: post.category_bn | default: post.categories.first" %}
