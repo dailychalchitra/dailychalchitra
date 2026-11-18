@@ -178,194 +178,176 @@
     <p class="dc-submit-hint">এখানে আপনার লেখক প্রোফাইলের জন্য 300x300px সাইজের একটি ছবি যুক্ত করুন। (ছবিটি ইমেইল বা WhatsApp-এ আলাদা পাঠাবেন)</p>
 
     <label>বিভাগের নাম</label>
-    <select name="বিভাগ" required>
-      <option value="">বিভাগের নাম লিখুন</option>
-      <optgroup label="প্রচ্ছদ ও সংবাদ">
-        <option>প্রচ্ছদ</option>
-        <option>সর্বশেষ</option>
-        <option>বাংলাদেশ</option>
-        <option>রাজধানী</option>
-        <option>জেলা</option>
-        <option>করোনাভাইরাস</option>
-        <option>পরিবেশ</option>
-        <option>অপরাধ</option>
-        <option>বিশ্ব</option>
-        <option>ভারত</option>
-        <option>পাকিস্তান</option>
-        <option>চীন</option>
-        <option>মধ্যপ্রাচ্য</option>
-        <option>যুক্তরাষ্ট্র</option>
-        <option>যুক্তরাজ্য</option>
-        <option>এশিয়া</option>
-        <option>ইউরোপ</option>
-        <option>আফ্রিকা</option>
-        <option>লাতিন আমেরিকা</option>
-        <option>ইরান</option>
-        <option>সৌদি আরব</option>
-        <option>সংবাদ</option>
-        <option>দেশের সংবাদ</option>
-        <option>আন্তর্জাতিক</option>
-        <option>আবহাওয়া সংবাদ</option>
-        <option>প্রবাস সংবাদ</option>
-        <option>নিখোঁজ সংবাদ</option>
-        <option>শোক সংবাদ</option>
-        <option>জরুরী সংবাদ</option>
-        <option>ঘোষণা</option>
-      </optgroup>
-      <optgroup label="সাহিত্য">
-        <option>সাহিত্য বিভাগ</option>
-        <option>সাহিত্য</option>
-        <option>কবিতা</option>
-        <option>পদ্য কবিতা</option>
-        <option>গদ্য কবিতা</option>
-        <option>মুক্ত গদ্য</option>
-        <option>মহাকাব্য</option>
-        <option>গীতিকাব্য</option>
-        <option>ছড়া কবিতা</option>
-        <option>অনু কবিতা</option>
-        <option>সনেট কবিতা</option>
-        <option>লিমেরিক কবিতা</option>
-        <option>শ্লোক</option>
-        <option>গল্প</option>
-        <option>বড় গল্প</option>
-        <option>ছোট গল্প</option>
-        <option>অনু গল্প</option>
-        <option>সামাজিক গল্প</option>
-        <option>ভালোবাসার গল্প</option>
-        <option>জীবনমুখী গল্প</option>
-        <option>উপন্যাস</option>
-        <option>ভালোবাসার উপন্যাস</option>
-        <option>সামাজিক উপন্যাস</option>
-        <option>ঐতিহাসিক উপন্যাস</option>
-        <option>মনস্তাত্ত্বিক উপন্যাস</option>
-        <option>রহস্য উপন্যাস</option>
-        <option>রাজনৈতিক উপন্যাস</option>
-        <option>রূপক উপন্যাস</option>
-        <option>পত্রোপন্যাস</option>
-        <option>হাস্যরসাত্মক উপন্যাস</option>
-        <option>আত্মজৈবনিক উপন্যাস</option>
-        <option>প্রবন্ধ ও নিবন্ধ</option>
-        <option>প্রবন্ধ</option>
-        <option>নিবন্ধ</option>
-        <option>রম্যরচনা</option>
-        <option>কৌতুক</option>
-        <option>ভ্রমণ</option>
-        <option>বই পরিচিতি</option>
-        <option>উক্তি</option>
-        <option>চিঠি</option>
-        <option>মায়ের চিঠি</option>
-        <option>বাবার চিঠি</option>
-        <option>ভাইয়ের চিঠি</option>
-        <option>বোনের চিঠি</option>
-        <option>বন্ধুর চিঠি</option>
-        <option>প্রেমের চিঠি</option>
-        <option>প্রবাসী চিঠি</option>
-        <option>শেষ চিঠি</option>
-        <option>লেখক তালিকা</option>
-      </optgroup>
-      <optgroup label="বিনোদন ও শিল্প">
-        <option>বিনোদন</option>
-        <option>কবিতা আবৃত্তি</option>
-        <option>ভিডিও</option>
-        <option>গান</option>
-        <option>চলচ্চিত্র</option>
-        <option>টেলিফিল্ম</option>
-        <option>নাটক</option>
-        <option>সংলাপ</option>
-        <option>শিল্পকলা</option>
-        <option>বিজ্ঞাপন</option>
-        <option>ছবি</option>
-        <option>প্রকৃতির দৃশ্য</option>
-        <option>চিত্র অঙ্কন</option>
-      </optgroup>
-      <optgroup label="শিক্ষা ও খেলাধুলা">
-        <option>শিক্ষা</option>
-        <option>ভর্তি</option>
-        <option>পরীক্ষা</option>
-        <option>বৃত্তি</option>
-        <option>পড়াশোনা</option>
-        <option>উচ্চশিক্ষা</option>
-        <option>ক্যাম্পাস</option>
-        <option>খেলাধুলা</option>
-        <option>ফুটবল</option>
-        <option>ক্রিকেট</option>
-        <option>হাডুডু</option>
-        <option>বাস্কেটবল</option>
-        <option>ভলিবল</option>
-        <option>টেনিস</option>
-        <option>ব্যাডমিন্টন</option>
-        <option>হকি</option>
-        <option>বেসবল</option>
-        <option>অ্যাথলেটিক্স</option>
-        <option>টেবিল টেনিস</option>
-        <option>রাগবি</option>
-        <option>গলফ</option>
-        <option>সাঁতার</option>
-        <option>কুস্তি</option>
-        <option>দাবা</option>
-      </optgroup>
-      <optgroup label="জীবনযাপন">
-        <option>জীবনযাপন</option>
-        <option>সুস্থতা</option>
-        <option>সম্পর্ক</option>
-        <option>রূপচর্চা</option>
-        <option>গৃহসজ্জা</option>
-        <option>কেনাকাটা</option>
-        <option>চাকরির বিজ্ঞপ্তি</option>
-        <option>নিয়োগ বিজ্ঞপ্তি</option>
-        <option>পরামর্শ</option>
-      </optgroup>
-      <optgroup label="বাণিজ্য ও অর্থনীতি">
-        <option>বাণিজ্য</option>
-        <option>শেয়ারবাজার</option>
-        <option>ব্যাংক</option>
-        <option>শিল্প</option>
-        <option>অর্থনীতি</option>
-        <option>বিশ্ব বাণিজ্য</option>
-        <option>বিশ্লেষণ</option>
-        <option>ব্যক্তিগত অর্থ</option>
-        <option>উদ্যোক্তা</option>
-        <option>কর্পোরেট</option>
-        <option>বাজেট</option>
-      </optgroup>
-      <optgroup label="ধর্ম">
-        <option>ধর্ম বিষয়ক</option>
-        <option>ইসলাম</option>
-        <option>সনাতন</option>
-        <option>বৌদ্ধ</option>
-        <option>খ্রিস্টান</option>
-        <option>ঐতিহ্যবাহী বা জাতিগত-ধর্ম</option>
-        <option>ধর্মহীন বা নাস্তিক</option>
-      </optgroup>
-      <optgroup label="বিভাগ সমূহ">
-        <option>ঢাকা</option>
-        <option>চট্টগ্রাম</option>
-        <option>রাজশাহী</option>
-        <option>খুলনা</option>
-        <option>বরিশাল</option>
-        <option>সিলেট</option>
-        <option>রংপুর</option>
-        <option>ময়মনসিংহ</option>
-      </optgroup>
-      <optgroup label="মতামত ও প্রযুক্তি">
-        <option>মতামত</option>
-        <option>সম্পাদকীয়</option>
-        <option>কলাম</option>
-        <option>সাক্ষাৎকার</option>
-        <option>স্মরণ</option>
-        <option>প্রতিক্রিয়া</option>
-        <option>প্রযুক্তি</option>
-        <option>বিজ্ঞান প্রযুক্তি</option>
-        <option>অন্যান্য</option>
-        <option>আলোচনা</option>
-        <option>সমালোচনা</option>
-        <option>আরও</option>
-        <option>গোলটেবিল</option>
-        <option>বিশেষ সংখ্যা</option>
-        <option>অনলাইন ভোট</option>
-        <option>প্রতিষ্ঠা বার্ষিকী</option>
-      </optgroup>
-    </select>
+    <input type="text" name="বিভাগ" list="dc-cat-list" placeholder="বিভাগের নাম লিখুন বা তালিকা থেকে বেছে নিন" required autocomplete="off">
+    <datalist id="dc-cat-list">
+      <option value="প্রচ্ছদ">
+      <option value="সর্বশেষ">
+      <option value="বাংলাদেশ">
+      <option value="রাজধানী">
+      <option value="জেলা">
+      <option value="করোনাভাইরাস">
+      <option value="পরিবেশ">
+      <option value="অপরাধ">
+      <option value="বিশ্ব">
+      <option value="ভারত">
+      <option value="পাকিস্তান">
+      <option value="চীন">
+      <option value="মধ্যপ্রাচ্য">
+      <option value="যুক্তরাষ্ট্র">
+      <option value="যুক্তরাজ্য">
+      <option value="এশিয়া">
+      <option value="ইউরোপ">
+      <option value="আফ্রিকা">
+      <option value="লাতিন আমেরিকা">
+      <option value="ইরান">
+      <option value="সৌদি আরব">
+      <option value="সংবাদ">
+      <option value="দেশের সংবাদ">
+      <option value="আন্তর্জাতিক">
+      <option value="আবহাওয়া সংবাদ">
+      <option value="প্রবাস সংবাদ">
+      <option value="নিখোঁজ সংবাদ">
+      <option value="শোক সংবাদ">
+      <option value="জরুরী সংবাদ">
+      <option value="ঘোষণা">
+      <option value="সাহিত্য বিভাগ">
+      <option value="সাহিত্য">
+      <option value="কবিতা">
+      <option value="পদ্য কবিতা">
+      <option value="গদ্য কবিতা">
+      <option value="মুক্ত গদ্য">
+      <option value="মহাকাব্য">
+      <option value="গীতিকাব্য">
+      <option value="ছড়া কবিতা">
+      <option value="অনু কবিতা">
+      <option value="সনেট কবিতা">
+      <option value="লিমেরিক কবিতা">
+      <option value="শ্লোক">
+      <option value="গল্প">
+      <option value="বড় গল্প">
+      <option value="ছোট গল্প">
+      <option value="অনু গল্প">
+      <option value="সামাজিক গল্প">
+      <option value="ভালোবাসার গল্প">
+      <option value="জীবনমুখী গল্প">
+      <option value="উপন্যাস">
+      <option value="ভালোবাসার উপন্যাস">
+      <option value="সামাজিক উপন্যাস">
+      <option value="ঐতিহাসিক উপন্যাস">
+      <option value="মনস্তাত্ত্বিক উপন্যাস">
+      <option value="রহস্য উপন্যাস">
+      <option value="রাজনৈতিক উপন্যাস">
+      <option value="রূপক উপন্যাস">
+      <option value="পত্রোপন্যাস">
+      <option value="হাস্যরসাত্মক উপন্যাস">
+      <option value="আত্মজৈবনিক উপন্যাস">
+      <option value="প্রবন্ধ ও নিবন্ধ">
+      <option value="প্রবন্ধ">
+      <option value="নিবন্ধ">
+      <option value="রম্যরচনা">
+      <option value="কৌতুক">
+      <option value="ভ্রমণ">
+      <option value="বই পরিচিতি">
+      <option value="উক্তি">
+      <option value="চিঠি">
+      <option value="মায়ের চিঠি">
+      <option value="বাবার চিঠি">
+      <option value="ভাইয়ের চিঠি">
+      <option value="বোনের চিঠি">
+      <option value="বন্ধুর চিঠি">
+      <option value="প্রেমের চিঠি">
+      <option value="প্রবাসী চিঠি">
+      <option value="শেষ চিঠি">
+      <option value="লেখক তালিকা">
+      <option value="বিনোদন">
+      <option value="কবিতা আবৃত্তি">
+      <option value="ভিডিও">
+      <option value="গান">
+      <option value="চলচ্চিত্র">
+      <option value="টেলিফিল্ম">
+      <option value="নাটক">
+      <option value="সংলাপ">
+      <option value="শিল্পকলা">
+      <option value="বিজ্ঞাপন">
+      <option value="ছবি">
+      <option value="প্রকৃতির দৃশ্য">
+      <option value="চিত্র অঙ্কন">
+      <option value="শিক্ষা">
+      <option value="ভর্তি">
+      <option value="পরীক্ষা">
+      <option value="বৃত্তি">
+      <option value="পড়াশোনা">
+      <option value="উচ্চশিক্ষা">
+      <option value="ক্যাম্পাস">
+      <option value="খেলাধুলা">
+      <option value="ফুটবল">
+      <option value="ক্রিকেট">
+      <option value="হাডুডু">
+      <option value="বাস্কেটবল">
+      <option value="ভলিবল">
+      <option value="টেনিস">
+      <option value="ব্যাডমিন্টন">
+      <option value="হকি">
+      <option value="বেসবল">
+      <option value="অ্যাথলেটিক্স">
+      <option value="টেবিল টেনিস">
+      <option value="রাগবি">
+      <option value="গলফ">
+      <option value="সাঁতার">
+      <option value="কুস্তি">
+      <option value="দাবা">
+      <option value="জীবনযাপন">
+      <option value="সুস্থতা">
+      <option value="সম্পর্ক">
+      <option value="রূপচর্চা">
+      <option value="গৃহসজ্জা">
+      <option value="কেনাকাটা">
+      <option value="চাকরির বিজ্ঞপ্তি">
+      <option value="নিয়োগ বিজ্ঞপ্তি">
+      <option value="পরামর্শ">
+      <option value="বাণিজ্য">
+      <option value="শেয়ারবাজার">
+      <option value="ব্যাংক">
+      <option value="শিল্প">
+      <option value="অর্থনীতি">
+      <option value="বিশ্ব বাণিজ্য">
+      <option value="বিশ্লেষণ">
+      <option value="ব্যক্তিগত অর্থ">
+      <option value="উদ্যোক্তা">
+      <option value="কর্পোরেট">
+      <option value="বাজেট">
+      <option value="ধর্ম বিষয়ক">
+      <option value="ইসলাম">
+      <option value="সনাতন">
+      <option value="বৌদ্ধ">
+      <option value="খ্রিস্টান">
+      <option value="ঐতিহ্যবাহী বা জাতিগত-ধর্ম">
+      <option value="ধর্মহীন বা নাস্তিক">
+      <option value="ঢাকা">
+      <option value="চট্টগ্রাম">
+      <option value="রাজশাহী">
+      <option value="খুলনা">
+      <option value="বরিশাল">
+      <option value="সিলেট">
+      <option value="রংপুর">
+      <option value="ময়মনসিংহ">
+      <option value="মতামত">
+      <option value="সম্পাদকীয়">
+      <option value="কলাম">
+      <option value="সাক্ষাৎকার">
+      <option value="স্মরণ">
+      <option value="প্রতিক্রিয়া">
+      <option value="প্রযুক্তি">
+      <option value="বিজ্ঞান প্রযুক্তি">
+      <option value="অন্যান্য">
+      <option value="আলোচনা">
+      <option value="সমালোচনা">
+      <option value="আরও">
+      <option value="গোলটেবিল">
+      <option value="বিশেষ সংখ্যা">
+      <option value="অনলাইন ভোট">
+      <option value="প্রতিষ্ঠা বার্ষিকী">
+    </datalist>
 
     <label>লেখার শিরোনাম</label>
     <input type="text" name="শিরোনাম" placeholder="এখানে আপনার লেখাটির শিরোনাম লিখুন" required>
