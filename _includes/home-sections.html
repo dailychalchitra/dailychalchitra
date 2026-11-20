@@ -471,10 +471,8 @@ document.getElementById('dc-submit-form').addEventListener('submit', function (e
                         <img src="https://i.postimg.cc/3w757F6N/Daily-Chalchitra.png" alt="{{ post.title }}">
                         {% endif %}
                     </span>
-                    <div class="dc-cat-scroll-text">
                     <span class="dc-cat-scroll-title">{{ post.title }}</span>
                     <span class="dc-cat-scroll-excerpt">{{ post.excerpt | strip_html | truncatewords: 12 }}</span>
-                    </div>
                 </a>
                 {% endfor %}
             </div>
