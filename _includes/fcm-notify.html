@@ -1,0 +1,39 @@
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+<button id="dc-notify-btn" aria-label="নোটিফিকেশন চালু করুন" style="position:absolute;left:4px;top:4px;z-index:9998;width:28px;height:28px;border-radius:50%;border:none;background:#C00000;color:#fff;font-size:13px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.3);padding:0;">🔔</button>
+<script>
+(function(){
+  var cfg = {
+    apiKey: "AIzaSyAiIKd1wdKTNAp0w1qTZlIM0FeSGg0t0b4",
+    authDomain: "daily-chalchitra-60994.firebaseapp.com",
+    databaseURL: "https://daily-chalchitra-60994-default-rtdb.firebaseio.com",
+    projectId: "daily-chalchitra-60994",
+    storageBucket: "daily-chalchitra-60994.firebasestorage.app",
+    messagingSenderId: "792541060086",
+    appId: "1:792541060086:web:078fe75f16940c5d0005d7"
+  };
+  var btn = document.getElementById('dc-notify-btn');
+  if (!btn || !('serviceWorker' in navigator) || !('Notification' in window) || typeof firebase === 'undefined') {
+    if (btn) btn.style.display = 'none';
+    return;
+  }
+  if (!firebase.apps.length) firebase.initializeApp(cfg);
+  var messaging = firebase.messaging();
+  navigator.serviceWorker.register('/firebase-messaging-sw.js');
+  btn.onclick = function () {
+    Notification.requestPermission().then(function (p) {
+      if (p !== 'granted') { alert('নোটিফিকেশন অনুমতি দেওয়া হয়নি'); return; }
+      return navigator.serviceWorker.ready.then(function (reg) {
+        return messaging.getToken({ serviceWorkerRegistration: reg });
+      }).then(function (token) {
+        if (!token) { alert('টোকেন পাওয়া যায়নি'); return; }
+        return fetch(cfg.databaseURL + '/fcm_tokens/' + token.slice(-40) + '.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: token, created: Date.now() })
+        }).then(function () { alert('নোটিফিকেশন চালু হয়েছে'); });
+      });
+    }).catch(function (e) { alert('ত্রুটি: ' + e.message); });
+  };
+})();
+</script>
