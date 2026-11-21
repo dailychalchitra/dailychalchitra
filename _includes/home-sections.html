@@ -1,6 +1,7 @@
 {% if include.show_hero %}
     <!-- টপ বার: তারিখ + ই-পেপার -->
     <div class="dc-pa-topbar">
+        {% include fcm-notify.html %}
         <span class="dc-pa-topbar-date"><i class="far fa-calendar-alt"></i> {{ site.time | date: "%A, %d %B %Y" }}</span>
         <a href="{{ '/epaper/' | relative_url }}" class="dc-pa-epaper-btn">
             <i class="fa fa-newspaper"></i> ই-পেপার
